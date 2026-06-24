@@ -1,0 +1,22 @@
+{
+  "telepathic_reader": {
+    "name": "Telepatik Okuyucu",
+    "oneLine": "Bu kişiyi adeta kendinden bile daha iyi tanıyor veya onunla zihinsel bir senkronizasyon yaşıyorsunuz."
+  },
+  "clear_reader": {
+    "name": "Net Okuyucu",
+    "oneLine": "Kişinin kendisi hakkındaki görüşlerini ve yaydığı sosyal sinyalleri son derece berrak ve doğru bir şekilde analiz etmişsiniz."
+  },
+  "balanced_reader": {
+    "name": "Dengeli Gözlemci",
+    "oneLine": "Kişinin temel karakter çizgilerini doğru yakalamışsınız, ancak bazı konularda farklı bakış açılarına sahipsiniz."
+  },
+  "casual_explorer": {
+    "name": "Yüzeysel Kaşif",
+    "oneLine": "Kişinin kendini görme biçimiyle sizin onu konumlandırma şekliniz arasında belirgin farklar var."
+  },
+  "social_stranger": {
+    "name": "Sosyal Yabancı",
+    "oneLine": "Sosyal sinyaller ve algılarınız tamamen farklı kutuplarda. Bu kişiyi henüz tam olarak çözememişsiniz."
+  }
+}

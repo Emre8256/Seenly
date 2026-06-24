@@ -1,0 +1,34 @@
+{
+  "warmer_outside": {
+    "name": "Warmer Outside",
+    "description": "People experience a warmer, more welcoming vibe from you than you assume."
+  },
+  "louder_outside": {
+    "name": "Louder Outside",
+    "description": "Your presence and social impact read stronger in group dynamics than you notice."
+  },
+  "softer_outside": {
+    "name": "Softer Outside",
+    "description": "Your public signal is seen as softer, gentler, and more supportive than you think."
+  },
+  "more_reserved_outside": {
+    "name": "More Reserved Outside",
+    "description": "People read a more reserved, quiet, or selective boundary from your outer signal."
+  },
+  "clearer_outside": {
+    "name": "Clearer Outside",
+    "description": "Your intentions and communication read with higher clarity and trust than you assume."
+  },
+  "hidden_depth": {
+    "name": "Hidden Depth",
+    "description": "People notice a layered, thoughtful depth in you that goes beyond your daily signals."
+  },
+  "slow_reveal_gap": {
+    "name": "Slow Reveal",
+    "description": "Your outer signal opens up in stages, rewarding deeper observation over time."
+  },
+  "misread_edge": {
+    "name": "Misread Edge",
+    "description": "Your social boundaries can sometimes be perceived as distance by others."
+  }
+}

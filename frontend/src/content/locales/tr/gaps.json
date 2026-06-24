@@ -1,0 +1,34 @@
+{
+  "warmer_outside": {
+    "name": "Dışarıda Daha Sıcak",
+    "description": "İnsanlar sizde, kendi sandığınızdan daha sıcak ve cana yakın bir sinyal okuyor."
+  },
+  "louder_outside": {
+    "name": "Dışarıda Daha Belirgin",
+    "description": "Sosyal etkiniz ve varlığınız dışarıdan, sizin fark ettiğinizden daha güçlü okunuyor."
+  },
+  "softer_outside": {
+    "name": "Dışarıda Daha Yumuşak",
+    "description": "Dış sinyaliniz, sizin hissettiğinizden daha yumuşak, nazik ve destekleyici algılanıyor."
+  },
+  "more_reserved_outside": {
+    "name": "Dışarıda Daha Mesafeli",
+    "description": "Çevreniz, dışarıya verdiğiniz sinyallerde daha mesafeli, sakin veya seçici bir sınır okuyor."
+  },
+  "clearer_outside": {
+    "name": "Dışarıda Daha Net",
+    "description": "Sinyalleriniz ve niyetleriniz dışarıdan, kendi sandığınızdan çok daha net ve güven verici okunuyor."
+  },
+  "hidden_depth": {
+    "name": "Saklı Derinlik",
+    "description": "İnsanlar sizde, günlük iletişiminizin ötesine geçen katmanlı ve düşünceli bir derinlik fark ediyor."
+  },
+  "slow_reveal_gap": {
+    "name": "Zamanla Açılan",
+    "description": "Dış algınız katmanlar halinde açılıyor, zaman geçtikçe insanları daha çok şaşırtıyor."
+  },
+  "misread_edge": {
+    "name": "Yanlış Okunan Mesafe",
+    "description": "Sosyal sınırlarınız veya seçiciliğiniz, çevreniz tarafından bazen soğukluk veya mesafe olarak algılanabiliyor."
+  }
+}

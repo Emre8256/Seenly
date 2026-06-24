@@ -1,0 +1,18 @@
+{
+  "grounded_presence": {
+    "name": "Grounded Presence",
+    "description": "Calming, steady, and stabilizing social anchors."
+  },
+  "warm_access": {
+    "name": "Warm Access",
+    "description": "Approachable, warm, and socially easy personalities."
+  },
+  "hidden_depth": {
+    "name": "Hidden Depth",
+    "description": "Layered, thoughtful, and slow-revealing observers."
+  },
+  "clear_energy": {
+    "name": "Clear Energy",
+    "description": "Direct, vivid, and clearly defined social signals."
+  }
+}

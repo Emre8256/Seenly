@@ -1,0 +1,18 @@
+{
+  "grounded_presence": {
+    "name": "Dengeli Duruş",
+    "description": "Sakin, güven veren ve dengeleyici sosyal çıpalar."
+  },
+  "warm_access": {
+    "name": "Sıcak Yakınlık",
+    "description": "Kolay yaklaşılan, sıcak ve sosyal akışta rahat olan karakterler."
+  },
+  "hidden_depth": {
+    "name": "Saklı Derinlik",
+    "description": "Katmanlı, düşünceli ve kendini yavaşça açan gözlemciler."
+  },
+  "clear_energy": {
+    "name": "Net Enerji",
+    "description": "Doğrudan, canlı ve sınırları belirgin sosyal sinyaller."
+  }
+}

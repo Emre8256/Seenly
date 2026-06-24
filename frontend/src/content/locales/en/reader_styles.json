@@ -1,0 +1,22 @@
+{
+  "telepathic_reader": {
+    "name": "Telepathic Reader",
+    "oneLine": "You know this person almost better than they know themselves, sharing a deep mental synchrony."
+  },
+  "clear_reader": {
+    "name": "Clear Reader",
+    "oneLine": "You have analyzed their self-views and social signals with high clarity and accuracy."
+  },
+  "balanced_reader": {
+    "name": "Balanced Observer",
+    "oneLine": "You captured their core character traits accurately, though you have different perspectives on certain areas."
+  },
+  "casual_explorer": {
+    "name": "Casual Explorer",
+    "oneLine": "There are noticeable differences between how they perceive themselves and how you position them."
+  },
+  "social_stranger": {
+    "name": "Social Stranger",
+    "oneLine": "Your social signals and perceptions are on completely different poles. You haven't quite figured them out yet."
+  }
+}

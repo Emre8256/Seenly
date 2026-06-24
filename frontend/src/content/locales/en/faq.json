@@ -1,0 +1,27 @@
+[
+  {
+    "id": "q1",
+    "question": "What is Seenly and how does it work?",
+    "answer": "Seenly is an interactive social mirror quiz that compares how you see yourself (Self Perception) with how your friends perceive you (Outside Perception). First, you answer 10 quick questions to create your profile, then you send your unique link to your friends so they can review you anonymously."
+  },
+  {
+    "id": "q2",
+    "question": "Are my answers shown to my friends? What is the level of anonymity?",
+    "answer": "Absolutely not. Seenly is designed entirely with privacy in mind. Your friends' individual answers or the options you choose in your own quiz are never shown to anyone. Only when 3 or more friends complete the quiz can you see the overall average of their answers (Outside Perception)."
+  },
+  {
+    "id": "q3",
+    "question": "What are Social Signatures?",
+    "answer": "Social Signatures are custom-designed digital cards that capture your most dominant traits and the unique impressions you leave in your social circle. Based on the social aura shaped by your quiz results, the system assigns you a matching, unique social signature (for example, 'The Playmaker' or 'The Safe Haven')."
+  },
+  {
+    "id": "q4",
+    "question": "When are the Outside Perception and The Gap analyses unlocked?",
+    "answer": "When 3 friends evaluate your profile, both the 'Outside Perception' analysis and 'The Gap' analysis, which reveals deep discrepancies and hidden aspects between your self-perception and outside perception, are fully unlocked."
+  },
+  {
+    "id": "q5",
+    "question": "What is the Perception Accuracy percentage?",
+    "answer": "It is a precisely calculated percentage showing how much your friend's social reading of you matches your own self-perception. Based on the match rate, your friend is given special social reading cards like 'Telepathic Reader' or 'Balanced Observer'."
+  }
+]

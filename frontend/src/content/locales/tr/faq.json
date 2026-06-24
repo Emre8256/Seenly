@@ -1,0 +1,27 @@
+[
+  {
+    "id": "q1",
+    "question": "Seenly nedir ve nasıl çalışır?",
+    "answer": "Seenly, kendinizi nasıl gördüğünüz (Öz Algı) ile arkadaşlarınızın sizi nasıl gördüğünü (Dış Algı) karşılaştıran interaktif bir sosyal ayna testidir. Önce siz 10 hızlı soruyu cevaplayarak kendi profilinizi oluşturursunuz, ardından size özel linki arkadaşlarınıza göndererek onların da sizi anonim olarak okumasını sağlarsınız."
+  },
+  {
+    "id": "q2",
+    "question": "Cevaplarım arkadaşlarıma gösterilir mi? Anonimlik derecesi nedir?",
+    "answer": "Kesinlikle hayır. Seenly tamamen gizlilik odaklı tasarlanmıştır. Arkadaşlarınızın size verdiği tekil cevaplar veya sizin kendi testinizde işaretlediğiniz şıklar asla kimseye gösterilmez. Sadece 3 veya daha fazla arkadaşınız testi bitirdiğinde, onların cevaplarının genel ortalamasını (Dış Algı) görebilirsiniz."
+  },
+  {
+    "id": "q3",
+    "question": "Sosyal İmzalar (Signatures) nedir?",
+    "answer": "Sosyal İmzalar, karakterinizin en baskın yönlerini ve çevrenizde bıraktığınız benzersiz izleri ifade eden özel tasarım dijital kartlardır. Test sonucunda şekillenen sosyal auranıza göre, sistem size en uygun düşen eşsiz bir imza atar (örneğin 'Zirve Ortağı' veya 'Güvenli Liman')."
+  },
+  {
+    "id": "q4",
+    "question": "Dış Algı ve Aradaki Fark (The Gap) analizleri ne zaman açılır?",
+    "answer": "Profilinize 3 arkadaşınız değerlendirme yaptığında 'Dış Algı' analizi ile kendi algınız ile dış algı arasındaki derin uyuşmazlıkları ve gizli yönlerinizi ortaya çıkaran 'Aradaki Fark (The Gap)' analizi tamamen kilit açar."
+  },
+  {
+    "id": "q5",
+    "question": "Algı Uyum Yüzdesi (Perception Accuracy) nedir?",
+    "answer": "Arkadaşınızın sizi değerlendirirken yaptığı sosyal okumanın, sizin kendi hakkınızdaki öz algınızla ne kadar örtüştüğünü gösteren milimetrik olarak hesaplanmış bir yüzde değeridir. Uyum oranına göre arkadaşınıza 'Telepatik Okuyucu' veya 'Dengeli Gözlemci' gibi özel sosyal okuma kartları verilir."
+  }
+]
