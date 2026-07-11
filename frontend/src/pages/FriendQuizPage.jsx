@@ -164,6 +164,17 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
       // Store results in sessionStorage
       sessionStorage.setItem('seenly_friend_result', JSON.stringify(result));
 
+      // Append slug to evaluated slugs in localStorage to prevent duplicate submissions
+      const evaluatedStr = localStorage.getItem('seenly_evaluated_slugs');
+      let evaluatedSlugs = [];
+      try {
+        if (evaluatedStr) evaluatedSlugs = JSON.parse(evaluatedStr);
+      } catch (e) { /* ignore */ }
+      if (!evaluatedSlugs.includes(slug)) {
+        evaluatedSlugs.push(slug);
+        localStorage.setItem('seenly_evaluated_slugs', JSON.stringify(evaluatedSlugs));
+      }
+
       // Clear quiz flow state
       sessionStorage.removeItem('seenly_friend_state');
 
@@ -235,11 +246,7 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
               style={{ width: `${progressPercentage}%` }}
             ></div>
           </div>
-          {/* Step counter + Language dropdown */}
           <div className="seenly-wizard-step-lang" ref={langRef}>
-            <span className="seenly-wizard-step-info">
-              {`${state.currentIndex + 1}/${FRIEND_QUESTION_IDS.length}`}
-            </span>
             <button
               type="button"
               className="lang-dropdown-trigger"

@@ -20,17 +20,20 @@ public class SeenlyController {
     private final ScoringEngineService scoringEngineService;
     private final FriendResponseService friendResponseService;
     private final ReaderGameService readerGameService;
+    private final com.seenly.backend.repository.ResponseSessionRepository responseSessionRepository;
 
     public SeenlyController(SeenlyRepository seenlyRepository,
                             TokenHashingService tokenHashingService,
                             ScoringEngineService scoringEngineService,
                             FriendResponseService friendResponseService,
-                            ReaderGameService readerGameService) {
+                            ReaderGameService readerGameService,
+                            com.seenly.backend.repository.ResponseSessionRepository responseSessionRepository) {
         this.seenlyRepository = seenlyRepository;
         this.tokenHashingService = tokenHashingService;
         this.scoringEngineService = scoringEngineService;
         this.friendResponseService = friendResponseService;
         this.readerGameService = readerGameService;
+        this.responseSessionRepository = responseSessionRepository;
     }
 
     /**
@@ -146,17 +149,72 @@ public class SeenlyController {
     }
 
     /**
+     * POST /api/v1/seenly/friend/{publicSlug}/check-eligibility
+     * Checks if the user is eligible to take the quiz (not spam, not owner).
+     */
+    @PostMapping("/friend/{publicSlug}/check-eligibility")
+    public ResponseEntity<?> checkEligibility(
+            @PathVariable String publicSlug,
+            @RequestHeader(value = "X-Owner-Token", required = false) String ownerToken,
+            jakarta.servlet.http.HttpServletRequest httpRequest,
+            @RequestBody java.util.Map<String, String> request) {
+                
+        Seenly seenlyCheck = seenlyRepository.findByPublicSlug(publicSlug)
+            .orElseThrow(() -> new ResourceNotFoundException("Seenly not found"));
+
+        if (ownerToken != null && seenlyCheck.getOwnerTokenHash().equals(tokenHashingService.hashToken(ownerToken))) {
+            return ResponseEntity.status(org.springframework.http.HttpStatus.FORBIDDEN)
+                .body(java.util.Map.of("message", "You cannot evaluate yourself.", "eligible", false));
+        }
+
+        String ipAddress = httpRequest.getRemoteAddr();
+        String fingerprint = request.get("fingerprintHash");
+        
+        if (fingerprint != null) {
+            boolean existsDuplicate = responseSessionRepository.existsDuplicateSession(seenlyCheck.getId(), ipAddress, fingerprint);
+            if (existsDuplicate) {
+                return ResponseEntity.status(org.springframework.http.HttpStatus.CONFLICT)
+                    .body(java.util.Map.of("message", "You have already evaluated this person.", "eligible", false));
+            }
+        }
+        
+        return ResponseEntity.ok(java.util.Map.of("eligible", true));
+    }
+
+    /**
      * POST /api/v1/seenly/friend/{publicSlug}/respond
      * Submits a friend's evaluation, calculates reader style/rewards, and updates calculations.
      */
     @PostMapping("/friend/{publicSlug}/respond")
-    public ResponseEntity<SubmitResponseResult> submitFriendResponse(
+    public ResponseEntity<?> submitFriendResponse(
             @PathVariable String publicSlug,
+            @RequestHeader(value = "X-Owner-Token", required = false) String ownerToken,
+            jakarta.servlet.http.HttpServletRequest httpRequest,
             @Valid @RequestBody FriendResponseInput request) {
+
+        Seenly seenlyCheck = seenlyRepository.findByPublicSlug(publicSlug)
+            .orElseThrow(() -> new ResourceNotFoundException("Seenly not found"));
+
+        // 1. Self-Evaluation Prevention
+        if (ownerToken != null && seenlyCheck.getOwnerTokenHash().equals(tokenHashingService.hashToken(ownerToken))) {
+            return ResponseEntity.status(org.springframework.http.HttpStatus.FORBIDDEN)
+                .body(java.util.Map.of("message", "You cannot evaluate yourself."));
+        }
+
+        // 2. Spam Protection (IP + Fingerprint)
+        String ipAddress = httpRequest.getRemoteAddr();
+        String fingerprint = request.getFingerprintHash();
+        
+        boolean existsDuplicate = responseSessionRepository.existsDuplicateSession(seenlyCheck.getId(), ipAddress, fingerprint);
+        if (existsDuplicate) {
+            return ResponseEntity.status(org.springframework.http.HttpStatus.CONFLICT)
+                .body(java.util.Map.of("message", "You have already evaluated this person."));
+        }
 
         ResponseSession session = ResponseSession.builder()
             .nickname(request.getNickname())
-            .fingerprintHash(request.getFingerprintHash())
+            .fingerprintHash(fingerprint)
+            .ipAddress(ipAddress)
             .friendTimeAnalytics(request.getFriendTimeAnalytics() != null ? request.getFriendTimeAnalytics() : new java.util.HashMap<>())
             .build();
 

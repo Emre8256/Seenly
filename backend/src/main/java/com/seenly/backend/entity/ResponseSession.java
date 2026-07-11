@@ -33,6 +33,9 @@ public class ResponseSession {
     @Column(nullable = false)
     private String fingerprintHash; // IP or browser fingerprint hash to guard against spam
 
+    @Column
+    private String ipAddress; // IP address of the respondent for spam protection
+
     @OneToMany(mappedBy = "responseSession", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<FriendResponse> responses;
 

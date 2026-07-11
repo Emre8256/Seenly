@@ -25,6 +25,18 @@ public class User {
     @Column(nullable = false)
     private boolean emailVerified = false;
 
+    @Column(nullable = false)
+    @Builder.Default
+    private Boolean isPremium = false;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private Integer baseFormCapacity = 3;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private Integer purchasedExtraCapacity = 0;
+
     @CreationTimestamp
     @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;

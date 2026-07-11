@@ -5,7 +5,7 @@ import AppShell from '../components/AppShell';
 import { getOwnerDashboard } from '../services/api';
 
 export default function ResultPage({ onNavigateToQuiz }) {
-  const { t } = useLocale();
+  const { locale: langCode, t } = useLocale();
   const [snapshot, setSnapshot] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -25,7 +25,10 @@ export default function ResultPage({ onNavigateToQuiz }) {
         const data = await getOwnerDashboard(token);
         setSnapshot(data);
       } catch (err) {
-        setError(err.message || 'An error occurred while loading results.');
+        localStorage.removeItem('seenly_owner_token');
+        localStorage.removeItem('seenly_display_name');
+        sessionStorage.clear();
+        setError('profile_not_found');
       } finally {
         setLoading(false);
       }
@@ -78,24 +81,24 @@ export default function ResultPage({ onNavigateToQuiz }) {
   // Render Error / Missing Token State
   if (error) {
     return (
-      <AppShell>
-        <div className="editorial-card" style={{ textAlign: 'center', padding: '3rem 2rem' }}>
-          <h2 className="editorial-title" style={{ color: 'red', fontSize: '1.75rem', marginBottom: '1.5rem' }}>
-            {error === 'no_token' ? 'No Seenly Found' : 'Error Loading Profile'}
-          </h2>
-          <p className="editorial-body" style={{ color: 'var(--color-text-muted)', marginBottom: '2rem' }}>
-            {error === 'no_token'
-              ? 'You have not created a Seenly profile on this browser yet.'
-              : error}
-          </p>
-          <button
-            type="button"
-            className="btn-editorial"
-            onClick={onNavigateToQuiz}
-            style={{ width: '100%' }}
-          >
-            {t('ui', 'start_quiz_btn')}
-          </button>
+      <AppShell isDashboard={true}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1, padding: '6rem 1.5rem', textAlign: 'center' }}>
+          <div className="editorial-card" style={{ maxWidth: '500px', width: '100%', padding: '3rem 2rem' }}>
+            <h2 className="editorial-title" style={{ color: 'red', fontSize: '1.75rem', marginBottom: '1.5rem' }}>
+              {langCode === 'tr' ? 'Profil Bulunamadı' : 'Seenly Profile Not Found'}
+            </h2>
+            <p className="editorial-body" style={{ color: 'var(--color-text-muted)', marginBottom: '2.5rem', fontSize: '0.95rem', lineHeight: 1.5 }}>
+              {langCode === 'tr' ? 'Aradığınız Seenly profili mevcut değil veya silinmiş.' : 'The requested Seenly profile does not exist.'}
+            </p>
+            <button
+              type="button"
+              className="btn-editorial"
+              onClick={() => window.location.hash = '#/'}
+              style={{ width: '100%' }}
+            >
+              {langCode === 'tr' ? 'Ana Sayfaya Dön' : 'Back to Home'}
+            </button>
+          </div>
         </div>
       </AppShell>
     );

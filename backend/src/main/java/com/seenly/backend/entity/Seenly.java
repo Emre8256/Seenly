@@ -68,4 +68,16 @@ public class Seenly {
 
     @OneToMany(mappedBy = "seenly", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ResponseSession> responseSessions;
+
+    public boolean getIsPremium() {
+        return user != null && Boolean.TRUE.equals(user.getIsPremium());
+    }
+
+    public int getBaseFormCapacity() {
+        return user != null && user.getBaseFormCapacity() != null ? user.getBaseFormCapacity() : 3;
+    }
+
+    public int getPurchasedExtraCapacity() {
+        return user != null && user.getPurchasedExtraCapacity() != null ? user.getPurchasedExtraCapacity() : 0;
+    }
 }

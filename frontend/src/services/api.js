@@ -137,13 +137,49 @@ export function getBrowserFingerprint() {
 }
 
 /**
+ * Checks if a user is eligible to evaluate a profile (Spam and Self-Evaluation checks).
+ * POST /api/v1/seenly/friend/{publicSlug}/check-eligibility
+ */
+export async function checkEligibility(publicSlug, fingerprintHash) {
+  const headers = { 'Content-Type': 'application/json' };
+  const ownerToken = localStorage.getItem('seenly_owner_token');
+  if (ownerToken) {
+    headers['X-Owner-Token'] = ownerToken;
+  }
+
+  const response = await fetch(`${BASE_URL}/friend/${publicSlug}/check-eligibility`, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify({ fingerprintHash })
+  });
+
+  if (!response.ok) {
+    // 403 or 409 means not eligible, backend returns a message.
+    try {
+      const err = await response.json();
+      return { eligible: false, message: err.message };
+    } catch(e) {
+      return { eligible: false, message: 'You cannot evaluate this person at this time.' };
+    }
+  }
+
+  return response.json();
+}
+
+/**
  * Submits friend's response session to the backend seenly API.
  * POST /api/v1/seenly/friend/{publicSlug}/respond
  */
 export async function submitFriendResponse(publicSlug, nickname, fingerprintHash, friendResponses, friendTimeAnalytics) {
+  const headers = { 'Content-Type': 'application/json' };
+  const ownerToken = localStorage.getItem('seenly_owner_token');
+  if (ownerToken) {
+    headers['X-Owner-Token'] = ownerToken;
+  }
+
   const response = await fetch(`${BASE_URL}/friend/${publicSlug}/respond`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: headers,
     body: JSON.stringify({
       nickname: nickname || null,
       fingerprintHash,
@@ -204,4 +240,59 @@ export async function incrementProfileClick(publicSlug) {
     // Silently ignore API errors
   }
 }
+
+/**
+ * Subscribes user to Seenly Plus.
+ * POST /api/billing/subscribe-plus
+ */
+export async function subscribePlus(ownerToken) {
+  const apiPrefix = (import.meta.env && import.meta.env.VITE_API_URL) || '';
+  const response = await fetch(`${apiPrefix}/api/billing/subscribe-plus`, {
+    method: 'POST',
+    headers: {
+      'X-Owner-Token': ownerToken
+    }
+  });
+
+  if (!response.ok) {
+    let errorMsg = 'Error subscribing to Plus';
+    try {
+      const err = await response.json();
+      errorMsg = err.message || errorMsg;
+    } catch (e) {
+      // JSON parsing failed
+    }
+    throw new Error(errorMsg);
+  }
+
+  return response.json();
+}
+
+/**
+ * Purchases extra capacity pack.
+ * POST /api/billing/buy-pack?amount=...
+ */
+export async function buyCapacityPack(ownerToken, amount) {
+  const apiPrefix = (import.meta.env && import.meta.env.VITE_API_URL) || '';
+  const response = await fetch(`${apiPrefix}/api/billing/buy-pack?amount=${amount}`, {
+    method: 'POST',
+    headers: {
+      'X-Owner-Token': ownerToken
+    }
+  });
+
+  if (!response.ok) {
+    let errorMsg = 'Error purchasing capacity pack';
+    try {
+      const err = await response.json();
+      errorMsg = err.message || errorMsg;
+    } catch (e) {
+      // JSON parsing failed
+    }
+    throw new Error(errorMsg);
+  }
+
+  return response.json();
+}
+
 

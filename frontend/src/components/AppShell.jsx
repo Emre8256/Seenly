@@ -1,10 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LocaleSwitch from './LocaleSwitch';
 import { useLocale } from '../context/LocaleContext';
+import { SiteHeader } from './site-header';
+import { SiteFooter } from './site-footer';
 
-export default function AppShell({ children, isLanding = false, isDashboard = false, onStartClick, showLogout = true, footerMode = 'standard' }) {
+export default function AppShell({ children, isLanding = false, isDashboard = false, onStartClick, showLogout = true, footerMode = 'standard', userName = 'Panelim' }) {
   const { t } = useLocale();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 24);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const isLoggedIn = Boolean(localStorage.getItem('seenly_owner_token'));
+  const displayName = userName || localStorage.getItem('seenly_display_name') || sessionStorage.getItem('seenly_displayName') || 'Panelim';
 
   const handleSmoothScroll = (e, targetId) => {
     if (isDashboard || window.location.hash.startsWith('#/identities') || window.location.hash.startsWith('#/faq') || window.location.hash.startsWith('#/plans')) {
@@ -19,7 +35,7 @@ export default function AppShell({ children, isLanding = false, isDashboard = fa
   };
 
   const handleStartQuizClick = (e) => {
-    e.preventDefault();
+    e?.preventDefault?.();
     sessionStorage.setItem('seenly_currentIndex', '-2');
     sessionStorage.setItem('seenly_isQuickLogin', 'false');
     if (window.location.hash === '#/' || window.location.hash === '') {
@@ -30,7 +46,7 @@ export default function AppShell({ children, isLanding = false, isDashboard = fa
   };
 
   const handleLoginClick = (e) => {
-    e.preventDefault();
+    e?.preventDefault?.();
     sessionStorage.setItem('seenly_currentIndex', '-5');
     sessionStorage.setItem('seenly_isQuickLogin', 'true');
     if (window.location.hash === '#/' || window.location.hash === '') {
@@ -40,9 +56,32 @@ export default function AppShell({ children, isLanding = false, isDashboard = fa
     }
   };
 
+  if (isDashboard) {
+    return (
+      <div className="app-shell dashboard-layout min-h-screen text-foreground" style={{ position: 'relative', background: 'transparent' }}>
+        <SiteHeader onStartClick={handleStartQuizClick} onLoginClick={handleLoginClick} hideHowItWorks />
+        <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+          {children}
+        </main>
+        <SiteFooter />
+      </div>
+    );
+  }
+
+
   return (
+
     <div className={`app-shell ${isLanding ? 'landing-layout' : ''} ${isDashboard ? 'dashboard-layout' : ''}`}>
-      <header className={`main-header ${isLanding || isDashboard ? 'landing-header' : ''}`}>
+      <header
+        className={`main-header ${isLanding || isDashboard ? 'landing-header' : ''} ${scrolled ? 'scrolled paper-grain' : ''}`}
+        style={{
+          position: isLanding || isDashboard ? 'fixed' : 'sticky',
+          top: 0,
+          left: 0,
+          width: '100%',
+          zIndex: 100
+        }}
+      >
         {isLanding || isDashboard ? (
           <>
             {/* Left: Custom branded logo */}
@@ -55,16 +94,16 @@ export default function AppShell({ children, isLanding = false, isDashboard = fa
             </div>
 
             {/* Center: Navigation Menu Links */}
-            <nav className="main-nav" style={isDashboard ? { visibility: 'hidden', pointerEvents: 'none' } : {}}>
+            <nav className="main-nav">
               <a
-                href="#/"
-                onClick={handleStartQuizClick}
+                href={isDashboard ? "#/dashboard" : "#/"}
+                onClick={isDashboard ? undefined : handleStartQuizClick}
               >
-                {t('ui', 'nav_start')}
+                {isDashboard ? 'Panelim' : t('ui', 'nav_start')}
               </a>
               <a
-                href="#how-it-works"
-                onClick={(e) => handleSmoothScroll(e, 'how-it-works')}
+                href="#nasil-calisir"
+                onClick={(e) => handleSmoothScroll(e, 'nasil-calisir')}
               >
                 {t('ui', 'nav_how_it_works')}
               </a>
@@ -77,15 +116,17 @@ export default function AppShell({ children, isLanding = false, isDashboard = fa
               >
                 {t('ui', 'nav_social_identities')}
               </a>
-              <a
-                href="#/plans"
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.location.hash = '#/plans';
-                }}
-              >
-                {t('ui', 'nav_plans')}
-              </a>
+              {!isDashboard && (
+                <a
+                  href="#/plans"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.hash = '#/plans';
+                  }}
+                >
+                  {t('ui', 'nav_plans')}
+                </a>
+              )}
               <a
                 href="#/faq"
                 onClick={(e) => {
@@ -100,37 +141,38 @@ export default function AppShell({ children, isLanding = false, isDashboard = fa
             {/* Right: Language switch / Mobile Hamburger */}
             <div className="header-actions">
               {isDashboard && showLogout && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    localStorage.removeItem('seenly_owner_token');
-                    sessionStorage.clear();
-                    window.location.hash = '#/';
-                  }}
-                  className="seenly-dashboard-logout-btn"
-                  style={{
-                    background: 'rgba(217, 106, 83, 0.08)',
-                    border: '1px solid rgba(217, 106, 83, 0.2)',
-                    borderRadius: '20px',
-                    color: 'var(--color-burnt-coral)',
-                    fontFamily: 'var(--font-sans)',
-                    fontWeight: '700',
-                    fontSize: '0.8rem',
-                    padding: '0.5rem 1rem',
-                    cursor: 'pointer',
-                    marginRight: '12px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px'
-                  }}
-                >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                    <polyline points="16 17 21 12 16 7" />
-                    <line x1="21" y1="12" x2="9" y2="12" />
-                  </svg>
-                  {t('ui', 'nav_logout')}
-                </button>
+                <div className="seenly-user-menu">
+                  <button
+                    type="button"
+                    onClick={() => setUserMenuOpen(prev => !prev)}
+                    className="seenly-user-menu-trigger"
+                    aria-expanded={userMenuOpen}
+                  >
+                    <span className="seenly-user-menu-icon" aria-hidden="true">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                      </svg>
+                    </span>
+                    <span>{displayName}</span>
+                  </button>
+                  {userMenuOpen && (
+                    <div className="seenly-user-menu-panel">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          localStorage.removeItem('seenly_owner_token');
+                          localStorage.removeItem('seenly_display_name');
+                          sessionStorage.clear();
+                          setUserMenuOpen(false);
+                          window.location.hash = '#/';
+                        }}
+                      >
+                        {t('ui', 'nav_logout') || 'Log Out'}
+                      </button>
+                    </div>
+                  )}
+                </div>
               )}
               <div className="desktop-only-actions" style={{ display: 'flex', alignItems: 'center' }}>
                 {!isDashboard && (
@@ -138,28 +180,44 @@ export default function AppShell({ children, isLanding = false, isDashboard = fa
                     type="button"
                     onClick={handleLoginClick}
                     style={{
-                      background: 'transparent',
-                      border: '1px solid rgba(11, 27, 44, 0.15)',
-                      borderRadius: '20px',
+                      height: '36px',
+                      padding: '0 1.25rem',
+                      borderRadius: '18px',
+                      border: '1.5px solid rgba(11, 27, 44, 0.1)',
+                      backgroundColor: 'rgba(255, 255, 255, 0.55)',
+                      backdropFilter: 'blur(8px)',
+                      WebkitBackdropFilter: 'blur(8px)',
                       color: 'var(--color-deep-ink)',
-                      fontFamily: 'var(--font-sans)',
+                      fontFamily: 'var(--font-sans), sans-serif',
+                      fontSize: '0.8rem',
                       fontWeight: '600',
-                      fontSize: '0.85rem',
-                      padding: '0.5rem 1.1rem',
+                      letterSpacing: '0.03em',
                       cursor: 'pointer',
                       marginRight: '12px',
-                      transition: 'all 0.2s ease'
+                      transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                      boxShadow: '0 2px 8px rgba(11, 27, 44, 0.01)',
+                      outline: 'none',
+                      boxSizing: 'border-box',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = 'rgba(11, 27, 44, 0.05)';
+                      e.currentTarget.style.borderColor = 'var(--peach)';
+                      e.currentTarget.style.color = '#ffffff';
+                      e.currentTarget.style.backgroundColor = 'var(--peach)';
                       e.currentTarget.style.transform = 'translateY(-1px)';
+                      e.currentTarget.style.boxShadow = '0 6px 16px rgba(217, 106, 83, 0.15)';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.borderColor = 'rgba(11, 27, 44, 0.1)';
+                      e.currentTarget.style.color = 'var(--color-deep-ink)';
+                      e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.55)';
                       e.currentTarget.style.transform = '';
+                      e.currentTarget.style.boxShadow = '0 2px 8px rgba(11, 27, 44, 0.01)';
                     }}
                   >
-                    {t('ui', 'nav_login')}
+                    {t('ui', 'landing_quick_login') || t('ui', 'nav_login')}
                   </button>
                 )}
                 <LocaleSwitch />
@@ -211,9 +269,9 @@ export default function AppShell({ children, isLanding = false, isDashboard = fa
               {t('ui', 'nav_start')}
             </a>
             <a
-              href="#how-it-works"
+              href="#nasil-calisir"
               onClick={(e) => {
-                handleSmoothScroll(e, 'how-it-works');
+                handleSmoothScroll(e, 'nasil-calisir');
                 setMobileMenuOpen(false);
               }}
             >
@@ -344,7 +402,7 @@ export default function AppShell({ children, isLanding = false, isDashboard = fa
                 <h4 className="footer-title">{t('ui', 'footer_quick_links')}</h4>
                 <nav className="footer-links">
                   <a href="#/" onClick={handleStartQuizClick}>{t('ui', 'nav_start')}</a>
-                  <a href="#how-it-works" onClick={(e) => handleSmoothScroll(e, 'how-it-works')}>{t('ui', 'nav_how_it_works')}</a>
+                  <a href="#nasil-calisir" onClick={(e) => handleSmoothScroll(e, 'nasil-calisir')}>{t('ui', 'nav_how_it_works')}</a>
                   <a href="#/identities" onClick={(e) => { e.preventDefault(); window.location.hash = '#/identities'; }}>{t('ui', 'nav_social_identities')}</a>
                 </nav>
               </div>

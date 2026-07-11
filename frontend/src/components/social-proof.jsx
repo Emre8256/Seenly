@@ -1,0 +1,93 @@
+import { useLocale } from "../context/LocaleContext"
+import { Reveal } from "./reveal"
+import { DottedThread, WatercolorStain } from "./marks"
+
+export function SocialProof() {
+  const { t } = useLocale()
+
+  const stats = [
+    {
+      value: t("ui", "landing_stats_1_val") || "139K+",
+      label: t("ui", "landing_stats_1_lbl") || "Oluşturulan Profil",
+      accent: "text-clay",
+    },
+    {
+      value: t("ui", "landing_stats_2_val") || "10M+",
+      label: t("ui", "landing_stats_2_lbl") || "Paylaşılan Yanıt",
+      accent: "text-foreground",
+    },
+    {
+      value: t("ui", "landing_stats_3_val") || "1.55B+",
+      label: t("ui", "landing_stats_3_lbl") || "Toplam Algı Sinyali",
+      accent: "text-clay",
+    },
+    {
+      value: t("ui", "landing_stats_4_val") || "91.2%",
+      label: t("ui", "landing_stats_4_lbl") || "Analiz Tutarlılığı",
+      accent: "text-foreground",
+    },
+  ]
+
+  return (
+    <section className="paper-grain relative overflow-hidden bg-background">
+      <WatercolorStain
+        name="proof-gold"
+        hue="gold"
+        seed={41}
+        intensity={0.08}
+        className="left-[2%] top-[6%] h-[24rem] w-[24rem]"
+      />
+      <WatercolorStain
+        name="proof-lilac"
+        hue="lilac"
+        seed={42}
+        intensity={0.07}
+        className="right-[4%] bottom-[-24%] h-[28rem] w-[28rem]"
+      />
+
+      <div className="above-surface mx-auto max-w-[1180px] px-5 py-14 sm:px-8 md:py-20">
+        <Reveal className="relative">
+          <div className="absolute left-0 right-0 top-1/2 hidden h-px -translate-y-1/2 bg-border/55 lg:block" />
+          <div className="absolute left-[8%] right-[8%] top-[calc(50%+2.1rem)] hidden border-t border-dotted border-clay/25 lg:block" />
+          <DottedThread className="mx-auto h-5 w-32 text-clay/45" />
+
+          <div className="mt-8 grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+            {stats.map((stat, index) => (
+              <div
+                key={stat.label}
+                className={`relative min-h-40 px-2 py-5 ${
+                  index % 2 === 0 ? "lg:translate-y-3" : "lg:-translate-y-3"
+                }`}
+              >
+                <span
+                  aria-hidden="true"
+                  className="absolute left-2 top-0 h-full w-px bg-border/45 lg:hidden"
+                />
+                <span
+                  aria-hidden="true"
+                  className="absolute -top-1 left-2 h-2 w-2 rounded-full bg-clay/35"
+                />
+                <p
+                  className={`font-heading text-[3.2rem] font-normal leading-none tracking-[-0.055em] sm:text-[3.85rem] lg:text-[4.3rem] ${stat.accent}`}
+                >
+                  <span className="opacity-90">{stat.value}</span>
+                </p>
+                <p className="mt-4 max-w-44 text-[0.9rem] leading-relaxed text-muted-foreground sm:text-[0.95rem]">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-2 flex items-center justify-between gap-5 text-clay/45">
+            <span className="h-px flex-1 bg-current/35" />
+            <span className="font-mono text-[0.62rem] uppercase tracking-[0.32em]">
+              collective reading index
+            </span>
+            <span className="h-px flex-1 bg-current/35" />
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  )
+}

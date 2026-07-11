@@ -11,5 +11,6 @@ public interface SeenlyRepository extends JpaRepository<Seenly, UUID> {
     Optional<Seenly> findByPublicSlug(String publicSlug);
     Optional<Seenly> findByOwnerTokenHash(String ownerTokenHash);
     Optional<Seenly> findFirstByEmailOrderByCreatedAtDesc(String email);
+    java.util.List<Seenly> findByUser(com.seenly.backend.entity.User user);
 }
 

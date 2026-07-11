@@ -25,6 +25,9 @@ public class ResultSnapshotDto {
     private final int totalResponders;
     private final String publicSlug;
     private final String displayName;
+    private final boolean isPremium;
+    private final Integer currentResponseCount;
+    private final Integer maxResponseLimit;
     private final Map<String, Double> selfAverages;
     private final Map<String, Double> friendAverages;
     private final Map<String, Double> friendTimeAnalytics;
@@ -49,6 +52,9 @@ public class ResultSnapshotDto {
         this.totalResponders = snapshot.getSeenly().getResponseCount();
         this.publicSlug = snapshot.getSeenly().getPublicSlug();
         this.displayName = snapshot.getSeenly().getDisplayName();
+        this.isPremium = snapshot.getSeenly().getIsPremium();
+        this.currentResponseCount = snapshot.getSeenly().getResponseCount();
+        this.maxResponseLimit = this.isPremium ? -1 : (snapshot.getSeenly().getBaseFormCapacity() + snapshot.getSeenly().getPurchasedExtraCapacity());
 
         // Dynamic Zero-Leak Privacy filtering
         if (this.responseCount >= 3) {
@@ -176,6 +182,18 @@ public class ResultSnapshotDto {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public boolean getIsPremium() {
+        return isPremium;
+    }
+
+    public Integer getCurrentResponseCount() {
+        return currentResponseCount;
+    }
+
+    public Integer getMaxResponseLimit() {
+        return maxResponseLimit;
     }
 
     private String extractLensFromQuestionId(String questionId) {

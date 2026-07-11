@@ -1,8 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { useLocale } from '../context/LocaleContext';
 import AppShell from '../components/AppShell';
-import { getPublicDashboard, incrementProfileClick } from '../services/api';
+import { getPublicDashboard, incrementProfileClick, checkEligibility, getBrowserFingerprint } from '../services/api';
 import { CARD_IMAGES } from '../images/cardImages';
+import { WatercolorStain, ConnectorDots } from '../components/marks';
+
+import BasariIcon from '../images/Icons/Başarı.png';
+import ComertlikIcon from '../images/Icons/Cömertlik.png';
+import EgoIcon from '../images/Icons/Ego.png';
+import EnerjiIcon from '../images/Icons/Enerji.png';
+import GuvenilirlikIcon from '../images/Icons/Güvenilirlik.png';
+import OlgunlukIcon from '../images/Icons/Olgunluk.png';
+import SamimiyetIcon from '../images/Icons/Samimiyet.png';
+import VizyonIcon from '../images/Icons/Vizyon.png';
+import ZekaIcon from '../images/Icons/Zeka.png';
+import CekicilikIcon from '../images/Icons/Çekicilik.png';
+
+const SIGNAL_ICONS = {
+  samimiyet: SamimiyetIcon,
+  cekicilik: CekicilikIcon,
+  zeka: ZekaIcon,
+  vizyon: VizyonIcon,
+  enerji: EnerjiIcon,
+  guvenilirlik: GuvenilirlikIcon,
+  ego: EgoIcon,
+  basari: BasariIcon,
+  comertlik: ComertlikIcon,
+  olgunluk: OlgunlukIcon
+};
 
 const LockedMask = ({ title, description, responseCount, targetCount, langCode }) => {
   return (
@@ -116,6 +141,7 @@ export default function FriendIntroPage({ slug, onStart }) {
   const [snapshot, setSnapshot] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [hasEvaluated, setHasEvaluated] = useState(false);
 
   useEffect(() => {
     if (!slug) {
@@ -129,12 +155,41 @@ export default function FriendIntroPage({ slug, onStart }) {
       try {
         const data = await getPublicDashboard(slug);
         setSnapshot(data);
+        
+        // Also check eligibility with the backend (spam and self-evaluation)
+        const fingerprint = getBrowserFingerprint();
+        const eligibility = await checkEligibility(slug, fingerprint);
+        if (eligibility && eligibility.eligible === false) {
+           setHasEvaluated(true);
+           // We also append to local storage to keep it in sync
+           try {
+             const evaluatedStr = localStorage.getItem('seenly_evaluated_slugs');
+             let evaluatedSlugs = [];
+             if (evaluatedStr) evaluatedSlugs = JSON.parse(evaluatedStr);
+             if (!evaluatedSlugs.includes(slug)) {
+               evaluatedSlugs.push(slug);
+               localStorage.setItem('seenly_evaluated_slugs', JSON.stringify(evaluatedSlugs));
+             }
+           } catch(e) { /* ignore */ }
+        }
+
       } catch (err) {
         setError(err.message || 'Error loading dashboard.');
       } finally {
         setLoading(false);
       }
     };
+
+    // Check if evaluated locally
+    try {
+      const evaluatedStr = localStorage.getItem('seenly_evaluated_slugs');
+      if (evaluatedStr) {
+        const evaluatedSlugs = JSON.parse(evaluatedStr);
+        if (evaluatedSlugs.includes(slug)) {
+          setHasEvaluated(true);
+        }
+      }
+    } catch (e) { /* ignore parse error */ }
 
     loadData();
   }, [slug]);
@@ -313,6 +368,10 @@ export default function FriendIntroPage({ slug, onStart }) {
   };
   const displayName = capitalizeName(snapshot?.displayName || 'User');
   const responseCount = snapshot?.responseCount || 0;
+  const isPremium = snapshot?.isPremium || snapshot?.premium || false;
+  const maxResponseLimit = snapshot?.maxResponseLimit ?? 100;
+  const isCapped = !isPremium && (responseCount >= maxResponseLimit);
+  const isLoggedIn = !!localStorage.getItem('seenly_owner_token');
 
   const activeOutsideSignatureId = calculatePersonalityCard(snapshot?.friendAverages || {});
   const outsideSignature = getObject('signatures', activeOutsideSignatureId);
@@ -322,160 +381,219 @@ export default function FriendIntroPage({ slug, onStart }) {
   return (
     <AppShell isDashboard={true} showLogout={false}>
       <div className="seenly-dashboard-page-wrapper">
-        <div className="seenly-dashboard-container">
+        <div className="seenly-dashboard-container" style={{ maxWidth: '980px', width: '100%', margin: '0 auto' }}>
 
-          {/* Centered Dashboard Header */}
-          <header className="seenly-dashboard-header" style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '2.5rem 1.5rem 1.5rem 1.5rem',
-            width: '100%',
-            textAlign: 'center',
-            borderBottom: 'none',
-            backgroundColor: 'transparent'
-          }}>
-            <div className="seenly-dashboard-profile" style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '14px',
-              width: '100%',
-              maxWidth: '380px',
-              margin: '0 auto'
-            }}>
-              {/* Centered Avatar Icon */}
-              <div className="seenly-dashboard-avatar" style={{
-                width: '68px',
-                height: '68px',
-                borderRadius: '50%',
-                backgroundColor: 'rgba(143, 123, 204, 0.12)',
-                color: 'var(--color-ink-violet)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: '2px solid rgba(143, 123, 204, 0.22)',
-                boxShadow: '0 8px 20px rgba(143, 123, 204, 0.06)',
-                flexShrink: 0
+          {/* Beautiful Custom Friend Profile Header */}
+          <div className="flex flex-col items-center text-center w-full box-border pb-8 pt-10 md:pt-14 px-4">
+
+            {/* Display Name */}
+            <h2 className="font-serif text-3xl sm:text-[2.75rem] font-black text-[#0b1b2c] m-0" style={{ letterSpacing: '-0.03em', lineHeight: 1.1 }}>
+              {displayName}
+            </h2>
+
+            {/* Premium Divider */}
+            <div className="flex items-center justify-center gap-3 my-4 w-full">
+              <div className="h-px w-16 bg-black/[0.06]" />
+              <span className="text-[10px] text-[#c5a059] opacity-70">✦</span>
+              <div className="h-px w-16 bg-black/[0.06]" />
+            </div>
+
+            {/* Perception Question */}
+            <h3 className="font-serif italic text-lg sm:text-xl font-normal text-muted-foreground leading-normal m-0" style={{ maxWidth: '640px' }}>
+              {langCode === 'tr'
+                ? `İnsanların gözünde nasıl biri?`
+                : `How are they perceived in the eyes of others?`}
+            </h3>
+
+            {/* Detail Description */}
+            <p className="text-xs sm:text-sm text-muted-foreground/80 mt-3.5 leading-relaxed max-w-xl m-0">
+              {langCode === 'tr'
+                ? 'Dış dünyaya yaydığı sosyal sinyaller ve arkadaş yansımaları doğrultusunda şekillenen güncel algı durumunu inceleyin.'
+                : 'Examine the current state of perception shaped in accordance with the social signals and friend reflections projected.'}
+            </p>
+
+            {/* Top evaluation button / capped warning / evaluated feedback */}
+            {hasEvaluated ? (
+              <div className="flex flex-col items-center justify-center w-full max-w-[420px] mt-7 px-8 py-7" style={{
+                background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.45))',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                borderRadius: '24px',
+                border: '1px solid rgba(197, 160, 89, 0.25)',
+                boxShadow: '0 12px 40px rgba(80, 60, 40, 0.05)'
               }}>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                  <circle cx="12" cy="7" r="4" />
-                </svg>
+                <div className="flex items-center justify-center w-[46px] h-[46px] rounded-full mb-4" style={{ background: 'rgba(197, 160, 89, 0.08)' }}>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c5a059" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <h4 className="font-serif text-[1.25rem] text-[#0b1b2c] m-0 mb-2.5 font-semibold tracking-tight">
+                  {langCode === 'tr' ? 'Değerlendirme Tamamlandı' : 'Evaluation Completed'}
+                </h4>
+                <p className="font-sans text-[0.88rem] text-muted-foreground leading-relaxed m-0 text-center px-2">
+                  {langCode === 'tr' 
+                    ? 'Bu kişi için perspektifinizi başarıyla paylaştınız. Katkınız için teşekkür ederiz.' 
+                    : 'You have successfully shared your perspective for this person. Thank you for your contribution.'}
+                </p>
               </div>
-
-              {/* User Info */}
-              <div className="seenly-dashboard-user-info" style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
+            ) : isCapped ? (
+              <div style={{
+                width: '100%',
+                maxWidth: '460px',
+                background: 'linear-gradient(135deg, rgba(11, 27, 44, 0.02) 0%, rgba(11, 27, 44, 0.005) 100%)',
+                border: '1px solid rgba(11, 27, 44, 0.1)',
+                borderRadius: '20px',
+                padding: '1.5rem',
                 textAlign: 'center',
-                gap: '6px'
+                boxShadow: '0 8px 24px rgba(0,0,0,0.02)',
+                boxSizing: 'border-box',
+                marginTop: '1.5rem'
               }}>
-                <h2 className="seenly-dashboard-username" style={{
+                <h4 style={{
                   fontFamily: 'var(--font-serif)',
-                  fontSize: '1.75rem',
+                  fontSize: '1.15rem',
                   fontWeight: 900,
                   color: 'var(--color-deep-ink)',
-                  margin: 0,
-                  lineHeight: 1.2
+                  margin: '0 0 0.5rem 0'
                 }}>
-                  {displayName}
-                </h2>
-
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: '8px',
-                  marginTop: '2px'
+                  {langCode === 'tr' ? 'Katılımcı Kotası Dolu' : 'Respondent Capacity Full'}
+                </h4>
+                <p style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '0.82rem',
+                  color: 'var(--color-text-muted)',
+                  lineHeight: 1.5,
+                  margin: 0
                 }}>
-
-                  {/* Counter Badge */}
-                  <div style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    background: 'linear-gradient(135deg, rgba(143, 123, 204, 0.06) 0%, rgba(217, 106, 83, 0.04) 100%)',
-                    border: '1px solid rgba(11, 27, 44, 0.08)',
-                    padding: '4px 12px',
-                    borderRadius: '100px',
-                    boxShadow: '0 2px 8px rgba(11, 27, 44, 0.01)'
-                  }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--color-burnt-coral)' }}>
-                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                      <circle cx="9" cy="7" r="4" />
-                      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                    </svg>
-                    <span style={{
-                      fontFamily: 'var(--font-sans)',
-                      fontSize: '0.82rem',
-                      fontWeight: 800,
-                      color: 'var(--color-deep-ink)'
-                    }}>
-                      {responseCount}
-                    </span>
-                    <span style={{
-                      fontFamily: 'var(--font-sans)',
-                      fontSize: '0.78rem',
-                      fontWeight: 600,
-                      color: 'var(--color-text-muted)'
-                    }}>
-                      {langCode === 'tr' ? 'Katılımcı' : (responseCount === 1 ? 'Respondent' : 'Respondents')}
-                    </span>
-                  </div>
-                </div>
+                  {langCode === 'tr'
+                    ? `${displayName} adlı kullanıcının profili maksimum katılımcı limitine ulaşmıştır.`
+                    : `${displayName}'s profile has reached its maximum participant limit.`}
+                </p>
               </div>
-            </div>
-          </header>
-
-          {/* Section title header */}
-          <h3 style={{
-            fontFamily: 'var(--font-serif)',
-            fontSize: '1.8rem',
-            fontWeight: '400',
-            color: 'var(--color-deep-ink)',
-            textAlign: 'center',
-            marginBottom: '2rem',
-            marginTop: '1.5rem',
-            lineHeight: '1.25'
-          }}>
-            {langCode === 'tr'
-              ? `İnsanların gözünde ${displayName} nasıl biri?`
-              : `How is ${displayName} perceived in the eyes of others?`}
-          </h3>
+            ) : (
+              <button
+                type="button"
+                onClick={handleStart}
+                className="w-full max-w-[340px] py-3.5 rounded-2xl font-sans font-bold text-xs tracking-[0.06em] text-white hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 cursor-pointer border-none text-center uppercase"
+                style={{
+                  background: 'var(--primary)',
+                  boxShadow: '0 8px 20px rgba(11, 27, 44, 0.12)',
+                  marginTop: '1.75rem'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'oklch(0.42 0.07 258)';
+                  e.currentTarget.style.boxShadow = '0 12px 24px rgba(11, 27, 44, 0.18)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'var(--primary)';
+                  e.currentTarget.style.boxShadow = '0 8px 20px rgba(11, 27, 44, 0.12)';
+                }}
+              >
+                {t('ui', 'friend_evaluate_cta')}
+              </button>
+            )}
+          </div>
 
           {/* Dashboard Body (Only Outside Perception) */}
           <div className="seenly-dashboard-body" style={{ padding: '0 1.25rem' }}>
-            <div className={`seenly-dashboard-tab-content ${responseCount < 3 ? 'full-width-layout' : ''}`}>
+            <div className={`seenly-dashboard-tab-content ${responseCount < 3 ? 'full-width-layout' : 'flex flex-col md:flex-row items-stretch justify-center w-full gap-5'}`} style={{ maxWidth: '980px', margin: '0 auto' }}>
               {responseCount >= 3 ? (
                 <>
-                  {/* Left Column: Polaroid Card */}
-                  <div
-                    className="seenly-dashboard-polaroid"
-                    style={{ backgroundImage: CARD_IMAGES[activeOutsideSignatureId] ? `url(${CARD_IMAGES[activeOutsideSignatureId]})` : 'none' }}
-                  >
-                    <div className="polaroid-overlay">
-                      <span className="polaroid-badge">✦ {langCode === 'tr' ? 'Dış Algısı' : 'Outside View'} ✦</span>
-                      <h3 className="polaroid-title">{outsideSignatureName}</h3>
-                      {outsideSignatureCardLine && <p className="polaroid-desc">"{outsideSignatureCardLine}"</p>}
+                  {/* Left Column: Glass Card */}
+                  <div className="flex flex-col items-center z-10 w-full md:w-[340px] flex-shrink-0">
+                    <div className="seenly-dashboard-premium-card p-5 flex flex-col items-center justify-between text-center relative rounded-[32px] w-full h-full box-border" style={{ minHeight: '430px' }}>
+                      {/* Top content wrapper - vertically centered to balance stretched heights */}
+                      <div className="flex flex-col items-center justify-center flex-1 w-full py-2">
+                        {/* Stylish rounded rectangle frame with gold border */}
+                        <div className="seenly-dashboard-portrait-frame relative w-full max-w-[290px] aspect-[3/4] mb-3 overflow-hidden rounded-[24px] bg-card" style={{ border: '2px solid rgba(197, 160, 89, 0.4)', boxShadow: '0 12px 32px rgba(80, 60, 40, 0.15)' }}>
+                          <img
+                            src={CARD_IMAGES[activeOutsideSignatureId]}
+                            alt={outsideSignatureName}
+                            className="w-full h-full object-cover relative z-10"
+                          />
+                        </div>
+
+                        <h3 className="font-serif text-3xl font-black text-foreground mb-2" style={{ letterSpacing: '-0.02em', lineHeight: 1.15 }}>
+                          {outsideSignatureName}
+                        </h3>
+
+                        {/* Gold Diamond/Star line divider */}
+                        <div className="flex items-center justify-center gap-2.5 my-3 w-full">
+                          <div className="h-px w-16 bg-black/[0.06]" />
+                          <span className="text-[10px] text-[#c5a059] opacity-70">✦</span>
+                          <div className="h-px w-16 bg-black/[0.06]" />
+                        </div>
+
+                        {outsideSignatureCardLine && (
+                          <p className="font-sans text-[0.88rem] leading-relaxed text-muted-foreground italic px-3">
+                            "{outsideSignatureCardLine}"
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Bottom content wrapper: Integrated inspecting and inline sharing icons */}
+                      <div className="seenly-dashboard-card-actions flex items-center justify-between w-full mt-6 border-t border-black/5 pt-4 box-border">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            localStorage.setItem('seenly_selected_identity', activeOutsideSignatureId);
+                            window.location.hash = '#/identities';
+                          }}
+                          className="text-[0.78rem] font-black uppercase tracking-wider text-primary hover:text-gold flex items-center gap-1.5 transition-all duration-300 hover:translate-x-0.5"
+                          style={{ cursor: 'pointer', background: 'none', border: 'none', padding: 0 }}
+                        >
+                          <span>{langCode === 'tr' ? 'Detay Gör' : 'View Detail'}</span>
+                          <span className="text-[11px]">➔</span>
+                        </button>
+                        <span className="text-[10px] text-muted-foreground/40">✦</span>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Right Column: 10 Social Signals */}
-                  <div className="seenly-dashboard-signals-card">
-                    <h4 className="signals-title">{langCode === 'tr' ? 'Ortam Sinyalleri' : 'Outside Social Signals'}</h4>
-                    <div className="signals-list">
+                  {/* Right Column: 10 Social Signals in Grid */}
+                  <div className="seenly-dashboard-premium-card seenly-dashboard-signal-card p-8 flex flex-col rounded-[32px] flex-1">
+                    <h3 className="font-serif text-[1.4rem] font-black text-foreground tracking-tight text-center mb-2" style={{ letterSpacing: '-0.02em' }}>
+                      {langCode === 'tr' ? 'Ortam Sinyalleri' : 'Outside Social Signals'}
+                    </h3>
+
+                    {/* Gold Star line divider */}
+                    <div className="flex items-center justify-center gap-2 mb-6">
+                      <div className="h-px w-12 bg-black/[0.06]" />
+                      <span className="text-[10px] text-[#c5a059] opacity-70">✦</span>
+                      <div className="h-px w-12 bg-black/[0.06]" />
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full flex-1 justify-center py-1">
                       {get10Signals(langCode).map((sig) => (
-                        <div key={sig.key} className="signal-item">
-                          <div className="signal-label-group">
-                            <span className="signal-dot" style={{ backgroundColor: sig.color }}></span>
-                            <span className="signal-label">{sig.label}</span>
-                          </div>
-                          <div className="signal-bar-track">
-                            <div className="signal-bar-fill" style={{ width: `${sig.percentage}%`, backgroundColor: sig.color }}></div>
+                        <div
+                          key={sig.key}
+                          className="signal-card-item flex items-center gap-3.5 p-3 bg-[#fdfbf7] rounded-[20px]"
+                          style={{ border: '1.5px solid rgba(11,27,44,0.25)', boxShadow: '0 4px 16px rgba(0,0,0,0.04)', transition: 'border-color 0.25s, transform 0.25s, box-shadow 0.25s' }}
+                          onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(11,27,44,0.5)'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(11,27,44,0.07)'; }}
+                          onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(11,27,44,0.25)'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.04)'; }}
+                        >
+                          <img
+                            src={SIGNAL_ICONS[sig.key]}
+                            alt={sig.label}
+                            className="w-12 h-12 object-contain flex-shrink-0"
+                          />
+
+                          {/* Right Content Area */}
+                          <div className="flex flex-col flex-1 min-w-0 pr-1">
+                            <span className="font-serif text-[1.05rem] font-bold text-[#0b1b2c] tracking-tight text-left mb-1 truncate">
+                              {sig.label}
+                            </span>
+
+                            {/* Sleek Thin Progress Bar Track */}
+                            <div className="h-1.5 w-full bg-black/[0.03] rounded-full overflow-hidden">
+                              <div
+                                className="h-full rounded-full transition-all duration-1000"
+                                style={{
+                                  width: `${sig.percentage}%`,
+                                  backgroundColor: sig.color
+                                }}
+                              />
+                            </div>
                           </div>
                         </div>
                       ))}
@@ -483,7 +601,7 @@ export default function FriendIntroPage({ slug, onStart }) {
                   </div>
                 </>
               ) : (
-                <div className="seenly-dashboard-locked-state">
+                <div className="seenly-dashboard-locked-state" style={{ width: '100%' }}>
                   <LockedMask
                     title={t('ui', 'locked_section_title')}
                     description={langCode === 'tr'
@@ -499,71 +617,38 @@ export default function FriendIntroPage({ slug, onStart }) {
           </div>
 
           {/* Action CTA Button Section */}
-          <div style={{
-            marginTop: '3rem',
-            padding: '0 1.25rem',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            width: '100%',
-            gap: '14px',
-            boxSizing: 'border-box'
-          }}>
-            <button
-              type="button"
-              onClick={handleStart}
-              className="seenly-wizard-primary-btn"
-              style={{
-                width: '100%',
-                maxWidth: '420px',
-                borderRadius: '18px',
-                fontSize: '1.1rem',
-                fontWeight: '800',
-                padding: '1.2rem',
-                boxShadow: '0 10px 24px rgba(217, 106, 83, 0.25)',
-                backgroundColor: 'var(--color-burnt-coral)',
-                border: 'none',
-                color: '#fff',
-                cursor: 'pointer',
-                transition: 'all 0.25s ease',
-                textAlign: 'center',
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-3px)';
-                e.currentTarget.style.backgroundColor = '#e07b66';
-                e.currentTarget.style.boxShadow = '0 12px 28px rgba(217, 106, 83, 0.35)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.backgroundColor = 'var(--color-burnt-coral)';
-                e.currentTarget.style.boxShadow = '0 10px 24px rgba(217, 106, 83, 0.25)';
-              }}
-            >
-              {t('ui', 'friend_evaluate_cta')}
-            </button>
-
-            <button
-              type="button"
-              onClick={() => window.location.hash = '#/'}
-              style={{
-                background: 'transparent',
-                border: 'none',
-                color: 'var(--color-text-muted)',
-                fontFamily: 'var(--font-sans)',
-                fontSize: '0.88rem',
-                cursor: 'pointer',
-                fontWeight: 700,
-                textDecoration: 'underline',
-                transition: 'color 0.2s'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-deep-ink)'}
-              onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-text-muted)'}
-            >
-              {t('ui', 'friend_create_own_link')}
-            </button>
-          </div>
+          {!isLoggedIn && (
+            <div style={{
+              marginTop: '3.5rem',
+              padding: '0 1.25rem',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              width: '100%',
+              boxSizing: 'border-box'
+            }}>
+              <button
+                type="button"
+                onClick={() => window.location.hash = '#/'}
+                className="font-sans font-bold text-xs tracking-[0.06em] text-primary transition-all duration-200 cursor-pointer text-center uppercase"
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  padding: 0,
+                  textDecoration: 'underline',
+                  textUnderlineOffset: '4px'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = 'oklch(0.58 0.07 48)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = 'var(--primary)';
+                }}
+              >
+                {t('ui', 'friend_create_own_link')}
+              </button>
+            </div>
+          )}
 
         </div>
       </div>

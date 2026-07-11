@@ -30,47 +30,94 @@ export default function LocaleSwitch() {
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Select Language"
         style={{
-          width: '38px',
-          height: '38px',
-          borderRadius: '50%',
-          border: '1px solid rgba(11, 27, 44, 0.08)',
-          backgroundColor: '#fff',
+          height: '36px',
+          padding: '0 0.85rem',
+          borderRadius: '18px',
+          border: '1.5px solid rgba(11, 27, 44, 0.08)',
+          backgroundColor: 'rgba(255, 255, 255, 0.55)',
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
+          gap: '6px',
           cursor: 'pointer',
           color: 'var(--color-deep-ink)',
-          transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-          boxShadow: '0 2px 5px rgba(11, 27, 44, 0.02)',
-          padding: 0
+          fontFamily: 'var(--font-sans), sans-serif',
+          fontSize: '0.78rem',
+          fontWeight: '600',
+          letterSpacing: '0.04em',
+          transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+          boxShadow: '0 2px 8px rgba(11, 27, 44, 0.01)',
+          outline: 'none',
+          boxSizing: 'border-box'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.borderColor = 'rgba(217, 106, 83, 0.35)';
+          e.currentTarget.style.transform = 'translateY(-1px)';
+          e.currentTarget.style.backgroundColor = '#ffffff';
+          e.currentTarget.style.boxShadow = '0 4px 12px rgba(217, 106, 83, 0.06)';
+          const svg = e.currentTarget.querySelector('svg');
+          if (svg) svg.style.transform = 'rotate(15deg)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.borderColor = 'rgba(11, 27, 44, 0.08)';
+          e.currentTarget.style.transform = '';
+          e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.55)';
+          e.currentTarget.style.boxShadow = '0 2px 8px rgba(11, 27, 44, 0.01)';
+          const svg = e.currentTarget.querySelector('svg');
+          if (svg) svg.style.transform = '';
         }}
       >
         {/* Globe/World Icon */}
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          width="13"
+          height="13"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          style={{ transition: 'transform 0.5s ease', opacity: 0.8 }}
+        >
           <circle cx="12" cy="12" r="10" />
           <line x1="2" y1="12" x2="22" y2="12" />
           <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+        </svg>
+        <span>{locale.toUpperCase()}</span>
+        <svg
+          width="8"
+          height="8"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          style={{ opacity: 0.6, transform: isOpen ? 'rotate(180deg)' : '', transition: 'transform 0.3s ease' }}
+        >
+          <polyline points="6 9 12 15 18 9" />
         </svg>
       </button>
 
       {isOpen && (
         <div
-          className="locale-dropdown-menu"
+          className="locale-dropdown-menu paper-grain"
           style={{
             position: 'absolute',
-            top: '44px',
+            top: '42px',
             right: 0,
-            backgroundColor: '#fff',
-            border: '1px solid rgba(11, 27, 44, 0.08)',
-            borderRadius: '12px',
-            boxShadow: '0 10px 25px rgba(11, 27, 44, 0.08)',
+            backgroundColor: '#ffffff',
+            border: '1.5px solid rgba(11, 27, 44, 0.08)',
+            borderRadius: '16px',
+            boxShadow: '0 12px 30px rgba(11, 27, 44, 0.08)',
             padding: '6px',
             display: 'flex',
             flexDirection: 'column',
             gap: '4px',
             zIndex: 1000,
-            minWidth: '90px',
-            animation: 'fadeInUp 0.15s ease'
+            minWidth: '100px',
+            boxSizing: 'border-box'
           }}
         >
           <button
@@ -79,21 +126,34 @@ export default function LocaleSwitch() {
             style={{
               padding: '8px 12px',
               border: 'none',
-              borderRadius: '8px',
+              borderRadius: '10px',
               backgroundColor: locale === 'tr' ? 'rgba(217, 106, 83, 0.08)' : 'transparent',
               color: locale === 'tr' ? 'var(--color-burnt-coral)' : 'var(--color-deep-ink)',
-              fontFamily: 'var(--font-sans)',
+              fontFamily: 'var(--font-sans), sans-serif',
               fontWeight: locale === 'tr' ? '700' : '500',
-              fontSize: '0.85rem',
+              fontSize: '0.82rem',
               textAlign: 'left',
               cursor: 'pointer',
               display: 'flex',
               justifyContent: 'space-between',
-              alignItems: 'center'
+              alignItems: 'center',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              if (locale !== 'tr') e.currentTarget.style.backgroundColor = 'rgba(217, 106, 83, 0.03)';
+            }}
+            onMouseLeave={(e) => {
+              if (locale !== 'tr') e.currentTarget.style.backgroundColor = 'transparent';
             }}
           >
             <span>TR</span>
-            {locale === 'tr' && <span style={{ fontSize: '0.75rem' }}>✓</span>}
+            {locale === 'tr' && (
+              <span style={{ color: 'var(--color-burnt-coral)', display: 'flex', alignItems: 'center' }}>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </span>
+            )}
           </button>
           <button
             type="button"
@@ -101,21 +161,34 @@ export default function LocaleSwitch() {
             style={{
               padding: '8px 12px',
               border: 'none',
-              borderRadius: '8px',
+              borderRadius: '10px',
               backgroundColor: locale === 'en' ? 'rgba(217, 106, 83, 0.08)' : 'transparent',
               color: locale === 'en' ? 'var(--color-burnt-coral)' : 'var(--color-deep-ink)',
-              fontFamily: 'var(--font-sans)',
+              fontFamily: 'var(--font-sans), sans-serif',
               fontWeight: locale === 'en' ? '700' : '500',
-              fontSize: '0.85rem',
+              fontSize: '0.82rem',
               textAlign: 'left',
               cursor: 'pointer',
               display: 'flex',
               justifyContent: 'space-between',
-              alignItems: 'center'
+              alignItems: 'center',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              if (locale !== 'en') e.currentTarget.style.backgroundColor = 'rgba(217, 106, 83, 0.03)';
+            }}
+            onMouseLeave={(e) => {
+              if (locale !== 'en') e.currentTarget.style.backgroundColor = 'transparent';
             }}
           >
-            <span>ENG</span>
-            {locale === 'en' && <span style={{ fontSize: '0.75rem' }}>✓</span>}
+            <span>EN</span>
+            {locale === 'en' && (
+              <span style={{ color: 'var(--color-burnt-coral)', display: 'flex', alignItems: 'center' }}>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </span>
+            )}
           </button>
         </div>
       )}

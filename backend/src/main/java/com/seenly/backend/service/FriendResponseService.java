@@ -6,6 +6,7 @@ import com.seenly.backend.repository.SeenlyRepository;
 import com.seenly.backend.repository.ResponseSessionRepository;
 import com.seenly.backend.exception.ResourceNotFoundException;
 import com.seenly.backend.exception.FreeCapReachedException;
+import com.seenly.backend.exception.QuotaExceededException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,8 +40,18 @@ public class FriendResponseService {
             .orElseThrow(() -> new ResourceNotFoundException("Seenly not found"));
 
         // 2. Strict limit validation
-        if (seenly.isCapped() || seenly.getResponseCount() >= 12) {
-            throw new FreeCapReachedException("This Seenly has already reached its free response limit.");
+        int totalResponders = seenly.getResponseCount();
+        int totalAllowedCapacity = Integer.MAX_VALUE;
+        if (!seenly.getIsPremium()) {
+            totalAllowedCapacity = seenly.getBaseFormCapacity() + seenly.getPurchasedExtraCapacity();
+        }
+
+        if (seenly.isCapped() || totalResponders >= totalAllowedCapacity) {
+            if (!seenly.isCapped()) {
+                seenly.setCapped(true);
+                seenlyRepository.saveAndFlush(seenly);
+            }
+            throw new QuotaExceededException("This Seenly profile has reached its maximum response capacity quota.");
         }
 
         // 3. Link session to Seenly and save
@@ -50,7 +61,7 @@ public class FriendResponseService {
         // 4. Atomically increment and check if cap is reached
         int nextCount = seenly.getResponseCount() + 1;
         seenly.setResponseCount(nextCount);
-        if (nextCount >= 12) {
+        if (!seenly.getIsPremium() && nextCount >= totalAllowedCapacity) {
             seenly.setCapped(true);
         }
 

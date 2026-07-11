@@ -23,6 +23,9 @@ public class ReaderProfile {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @OneToMany(mappedBy = "readerProfile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private java.util.List<ReaderXpTransaction> xpTransactions;
+
     @Column(nullable = false)
     private int xp = 0;
 

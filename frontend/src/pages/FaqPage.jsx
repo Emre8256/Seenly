@@ -1,531 +1,362 @@
-import React, { useState } from 'react';
+import React, { memo, useCallback, useMemo, useState } from 'react';
 import { useLocale } from '../context/LocaleContext';
 import AppShell from '../components/AppShell';
 import faqIllustration from '../images/faq_contact_illustration.png';
+import { WatercolorStain } from '../components/marks';
+
+const FaqAccordionItem = memo(function FaqAccordionItem({ item, isOpen, onToggle }) {
+  return (
+    <div
+      className="w-full box-border mb-4 faq-accordion-card"
+      style={{
+        borderRadius: '24px',
+        border: '1px solid rgba(255, 255, 255, 0.55)',
+        background: isOpen ? 'rgba(254, 252, 247, 0.72)' : 'rgba(254, 252, 247, 0.42)',
+        boxShadow: isOpen
+          ? '0 12px 32px rgba(11, 27, 44, 0.035), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
+          : '0 6px 18px rgba(11, 27, 44, 0.015), inset 0 1px 0 rgba(255, 255, 255, 0.6)',
+        padding: '1.25rem 1.5rem',
+        cursor: 'pointer',
+        contain: 'layout paint',
+        contentVisibility: 'auto',
+        containIntrinsicSize: '86px'
+      }}
+      onClick={() => onToggle(item.id)}
+    >
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          userSelect: 'none',
+          background: 'transparent',
+          width: '100%',
+          border: 'none',
+          textAlign: 'left',
+          outline: 'none',
+          padding: 0,
+          gap: '1rem'
+        }}
+      >
+        <h3 className={`font-sans font-bold text-base transition-colors duration-200 m-0 ${isOpen ? 'text-[#d96a53]' : 'text-foreground hover:text-[#d96a53]'}`}>
+          {item.question}
+        </h3>
+        <div
+          className={`w-6 h-6 flex items-center justify-center transition-transform duration-200 ${isOpen ? 'text-[#d96a53] rotate-180' : 'text-muted-foreground'}`}
+          style={{ flexShrink: 0 }}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </div>
+      </div>
+
+      {isOpen && (
+        <div className="faq-answer-reveal font-sans text-[0.92rem] text-muted-foreground leading-relaxed pt-3 text-left">
+          {item.answer}
+        </div>
+      )}
+    </div>
+  );
+});
 
 export default function FaqPage() {
   const { t, faq } = useLocale();
   const [expandedId, setExpandedId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const toggleItem = (id) => {
+  const toggleItem = useCallback((id) => {
     setExpandedId(prev => prev === id ? null : id);
-  };
+  }, []);
 
   const handleStartQuiz = () => {
+    sessionStorage.setItem('seenly_currentIndex', '-2');
+    sessionStorage.setItem('seenly_isQuickLogin', 'false');
     window.location.hash = '#/';
   };
 
-  const handleGoHome = () => {
+  const handleLoginClick = () => {
+    sessionStorage.setItem('seenly_currentIndex', '-5');
+    sessionStorage.setItem('seenly_isQuickLogin', 'true');
     window.location.hash = '#/';
   };
+
+  const filteredFaq = useMemo(() => (faq || []).filter(item => {
+    const q = searchQuery.toLowerCase().trim();
+    if (!q) return true;
+    return (
+      item.question.toLowerCase().includes(q) ||
+      item.answer.toLowerCase().includes(q)
+    );
+  }), [faq, searchQuery]);
+
+  const isLoggedIn = Boolean(localStorage.getItem('seenly_owner_token'));
+  const langCode = t('lang_code') || 'tr';
 
   return (
-    <AppShell isLanding={true}>
-      <div className="faq-page-wrapper">
-        <div className="faq-container">
-          
-          {/* Top Section: Contact Us (Bize Ulaşın) */}
-          <section className="contact-hero">
-            <div className="contact-image-wrapper">
-              <div className="contact-image-card">
-                <img 
-                  src={faqIllustration} 
-                  alt="Contact Illustration" 
-                  className="contact-image-element"
+    <AppShell isDashboard={true}>
+      <div className="relative overflow-x-clip">
+      {/* Page-level watercolor stains */}
+      <WatercolorStain
+        name="faq-bg-peach"
+        hue="peach"
+        seed={11}
+        intensity={0.14}
+        className="absolute left-[-12%] top-[10%] h-[32rem] w-[32rem] pointer-events-none z-0"
+      />
+      <WatercolorStain
+        name="faq-bg-lilac"
+        hue="lilac"
+        seed={19}
+        intensity={0.11}
+        className="absolute right-[-10%] top-[45%] h-[30rem] w-[30rem] pointer-events-none z-0"
+      />
+      <WatercolorStain
+        name="faq-bg-clay"
+        seed={7}
+        hue="clay"
+        intensity={0.09}
+        className="absolute left-[-10%] bottom-[15%] h-[28rem] w-[28rem] pointer-events-none z-0"
+      />
+
+      <main className="pt-32 pb-24 relative z-10 box-border w-full flex justify-center">
+        <div className="w-full max-w-[1080px] px-6 md:px-10 box-border flex flex-col gap-16">
+
+          {/* Top Section: Contact Us (Bizimle İletişime Geçin) */}
+          <section className="flex flex-col md:flex-row items-center gap-12 lg:gap-16 w-full box-border py-4 relative z-10">
+
+            {/* Left Column: Organic Mask Image Frame (Reverted, fits perfectly with no white borders/padding) */}
+            <div className="flex flex-col items-center w-full max-w-[320px] md:max-w-[360px] z-10">
+              <div className="relative w-full aspect-[4/5] overflow-hidden shadow-contact border border-transparent p-0 bg-transparent mask-organic-1 transition-transform duration-700 hover:scale-[1.02]">
+                <WatercolorStain
+                  name={`faq-hero-bg`}
+                  hue="lilac"
+                  seed={12}
+                  intensity={0.24}
+                  className="absolute inset-0 h-full w-full opacity-60 scale-110 pointer-events-none z-0"
+                />
+                <img
+                  src={faqIllustration}
+                  alt="Contact Illustration"
+                  className="soft-image-edge w-full h-full object-cover relative z-10 mask-organic-1"
                 />
               </div>
             </div>
-            
-            <div className="contact-info-panel">
-              <span className="contact-badge">{t('ui', 'faq_contact_label') || 'Bize Ulaşın'}</span>
-              <h1 className="contact-title">{t('ui', 'faq_contact_title')}</h1>
-              <p className="contact-description">
-                {t('ui', 'faq_contact_desc')}
+
+            {/* Right Column: Title, Divider and Description */}
+            <div className="flex-1 flex flex-col items-start gap-4 text-left md:pl-4">
+              <h1 className="font-heading text-4xl sm:text-5xl md:text-[3.5rem] font-bold text-foreground m-0 leading-[1.1] tracking-tight">
+                {t('ui', 'faq_contact_title') || 'Bizimle İletişime Geçin'}
+              </h1>
+              <div className="h-0.5 w-16 bg-gold/50 my-1" />
+              <p className="font-sans text-sm sm:text-base text-muted-foreground leading-relaxed m-0 max-w-xl">
+                {t('ui', 'faq_contact_desc') || 'Sorularınız, önerileriniz veya geri bildirimleriniz için bize her zaman ulaşabilirsiniz. Sizinle konuşmaktan mutluluk duyarız.'}
               </p>
-              
-              <div className="contact-action-box">
-                <a href="mailto:hello@seenly.co" className="contact-option-card">
-                  <div className="contact-icon-wrapper">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+
+              {/* Action Badges Row */}
+              <div className="w-full flex flex-wrap items-center gap-6 mt-8 pt-8 border-t border-black/5">
+                
+                {/* Email Action */}
+                <a href="mailto:hello@seenly.co" className="flex items-center gap-3.5 hover:opacity-85 transition-opacity text-decoration-none group">
+                  <div className="w-12 h-12 rounded-full bg-[#f4eedb] border border-white/60 flex items-center justify-center text-foreground group-hover:scale-105 transition-transform duration-300 shadow-sm">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                       <polyline points="22,6 12,13 2,6" />
                     </svg>
                   </div>
-                  <div className="contact-details">
-                    <span className="contact-label">{t('ui', 'faq_contact_email_title') || 'E-posta Adresimiz'}</span>
-                    <span className="contact-value">hello@seenly.co</span>
+                  <div className="flex flex-col text-left">
+                    <span className="text-[9px] text-muted-foreground font-mono uppercase tracking-[0.16em] font-bold">
+                      {t('ui', 'faq_contact_email_title') || 'DOĞRUDAN E-POSTA GÖNDERİN'}
+                    </span>
+                    <span className="text-base font-bold text-foreground">hello@seenly.co</span>
                   </div>
                 </a>
-                
-                <div className="contact-socials-row">
-                  <a href="https://instagram.com/seenly.co" target="_blank" rel="noopener noreferrer" className="contact-social-btn" aria-label="Instagram">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                    </svg>
-                    <span>Instagram</span>
-                  </a>
-                  <a href="https://tiktok.com/@seenly.co" target="_blank" rel="noopener noreferrer" className="contact-social-btn" aria-label="TikTok">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
-                    </svg>
-                    <span>TikTok</span>
-                  </a>
-                </div>
+
+                {/* Vertical Divider */}
+                <div className="hidden sm:block h-8 w-px bg-black/10" />
+
+                {/* Instagram Action */}
+                <a href="https://instagram.com/seenly.co" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-[#f4eedb] border border-white/60 flex items-center justify-center text-foreground hover:scale-105 transition-transform duration-300 shadow-sm" aria-label="Instagram">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                  </svg>
+                </a>
+
+                {/* Vertical Divider */}
+                <div className="hidden sm:block h-8 w-px bg-black/10" />
+
+                {/* TikTok Action */}
+                <a href="https://tiktok.com/@seenly.co" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-[#f4eedb] border border-white/60 flex items-center justify-center text-foreground hover:scale-105 transition-transform duration-300 shadow-sm" aria-label="TikTok">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+                  </svg>
+                </a>
+
               </div>
             </div>
           </section>
 
-          {/* Elegant transition divider */}
-          <div className="elegant-divider"></div>
+          {/* Sıkça Sorulan Sorular Section - Spacious Free Layout */}
+          <section className="flex flex-col gap-8 w-full box-border pt-12 border-t border-black/5">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+              <div className="text-left flex flex-col items-start">
+                <h2 className="font-serif text-3xl md:text-4xl font-black text-foreground m-0 leading-tight">
+                  {t('ui', 'faq_title')}
+                </h2>
+                <p className="font-sans text-sm text-muted-foreground mt-2 leading-relaxed max-w-lg m-0">
+                  {t('ui', 'faq_subtitle')}
+                </p>
+              </div>
 
-          {/* Bottom Section: Sıkça Sorulan Sorular */}
-          <section className="faq-section-wrapper">
-            <div className="faq-header">
-              <h2 className="faq-section-title">{t('ui', 'faq_title')}</h2>
-              <p className="faq-section-subtitle">{t('ui', 'faq_subtitle')}</p>
+              {/* Search Bar Input */}
+              <div style={{
+                position: 'relative',
+                maxWidth: '380px',
+                width: '100%',
+                boxSizing: 'border-box'
+              }}>
+                <input
+                  type="text"
+                  placeholder={t('ui', 'faq_search_placeholder') || 'Soru veya cevap ara...'}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '0.75rem 1.25rem 0.75rem 2.85rem',
+                    borderRadius: '9999px',
+                    border: '1px solid rgba(255, 255, 255, 0.6)',
+                    fontSize: '0.88rem',
+                    fontFamily: 'var(--font-sans), sans-serif',
+                    color: 'var(--color-deep-ink)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.42)',
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    outline: 'none',
+                    transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                    boxShadow: '0 8px 24px rgba(11, 27, 44, 0.015), inset 0 1px 0 rgba(255, 255, 255, 0.5)',
+                    boxSizing: 'border-box'
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = 'var(--peach)';
+                    e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
+                    e.target.style.boxShadow = '0 0 0 4px rgba(217, 106, 83, 0.12)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = 'rgba(255, 255, 255, 0.6)';
+                    e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.42)';
+                    e.target.style.boxShadow = '0 8px 24px rgba(11, 27, 44, 0.015), inset 0 1px 0 rgba(255, 255, 255, 0.5)';
+                  }}
+                />
+                <div style={{
+                  position: 'absolute',
+                  left: '1.1rem',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  color: 'var(--color-text-muted)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  pointerEvents: 'none'
+                }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </svg>
+                </div>
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    style={{
+                      position: 'absolute',
+                      right: '1rem',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      background: 'none',
+                      border: 'none',
+                      color: 'var(--color-text-muted)',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      padding: 0
+                    }}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                  </button>
+                )}
+              </div>
             </div>
 
-            <div className="faq-accordion">
-              {(faq || []).map((item) => {
-                const isOpen = expandedId === item.id;
-                return (
-                  <div 
-                    key={item.id} 
-                    className={`faq-accordion-item ${isOpen ? 'open' : ''}`}
-                  >
-                    <button 
-                      className="faq-item-header"
-                      onClick={() => toggleItem(item.id)}
-                      aria-expanded={isOpen}
-                    >
-                      <h3 className="faq-question">{item.question}</h3>
-                      <div className="faq-toggle-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="6 9 12 15 18 9" />
-                        </svg>
-                      </div>
-                    </button>
-                    
-                    <div style={{
-                      display: 'grid',
-                      gridTemplateRows: isOpen ? '1fr' : '0fr',
-                      transition: 'grid-template-rows 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
-                      overflow: 'hidden'
-                    }}>
-                      <div style={{ minHeight: 0 }}>
-                        <div className="faq-answer-inner">
-                          {item.answer}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+            {/* Accordion List - Styled as glassmorphic panels */}
+            <div className="flex flex-col w-full box-border mt-4">
+              {filteredFaq.length > 0 ? (
+                filteredFaq.map((item) => {
+                  const isOpen = expandedId === item.id;
+                  return (
+                    <FaqAccordionItem
+                      key={item.id}
+                      item={item}
+                      isOpen={isOpen}
+                      onToggle={toggleItem}
+                    />
+                  );
+                })
+              ) : (
+                <div style={{
+                  textAlign: 'center',
+                  padding: '3rem 1.5rem',
+                  background: 'rgba(255, 255, 255, 0.45)',
+                  borderRadius: '24px',
+                  border: '1px dashed rgba(11, 27, 44, 0.1)'
+                }}>
+                  <p style={{
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '0.88rem',
+                    color: 'var(--color-text-muted)',
+                    margin: 0
+                  }}>
+                    {t('ui', 'faq_no_results') || 'Aramanızla eşleşen bir soru bulunamadı.'}
+                  </p>
+                </div>
+              )}
             </div>
           </section>
 
-
-
         </div>
-      </div>
-      
+      </main>
       <style>{`
-        .app-shell.landing-layout {
-          background-image: none !important;
-          background-color: #F8E6D9 !important;
+        .faq-accordion-card {
+          transition: background-color 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
         }
 
-        @keyframes float {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(-8px); }
-          100% { transform: translateY(0px); }
+        .faq-answer-reveal {
+          animation: faqAnswerReveal 140ms ease-out both;
         }
 
-        .faq-page-wrapper {
-          background-color: #F8E6D9;
-          min-height: 100vh;
-          padding: 8.5rem 1.5rem 4rem 1.5rem;
-          animation: fadeIn 0.6s ease-out;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          box-sizing: border-box;
-        }
-
-        .faq-container {
-          width: 100%;
-          max-width: 900px;
-          margin: 0 auto;
-          display: flex;
-          flex-direction: column;
-          gap: 4rem;
-        }
-
-        /* Contact Us Section Styles */
-        .contact-hero {
-          display: grid;
-          grid-template-columns: 1fr 1.2fr;
-          gap: 3rem;
-          align-items: center;
-          background: rgba(255, 255, 255, 0.45);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.6);
-          border-radius: 32px;
-          padding: 2.5rem;
-          box-shadow: 0 20px 40px rgba(11, 27, 44, 0.02);
-        }
-
-        @media (max-width: 768px) {
-          .contact-hero {
-            grid-template-columns: 1fr;
-            gap: 2rem;
-            padding: 2rem 1.5rem;
-            text-align: center;
+        @keyframes faqAnswerReveal {
+          from {
+            opacity: 0;
+            transform: translateY(-2px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
           }
         }
 
-        .contact-image-wrapper {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        .contact-image-card {
-          width: 100%;
-          max-width: 320px;
-          border-radius: 24px;
-          overflow: hidden;
-          box-shadow: 0 12px 30px rgba(11, 27, 44, 0.05);
-          border: 4px solid #ffffff;
-          animation: float 6s ease-in-out infinite;
-          background: #ffffff;
-          line-height: 0;
-        }
-
-        .contact-image-element {
-          width: 100%;
-          height: auto;
-          display: block;
-          object-fit: cover;
-          transition: transform 0.5s ease;
-        }
-
-        .contact-image-card:hover .contact-image-element {
-          transform: scale(1.04);
-        }
-
-        .contact-info-panel {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 1.25rem;
-        }
-
-        @media (max-width: 768px) {
-          .contact-info-panel {
-            align-items: center;
+        @media (prefers-reduced-motion: reduce) {
+          .faq-accordion-card,
+          .faq-answer-reveal,
+          .faq-accordion-card * {
+            animation: none !important;
+            transition: none !important;
           }
-        }
-
-        .contact-badge {
-          background: rgba(217, 106, 83, 0.08);
-          color: var(--color-burnt-coral);
-          padding: 0.4rem 1.1rem;
-          border-radius: 100px;
-          font-weight: 700;
-          font-size: 0.8rem;
-          letter-spacing: 0.06em;
-          text-transform: uppercase;
-        }
-
-        .contact-title {
-          font-family: var(--font-serif);
-          font-size: clamp(1.8rem, 4vw, 2.5rem);
-          color: var(--color-deep-ink);
-          font-weight: 900;
-          line-height: 1.15;
-          margin: 0;
-          letter-spacing: -0.01em;
-        }
-
-        .contact-description {
-          font-size: 1.05rem;
-          line-height: 1.6;
-          color: var(--color-text-muted);
-          margin: 0;
-        }
-
-        .contact-action-box {
-          width: 100%;
-          margin-top: 0.5rem;
-          display: flex;
-          flex-direction: column;
-          gap: 0.75rem;
-        }
-
-        @media (max-width: 768px) {
-          .contact-action-box {
-            align-items: center;
-          }
-        }
-
-        .contact-socials-row {
-          display: flex;
-          gap: 12px;
-          margin-top: 0.5rem;
-        }
-
-        @media (max-width: 768px) {
-          .contact-socials-row {
-            justify-content: center;
-          }
-        }
-
-        .contact-social-btn {
-          flex: 1;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          background: #ffffff;
-          border: 1px solid rgba(11, 27, 44, 0.05);
-          border-radius: 16px;
-          padding: 0.75rem 1rem;
-          text-decoration: none;
-          color: var(--color-deep-ink);
-          font-weight: 700;
-          font-size: 0.95rem;
-          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-          box-shadow: 0 4px 12px rgba(11, 27, 44, 0.01);
-          font-family: var(--font-sans), sans-serif;
-        }
-
-        .contact-social-btn:hover {
-          background: var(--color-burnt-coral);
-          color: #ffffff;
-          border-color: var(--color-burnt-coral);
-          transform: translateY(-2px);
-          box-shadow: 0 8px 20px rgba(217, 106, 83, 0.15);
-        }
-
-        .contact-social-btn svg {
-          transition: transform 0.3s ease;
-        }
-
-        .contact-social-btn:hover svg {
-          transform: scale(1.1);
-        }
-
-        .contact-option-card {
-          display: flex;
-          align-items: center;
-          gap: 1.25rem;
-          background: #ffffff;
-          border: 1px solid rgba(11, 27, 44, 0.05);
-          border-radius: 20px;
-          padding: 1rem 1.5rem;
-          text-decoration: none;
-          color: inherit;
-          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-          box-shadow: 0 4px 12px rgba(11, 27, 44, 0.01);
-          width: 100%;
-          max-width: 420px;
-          box-sizing: border-box;
-        }
-
-        .contact-option-card:hover {
-          transform: translateY(-3px);
-          border-color: var(--color-burnt-coral);
-          box-shadow: 0 12px 24px rgba(217, 106, 83, 0.08);
-        }
-
-        .contact-icon-wrapper {
-          width: 44px;
-          height: 44px;
-          border-radius: 12px;
-          background: rgba(217, 106, 83, 0.06);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: var(--color-burnt-coral);
-          transition: all 0.3s ease;
-        }
-
-        .contact-option-card:hover .contact-icon-wrapper {
-          background: var(--color-burnt-coral);
-          color: #ffffff;
-          transform: scale(1.05);
-        }
-
-        .contact-details {
-          display: flex;
-          flex-direction: column;
-          text-align: left;
-        }
-
-        .contact-label {
-          font-size: 0.75rem;
-          color: var(--color-text-muted);
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.04em;
-        }
-
-        .contact-value {
-          font-size: 1.15rem;
-          font-weight: 800;
-          color: var(--color-deep-ink);
-          letter-spacing: -0.01em;
-        }
-
-        /* Elegant Section Divider */
-        .elegant-divider {
-          height: 1px;
-          background: linear-gradient(90deg, rgba(217, 106, 83, 0) 0%, rgba(217, 106, 83, 0.2) 50%, rgba(217, 106, 83, 0) 100%);
-          position: relative;
-          width: 100%;
-          margin: 0.5rem 0;
-        }
-
-        .elegant-divider::after {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: var(--color-burnt-coral);
-          border: 3px solid #F8E6D9;
-        }
-
-        /* FAQ Section Styles */
-        .faq-section-wrapper {
-          display: flex;
-          flex-direction: column;
-          gap: 2.5rem;
-          width: 100%;
-        }
-
-        .faq-header {
-          text-align: center;
-        }
-
-        .faq-section-title {
-          font-family: var(--font-serif);
-          font-size: clamp(1.8rem, 4vw, 2.5rem);
-          font-weight: 900;
-          color: var(--color-deep-ink);
-          margin: 0 0 0.5rem 0;
-          letter-spacing: -0.01em;
-        }
-
-        .faq-section-subtitle {
-          font-size: 1.05rem;
-          color: var(--color-text-muted);
-          max-width: 600px;
-          margin: 0 auto;
-          line-height: 1.5;
-        }
-
-        .faq-accordion {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-          width: 100%;
-        }
-
-        .faq-accordion-item {
-          background: #ffffff;
-          border: 1px solid rgba(11, 27, 44, 0.05);
-          border-radius: 20px;
-          overflow: hidden;
-          box-shadow: 0 2px 8px rgba(11, 27, 44, 0.01);
-          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .faq-accordion-item:hover {
-          transform: translateY(-2px);
-          border-color: rgba(217, 106, 83, 0.12);
-          box-shadow: 0 8px 20px rgba(11, 27, 44, 0.02);
-        }
-
-        .faq-accordion-item.open {
-          border-color: rgba(217, 106, 83, 0.2);
-          box-shadow: 0 12px 28px rgba(11, 27, 44, 0.04);
-        }
-
-        .faq-item-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 1.5rem 2rem;
-          cursor: pointer;
-          user-select: none;
-          background: transparent;
-          width: 100%;
-          border: none;
-          text-align: left;
-          outline: none;
-          gap: 1.5rem;
-        }
-
-        .faq-question {
-          font-size: 1.1rem;
-          font-weight: 700;
-          color: var(--color-deep-ink);
-          margin: 0;
-          line-height: 1.4;
-          transition: color 0.3s ease;
-          font-family: var(--font-sans), sans-serif;
-        }
-
-        .faq-accordion-item.open .faq-question {
-          color: var(--color-burnt-coral);
-        }
-
-        .faq-toggle-icon {
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          background: rgba(11, 27, 44, 0.03);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: var(--color-text-muted);
-          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-          flex-shrink: 0;
-        }
-
-        .faq-accordion-item:hover .faq-toggle-icon {
-          background: rgba(217, 106, 83, 0.08);
-          color: var(--color-burnt-coral);
-        }
-
-        .faq-accordion-item.open .faq-toggle-icon {
-          background: var(--color-burnt-coral);
-          color: #ffffff;
-          transform: rotate(180deg);
-        }
-
-        .faq-answer-inner {
-          padding: 0 2.25rem 1.5rem 2.25rem;
-          font-size: 1rem;
-          line-height: 1.65;
-          color: var(--color-text-muted);
-        }
-
-
-
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
+      </div>
     </AppShell>
   );
 }

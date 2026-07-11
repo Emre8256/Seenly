@@ -42,10 +42,13 @@ const translations = {
 const LocaleContext = createContext();
 
 export function LocaleProvider({ children }) {
-  const [locale, setLocale] = useState('tr'); // Default locale is Turkish
+  const [locale, setLocale] = useState(() => {
+    return localStorage.getItem('seenly_locale') || 'tr';
+  });
 
   useEffect(() => {
     document.documentElement.lang = locale;
+    localStorage.setItem('seenly_locale', locale);
   }, [locale]);
 
   /**
