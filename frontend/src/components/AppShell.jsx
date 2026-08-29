@@ -3,12 +3,15 @@ import LocaleSwitch from './LocaleSwitch';
 import { useLocale } from '../context/LocaleContext';
 import { SiteHeader } from './site-header';
 import { SiteFooter } from './site-footer';
+import { getAvatarSrc } from '../images/avatars';
 
 export default function AppShell({ children, isLanding = false, isDashboard = false, onStartClick, showLogout = true, footerMode = 'standard', userName = 'Panelim' }) {
-  const { t } = useLocale();
+  const { t, locale: langCode } = useLocale();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const userAvatar = localStorage.getItem('seenly_avatar') || sessionStorage.getItem('seenly_avatar');
+  const avatarSrc = getAvatarSrc(userAvatar);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,7 +23,9 @@ export default function AppShell({ children, isLanding = false, isDashboard = fa
   }, []);
 
   const isLoggedIn = Boolean(localStorage.getItem('seenly_owner_token'));
-  const displayName = userName || localStorage.getItem('seenly_display_name') || sessionStorage.getItem('seenly_displayName') || 'Panelim';
+  const displayName = (userName && userName !== 'Panelim')
+    ? userName
+    : (localStorage.getItem('seenly_display_name') || sessionStorage.getItem('seenly_displayName') || t('ui', 'nav_dashboard') || 'Panelim');
 
   const handleSmoothScroll = (e, targetId) => {
     if (isDashboard || window.location.hash.startsWith('#/identities') || window.location.hash.startsWith('#/faq') || window.location.hash.startsWith('#/plans')) {
@@ -59,7 +64,7 @@ export default function AppShell({ children, isLanding = false, isDashboard = fa
   if (isDashboard) {
     return (
       <div className="app-shell dashboard-layout min-h-screen text-foreground" style={{ position: 'relative', background: 'transparent' }}>
-        <SiteHeader onStartClick={handleStartQuizClick} onLoginClick={handleLoginClick} hideHowItWorks />
+        <SiteHeader onStartClick={handleStartQuizClick} onLoginClick={handleLoginClick} hideHowItWorks={isLoggedIn} />
         <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           {children}
         </main>
@@ -99,7 +104,7 @@ export default function AppShell({ children, isLanding = false, isDashboard = fa
                 href={isDashboard ? "#/dashboard" : "#/"}
                 onClick={isDashboard ? undefined : handleStartQuizClick}
               >
-                {isDashboard ? 'Panelim' : t('ui', 'nav_start')}
+                {isDashboard ? (t('ui', 'nav_dashboard') || 'Panelim') : t('ui', 'nav_start')}
               </a>
               <a
                 href="#nasil-calisir"
@@ -141,25 +146,139 @@ export default function AppShell({ children, isLanding = false, isDashboard = fa
             {/* Right: Language switch / Mobile Hamburger */}
             <div className="header-actions">
               {isDashboard && showLogout && (
-                <div className="seenly-user-menu">
+                <div className="relative">
                   <button
                     type="button"
                     onClick={() => setUserMenuOpen(prev => !prev)}
-                    className="seenly-user-menu-trigger"
+                    style={{
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '50%',
+                      border: '1.5px solid rgba(11, 27, 44, 0.08)',
+                      backgroundColor: 'rgba(255, 255, 255, 0.55)',
+                      backdropFilter: 'blur(8px)',
+                      WebkitBackdropFilter: 'blur(8px)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'var(--color-deep-ink)',
+                      boxShadow: '0 2px 8px rgba(11, 27, 44, 0.01)',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                      padding: 0,
+                      outline: 'none',
+                      boxSizing: 'border-box'
+                    }}
                     aria-expanded={userMenuOpen}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = 'rgba(217, 106, 83, 0.35)';
+                      e.currentTarget.style.transform = 'translateY(-1px)';
+                      e.currentTarget.style.backgroundColor = '#ffffff';
+                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(217, 106, 83, 0.06)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = 'rgba(11, 27, 44, 0.08)';
+                      e.currentTarget.style.transform = '';
+                      e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.55)';
+                      e.currentTarget.style.boxShadow = '0 2px 8px rgba(11, 27, 44, 0.01)';
+                    }}
                   >
-                    <span className="seenly-user-menu-icon" aria-hidden="true">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    {avatarSrc ? (
+                      <img
+                        src={avatarSrc}
+                        alt={displayName}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          borderRadius: '50%',
+                          objectFit: 'cover'
+                        }}
+                      />
+                    ) : (
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                         <circle cx="12" cy="7" r="4" />
                       </svg>
-                    </span>
-                    <span>{displayName}</span>
+                    )}
                   </button>
                   {userMenuOpen && (
-                    <div className="seenly-user-menu-panel">
+                    <div className="seenly-user-menu-panel" style={{ minWidth: '190px', padding: '10px', right: 0 }}>
+                      <div style={{ 
+                        padding: '4px 10px 8px 10px', 
+                        marginBottom: '6px', 
+                        borderBottom: '1px solid rgba(11, 27, 44, 0.08)', 
+                        fontFamily: 'var(--font-serif)', 
+                        fontWeight: '700', 
+                        fontSize: '1.05rem',
+                        color: 'var(--color-deep-ink)',
+                        textAlign: 'left',
+                        wordBreak: 'break-word',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px'
+                      }}>
+                        {avatarSrc && (
+                          <img
+                            src={avatarSrc}
+                            alt={displayName}
+                            style={{
+                              width: '26px',
+                              height: '26px',
+                              borderRadius: '50%',
+                              objectFit: 'cover',
+                              border: '1.5px solid rgba(197, 160, 89, 0.4)',
+                              flexShrink: 0
+                            }}
+                          />
+                        )}
+                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          {displayName}
+                        </span>
+                      </div>
                       <button
                         type="button"
+                        style={{ width: '100%', textAlign: 'left', padding: '7px 8px', fontSize: '0.84rem', fontWeight: '600' }}
+                        onClick={() => {
+                          setUserMenuOpen(false);
+                          window.location.hash = '#/settings?tab=profile';
+                        }}
+                      >
+                        {langCode === 'tr' ? 'Profil' : 'Profile'}
+                      </button>
+                      <button
+                        type="button"
+                        style={{ width: '100%', textAlign: 'left', padding: '7px 8px', fontSize: '0.84rem', fontWeight: '600' }}
+                        onClick={() => {
+                          setUserMenuOpen(false);
+                          window.location.hash = '#/settings?tab=plans';
+                        }}
+                      >
+                        {langCode === 'tr' ? 'Üyelik' : 'Membership'}
+                      </button>
+                      <button
+                        type="button"
+                        style={{ width: '100%', textAlign: 'left', padding: '7px 8px', fontSize: '0.84rem', fontWeight: '600' }}
+                        onClick={() => {
+                          setUserMenuOpen(false);
+                          window.location.hash = '#/settings?tab=notifications';
+                        }}
+                      >
+                        {langCode === 'tr' ? 'Bildirimler' : 'Notifications'}
+                      </button>
+                      <button
+                        type="button"
+                        style={{ width: '100%', textAlign: 'left', padding: '7px 8px', fontSize: '0.84rem', fontWeight: '600' }}
+                        onClick={() => {
+                          setUserMenuOpen(false);
+                          window.location.hash = '#/dashboard';
+                        }}
+                      >
+                        {langCode === 'tr' ? 'Panelim' : 'Dashboard'}
+                      </button>
+                      <div style={{ height: '1px', backgroundColor: 'rgba(11, 27, 44, 0.08)', margin: '4px 0' }} />
+                      <button
+                        type="button"
+                        style={{ width: '100%', textAlign: 'left', padding: '6px 8px', fontSize: '0.82rem', color: 'var(--color-text-muted)', fontWeight: '500' }}
                         onClick={() => {
                           localStorage.removeItem('seenly_owner_token');
                           localStorage.removeItem('seenly_display_name');
@@ -168,7 +287,7 @@ export default function AppShell({ children, isLanding = false, isDashboard = fa
                           window.location.hash = '#/';
                         }}
                       >
-                        {t('ui', 'nav_logout') || 'Log Out'}
+                        {langCode === 'tr' ? 'Çıkış Yap' : 'Log Out'}
                       </button>
                     </div>
                   )}

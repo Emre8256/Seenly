@@ -8,30 +8,28 @@ export function Pricing({ onStartClick }) {
   const plans = [
     {
       name: t("ui", "landing_pricing_p1_name") || "Ücretsiz",
-      price: locale === 'tr' ? "0₺" : "Free",
+      price: "$0",
       period: locale === 'tr' ? "her zaman" : "always",
-      description: t("ui", "landing_pricing_p1_desc") || "Seenly'nin temel vaadini baştan sona deneyimle. Sonucun rehin alınmaz.",
+      description: t("ui", "landing_pricing_p1_desc") || "Sosyal profilinizi oluşturun ve temel algı analizini ücretsiz edinin.",
       features: [
         t("ui", "landing_pricing_p1_f1") || "Self Değerlendirmesi & Self Kartı",
         t("ui", "landing_pricing_p1_f2") || "Temel Sonuçlar ve Güvenli Paylaşım",
         t("ui", "landing_pricing_p1_f3") || "Maksimum 100 Katılımcı Kapasitesi",
         t("ui", "landing_pricing_p1_f4") || "Temel Gap Analizi",
       ],
-      cta: t("ui", "landing_start_cta") || "Kendi Seenly'ni başlat",
       highlighted: false,
     },
     {
       name: t("ui", "landing_pricing_p2_name") || "Seenly Deep Report",
-      price: locale === 'tr' ? "Tek seferlik" : "One-time",
-      period: locale === 'tr' ? "abonelik yok" : "no subscription",
-      description: t("ui", "landing_pricing_p2_desc") || "Daha fazla ham veri değil; daha derin anlamlandırma ve tekrar kullanılabilir bir rapor.",
+      price: "$2.99",
+      period: locale === 'tr' ? "tek seferlik" : "one-time",
+      description: t("ui", "landing_pricing_p2_desc") || "Detaylı ziyaretçi istatistikleri, soru zaman analizleri ve derinlemesine algı raporu.",
       features: [
         t("ui", "landing_pricing_p2_f1") || "Sınırsız Katılımcı Kapasitesi",
         t("ui", "landing_pricing_p2_f2") || "Detaylı Profil Ziyareti Ölçümü",
         t("ui", "landing_pricing_p2_f3") || "Soruda Geçirilen Zaman Analizi",
         t("ui", "landing_pricing_p2_f4") || "Gelen Analizleri Tek Tek Detaylı İnceleme",
       ],
-      cta: locale === 'tr' ? "Deep Report'u keşfet" : "Explore Deep Report",
       highlighted: true,
     },
   ]
@@ -61,13 +59,15 @@ export function Pricing({ onStartClick }) {
           </p>
         </Reveal>
 
-        <div className="mx-auto mt-16 grid max-w-4xl gap-px overflow-hidden rounded-2xl border border-border/70 bg-border/70 md:grid-cols-2">
+        <div className="mx-auto mt-16 grid max-w-4xl gap-8 md:grid-cols-2">
           {plans.map((plan, i) => (
             <Reveal
               key={plan.name}
               delay={i * 140}
-              className={`flex flex-col p-9 sm:p-10 ${
-                plan.highlighted ? "bg-primary text-primary-foreground" : "bg-background"
+              className={`flex flex-col p-7 sm:p-10 rounded-2xl border ${
+                plan.highlighted
+                  ? "bg-primary text-primary-foreground border-primary/20"
+                  : "bg-card text-foreground border-border/70"
               }`}
             >
               <div className="flex items-baseline justify-between gap-3">
@@ -84,7 +84,7 @@ export function Pricing({ onStartClick }) {
               </div>
 
               <p
-                className={`mt-4 font-heading text-2xl font-medium ${plan.highlighted ? "text-primary-foreground" : "text-foreground"}`}
+                className={`mt-4 font-heading text-4xl font-normal tracking-tight ${plan.highlighted ? "text-primary-foreground" : "text-foreground"}`}
               >
                 {plan.price}
               </p>
@@ -94,15 +94,21 @@ export function Pricing({ onStartClick }) {
                 {plan.description}
               </p>
 
-              <ul className="mt-7 flex-1 space-y-3.5">
+              <ul className="mt-8 space-y-4">
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex items-start gap-3">
-                    <span
+                    <svg
                       aria-hidden="true"
-                      className={`mt-2 h-1 w-1 shrink-0 rounded-full ${
-                        plan.highlighted ? "bg-peach" : "bg-clay"
+                      className={`h-5 w-5 shrink-0 mt-0.5 ${
+                        plan.highlighted ? "text-peach" : "text-clay"
                       }`}
-                    />
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2.5}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
                     <span
                       className={`text-[0.95rem] leading-relaxed ${plan.highlighted ? "text-primary-foreground/90" : "text-foreground/85"}`}
                     >
@@ -111,33 +117,10 @@ export function Pricing({ onStartClick }) {
                   </li>
                 ))}
               </ul>
-
-              <button
-                type="button"
-                onClick={onStartClick}
-                className={`group mt-9 inline-flex items-center gap-2 self-start text-sm font-medium ${
-                  plan.highlighted ? "text-primary-foreground" : "text-foreground"
-                }`}
-              >
-                <span
-                  className={`border-b pb-0.5 transition-colors duration-300 ${
-                    plan.highlighted
-                      ? "border-primary-foreground/40 group-hover:border-peach"
-                      : "border-foreground/30 group-hover:border-peach"
-                  }`}
-                >
-                  {plan.cta}
-                </span>
-                <span
-                  aria-hidden="true"
-                  className="transition-transform duration-300 group-hover:translate-x-1"
-                >
-                  →
-                </span>
-              </button>
             </Reveal>
           ))}
         </div>
+
       </div>
     </section>
   )

@@ -24,6 +24,89 @@ export async function createSeenly(displayName, email, selfAnswers) {
     }
     throw new Error(errorMsg);
   }
+  return response.json();
+}
+
+/**
+ * Updates the owner's display name.
+ * PUT /api/v1/seenly/owner/display-name
+ */
+export async function updateDisplayName(ownerToken, newDisplayName) {
+  const response = await fetch(`${BASE_URL}/owner/display-name`, {
+    method: 'PUT',
+    headers: { 
+      'Content-Type': 'application/json',
+      'X-Owner-Token': ownerToken 
+    },
+    body: JSON.stringify({ displayName: newDisplayName })
+  });
+
+  if (!response.ok) {
+    let errorMsg = 'Error updating display name';
+    try {
+      const err = await response.json();
+      errorMsg = err.message || errorMsg;
+    } catch (e) {
+      // JSON parsing failed
+    }
+    throw new Error(errorMsg);
+  }
+
+  return response.json();
+}
+
+/**
+ * Updates the owner's email address.
+ * PUT /api/v1/seenly/owner/email
+ */
+export async function updateEmail(ownerToken, newEmail) {
+  const response = await fetch(`${BASE_URL}/owner/email`, {
+    method: 'PUT',
+    headers: { 
+      'Content-Type': 'application/json',
+      'X-Owner-Token': ownerToken 
+    },
+    body: JSON.stringify({ email: newEmail })
+  });
+
+  if (!response.ok) {
+    let errorMsg = 'Error updating email';
+    try {
+      const err = await response.json();
+      errorMsg = err.message || errorMsg;
+    } catch (e) {
+      // JSON parsing failed
+    }
+    throw new Error(errorMsg);
+  }
+
+  return response.json();
+}
+
+/**
+ * Updates the owner's chosen avatar.
+ * PUT /api/v1/seenly/owner/avatar
+ */
+export async function updateAvatar(ownerToken, avatar) {
+  const response = await fetch(`${BASE_URL}/owner/avatar`, {
+    method: 'PUT',
+    headers: { 
+      'Content-Type': 'application/json',
+      'X-Owner-Token': ownerToken 
+    },
+    body: JSON.stringify({ avatar })
+  });
+
+  if (!response.ok) {
+    let errorMsg = 'Error updating avatar';
+    try {
+      const err = await response.json();
+      errorMsg = err.message || errorMsg;
+    } catch (e) {
+      // JSON parsing failed
+    }
+    throw new Error(errorMsg);
+  }
 
   return response.json();
 }
@@ -294,5 +377,36 @@ export async function buyCapacityPack(ownerToken, amount) {
 
   return response.json();
 }
+
+/**
+ * Fetches dynamic rarity data for a specific card from the backend.
+ * GET /api/v1/rarity/card/{cardId}
+ */
+export async function fetchCardRarity(cardId, lang = 'tr') {
+  const apiPrefix = (import.meta.env && import.meta.env.VITE_API_URL) || '';
+  try {
+    const response = await fetch(`${apiPrefix}/api/v1/rarity/card/${cardId}?lang=${lang}`);
+    if (!response.ok) return null;
+    return await response.json();
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
+ * Fetches all card dynamic rarities from backend.
+ * GET /api/v1/rarity/all
+ */
+export async function fetchAllCardRarities(lang = 'tr') {
+  const apiPrefix = (import.meta.env && import.meta.env.VITE_API_URL) || '';
+  try {
+    const response = await fetch(`${apiPrefix}/api/v1/rarity/all?lang=${lang}`);
+    if (!response.ok) return null;
+    return await response.json();
+  } catch (e) {
+    return null;
+  }
+}
+
 
 

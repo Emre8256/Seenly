@@ -15,14 +15,16 @@ import java.util.*;
 public class ScoringEngineService {
 
     private final ResultSnapshotRepository snapshotRepository;
+    private final CardRarityService cardRarityService;
 
     private static final List<String> LENSES = Arrays.asList(
         "samimiyet", "cekicilik", "zeka", "vizyon", "enerji", 
         "guvenilirlik", "ego", "basari", "comertlik", "olgunluk"
     );
 
-    public ScoringEngineService(ResultSnapshotRepository snapshotRepository) {
+    public ScoringEngineService(ResultSnapshotRepository snapshotRepository, CardRarityService cardRarityService) {
         this.snapshotRepository = snapshotRepository;
+        this.cardRarityService = cardRarityService;
     }
 
     /**
@@ -33,19 +35,25 @@ public class ScoringEngineService {
     }
 
     /**
-     * Helper to extract the lens name from a semantic question ID.
+     * Helper to extract the lens name from a semantic question ID (e.g. classic_self_zeka_01 -> zeka).
      */
     public String extractLensFromQuestionId(String questionId) {
         if (questionId == null) return "samimiyet";
+        String lower = questionId.toLowerCase();
+        for (String lens : LENSES) {
+            if (lower.contains(lens)) {
+                return lens;
+            }
+        }
         String[] parts = questionId.split("_");
         if (parts.length >= 3) {
-            return parts[2];
+            return parts[2].toLowerCase();
         }
-        return "samimiyet";
+        return parts[0].toLowerCase();
     }
 
     /**
-     * Calculates the self-lens scores and saves the first snapshot.
+     * Calculates the owner's self-evaluation results (Self Profile).
      */
     @Transactional
     public ResultSnapshot calculateSelfResult(Seenly seenly) {
@@ -63,6 +71,10 @@ public class ScoringEngineService {
         snapshot.setSelfSignatureId(signatureId);
         snapshot.setSelfFamilyId(familyId);
         snapshot.setConfidenceBand("self_only");
+
+        if (cardRarityService != null && signatureId != null) {
+            cardRarityService.recordCardGeneration(signatureId);
+        }
 
         return snapshotRepository.save(snapshot);
     }
@@ -100,6 +112,10 @@ public class ScoringEngineService {
 
         snapshot.setOutsideSignatureId(outsideSignatureId);
         snapshot.setOutsideFamilyId(outsideFamilyId);
+
+        if (cardRarityService != null && outsideSignatureId != null) {
+            cardRarityService.recordCardGeneration(outsideSignatureId);
+        }
 
         if (responseCount >= 3) {
             snapshot.setConfidenceBand("gap_open");

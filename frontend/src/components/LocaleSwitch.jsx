@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocale } from '../context/LocaleContext';
 
-export default function LocaleSwitch() {
+export default function LocaleSwitch({ mobile = false }) {
   const { locale, setLocale } = useLocale();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -29,7 +29,21 @@ export default function LocaleSwitch() {
         className="locale-globe-btn"
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Select Language"
-        style={{
+        style={mobile ? {
+          height: '36px',
+          width: '36px',
+          borderRadius: '50%',
+          border: 'none',
+          backgroundColor: 'transparent',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          color: 'var(--color-deep-ink)',
+          transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+          outline: 'none',
+          boxSizing: 'border-box'
+        } : {
           height: '36px',
           padding: '0 0.85rem',
           borderRadius: '18px',
@@ -52,6 +66,12 @@ export default function LocaleSwitch() {
           boxSizing: 'border-box'
         }}
         onMouseEnter={(e) => {
+          if (mobile) {
+            e.currentTarget.style.color = 'var(--peach)';
+            const svg = e.currentTarget.querySelector('svg');
+            if (svg) svg.style.transform = 'rotate(15deg)';
+            return;
+          }
           e.currentTarget.style.borderColor = 'rgba(217, 106, 83, 0.35)';
           e.currentTarget.style.transform = 'translateY(-1px)';
           e.currentTarget.style.backgroundColor = '#ffffff';
@@ -60,6 +80,12 @@ export default function LocaleSwitch() {
           if (svg) svg.style.transform = 'rotate(15deg)';
         }}
         onMouseLeave={(e) => {
+          if (mobile) {
+            e.currentTarget.style.color = 'var(--color-deep-ink)';
+            const svg = e.currentTarget.querySelector('svg');
+            if (svg) svg.style.transform = '';
+            return;
+          }
           e.currentTarget.style.borderColor = 'rgba(11, 27, 44, 0.08)';
           e.currentTarget.style.transform = '';
           e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.55)';
@@ -70,8 +96,8 @@ export default function LocaleSwitch() {
       >
         {/* Globe/World Icon */}
         <svg
-          width="13"
-          height="13"
+          width={mobile ? "16" : "13"}
+          height={mobile ? "16" : "13"}
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -84,20 +110,24 @@ export default function LocaleSwitch() {
           <line x1="2" y1="12" x2="22" y2="12" />
           <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
         </svg>
-        <span>{locale.toUpperCase()}</span>
-        <svg
-          width="8"
-          height="8"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="3"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          style={{ opacity: 0.6, transform: isOpen ? 'rotate(180deg)' : '', transition: 'transform 0.3s ease' }}
-        >
-          <polyline points="6 9 12 15 18 9" />
-        </svg>
+        {!mobile && (
+          <>
+            <span>{locale.toUpperCase()}</span>
+            <svg
+              width="8"
+              height="8"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{ opacity: 0.6, transform: isOpen ? 'rotate(180deg)' : '', transition: 'transform 0.3s ease' }}
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </>
+        )}
       </button>
 
       {isOpen && (

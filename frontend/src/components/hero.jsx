@@ -39,7 +39,7 @@ export function Hero({ onStartClick, onLoginClick }) {
 
       <div className="above-surface mx-auto w-full max-w-[1240px] px-5 sm:px-8">
         <div className="grid items-center gap-y-8 pb-8 pt-4 md:pb-10 md:pt-6 lg:grid-cols-[1.04fr_0.96fr] lg:gap-x-16">
-          <div className="relative lg:pr-6">
+          <div className="relative flex flex-col items-center text-center lg:items-start lg:text-left lg:pr-6">
             <Reveal
               as="h1"
               id="hero-title"
@@ -73,11 +73,11 @@ export function Hero({ onStartClick, onLoginClick }) {
               </Reveal>
             )}
 
-            <Reveal delay={360} className="mt-7 flex flex-wrap items-center gap-x-7 gap-y-4">
+            <Reveal delay={360} className="mt-7 flex flex-row items-center justify-center lg:justify-start gap-4 sm:gap-7 w-full">
               <button
                 type="button"
                 onClick={handlePrimaryClick}
-                className="shadow-contact-sm group inline-flex items-center gap-3 rounded-full bg-primary px-7 py-3.5 text-base text-primary-foreground transition-all duration-500 hover:gap-4"
+                className="w-auto shadow-contact-sm group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm sm:px-7 sm:py-3.5 sm:text-base text-primary-foreground transition-all duration-500 hover:gap-3 cursor-pointer shrink-0"
               >
                 {startLabel}
                 <span aria-hidden="true">→</span>
@@ -86,7 +86,7 @@ export function Hero({ onStartClick, onLoginClick }) {
                 <button
                   type="button"
                   onClick={onLoginClick}
-                  className="group inline-flex items-center gap-2 text-sm font-medium text-foreground"
+                  className="group inline-flex items-center justify-center gap-2 py-2 text-sm font-medium text-foreground cursor-pointer shrink-0"
                 >
                   <span className="border-b border-foreground/30 pb-0.5 transition-colors duration-300 group-hover:border-peach">
                     {quickLoginLabel}
@@ -96,14 +96,14 @@ export function Hero({ onStartClick, onLoginClick }) {
             </Reveal>
 
             {!isLoggedIn && (
-              <Reveal as="p" delay={440} className="mt-4 text-sm text-muted-foreground">
+              <Reveal as="p" delay={440} className="mt-4 text-[0.7rem] min-[360px]:text-xs text-muted-foreground">
                 {t("ui", "landing_hero_cta_free") || "Ucretsiz basla · Ilk sonuclarini dakikalar icinde gor"}
               </Reveal>
             )}
           </div>
 
           <Reveal delay={180} className="relative lg:-mr-6 lg:pl-4">
-            <figure className="relative">
+            <figure className="relative mx-auto max-w-[280px] sm:max-w-none">
               <WatercolorStain
                 name="hero-plate"
                 hue="lilac"
@@ -118,8 +118,6 @@ export function Hero({ onStartClick, onLoginClick }) {
                   className="soft-image-edge aspect-[4/5] w-full object-cover sm:aspect-[5/4] lg:aspect-[4/5] mask-organic-1"
                 />
               </div>
-
-
             </figure>
           </Reveal>
         </div>

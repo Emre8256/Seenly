@@ -648,6 +648,578 @@ html::-webkit-scrollbar-thumb:hover {
   }
 }
 
+/* ============================================================
+   PLAN TAB — 2026 EDITORIAL REDESIGN
+   ============================================================ */
+.seenly-plan-tab {
+  margin-inline: auto !important;
+  padding-bottom: clamp(1.5rem, 4vw, 3rem);
+}
+
+.seenly-plan-tab .seenly-plan-page {
+  gap: clamp(1.25rem, 2.5vw, 1.8rem);
+}
+
+.seenly-plan-hero-v2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0.2rem 1rem 0.35rem;
+  text-align: center;
+}
+
+.seenly-plan-eyebrow {
+  display: block;
+  color: #9a7534;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.seenly-plan-hero-v2 h3 {
+  margin: 0.45rem 0 0;
+  color: #0b1b2c;
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3.15rem);
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  line-height: 1.04;
+}
+
+.seenly-plan-hero-v2 p {
+  max-width: 610px;
+  margin: 0.8rem 0 0;
+  color: var(--color-text-muted);
+  font-family: var(--font-sans);
+  font-size: clamp(0.9rem, 1.7vw, 1rem);
+  line-height: 1.65;
+}
+
+.seenly-plan-overview {
+  display: grid;
+  grid-template-columns: auto minmax(130px, 0.8fr) minmax(240px, 1.4fr) auto;
+  align-items: center;
+  gap: 1rem;
+  min-height: 92px;
+  padding: 1.05rem 1.25rem;
+  border: 1px solid rgba(116, 89, 58, 0.16);
+  border-radius: 22px;
+  background: rgba(253, 251, 244, 0.94);
+  box-shadow: 0 10px 30px rgba(80, 60, 40, 0.045);
+  box-sizing: border-box;
+}
+
+.seenly-plan-overview-mark {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 1px solid rgba(197, 160, 89, 0.3);
+  border-radius: 15px;
+  background: #f7eedc;
+  color: #9a7534;
+}
+
+.seenly-plan-overview-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.seenly-plan-overview-copy span,
+.seenly-plan-usage-label span {
+  color: #8b8376;
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.seenly-plan-overview-copy strong {
+  overflow: hidden;
+  color: #0b1b2c;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 900;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.seenly-plan-usage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.52rem;
+  padding-inline: clamp(0rem, 2vw, 1.2rem);
+  border-left: 1px solid rgba(116, 89, 58, 0.12);
+}
+
+.seenly-plan-usage-label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.seenly-plan-usage-label strong {
+  color: #2d5641;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.seenly-plan-usage-track {
+  width: 100%;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(45, 86, 65, 0.1);
+}
+
+.seenly-plan-usage-track > span {
+  display: block;
+  min-width: 6px;
+  height: 100%;
+  border-radius: inherit;
+  background: #2d5641;
+  transition: width 0.4s ease;
+}
+
+.seenly-plan-usage-track.is-unlimited > span {
+  background: linear-gradient(90deg, #2d5641, #6f9b7e);
+}
+
+.seenly-plan-overview-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid rgba(45, 86, 65, 0.16);
+  border-radius: 999px;
+  background: rgba(45, 86, 65, 0.07);
+  color: #2d5641;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.seenly-plan-overview-status > span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4f8b68;
+  box-shadow: 0 0 0 3px rgba(79, 139, 104, 0.12);
+}
+
+.seenly-plan-section-intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 0.2rem 0.2rem 0;
+}
+
+.seenly-plan-section-intro h4 {
+  margin: 0.28rem 0 0;
+  color: #0b1b2c;
+  font-family: var(--font-serif);
+  font-size: clamp(1.45rem, 2.8vw, 1.9rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.seenly-plan-section-intro p {
+  margin: 0 0 0.18rem;
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  text-align: right;
+}
+
+.seenly-plan-tab .seenly-plan-main-grid {
+  gap: 1rem;
+}
+
+.seenly-plan-tab .seenly-plan-card {
+  min-height: 520px;
+  padding: clamp(1.4rem, 3vw, 2rem);
+  border: 1px solid rgba(116, 89, 58, 0.16) !important;
+  border-radius: 28px;
+  background: #fdfbf4 !important;
+  box-shadow: 0 14px 38px rgba(80, 60, 40, 0.055) !important;
+  isolation: isolate;
+}
+
+.seenly-plan-tab .seenly-plan-card-free.is-active {
+  border-color: rgba(45, 86, 65, 0.34) !important;
+  box-shadow: 0 14px 38px rgba(45, 86, 65, 0.07) !important;
+}
+
+.seenly-plan-tab .seenly-plan-card-plus {
+  border-color: #17324d !important;
+  background: #10283f !important;
+  box-shadow: 0 18px 42px rgba(11, 27, 44, 0.14) !important;
+}
+
+.seenly-plan-tab .seenly-plan-card-plus::after {
+  display: block !important;
+  position: absolute;
+  right: -70px;
+  bottom: -105px;
+  width: 270px;
+  height: 270px;
+  border: 1px solid rgba(197, 160, 89, 0.13);
+  border-radius: 50%;
+  background: transparent !important;
+  box-shadow: 0 0 0 45px rgba(197, 160, 89, 0.025) !important;
+  content: '' !important;
+  pointer-events: none;
+}
+
+.seenly-plan-tab .seenly-plan-leaf-decoration,
+.seenly-plan-tab .seenly-plan-waves-decoration,
+.seenly-plan-tab .seenly-plan-pack-leaf-decoration {
+  display: none;
+}
+
+.seenly-plan-tab .seenly-plan-ribbon {
+  top: 1.35rem;
+  right: 1.35rem;
+  padding: 0.42rem 0.7rem;
+  transform: none;
+  border: 1px solid rgba(45, 86, 65, 0.18);
+  border-radius: 999px;
+  background: #eaf2ec;
+  box-shadow: none;
+  color: #2d5641;
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+}
+
+.seenly-plan-tab .seenly-plan-card-plus .seenly-plan-ribbon {
+  border-color: rgba(223, 190, 117, 0.24);
+  background: rgba(223, 190, 117, 0.12);
+  color: #e6c982;
+}
+
+.seenly-plan-tab .seenly-plan-card-head {
+  min-height: 26px;
+  margin-bottom: 1.25rem;
+}
+
+.seenly-plan-tab .seenly-plan-kicker {
+  color: #9a7534;
+  font-size: 0.67rem;
+}
+
+.seenly-plan-tab .seenly-plan-card-plus .seenly-plan-kicker {
+  color: #e0bf72;
+}
+
+.seenly-plan-tab .seenly-plan-title {
+  margin: 0;
+  color: #0b1b2c;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+}
+
+.seenly-plan-tab .seenly-plan-card-plus .seenly-plan-title {
+  color: #fffdf8;
+}
+
+.seenly-plan-tab .seenly-plan-price {
+  flex-wrap: wrap;
+  min-height: 50px;
+  margin-top: 0.8rem;
+}
+
+.seenly-plan-tab .seenly-plan-price strong {
+  font-size: clamp(2rem, 4vw, 2.7rem);
+}
+
+.seenly-plan-tab .seenly-plan-free-text {
+  color: #9a7534;
+}
+
+.seenly-plan-tab .seenly-plan-plus-price {
+  color: #e4c57d;
+}
+
+.seenly-plan-tab .seenly-plan-card-plus .seenly-plan-price small {
+  color: rgba(255, 253, 248, 0.58);
+}
+
+.seenly-plan-tab .seenly-plan-diamond-divider {
+  margin: 1.35rem 0 1.45rem;
+}
+
+.seenly-plan-tab .seenly-plan-card-plus .seenly-plan-diamond-divider .line {
+  background: linear-gradient(90deg, transparent, rgba(230, 201, 130, 0.24), transparent);
+}
+
+.seenly-plan-tab .seenly-plan-features-list {
+  gap: 0;
+  margin-bottom: 1.75rem;
+}
+
+.seenly-plan-tab .seenly-plan-features-list li {
+  min-height: 48px;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid rgba(116, 89, 58, 0.09);
+  color: #334252;
+  font-size: 0.86rem;
+  font-weight: 650;
+}
+
+.seenly-plan-tab .seenly-plan-features-list li:last-child {
+  border-bottom: 0;
+}
+
+.seenly-plan-tab .seenly-plan-card-plus .seenly-plan-features-list li {
+  border-color: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 253, 248, 0.83);
+}
+
+.seenly-plan-tab .seenly-plan-check-circle-outline,
+.seenly-plan-tab .seenly-plan-check-circle-solid {
+  width: 20px;
+  height: 20px;
+}
+
+.seenly-plan-tab .seenly-plan-card button {
+  min-height: 50px;
+  border-radius: 15px;
+  letter-spacing: 0.07em;
+}
+
+.seenly-plan-tab .seenly-plan-secondary-btn {
+  border-color: rgba(116, 89, 58, 0.18) !important;
+  background: #f4efe6 !important;
+  color: #72644f !important;
+}
+
+.seenly-plan-tab .seenly-plan-primary-btn {
+  border: 1px solid #dcb96b !important;
+  background: #dcb96b !important;
+  box-shadow: none;
+  color: #10283f !important;
+}
+
+.seenly-plan-tab .seenly-plan-primary-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: #e7c980 !important;
+  box-shadow: 0 10px 24px rgba(220, 185, 107, 0.17);
+}
+
+.seenly-plan-tab .seenly-plan-primary-btn:disabled {
+  border-color: rgba(230, 201, 130, 0.22) !important;
+  background: rgba(230, 201, 130, 0.12) !important;
+  color: #e6c982 !important;
+}
+
+.seenly-plan-tab .seenly-plan-pack-section {
+  gap: 1.4rem;
+  padding: clamp(1.35rem, 3vw, 2rem);
+  border: 1px solid rgba(116, 89, 58, 0.14);
+  border-radius: 28px;
+  background: rgba(253, 251, 244, 0.82) !important;
+  box-shadow: 0 12px 34px rgba(80, 60, 40, 0.04);
+}
+
+.seenly-plan-tab .seenly-plan-pack-section .seenly-plan-section-head {
+  display: grid;
+  grid-template-columns: minmax(210px, 0.8fr) minmax(260px, 1.2fr);
+  align-items: end;
+  max-width: none;
+  gap: 0.25rem 2rem;
+}
+
+.seenly-plan-tab .seenly-plan-pack-section .seenly-plan-section-head .seenly-plan-kicker,
+.seenly-plan-tab .seenly-plan-pack-section .seenly-plan-section-head h4 {
+  grid-column: 1;
+}
+
+.seenly-plan-tab .seenly-plan-pack-section .seenly-plan-section-head h4 {
+  margin: 0.3rem 0 0;
+  font-size: clamp(1.5rem, 3vw, 1.9rem);
+}
+
+.seenly-plan-tab .seenly-plan-pack-section .seenly-plan-section-head p {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  font-weight: 500;
+}
+
+.seenly-plan-tab .seenly-plan-pack-grid {
+  gap: 0.75rem;
+}
+
+.seenly-plan-tab .seenly-plan-pack {
+  min-height: 248px;
+  padding: 1.15rem;
+  border: 1px solid rgba(116, 89, 58, 0.12) !important;
+  border-radius: 20px;
+  background: #fffdf8 !important;
+  box-shadow: none !important;
+}
+
+.seenly-plan-tab .seenly-plan-pack:hover:not(.is-muted) {
+  transform: translateY(-3px);
+  border-color: var(--pack-btn-border) !important;
+  box-shadow: 0 12px 26px rgba(80, 60, 40, 0.065) !important;
+}
+
+.seenly-plan-tab .seenly-plan-pack-icon-wrap {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 0.6rem;
+}
+
+.seenly-plan-tab .seenly-plan-pack-amount {
+  font-size: clamp(2.15rem, 4vw, 2.65rem);
+}
+
+.seenly-plan-tab .seenly-plan-pack-price {
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+}
+
+.seenly-plan-tab .seenly-plan-pack-btn {
+  min-height: 42px;
+  margin-top: auto;
+  border-radius: 13px;
+}
+
+@media (max-width: 760px) {
+  .seenly-plan-hero-v2 {
+    padding-inline: 0.35rem;
+  }
+
+  .seenly-plan-overview {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    padding: 0.95rem;
+  }
+
+  .seenly-plan-overview-mark {
+    width: 42px;
+    height: 42px;
+  }
+
+  .seenly-plan-usage {
+    grid-column: 1 / -1;
+    padding: 0.8rem 0 0;
+    border-top: 1px solid rgba(116, 89, 58, 0.1);
+    border-left: 0;
+  }
+
+  .seenly-plan-overview-status {
+    padding: 0.38rem 0.58rem;
+  }
+
+  .seenly-plan-section-intro {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .seenly-plan-section-intro p {
+    text-align: left;
+  }
+
+  .seenly-plan-tab .seenly-plan-card {
+    min-height: auto;
+    padding: 1.3rem;
+    border-radius: 23px;
+  }
+
+  .seenly-plan-tab .seenly-plan-ribbon {
+    top: 1.15rem;
+    right: 1.15rem;
+  }
+
+  .seenly-plan-tab .seenly-plan-pack-section {
+    border-radius: 23px;
+  }
+
+  .seenly-plan-tab .seenly-plan-pack-section .seenly-plan-section-head {
+    display: block;
+  }
+
+  .seenly-plan-tab .seenly-plan-pack-section .seenly-plan-section-head p {
+    margin-top: 0.65rem;
+  }
+
+  .seenly-plan-tab .seenly-plan-pack {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto auto auto;
+    align-items: center;
+    min-height: 0;
+    text-align: left;
+  }
+
+  .seenly-plan-tab .seenly-plan-pack-icon-wrap {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    margin: 0 0.85rem 0 0;
+  }
+
+  .seenly-plan-tab .seenly-plan-pack-label,
+  .seenly-plan-tab .seenly-plan-pack-amount,
+  .seenly-plan-tab .seenly-plan-pack-kicker-h5 {
+    grid-column: 2;
+  }
+
+  .seenly-plan-tab .seenly-plan-pack-amount {
+    margin-top: 0.2rem;
+    font-size: 2rem;
+  }
+
+  .seenly-plan-tab .seenly-plan-pack-kicker-h5 {
+    margin-bottom: 0;
+  }
+
+  .seenly-plan-tab .seenly-plan-pack-price {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    margin: 0;
+  }
+
+  .seenly-plan-tab .seenly-plan-pack-btn {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    margin-top: 0.9rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .seenly-plan-overview {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .seenly-plan-overview-status {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+  .seenly-plan-tab .seenly-plan-ribbon {
+    position: static;
+    align-self: flex-start;
+    margin-bottom: 0.8rem;
+  }
+
+  .seenly-plan-tab .seenly-plan-card-head {
+    margin-bottom: 0.55rem;
+  }
+}
+
 @media (min-width: 1100px) {
   .main-header .main-nav {
     gap: 32px;
@@ -2238,6 +2810,38 @@ html::-webkit-scrollbar-thumb:hover {
   }
 }
 
+@keyframes seenly-shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  15% {
+    transform: translateX(-5px);
+  }
+
+  30% {
+    transform: translateX(5px);
+  }
+
+  45% {
+    transform: translateX(-4px);
+  }
+
+  60% {
+    transform: translateX(4px);
+  }
+
+  75% {
+    transform: translateX(-2px);
+  }
+
+  90% {
+    transform: translateX(2px);
+  }
+}
+
 /* Default styles for new elements (hidden on desktop) */
 .mobile-menu-toggle {
   display: none;
@@ -2877,11 +3481,13 @@ html::-webkit-scrollbar-thumb:hover {
 @media (min-width: 768px) {
   .seenly-wizard-container {
     width: 440px;
-    height: 780px;
+    max-width: 90vw;
+    height: min(760px, calc(100dvh - 40px));
+    max-height: calc(100dvh - 40px);
     border-radius: 28px;
     box-shadow: 0 24px 60px rgba(11, 27, 44, 0.12);
     border: 1px solid rgba(11, 27, 44, 0.05);
-    margin: 2rem auto;
+    margin: auto;
   }
 }
 
@@ -2929,24 +3535,22 @@ html::-webkit-scrollbar-thumb:hover {
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.seenly-wizard-step-info {
-  font-family: var(--font-sans);
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--color-deep-ink);
-  text-align: right;
-  opacity: 0.8;
-  white-space: nowrap;
-}
-
 .seenly-wizard-body {
   flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: space-between;
-  padding: 1.5rem 2rem 2rem 2rem;
+  padding: 1.25rem 1.25rem 1.75rem 1.25rem;
   box-sizing: border-box;
   overflow-y: auto;
+  scrollbar-width: none;
+  width: 100%;
+}
+
+.seenly-wizard-body::-webkit-scrollbar {
+  display: none;
 }
 
 .seenly-wizard-content {
@@ -2955,7 +3559,10 @@ html::-webkit-scrollbar-thumb:hover {
   align-items: center;
   text-align: center;
   width: 100%;
-  margin: auto 0;
+  max-width: 420px;
+  margin: auto auto;
+  min-height: min-content;
+  box-sizing: border-box;
 }
 
 .seenly-wizard-circle-icon {
@@ -2997,7 +3604,8 @@ html::-webkit-scrollbar-thumb:hover {
 
 .seenly-wizard-input-container {
   width: 100%;
-  margin-bottom: 1rem;
+  max-width: 400px;
+  margin: 0 auto 1rem auto;
 }
 
 .seenly-wizard-input {
@@ -3011,6 +3619,7 @@ html::-webkit-scrollbar-thumb:hover {
   background-color: var(--color-paper-cream);
   transition: all 0.25s ease;
   box-shadow: inset 0 2px 4px rgba(11, 27, 44, 0.01);
+  box-sizing: border-box;
 }
 
 .seenly-wizard-input:focus {
@@ -3025,69 +3634,82 @@ html::-webkit-scrollbar-thumb:hover {
   flex-direction: column;
   gap: 0.75rem;
   width: 100%;
-  margin-bottom: 1rem;
+  max-width: 400px;
+  margin: 0 auto 1rem auto;
 }
 
 .seenly-wizard-list-btn {
   width: 100%;
-  border: 1px solid rgba(11, 27, 44, 0.16);
+  border: 1.5px solid rgba(11, 27, 44, 0.08);
   border-radius: 16px;
   padding: 1.1rem 1.25rem;
-  background-color: var(--color-paper-cream);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  background-color: rgba(255, 253, 250, 0.6);
   font-family: var(--font-sans);
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--color-deep-ink);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+.seenly-wizard-list-btn span:first-child {
+  flex: 1;
   text-align: left;
 }
 
-.seenly-wizard-list-btn span {
-  color: var(--color-deep-ink);
-  font-weight: 600;
-}
-
 .seenly-wizard-list-btn:hover {
-  border-color: rgba(11, 27, 44, 0.3);
-  background-color: rgba(11, 27, 44, 0.02);
+  border-color: rgba(217, 106, 83, 0.3);
+  background-color: #fff;
+  transform: translateY(-1px);
 }
 
 .seenly-wizard-list-btn.active {
-  background-color: #FCEEEA;
   border-color: var(--color-burnt-coral);
-  color: var(--color-burnt-coral);
+  background-color: #fff;
+  box-shadow: 0 4px 20px rgba(217, 106, 83, 0.12);
 }
 
-.seenly-wizard-list-btn.active span {
+.seenly-wizard-list-btn.active span:first-child {
   color: var(--color-burnt-coral);
   font-weight: 700;
 }
 
 .seenly-wizard-checkmark {
-  color: var(--color-burnt-coral);
-  font-size: 1.15rem;
-  font-weight: bold;
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px !important;
+  max-width: 24px !important;
+  flex: 0 0 24px !important;
+  flex-shrink: 0 !important;
+  border-radius: 50% !important;
+  background-color: var(--color-burnt-coral) !important;
+  color: #ffffff !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  margin-left: 8px !important;
 }
 
 /* Styled info section elements */
 .seenly-wizard-placeholder-lines {
   width: 100%;
-  max-width: 280px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 0.75rem;
   margin-bottom: 2rem;
 }
 
 .seenly-wizard-line {
   height: 8px;
-  background-color: rgba(11, 27, 44, 0.05);
   border-radius: 4px;
+  background-color: rgba(11, 27, 44, 0.06);
 }
 
 .seenly-wizard-line.w-full {
@@ -3105,34 +3727,45 @@ html::-webkit-scrollbar-thumb:hover {
 .seenly-wizard-info-bullets {
   list-style: none;
   padding: 0;
-  margin: 0 0 1rem 0;
+  margin: 1rem auto 1.5rem auto;
   width: 100%;
-  text-align: left;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .seenly-wizard-info-bullets li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 0.85rem 1.1rem;
+  border-radius: 16px;
+  border: 1.5px solid rgba(11, 27, 44, 0.08);
+  background: rgba(255, 253, 250, 0.65);
+  color: var(--color-deep-ink);
   font-family: var(--font-sans);
   font-size: 0.95rem;
-  line-height: 1.5;
-  color: var(--color-text-muted);
-  position: relative;
-  padding-left: 1.5rem;
-  margin-bottom: 0.75rem;
+  font-weight: 600;
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(11, 27, 44, 0.01);
+  box-sizing: border-box;
 }
 
 .seenly-wizard-info-bullets li::before {
-  content: "•";
-  position: absolute;
-  left: 0.25rem;
-  color: var(--color-burnt-coral);
-  font-size: 1.2rem;
-  line-height: 1.1;
+  content: none !important;
+  display: none !important;
 }
 
 .seenly-wizard-footer-action {
   width: 100%;
-  margin-top: auto;
-  padding-top: 1.5rem;
+  max-width: 400px;
+  margin: auto auto 0 auto;
+  padding-top: 1rem;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
 }
 
 .seenly-wizard-primary-btn {
@@ -3196,12 +3829,43 @@ html::-webkit-scrollbar-thumb:hover {
   transform: translateX(6px);
 }
 
+.seenly-wizard-result-container {
+  width: 100% !important;
+  max-width: 500px !important;
+  height: auto !important;
+  min-height: min(640px, calc(100dvh - 40px)) !important;
+  max-height: min(740px, calc(100dvh - 24px)) !important;
+  margin: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  overflow: hidden !important;
+}
+
+@media (max-width: 767px) {
+  .seenly-wizard-result-container {
+    max-width: 100vw !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    max-height: 100dvh !important;
+    border-radius: 0 !important;
+  }
+}
+
 .seenly-wizard-result-body {
-  padding-top: 2.5rem;
+  padding-top: 0.5rem !important;
+  overflow: hidden !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  scrollbar-width: none !important;
+}
+
+.seenly-wizard-result-body::-webkit-scrollbar {
+  display: none !important;
 }
 
 .seenly-wizard-result-lines {
-  margin: 1rem 0 2rem 0;
+  margin: 0.5rem 0 1rem 0;
 }
 
 /* Responsive Desktop Refinements for Editorial Magazine-style layout */
@@ -3209,12 +3873,9 @@ html::-webkit-scrollbar-thumb:hover {
   .seenly-wizard-container {
     width: 100%;
     max-width: 660px;
-    /* Slightly shrunken from 720px */
-    height: auto;
-    max-height: calc(100vh - 60px);
-    /* Ensures a minimum of 30px spacing from top & bottom edges */
-    margin: 0 auto;
-    /* Let flex centering handle vertical centering */
+    height: min(760px, calc(100dvh - 60px));
+    max-height: calc(100dvh - 60px);
+    margin: auto;
     border-radius: 24px;
     box-shadow: 0 4px 24px rgba(11, 27, 44, 0.01);
     border: 1px solid var(--color-border);
@@ -3223,7 +3884,7 @@ html::-webkit-scrollbar-thumb:hover {
   }
 
   .seenly-wizard-header {
-    padding: 2rem 3rem 0.5rem 3rem;
+    padding: 1.5rem 2.5rem 0.25rem 2.5rem;
     /* Reduced header padding */
   }
 
@@ -3269,7 +3930,9 @@ html::-webkit-scrollbar-thumb:hover {
 
   /* Shrunken result screen styles to guarantee visibility within 660px fixed height */
   .seenly-wizard-result-body {
-    padding-top: 1.5rem;
+    padding: 0.5rem 2.5rem 1rem 2.5rem !important;
+    overflow: hidden !important;
+    height: 100% !important;
   }
 
   .seenly-wizard-result-card {
@@ -3374,7 +4037,9 @@ html::-webkit-scrollbar-thumb:hover {
 
 .seenly-dashboard-profile {
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 10px;
 }
 
@@ -3568,22 +4233,18 @@ html::-webkit-scrollbar-thumb:hover {
 .seenly-dashboard-premium-card {
   position: relative;
   overflow: hidden;
-  background:
-    linear-gradient(180deg, rgba(255, 253, 248, 0.94), rgba(246, 241, 231, 0.96));
-  border: 1px solid rgba(255, 255, 255, 0.72);
-  box-shadow:
-    0 24px 64px rgba(80, 60, 40, 0.10),
-    0 1px 0 rgba(255, 255, 255, 0.86) inset,
-    0 -18px 46px rgba(130, 102, 70, 0.055) inset;
+  background: #FDFBF4 !important;
+  background-color: #FDFBF4 !important;
+  border: 1px solid rgba(197, 160, 89, 0.25) !important;
+  box-shadow: 0 8px 30px rgba(80, 60, 40, 0.04) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
-.seenly-dashboard-premium-card::before {
-  content: "";
-  position: absolute;
-  inset: 1px;
-  border-radius: inherit;
-  pointer-events: none;
-  box-shadow: inset 0 0 0 1px rgba(116, 89, 58, 0.035);
+.seenly-dashboard-premium-card::before,
+.seenly-dashboard-premium-card::after {
+  display: none !important;
+  content: none !important;
 }
 
 .seenly-dashboard-portrait-frame {
@@ -3602,6 +4263,14 @@ html::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.34);
   border: 1px solid rgba(116, 89, 58, 0.055);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.56);
+}
+
+.seenly-overall-match-badge {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  border: 1px solid rgba(26, 62, 114, 0.32) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 4px 18px rgba(26, 62, 114, 0.14) !important;
 }
 
 .seenly-dashboard-signal-track {
@@ -3701,6 +4370,109 @@ html::-webkit-scrollbar-thumb:hover {
   width: 100%;
   box-sizing: border-box;
   grid-column: 1 / -1;
+}
+
+.seenly-share-actions {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.seenly-share-bar {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 8px;
+  box-shadow: none !important;
+  box-sizing: border-box;
+}
+
+.seenly-share-copy-btn {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 44px;
+  background: var(--color-deep-ink);
+  color: var(--color-paper-cream);
+  border: 1.5px solid var(--color-deep-ink);
+  border-radius: 100px;
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(11, 27, 44, 0.12);
+  white-space: nowrap;
+  overflow: hidden;
+  padding-inline: 18px;
+}
+
+.seenly-share-copy-btn.copied {
+  background: var(--color-burnt-coral);
+  border-color: var(--color-burnt-coral);
+  box-shadow: 0 4px 16px rgba(217, 106, 83, 0.25);
+}
+
+.seenly-share-copy-btn:hover {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 6px 18px rgba(11, 27, 44, 0.18);
+}
+
+.seenly-share-copy-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.seenly-share-qr-btn {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  background: var(--color-deep-ink);
+  border: 1.5px solid var(--color-deep-ink);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-paper-cream);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(11, 27, 44, 0.12);
+}
+
+.seenly-share-qr-btn:hover {
+  transform: translateY(-1px) scale(1.05);
+  background: #14273e;
+  border-color: #14273e;
+  color: var(--color-paper-cream);
+  box-shadow: 0 6px 18px rgba(11, 27, 44, 0.18);
+}
+
+.seenly-share-qr-btn:active {
+  transform: translateY(0) scale(0.95);
+}
+
+.seenly-share-hint {
+  font-size: 0.76rem;
+  font-family: var(--font-sans);
+  color: var(--color-text-muted);
+  margin: 10px 0 0 0;
+  opacity: 0.7;
+  text-align: center;
 }
 
 .seenly-dashboard-footer {
@@ -5064,34 +5836,6 @@ html::-webkit-scrollbar-thumb:hover {
   font-style: normal !important;
 }
 
-.seenly-dashboard-tabs-wrapper {
-  max-width: 980px !important;
-  margin-top: clamp(1.35rem, 2.8vw, 2.2rem) !important;
-  margin-bottom: clamp(2rem, 4vw, 3rem) !important;
-}
-
-.seenly-dashboard-tabs-capsule {
-  min-height: 72px !important;
-  border-radius: 999px !important;
-  background: rgba(253, 251, 247, 0.62) !important;
-  border: 1px solid rgba(116, 89, 58, 0.18) !important;
-  box-shadow:
-    0 18px 48px rgba(80, 60, 40, 0.08),
-    0 1px 0 rgba(255, 255, 255, 0.82) inset !important;
-  padding: 9px !important;
-}
-
-.seenly-dashboard-tabs-capsule button {
-  min-height: 46px !important;
-  font-family: var(--font-heading) !important;
-  font-size: 1rem !important;
-  font-weight: 520 !important;
-}
-
-.seenly-dashboard-tabs-capsule button[style*="var(--color-deep-ink"] {
-  box-shadow: 0 10px 24px rgba(11, 27, 44, 0.16) !important;
-}
-
 .seenly-dashboard-body {
   padding: 0 clamp(1rem, 2vw, 1.4rem) clamp(2rem, 4vw, 3.5rem) !important;
 }
@@ -5111,87 +5855,88 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 .seenly-dashboard-premium-card {
-  border-radius: 28px !important;
-  border: 1px solid rgba(116, 89, 58, 0.16) !important;
-  background:
-    linear-gradient(145deg, rgba(255, 253, 248, 0.88), rgba(246, 240, 229, 0.84)),
-    rgba(255, 253, 248, 0.76) !important;
-  box-shadow:
-    0 26px 70px rgba(80, 60, 40, 0.12),
-    0 1px 0 rgba(255, 255, 255, 0.86) inset !important;
+  border-radius: 24px !important;
+  border: 1px solid rgba(197, 160, 89, 0.25) !important;
+  background: #FDFBF4 !important;
+  background-color: #FDFBF4 !important;
+  box-shadow: 0 8px 30px rgba(80, 60, 40, 0.04) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 .seenly-dashboard-tab-content>.flex.flex-col.items-center>.seenly-dashboard-premium-card {
-  min-height: 640px !important;
-  padding: clamp(1.75rem, 3vw, 2.4rem) !important;
+  padding: 1.5rem !important;
 }
 
 .seenly-dashboard-portrait-frame {
-  max-width: 285px !important;
-  margin-bottom: 1.6rem !important;
+  max-width: 230px !important;
+  margin-bottom: 1rem !important;
   border-color: rgba(197, 160, 89, 0.45) !important;
   box-shadow:
-    0 28px 72px rgba(80, 60, 40, 0.18),
-    0 0 0 1px rgba(197, 160, 89, 0.26) !important;
+    0 16px 44px rgba(80, 60, 40, 0.12),
+    0 0 0 1px rgba(197, 160, 89, 0.22) !important;
 }
 
+.seenly-summary-copy h3,
 .seenly-dashboard-tab-content>.flex.flex-col.items-center h3 {
-  font-size: clamp(2rem, 4vw, 2.65rem) !important;
-  font-weight: 420 !important;
+  font-size: clamp(1.15rem, 1.8vw, 1.35rem) !important;
+  font-weight: 700 !important;
   color: var(--color-deep-ink) !important;
+  margin-bottom: 0.25rem !important;
+  line-height: 1.18 !important;
 }
 
-.seenly-dashboard-tab-content>.flex.flex-col.items-center p {
-  max-width: 280px !important;
+.seenly-signal-summary-card h3,
+.seenly-outside-summary-card h3 {
+  font-size: clamp(1.15rem, 1.8vw, 1.35rem) !important;
+  font-weight: 700 !important;
+  color: #1A3E72 !important;
+  margin-bottom: 0.25rem !important;
+  line-height: 1.18 !important;
+}
+
+.seenly-dashboard-tab-content>.flex.flex-col.items-center p,
+.seenly-summary-copy p {
+  max-width: 250px !important;
   color: color-mix(in oklch, var(--color-deep-ink) 72%, var(--muted-foreground)) !important;
   font-family: var(--font-heading) !important;
-  font-size: 1.08rem !important;
-  line-height: 1.55 !important;
+  font-size: 0.88rem !important;
+  line-height: 1.45 !important;
 }
 
 .seenly-dashboard-signal-card {
-  min-height: 640px !important;
-  padding: clamp(1.75rem, 3vw, 2.4rem) clamp(1.6rem, 3vw, 2.2rem) !important;
+  padding: 1.5rem !important;
+}
+
+.seenly-dashboard-signal-card {
+  padding: 1.5rem !important;
 }
 
 .seenly-dashboard-signal-card>h3 {
-  font-size: clamp(1.75rem, 3vw, 2.2rem) !important;
-  font-weight: 430 !important;
+  font-size: clamp(1.35rem, 2vw, 1.65rem) !important;
+  font-weight: 700 !important;
   color: var(--color-deep-ink) !important;
 }
 
-.seenly-dashboard-signal-card .grid {
-  gap: 1.35rem 1.4rem !important;
+.seenly-profile-summary-box {
+  background: linear-gradient(135deg, rgba(255, 253, 248, 0.95) 0%, rgba(249, 244, 235, 0.85) 100%) !important;
+  border: 1px solid rgba(197, 160, 89, 0.22) !important;
+  box-shadow: 0 2px 8px rgba(80, 60, 40, 0.03) !important;
 }
 
-.seenly-dashboard-signal-card .grid>div {
-  min-height: 96px !important;
-  border: 1.5px solid rgba(11, 27, 44, 0.25) !important;
-  border-radius: 14px !important;
-  background: rgba(255, 253, 248, 0.76) !important;
-  box-shadow:
-    0 12px 28px rgba(80, 60, 40, 0.08),
-    0 1px 0 rgba(255, 255, 255, 0.78) inset !important;
-  padding: 1.05rem !important;
+.signal-card-item {
+  min-height: 62px !important;
+  background: rgba(255, 255, 255, 0.88) !important;
+  border: 1px solid rgba(11, 27, 44, 0.08) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 2px 6px rgba(80, 60, 40, 0.02) !important;
   transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s !important;
 }
 
-.seenly-dashboard-signal-card .grid>div>div:first-child {
-  width: 52px !important;
-  height: 52px !important;
-  border: 1px solid currentColor !important;
-}
-
-.seenly-dashboard-signal-card .grid>div span {
-  font-family: var(--font-heading) !important;
-  font-size: 1.08rem !important;
-  font-weight: 430 !important;
-  color: var(--color-deep-ink) !important;
-}
-
-.seenly-dashboard-signal-card .grid>div .h-1\.5 {
-  height: 6px !important;
-  background: rgba(116, 89, 58, 0.13) !important;
+.signal-card-item:hover {
+  transform: translateY(-1px) !important;
+  border-color: rgba(11, 27, 44, 0.18) !important;
+  box-shadow: 0 6px 14px rgba(80, 60, 40, 0.06) !important;
 }
 
 @media (min-width: 900px) {
@@ -6612,6 +7357,7 @@ body:has(.seenly-wizard-wrapper) {
   display: grid;
   grid-template-rows: minmax(0, 1fr) auto;
   align-content: stretch;
+  justify-items: center;
   gap: clamp(0.8rem, 1.8vw, 1.2rem);
   padding: clamp(1rem, 2.4vw, 1.6rem) clamp(1rem, 4vw, 3.25rem) clamp(1rem, 2.5vw, 1.6rem);
   overflow-y: auto;
@@ -6738,9 +7484,12 @@ body:has(.seenly-wizard-wrapper) {
 }
 
 .seenly-wizard-checkmark {
-  width: 24px;
-  height: 24px;
-  min-width: 24px;
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px !important;
+  max-width: 24px !important;
+  flex: 0 0 24px !important;
+  flex-shrink: 0 !important;
   font-size: 0.78rem;
 }
 
@@ -6750,52 +7499,53 @@ body:has(.seenly-wizard-wrapper) {
 
 .seenly-wizard-info-bullets {
   width: 100%;
-  max-width: 460px;
+  max-width: 400px;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   padding: 0;
-  margin: 1.5rem 0 0.5rem 0;
+  margin: 1rem auto 1.5rem auto;
   list-style: none;
 }
 
 .seenly-wizard-info-bullets li {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
-  min-height: 48px;
-  padding: 0.75rem 1rem;
-  border-radius: 14px;
+  min-height: 52px;
+  padding: 0.75rem 1.25rem;
+  border-radius: 16px;
   border: 1px solid rgba(11, 27, 44, 0.06);
   background: rgba(255, 253, 250, 0.7);
   color: var(--color-deep-ink);
   font-family: var(--font-sans);
-  font-size: 0.92rem;
+  font-size: 0.94rem;
   font-weight: 600;
-  text-align: left;
+  text-align: center;
   box-shadow: 0 2px 8px rgba(11, 27, 44, 0.01);
   box-sizing: border-box;
 }
 
 .seenly-wizard-footer-action {
   width: 100%;
-  max-width: 720px;
+  max-width: 400px;
   display: flex;
   justify-content: center !important;
-  align-self: center;
-  justify-self: center;
-  margin-top: 1rem;
+  align-items: center;
+  margin: auto auto 0 auto;
+  padding-top: 1rem;
+  box-sizing: border-box;
 }
 
 .seenly-wizard-primary-btn {
   width: 100%;
-  max-width: 320px;
-  min-width: 220px;
+  max-width: 400px;
   min-height: 52px;
-  border-radius: 14px !important;
+  border-radius: 16px !important;
   font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: 0.95rem;
+  font-weight: 700;
+  font-size: 1.05rem;
   letter-spacing: 0.02em;
   background: var(--color-deep-ink) !important;
   color: #ffffff !important;
@@ -6805,6 +7555,7 @@ body:has(.seenly-wizard-wrapper) {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0 auto;
   gap: 8px;
 }
 
@@ -6909,18 +7660,40 @@ body:has(.seenly-wizard-wrapper) {
   }
 
   .seenly-wizard-body {
-    padding: 0.9rem 1rem 1rem;
-    gap: 0.7rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.75rem 0.85rem 1.5rem;
+    gap: 1.1rem;
   }
 
   .seenly-wizard-content {
+    flex: 1;
     width: 100%;
-    gap: 0.7rem;
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .seenly-wizard-circle-icon {
+    width: 68px !important;
+    height: 68px !important;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0.25rem;
   }
 
   .seenly-wizard-title {
-    font-size: clamp(1.6rem, 7.5vw, 2.15rem);
-    line-height: 1.06;
+    font-size: clamp(1.75rem, 8vw, 2.2rem);
+    line-height: 1.08;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 0;
   }
 
   .seenly-wizard-title.question-text,
@@ -6930,13 +7703,15 @@ body:has(.seenly-wizard-wrapper) {
   }
 
   .seenly-wizard-body:has(.question-text) {
-    padding: 0.75rem 1rem 0.9rem;
+    padding: 0.75rem 1.1rem 0.9rem;
     gap: 0.6rem;
   }
 
   .seenly-wizard-list-container,
   .seenly-wizard-body:has(.question-text) .seenly-wizard-list-container {
     gap: 0.42rem;
+    width: 100%;
+    margin: 0 auto;
   }
 
   .seenly-wizard-list-btn,
@@ -6949,14 +7724,59 @@ body:has(.seenly-wizard-wrapper) {
     font-size: 0.88rem;
   }
 
+  .seenly-wizard-input-container {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .seenly-wizard-input {
+    min-height: 56px;
+    font-size: 1.05rem;
+    border-radius: 14px;
+  }
+
+  .seenly-wizard-info-bullets {
+    width: 100%;
+    margin: 0.25rem auto 0.5rem auto;
+    gap: 0.65rem;
+  }
+
+  .seenly-wizard-info-bullets li {
+    justify-content: flex-start;
+    text-align: left;
+    font-size: 0.9rem;
+    padding: 0.75rem 1rem;
+    min-height: 46px;
+  }
+
+  .seenly-auth-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 1.5rem 1.25rem !important;
+    border-radius: 20px !important;
+    box-sizing: border-box;
+    gap: 1rem !important;
+  }
+
   .seenly-wizard-footer-action {
     width: 100%;
-    justify-content: stretch;
+    margin-top: auto;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    padding-top: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .seenly-wizard-primary-btn {
     width: 100%;
     min-width: 0;
+    min-height: 56px;
+    font-size: 1rem;
+    border-radius: 18px !important;
+    margin: 0 auto;
   }
 }
 
@@ -7136,175 +7956,123 @@ body:has(.seenly-wizard-wrapper) {
 }
 
 .seenly-dashboard-tabs-wrapper {
-  max-width: 980px !important;
-  margin-bottom: clamp(1.6rem, 3vw, 2.25rem) !important;
+  position: relative !important;
+  width: 100% !important;
+  max-width: 1040px !important;
+  margin: 1.25rem auto 0.75rem auto !important;
+  padding: 0 1rem !important;
+  box-sizing: border-box !important;
 }
 
 .seenly-dashboard-tabs-capsule {
-  min-height: 60px !important;
-  padding: 7px 10px !important;
-  gap: 0.35rem !important;
-  background: rgba(253, 251, 247, 0.55) !important;
-  border: 1px solid rgba(116, 89, 58, 0.16) !important;
-  box-shadow: 0 12px 34px rgba(80, 60, 40, 0.07) !important;
-}
-
-.seenly-dashboard-tabs-capsule button {
-  min-height: 42px !important;
-  border-radius: 999px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
   box-shadow: none !important;
-  color: color-mix(in oklch, var(--color-deep-ink) 72%, var(--muted-foreground)) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  padding: 4px 12px 8px 12px !important;
+  gap: 8px !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  box-sizing: border-box !important;
+}
+
+.seenly-dashboard-tabs-capsule::-webkit-scrollbar {
+  display: none !important;
+}
+
+.seenly-tab-pill,
+.seenly-dashboard-tabs-capsule button {
+  flex-shrink: 0 !important;
+  padding: 8px 18px !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(197, 160, 89, 0.22) !important;
+  background: rgba(253, 251, 245, 0.65) !important;
+  box-shadow: 0 1px 3px rgba(80, 60, 40, 0.02) !important;
+  color: #64748B !important;
   font-family: var(--font-sans) !important;
-  font-size: 0.88rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0 !important;
+  font-size: 0.86rem !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.01em !important;
   opacity: 1 !important;
+  cursor: pointer !important;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease !important;
+  white-space: nowrap !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
 }
 
-.seenly-dashboard-tabs-capsule button[data-active="true"] {
-  background: var(--color-deep-ink) !important;
-  color: var(--color-paper-cream) !important;
-  box-shadow: 0 9px 22px rgba(11, 27, 44, 0.15) !important;
+.seenly-tab-pill:hover:not(.active),
+.seenly-dashboard-tabs-capsule button:not(.active):hover {
+  background: rgba(255, 255, 255, 0.9) !important;
+  color: #1A3E72 !important;
+  border-color: rgba(197, 160, 89, 0.4) !important;
+  box-shadow: 0 2px 8px rgba(80, 60, 40, 0.05) !important;
+  transform: translateY(-1px) !important;
 }
 
-.seenly-dashboard-tabs-capsule button[data-active="false"]:hover {
-  color: var(--color-deep-ink) !important;
-  background: transparent !important;
-}
-
-.seenly-dashboard-copy-system button {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: min(320px, 100%) !important;
-  min-width: 0 !important;
-  height: 52px !important;
-  padding-inline: 1.5rem !important;
-  line-height: 1 !important;
-  text-align: center !important;
-  letter-spacing: 0 !important;
-}
-
-.seenly-dashboard-copy-system button span {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  line-height: 1 !important;
-}
-
-.seenly-dashboard-copy-system button svg {
-  flex: 0 0 auto !important;
-}
-
-.seenly-dashboard-tab-content>.flex.flex-col.items-center {
-  width: min(410px, 100%) !important;
-}
-
-.seenly-dashboard-tab-content>.flex.flex-col.items-center>.seenly-dashboard-premium-card {
-  min-height: 0 !important;
-  justify-content: flex-start !important;
-  padding: clamp(1.4rem, 2.6vw, 2rem) !important;
-}
-
-.seenly-dashboard-portrait-frame {
-  max-width: 260px !important;
-  margin-bottom: 1.2rem !important;
-}
-
-.seenly-dashboard-tab-content>.flex.flex-col.items-center h3 {
-  font-size: clamp(1.85rem, 3.2vw, 2.35rem) !important;
-  letter-spacing: 0 !important;
-}
-
-.seenly-dashboard-tab-content>.flex.flex-col.items-center p {
-  max-width: 285px !important;
-  font-size: 0.98rem !important;
-  line-height: 1.55 !important;
-}
-
-.seenly-dashboard-card-actions {
-  margin-top: 1rem !important;
-  padding-top: 0.9rem !important;
-}
-
-.seenly-dashboard-card-actions button {
-  letter-spacing: 0 !important;
-}
-
-.seenly-dashboard-signal-card {
-  min-height: 0 !important;
-  padding: clamp(1.45rem, 2.6vw, 2rem) !important;
-}
-
-.seenly-dashboard-signal-card>h3 {
-  font-size: clamp(1.45rem, 2.4vw, 1.85rem) !important;
-  line-height: 1.12 !important;
-  letter-spacing: 0 !important;
-  margin-bottom: 0.35rem !important;
-}
-
-.seenly-dashboard-signal-card>.flex.items-center.justify-center {
-  margin-bottom: 1.25rem !important;
-}
-
-.seenly-dashboard-signal-card .grid {
-  gap: 0.9rem 1rem !important;
-  align-content: start !important;
-}
-
-.seenly-dashboard-signal-card .grid>div {
-  min-height: 78px !important;
-  gap: 0.85rem !important;
-  padding: 0.9rem 1rem !important;
-  border: 1.5px solid rgba(11, 27, 44, 0.25) !important;
-  border-radius: 14px !important;
-  background: rgba(255, 253, 248, 0.72) !important;
-  box-shadow:
-    0 10px 22px rgba(80, 60, 40, 0.055),
-    0 1px 0 rgba(255, 255, 255, 0.82) inset !important;
-  transition: border-color 0.25s, transform 0.25s !important;
-}
-
-.seenly-dashboard-signal-card .grid>div>div:first-child {
-  width: 42px !important;
-  height: 42px !important;
-}
-
-.seenly-dashboard-signal-card .grid>div>div:last-child {
-  min-width: 0 !important;
-  flex: 1 1 auto !important;
-}
-
-.seenly-dashboard-signal-card .grid>div span {
-  font-size: 0.94rem !important;
+.seenly-tab-pill.active,
+.seenly-dashboard-tabs-capsule button.active {
+  background: #FFFFFF !important;
+  color: #0B1B2C !important;
+  border: 1.5px solid rgba(197, 160, 89, 0.5) !important;
+  box-shadow: 0 4px 16px rgba(80, 60, 40, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
   font-weight: 700 !important;
-  letter-spacing: 0 !important;
-}
-
-.seenly-dashboard-signal-card .grid>div .h-1\.5 {
-  width: 100% !important;
-  min-width: 86px !important;
-  height: 7px !important;
-  background: rgba(116, 89, 58, 0.12) !important;
-}
-
-@media (min-width: 900px) {
-  .seenly-dashboard-signal-card {
-    max-width: 560px !important;
-  }
+  transform: none !important;
 }
 
 @media (max-width: 760px) {
+  .seenly-dashboard-username {
+    font-size: clamp(1.9rem, 7.5vw, 3.2rem) !important;
+  }
+
+  .seenly-share-actions {
+    max-width: 270px !important;
+    margin-top: 8px !important;
+  }
+
+  .seenly-share-bar {
+    gap: 7px !important;
+  }
+
+  .seenly-share-copy-btn {
+    height: 38px !important;
+    font-size: 0.72rem !important;
+    padding-inline: 14px !important;
+  }
+
+  .seenly-share-qr-btn {
+    width: 38px !important;
+    height: 38px !important;
+    flex: 0 0 38px !important;
+  }
+
+  .seenly-share-hint {
+    font-size: 0.7rem !important;
+    margin-top: 6px !important;
+  }
+
+  .seenly-dashboard-tabs-wrapper {
+    padding: 0 !important;
+    margin: 0.8rem auto 0.4rem auto !important;
+  }
+
   .seenly-dashboard-tabs-capsule {
-    min-height: 54px !important;
-    padding: 6px !important;
+    justify-content: flex-start !important;
+    padding: 4px 36px 8px 16px !important;
+    gap: 8px !important;
   }
 
   .seenly-dashboard-tabs-capsule button {
-    min-height: 38px !important;
-    padding-inline: 0.85rem !important;
     font-size: 0.78rem !important;
+    padding: 8px 15px !important;
+    min-height: 38px !important;
   }
 
   .seenly-dashboard-signal-card .grid {
@@ -7367,27 +8135,6 @@ body:has(.seenly-wizard-wrapper) {
   background: transparent !important;
   box-shadow: none !important;
   filter: none !important;
-}
-
-.seenly-dashboard-tabs-capsule button[data-active="false"] {
-  border-radius: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  outline: 0 !important;
-}
-
-.seenly-dashboard-tabs-capsule button[data-active="false"]::before,
-.seenly-dashboard-tabs-capsule button[data-active="false"]::after {
-  display: none !important;
-  content: none !important;
-}
-
-.seenly-dashboard-tabs-capsule button[data-active="false"]:hover,
-.seenly-dashboard-tabs-capsule button[data-active="false"]:focus,
-.seenly-dashboard-tabs-capsule button[data-active="false"]:focus-visible {
-  background: transparent !important;
-  box-shadow: none !important;
-  outline: 0 !important;
 }
 
 @media (min-width: 900px) {
@@ -7478,9 +8225,7 @@ body:has(.seenly-wizard-wrapper) {
 }
 
 .seenly-gap-editorial-content .seenly-dashboard-premium-card {
-  background:
-    linear-gradient(180deg, rgba(255, 253, 248, 0.92), rgba(255, 251, 244, 0.92)),
-    var(--paper) !important;
+  background: #FDFBF4 !important;
   border-color: rgba(116, 89, 58, 0.13) !important;
 }
 
@@ -7528,15 +8273,26 @@ body:has(.seenly-wizard-wrapper) {
   box-shadow: none !important;
 }
 
+.seenly-dashboard-premium-card,
+.seenly-dashboard-signal-card,
+.seenly-signal-summary-card,
+.seenly-outside-summary-card,
+.signal-card-item,
 .seenly-dashboard-tab-content .seenly-dashboard-premium-card {
-  background:
-    linear-gradient(180deg, rgba(255, 253, 248, 0.9), rgba(255, 251, 244, 0.9)),
-    var(--paper) !important;
+  background: #FDFBF4 !important;
+  background-color: #FDFBF4 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  opacity: 1 !important;
   border-color: rgba(116, 89, 58, 0.13) !important;
 }
 
 .seenly-dashboard-signal-card .grid>div {
-  background: rgba(255, 253, 248, 0.78) !important;
+  background: #FDFBF4 !important;
+  background-color: #FDFBF4 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  opacity: 1 !important;
   border-color: rgba(116, 89, 58, 0.11) !important;
 }
 
@@ -8124,13 +8880,13 @@ body:has(.app-shell.dashboard-layout) {
 
 .seenly-dashboard-tab-content.seenly-signal-flow .seenly-signal-summary-card,
 .seenly-dashboard-tab-content.seenly-outside-flow .seenly-outside-summary-card {
-  min-height: 620px !important;
   height: 100% !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: space-between !important;
   text-align: center !important;
+  padding: 1.5rem !important;
 }
 
 .seenly-dashboard-tab-content.seenly-signal-flow .seenly-signal-summary-main,
@@ -8140,14 +8896,14 @@ body:has(.app-shell.dashboard-layout) {
   align-items: center !important;
   justify-content: center !important;
   width: 100% !important;
-  padding-block: 1rem !important;
+  padding-block: 0.5rem !important;
 }
 
 .seenly-dashboard-tab-content.seenly-signal-flow .seenly-dashboard-portrait-frame,
 .seenly-dashboard-tab-content.seenly-outside-flow .seenly-dashboard-portrait-frame {
-  width: min(290px, 100%) !important;
-  max-width: 290px !important;
-  margin: 0 0 1rem !important;
+  width: min(230px, 100%) !important;
+  max-width: 230px !important;
+  margin: 0 0 0.85rem !important;
 }
 
 /* Mobile: stack identity card on top, signal panel below */
@@ -8181,7 +8937,7 @@ body:has(.app-shell.dashboard-layout) {
 
 /* Make all progress bars inside social signal cards uniform in thickness and length */
 .signal-card-item .h-1\.5 {
-  height: 8px !important;
+  height: 5px !important;
   width: 100% !important;
   background: rgba(116, 89, 58, 0.12) !important;
   border-radius: 999px !important;
@@ -8197,7 +8953,7 @@ body:has(.app-shell.dashboard-layout) {
   .seenly-dashboard-tab-content.seenly-signal-flow,
   .seenly-dashboard-tab-content.seenly-outside-flow {
     display: grid !important;
-    grid-template-columns: 320px minmax(0, 1fr) !important;
+    grid-template-columns: 310px minmax(0, 1fr) !important;
     align-items: stretch !important;
   }
 
@@ -8217,3 +8973,5 @@ body:has(.app-shell.dashboard-layout) {
     height: 100% !important;
   }
 }
+
+

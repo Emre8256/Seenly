@@ -1,0 +1,983 @@
+/* Plan tab: restrained billing/settings layout. */
+.seenly-dashboard-tab-content.seenly-plan-clean-tab {
+  width: min(920px, 100%) !important;
+  max-width: 920px !important;
+}
+
+.seenly-plan-clean {
+  --plan-ink: var(--color-deep-ink, #0b1b2c);
+  --plan-ink-soft: #465362;
+  --plan-muted: var(--color-text-muted, #7a746a);
+  --plan-line: rgba(82, 68, 49, 0.14);
+  --plan-line-strong: rgba(82, 68, 49, 0.2);
+  --plan-paper: var(--color-paper-cream, #fffdf8);
+  --plan-paper-soft: #f6f2ea;
+  --plan-gold: #a77d36;
+  --plan-success: #3f7258;
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.9rem, 4vw, 2.6rem);
+  color: var(--plan-ink);
+}
+
+.seenly-plan-clean svg {
+  transform: none !important;
+}
+
+.seenly-plan-clean .seenly-plan-pro-hero {
+  max-width: 650px;
+  margin: 0;
+  padding: 0.15rem 0 0.15rem 1rem;
+  border-left: 2px solid rgba(167, 125, 54, 0.48);
+  text-align: left;
+}
+
+.seenly-plan-clean .seenly-plan-pro-eyebrow,
+.seenly-plan-clean .seenly-plan-pro-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--plan-gold);
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.seenly-plan-clean .seenly-plan-pro-hero h3 {
+  max-width: none;
+  margin: 0.45rem 0 0;
+  color: var(--plan-ink);
+  font-family: var(--font-heading);
+  font-size: clamp(1.9rem, 4vw, 2.55rem);
+  font-weight: 560;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  text-wrap: initial;
+}
+
+.seenly-plan-clean .seenly-plan-pro-hero p {
+  max-width: 620px;
+  margin: 0.6rem 0 0;
+  color: var(--plan-muted);
+  font-family: var(--font-sans);
+  font-size: 0.91rem;
+  line-height: 1.6;
+  text-wrap: initial;
+}
+
+.seenly-plan-clean .seenly-plan-pro-current {
+  display: grid;
+  grid-template-columns: minmax(160px, 0.85fr) minmax(240px, 1.2fr) auto;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--plan-line);
+  border-radius: 15px;
+  background: linear-gradient(118deg, rgba(246, 242, 234, 0.94), rgba(255, 253, 248, 0.78));
+  box-shadow: 0 7px 22px rgba(11, 27, 44, 0.045);
+}
+
+.seenly-plan-clean .seenly-plan-pro-current-icon {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(11, 27, 44, 0.08);
+  border-radius: 11px;
+  background: var(--plan-ink);
+  color: #fffdf8;
+  box-shadow: 0 5px 13px rgba(11, 27, 44, 0.13);
+}
+
+.seenly-plan-clean .seenly-plan-pro-current-identity {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.72rem;
+}
+
+.seenly-plan-clean .seenly-plan-pro-current-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+}
+
+.seenly-plan-clean .seenly-plan-pro-current-copy span,
+.seenly-plan-clean .seenly-plan-pro-usage-label span {
+  color: var(--plan-muted);
+  font-family: var(--font-sans);
+  font-size: 0.61rem;
+  font-weight: 750;
+  letter-spacing: 0.09em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.seenly-plan-clean .seenly-plan-pro-current-copy strong {
+  color: var(--plan-ink);
+  font-family: var(--font-heading);
+  font-size: 1.08rem;
+  font-weight: 600;
+}
+
+.seenly-plan-clean .seenly-plan-pro-usage {
+  min-width: 0;
+  padding-left: 1.25rem;
+  border-left: 1px solid var(--plan-line);
+}
+
+.seenly-plan-clean .seenly-plan-pro-usage-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.45rem;
+}
+
+.seenly-plan-clean .seenly-plan-pro-usage-label strong {
+  color: var(--plan-ink);
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.seenly-plan-clean .seenly-plan-pro-usage-track {
+  width: 100%;
+  height: 5px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e7e1d7;
+}
+
+.seenly-plan-clean .seenly-plan-pro-usage-track > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--plan-gold);
+  transition: width 0.25s ease;
+}
+
+.seenly-plan-clean .seenly-plan-pro-usage-track.is-unlimited > span {
+  background: var(--plan-success);
+}
+
+.seenly-plan-clean .seenly-plan-pro-status {
+  display: inline-flex;
+  align-items: center;
+  justify-self: end;
+  gap: 0.4rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--plan-success);
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.seenly-plan-clean .seenly-plan-pro-status > span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: none;
+}
+
+.seenly-plan-clean .seenly-plan-pro-plans,
+.seenly-plan-clean .seenly-plan-pro-packs {
+  min-width: 0;
+}
+
+.seenly-plan-clean .seenly-plan-pro-section-head,
+.seenly-plan-clean .seenly-plan-pro-packs-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 0.85rem;
+}
+
+.seenly-plan-clean .seenly-plan-pro-section-head h4,
+.seenly-plan-clean .seenly-plan-pro-packs-head h4 {
+  margin-top: 0.25rem;
+  color: var(--plan-ink);
+  font-family: var(--font-heading);
+  font-size: clamp(1.35rem, 2.8vw, 1.7rem);
+  font-weight: 570;
+}
+
+.seenly-plan-clean .seenly-plan-pro-section-head p,
+.seenly-plan-clean .seenly-plan-pro-packs-head p {
+  max-width: 360px;
+  margin-bottom: 0;
+  color: var(--plan-muted);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  text-align: right;
+}
+
+.seenly-plan-clean .seenly-plan-pro-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 0.9rem;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.seenly-plan-clean .seenly-plan-pro-card,
+.seenly-plan-clean .seenly-plan-pro-card-base.is-current,
+.seenly-plan-clean .seenly-plan-pro-card-plus,
+.seenly-plan-clean .seenly-plan-pro-card-plus.is-current {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.25rem, 3vw, 1.55rem);
+  border: 1px solid var(--plan-line-strong);
+  border-radius: 17px;
+  background: rgba(255, 253, 248, 0.9);
+  box-shadow: 0 6px 20px rgba(11, 27, 44, 0.035);
+  overflow: hidden;
+}
+
+.seenly-plan-clean .seenly-plan-pro-card-base.is-current {
+  border-color: rgba(63, 114, 88, 0.24);
+  background: linear-gradient(145deg, rgba(255, 253, 248, 0.98), rgba(245, 249, 246, 0.82));
+}
+
+.seenly-plan-clean .seenly-plan-pro-card-plus,
+.seenly-plan-clean .seenly-plan-pro-card-plus.is-current {
+  border-color: rgba(167, 125, 54, 0.34);
+  background: linear-gradient(145deg, #fffefb 0%, #f7f0e5 100%);
+  box-shadow: inset 0 2px 0 rgba(167, 125, 54, 0.52), 0 10px 26px rgba(11, 27, 44, 0.055);
+}
+
+.seenly-plan-clean .seenly-plan-pro-card-topline {
+  display: flex;
+  min-height: 25px;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.55rem;
+}
+
+.seenly-plan-clean .seenly-plan-pro-badge,
+.seenly-plan-clean .seenly-plan-pro-card-plus .seenly-plan-pro-badge {
+  flex: 0 0 auto;
+  padding: 0.28rem 0.48rem;
+  border: 1px solid rgba(20, 40, 61, 0.12);
+  border-radius: 999px;
+  border-color: rgba(20, 40, 61, 0.12);
+  background: rgba(20, 40, 61, 0.06);
+  color: var(--plan-ink);
+  font-family: var(--font-sans);
+  font-size: 0.55rem;
+  font-weight: 850;
+  letter-spacing: 0.055em;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.seenly-plan-clean .seenly-plan-pro-card-plus .seenly-plan-pro-badge {
+  border-color: var(--plan-ink);
+  background: var(--plan-ink);
+  color: #fffdf8;
+}
+
+.seenly-plan-clean .seenly-plan-pro-card-plus .seenly-plan-pro-kicker {
+  color: var(--plan-gold);
+}
+
+.seenly-plan-clean .seenly-plan-pro-kicker {
+  color: var(--plan-muted);
+  font-family: var(--font-sans);
+  font-size: 0.64rem;
+  font-weight: 760;
+  letter-spacing: 0.07em;
+}
+
+.seenly-plan-clean .seenly-plan-pro-title,
+.seenly-plan-clean .seenly-plan-pro-card-plus .seenly-plan-pro-title {
+  margin-top: 0.75rem;
+  color: var(--plan-ink);
+  font-family: var(--font-heading);
+  font-size: clamp(1.65rem, 3.5vw, 2rem);
+  font-weight: 590;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+}
+
+.seenly-plan-clean .seenly-plan-pro-price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  min-height: 0;
+  margin-top: 0.4rem;
+  gap: 0.5rem;
+}
+
+.seenly-plan-clean .seenly-plan-pro-price strong,
+.seenly-plan-clean .seenly-plan-pro-card-plus .seenly-plan-pro-price strong {
+  color: var(--plan-ink);
+  font-family: var(--font-heading);
+  font-size: clamp(1.45rem, 3vw, 1.75rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.seenly-plan-clean .seenly-plan-pro-price small,
+.seenly-plan-clean .seenly-plan-pro-card-plus .seenly-plan-pro-price small {
+  color: var(--plan-muted);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.seenly-plan-clean .seenly-plan-pro-rule {
+  display: none;
+}
+
+.seenly-plan-clean .seenly-plan-pro-features {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.72rem;
+  margin-top: 1.25rem;
+  margin-bottom: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.seenly-plan-clean .seenly-plan-pro-features li,
+.seenly-plan-clean .seenly-plan-pro-card-plus .seenly-plan-pro-features li {
+  display: flex;
+  align-items: center;
+  min-height: 0;
+  gap: 0.6rem;
+  padding: 0;
+  border: 0;
+  color: var(--plan-ink-soft);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 560;
+  line-height: 1.4;
+}
+
+.seenly-plan-clean .seenly-plan-pro-check,
+.seenly-plan-clean .seenly-plan-pro-card-plus .seenly-plan-pro-check {
+  display: grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+  flex-basis: 17px;
+  flex-shrink: 0;
+  border: 1px solid rgba(63, 114, 88, 0.25);
+  border-radius: 5px;
+  border-color: rgba(63, 114, 88, 0.25);
+  background: rgba(63, 114, 88, 0.07);
+  color: var(--plan-success);
+}
+
+.seenly-plan-clean .seenly-plan-pro-check svg {
+  width: 9px;
+  height: 9px;
+}
+
+.seenly-plan-clean .seenly-plan-pro-button {
+  width: 100%;
+  min-height: 43px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  margin-top: 1.35rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: 9px;
+  font-size: 0.71rem;
+  letter-spacing: 0.04em;
+  box-shadow: 0 3px 10px rgba(11, 27, 44, 0.04);
+  font-family: var(--font-sans);
+  font-weight: 800;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.seenly-plan-clean .seenly-plan-pro-button .arrow,
+.seenly-plan-clean .seenly-plan-pro-pack-button .arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  transition: transform 0.18s ease;
+}
+
+.seenly-plan-clean .seenly-plan-pro-button-secondary {
+  border-color: var(--plan-line-strong);
+  background: var(--plan-paper-soft);
+  color: var(--plan-muted);
+}
+
+.seenly-plan-clean .seenly-plan-pro-button-primary {
+  border-color: var(--plan-ink);
+  background: var(--plan-ink);
+  color: #fffdf8;
+  box-shadow: 0 7px 16px rgba(11, 27, 44, 0.13);
+}
+
+.seenly-plan-clean .seenly-plan-pro-button-primary:hover:not(:disabled) {
+  transform: none;
+  background: #20384f;
+  box-shadow: 0 9px 19px rgba(11, 27, 44, 0.16);
+}
+
+.seenly-plan-clean .seenly-plan-pro-button-primary:hover:not(:disabled) .arrow,
+.seenly-plan-clean .seenly-plan-pro-pack-button:hover:not(:disabled) .arrow {
+  transform: translateX(2px);
+}
+
+.seenly-plan-clean .seenly-plan-pro-card-plus .seenly-plan-pro-button-primary:disabled {
+  border-color: rgba(20, 40, 61, 0.12);
+  background: rgba(20, 40, 61, 0.06);
+  color: var(--plan-muted);
+}
+
+.seenly-plan-clean .seenly-plan-pro-packs {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.seenly-plan-clean .seenly-plan-pro-packs-head {
+  margin-bottom: 0.85rem;
+}
+
+.seenly-plan-clean .seenly-plan-pro-pack-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.seenly-plan-clean .seenly-plan-pro-pack,
+.seenly-plan-clean .seenly-plan-pro-pack.is-featured {
+  min-height: 218px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  grid-template-columns: none;
+  grid-template-areas: none;
+  gap: 0;
+  padding: 1rem;
+  border: 1px solid var(--plan-line);
+  border-radius: 15px;
+  background: rgba(255, 253, 248, 0.82);
+  box-shadow: 0 5px 17px rgba(11, 27, 44, 0.03);
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.seenly-plan-clean .seenly-plan-pro-pack.is-featured {
+  border-color: rgba(167, 125, 54, 0.3);
+  background: linear-gradient(150deg, rgba(255, 253, 248, 0.98), rgba(247, 240, 229, 0.74));
+  box-shadow: inset 0 2px 0 rgba(167, 125, 54, 0.34), 0 7px 20px rgba(11, 27, 44, 0.045);
+}
+
+.seenly-plan-clean .seenly-plan-pro-pack:not(.is-muted):hover {
+  transform: translateY(-2px);
+  border-color: rgba(11, 27, 44, 0.22);
+  background-color: rgba(255, 253, 248, 0.98);
+  box-shadow: 0 10px 23px rgba(11, 27, 44, 0.065);
+}
+
+.seenly-plan-clean .seenly-plan-pro-pack.is-muted {
+  opacity: 0.58;
+}
+
+.seenly-plan-clean .seenly-plan-pro-pack-topline,
+.seenly-plan-clean .seenly-plan-pro-pack-capacity,
+.seenly-plan-clean .seenly-plan-pro-pack-price,
+.seenly-plan-clean .seenly-plan-pro-pack-button {
+  grid-area: auto;
+}
+
+.seenly-plan-clean .seenly-plan-pro-pack-topline {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.62rem;
+}
+
+.seenly-plan-clean .seenly-plan-pro-pack-icon {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(11, 27, 44, 0.08);
+  border-radius: 9px;
+  background: rgba(11, 27, 44, 0.055);
+  color: var(--plan-ink);
+}
+
+.seenly-plan-clean .seenly-plan-pro-pack.is-featured .seenly-plan-pro-pack-icon {
+  border-color: rgba(167, 125, 54, 0.18);
+  background: rgba(167, 125, 54, 0.1);
+  color: var(--plan-gold);
+}
+
+.seenly-plan-clean .seenly-plan-pro-pack-label {
+  min-width: 0;
+  color: var(--plan-ink);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0;
+  line-height: 1.35;
+  text-transform: none;
+}
+
+.seenly-plan-clean .seenly-plan-pro-pack-capacity {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  margin: 1.15rem 0 0;
+  gap: 0.35rem;
+}
+
+.seenly-plan-clean .seenly-plan-pro-pack-capacity strong {
+  font-family: var(--font-heading);
+  font-size: 1.52rem;
+  font-weight: 610;
+  letter-spacing: -0.025em;
+}
+
+.seenly-plan-clean .seenly-plan-pro-pack-capacity h5 {
+  margin: 0;
+  color: var(--plan-muted);
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+}
+
+.seenly-plan-clean .seenly-plan-pro-pack-price {
+  margin: 0.65rem 0 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 750;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.seenly-plan-clean .seenly-plan-pro-pack-button {
+  width: 100%;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin: auto 0 0;
+  padding: 0.6rem 0.7rem;
+  border-color: rgba(20, 40, 61, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.56);
+  color: var(--plan-ink);
+  font-family: var(--font-sans);
+  font-size: 0.67rem;
+  letter-spacing: 0.035em;
+  font-weight: 800;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.seenly-plan-clean .seenly-plan-pro-button:disabled,
+.seenly-plan-clean .seenly-plan-pro-pack-button:disabled {
+  cursor: default;
+}
+
+.seenly-plan-clean .seenly-plan-pro-pack-button:disabled {
+  background: var(--plan-paper-soft);
+  color: var(--plan-muted);
+}
+
+.seenly-plan-clean .seenly-plan-pro-button:focus-visible,
+.seenly-plan-clean .seenly-plan-pro-pack-button:focus-visible {
+  outline: 3px solid rgba(167, 125, 54, 0.24);
+  outline-offset: 2px;
+}
+
+.seenly-plan-clean .seenly-plan-pro-pack-button:hover:not(:disabled) {
+  transform: none;
+  border-color: var(--plan-ink);
+  background: var(--plan-ink);
+  color: #fffdf8;
+}
+
+@media (max-width: 760px) {
+  .seenly-plan-clean .seenly-plan-pro-current {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .seenly-plan-clean .seenly-plan-pro-usage {
+    grid-column: 1 / -1;
+    padding: 0.8rem 0 0;
+    border-top: 1px solid var(--plan-line);
+    border-left: 0;
+  }
+
+  .seenly-plan-clean .seenly-plan-pro-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .seenly-plan-clean .seenly-plan-pro-card-plus,
+  .seenly-plan-clean .seenly-plan-pro-card-plus.is-current {
+    border: 1px solid rgba(167, 125, 54, 0.34);
+  }
+
+  .seenly-plan-clean .seenly-plan-pro-pack-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .seenly-plan-clean .seenly-plan-pro-pack,
+  .seenly-plan-clean .seenly-plan-pro-pack.is-featured {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "label price"
+      "capacity price"
+      "button button";
+    min-height: 0;
+    gap: 0.25rem 0.8rem;
+  }
+
+  .seenly-plan-clean .seenly-plan-pro-pack-topline {
+    grid-area: label;
+  }
+
+  .seenly-plan-clean .seenly-plan-pro-pack-capacity {
+    grid-area: capacity;
+    margin-top: 0.25rem;
+  }
+
+  .seenly-plan-clean .seenly-plan-pro-pack-price {
+    grid-area: price;
+    margin: 0;
+    text-align: right;
+  }
+
+  .seenly-plan-clean .seenly-plan-pro-pack-button {
+    grid-area: button;
+    width: 100%;
+    margin-top: 0.65rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .seenly-plan-clean {
+    gap: 1.75rem;
+  }
+
+  .seenly-plan-clean .seenly-plan-pro-section-head,
+  .seenly-plan-clean .seenly-plan-pro-packs-head {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .seenly-plan-clean .seenly-plan-pro-section-head p,
+  .seenly-plan-clean .seenly-plan-pro-packs-head p {
+    max-width: none;
+    text-align: left;
+  }
+
+  .seenly-plan-clean .seenly-plan-pro-card,
+  .seenly-plan-clean .seenly-plan-pro-card-base.is-current,
+  .seenly-plan-clean .seenly-plan-pro-card-plus,
+  .seenly-plan-clean .seenly-plan-pro-card-plus.is-current {
+    padding: 1.1rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .seenly-plan-clean .seenly-plan-pro-current {
+    grid-template-columns: 1fr;
+  }
+
+  .seenly-plan-clean .seenly-plan-pro-status {
+    grid-row: auto;
+    justify-self: start;
+  }
+
+  .seenly-plan-clean .seenly-plan-pro-usage {
+    grid-column: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seenly-plan-clean *,
+  .seenly-plan-clean *::before,
+  .seenly-plan-clean *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Profile Name & Identity Card */
+.seenly-plan-clean .seenly-profile-identity-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.35rem 1.45rem;
+  border: 1px solid var(--plan-line-strong);
+  border-radius: 17px;
+  background: linear-gradient(145deg, rgba(255, 253, 248, 0.98), rgba(246, 242, 234, 0.85));
+  box-shadow: 0 7px 24px rgba(11, 27, 44, 0.04);
+}
+
+.seenly-plan-clean .seenly-profile-identity-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.seenly-plan-clean .seenly-profile-identity-info {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.seenly-plan-clean .seenly-profile-identity-avatar {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--plan-ink);
+  color: var(--plan-paper);
+  border: 1px solid rgba(11, 27, 44, 0.08);
+  box-shadow: 0 4px 12px rgba(11, 27, 44, 0.1);
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.seenly-plan-clean .seenly-profile-identity-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.seenly-plan-clean .seenly-profile-identity-details span {
+  color: var(--plan-gold);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.seenly-plan-clean .seenly-profile-identity-details strong {
+  color: var(--plan-ink);
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.seenly-plan-clean .seenly-profile-identity-subtext {
+  margin: 0;
+  color: var(--plan-muted);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.seenly-plan-clean .seenly-profile-plus-active-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  border: 1px solid rgba(167, 125, 54, 0.32);
+  border-radius: 17px;
+  background: linear-gradient(145deg, rgba(255, 253, 248, 0.98), rgba(246, 242, 234, 0.88));
+  box-shadow: 0 8px 24px rgba(167, 125, 54, 0.06);
+}
+
+.seenly-plan-clean .seenly-profile-plus-active-header {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.seenly-plan-clean .seenly-profile-plus-active-icon {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: rgba(167, 125, 54, 0.12);
+  border: 1px solid rgba(167, 125, 54, 0.28);
+  color: var(--plan-gold);
+}
+
+.seenly-plan-clean .seenly-profile-plus-active-title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 650;
+  color: var(--plan-ink);
+  letter-spacing: -0.02em;
+}
+
+.seenly-plan-clean .seenly-profile-plus-active-desc {
+  margin: 0.15rem 0 0;
+  color: var(--plan-muted);
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.seenly-plan-clean .seenly-profile-plus-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.65rem 1.25rem;
+  margin: 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--plan-line);
+}
+
+.seenly-plan-clean .seenly-profile-name-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--plan-line);
+}
+
+.seenly-plan-clean .seenly-profile-input-group {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+}
+
+.seenly-plan-clean .seenly-profile-input-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.seenly-plan-clean .seenly-profile-input {
+  width: 100%;
+  padding: 0.75rem 3.4rem 0.75rem 1rem;
+  border: 1.5px solid var(--plan-line-strong);
+  border-radius: 12px;
+  background: #ffffff;
+  color: var(--plan-ink);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  outline: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.seenly-plan-clean .seenly-profile-input:focus {
+  border-color: var(--plan-gold);
+  box-shadow: 0 0 0 3px rgba(167, 125, 54, 0.15);
+}
+
+.seenly-plan-clean .seenly-profile-input-counter {
+  position: absolute;
+  right: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--plan-muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.seenly-plan-clean .seenly-profile-save-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.75rem 1.4rem;
+  border: none;
+  border-radius: 12px;
+  background: var(--plan-ink);
+  color: var(--plan-paper);
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.seenly-plan-clean .seenly-profile-save-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(11, 27, 44, 0.16);
+}
+
+.seenly-plan-clean .seenly-profile-save-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.seenly-plan-clean .seenly-profile-save-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.seenly-plan-clean .seenly-profile-save-btn.is-saved {
+  background: var(--plan-success);
+}
+
+.seenly-plan-clean .seenly-profile-feedback {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-top: -0.2rem;
+}
+
+.seenly-plan-clean .seenly-profile-feedback.is-error {
+  color: #dc2626;
+}
+
+.seenly-plan-clean .seenly-profile-feedback.is-success {
+  color: var(--plan-success);
+}
+
+@media (max-width: 560px) {
+  .seenly-plan-clean .seenly-profile-input-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .seenly-plan-clean .seenly-profile-save-btn {
+    width: 100%;
+  }
+}

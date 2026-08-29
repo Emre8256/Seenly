@@ -1,15 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useLocale } from '../context/LocaleContext';
 import QuestionCard from '../components/QuestionCard';
 import AppShell from '../components/AppShell';
 import LandingPage from '../components/LandingPage';
 import { createSeenly, sendVerificationCode, verifyCode, loginWithEmail } from '../services/api';
+import { createPortal } from 'react-dom';
+import { useSeenlyShare, buildWhatsAppLink } from '../hooks/useSeenlyShare';
 import hiwStep1 from '../images/kart1.png';
 import hiwStep2 from '../images/kart2.png';
 import hiwStep3 from '../images/kart3.png';
 import hiwStep4 from '../images/kart4.png';
 
 import { CARD_IMAGES } from '../images/cardImages';
+import { getCardRarityData } from '../utils/rarityEngine';
 
 const SIGNATURE_IMAGES = CARD_IMAGES;
 
@@ -43,13 +46,13 @@ function QuizLanguageDropdown({ locale, isOpen, onToggle, onSelect, dropdownRef 
         aria-expanded={isOpen}
       >
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="12" cy="12" r="10"/>
-          <line x1="2" y1="12" x2="22" y2="12"/>
-          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          <circle cx="12" cy="12" r="10" />
+          <line x1="2" y1="12" x2="22" y2="12" />
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
         </svg>
         <span>{locale.toUpperCase()}</span>
         <svg className={`lang-dropdown-chevron ${isOpen ? 'open' : ''}`} width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <polyline points="6 9 12 15 18 9"/>
+          <polyline points="6 9 12 15 18 9" />
         </svg>
       </button>
       {isOpen && (
@@ -76,7 +79,7 @@ function QuizLanguageDropdown({ locale, isOpen, onToggle, onSelect, dropdownRef 
               <span>{lang.label}</span>
               {locale === lang.code && (
                 <svg className="lang-dropdown-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12"/>
+                  <polyline points="20 6 9 17 4 12" />
                 </svg>
               )}
             </button>
@@ -87,9 +90,14 @@ function QuizLanguageDropdown({ locale, isOpen, onToggle, onSelect, dropdownRef 
   );
 }
 
-const calculatePersonalityCard = (answers) => {
-  if (!answers || Object.keys(answers).length === 0) {
-    return 'the_safe_haven';
+const calculatePersonalityCard = (answersOrScores) => {
+  let data = answersOrScores;
+  if (!data || Object.keys(data).length === 0) {
+    try {
+      data = JSON.parse(sessionStorage.getItem('seenly_answers') || '{}');
+    } catch (e) {
+      data = {};
+    }
   }
 
   const cardSignalsList = [
@@ -141,11 +149,29 @@ const calculatePersonalityCard = (answers) => {
   ];
 
   const getPercentage = (key) => {
+    // 1. Direct key (e.g. data['samimiyet'])
+    if (data && data[key] !== undefined && data[key] !== null) {
+      const val = Number(data[key]);
+      if (val > 1.0001 || val === 1.0) {
+        return ((val - 1) / 4) * 100;
+      }
+      return val * 100;
+    }
+    // 2. Full question key (e.g. data['classic_self_samimiyet_01'])
     const selfKey = `classic_self_${key}_01`;
-    if (answers[selfKey] !== undefined) {
-      const num = Number(answers[selfKey]);
+    if (data && data[selfKey] !== undefined && data[selfKey] !== null) {
+      const num = Number(data[selfKey]);
       return ((num - 1) / 4) * 100;
     }
+    // 3. Fallback to session storage if not found in data
+    try {
+      const savedAnswers = JSON.parse(sessionStorage.getItem('seenly_answers') || '{}');
+      if (savedAnswers[selfKey] !== undefined && savedAnswers[selfKey] !== null) {
+        const num = Number(savedAnswers[selfKey]);
+        return ((num - 1) / 4) * 100;
+      }
+    } catch (e) { }
+
     return 50;
   };
 
@@ -156,7 +182,7 @@ const calculatePersonalityCard = (answers) => {
     const p1 = getPercentage(card.signals[0]);
     const p2 = getPercentage(card.signals[1]);
     const score = p1 * p2;
-    
+
     if (score > maxScore) {
       maxScore = score;
       bestCard = card.id;
@@ -168,6 +194,7 @@ const calculatePersonalityCard = (answers) => {
 
 export default function QuizPage({ onComplete }) {
   const { locale, setLocale, t, getObject } = useLocale();
+  const langCode = locale;
 
 
   const [langOpen, setLangOpen] = useState(false);
@@ -209,13 +236,41 @@ export default function QuizPage({ onComplete }) {
     return sessionStorage.getItem('seenly_email') || '';
   });
 
-  const [verificationCode, setVerificationCode] = useState(Array(6).fill(''));
+  const isValidEmail = (emailStr) => {
+    if (!emailStr || typeof emailStr !== 'string') return false;
+    const trimmed = emailStr.trim();
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+    return emailRegex.test(trimmed);
+  };
+
+  const [emailValidationError, setEmailValidationError] = useState('');
+  const [resendTimer, setResendTimer] = useState(0);
+
+  useEffect(() => {
+    let interval = null;
+    if (resendTimer > 0) {
+      interval = setInterval(() => {
+        setResendTimer((prev) => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [resendTimer]);
+
+  const formatTimer = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const [verificationCode, setVerificationCode] = useState(Array(4).fill(''));
   const [isEmailSending, setIsEmailSending] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
   const inputRefs = React.useRef([]);
 
   // Post-quiz verification flow state
-  const [postQuizOtp, setPostQuizOtp] = useState(Array(6).fill(''));
+  const [postQuizOtp, setPostQuizOtp] = useState(Array(4).fill(''));
   const postQuizOtpRefs = React.useRef([]);
   const [authFlowNotification, setAuthFlowNotification] = useState({ message: '', status: '' });
 
@@ -236,9 +291,32 @@ export default function QuizPage({ onComplete }) {
 
 
   const [quizResult, setQuizResult] = useState(null);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
+  const { handleInstagramStory, isGenerating: isStoryGenerating } = useSeenlyShare();
   const [isQuickLogin, setIsQuickLogin] = useState(() => {
     return sessionStorage.getItem('seenly_isQuickLogin') === 'true';
   });
+
+  // Helper to completely purge all onboarding transient states & session storage
+  const resetOnboardingState = useCallback(() => {
+    setDisplayName('');
+    setEmail('');
+    setAnswers({});
+    setVerificationCode(Array(4).fill(''));
+    setPostQuizOtp(Array(4).fill(''));
+    setAuthFlowNotification({ message: '', status: '' });
+    setEmailValidationError('');
+    setErrorMessage('');
+    setResendTimer(0);
+    setIsQuickLogin(false);
+
+    sessionStorage.removeItem('seenly_displayName');
+    sessionStorage.removeItem('seenly_email');
+    sessionStorage.removeItem('seenly_answers');
+    sessionStorage.removeItem('seenly_currentIndex');
+    sessionStorage.removeItem('seenly_isQuickLogin');
+  }, []);
 
   useEffect(() => {
     sessionStorage.setItem('seenly_isQuickLogin', isQuickLogin ? 'true' : 'false');
@@ -246,10 +324,12 @@ export default function QuizPage({ onComplete }) {
 
   useEffect(() => {
     const handleTriggerLogin = () => {
+      resetOnboardingState();
       setIsQuickLogin(true);
       setCurrentIndex(-5);
     };
     const handleTriggerStartQuiz = () => {
+      resetOnboardingState();
       setIsQuickLogin(false);
       setCurrentIndex(-2);
     };
@@ -259,7 +339,7 @@ export default function QuizPage({ onComplete }) {
       window.removeEventListener('seenly_trigger_login', handleTriggerLogin);
       window.removeEventListener('seenly_trigger_start_quiz', handleTriggerStartQuiz);
     };
-  }, []);
+  }, [resetOnboardingState]);
 
   // Handle scrolling to sections from other pages or direct URLs (e.g. #how-it-works)
   useEffect(() => {
@@ -303,16 +383,18 @@ export default function QuizPage({ onComplete }) {
     sessionStorage.setItem('seenly_currentIndex', currentIndex.toString());
   }, [currentIndex]);
 
+  // Clear all transient notifications and reset states when landing page (-1) is active
   useEffect(() => {
-    if (currentIndex !== -1) {
+    if (currentIndex === -1) {
+      resetOnboardingState();
+    } else {
       window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     }
-  }, [currentIndex]);
+  }, [currentIndex, resetOnboardingState]);
 
   useEffect(() => {
     setErrorMessage('');
   }, [currentIndex]);
-
 
   const handleGoBack = () => {
     if (quizResult) {
@@ -324,20 +406,16 @@ export default function QuizPage({ onComplete }) {
     } else if (currentIndex === -4) {
       setCurrentIndex(-2);
     } else if (currentIndex === -2) {
-      if (isQuickLogin) {
-        setCurrentIndex(-6);
-      } else {
-        setCurrentIndex(-1);
-      }
-    } else if (currentIndex === -6) {
-      setCurrentIndex(-5);
+      resetOnboardingState();
+      setCurrentIndex(-1);
+    } else if (currentIndex === -6 || currentIndex === -11) {
+      resetOnboardingState();
+      setCurrentIndex(-1);
     } else if (currentIndex === -5) {
-      setIsQuickLogin(false);
+      resetOnboardingState();
       setCurrentIndex(-1);
     } else if (currentIndex === -10) {
       setCurrentIndex(SELF_QUESTION_IDS.length - 1);
-    } else if (currentIndex === -11) {
-      setCurrentIndex(-10);
     } else if (currentIndex > 0) {
       setCurrentIndex(prev => prev - 1);
     }
@@ -356,7 +434,7 @@ export default function QuizPage({ onComplete }) {
     }));
 
     try {
-      const response = await createSeenly(displayName, email, selfAnswersPayload);
+      const response = await createSeenly(displayName, email.trim(), selfAnswersPayload);
 
       // Save owner token and public slug locally
       localStorage.setItem('seenly_owner_token', response.ownerToken);
@@ -384,11 +462,18 @@ export default function QuizPage({ onComplete }) {
   };
 
   const handleSendCode = async () => {
+    const trimmedEmail = email.trim();
+    if (!isValidEmail(trimmedEmail)) {
+      setEmailValidationError(t('ui', 'email_invalid_error') || 'Lütfen geçerli bir e-posta adresi giriniz.');
+      return;
+    }
+    setEmailValidationError('');
     setIsEmailSending(true);
     setErrorMessage('');
     try {
-      await sendVerificationCode(email, isQuickLogin);
-      setVerificationCode(Array(6).fill('')); // reset verification code
+      await sendVerificationCode(trimmedEmail, isQuickLogin);
+      setVerificationCode(Array(4).fill('')); // reset verification code
+      setResendTimer(60); // 60s banking-style countdown
       setCurrentIndex(-6);
     } catch (err) {
       setErrorMessage(err.message || 'Error sending verification code.');
@@ -398,13 +483,13 @@ export default function QuizPage({ onComplete }) {
   };
 
   const handleCodeDigitChange = (element, index) => {
-    const val = element.value.replace(/[^0-9]/g, '');
+    const val = element.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
     const newCode = [...verificationCode];
     newCode[index] = val ? val.substring(val.length - 1) : '';
     setVerificationCode(newCode);
 
     // Auto focus next input
-    if (val && index < 5 && inputRefs.current[index + 1]) {
+    if (val && index < 3 && inputRefs.current[index + 1]) {
       inputRefs.current[index + 1].focus();
     }
   };
@@ -417,12 +502,12 @@ export default function QuizPage({ onComplete }) {
 
   const handleCodePaste = (e) => {
     e.preventDefault();
-    const pasteText = e.clipboardData.getData('text').replace(/[^0-9]/g, '').substring(0, 6);
-    if (pasteText.length === 6) {
+    const pasteText = e.clipboardData.getData('text').replace(/[^A-Za-z0-9]/g, '').toUpperCase().substring(0, 4);
+    if (pasteText.length === 4) {
       const digits = pasteText.split('');
       setVerificationCode(digits);
-      if (inputRefs.current[5]) {
-        inputRefs.current[5].focus();
+      if (inputRefs.current[3]) {
+        inputRefs.current[3].focus();
       }
     }
   };
@@ -462,13 +547,13 @@ export default function QuizPage({ onComplete }) {
 
   // Post-quiz verification OTP handlers
   const handlePostQuizOtpDigitChange = (element, index) => {
-    const val = element.value.replace(/[^0-9]/g, '');
+    const val = element.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
     const newCode = [...postQuizOtp];
     newCode[index] = val ? val.substring(val.length - 1) : '';
     setPostQuizOtp(newCode);
 
     // Auto focus next input
-    if (val && index < 5 && postQuizOtpRefs.current[index + 1]) {
+    if (val && index < 3 && postQuizOtpRefs.current[index + 1]) {
       postQuizOtpRefs.current[index + 1].focus();
     }
   };
@@ -481,23 +566,30 @@ export default function QuizPage({ onComplete }) {
 
   const handlePostQuizOtpPaste = (e) => {
     e.preventDefault();
-    const pasteText = e.clipboardData.getData('text').replace(/[^0-9]/g, '').substring(0, 6);
-    if (pasteText.length === 6) {
+    const pasteText = e.clipboardData.getData('text').replace(/[^A-Za-z0-9]/g, '').toUpperCase().substring(0, 4);
+    if (pasteText.length === 4) {
       const digits = pasteText.split('');
       setPostQuizOtp(digits);
-      if (postQuizOtpRefs.current[5]) {
-        postQuizOtpRefs.current[5].focus();
+      if (postQuizOtpRefs.current[3]) {
+        postQuizOtpRefs.current[3].focus();
       }
     }
   };
 
   const handlePostQuizSendCode = async () => {
+    const trimmedEmail = email.trim();
+    if (!isValidEmail(trimmedEmail)) {
+      setEmailValidationError(t('ui', 'email_invalid_error') || 'Lütfen geçerli bir e-posta adresi giriniz.');
+      return;
+    }
+    setEmailValidationError('');
     setIsEmailSending(true);
     setErrorMessage('');
     setAuthFlowNotification({ message: '', status: '' });
     try {
-      await sendVerificationCode(email, false);
-      setPostQuizOtp(Array(6).fill('')); // reset 6-digit code
+      await sendVerificationCode(trimmedEmail, false);
+      setPostQuizOtp(Array(4).fill('')); // reset 4-digit code
+      setResendTimer(60); // 60s banking-style countdown
       setAuthFlowNotification({
         message: t('ui', 'auth_notification_sent'),
         status: 'success'
@@ -610,21 +702,51 @@ export default function QuizPage({ onComplete }) {
   const isPostQuizFlow = (currentIndex === -10 || currentIndex === -11) && !quizResult;
 
   if (quizResult || isPostQuizFlow) {
-    const signatureId = quizResult?.resultSnapshot?.selfSignatureId || calculatePersonalityCard(answers);
+    const signatureId = quizResult?.resultSnapshot?.selfSignatureId || calculatePersonalityCard(answers && Object.keys(answers).length > 0 ? answers : (quizResult?.resultSnapshot?.selfAverages || {})) || 'the_safe_haven';
     const signature = getObject('signatures', signatureId);
     const signatureName = signature ? signature.name : t('ui', 'missing_id_fallback');
     const signatureOneLine = signature ? signature.oneLine : "";
     const signatureCardLine = signature ? signature.cardLine : "";
     const signatureImage = SIGNATURE_IMAGES[signatureId];
+    const publicSlug = quizResult?.publicSlug || localStorage.getItem('seenly_owner_slug') || '';
+    const cardRarity = getCardRarityData(signatureId, quizResult?.resultSnapshot?.selfRarity, locale);
 
     return (
-      <div className="seenly-wizard-wrapper">
-        <div className="seenly-wizard-container">
+      <div className="seenly-wizard-wrapper" style={{ padding: 0 }}>
+        <div
+          className={`seenly-wizard-container ${!isPostQuizFlow ? 'seenly-result-wizard-container' : ''}`}
+        >
           <style>{`
+            .seenly-result-wizard-container {
+              width: 100vw !important;
+              height: 100dvh !important;
+              max-width: 100vw !important;
+              border-radius: 0 !important;
+              border: none !important;
+              box-shadow: none !important;
+              margin: 0 !important;
+              display: flex !important;
+              flex-direction: column !important;
+              overflow: hidden !important;
+              background-color: var(--color-paper-cream) !important;
+            }
+
+            @media (min-width: 768px) {
+              .seenly-result-wizard-container {
+                width: 100% !important;
+                max-width: 440px !important;
+                height: min(720px, calc(100dvh - 36px)) !important;
+                border-radius: 28px !important;
+                border: 1px solid rgba(11, 27, 44, 0.08) !important;
+                box-shadow: 0 24px 60px rgba(11, 27, 44, 0.12) !important;
+                margin: auto !important;
+              }
+            }
+
             @keyframes fadeInUp {
               from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(16px);
               }
               to {
                 opacity: 1;
@@ -646,316 +768,334 @@ export default function QuizPage({ onComplete }) {
           `}</style>
 
           {/* Wizard Header - always shown in this block */}
-          <header className="seenly-wizard-header">
+          <header
+            className="seenly-wizard-header"
+            style={!isPostQuizFlow ? {
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              width: '100%',
+              padding: 'max(0.8rem, env(safe-area-inset-top)) 1.4rem 0.2rem 1.4rem',
+              boxSizing: 'border-box',
+              flexShrink: 0
+            } : undefined}
+          >
             {isPostQuizFlow ? (
-              <button
-                type="button"
-                className="seenly-wizard-back-btn"
-                onClick={handleGoBack}
-                aria-label="Go back"
-              >
-                ←
-              </button>
+              <>
+                <button
+                  type="button"
+                  className="seenly-wizard-back-btn"
+                  onClick={() => {
+                    setResendTimer(0);
+                    setIsQuickLogin(false);
+                    setCurrentIndex(-1);
+                  }}
+                  aria-label="Home"
+                  title={locale === 'tr' ? 'Ana Sayfa' : 'Home'}
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <polyline points="9 22 9 12 15 12 15 22" />
+                  </svg>
+                </button>
+                <div className="seenly-wizard-progress-track">
+                  <div
+                    className="seenly-wizard-progress-bar"
+                    style={{ width: `${progressPercentage}%` }}
+                  ></div>
+                </div>
+              </>
             ) : (
-              <div style={{ width: 40 }} />
+              <span style={{
+                color: 'rgba(11, 27, 44, 0.65)',
+                fontFamily: 'var(--font-sans)',
+                fontSize: '0.72rem',
+                fontWeight: 750,
+                letterSpacing: '0.12em',
+                lineHeight: 1,
+                textTransform: 'uppercase',
+                userSelect: 'none'
+              }}>
+                {t('ui', 'self_view_title')}
+              </span>
             )}
-            <div className="seenly-wizard-progress-track">
-              <div
-                className="seenly-wizard-progress-bar"
-                style={{ width: `${progressPercentage}%` }}
-              ></div>
-            </div>
             {languageDropdown}
           </header>
 
-          {/* Show inline notifications/error messages during post-quiz flow */}
-          {isPostQuizFlow && (authFlowNotification.message || errorMessage) && (
-            <div style={{ padding: '1rem 2rem 0 2rem' }}>
-              <div 
-                className="editorial-card" 
-                style={{ 
-                  borderColor: authFlowNotification.status === 'success' ? '#2e7d32' : 'red', 
-                  color: authFlowNotification.status === 'success' ? '#2e7d32' : 'red', 
-                  padding: '0.75rem', 
-                  margin: 0,
-                  fontSize: '0.88rem',
-                  backgroundColor: authFlowNotification.status === 'success' ? '#e8f5e9' : '#ffebee'
-                }}
-              >
-                <p style={{ margin: 0 }}>{authFlowNotification.message || errorMessage}</p>
-              </div>
-            </div>
-          )}
-
           {/* Wizard Body */}
-          <div className="seenly-wizard-body seenly-wizard-result-body" style={{
-            position: 'relative',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            overflowY: 'hidden',
-            gap: '1rem',
-            paddingTop: '2rem',
-            paddingBottom: '1.5rem'
-          }}>
-            <div className="seenly-wizard-content" style={{
+          <div
+            className="seenly-wizard-body seenly-wizard-result-body"
+            style={{
               position: 'relative',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              width: '100%',
-              gap: '1rem',
-              minHeight: 'auto',
-              maxHeight: 'none'
-            }}>
+              justifyContent: isPostQuizFlow ? 'center' : 'space-between',
+              overflow: 'hidden',
+              height: '100%',
+              maxHeight: '100%',
+              padding: isPostQuizFlow
+                ? '0.8rem 1.5rem 1.4rem 1.5rem'
+                : '0.4rem 1.4rem max(0.8rem, env(safe-area-inset-bottom)) 1.4rem',
+              boxSizing: 'border-box'
+            }}
+          >
+            <div
+              className="seenly-wizard-content"
+              style={{
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
+                maxWidth: 'clamp(260px, min(80vw, 40vh), 340px)',
+                margin: isPostQuizFlow ? 'auto 0' : 'auto 0',
+                boxSizing: 'border-box'
+              }}
+            >
 
-              {/* Elegant Custom Archetype Card - Sitting directly on background */}
-              <div 
-                style={{
-                  filter: isPostQuizFlow ? 'blur(16px)' : 'blur(0)',
-                  transition: 'filter 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease, visibility 0.8s ease',
-                  pointerEvents: isPostQuizFlow ? 'none' : 'auto',
-                  opacity: isPostQuizFlow ? 0 : 1,
-                  visibility: isPostQuizFlow ? 'hidden' : 'visible',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  width: '100%',
-                  margin: '0 auto'
-                }}
-              >
-                <div style={{
-                  fontSize: '0.75rem',
-                  color: 'var(--color-burnt-coral)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.15em',
-                  fontWeight: 700,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  marginBottom: '0.4rem',
-                  marginTop: '-1rem'
-                }}>
-                  ✦ {t('ui', 'self_view_title')} ✦
-                </div>
-
-                {signatureImage && (
+              {!isPostQuizFlow && (
+                <>
+                  {/* 1. Header Section: Pure Signature Name in High-Fashion Cormorant Garamond */}
                   <div style={{
-                    position: 'relative',
-                    width: '255px',
-                    height: '340px',
-                    borderRadius: '24px',
-                    overflow: 'hidden',
-                    border: '1px solid rgba(11, 27, 44, 0.12)',
-                    boxShadow: '0 20px 48px rgba(11, 27, 44, 0.16)',
-                    background: '#ffffff',
-                    boxSizing: 'border-box'
+                    textAlign: 'center',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    width: '100%',
+                    marginBottom: 'clamp(10px, 1.8vh, 18px)'
                   }}>
-                    <img
-                      src={signatureImage}
-                      alt={signatureName}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        display: 'block',
-                        margin: 0,
-                        border: 'none',
-                        boxShadow: 'none',
-                        borderRadius: 0
-                      }}
-                    />
-                    
-                    {/* Editorial Overlay on top of image at the bottom */}
-                    <div style={{
-                      position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      height: '50%',
-                      background: 'linear-gradient(to top, rgba(11, 27, 44, 0.96) 0%, rgba(11, 27, 44, 0.75) 45%, rgba(11, 27, 44, 0) 100%)',
-                      padding: '1.25rem 0.85rem 1rem 0.85rem',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'flex-end',
-                      alignItems: 'center',
-                      pointerEvents: 'none',
-                      boxSizing: 'border-box'
+                    <h2 style={{
+                      fontFamily: "'Fraunces', 'Playfair Display', Georgia, serif",
+                      fontSize: 'clamp(2rem, min(6.8vw, 4.2vh), 2.75rem)',
+                      fontWeight: 600,
+                      color: '#0B1B2C',
+                      margin: 0,
+                      lineHeight: 1.08,
+                      letterSpacing: '-0.02em',
+                      textAlign: 'center',
+                      wordBreak: 'break-word'
                     }}>
-                      <h3 className="seenly-wizard-title" style={{
-                        fontSize: '1.25rem',
-                        fontWeight: '800',
-                        fontFamily: 'var(--font-serif)',
-                        color: '#ffffff',
-                        margin: 0,
-                        textAlign: 'center',
-                        textShadow: '0 1px 3px rgba(0,0,0,0.6)'
-                      }}>
-                        {signatureName}
-                      </h3>
-
-                      {signatureCardLine && (
-                        <p style={{
-                          fontSize: '0.72rem',
-                          color: 'rgba(253, 251, 247, 0.9)',
-                          lineHeight: '1.35',
-                          fontStyle: 'italic',
-                          marginTop: '4px',
-                          marginBottom: 0,
-                          textAlign: 'center',
-                          textShadow: '0 1px 2px rgba(0,0,0,0.5)'
-                        }}>
-                          "{signatureCardLine}"
-                        </p>
-                      )}
-                    </div>
+                      {signatureName}
+                    </h2>
                   </div>
-                )}
-              </div>
 
-              {/* Redesigned Description Box */}
-              {signatureOneLine && (
-                <div className="seenly-wizard-result-description" style={{
-                  marginTop: '0.65rem',
-                  padding: '0.25rem 1rem',
-                  textAlign: 'center',
-                  maxWidth: '460px',
-                  width: '100%',
-                  boxSizing: 'border-box',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  opacity: isPostQuizFlow ? 0 : 1,
-                  visibility: isPostQuizFlow ? 'hidden' : 'visible',
-                  transition: 'opacity 0.8s ease, visibility 0.8s ease'
-                }}>
-                  <div style={{ width: '20px', height: '1.5px', background: 'rgba(11, 27, 44, 0.12)', margin: '0.15rem 0' }}></div>
-                  <p style={{
-                    fontFamily: 'var(--font-serif)',
-                    fontStyle: 'italic',
-                    fontSize: '0.92rem',
-                    lineHeight: '1.55',
-                    color: 'var(--color-ink-violet)',
-                    margin: 0,
-                    textWrap: 'balance'
-                  }}>
-                    {signatureOneLine}
-                  </p>
-                </div>
+                  {/* 2. Artwork Chic 3:4 Luxury Portrait Card Frame (Prominent & Centered) */}
+                  {signatureImage && (
+                    <div style={{
+                      position: 'relative',
+                      width: 'clamp(220px, min(72vw, 36vh), 275px)',
+                      height: 'clamp(293px, min(96vw, 48vh), 366px)',
+                      borderRadius: '22px',
+                      overflow: 'hidden',
+                      border: '1px solid rgba(197, 160, 89, 0.32)',
+                      boxShadow: '0 18px 42px -6px rgba(11, 27, 44, 0.15), 0 3px 10px rgba(11, 27, 44, 0.04)',
+                      background: '#ffffff',
+                      boxSizing: 'border-box',
+                      flexShrink: 0
+                    }}>
+                      {/* Classic Rarity Pill Badge (matching Dashboard Kendi Algım) */}
+                      {cardRarity && (
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: '12px',
+                            right: '12px',
+                            zIndex: 3,
+                            backgroundColor: cardRarity.badgeBg,
+                            color: cardRarity.badgeText,
+                            border: `1px solid ${cardRarity.badgeBorder}`,
+                            fontFamily: "'Inter', sans-serif",
+                            fontSize: '11.5px',
+                            fontWeight: 600,
+                            letterSpacing: '0.01em',
+                            padding: '3px 9px',
+                            borderRadius: '999px',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            whiteSpace: 'nowrap',
+                            userSelect: 'none',
+                            boxShadow: '0 2px 8px rgba(11, 27, 44, 0.08)'
+                          }}
+                        >
+                          <span>{cardRarity.badgeLabel}</span>
+                        </div>
+                      )}
+
+                      <img
+                        src={signatureImage}
+                        alt={signatureName}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          display: 'block'
+                        }}
+                      />
+                    </div>
+                  )}
+
+                  {/* 3. Description Paragraph: Poetic Essence */}
+                  {signatureCardLine && (
+                    <p style={{
+                      fontFamily: "'Newsreader', 'Cormorant Garamond', Georgia, serif",
+                      fontSize: 'clamp(0.92rem, 1.55vh, 1.06rem)',
+                      fontStyle: 'italic',
+                      fontWeight: 500,
+                      lineHeight: '1.45',
+                      color: '#1E293B',
+                      marginTop: 'clamp(10px, 1.8vh, 18px)',
+                      marginBottom: 0,
+                      textAlign: 'center',
+                      maxWidth: 'clamp(260px, 80vw, 320px)',
+                      width: '100%'
+                    }}>
+                      {signatureCardLine}
+                    </p>
+                  )}
+                </>
               )}
 
-
-              {/* POST-QUIZ AUTH OVERLAYS (on top of the blurred card) */}
+              {/* POST-QUIZ AUTH OVERLAYS (Email & OTP steps) */}
               {isPostQuizFlow && (
                 <div style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
+                  position: 'relative',
+                  width: '100%',
                   display: 'flex',
                   flexDirection: 'column',
-                  justifyContent: 'center',
                   alignItems: 'center',
-                  padding: '2rem',
-                  zIndex: 10,
-                  boxSizing: 'border-box'
+                  justifyContent: 'center',
+                  boxSizing: 'border-box',
+                  animation: 'fadeInUp 0.4s ease'
                 }}>
                   {currentIndex === -10 ? (
                     /* Step 1: Mail Input */
                     <div style={{
+                      position: 'relative',
+                      zIndex: 2,
                       width: '100%',
-                      maxWidth: '420px',
+                      maxWidth: '340px',
                       textAlign: 'center',
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
-                      gap: '1.25rem',
-                      animation: 'fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+                      gap: 'clamp(0.65rem, 1.6vh, 1rem)',
                       boxSizing: 'border-box',
-                      padding: '1rem'
+                      padding: '0.2rem 0'
                     }}>
+                      {/* Icon */}
                       <div style={{
-                        width: '72px',
-                        height: '72px',
+                        width: '52px',
+                        height: '52px',
                         borderRadius: '50%',
                         background: 'linear-gradient(135deg, rgba(217, 106, 83, 0.12) 0%, rgba(143, 123, 204, 0.08) 100%)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        margin: '0 auto 0.5rem auto',
+                        margin: '0 auto',
                         border: '1.5px solid rgba(217, 106, 83, 0.25)',
-                        boxShadow: '0 10px 30px rgba(217, 106, 83, 0.08)',
-                        color: 'var(--color-burnt-coral)'
+                        boxShadow: '0 8px 24px rgba(217, 106, 83, 0.08)',
+                        color: 'var(--color-burnt-coral)',
+                        flexShrink: 0
                       }}>
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                           <polyline points="22,6 12,13 2,6" />
                         </svg>
                       </div>
+
+                      {/* Title */}
                       <h3 style={{
-                        fontFamily: 'var(--font-serif)',
-                        fontSize: '2rem',
-                        fontWeight: '700',
-                        color: 'var(--color-deep-ink)',
-                        margin: '0 0 0.25rem 0',
-                        letterSpacing: '0.02em'
+                        fontFamily: "'Fraunces', 'Playfair Display', Georgia, serif",
+                        fontSize: 'clamp(1.65rem, 3.8vh, 2.1rem)',
+                        fontWeight: 600,
+                        color: '#0B1B2C',
+                        margin: 0,
+                        letterSpacing: '-0.02em',
+                        lineHeight: 1.1,
+                        whiteSpace: 'nowrap'
                       }}>
                         {t('ui', 'auth_mail_title')}
                       </h3>
+
+                      {/* Description */}
                       <p style={{
                         fontFamily: 'var(--font-sans)',
-                        fontSize: '0.94rem',
-                        lineHeight: '1.6',
-                        color: 'var(--color-text-muted)',
-                        margin: '0 0 1.25rem 0',
-                        maxWidth: '380px',
+                        fontSize: 'clamp(0.84rem, 1.45vh, 0.92rem)',
+                        lineHeight: '1.5',
+                        color: '#475569',
+                        margin: 0,
+                        maxWidth: '300px',
                         textAlign: 'center'
                       }}>
                         {t('ui', 'auth_mail_desc')}
                       </p>
-                      <div className="seenly-wizard-input-container" style={{ marginBottom: '0.5rem', width: '100%' }}>
+
+                      {/* Input container */}
+                      <div className="seenly-wizard-input-container" style={{ width: '100%', margin: '0.2rem 0 0 0' }}>
                         <input
                           type="email"
                           placeholder={t('ui', 'auth_mail_placeholder')}
                           value={email}
-                          onChange={(e) => setEmail(e.target.value)}
+                          onChange={(e) => {
+                            setEmail(e.target.value);
+                            if (emailValidationError) setEmailValidationError('');
+                          }}
                           required
                           autoFocus
                           className="seenly-wizard-input"
                           style={{
                             width: '100%',
-                            boxSizing: 'border-box'
+                            height: '48px',
+                            minHeight: '48px',
+                            borderRadius: '16px',
+                            border: emailValidationError ? '1.5px solid var(--color-error, #ef4444)' : '1.5px solid rgba(11, 27, 44, 0.12)',
+                            background: '#ffffff',
+                            textAlign: 'center',
+                            fontSize: '0.94rem',
+                            fontWeight: '500',
+                            boxSizing: 'border-box',
+                            boxShadow: 'inset 0 2px 4px rgba(11, 27, 44, 0.02)'
                           }}
                           onKeyDown={(e) => {
-                            if (e.key === 'Enter' && email.trim() && email.includes('@') && !isEmailSending) {
+                            if (e.key === 'Enter' && isValidEmail(email) && !isEmailSending) {
                               handlePostQuizSendCode();
                             }
                           }}
                         />
+                        {emailValidationError && (
+                          <p style={{ color: 'var(--color-error, #ef4444)', fontSize: '0.82rem', marginTop: '0.35rem', textAlign: 'center', fontWeight: '600' }}>
+                            {emailValidationError}
+                          </p>
+                        )}
                       </div>
+
+                      {/* Submit Button */}
                       <button
                         type="button"
                         className="seenly-wizard-primary-btn"
                         style={{
                           width: '100%',
-                          minHeight: '52px',
-                          borderRadius: '14px',
-                          fontSize: '0.95rem',
-                          fontWeight: '600',
-                          backgroundColor: email.trim() && email.includes('@') ? 'var(--color-deep-ink)' : 'rgba(11, 27, 44, 0.05)',
-                          color: email.trim() && email.includes('@') ? '#fff' : 'rgba(11, 27, 44, 0.35)',
-                          border: email.trim() && email.includes('@') ? 'none' : '1px solid rgba(11, 27, 44, 0.08)',
-                          cursor: email.trim() && email.includes('@') ? 'pointer' : 'not-allowed',
+                          height: '48px',
+                          minHeight: '48px',
+                          borderRadius: '16px',
+                          fontSize: '0.94rem',
+                          fontWeight: '700',
+                          backgroundColor: isValidEmail(email) ? '#0B1B2C' : 'rgba(11, 27, 44, 0.06)',
+                          color: isValidEmail(email) ? '#ffffff' : 'rgba(11, 27, 44, 0.35)',
+                          border: isValidEmail(email) ? 'none' : '1px solid rgba(11, 27, 44, 0.08)',
+                          cursor: isValidEmail(email) ? 'pointer' : 'not-allowed',
                           display: 'flex',
                           justifyContent: 'center',
                           alignItems: 'center',
                           gap: '8px',
-                          boxShadow: email.trim() && email.includes('@') ? '0 10px 24px rgba(11, 27, 44, 0.12)' : 'none',
-                          transition: 'all 0.3s ease'
+                          boxShadow: isValidEmail(email) ? '0 10px 24px rgba(11, 27, 44, 0.14)' : 'none',
+                          transition: 'all 0.25s ease',
+                          marginTop: '0.1rem'
                         }}
-                        disabled={isEmailSending || !email.trim() || !email.includes('@')}
+                        disabled={isEmailSending || !isValidEmail(email)}
                         onClick={handlePostQuizSendCode}
                       >
                         {isEmailSending ? (
@@ -968,124 +1108,239 @@ export default function QuizPage({ onComplete }) {
                   ) : (
                     /* Step 2: 4-Digit OTP Input */
                     <div style={{
+                      position: 'relative',
+                      zIndex: 2,
                       width: '100%',
-                      maxWidth: '420px',
+                      maxWidth: '340px',
                       textAlign: 'center',
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
-                      gap: '1.25rem',
-                      animation: 'fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+                      gap: 'clamp(0.55rem, 1.4vh, 0.9rem)',
                       boxSizing: 'border-box',
-                      padding: '1rem'
+                      padding: '0.1rem 0'
                     }}>
+                      {/* Icon */}
                       <div style={{
-                        width: '72px',
-                        height: '72px',
+                        width: '50px',
+                        height: '50px',
                         borderRadius: '50%',
-                        background: 'linear-gradient(135deg, rgba(119, 93, 131, 0.12) 0%, rgba(143, 123, 204, 0.08) 100%)',
+                        background: 'linear-gradient(135deg, rgba(217, 106, 83, 0.12) 0%, rgba(143, 123, 204, 0.08) 100%)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        margin: '0 auto 0.5rem auto',
-                        border: '1.5px solid rgba(119, 93, 131, 0.25)',
-                        boxShadow: '0 10px 30px rgba(119, 93, 131, 0.08)',
-                        color: 'var(--color-ink-violet)'
+                        margin: '0 auto',
+                        border: '1.5px solid rgba(217, 106, 83, 0.25)',
+                        boxShadow: '0 8px 24px rgba(217, 106, 83, 0.08)',
+                        color: 'var(--color-burnt-coral)',
+                        flexShrink: 0
                       }}>
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                           <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                           <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                         </svg>
                       </div>
+
+                      {/* Title */}
                       <h3 style={{
-                        fontFamily: 'var(--font-serif)',
-                        fontSize: '2rem',
-                        fontWeight: '700',
-                        color: 'var(--color-deep-ink)',
-                        margin: '0 0 0.25rem 0',
-                        letterSpacing: '0.02em'
+                        fontFamily: "'Fraunces', 'Playfair Display', Georgia, serif",
+                        fontSize: 'clamp(1.6rem, 3.6vh, 2rem)',
+                        fontWeight: 600,
+                        color: '#0B1B2C',
+                        margin: 0,
+                        letterSpacing: '-0.02em',
+                        lineHeight: 1.1,
+                        whiteSpace: 'nowrap'
                       }}>
                         {t('ui', 'auth_otp_title')}
                       </h3>
+
+                      {/* Description with email */}
                       <p style={{
                         fontFamily: 'var(--font-sans)',
-                        fontSize: '0.94rem',
-                        lineHeight: '1.6',
-                        color: 'var(--color-text-muted)',
-                        margin: '0 0 1.25rem 0',
-                        maxWidth: '380px',
+                        fontSize: 'clamp(0.82rem, 1.35vh, 0.88rem)',
+                        lineHeight: '1.45',
+                        color: '#475569',
+                        margin: 0,
+                        maxWidth: '290px',
                         textAlign: 'center'
                       }}>
-                        {t('ui', 'auth_otp_desc')}
+                        {t('ui', 'auth_otp_desc').replace('{email}', email)}
                       </p>
-                      
-                      {/* 6 Digit OTP Inputs */}
+
+                      {/* Compact 4-Digit Container Card */}
                       <div style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        gap: '10px',
                         width: '100%',
-                        maxWidth: '360px',
-                        margin: '0 auto 1.5rem auto'
+                        background: 'rgba(255, 253, 250, 0.82)',
+                        border: '1px solid rgba(197, 160, 89, 0.28)',
+                        borderRadius: '18px',
+                        padding: '0.85rem 0.75rem 0.65rem 0.75rem',
+                        boxShadow: '0 8px 24px rgba(11, 27, 44, 0.04)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        boxSizing: 'border-box'
                       }}>
-                        {Array(6).fill('').map((_, i) => (
-                          <input
-                            key={i}
-                            ref={(el) => (postQuizOtpRefs.current[i] = el)}
-                            type="text"
-                            inputMode="numeric"
-                            pattern="[0-9]*"
-                            maxLength={1}
-                            value={postQuizOtp[i] || ''}
-                            onChange={(e) => handlePostQuizOtpDigitChange(e.target, i)}
-                            onKeyDown={(e) => handlePostQuizOtpKeyDown(e, i)}
-                            onPaste={handlePostQuizOtpPaste}
-                            style={{
-                              width: '46px',
-                              height: '56px',
-                              borderRadius: '12px',
-                              border: '1.5px solid rgba(11, 27, 44, 0.12)',
-                              textAlign: 'center',
-                              fontSize: '1.5rem',
-                              fontFamily: 'var(--font-serif)',
-                              fontWeight: '700',
-                              color: 'var(--color-deep-ink)',
-                              backgroundColor: 'rgba(255, 253, 250, 0.65)',
-                              outline: 'none',
-                              transition: 'all 0.25s ease',
-                              boxShadow: 'inset 0 2px 4px rgba(11, 27, 44, 0.02)'
-                            }}
-                            onFocus={(e) => {
-                              e.target.style.borderColor = 'var(--color-burnt-coral)';
-                              e.target.style.boxShadow = '0 0 0 4px rgba(217, 106, 83, 0.15)';
-                            }}
-                            onBlur={(e) => {
-                              e.target.style.borderColor = 'rgba(11, 27, 44, 0.12)';
-                              e.target.style.boxShadow = 'inset 0 2px 4px rgba(11, 27, 44, 0.02)';
-                            }}
-                          />
-                        ))}
+                        <div style={{
+                          fontFamily: 'var(--font-sans)',
+                          fontSize: '0.68rem',
+                          fontWeight: 800,
+                          letterSpacing: '0.12em',
+                          textTransform: 'uppercase',
+                          color: '#64748B',
+                          textAlign: 'center'
+                        }}>
+                          {locale === 'tr' ? 'DOĞRULAMA KODUNUZ' : 'VERIFICATION CODE'}
+                        </div>
+
+                        {/* 4 Input Boxes */}
+                        <div style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          gap: '8px',
+                          width: '100%',
+                          maxWidth: '260px',
+                          margin: '0.1rem auto'
+                        }}>
+                          {Array(4).fill('').map((_, i) => (
+                            <input
+                              key={i}
+                              ref={(el) => (postQuizOtpRefs.current[i] = el)}
+                              type="text"
+                              inputMode="text"
+                              maxLength={1}
+                              value={postQuizOtp[i] || ''}
+                              onChange={(e) => handlePostQuizOtpDigitChange(e.target, i)}
+                              onKeyDown={(e) => handlePostQuizOtpKeyDown(e, i)}
+                              onPaste={handlePostQuizOtpPaste}
+                              style={{
+                                width: '46px',
+                                height: '52px',
+                                borderRadius: '12px',
+                                border: '1.5px solid rgba(11, 27, 44, 0.14)',
+                                textAlign: 'center',
+                                fontSize: '1.45rem',
+                                fontFamily: "'Fraunces', Georgia, serif",
+                                fontWeight: '700',
+                                color: '#0B1B2C',
+                                backgroundColor: '#ffffff',
+                                outline: 'none',
+                                transition: 'all 0.2s ease',
+                                boxShadow: 'inset 0 2px 4px rgba(11, 27, 44, 0.02)'
+                              }}
+                              onFocus={(e) => {
+                                e.target.style.borderColor = 'var(--color-burnt-coral)';
+                                e.target.style.boxShadow = '0 0 0 3px rgba(217, 106, 83, 0.15)';
+                              }}
+                              onBlur={(e) => {
+                                e.target.style.borderColor = 'rgba(11, 27, 44, 0.14)';
+                                e.target.style.boxShadow = 'inset 0 2px 4px rgba(11, 27, 44, 0.02)';
+                              }}
+                            />
+                          ))}
+                        </div>
+
+                        {/* Resend button / countdown */}
+                        <div style={{ minHeight: '26px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          {resendTimer > 0 ? (
+                            <div style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '4px',
+                              fontSize: '0.78rem',
+                              fontWeight: 600,
+                              color: 'var(--color-text-muted)',
+                              backgroundColor: 'rgba(11, 27, 44, 0.04)',
+                              padding: '4px 12px',
+                              borderRadius: '16px'
+                            }}>
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7 }}>
+                                <circle cx="12" cy="12" r="10" />
+                                <polyline points="12 6 12 12 16 14" />
+                              </svg>
+                              <span>{t('ui', 'auth_resend_countdown').replace('{time}', formatTimer(resendTimer))}</span>
+                            </div>
+                          ) : (
+                            <button
+                              type="button"
+                              disabled={isEmailSending}
+                              onClick={handlePostQuizSendCode}
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '5px',
+                                border: 'none',
+                                background: 'none',
+                                color: 'var(--color-burnt-coral)',
+                                fontWeight: 700,
+                                cursor: isEmailSending ? 'not-allowed' : 'pointer',
+                                fontSize: '0.82rem',
+                                textDecoration: 'underline',
+                                padding: '2px 8px'
+                              }}
+                            >
+                              {isEmailSending ? (
+                                <span className="spinner-mini"></span>
+                              ) : (
+                                <>
+                                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                    <polyline points="23 4 23 10 17 10" />
+                                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                                  </svg>
+                                  <span>{t('ui', 'auth_resend_btn')}</span>
+                                </>
+                              )}
+                            </button>
+                          )}
+                        </div>
+
+                        {/* Error Alert if any */}
+                        {(errorMessage || authFlowNotification.status === 'error') && (
+                          <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '6px',
+                            padding: '0.45rem 0.75rem',
+                            borderRadius: '10px',
+                            background: 'rgba(239, 68, 68, 0.08)',
+                            border: '1px solid rgba(239, 68, 68, 0.2)',
+                            width: '100%',
+                            boxSizing: 'border-box'
+                          }}>
+                            <p style={{
+                              margin: 0,
+                              fontSize: '0.78rem',
+                              fontWeight: 600,
+                              color: '#dc2626',
+                              lineHeight: 1.3
+                            }}>{authFlowNotification.message || errorMessage}</p>
+                          </div>
+                        )}
                       </div>
 
+                      {/* Verify Button */}
                       <button
                         type="button"
                         className="seenly-wizard-primary-btn"
                         style={{
                           width: '100%',
-                          minHeight: '52px',
-                          borderRadius: '14px',
-                          fontSize: '0.95rem',
-                          fontWeight: '600',
-                          backgroundColor: (!isVerifying && !postQuizOtp.some(c => !c)) ? 'var(--color-deep-ink)' : 'rgba(11, 27, 44, 0.05)',
-                          color: (!isVerifying && !postQuizOtp.some(c => !c)) ? '#fff' : 'rgba(11, 27, 44, 0.35)',
+                          height: '48px',
+                          minHeight: '48px',
+                          borderRadius: '16px',
+                          fontSize: '0.94rem',
+                          fontWeight: '700',
+                          backgroundColor: (!isVerifying && !postQuizOtp.some(c => !c)) ? '#0B1B2C' : 'rgba(11, 27, 44, 0.06)',
+                          color: (!isVerifying && !postQuizOtp.some(c => !c)) ? '#ffffff' : 'rgba(11, 27, 44, 0.35)',
                           border: (!isVerifying && !postQuizOtp.some(c => !c)) ? 'none' : '1px solid rgba(11, 27, 44, 0.08)',
                           cursor: (!isVerifying && !postQuizOtp.some(c => !c)) ? 'pointer' : 'not-allowed',
                           display: 'flex',
                           justifyContent: 'center',
                           alignItems: 'center',
                           gap: '8px',
-                          boxShadow: (!isVerifying && !postQuizOtp.some(c => !c)) ? '0 10px 24px rgba(11, 27, 44, 0.12)' : 'none',
-                          transition: 'all 0.3s ease'
+                          boxShadow: (!isVerifying && !postQuizOtp.some(c => !c)) ? '0 10px 24px rgba(11, 27, 44, 0.14)' : 'none',
+                          transition: 'all 0.25s ease',
+                          marginTop: '0.1rem'
                         }}
                         disabled={isVerifying || postQuizOtp.some(c => !c)}
                         onClick={handlePostQuizVerifyCode}
@@ -1103,32 +1358,351 @@ export default function QuizPage({ onComplete }) {
 
             </div>
 
+            {/* Bottom Actions Area */}
             {!isPostQuizFlow && (
               <div className="seenly-wizard-footer-action" style={{
                 display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
                 justifyContent: 'center',
+                gap: 'clamp(0.2rem, 0.5vh, 0.35rem)',
                 width: '100%',
-                marginTop: '1rem',
-                paddingTop: 0
+                maxWidth: 'clamp(220px, min(72vw, 36vh), 275px)',
+                marginTop: 'auto',
+                paddingTop: 'clamp(6px, 1vh, 12px)',
+                paddingBottom: '0.1rem',
+                flexShrink: 0,
+                boxSizing: 'border-box'
               }}>
+                {/* Primary Button: Profilimi Gör */}
                 <button
                   type="button"
                   className="seenly-wizard-primary-btn"
                   style={{
-                    maxWidth: '280px',
                     width: '100%',
-                    borderRadius: '16px'
+                    height: '48px',
+                    minHeight: '48px',
+                    borderRadius: '16px',
+                    background: '#0b1b2c',
+                    color: '#ffffff',
+                    fontSize: 'clamp(0.92rem, 1.5vh, 0.98rem)',
+                    fontWeight: '700',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    margin: 0,
+                    boxShadow: '0 8px 24px rgba(11, 27, 44, 0.16)',
+                    cursor: 'pointer',
+                    boxSizing: 'border-box'
                   }}
                   onClick={() => {
-                    if (onComplete) onComplete(quizResult.ownerToken);
+                    const token = quizResult?.ownerToken || localStorage.getItem('seenly_owner_token');
+                    if (onComplete) onComplete(token);
                   }}
                 >
-                  {t('ui', 'quiz_completion_cta')} →
+                  <span>{t('ui', 'view_profile_btn') || 'Profilimi Gör'}</span>
+                  <span style={{ fontSize: '0.94rem' }}>➔</span>
+                </button>
+
+                {/* Secondary Button / Link: Sonucumu Paylaş */}
+                <button
+                  type="button"
+                  onClick={() => setShowShareModal(true)}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: '#64748B',
+                    fontSize: '0.84rem',
+                    fontWeight: '600',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '6px',
+                    cursor: 'pointer',
+                    padding: '4px 8px',
+                    minHeight: '30px',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="18" cy="5" r="3" />
+                    <circle cx="6" cy="12" r="3" />
+                    <circle cx="18" cy="19" r="3" />
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+                  </svg>
+                  <span>{t('ui', 'share_result_btn') || 'Sonucumu paylaş'}</span>
                 </button>
               </div>
             )}
           </div>
         </div>
+
+        {/* Share Suite Modal Portal */}
+        {showShareModal && createPortal(
+          <div
+            style={{
+              position: 'fixed',
+              inset: 0,
+              background: 'rgba(11, 27, 44, 0.72)',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+              zIndex: 99999,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '1.2rem',
+              boxSizing: 'border-box',
+              animation: 'fadeInUp 0.3s ease'
+            }}
+            onClick={() => setShowShareModal(false)}
+          >
+            <div
+              style={{
+                background: '#FDFBF7',
+                borderRadius: '26px',
+                border: '1px solid rgba(197, 160, 89, 0.35)',
+                boxShadow: '0 24px 64px rgba(11, 27, 44, 0.35)',
+                maxWidth: '420px',
+                width: '100%',
+                padding: '1.8rem 1.6rem 1.5rem 1.6rem',
+                boxSizing: 'border-box',
+                position: 'relative',
+                textAlign: 'center'
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close button */}
+              <button
+                type="button"
+                onClick={() => setShowShareModal(false)}
+                style={{
+                  position: 'absolute',
+                  top: '16px',
+                  right: '16px',
+                  background: 'rgba(11, 27, 44, 0.06)',
+                  border: 'none',
+                  borderRadius: '50%',
+                  width: '32px',
+                  height: '32px',
+                  fontSize: '18px',
+                  fontWeight: 700,
+                  color: '#0b1b2c',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                ×
+              </button>
+
+              {/* Header */}
+              <span style={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: '0.72rem',
+                fontWeight: 800,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                color: '#c5a059',
+                display: 'block',
+                marginBottom: '4px'
+              }}>
+                {locale === 'tr' ? 'PAYLAŞIM MERKEZİ' : 'SHARE SUITE'}
+              </span>
+
+              <h3 style={{
+                fontFamily: 'var(--font-serif)',
+                fontSize: '1.45rem',
+                fontWeight: 800,
+                color: '#0b1b2c',
+                margin: '0 0 6px 0'
+              }}>
+                {locale === 'tr' ? 'Sonucunu Paylaş' : 'Share Your Result'}
+              </h3>
+
+              <p style={{
+                fontSize: '0.86rem',
+                color: 'rgba(11, 27, 44, 0.68)',
+                lineHeight: 1.45,
+                margin: '0 0 1.3rem 0',
+                fontFamily: 'var(--font-serif)'
+              }}>
+                {locale === 'tr'
+                  ? 'Arkadaşlarının seni nasıl gördüğünü keşfetmek için kartını ve linkini paylaş.'
+                  : 'Share your card and link to discover how your circle perceives you.'}
+              </p>
+
+              {/* Share Options List */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+                {/* 1. Instagram Story */}
+                <button
+                  type="button"
+                  disabled={isStoryGenerating}
+                  onClick={() => {
+                    handleInstagramStory(signatureName, signatureImage, publicSlug, locale);
+                  }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '0.85rem 1rem',
+                    borderRadius: '16px',
+                    background: 'linear-gradient(135deg, rgba(240, 148, 51, 0.08) 0%, rgba(220, 39, 67, 0.08) 50%, rgba(188, 24, 136, 0.08) 100%)',
+                    border: '1px solid rgba(220, 39, 67, 0.25)',
+                    color: '#0b1b2c',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    boxSizing: 'border-box'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '10px',
+                      background: 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#fff',
+                      flexShrink: 0
+                    }}>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                      </svg>
+                    </div>
+                    <div style={{ textAlign: 'left' }}>
+                      <strong style={{ display: 'block', fontSize: '0.92rem', color: '#0b1b2c' }}>Instagram Story</strong>
+                      <small style={{ fontSize: '0.74rem', color: 'rgba(11, 27, 44, 0.6)' }}>
+                        {locale === 'tr' ? 'Hikaye görseli indir ve paylaş' : 'Download story card & share'}
+                      </small>
+                    </div>
+                  </div>
+                  {isStoryGenerating ? (
+                    <span className="spinner-mini" style={{ width: '16px', height: '16px', borderTopColor: '#dc2743' }} />
+                  ) : (
+                    <span style={{ fontSize: '1.1rem', color: 'rgba(11, 27, 44, 0.4)' }}>➔</span>
+                  )}
+                </button>
+
+                {/* 2. WhatsApp */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    const waUrl = buildWhatsAppLink(signatureName, publicSlug);
+                    window.open(waUrl, '_blank');
+                  }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '0.85rem 1rem',
+                    borderRadius: '16px',
+                    background: 'rgba(37, 211, 102, 0.08)',
+                    border: '1px solid rgba(37, 211, 102, 0.28)',
+                    color: '#0b1b2c',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    boxSizing: 'border-box'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '10px',
+                      background: '#25D366',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#fff',
+                      flexShrink: 0
+                    }}>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                      </svg>
+                    </div>
+                    <div style={{ textAlign: 'left' }}>
+                      <strong style={{ display: 'block', fontSize: '0.92rem', color: '#0b1b2c' }}>WhatsApp</strong>
+                      <small style={{ fontSize: '0.74rem', color: 'rgba(11, 27, 44, 0.6)' }}>
+                        {locale === 'tr' ? 'Arkadaşlarına doğrudan mesaj gönder' : 'Send direct invite to friends'}
+                      </small>
+                    </div>
+                  </div>
+                  <span style={{ fontSize: '1.1rem', color: 'rgba(11, 27, 44, 0.4)' }}>➔</span>
+                </button>
+
+                {/* 3. Copy Link */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    const origin = window.location.origin.startsWith('http') ? window.location.origin : `https://${window.location.host}`;
+                    const link = `${origin}/#/friend/${publicSlug}`;
+                    navigator.clipboard.writeText(link).then(() => {
+                      setCopiedLink(true);
+                      setTimeout(() => setCopiedLink(false), 2400);
+                    });
+                  }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '0.85rem 1rem',
+                    borderRadius: '16px',
+                    background: copiedLink ? 'rgba(42, 90, 58, 0.1)' : 'rgba(11, 27, 44, 0.04)',
+                    border: copiedLink ? '1px solid rgba(42, 90, 58, 0.4)' : '1px solid rgba(11, 27, 44, 0.12)',
+                    color: '#0b1b2c',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    boxSizing: 'border-box'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '10px',
+                      background: copiedLink ? '#2a5a3a' : '#0b1b2c',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#fff',
+                      flexShrink: 0
+                    }}>
+                      {copiedLink ? (
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      ) : (
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                        </svg>
+                      )}
+                    </div>
+                    <div style={{ textAlign: 'left' }}>
+                      <strong style={{ display: 'block', fontSize: '0.92rem', color: copiedLink ? '#2a5a3a' : '#0b1b2c' }}>
+                        {copiedLink ? (locale === 'tr' ? 'Bağlantı Kopyalandı!' : 'Link Copied!') : (locale === 'tr' ? 'Bağlantıyı Kopyala' : 'Copy Link')}
+                      </strong>
+                      <small style={{ fontSize: '0.74rem', color: 'rgba(11, 27, 44, 0.6)' }}>
+                        {locale === 'tr' ? 'Profil linkini panoya kopyala' : 'Copy profile link to clipboard'}
+                      </small>
+                    </div>
+                  </div>
+                  <span style={{ fontSize: '0.82rem', fontWeight: 700, color: copiedLink ? '#2a5a3a' : '#c5a059' }}>
+                    {copiedLink ? '✓' : (locale === 'tr' ? 'Kopyala' : 'Copy')}
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>,
+          document.body
+        )}
       </div>
     );
   }
@@ -1158,15 +1732,16 @@ export default function QuizPage({ onComplete }) {
             type="button"
             className="seenly-wizard-back-btn"
             onClick={handleGoBack}
-            aria-label="Go back"
-            style={currentIndex === -5 || currentIndex === -6 ? { 
-              width: '44px', 
-              height: '44px', 
-              borderRadius: '50%', 
-              backgroundColor: 'rgba(11, 27, 44, 0.05)', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center', 
+            aria-label={currentIndex === -6 || currentIndex === -11 ? "Home" : "Go back"}
+            title={currentIndex === -6 || currentIndex === -11 ? (locale === 'tr' ? 'Ana Sayfa' : 'Home') : (locale === 'tr' ? 'Geri' : 'Back')}
+            style={currentIndex === -5 || currentIndex === -6 ? {
+              width: '44px',
+              height: '44px',
+              borderRadius: '50%',
+              backgroundColor: 'rgba(11, 27, 44, 0.05)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
               fontSize: '1.5rem',
               fontWeight: '700',
               color: 'var(--color-deep-ink)',
@@ -1174,7 +1749,14 @@ export default function QuizPage({ onComplete }) {
               flexShrink: 0
             } : {}}
           >
-            ←
+            {currentIndex === -6 || currentIndex === -11 ? (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+            ) : (
+              '←'
+            )}
           </button>
           {(currentIndex === -5 || currentIndex === -6) && (
             <div style={{ flex: 1 }} />
@@ -1191,20 +1773,12 @@ export default function QuizPage({ onComplete }) {
           {languageDropdown}
         </header>
 
-        {errorMessage && (
-          <div style={{ padding: '0 2rem' }}>
-            <div className="editorial-card" style={{ borderColor: 'red', color: 'red', padding: '1rem', margin: 0 }}>
-              <p style={{ margin: 0, fontSize: '0.9rem' }}>{errorMessage}</p>
-            </div>
-          </div>
-        )}
-
         {/* Wizard Body */}
         <div className="seenly-wizard-body">
           {currentIndex === -5 && (
             /* Step A: Email Entry */
             <>
-              <div className="seenly-wizard-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+              <div className="seenly-wizard-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', flex: 1 }}>
                 {/* Elegant Watercolor Envelope Icon Wrapper */}
                 <div style={{
                   width: '72px',
@@ -1225,7 +1799,7 @@ export default function QuizPage({ onComplete }) {
                   </svg>
                 </div>
 
-                <h2 className="seenly-wizard-title" style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-deep-ink)', marginBottom: '0.5rem', fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)' }}>
+                <h2 className="seenly-wizard-title" style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-deep-ink)', marginBottom: '0.5rem', fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', textAlign: 'center', width: '100%' }}>
                   {isQuickLogin
                     ? t('ui', 'email_entry_quick_login_title')
                     : t('ui', 'email_entry_new_profile_title')}
@@ -1248,7 +1822,7 @@ export default function QuizPage({ onComplete }) {
                 </p>
 
                 {/* Styled Sub-Card for Input */}
-                <div style={{
+                <div className="seenly-auth-card" style={{
                   width: '100%',
                   maxWidth: '400px',
                   background: 'rgba(255, 253, 250, 0.55)',
@@ -1279,16 +1853,27 @@ export default function QuizPage({ onComplete }) {
                       type="email"
                       placeholder={locale === 'tr' ? 'adiniz@ornek.com' : 'you@example.com'}
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        if (emailValidationError) setEmailValidationError('');
+                      }}
                       required
                       autoFocus
                       className="seenly-wizard-input"
+                      style={{
+                        borderColor: emailValidationError ? 'var(--color-error, #ef4444)' : undefined
+                      }}
                       onKeyDown={(e) => {
-                        if (e.key === 'Enter' && email.trim() && email.includes('@')) {
+                        if (e.key === 'Enter' && isValidEmail(email) && !isEmailSending) {
                           handleSendCode();
                         }
                       }}
                     />
+                    {emailValidationError && (
+                      <p style={{ color: 'var(--color-error, #ef4444)', fontSize: '0.85rem', marginTop: '0.4rem', textAlign: 'center', fontWeight: '500' }}>
+                        {emailValidationError}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -1296,11 +1881,11 @@ export default function QuizPage({ onComplete }) {
                 <button
                   type="button"
                   className="seenly-wizard-primary-btn"
-                  disabled={isEmailSending || !email.trim() || !email.includes('@')}
+                  disabled={isEmailSending || !isValidEmail(email)}
                   onClick={handleSendCode}
                 >
                   {isEmailSending ? (
-                    <span>...</span>
+                    <span className="spinner-mini"></span>
                   ) : (
                     <>
                       <span>{t('ui', 'wizard_continue_btn')}</span>
@@ -1316,77 +1901,205 @@ export default function QuizPage({ onComplete }) {
           )}
 
           {currentIndex === -6 && (
-            /* Step B: 6-Digit Code Verification */
+            /* Step B: 4-Digit Code Verification */
             <>
-              <div className="seenly-wizard-content">
-                <div className="seenly-wizard-circle-icon icon-purple">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <div className="seenly-wizard-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', flex: 1 }}>
+                {/* Elegant Watercolor Lock Icon Wrapper matching Step -5 */}
+                <div style={{
+                  width: '72px',
+                  height: '72px',
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, rgba(217, 106, 83, 0.12) 0%, rgba(143, 123, 204, 0.08) 100%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: '1rem',
+                  border: '1px solid rgba(217, 106, 83, 0.22)',
+                  boxShadow: '0 8px 24px rgba(217, 106, 83, 0.06)',
+                  color: 'var(--color-burnt-coral)'
+                }}>
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                     <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                   </svg>
                 </div>
-                <h2 className="seenly-wizard-title">
+
+                <h2 className="seenly-wizard-title" style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-deep-ink)', marginBottom: '0.5rem', fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', textAlign: 'center', width: '100%' }}>
                   {t('ui', 'otp_entry_title')}
                 </h2>
+
                 <p style={{
                   fontFamily: 'var(--font-sans)',
-                  fontSize: '0.88rem',
+                  fontSize: '0.9rem',
                   color: 'var(--color-text-muted)',
-                  marginTop: '-1rem',
-                  marginBottom: '2rem',
+                  marginTop: '0',
+                  marginBottom: '1.5rem',
                   textAlign: 'center',
-                  width: '100%',
-                  boxSizing: 'border-box'
+                  lineHeight: '1.55',
+                  maxWidth: '360px',
+                  padding: '0 0.5rem'
                 }}>
                   {t('ui', 'otp_entry_desc').replace('{email}', email)}
                 </p>
 
-                {/* 6 Digit Input Group */}
-                <div style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  gap: '10px',
+                {/* Styled Sub-Card for OTP Input matching Step -5 */}
+                <div className="seenly-auth-card" style={{
                   width: '100%',
-                  maxWidth: '360px',
-                  margin: '0 auto 1.5rem auto'
+                  maxWidth: '400px',
+                  background: 'rgba(255, 253, 250, 0.55)',
+                  border: '1px solid rgba(11, 27, 44, 0.06)',
+                  borderRadius: '20px',
+                  padding: '1.75rem 1.5rem',
+                  boxShadow: '0 10px 30px rgba(11, 27, 44, 0.02)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '0.75rem',
+                  boxSizing: 'border-box'
                 }}>
-                  {Array(6).fill('').map((_, i) => (
-                    <input
-                      key={i}
-                      ref={(el) => (inputRefs.current[i] = el)}
-                      type="text"
-                      inputMode="numeric"
-                      pattern="[0-9]*"
-                      maxLength={1}
-                      value={verificationCode[i] || ''}
-                      onChange={(e) => handleCodeDigitChange(e.target, i)}
-                      onKeyDown={(e) => handleCodeKeyDown(e, i)}
-                      onPaste={handleCodePaste}
-                      style={{
-                        width: '46px',
-                        height: '56px',
-                        borderRadius: '12px',
-                        border: '1.5px solid rgba(11, 27, 44, 0.12)',
-                        textAlign: 'center',
-                        fontSize: '1.5rem',
-                        fontFamily: 'var(--font-serif)',
-                        fontWeight: '700',
-                        color: 'var(--color-deep-ink)',
-                        backgroundColor: 'var(--color-paper-cream)',
-                        outline: 'none',
-                        transition: 'all 0.25s ease',
-                        boxShadow: 'inset 0 2px 4px rgba(11, 27, 44, 0.02)'
-                      }}
-                      onFocus={(e) => {
-                        e.target.style.borderColor = 'var(--color-burnt-coral)';
-                        e.target.style.boxShadow = '0 0 0 4px rgba(217, 106, 83, 0.15)';
-                      }}
-                      onBlur={(e) => {
-                        e.target.style.borderColor = 'rgba(11, 27, 44, 0.12)';
-                        e.target.style.boxShadow = 'inset 0 2px 4px rgba(11, 27, 44, 0.02)';
-                      }}
-                    />
-                  ))}
+                  <div style={{
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '0.72rem',
+                    fontWeight: 800,
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    color: 'var(--color-deep-ink)',
+                    opacity: 0.6,
+                    textAlign: 'center'
+                  }}>
+                    {locale === 'tr' ? 'DOĞRULAMA KODUNUZ' : 'VERIFICATION CODE'}
+                  </div>
+
+                  {/* 4 Digit Input Group */}
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    gap: '12px',
+                    width: '100%',
+                    maxWidth: '340px',
+                    margin: '0.25rem auto 0 auto'
+                  }}>
+                    {Array(4).fill('').map((_, i) => (
+                      <input
+                        key={i}
+                        ref={(el) => (inputRefs.current[i] = el)}
+                        type="text"
+                        inputMode="text"
+                        maxLength={1}
+                        value={verificationCode[i] || ''}
+                        onChange={(e) => handleCodeDigitChange(e.target, i)}
+                        onKeyDown={(e) => handleCodeKeyDown(e, i)}
+                        onPaste={handleCodePaste}
+                        style={{
+                          width: '52px',
+                          height: '60px',
+                          borderRadius: '14px',
+                          border: '1.5px solid rgba(11, 27, 44, 0.12)',
+                          textAlign: 'center',
+                          fontSize: '1.6rem',
+                          fontFamily: 'var(--font-serif)',
+                          fontWeight: '700',
+                          color: 'var(--color-deep-ink)',
+                          backgroundColor: 'var(--color-paper-cream)',
+                          outline: 'none',
+                          transition: 'all 0.25s ease',
+                          boxShadow: 'inset 0 2px 4px rgba(11, 27, 44, 0.02)'
+                        }}
+                        onFocus={(e) => {
+                          e.target.style.borderColor = 'var(--color-burnt-coral)';
+                          e.target.style.boxShadow = '0 0 0 4px rgba(217, 106, 83, 0.15)';
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.borderColor = 'rgba(11, 27, 44, 0.12)';
+                          e.target.style.boxShadow = 'inset 0 2px 4px rgba(11, 27, 44, 0.02)';
+                        }}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Banking-style Resend Timer or Active Button */}
+                  <div style={{ margin: '0.25rem 0 0 0', minHeight: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {resendTimer > 0 ? (
+                      <div style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        fontSize: '0.85rem',
+                        fontWeight: 600,
+                        color: 'var(--color-text-muted)',
+                        backgroundColor: 'rgba(11, 27, 44, 0.04)',
+                        padding: '6px 16px',
+                        borderRadius: '20px'
+                      }}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7 }}>
+                          <circle cx="12" cy="12" r="10" />
+                          <polyline points="12 6 12 12 16 14" />
+                        </svg>
+                        <span>{t('ui', 'auth_resend_countdown').replace('{time}', formatTimer(resendTimer))}</span>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        disabled={isEmailSending}
+                        onClick={handleSendCode}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          border: 'none',
+                          background: 'none',
+                          color: 'var(--color-burnt-coral)',
+                          fontWeight: 700,
+                          cursor: isEmailSending ? 'not-allowed' : 'pointer',
+                          fontSize: '0.88rem',
+                          textDecoration: 'underline',
+                          padding: '6px 12px'
+                        }}
+                      >
+                        {isEmailSending ? (
+                          <span className="spinner-mini"></span>
+                        ) : (
+                          <>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                              <polyline points="23 4 23 10 17 10" />
+                              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                            </svg>
+                            <span>{t('ui', 'auth_resend_btn')}</span>
+                          </>
+                        )}
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Inline Error Toast */}
+                  {errorMessage && (
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '0.65rem 1rem',
+                      borderRadius: '12px',
+                      background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(220, 38, 38, 0.05) 100%)',
+                      border: '1px solid rgba(239, 68, 68, 0.2)',
+                      width: '100%',
+                      boxSizing: 'border-box',
+                      animation: 'seenly-shake 0.35s cubic-bezier(0.36,0.07,0.19,0.97) both'
+                    }}>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="8" x2="12" y2="12" />
+                        <line x1="12" y1="16" x2="12.01" y2="16" />
+                      </svg>
+                      <p style={{
+                        margin: 0,
+                        fontSize: '0.82rem',
+                        fontFamily: 'var(--font-sans)',
+                        fontWeight: 600,
+                        color: '#dc2626',
+                        lineHeight: 1.4
+                      }}>{errorMessage}</p>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="seenly-wizard-footer-action">
@@ -1415,25 +2128,30 @@ export default function QuizPage({ onComplete }) {
           {currentIndex === -2 && (
             /* Step 1: Nickname Input */
             <>
-              <div className="seenly-wizard-content">
-                <div className="seenly-wizard-circle-icon icon-peach">
+              <div className="seenly-wizard-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+                <div className="seenly-wizard-circle-icon icon-peach" style={{ margin: '0 auto 1.5rem auto' }}>
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                     <circle cx="12" cy="7" r="4" />
                   </svg>
                 </div>
-                <h2 className="seenly-wizard-title">{t('ui', 'wizard_nickname_title')}</h2>
-                <div className="seenly-wizard-input-container">
+                <h2 className="seenly-wizard-title" style={{ textAlign: 'center', width: '100%' }}>{t('ui', 'wizard_nickname_title')}</h2>
+                <div className="seenly-wizard-input-container" style={{ width: '100%', maxWidth: '400px', margin: '0 auto 1rem auto' }}>
                   <input
                     type="text"
                     placeholder={t('ui', 'wizard_nickname_placeholder')}
                     value={displayName}
                     onChange={(e) => setDisplayName(e.target.value)}
-                    maxLength={18}
+                    maxLength={15}
                     required
                     autoFocus
                     className="seenly-wizard-input"
                   />
+                  {displayName.trim().length > 0 && displayName.trim().length < 2 && (
+                    <p style={{ color: 'var(--color-error, #ef4444)', fontSize: '0.85rem', marginTop: '0.5rem', textAlign: 'center' }}>
+                      {langCode === 'tr' ? 'İsminiz en az 2 karakter olmalıdır.' : 'Your name must be at least 2 characters.'}
+                    </p>
+                  )}
                 </div>
               </div>
               <div className="seenly-wizard-footer-action">
@@ -1456,8 +2174,8 @@ export default function QuizPage({ onComplete }) {
           {currentIndex === -4 && (
             /* Step 3: Before You Begin */
             <>
-              <div className="seenly-wizard-content" style={{ padding: '1rem 0' }}>
-                <div className="seenly-wizard-circle-icon icon-purple" style={{ marginBottom: '0.5rem' }}>
+              <div className="seenly-wizard-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', padding: '0.5rem 0' }}>
+                <div className="seenly-wizard-circle-icon icon-purple" style={{ margin: '0 auto 0.75rem auto' }}>
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                     <polyline points="14 2 14 8 20 8" />
@@ -1466,11 +2184,11 @@ export default function QuizPage({ onComplete }) {
                     <polyline points="10 9 9 9 8 9" />
                   </svg>
                 </div>
-                <h2 className="seenly-wizard-title" style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-deep-ink)', marginBottom: '0.5rem' }}>
+                <h2 className="seenly-wizard-title" style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-deep-ink)', marginBottom: '0.75rem', textAlign: 'center', width: '100%' }}>
                   {t('ui', 'wizard_info_title')}
                 </h2>
 
-                <ul className="seenly-wizard-info-bullets">
+                <ul className="seenly-wizard-info-bullets" style={{ width: '100%', maxWidth: '400px', margin: '0 auto 1.5rem auto' }}>
                   <li>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--color-burnt-coral)', flexShrink: 0 }}>
                       <circle cx="12" cy="12" r="10" />

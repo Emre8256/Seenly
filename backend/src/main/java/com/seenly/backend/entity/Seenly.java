@@ -40,6 +40,9 @@ public class Seenly {
     @Column(nullable = true)
     private String email;
 
+    @Column(nullable = true)
+    private String avatar;
+
     @Column(nullable = false)
     private int responseCount = 0;
 

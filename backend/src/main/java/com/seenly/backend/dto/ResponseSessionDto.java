@@ -59,9 +59,15 @@ public class ResponseSessionDto {
 
     private String extractLensFromQuestionId(String questionId) {
         if (questionId == null) return "samimiyet";
+        String lower = questionId.toLowerCase();
+        for (String lens : java.util.Arrays.asList("samimiyet", "cekicilik", "zeka", "vizyon", "enerji", "guvenilirlik", "ego", "basari", "comertlik", "olgunluk")) {
+            if (lower.contains(lens)) {
+                return lens;
+            }
+        }
         String[] parts = questionId.split("_");
         if (parts.length >= 3) {
-            return parts[2];
+            return parts[2].toLowerCase();
         }
         return "samimiyet";
     }

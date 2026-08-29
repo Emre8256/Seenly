@@ -2,271 +2,271 @@
   "the_leader": {
     "signals": ["basari", "olgunluk"],
     "name": "Natural Leader",
-    "oneLine": "An alpha character who takes responsibility and commands the room in times of crisis.",
+    "oneLine": "The decisive figure everyone turns to when asking 'what are we doing next?'",
     "cardLine": "The decisive figure everyone turns to when asking 'what are we doing next?'"
   },
   "the_visionary": {
     "signals": ["vizyon", "zeka"],
     "name": "Original Mind",
-    "oneLine": "A sharp mind whose brain works differently, setting the group's vision.",
+    "oneLine": "A deep perspective easily bored by superficial small talk.",
     "cardLine": "A deep perspective easily bored by superficial small talk."
   },
   "the_magnet": {
     "signals": ["cekicilik", "enerji"],
     "name": "Social Magnet",
-    "oneLine": "A high-aura profile who catches immediate attention in any room with charm.",
+    "oneLine": "Natural charisma that pulls the spotlight without even trying.",
     "cardLine": "Natural charisma that pulls the spotlight without even trying."
   },
   "the_safe_haven": {
     "signals": ["guvenilirlik", "samimiyet"],
     "name": "Safe Haven",
-    "oneLine": "A solid, honest character offering zero judgment and infinite trust.",
+    "oneLine": "The very first person you would call at 3 AM if you got into trouble.",
     "cardLine": "The very first person you would call at 3 AM if you got into trouble."
   },
   "the_social_star": {
     "signals": ["samimiyet", "enerji"],
     "name": "Social Star",
-    "oneLine": "The life of the group whose absence cancels plans; pure positive vibes.",
+    "oneLine": "Contagious high energy that melts the ice in seconds and starts the party.",
     "cardLine": "Contagious high energy that melts the ice in seconds and starts the party."
   },
   "the_elite_mind": {
     "signals": ["vizyon", "ego"],
     "name": "Elite Mind",
-    "oneLine": "A charismatic profile with high standards who doesn't easily bend to anyone.",
+    "oneLine": "A refined standard that rejects mediocrity and commands respect instantly.",
     "cardLine": "A refined standard that rejects mediocrity and commands respect instantly."
   },
   "the_noble_heart": {
     "signals": ["comertlik", "samimiyet"],
     "name": "Noble Heart",
-    "oneLine": "A golden-hearted person who never hesitates to share what they have with others.",
+    "oneLine": "Pure sincerity whose hand reaches for the check first, never keeping score.",
     "cardLine": "Pure sincerity whose hand reaches for the check first, never keeping score."
   },
   "the_silent_king": {
     "signals": ["olgunluk", "zeka"],
     "name": "Silent Power",
-    "oneLine": "A mature intellect who speaks rarely but wisely, making everyone listen.",
+    "oneLine": "A quiet but incredibly deep authority that solves problems without the noise.",
     "cardLine": "A quiet but incredibly deep authority that solves problems without the noise."
   },
   "the_alpha_achiever": {
     "signals": ["basari", "ego"],
     "name": "Peak Partner",
-    "oneLine": "An ambitious profile with sky-high confidence who gets whatever they target.",
+    "oneLine": "An unwavering drive fully aware of their value, building life on grand goals.",
     "cardLine": "An unwavering drive fully aware of their value, building life on grand goals."
   },
   "the_benevolent_guide": {
     "signals": ["comertlik", "olgunluk"],
     "name": "Wise Anchor",
-    "oneLine": "The mentor of the group who keeps everyone grounded financially and emotionally.",
+    "oneLine": "A mature shelter you can lean on, protecting those around in stormy times.",
     "cardLine": "A mature shelter you can lean on, protecting those around in stormy times."
   },
   "the_ice_queen_king": {
     "signals": ["cekicilik", "ego"],
     "name": "Ice Queen/King",
-    "oneLine": "A distant profile drawing focus with a striking aura but hard to get close to.",
+    "oneLine": "Stunning from a distance but keeping their doors locked to the crowd.",
     "cardLine": "Stunning from a distance but keeping their doors locked to the crowd."
   },
   "the_mastermind": {
     "signals": ["zeka", "enerji"],
     "name": "Mastermind",
-    "oneLine": "Hyperactive and sharp-witted; a fast-talker and the ultimate joke machine.",
+    "oneLine": "A rapid brainstorm whose quick comebacks control the room.",
     "cardLine": "A rapid brainstorm whose quick comebacks control the room."
   },
   "the_playmaker": {
     "signals": ["vizyon", "basari"],
     "name": "Playmaker",
-    "oneLine": "A strategic go-getter planning 5 years ahead rather than just today.",
+    "oneLine": "A mind that sees the big picture, treating life like a chess board.",
     "cardLine": "A mind that sees the big picture, treating life like a chess board."
   },
   "the_sweetheart": {
     "signals": ["samimiyet", "cekicilik"],
     "name": "The Sweetheart",
-    "oneLine": "Warm, friendly, and cute; someone everyone instantly gets along with.",
+    "oneLine": "A sweet aura that warms the room with a smile, making it impossible to stay mad.",
     "cardLine": "A sweet aura that warms the room with a smile, making it impossible to stay mad."
   },
   "the_empath": {
     "signals": ["samimiyet", "zeka"],
     "name": "The Empath",
-    "oneLine": "An expert reader of people who understands your trouble just by looking at your eyes.",
+    "oneLine": "A confidant who listens to your soul and understands human psychology like a pro.",
     "cardLine": "A confidant who listens to your soul and understands human psychology like a pro."
   },
   "the_dreamer": {
     "signals": ["samimiyet", "vizyon"],
     "name": "The Dreamer",
-    "oneLine": "A pure-hearted idealist with grand dreams who looks at the world with positive glasses.",
+    "oneLine": "A lovely mind keeping their vision clean and sincere, free from real-world cynicism.",
     "cardLine": "A lovely mind keeping their vision clean and sincere, free from real-world cynicism."
   },
   "the_proud_friend": {
     "signals": ["samimiyet", "ego"],
     "name": "Proud Friend",
-    "oneLine": "Sincere on the outside, but with highly guarded personal boundaries and pride.",
+    "oneLine": "Incredibly warm, but will quietly walk out of your life the second their pride is hurt.",
     "cardLine": "Incredibly warm, but will quietly walk out of your life the second their pride is hurt."
   },
   "the_ambitious_sweetheart": {
     "signals": ["samimiyet", "basari"],
     "name": "Ambitious Sweetheart",
-    "oneLine": "Sweet-talking but focused on goals, climbing to success without breaking hearts.",
+    "oneLine": "A determined friend who gets things done with a smile and rises by their own merit.",
     "cardLine": "A determined friend who gets things done with a smile and rises by their own merit."
   },
   "the_calm_harbor": {
     "signals": ["samimiyet", "olgunluk"],
     "name": "Calm Harbor",
-    "oneLine": "A warm and quiet soul whose presence feels like a free therapy session.",
+    "oneLine": "Staying far from drama, a reassuring anchor who calms you down just by being there.",
     "cardLine": "Staying far from drama, a reassuring anchor who calms you down just by being there."
   },
   "the_seductive_mind": {
     "signals": ["cekicilik", "zeka"],
     "name": "Seductive Mind",
-    "oneLine": "Sharp and attractive; a magnetic intelligence capable of reading any room.",
+    "oneLine": "A genius who knows exactly what people need, using charm and intellect to lead.",
     "cardLine": "A genius who knows exactly what people need, using charm and intellect to lead."
   },
   "the_aesthetic": {
     "signals": ["cekicilik", "vizyon"],
     "name": "Aesthetic Vision",
-    "oneLine": "A profile whose style, tastes, and living space look like a curated Pinterest board.",
+    "oneLine": "Always seeking beauty, rejecting ordinary clothes and mundane spots with elegance.",
     "cardLine": "Always seeking beauty, rejecting ordinary clothes and mundane spots with elegance."
   },
   "the_charming_anchor": {
     "signals": ["cekicilik", "guvenilirlik"],
-    "name": "Charming Anchor",
-    "oneLine": "Stunning in stance and someone you can lean on with absolute peace of mind.",
+    "name": "Noble Pillar",
+    "oneLine": "Not just cool and classy, but a man of his word—a rare combination.",
     "cardLine": "Not just cool and classy, but a man of his word—a rare combination."
   },
   "the_star_player": {
     "signals": ["cekicilik", "basari"],
     "name": "Star Player",
-    "oneLine": "A popular winner with high screen presence who plays only for the top spot.",
+    "oneLine": "A rare mix of glamorous style and unstoppable career drive.",
     "cardLine": "A rare mix of glamorous style and unstoppable career drive."
   },
   "the_party_host": {
     "signals": ["cekicilik", "comertlik"],
     "name": "Generous Host",
-    "oneLine": "The coolest person in the room who is also incredibly sharing and open-handed.",
+    "oneLine": "A stylish profile who loves treating everyone at the table, never counting the cost.",
     "cardLine": "A stylish profile who loves treating everyone at the table, never counting the cost."
   },
   "the_mature_charm": {
     "signals": ["cekicilik", "olgunluk"],
     "name": "Mature Charm",
-    "oneLine": "Attractive and mature, staying far from childish acts and knowing how to behave.",
+    "oneLine": "Catching the eye with style, while commanding respect with a mature stance.",
     "cardLine": "Catching the eye with style, while commanding respect with a mature stance."
   },
   "the_consultant": {
     "signals": ["zeka", "guvenilirlik"],
     "name": "Silent Consultant",
-    "oneLine": "A logic box who analyzes your most critical issues and shows you the best way forward.",
+    "oneLine": "Pure intelligence combined with absolute discretion; the group's unofficial advisor.",
     "cardLine": "Pure intelligence combined with absolute discretion; the group's unofficial advisor."
   },
   "the_know_it_all": {
     "signals": ["zeka", "ego"],
     "name": "Brilliant Ego",
-    "oneLine": "A genius who loves being right and feels no need to hide their intellectual ego.",
+    "oneLine": "The brain who can't resist saying 'I told you so' in debates, and usually is right.",
     "cardLine": "The brain who can't resist saying 'I told you so' in debates, and usually is right."
   },
   "the_strategist": {
     "signals": ["zeka", "basari"],
     "name": "Master Strategist",
-    "oneLine": "An intellect driven by logic, calculating every single step toward their goals.",
+    "oneLine": "A sharp mind who filters ambition through logic and silently hits the target.",
     "cardLine": "A sharp mind who filters ambition through logic and silently hits the target."
   },
   "the_intellectual_giver": {
     "signals": ["zeka", "comertlik"],
     "name": "Intellectual Giver",
-    "oneLine": "A generous mind who loves sharing their knowledge, experience, and resources.",
+    "oneLine": "A genius who opens not just their wallet but their mind to guide and nurture friends.",
     "cardLine": "A genius who opens not just their wallet but their mind to guide and nurture friends."
   },
   "the_innovator": {
     "signals": ["vizyon", "enerji"],
     "name": "Innovator",
-    "oneLine": "A visionary who can't sit still, constantly producing new ideas and leading the group.",
+    "oneLine": "A dynamic force hating routine, spreading excitement with their latest projects.",
     "cardLine": "A dynamic force hating routine, spreading excitement with their latest projects."
   },
   "the_idealist": {
     "signals": ["vizyon", "guvenilirlik"],
     "name": "Honest Idealist",
-    "oneLine": "A visionary standing tall, loyal to their values, with no time for lies and deceit.",
+    "oneLine": "A solid character who never compromises on their truth and doesn't bend with the wind.",
     "cardLine": "A solid character who never compromises on their truth and doesn't bend with the wind."
   },
   "the_philanthropist": {
     "signals": ["vizyon", "comertlik"],
     "name": "Philanthropist",
-    "oneLine": "An idealist dedicating time and resources to make the world a better place.",
+    "oneLine": "The visionary force and generous soul behind grand supportive projects.",
     "cardLine": "The visionary force and generous soul behind grand supportive projects."
   },
   "the_philosopher": {
     "signals": ["vizyon", "olgunluk"],
     "name": "The Philosopher",
-    "oneLine": "A thinker questioning the meaning of life, loving deep talks and quiet calmness.",
+    "oneLine": "A mature vision opting for philosophy and the future over daily gossip.",
     "cardLine": "A mature vision opting for philosophy and the future over daily gossip."
   },
   "the_golden_retriever": {
     "signals": ["enerji", "guvenilirlik"],
     "name": "Golden Retriever",
-    "oneLine": "Highly energetic and intensely loyal; a friend who would never turn their back on you.",
+    "oneLine": "The secure space you run to when down, wrapped in pure positive vibes.",
     "cardLine": "The secure space you run to when down, wrapped in pure positive vibes."
   },
   "the_showman": {
     "signals": ["enerji", "ego"],
     "name": "Showman",
-    "oneLine": "Loves the show; a master of pulling the room's energy entirely onto themselves.",
+    "oneLine": "Feeding on attention, managing the stage and the drama with high energy.",
     "cardLine": "Feeding on attention, managing the stage and the drama with high energy."
   },
   "the_powerhouse": {
     "signals": ["enerji", "basari"],
     "name": "Powerhouse",
-    "oneLine": "Running toward goals with unstoppable ambition and boundless work energy.",
+    "oneLine": "An energetic winner who never tires, acting as the group's chief motivator.",
     "cardLine": "An energetic winner who never tires, acting as the group's chief motivator."
   },
   "the_life_giver": {
     "signals": ["enerji", "comertlik"],
     "name": "Life Giver",
-    "oneLine": "Lively friend bringing life to the group with high energy and open pockets.",
+    "oneLine": "An energetic and generous profile always first to fund and spark group plans.",
     "cardLine": "An energetic and generous profile always first to fund and spark group plans."
   },
   "the_steady_vibe": {
     "signals": ["enerji", "olgunluk"],
     "name": "Steady Vibe",
-    "oneLine": "A balanced energy knowing exactly when to double the fun and when to stop.",
+    "oneLine": "Never loud, never boring; just the perfect, mature recipe for fun.",
     "cardLine": "Never loud, never boring; just the perfect, mature recipe for fun."
   },
   "the_gatekeeper": {
     "signals": ["guvenilirlik", "ego"],
     "name": "Gatekeeper",
-    "oneLine": "Keeping distance from the crowd, offering infinite loyalty to a selected few.",
+    "oneLine": "Their circle of trust is narrow, but once you're in, they will guard you forever.",
     "cardLine": "Their circle of trust is narrow, but once you're in, they will guard you forever."
   },
   "the_pillar": {
     "signals": ["guvenilirlik", "basari"],
     "name": "The Pillar",
-    "oneLine": "Highly consistent in goals and a professional who never lets you down in work.",
+    "oneLine": "Disciplined, reliable, and refusing to leave success to chance—a solid pillar.",
     "cardLine": "Disciplined, reliable, and refusing to leave success to chance—a solid pillar."
   },
   "the_helper": {
     "signals": ["guvenilirlik", "comertlik"],
     "name": "The Helper",
-    "oneLine": "The first to run to help in times of trouble, offering support with everything.",
+    "oneLine": "Doing good without expecting returns, known for pure generosity and honesty.",
     "cardLine": "Doing good without expecting returns, known for pure generosity and honesty."
   },
   "the_protector": {
     "signals": ["guvenilirlik", "olgunluk"],
     "name": "The Protector",
-    "oneLine": "A calm and loyal guardian protecting the group from conflicts and external chaos.",
+    "oneLine": "A protective shield you can lean on, guarding your back with logical solutions.",
     "cardLine": "A protective shield you can lean on, guarding your back with logical solutions."
   },
   "the_proud_patron": {
     "signals": ["ego", "comertlik"],
     "name": "Proud Patron",
-    "oneLine": "Proud and distant, yet loving to make grand gestures and gifts to their loved ones.",
+    "oneLine": "Taking pride in treating others, never boasting but making their presence felt.",
     "cardLine": "Taking pride in treating others, never boasting but making their presence felt."
   },
   "the_stoic_king": {
     "signals": ["ego", "olgunluk"],
     "name": "Stoic King",
-    "oneLine": "Commanding respect with an unwavering posture and calm, distant behavior.",
+    "oneLine": "Rarely showing emotion, putting down their weight with a stoic presence.",
     "cardLine": "Rarely showing emotion, putting down their weight with a stoic presence."
   },
   "the_patron": {
     "signals": ["basari", "comertlik"],
     "name": "Big Patron",
-    "oneLine": "An open-handed leader with grand goals, lifting those around as they rise.",
+    "oneLine": "Never celebrating success alone, a generous profile rewarding their team.",
     "cardLine": "Never celebrating success alone, a generous profile rewarding their team."
   }
 }

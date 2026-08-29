@@ -9,7 +9,7 @@ export function SeenlyCodes() {
     { code: "SLF-04", name: t("ui", "landing_codes_c1") || "Dürüst İdealist", family: "gratia", c: "text-navy", b: "border-navy/25" },
     { code: "OUT-11", name: t("ui", "landing_codes_c2") || "Huzur Deposu", family: "porta", c: "text-peach", b: "border-peach/30" },
     { code: "GAP-07", name: t("ui", "landing_codes_c3") || "Estetik Vizyon", family: "aura", c: "text-lilac", b: "border-lilac/30" },
-    { code: "SLF-09", name: t("ui", "landing_codes_c4") || "Karizmatik Çıpa", family: "aura", c: "text-navy", b: "border-navy/25" },
+    { code: "SLF-09", name: t("ui", "landing_codes_c4") || "Asil Dayanak", family: "aura", c: "text-navy", b: "border-navy/25" },
     { code: "OUT-02", name: t("ui", "landing_codes_c5") || "Usta Stratejist", family: "stratega", c: "text-peach", b: "border-peach/30" },
     { code: "GAP-13", name: t("ui", "landing_codes_c6") || "Neşeli Çıpa", family: "porta", c: "text-lilac", b: "border-lilac/30" },
   ]
@@ -25,7 +25,7 @@ export function SeenlyCodes() {
       />
       <div className="above-surface mx-auto max-w-[1180px] px-5 py-14 sm:px-8 md:py-20">
         <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
-          <Reveal className="order-2 lg:order-1">
+          <Reveal>
             <p className="font-mono text-[0.7rem] uppercase tracking-[0.34em] text-clay">
               {t("ui", "landing_codes_tag") || "Koleksiyon"}
             </p>
@@ -35,6 +35,24 @@ export function SeenlyCodes() {
             <p className="mt-5 max-w-md text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
               {t("ui", "landing_codes_desc") || "Seenly sonuçları yalnızca bir açıklama değil; paylaşılabilir bir kimlik ve keşfedilecek bir koleksiyon parçası sunar."}
             </p>
+
+            {/* Mobile Image: displayed above cards grid on mobile, hidden on desktop */}
+            <div className="lg:hidden my-6 mx-auto max-w-[280px] w-full relative">
+              <WatercolorStain
+                name="codes-gold-mobile"
+                hue="gold"
+                seed={12}
+                intensity={0.2}
+                className="-left-6 -top-6 h-[112%] w-[112%]"
+              />
+              <div className="integrated-art mask-organic-2 shadow-contact paper-panel overflow-hidden p-0">
+                <img
+                  src="/images/codes.png"
+                  alt="Altın çerçeveli koleksiyon kartları halinde sunulan Seenly kodlarının suluboya illüstrasyonu"
+                  className="soft-image-edge aspect-square w-full object-cover mask-organic-2"
+                />
+              </div>
+            </div>
 
             <div className="mt-9 grid grid-cols-2 gap-3 sm:grid-cols-3">
               {codes.map((item, i) => (
@@ -73,7 +91,7 @@ export function SeenlyCodes() {
             </div>
           </Reveal>
 
-          <Reveal delay={120} className="relative order-1 lg:order-2">
+          <Reveal delay={120} className="hidden lg:block relative mx-auto max-w-[280px] sm:max-w-none w-full">
             <WatercolorStain
               name="codes-gold"
               hue="gold"

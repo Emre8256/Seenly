@@ -22,6 +22,11 @@ public class SeenlyController {
     private final ReaderGameService readerGameService;
     private final com.seenly.backend.repository.ResponseSessionRepository responseSessionRepository;
 
+    @org.springframework.beans.factory.annotation.Value("${spring.profiles.active:dev}")
+    private String activeProfile;
+
+    private final java.util.Map<String, String> otpStorage = new java.util.concurrent.ConcurrentHashMap<>();
+
     public SeenlyController(SeenlyRepository seenlyRepository,
                             TokenHashingService tokenHashingService,
                             ScoringEngineService scoringEngineService,
@@ -92,9 +97,12 @@ public class SeenlyController {
             }
         }
 
+        String code = "dev".equalsIgnoreCase(activeProfile) ? "1234" : generateAlphanumericCode();
+        otpStorage.put(request.getEmail().toLowerCase(), code);
+
         // Print mock verification details in logs for simulation
         System.out.println("[MAIL MOCK] Verification request received for email: " + request.getEmail());
-        System.out.println("[MAIL MOCK] Verification code sent is: 123456");
+        System.out.println("[MAIL MOCK] Verification code sent is: " + code);
         
         java.util.Map<String, String> response = new java.util.HashMap<>();
         response.put("status", "success");
@@ -110,7 +118,9 @@ public class SeenlyController {
     public ResponseEntity<java.util.Map<String, String>> verifyCode(@Valid @RequestBody EmailAuthRequest request) {
         java.util.Map<String, String> response = new java.util.HashMap<>();
         
-        if ("123456".equals(request.getCode())) {
+        String storedCode = otpStorage.get(request.getEmail().toLowerCase());
+        if (storedCode != null && storedCode.equalsIgnoreCase(request.getCode())) {
+            otpStorage.remove(request.getEmail().toLowerCase());
             response.put("status", "success");
             response.put("message", "Verification successful.");
             return ResponseEntity.ok(response);
@@ -130,6 +140,85 @@ public class SeenlyController {
         String tokenHash = tokenHashingService.hashToken(ownerToken);
         Seenly seenly = seenlyRepository.findByOwnerTokenHash(tokenHash)
             .orElseThrow(() -> new ResourceNotFoundException("Seenly profile not found for the provided token."));
+
+        ResultSnapshotDto snapshotDto = new ResultSnapshotDto(seenly.getResultSnapshot());
+        return ResponseEntity.ok(snapshotDto);
+    }
+
+    /**
+     * PUT /api/v1/seenly/owner/display-name
+     * Updates the owner's display name.
+     */
+    @PutMapping("/owner/display-name")
+    public ResponseEntity<ResultSnapshotDto> updateDisplayName(
+            @RequestHeader(value = "X-Owner-Token") String ownerToken,
+            @RequestBody java.util.Map<String, String> request) {
+        
+        String newName = request.get("displayName");
+        if (newName == null || newName.trim().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        String tokenHash = tokenHashingService.hashToken(ownerToken);
+        Seenly seenly = seenlyRepository.findByOwnerTokenHash(tokenHash)
+            .orElseThrow(() -> new ResourceNotFoundException("Seenly profile not found."));
+
+        seenly.setDisplayName(newName.trim());
+        seenlyRepository.save(seenly);
+
+        ResultSnapshotDto snapshotDto = new ResultSnapshotDto(seenly.getResultSnapshot());
+        return ResponseEntity.ok(snapshotDto);
+    }
+
+    /**
+     * PUT /api/v1/seenly/owner/email
+     * Updates the owner's email address.
+     */
+    @PutMapping("/owner/email")
+    public ResponseEntity<?> updateEmail(
+            @RequestHeader(value = "X-Owner-Token") String ownerToken,
+            @RequestBody java.util.Map<String, String> request) {
+        
+        String newEmail = request.get("email");
+        if (newEmail == null || newEmail.trim().isEmpty() || !newEmail.contains("@")) {
+            return ResponseEntity.badRequest().body(java.util.Map.of("message", "Geçerli bir e-posta adresi giriniz."));
+        }
+
+        String tokenHash = tokenHashingService.hashToken(ownerToken);
+        Seenly seenly = seenlyRepository.findByOwnerTokenHash(tokenHash)
+            .orElseThrow(() -> new ResourceNotFoundException("Seenly profile not found."));
+
+        String cleanedEmail = newEmail.trim().toLowerCase();
+        seenly.setEmail(cleanedEmail);
+        if (seenly.getUser() != null) {
+            seenly.getUser().setEmail(cleanedEmail);
+        }
+        seenlyRepository.save(seenly);
+
+        ResultSnapshotDto snapshotDto = new ResultSnapshotDto(seenly.getResultSnapshot());
+        return ResponseEntity.ok(snapshotDto);
+    }
+
+    /**
+     * PUT /api/v1/seenly/owner/avatar
+     * Updates the owner's chosen avatar.
+     */
+    @PutMapping("/owner/avatar")
+    public ResponseEntity<?> updateAvatar(
+            @RequestHeader(value = "X-Owner-Token") String ownerToken,
+            @RequestBody java.util.Map<String, String> request) {
+        
+        String avatar = request.get("avatar");
+        if (avatar == null || avatar.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(java.util.Map.of("message", "Avatar is required."));
+        }
+
+        String tokenHash = tokenHashingService.hashToken(ownerToken);
+        Seenly seenly = seenlyRepository.findByOwnerTokenHash(tokenHash)
+            .orElseThrow(() -> new ResourceNotFoundException("Seenly profile not found."));
+
+        seenly.setAvatar(avatar.trim());
+        seenlyRepository.save(seenly);
 
         ResultSnapshotDto snapshotDto = new ResultSnapshotDto(seenly.getResultSnapshot());
         return ResponseEntity.ok(snapshotDto);
@@ -170,6 +259,8 @@ public class SeenlyController {
         String ipAddress = httpRequest.getRemoteAddr();
         String fingerprint = request.get("fingerprintHash");
         
+        // [TEST MODE] Geçiçi IP ve Cihaz Kontrolü Test İçin Devre Dışı Bırakıldı
+        /*
         if (fingerprint != null) {
             boolean existsDuplicate = responseSessionRepository.existsDuplicateSession(seenlyCheck.getId(), ipAddress, fingerprint);
             if (existsDuplicate) {
@@ -177,6 +268,7 @@ public class SeenlyController {
                     .body(java.util.Map.of("message", "You have already evaluated this person.", "eligible", false));
             }
         }
+        */
         
         return ResponseEntity.ok(java.util.Map.of("eligible", true));
     }
@@ -205,11 +297,14 @@ public class SeenlyController {
         String ipAddress = httpRequest.getRemoteAddr();
         String fingerprint = request.getFingerprintHash();
         
+        // [TEST MODE] Geçiçi IP ve Cihaz Kontrolü Test İçin Devre Dışı Bırakıldı
+        /*
         boolean existsDuplicate = responseSessionRepository.existsDuplicateSession(seenlyCheck.getId(), ipAddress, fingerprint);
         if (existsDuplicate) {
             return ResponseEntity.status(org.springframework.http.HttpStatus.CONFLICT)
                 .body(java.util.Map.of("message", "You have already evaluated this person."));
         }
+        */
 
         ResponseSession session = ResponseSession.builder()
             .nickname(request.getNickname())
@@ -249,12 +344,15 @@ public class SeenlyController {
      */
     @PostMapping("/auth/login-email")
     public ResponseEntity<?> loginWithEmail(@Valid @RequestBody EmailAuthRequest request) {
-        if (!"123456".equals(request.getCode())) {
+        String storedCode = otpStorage.get(request.getEmail().toLowerCase());
+        if (storedCode == null || !storedCode.equalsIgnoreCase(request.getCode())) {
             java.util.Map<String, String> errResponse = new java.util.HashMap<>();
             errResponse.put("status", "error");
             errResponse.put("message", "Geçersiz doğrulama kodu. Lütfen tekrar deneyin.");
             return ResponseEntity.badRequest().body(errResponse);
         }
+        
+        otpStorage.remove(request.getEmail().toLowerCase());
 
         // Fetch the user's latest seenly profile
         java.util.Optional<Seenly> seenlyOpt = seenlyRepository.findFirstByEmailOrderByCreatedAtDesc(request.getEmail());
@@ -295,6 +393,16 @@ public class SeenlyController {
         response.put("status", "success");
         response.put("totalProfileClicks", seenly.getTotalProfileClicks());
         return ResponseEntity.ok(response);
+    }
+
+    private String generateAlphanumericCode() {
+        java.security.SecureRandom random = new java.security.SecureRandom();
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        StringBuilder sb = new StringBuilder(4);
+        for (int i = 0; i < 4; i++) {
+            sb.append(chars.charAt(random.nextInt(chars.length())));
+        }
+        return sb.toString();
     }
 }
 

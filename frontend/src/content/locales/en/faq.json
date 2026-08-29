@@ -11,8 +11,8 @@
   },
   {
     "id": "q3",
-    "question": "What are Social Signatures?",
-    "answer": "Social Signatures are custom-designed digital cards that capture your most dominant traits and the unique impressions you leave in your social circle. Based on the social aura shaped by your quiz results, the system assigns you a matching, unique social signature (for example, 'The Playmaker' or 'The Safe Haven')."
+    "question": "What are Social Identities?",
+    "answer": "Social Identities are custom-designed digital cards that capture your most dominant traits and the unique impressions you leave in your social circle. Based on the social aura shaped by your quiz results, the system assigns you a matching, unique social identity (for example, 'The Playmaker' or 'The Safe Haven')."
   },
   {
     "id": "q4",
@@ -23,5 +23,30 @@
     "id": "q5",
     "question": "What is the Perception Accuracy percentage?",
     "answer": "It is a precisely calculated percentage showing how much your friend's social reading of you matches your own self-perception. Based on the match rate, your friend is given special social reading cards like 'Telepathic Reader' or 'Balanced Observer'."
+  },
+  {
+    "id": "q6",
+    "question": "What are extra respondent packs?",
+    "answer": "Extra respondent packs are additional packages that allow you to increase your profile's respondent limit without upgrading to the Seenly Plus plan. Depending on your needs, you can add 100, 250, or 500 extra respondent capacity to keep collecting analyses from your friends. If you upgrade to the Plus plan, your capacity becomes completely unlimited."
+  },
+  {
+    "id": "q7",
+    "question": "Does my friend need to register on Seenly to evaluate me?",
+    "answer": "No. Your friends do not need to register or create an account on Seenly to leave feedback for you. They can start the quiz directly by clicking the link you share and anonymously review you in just 1 minute."
+  },
+  {
+    "id": "q8",
+    "question": "Is Seenly Plus a subscription or a one-time payment?",
+    "answer": "Seenly Plus is absolutely not a subscription. With a one-time payment, you permanently remove all restrictions on your profile (unlimited respondents capacity, detailed reflection analyses, blind spot reports). No recurring charges will ever be made to your card."
+  },
+  {
+    "id": "q9",
+    "question": "Can I completely delete my account and data?",
+    "answer": "Yes. You can delete your account, friend evaluations, and all associated data from our system at any time by clicking the 'Delete Account' button in the top-right menu of your profile dashboard. This action cannot be undone."
+  },
+  {
+    "id": "q10",
+    "question": "When I share my result card, can my friends see the answers I gave to my own quiz?",
+    "answer": "No. The card or image you share or download only shows your overall Social Identity and your reflection summary. Raw data, such as which specific options you or your friends selected in the quiz, is never shared and remains completely private."
   }
 ]

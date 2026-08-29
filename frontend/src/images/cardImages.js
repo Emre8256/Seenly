@@ -19,7 +19,7 @@ import the_ambitious_sweetheart from './KişilikKartları/Hırslı Samimi.png';
 import the_calm_harbor from './KişilikKartları/Huzur Deposu.png';
 import the_seductive_mind from './KişilikKartları/Şeytansı Zeka.png';
 import the_aesthetic from './KişilikKartları/Estetik Vizyon.png';
-import the_charming_anchor from './KişilikKartları/Karizmatik Çıpa.png';
+import the_charming_anchor from './KişilikKartları/Asil Dayanak.png';
 import the_star_player from './KişilikKartları/Yıldız Oyuncu.png';
 import the_party_host from './KişilikKartları/Gönül Zengini.png';
 import the_mature_charm from './KişilikKartları/Ağırbaşlı Karizma.png';

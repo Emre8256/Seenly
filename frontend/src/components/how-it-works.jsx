@@ -60,7 +60,7 @@ export function HowItWorks() {
               </p>
             </Reveal>
 
-            <Reveal delay={160} className="relative mt-10">
+            <Reveal delay={160} className="relative mt-10 mx-auto max-w-[320px] sm:max-w-none w-full">
               <div className="integrated-art mask-organic-2 shadow-contact paper-panel relative -ml-4 overflow-hidden p-0">
                 <img
                   src="/images/how-it-works.png"
@@ -87,7 +87,7 @@ export function HowItWorks() {
                 as="li"
                 key={m.title}
                 delay={i * 120}
-                className="relative grid grid-cols-[2.3rem_1fr] gap-5 pb-14 last:pb-0 sm:gap-7"
+                className="relative grid grid-cols-[2.3rem_1fr] gap-5 pb-10 sm:pb-14 last:pb-0 sm:gap-7"
               >
                 <span
                   className={`relative z-10 mt-1 font-heading text-lg ${m.accent}`}

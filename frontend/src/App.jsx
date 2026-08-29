@@ -9,6 +9,7 @@ import FriendResultPage from './pages/FriendResultPage';
 import IdentitiesPage from './pages/IdentitiesPage';
 import FaqPage from './pages/FaqPage';
 import PlansPage from './pages/PlansPage';
+import SettingsPage from './pages/SettingsPage';
 
 const parseHashRoute = (hash) => {
   const cleanHash = hash.replace(/^#/, ''); // e.g. "/friend/abc/quiz"
@@ -19,6 +20,10 @@ const parseHashRoute = (hash) => {
 
   if (cleanHash.startsWith('/dashboard')) {
     return { type: 'dashboard', slug: null };
+  }
+
+  if (cleanHash.startsWith('/settings')) {
+    return { type: 'settings', slug: null };
   }
 
   if (cleanHash.startsWith('/identities')) {
@@ -146,6 +151,8 @@ export default function App() {
         return <ResultPage onNavigateToQuiz={handleNavigateToSelfQuiz} />;
       case 'dashboard':
         return <DashboardPage onNavigateToQuiz={handleNavigateToSelfQuiz} />;
+      case 'settings':
+        return <SettingsPage />;
       case 'identities':
         return <IdentitiesPage />;
       case 'faq':

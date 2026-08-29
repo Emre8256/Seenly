@@ -56,7 +56,7 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <nav className="flex flex-wrap gap-x-10 gap-y-3" aria-label="Alt menü">
+          <nav className="grid grid-cols-2 gap-x-8 gap-y-3.5 sm:flex sm:flex-wrap" aria-label="Alt menü">
             {links.map((link) => (
               <a
                 key={link.label}

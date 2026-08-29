@@ -1,272 +1,407 @@
 {
   "the_leader": {
-    "signals": ["basari", "olgunluk"],
+    "signals": [
+      "basari",
+      "olgunluk"
+    ],
     "name": "Doğal Lider",
-    "oneLine": "Kriz anlarında sorumluluk alan, masaya yumruğunu vuran alfa karakter.",
+    "oneLine": "Herkesin dönüp 'ne yapıyoruz?' diye baktığı o net ve kararlı figür.",
     "cardLine": "Herkesin dönüp 'ne yapıyoruz?' diye baktığı o net ve kararlı figür."
   },
   "the_visionary": {
-    "signals": ["vizyon", "zeka"],
+    "signals": [
+      "vizyon",
+      "zeka"
+    ],
     "name": "Orijinal Akıl",
-    "oneLine": "Kafası herkesten farklı çalışan ve grubun vizyonunu belirleyen zeka.",
+    "oneLine": "Sıradan muhabbetlerden sıkılan, derinliği olan bir perspektif.",
     "cardLine": "Sıradan muhabbetlerden sıkılan, derinliği olan bir perspektif."
   },
   "the_magnet": {
-    "signals": ["cekicilik", "enerji"],
+    "signals": [
+      "cekicilik",
+      "enerji"
+    ],
     "name": "Sosyal Mıknatıs",
-    "oneLine": "Girdiği ortamda anında dikkat çeken, şeytan tüylü ve aurası yüksek profil.",
+    "oneLine": "Spot ışıklarını hiç çaba harcamadan üzerine çeken doğal bir karizma.",
     "cardLine": "Spot ışıklarını hiç çaba harcamadan üzerine çeken doğal bir karizma."
   },
   "the_safe_haven": {
-    "signals": ["guvenilirlik", "samimiyet"],
+    "signals": [
+      "guvenilirlik",
+      "samimiyet"
+    ],
     "name": "Güvenli Liman",
-    "oneLine": "Sıfır yargı, sonsuz güven hissi veren o sağlam ve dürüst karakter.",
+    "oneLine": "Gecenin 3'ünde başın belaya girse hiç düşünmeden arayacağın ilk kişi.",
     "cardLine": "Gecenin 3'ünde başın belaya girse hiç düşünmeden arayacağın ilk kişi."
   },
   "the_social_star": {
-    "signals": ["samimiyet", "enerji"],
+    "signals": [
+      "samimiyet",
+      "enerji"
+    ],
     "name": "Ortamın Ruhu",
-    "oneLine": "O yokken planların iptal edildiği, ekibin neşe kaynağı ana karakter.",
+    "oneLine": "Buzları saniyeler içinde eriten, partiyi başlatan o yüksek enerji.",
     "cardLine": "Buzları saniyeler içinde eriten, partiyi başlatan o yüksek enerji."
   },
   "the_elite_mind": {
-    "signals": ["vizyon", "ego"],
+    "signals": [
+      "vizyon",
+      "ego"
+    ],
     "name": "Seçkin Duruş",
-    "oneLine": "Standartları yüksek, herkese kolay eyvallahı olmayan karizmatik profil.",
+    "oneLine": "Sıradanlığı asla kabul etmeyen ve ağırlığını her an hissettiren bir çizgi.",
     "cardLine": "Sıradanlığı asla kabul etmeyen ve ağırlığını her an hissettiren bir çizgi."
   },
   "the_noble_heart": {
-    "signals": ["comertlik", "samimiyet"],
+    "signals": [
+      "comertlik",
+      "samimiyet"
+    ],
     "name": "Cömert Ruh",
-    "oneLine": "Elindekini etrafıyla paylaşmaktan çekinmeyen o altın kalpli insan.",
+    "oneLine": "Hesap ödenirken eli cebine ilk giden, hesap kitap yapmayan içtenlik.",
     "cardLine": "Hesap ödenirken eli cebine ilk giden, hesap kitap yapmayan içtenlik."
   },
   "the_silent_king": {
-    "signals": ["olgunluk", "zeka"],
+    "signals": [
+      "olgunluk",
+      "zeka"
+    ],
     "name": "Sakin Güç",
-    "oneLine": "Boş yapmayan, az ama öz konuşan; herkese kendini dinleten ağırbaşlı zeka.",
+    "oneLine": "Az konuşup çok şey çözen, gürültüsüz ama son derece derin bir otorite.",
     "cardLine": "Az konuşup çok şey çözen, gürültüsüz ama son derece derin bir otorite."
   },
   "the_alpha_achiever": {
-    "signals": ["basari", "ego"],
+    "signals": [
+      "basari",
+      "ego"
+    ],
     "name": "Zirve Ortağı",
-    "oneLine": "Kafaya koyduğunu yapan, özgüveni tavan ve hırslı profil.",
+    "oneLine": "Kendi değerinin farkında, hayatını hedefleri üzerine kurmuş sarsılmaz güç.",
     "cardLine": "Kendi değerinin farkında, hayatını hedefleri üzerine kurmuş sarsılmaz güç."
   },
   "the_benevolent_guide": {
-    "signals": ["comertlik", "olgunluk"],
+    "signals": [
+      "comertlik",
+      "olgunluk"
+    ],
     "name": "Bilge Çıpa",
-    "oneLine": "Grubun akıl hocası. Hem maddi hem manevi olarak herkesi toparlayan kişi.",
+    "oneLine": "Fırtınalı anlarda etrafını koruyan, sırtını rahatça yaslayacağın o olgunluk.",
     "cardLine": "Fırtınalı anlarda etrafını koruyan, sırtını rahatça yaslayacağın o olgunluk."
   },
   "the_ice_queen_king": {
-    "signals": ["cekicilik", "ego"],
+    "signals": [
+      "cekicilik",
+      "ego"
+    ],
     "name": "Buzdan Kale",
-    "oneLine": "Etkileyici aurasıyla dikkat çeken ama yanına yaklaşması zor, mesafeli profil.",
+    "oneLine": "Uzaktan hayran bırakan ama kapılarını herkese açmayan ulaşılmazlık.",
     "cardLine": "Uzaktan hayran bırakan ama kapılarını herkese açmayan ulaşılmazlık."
   },
   "the_mastermind": {
-    "signals": ["zeka", "enerji"],
+    "signals": [
+      "zeka",
+      "enerji"
+    ],
     "name": "Kıvrak Zeka",
-    "oneLine": "Hem hiperaktif hem zehir gibi; laf ebesi ve ortamın espri makinesi.",
+    "oneLine": "Hazırcevaplığıyla ortamı yıkan, hızına yetişilmesi zor bir beyin fırtınası.",
     "cardLine": "Hazırcevaplığıyla ortamı yıkan, hızına yetişilmesi zor bir beyin fırtınası."
   },
   "the_playmaker": {
-    "signals": ["vizyon", "basari"],
+    "signals": [
+      "vizyon",
+      "basari"
+    ],
     "name": "Oyun Kurucu",
-    "oneLine": "Sadece bugünü değil, 5 yıl sonrasını planlayan stratejik hedef insanı.",
+    "oneLine": "Büyük resmi gören, hayatı bir satranç tahtası gibi kurgulayan beyin.",
     "cardLine": "Büyük resmi gören, hayatı bir satranç tahtası gibi kurgulayan beyin."
   },
   "the_sweetheart": {
-    "signals": ["samimiyet", "cekicilik"],
+    "signals": [
+      "samimiyet",
+      "cekicilik"
+    ],
     "name": "Şeker Şey",
-    "oneLine": "Hem cana yakın hem sempatik, herkesin ilk görüşte kanının kaynadığı şirinlik.",
+    "oneLine": "Gülüşüyle ortamı ısıtan, kimsenin küs kalamayacağı o tatlı aura.",
     "cardLine": "Gülüşüyle ortamı ısıtan, kimsenin küs kalamayacağı o tatlı aura."
   },
   "the_empath": {
-    "signals": ["samimiyet", "zeka"],
+    "signals": [
+      "samimiyet",
+      "zeka"
+    ],
     "name": "Duygusal Zeka",
-    "oneLine": "İnsan sarrafı. Derdini anlatmana gerek kalmadan gözünden anlayan empati küpü.",
+    "oneLine": "Konuşurken ruhunu dinleyen, insan psikolojisinden zehir gibi anlayan sırdaş.",
     "cardLine": "Konuşurken ruhunu dinleyen, insan psikolojisinden zehir gibi anlayan sırdaş."
   },
   "the_dreamer": {
-    "signals": ["samimiyet", "vizyon"],
+    "signals": [
+      "samimiyet",
+      "vizyon"
+    ],
     "name": "Düş Hekimi",
-    "oneLine": "Hayalleri büyük, içi temiz, dünyaya hep pembe gözlüklerle bakan idealist.",
+    "oneLine": "Gerçek dünyanın çamuruna batmadan, vizyonunu samimiyetiyle koruyan tatlı kafa.",
     "cardLine": "Gerçek dünyanın çamuruna batmadan, vizyonunu samimiyetiyle koruyan tatlı kafa."
   },
   "the_proud_friend": {
-    "signals": ["samimiyet", "ego"],
+    "signals": [
+      "samimiyet",
+      "ego"
+    ],
     "name": "Gizli Gururlu",
-    "oneLine": "Dışarıdan sıcak ve samimi görünse de kırmızı çizgileri olan gururlu profil.",
+    "oneLine": "Çok cana yakındır ama gururuna dokunulduğu an sessizce hayatından çıkarır.",
     "cardLine": "Çok cana yakındır ama gururuna dokunulduğu an sessizce hayatından çıkarır."
   },
   "the_ambitious_sweetheart": {
-    "signals": ["samimiyet", "basari"],
+    "signals": [
+      "samimiyet",
+      "basari"
+    ],
     "name": "Hırslı Samimi",
-    "oneLine": "Hem tatlı dilli hem hedefleri olan, başarıya giden yolda kimseyi kırmayan profil.",
+    "oneLine": "Güleryüzüyle iş bitiren, tırnaklarıyla kazıyarak yükselen o azimli dost.",
     "cardLine": "Güleryüzüyle iş bitiren, tırnaklarıyla kazıyarak yükselen o azimli dost."
   },
   "the_calm_harbor": {
-    "signals": ["samimiyet", "olgunluk"],
+    "signals": [
+      "samimiyet",
+      "olgunluk"
+    ],
     "name": "Huzur Deposu",
-    "oneLine": "Yanında 5 dakika otursan terapiye gitmiş gibi hissettiren sakin ve içten insan.",
+    "oneLine": "Dramalardan uzak duran, güven veren ve sadece varlığıyla bile sakinleştiren liman.",
     "cardLine": "Dramalardan uzak duran, güven veren ve sadece varlığıyla bile sakinleştiren liman."
   },
   "the_seductive_mind": {
-    "signals": ["cekicilik", "zeka"],
+    "signals": [
+      "cekicilik",
+      "zeka"
+    ],
     "name": "Şeytansı Zeka",
-    "oneLine": "Hem çok zeki hem de çekici; insanları parmağında oynatabilen manipülatif karizma.",
+    "oneLine": "Kimin neye ihtiyacı olduğunu bilip, aklıyla ve cazibesiyle ortamı yöneten deha.",
     "cardLine": "Kimin neye ihtiyacı olduğunu bilip, aklıyla ve cazibesiyle ortamı yöneten deha."
   },
   "the_aesthetic": {
-    "signals": ["cekicilik", "vizyon"],
+    "signals": [
+      "cekicilik",
+      "vizyon"
+    ],
     "name": "Estetik Vizyon",
-    "oneLine": "Zevkleri, tarzı ve yaşam alanıyla adeta bir Pinterest panosu olan profil.",
+    "oneLine": "Gözü hep güzeli arayan, sıradan kıyafetleri ve mekanları kabul etmeyen zarafet.",
     "cardLine": "Gözü hep güzeli arayan, sıradan kıyafetleri ve mekanları kabul etmeyen zarafet."
   },
   "the_charming_anchor": {
-    "signals": ["cekicilik", "guvenilirlik"],
-    "name": "Karizmatik Çıpa",
-    "oneLine": "Hem duruşuyla hayran bırakan hem de arkasını güvenle yaslayabileceğin karakter.",
+    "signals": [
+      "cekicilik",
+      "guvenilirlik"
+    ],
+    "name": "Asil Dayanak",
+    "oneLine": "Sadece havalı değil, aynı zamanda sözünün eri olan o ender insan.",
     "cardLine": "Sadece havalı değil, aynı zamanda sözünün eri olan o ender insan."
   },
   "the_star_player": {
-    "signals": ["cekicilik", "basari"],
+    "signals": [
+      "cekicilik",
+      "basari"
+    ],
     "name": "Yıldız Oyuncu",
-    "oneLine": "Hem sahne ışığı yüksek hem de alanında zirveye oynayan popüler kazanan.",
+    "oneLine": "Hem göz alıcı bir şıklık hem de durdurulamaz bir kariyer başarısı.",
     "cardLine": "Hem göz alıcı bir şıklık hem de durdurulamaz bir kariyer başarısı."
   },
   "the_party_host": {
-    "signals": ["cekicilik", "comertlik"],
+    "signals": [
+      "cekicilik",
+      "comertlik"
+    ],
     "name": "Gönül Zengini",
-    "oneLine": "Ortamın en havalısı ama aynı zamanda cebi en açık, paylaşımcı karizma.",
+    "oneLine": "Masadaki herkesi ağırlamaktan keyif alan, eli son derece bol ve tarz insan.",
     "cardLine": "Masadaki herkesi ağırlamaktan keyif alan, eli son derece bol ve tarz insan."
   },
   "the_mature_charm": {
-    "signals": ["cekicilik", "olgunluk"],
+    "signals": [
+      "cekicilik",
+      "olgunluk"
+    ],
     "name": "Ağırbaşlı Karizma",
-    "oneLine": "Gereksiz çocuksu tavırlardan uzak, oturup kalkmasını bilen çekici olgunluk.",
+    "oneLine": "Tarzıyla göz alan ama tavırlarındaki ciddiyetle saygı uyandıran duruş.",
     "cardLine": "Tarzıyla göz alan ama tavırlarındaki ciddiyetle saygı uyandıran duruş."
   },
   "the_consultant": {
-    "signals": ["zeka", "guvenilirlik"],
+    "signals": [
+      "zeka",
+      "guvenilirlik"
+    ],
     "name": "Sır Küpü Zeka",
-    "oneLine": "En kritik dertlerini analiz edip sana en mantıklı yolu gösteren akıl kutusu.",
+    "oneLine": "Hem ağzı sıkı hem de beyni zehir gibi; grubun gayriresmi danışmanı.",
     "cardLine": "Hem ağzı sıkı hem de beyni zehir gibi; grubun gayriresmi danışmanı."
   },
   "the_know_it_all": {
-    "signals": ["zeka", "ego"],
+    "signals": [
+      "zeka",
+      "ego"
+    ],
     "name": "Ukala Deha",
-    "oneLine": "Haklı çıkmaya bayılan, entelektüel egosunu saklama gereği duymayan deha.",
+    "oneLine": "Tartışmalarda 'ben demiştim' demeden duramayan ama genelde haklı olan beyin.",
     "cardLine": "Tartışmalarda 'ben demiştim' demeden duramayan ama genelde haklı olan beyin."
   },
   "the_strategist": {
-    "signals": ["zeka", "basari"],
+    "signals": [
+      "zeka",
+      "basari"
+    ],
     "name": "Usta Stratejist",
-    "oneLine": "Mantığıyla hareket eden, hedeflerine giden yolda adımlarını hesaplayan beyin.",
+    "oneLine": "Hırslarını akıl süzgecinden geçirip sessizce hedefine ulaşan akıl küpü.",
     "cardLine": "Hırslarını akıl süzgecinden geçirip sessizce hedefine ulaşan akıl küpü."
   },
   "the_intellectual_giver": {
-    "signals": ["zeka", "comertlik"],
+    "signals": [
+      "zeka",
+      "comertlik"
+    ],
     "name": "Fikir Babası",
-    "oneLine": "Bilgisini, tecrübesini ve imkanlarını paylaşmaktan keyif alan cömert beyin.",
+    "oneLine": "Sadece cebini değil, aklını da arkadaşlarına açan ve onları besleyen deha.",
     "cardLine": "Sadece cebini değil, aklını da arkadaşlarına açan ve onları besleyen deha."
   },
   "the_innovator": {
-    "signals": ["vizyon", "enerji"],
+    "signals": [
+      "vizyon",
+      "enerji"
+    ],
     "name": "İnovatif Enerji",
-    "oneLine": "Yerinde duramayan, sürekli yeni fikirler üreten ve grubu sürükleyen vizyoner.",
+    "oneLine": "Rutinden nefret eden, kafasındaki projelerle etrafına heyecan saçan dinamo.",
     "cardLine": "Rutinden nefret eden, kafasındaki projelerle etrafına heyecan saçan dinamo."
   },
   "the_idealist": {
-    "signals": ["vizyon", "guvenilirlik"],
+    "signals": [
+      "vizyon",
+      "guvenilirlik"
+    ],
     "name": "Dürüst İdealist",
-    "oneLine": "Değerlerine sadık, yalanla dolanla işi olmayan, dik duruşlu vizyoner.",
+    "oneLine": "Kendi doğrularından ödün vermeyen, rüzgara göre yön değiştirmeyen karakter.",
     "cardLine": "Kendi doğrularından ödün vermeyen, rüzgara göre yön değiştirmeyen karakter."
   },
   "the_philanthropist": {
-    "signals": ["vizyon", "comertlik"],
+    "signals": [
+      "vizyon",
+      "comertlik"
+    ],
     "name": "Toplum Mimarı",
-    "oneLine": "Dünyayı daha iyi bir yer yapma hayaliyle cebini ve vaktini ortaya koyan idealist.",
+    "oneLine": "Büyük projelerin arkasındaki vizyoner güç ve paylaşımcı ruh.",
     "cardLine": "Büyük projelerin arkasındaki vizyoner güç ve paylaşımcı ruh."
   },
   "the_philosopher": {
-    "signals": ["vizyon", "olgunluk"],
+    "signals": [
+      "vizyon",
+      "olgunluk"
+    ],
     "name": "Düşünür",
-    "oneLine": "Hayatın anlamını sorgulayan, derin sohbetlerin ve sakinliğin insanı.",
+    "oneLine": "Gündelik dedikodular yerine felsefe ve gelecek konuşmayı seçen ağırbaşlı vizyon.",
     "cardLine": "Gündelik dedikodular yerine felsefe ve gelecek konuşmayı seçen ağırbaşlı vizyon."
   },
   "the_golden_retriever": {
-    "signals": ["enerji", "guvenilirlik"],
+    "signals": [
+      "enerji",
+      "guvenilirlik"
+    ],
     "name": "Neşeli Çıpa",
-    "oneLine": "Hem aşırı enerjik hem de arkandan asla iş çevirmeyecek kadar sadık dost.",
+    "oneLine": "Modu düştüğünde yanına koşacağın, enerjisiyle sarıp sarmalayan o güvenli liman.",
     "cardLine": "Modu düştüğünde yanına koşacağın, enerjisiyle sarıp sarmalayan o güvenli liman."
   },
   "the_showman": {
-    "signals": ["enerji", "ego"],
+    "signals": [
+      "enerji",
+      "ego"
+    ],
     "name": "Sahne Senin",
-    "oneLine": "Şovu seven, girdiği odanın enerjisini kendi üzerine çekmekte usta karakter.",
+    "oneLine": "İlgi odağı olmaktan beslenen, dramayı ve sahneyi iyi yöneten yüksek enerji.",
     "cardLine": "İlgi odağı olmaktan beslenen, dramayı ve sahneyi iyi yöneten yüksek enerji."
   },
   "the_powerhouse": {
-    "signals": ["enerji", "basari"],
+    "signals": [
+      "enerji",
+      "basari"
+    ],
     "name": "Dinamo",
-    "oneLine": "Durdurulamaz hırs ve sınırsız çalışma enerjisiyle hedeflerine koşan profil.",
+    "oneLine": "Yorulmak bilmeyen, grubun motivasyon kaynağı olan o enerjik kazanan.",
     "cardLine": "Yorulmak bilmeyen, grubun motivasyon kaynağı olan o enerjik kazanan."
   },
   "the_life_giver": {
-    "signals": ["enerji", "comertlik"],
+    "signals": [
+      "enerji",
+      "comertlik"
+    ],
     "name": "Grup Sponsoru",
-    "oneLine": "Sadece enerjisiyle değil, cebiyle de ortama hayat veren deli fişek dost.",
+    "oneLine": "Grupta plan olunca elini taşın altına ilk koyan, enerjik ve eli açık karakter.",
     "cardLine": "Grupta plan olunca elini taşın altına ilk koyan, enerjik ve eli açık karakter."
   },
   "the_steady_vibe": {
-    "signals": ["enerji", "olgunluk"],
+    "signals": [
+      "enerji",
+      "olgunluk"
+    ],
     "name": "Dengeli Canlılık",
-    "oneLine": "Nerede neşeleneceğini nerede duracağını çok iyi bilen, dengeli enerji.",
+    "oneLine": "Ne taşkınlık yapar ne de mod düşürür; tam kıvamında sakin bir eğlence anlayışı.",
     "cardLine": "Ne taşkınlık yapar ne de mod düşürür; tam kıvamında sakin bir eğlence anlayışı."
   },
   "the_gatekeeper": {
-    "signals": ["guvenilirlik", "ego"],
+    "signals": [
+      "guvenilirlik",
+      "ego"
+    ],
     "name": "Sınır Çarı",
-    "oneLine": "Herkesi yaklaştırmayan, sadece seçtiği az sayıda insana sonsuz sadakat sunan profil.",
+    "oneLine": "Güven çemberi dardır ama o çemberin içine girmeyi başardıysan sırtın yere gelmez.",
     "cardLine": "Güven çemberi dardır ama o çemberin içine girmeyi başardıysan sırtın yere gelmez."
   },
   "the_pillar": {
-    "signals": ["guvenilirlik", "basari"],
+    "signals": [
+      "guvenilirlik",
+      "basari"
+    ],
     "name": "Sarsılmaz Direk",
-    "oneLine": "Hem hedeflerinde istikrarlı hem de iş hayatında asla yarı yolda bırakmayan profesyonel.",
+    "oneLine": "Disiplinli, sözünün eri ve başarıyı tesadüflere bırakmayan o sağlam çıpa.",
     "cardLine": "Disiplinli, sözünün eri ve başarıyı tesadüflere bırakmayan o sağlam çıpa."
   },
   "the_helper": {
-    "signals": ["guvenilirlik", "comertlik"],
+    "signals": [
+      "guvenilirlik",
+      "comertlik"
+    ],
     "name": "İyilik Meleği",
-    "oneLine": "Derdin olunca yardıma ilk koşan, maddi manevi her şeyiyle yanında olan dost.",
+    "oneLine": "İyilik yapıp denize atan, cömertliği ve dürüstlüğüyle bilinen o saf niyet.",
     "cardLine": "İyilik yapıp denize atan, cömertliği ve dürüstlüğüyle bilinen o saf niyet."
   },
   "the_protector": {
-    "signals": ["guvenilirlik", "olgunluk"],
+    "signals": [
+      "guvenilirlik",
+      "olgunluk"
+    ],
     "name": "Koruyucu Kalkan",
-    "oneLine": "Grubu dış etkenlerden ve kavgalardan koruyan, sakin ve sadık koruyucu.",
+    "oneLine": "Sırtını yaslayacağın, kriz anında mantıklı çözümleriyle arkanı kollayan kalkan.",
     "cardLine": "Sırtını yaslayacağın, kriz anında mantıklı çözümleriyle arkanı kollayan kalkan."
   },
   "the_proud_patron": {
-    "signals": ["ego", "comertlik"],
+    "signals": [
+      "ego",
+      "comertlik"
+    ],
     "name": "Cömert Mağrur",
-    "oneLine": "Hem gururlu ve mesafeli hem de sevdiklerine jest yapmaya bayılan elit karakter.",
+    "oneLine": "Hesabı öderken gurur duyan, yaptığı iyiliği dile getirmeyen ama ağırlığını koyan tarz.",
     "cardLine": "Hesabı öderken gurur duyan, yaptığı iyiliği dile getirmeyen ama ağırlığını koyan tarz."
   },
   "the_stoic_king": {
-    "signals": ["ego", "olgunluk"],
+    "signals": [
+      "ego",
+      "olgunluk"
+    ],
     "name": "Soğuk Otorite",
-    "oneLine": "Sarsılmaz duruşu ve mesafeli tavırlarıyla grupta doğal saygı uyandıran profil.",
+    "oneLine": "Duygularını pek belli etmeyen, duruşuyla ağırlığını koyan stoik duruş.",
     "cardLine": "Duygularını pek belli etmeyen, duruşuyla ağırlığını koyan stoik duruş."
   },
   "the_patron": {
-    "signals": ["basari", "comertlik"],
+    "signals": [
+      "basari",
+      "comertlik"
+    ],
     "name": "Büyük Patron",
-    "oneLine": "Kazandıkça etrafını da kazandıran, hedefleri yüksek ve eli bol lider.",
+    "oneLine": "Başarıyı tek başına kutlamayan, ekibini ihya eden vizyoner ve bonkör profil.",
     "cardLine": "Başarıyı tek başına kutlamayan, ekibini ihya eden vizyoner ve bonkör profil."
   }
 }

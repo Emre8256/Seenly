@@ -3,31 +3,11 @@ import { useLocale } from '../context/LocaleContext';
 import AppShell from '../components/AppShell';
 import { getPublicDashboard, incrementProfileClick, checkEligibility, getBrowserFingerprint } from '../services/api';
 import { CARD_IMAGES } from '../images/cardImages';
+import { getAvatarSrc } from '../images/avatars';
 import { WatercolorStain, ConnectorDots } from '../components/marks';
+import { calibrateTraitScore } from '../utils/psychometrics';
 
-import BasariIcon from '../images/Icons/Başarı.png';
-import ComertlikIcon from '../images/Icons/Cömertlik.png';
-import EgoIcon from '../images/Icons/Ego.png';
-import EnerjiIcon from '../images/Icons/Enerji.png';
-import GuvenilirlikIcon from '../images/Icons/Güvenilirlik.png';
-import OlgunlukIcon from '../images/Icons/Olgunluk.png';
-import SamimiyetIcon from '../images/Icons/Samimiyet.png';
-import VizyonIcon from '../images/Icons/Vizyon.png';
-import ZekaIcon from '../images/Icons/Zeka.png';
-import CekicilikIcon from '../images/Icons/Çekicilik.png';
-
-const SIGNAL_ICONS = {
-  samimiyet: SamimiyetIcon,
-  cekicilik: CekicilikIcon,
-  zeka: ZekaIcon,
-  vizyon: VizyonIcon,
-  enerji: EnerjiIcon,
-  guvenilirlik: GuvenilirlikIcon,
-  ego: EgoIcon,
-  basari: BasariIcon,
-  comertlik: ComertlikIcon,
-  olgunluk: OlgunlukIcon
-};
+import { SignalBadgeIcon } from '../components/SignalBadgeIcon';
 
 const LockedMask = ({ title, description, responseCount, targetCount, langCode }) => {
   return (
@@ -180,7 +160,8 @@ export default function FriendIntroPage({ slug, onStart }) {
       }
     };
 
-    // Check if evaluated locally
+    // [TEST MODE] Check if evaluated locally - Test için yorum satırına alındı
+    /*
     try {
       const evaluatedStr = localStorage.getItem('seenly_evaluated_slugs');
       if (evaluatedStr) {
@@ -189,7 +170,8 @@ export default function FriendIntroPage({ slug, onStart }) {
           setHasEvaluated(true);
         }
       }
-    } catch (e) { /* ignore parse error */ }
+    } catch (e) { }
+    */
 
     loadData();
   }, [slug]);
@@ -299,17 +281,10 @@ export default function FriendIntroPage({ slug, onStart }) {
       let val = serverAverages[d.key];
 
       if (val === undefined || val === null) {
-        val = 3.0 + (Math.sin(d.key.charCodeAt(0)) * 1.0);
+        val = 3.0;
       }
 
-      const percentage = ((val - 1) / 4) * 100;
-
-      // Clamping to [4% - 95%]
-      const clampedPercentage = Math.max(4, Math.min(95, percentage));
-      // Deterministic shift based on character sum of key (range -4 to +4)
-      const keySum = d.key.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
-      const shift = (keySum % 9) - 4; // range -4 to +4
-      const visualPercentage = Math.round(Math.max(4, Math.min(95, clampedPercentage + shift)));
+      const visualPercentage = calibrateTraitScore(d.key, val);
 
       return {
         ...d,
@@ -367,6 +342,7 @@ export default function FriendIntroPage({ slug, onStart }) {
       .join(' ');
   };
   const displayName = capitalizeName(snapshot?.displayName || 'User');
+  const avatarSrc = getAvatarSrc(snapshot?.avatar);
   const responseCount = snapshot?.responseCount || 0;
   const isPremium = snapshot?.isPremium || snapshot?.premium || false;
   const maxResponseLimit = snapshot?.maxResponseLimit ?? 100;
@@ -385,6 +361,46 @@ export default function FriendIntroPage({ slug, onStart }) {
 
           {/* Beautiful Custom Friend Profile Header */}
           <div className="flex flex-col items-center text-center w-full box-border pb-8 pt-10 md:pt-14 px-4">
+
+            {/* Profile Avatar */}
+            {avatarSrc ? (
+              <div className="mb-4">
+                <img
+                  src={avatarSrc}
+                  alt={displayName}
+                  className="seenly-friend-intro-avatar"
+                  style={{
+                    width: 'clamp(84px, 12vw, 108px)',
+                    height: 'clamp(84px, 12vw, 108px)',
+                    borderRadius: '50%',
+                    objectFit: 'cover',
+                    border: '3.5px solid rgba(197, 160, 89, 0.45)',
+                    boxShadow: '0 8px 30px rgba(80, 60, 40, 0.14)',
+                    backgroundColor: '#ffffff'
+                  }}
+                />
+              </div>
+            ) : (
+              <div
+                className="mb-4"
+                style={{
+                  width: 'clamp(84px, 12vw, 108px)',
+                  height: 'clamp(84px, 12vw, 108px)',
+                  borderRadius: '50%',
+                  backgroundColor: 'var(--color-deep-ink)',
+                  color: '#ffffff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontFamily: 'var(--font-serif)',
+                  fontSize: 'clamp(2.25rem, 5vw, 2.75rem)',
+                  fontWeight: 700,
+                  boxShadow: '0 8px 30px rgba(80, 60, 40, 0.14)'
+                }}
+              >
+                {displayName ? displayName.charAt(0).toUpperCase() : 'U'}
+              </div>
+            )}
 
             {/* Display Name */}
             <h2 className="font-serif text-3xl sm:text-[2.75rem] font-black text-[#0b1b2c] m-0" style={{ letterSpacing: '-0.03em', lineHeight: 1.1 }}>
@@ -572,11 +588,7 @@ export default function FriendIntroPage({ slug, onStart }) {
                           onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(11,27,44,0.5)'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(11,27,44,0.07)'; }}
                           onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(11,27,44,0.25)'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.04)'; }}
                         >
-                          <img
-                            src={SIGNAL_ICONS[sig.key]}
-                            alt={sig.label}
-                            className="w-12 h-12 object-contain flex-shrink-0"
-                          />
+                          <SignalBadgeIcon signalKey={sig.key} size={22} boxSize={44} />
 
                           {/* Right Content Area */}
                           <div className="flex flex-col flex-1 min-w-0 pr-1">

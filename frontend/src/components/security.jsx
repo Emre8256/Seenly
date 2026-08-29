@@ -34,7 +34,7 @@ export function Security() {
       />
       <div className="above-surface mx-auto max-w-[1180px] px-5 py-14 sm:px-8 md:py-20">
         <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
-          <Reveal className="relative">
+          <Reveal className="hidden lg:block relative mx-auto max-w-[280px] sm:max-w-none w-full">
             <WatercolorStain
               name="sec-clay"
               hue="clay"
@@ -64,6 +64,24 @@ export function Security() {
                 {t("ui", "landing_security_title") || "Güvenli olacak şekilde tasarlandı."}
               </h2>
             </Reveal>
+
+            {/* Mobile Image: displayed above principles list on mobile, hidden on desktop */}
+            <div className="lg:hidden my-6 mx-auto max-w-[280px] w-full relative">
+              <WatercolorStain
+                name="sec-clay-mobile"
+                hue="clay"
+                seed={8}
+                intensity={0.16}
+                className="-left-6 -top-5 h-[110%] w-[110%]"
+              />
+              <div className="integrated-art mask-organic-3 shadow-contact paper-panel overflow-hidden p-0">
+                <img
+                  src="/images/security.png"
+                  alt="Bir portrenin anonim siluete dönüştüğü, güvenlik ve anonimliği anlatan suluboya illüstrasyon"
+                  className="soft-image-edge aspect-[5/4] w-full object-cover mask-organic-3"
+                />
+              </div>
+            </div>
 
             <div className="mt-10 space-y-9">
               {principles.map((p, i) => (

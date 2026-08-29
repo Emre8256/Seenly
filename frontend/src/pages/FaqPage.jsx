@@ -7,7 +7,7 @@ import { WatercolorStain } from '../components/marks';
 const FaqAccordionItem = memo(function FaqAccordionItem({ item, isOpen, onToggle }) {
   return (
     <div
-      className="w-full box-border mb-4 faq-accordion-card"
+      className="w-full box-border mb-4 faq-accordion-card p-4 sm:p-5 md:px-6"
       style={{
         borderRadius: '24px',
         border: '1px solid rgba(255, 255, 255, 0.55)',
@@ -15,7 +15,6 @@ const FaqAccordionItem = memo(function FaqAccordionItem({ item, isOpen, onToggle
         boxShadow: isOpen
           ? '0 12px 32px rgba(11, 27, 44, 0.035), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
           : '0 6px 18px rgba(11, 27, 44, 0.015), inset 0 1px 0 rgba(255, 255, 255, 0.6)',
-        padding: '1.25rem 1.5rem',
         cursor: 'pointer',
         contain: 'layout paint',
         contentVisibility: 'auto',
@@ -38,21 +37,21 @@ const FaqAccordionItem = memo(function FaqAccordionItem({ item, isOpen, onToggle
           gap: '1rem'
         }}
       >
-        <h3 className={`font-sans font-bold text-base transition-colors duration-200 m-0 ${isOpen ? 'text-[#d96a53]' : 'text-foreground hover:text-[#d96a53]'}`}>
+        <h3 className={`font-sans font-bold text-[0.9rem] sm:text-base leading-snug transition-colors duration-200 m-0 ${isOpen ? 'text-[#d96a53]' : 'text-foreground hover:text-[#d96a53]'}`}>
           {item.question}
         </h3>
         <div
-          className={`w-6 h-6 flex items-center justify-center transition-transform duration-200 ${isOpen ? 'text-[#d96a53] rotate-180' : 'text-muted-foreground'}`}
+          className={`w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center transition-transform duration-200 ${isOpen ? 'text-[#d96a53] rotate-180' : 'text-muted-foreground'}`}
           style={{ flexShrink: 0 }}
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="6 9 12 15 18 9" />
           </svg>
         </div>
       </div>
 
       {isOpen && (
-        <div className="faq-answer-reveal font-sans text-[0.92rem] text-muted-foreground leading-relaxed pt-3 text-left">
+        <div className="faq-answer-reveal font-sans text-[0.85rem] sm:text-[0.92rem] text-muted-foreground leading-relaxed pt-3 text-left">
           {item.answer}
         </div>
       )}
@@ -119,14 +118,14 @@ export default function FaqPage() {
         className="absolute left-[-10%] bottom-[15%] h-[28rem] w-[28rem] pointer-events-none z-0"
       />
 
-      <main className="pt-32 pb-24 relative z-10 box-border w-full flex justify-center">
-        <div className="w-full max-w-[1080px] px-6 md:px-10 box-border flex flex-col gap-16">
+      <main className="pt-20 sm:pt-24 md:pt-32 pb-24 relative z-10 box-border w-full flex justify-center">
+        <div className="w-full max-w-[1080px] px-6 md:px-10 box-border flex flex-col gap-12 md:gap-16">
 
           {/* Top Section: Contact Us (Bizimle İletişime Geçin) */}
           <section className="flex flex-col md:flex-row items-center gap-12 lg:gap-16 w-full box-border py-4 relative z-10">
 
-            {/* Left Column: Organic Mask Image Frame (Reverted, fits perfectly with no white borders/padding) */}
-            <div className="flex flex-col items-center w-full max-w-[320px] md:max-w-[360px] z-10">
+            {/* Left Column: Organic Mask Image Frame (Desktop only) */}
+            <div className="hidden md:flex flex-col items-center w-full max-w-[320px] md:max-w-[360px] z-10">
               <div className="relative w-full aspect-[4/5] overflow-hidden shadow-contact border border-transparent p-0 bg-transparent mask-organic-1 transition-transform duration-700 hover:scale-[1.02]">
                 <WatercolorStain
                   name={`faq-hero-bg`}
@@ -144,56 +143,82 @@ export default function FaqPage() {
             </div>
 
             {/* Right Column: Title, Divider and Description */}
-            <div className="flex-1 flex flex-col items-start gap-4 text-left md:pl-4">
-              <h1 className="font-heading text-4xl sm:text-5xl md:text-[3.5rem] font-bold text-foreground m-0 leading-[1.1] tracking-tight">
-                {t('ui', 'faq_contact_title') || 'Bizimle İletişime Geçin'}
-              </h1>
-              <div className="h-0.5 w-16 bg-gold/50 my-1" />
+            <div className="flex-1 flex flex-col items-start gap-4 text-left md:pl-4 w-full">
+              
+              {/* Title & Mobile Image Row */}
+              <div className="flex items-center justify-between w-full gap-2 sm:gap-4">
+                <div className="flex flex-col items-start gap-2 pr-1 sm:pr-0">
+                  <h1 className="font-heading text-[2.25rem] sm:text-5xl md:text-[3.5rem] font-bold text-foreground m-0 leading-[1.05] tracking-tight">
+                    {t('ui', 'faq_contact_title') || 'Bizimle İletişime Geçin'}
+                  </h1>
+                  <div className="h-0.5 w-16 bg-gold/50 my-1 md:my-2" />
+                </div>
+                
+                {/* Mobile Image Frame */}
+                <div className="flex md:hidden flex-col items-center w-40 sm:w-48 shrink-0 z-10 mt-1">
+                  <div className="relative w-full aspect-[4/5] overflow-hidden shadow-contact border border-transparent p-0 bg-transparent mask-organic-1 transition-transform duration-700">
+                    <WatercolorStain
+                      name={`faq-hero-bg-mobile`}
+                      hue="lilac"
+                      seed={12}
+                      intensity={0.24}
+                      className="absolute inset-0 h-full w-full opacity-60 scale-110 pointer-events-none z-0"
+                    />
+                    <img
+                      src={faqIllustration}
+                      alt="Contact Illustration"
+                      className="soft-image-edge w-full h-full object-cover relative z-10 mask-organic-1"
+                    />
+                  </div>
+                </div>
+              </div>
+
               <p className="font-sans text-sm sm:text-base text-muted-foreground leading-relaxed m-0 max-w-xl">
                 {t('ui', 'faq_contact_desc') || 'Sorularınız, önerileriniz veya geri bildirimleriniz için bize her zaman ulaşabilirsiniz. Sizinle konuşmaktan mutluluk duyarız.'}
               </p>
 
               {/* Action Badges Row */}
-              <div className="w-full flex flex-wrap items-center gap-6 mt-8 pt-8 border-t border-black/5">
+              <div className="w-full flex flex-row flex-wrap items-center justify-between sm:justify-start gap-4 sm:gap-6 mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-black/5">
                 
                 {/* Email Action */}
                 <a href="mailto:hello@seenly.co" className="flex items-center gap-3.5 hover:opacity-85 transition-opacity text-decoration-none group">
-                  <div className="w-12 h-12 rounded-full bg-[#f4eedb] border border-white/60 flex items-center justify-center text-foreground group-hover:scale-105 transition-transform duration-300 shadow-sm">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#f4eedb] border border-white/60 flex items-center justify-center text-foreground group-hover:scale-105 transition-transform duration-300 shadow-sm shrink-0">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="sm:w-5 sm:h-5">
                       <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                       <polyline points="22,6 12,13 2,6" />
                     </svg>
                   </div>
                   <div className="flex flex-col text-left">
-                    <span className="text-[9px] text-muted-foreground font-mono uppercase tracking-[0.16em] font-bold">
+                    <span className="text-[8.5px] sm:text-[9px] text-muted-foreground font-mono uppercase tracking-[0.16em] font-bold">
                       {t('ui', 'faq_contact_email_title') || 'DOĞRUDAN E-POSTA GÖNDERİN'}
                     </span>
-                    <span className="text-base font-bold text-foreground">hello@seenly.co</span>
+                    <span className="text-[0.9rem] sm:text-base font-bold text-foreground">hello@seenly.co</span>
                   </div>
                 </a>
 
-                {/* Vertical Divider */}
+                {/* Vertical Divider (Desktop) */}
                 <div className="hidden sm:block h-8 w-px bg-black/10" />
 
-                {/* Instagram Action */}
-                <a href="https://instagram.com/seenly.co" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-[#f4eedb] border border-white/60 flex items-center justify-center text-foreground hover:scale-105 transition-transform duration-300 shadow-sm" aria-label="Instagram">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                  </svg>
-                </a>
+                <div className="flex items-center gap-3 sm:gap-6">
+                  {/* Instagram Action */}
+                  <a href="https://instagram.com/seenly.co" target="_blank" rel="noopener noreferrer" className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#f4eedb] border border-white/60 flex items-center justify-center text-foreground hover:scale-105 transition-transform duration-300 shadow-sm shrink-0" aria-label="Instagram">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="sm:w-5 sm:h-5">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                  </a>
 
-                {/* Vertical Divider */}
-                <div className="hidden sm:block h-8 w-px bg-black/10" />
+                  {/* Vertical Divider (Desktop) */}
+                  <div className="hidden sm:block h-8 w-px bg-black/10" />
 
-                {/* TikTok Action */}
-                <a href="https://tiktok.com/@seenly.co" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-[#f4eedb] border border-white/60 flex items-center justify-center text-foreground hover:scale-105 transition-transform duration-300 shadow-sm" aria-label="TikTok">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
-                  </svg>
-                </a>
-
+                  {/* TikTok Action */}
+                  <a href="https://tiktok.com/@seenly.co" target="_blank" rel="noopener noreferrer" className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#f4eedb] border border-white/60 flex items-center justify-center text-foreground hover:scale-105 transition-transform duration-300 shadow-sm shrink-0" aria-label="TikTok">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="sm:w-5 sm:h-5">
+                      <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+                    </svg>
+                  </a>
+                </div>
               </div>
             </div>
           </section>
@@ -211,12 +236,7 @@ export default function FaqPage() {
               </div>
 
               {/* Search Bar Input */}
-              <div style={{
-                position: 'relative',
-                maxWidth: '380px',
-                width: '100%',
-                boxSizing: 'border-box'
-              }}>
+              <div className="relative w-full md:w-auto md:flex-1 md:max-w-[380px] box-border mt-2 md:mt-0">
                 <input
                   type="text"
                   placeholder={t('ui', 'faq_search_placeholder') || 'Soru veya cevap ara...'}

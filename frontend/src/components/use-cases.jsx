@@ -59,13 +59,13 @@ export function UseCases() {
           </p>
         </Reveal>
 
-        <div className="mt-16 grid gap-12 md:grid-cols-3 md:gap-8">
+        <div className="mt-16 grid gap-10 md:grid-cols-3 md:gap-8">
           {cases.map((item, i) => (
             <Reveal
               as="figure"
               key={item.title}
               delay={i * 140}
-              className={`group relative flex flex-col ${item.offset}`}
+              className={`group relative flex flex-row items-center gap-5 md:flex-col md:items-stretch ${item.offset}`}
             >
               {/* the plate's own pigment, soaking into the paper beneath it */}
               <WatercolorStain
@@ -76,7 +76,7 @@ export function UseCases() {
                 className="-left-6 -top-5 h-[108%] w-[108%]"
               />
               <div
-                className={`integrated-art ${item.mask} shadow-contact-sm paper-panel relative overflow-hidden p-0 ${i === 1 ? "md:-mx-4" : i === 2 ? "md:-mr-5" : "md:-ml-5"}`}
+                className={`integrated-art ${item.mask} shadow-contact-sm paper-panel relative overflow-hidden p-0 w-[35%] sm:w-[30%] md:w-full shrink-0 ${i === 1 ? "md:-mx-4" : i === 2 ? "md:-mr-5" : "md:-ml-5"}`}
               >
                 <img
                   src={item.image || "/placeholder.svg"}
@@ -86,16 +86,16 @@ export function UseCases() {
               </div>
               <span
                 aria-hidden="true"
-                className="absolute left-8 top-[44%] h-px w-24 border-t border-dotted border-clay/35 md:left-auto md:right-4"
+                className="absolute left-8 top-[44%] h-px w-24 border-t border-dotted border-clay/35 md:left-auto md:right-4 hidden md:block"
               />
-              <figcaption className="mt-6">
-                <span className="font-mono text-xs uppercase tracking-[0.28em] text-clay/70">
+              <figcaption className="mt-0 md:mt-6 flex-1">
+                <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.28em] text-clay/70">
                   {item.plate}
                 </span>
-                <h3 className="mt-3 font-heading text-xl font-medium text-foreground">
+                <h3 className="mt-1 md:mt-3 font-heading text-base md:text-xl font-medium text-foreground">
                   {item.title}
                 </h3>
-                <p className="mt-2.5 text-pretty text-[0.95rem] leading-relaxed text-muted-foreground">
+                <p className="mt-1 md:mt-2.5 text-pretty text-xs sm:text-[0.95rem] leading-relaxed text-muted-foreground">
                   {item.text}
                 </p>
               </figcaption>

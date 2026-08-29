@@ -11,17 +11,42 @@
   },
   {
     "id": "q3",
-    "question": "Sosyal İmzalar (Signatures) nedir?",
-    "answer": "Sosyal İmzalar, karakterinizin en baskın yönlerini ve çevrenizde bıraktığınız benzersiz izleri ifade eden özel tasarım dijital kartlardır. Test sonucunda şekillenen sosyal auranıza göre, sistem size en uygun düşen eşsiz bir imza atar (örneğin 'Zirve Ortağı' veya 'Güvenli Liman')."
+    "question": "Sosyal Kimlikler nedir?",
+    "answer": "Sosyal Kimlikler, karakterinizin en baskın yönlerini ve çevrenizde bıraktığınız benzersiz izleri ifade eden özel tasarım dijital kartlardır. Test sonucunda şekillenen sosyal auranıza göre, sistem size en uygun düşen eşsiz bir kimlik tanımlar (örneğin 'Zirve Ortağı' veya 'Güvenli Liman')."
   },
   {
     "id": "q4",
-    "question": "Dış Algı ve Aradaki Fark (The Gap) analizleri ne zaman açılır?",
-    "answer": "Profilinize 3 arkadaşınız değerlendirme yaptığında 'Dış Algı' analizi ile kendi algınız ile dış algı arasındaki derin uyuşmazlıkları ve gizli yönlerinizi ortaya çıkaran 'Aradaki Fark (The Gap)' analizi tamamen kilit açar."
+    "question": "Dış Algı ve Aradaki Fark analizleri ne zaman açılır?",
+    "answer": "Profilinizi en az 3 arkadaşınız değerlendirdiğinde hem 'Dış Algı' hem de 'Aradaki Fark' analizlerinizin kilidi otomatik olarak açılır. Bu sayede, çevrenizin sizi nasıl gördüğünü inceleyebilir, kendi algınızla arkadaşlarınızın algısı arasındaki kör noktaları ve sosyal maskeleri keşfedebilirsiniz."
   },
   {
     "id": "q5",
-    "question": "Algı Uyum Yüzdesi (Perception Accuracy) nedir?",
+    "question": "Algı Uyum Yüzdesi nedir?",
     "answer": "Arkadaşınızın sizi değerlendirirken yaptığı sosyal okumanın, sizin kendi hakkınızdaki öz algınızla ne kadar örtüştüğünü gösteren milimetrik olarak hesaplanmış bir yüzde değeridir. Uyum oranına göre arkadaşınıza 'Telepatik Okuyucu' veya 'Dengeli Gözlemci' gibi özel sosyal okuma kartları verilir."
+  },
+  {
+    "id": "q6",
+    "question": "Ek katılımcı paketleri nedir?",
+    "answer": "Ek katılımcı paketleri, Seenly Plus planına geçiş yapmadan profilinizin katılımcı limitini artırmanızı sağlayan ek paketlerdir. İhtiyacınıza göre profilinize 100, 250 veya 500 kişilik ek katılımcı kapasitesi tanımlayarak daha fazla arkadaşınızdan analiz toplamaya devam edebilirsiniz. Plus planına yükselttiğinizde ise kapasiteniz tamamen sınırsız olur."
+  },
+  {
+    "id": "q7",
+    "question": "Arkadaşımın beni değerlendirmesi için Seenly'e üye olması gerekiyor mu?",
+    "answer": "Hayır. Arkadaşlarınızın size geri bildirim bırakabilmesi için Seenly'e üye olması veya hesap açması gerekmez. Paylaştığınız linke tıklayarak doğrudan teste başlayabilir ve 1 dakika içinde sizi anonim olarak okuyabilirler."
+  },
+  {
+    "id": "q8",
+    "question": "Seenly Plus abonelik sistemi mi, yoksa tek seferlik bir ödeme mi?",
+    "answer": "Seenly Plus kesinlikle bir abonelik değildir. Tek seferlik bir ödeme ile profilinizdeki tüm kısıtlamaları (sınırsız katılımcı limiti, detaylı analizler, kör nokta raporları) kalıcı olarak kaldırırsınız. Kartınızdan otomatik olarak tekrarlayan hiçbir ücret tahsil edilmez."
+  },
+  {
+    "id": "q9",
+    "question": "Hesabımı ve verilerimi tamamen silebilir miyim?",
+    "answer": "Evet. Dilediğiniz zaman profilinizin sağ üst köşesindeki menüden 'Hesabı Sil' butonuna tıklayarak hesabınızı, arkadaşlarınızın yaptığı yansımaları ve size ait tüm verileri kalıcı olarak sistemden silebilirsiniz. Bu işlem geri alınamaz."
+  },
+  {
+    "id": "q10",
+    "question": "Sonuç kartımı paylaştığımda arkadaşlarım kendi test sorularına verdiğim cevapları görebilir mi?",
+    "answer": "Hayır. Paylaştığınız veya indirdiğiniz görsel sadece sizin genel Sosyal Kimliğinizi ve yansıma özetinizi içerir. Sizin veya arkadaşlarınızın test sorularında hangi spesifik şıkları işaretlediği gibi ham veriler asla paylaşılmaz ve tamamen gizli kalır."
   }
 ]

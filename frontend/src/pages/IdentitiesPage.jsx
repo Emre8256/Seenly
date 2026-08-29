@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useLocale } from '../context/LocaleContext';
 import AppShell from '../components/AppShell';
 import { CARD_IMAGES } from '../images/cardImages';
 import { IntersectingCircles, WatercolorStain, HairLine, ConnectorDots } from '../components/marks';
+import { getCardRarityData } from '../utils/rarityEngine';
+import { fetchAllCardRarities } from '../services/api';
 
 const SIGNATURES_DATA = [
   { id: "the_leader", signals: ["basari", "olgunluk"] },
@@ -60,122 +63,24 @@ const CHARACTER_FAMILIES = {
   gratia: ["the_noble_heart", "the_benevolent_guide", "the_intellectual_giver", "the_philanthropist", "the_idealist", "the_helper", "the_protector", "the_proud_patron", "the_patron", "the_life_giver"]
 };
 
-const LeavesDecoration = () => (
-  <svg className="absolute left-0 top-12 w-[320px] h-[450px] opacity-35 text-clay pointer-events-none z-0" viewBox="0 0 300 450" fill="none" stroke="currentColor">
-    {/* Main elegant winding stem */}
-    <path d="M 10 420 Q 60 300 120 220 T 260 40" strokeWidth="1.2" strokeLinecap="round" />
-    
-    {/* Secondary side branch 1 */}
-    <path d="M 75 285 Q 160 260 210 200" strokeWidth="0.8" strokeLinecap="round" />
-    {/* Secondary side branch 2 */}
-    <path d="M 115 225 Q 40 180 30 110" strokeWidth="0.8" strokeLinecap="round" />
-    
-    {/* Leaf 1 (Low left) */}
-    <g transform="translate(45,340) rotate(-40)">
-      <path d="M 0 0 C -15 -10 -25 -30 0 -45 C 25 -30 15 -10 0 0 Z" fill="currentColor" fillOpacity="0.06" strokeWidth="0.8" />
-      <path d="M 0 0 Q 0 -22 0 -45" strokeWidth="0.6" strokeDasharray="1 1" />
-      <path d="M 0 -10 Q -10 -15 -10 -18 M 0 -20 Q 10 -25 10 -28" strokeWidth="0.4" />
-    </g>
-
-    {/* Leaf 2 (Mid left) */}
-    <g transform="translate(68,295) rotate(-20)">
-      <path d="M 0 0 C -18 -12 -30 -35 0 -50 C 30 -35 18 -12 0 0 Z" fill="currentColor" fillOpacity="0.07" strokeWidth="0.8" />
-      <path d="M 0 0 Q -2 -25 0 -50" strokeWidth="0.6" strokeDasharray="1 1" />
-      <path d="M 0 -12 Q -12 -18 -12 -22 M 0 -24 Q 12 -30 12 -34" strokeWidth="0.4" />
-    </g>
-
-    {/* Leaf 3 (Branch 1 left) */}
-    <g transform="translate(130,273) rotate(35)">
-      <path d="M 0 0 C -15 -8 -22 -26 0 -38 C 22 -26 15 -8 0 0 Z" fill="currentColor" fillOpacity="0.05" strokeWidth="0.8" />
-      <path d="M 0 0 Q 0 -19 0 -38" strokeWidth="0.6" strokeDasharray="1 1" />
-    </g>
-
-    {/* Leaf 4 (Branch 1 tip) */}
-    <g transform="translate(210,200) rotate(15)">
-      <path d="M 0 0 C -15 -10 -25 -30 0 -45 C 25 -30 15 -10 0 0 Z" fill="currentColor" fillOpacity="0.06" strokeWidth="0.8" />
-      <path d="M 0 0 L 0 -45" strokeWidth="0.6" strokeDasharray="1 1" />
-    </g>
-
-    {/* Leaf 5 (Mid stem right) */}
-    <g transform="translate(145,190) rotate(60)">
-      <path d="M 0 0 C -16 -10 -26 -30 0 -45 C 26 -30 16 -10 0 0 Z" fill="currentColor" fillOpacity="0.07" strokeWidth="0.8" />
-      <path d="M 0 0 L 0 -45" strokeWidth="0.6" strokeDasharray="1 1" />
-      <path d="M 0 -12 Q -10 -18 -10 -22 M 0 -24 Q 10 -30 10 -34" strokeWidth="0.4" />
-    </g>
-
-    {/* Leaf 6 (Branch 2 left) */}
-    <g transform="translate(75,160) rotate(-65)">
-      <path d="M 0 0 C -15 -10 -25 -30 0 -45 C 25 -30 15 -10 0 0 Z" fill="currentColor" fillOpacity="0.06" strokeWidth="0.8" />
-      <path d="M 0 0 L 0 -45" strokeWidth="0.6" strokeDasharray="1 1" />
-    </g>
-
-    {/* Leaf 7 (Branch 2 tip) */}
-    <g transform="translate(30,110) rotate(-85)">
-      <path d="M 0 0 C -12 -8 -20 -25 0 -35 C 20 -25 12 -8 0 0 Z" fill="currentColor" fillOpacity="0.05" strokeWidth="0.8" />
-    </g>
-
-    {/* Leaf 8 (High stem right) */}
-    <g transform="translate(210,105) rotate(55)">
-      <path d="M 0 0 C -18 -12 -30 -35 0 -50 C 30 -35 18 -12 0 0 Z" fill="currentColor" fillOpacity="0.08" strokeWidth="0.8" />
-      <path d="M 0 0 L 0 -50" strokeWidth="0.6" strokeDasharray="1 1" />
-    </g>
-
-    {/* Leaf 9 (Top stem tip) */}
-    <g transform="translate(260,40) rotate(25)">
-      <path d="M 0 0 C -12 -8 -20 -25 0 -35 C 20 -25 12 -8 0 0 Z" fill="currentColor" fillOpacity="0.05" strokeWidth="0.8" />
-      <path d="M 0 0 L 0 -35" strokeWidth="0.6" />
-    </g>
-  </svg>
-);
-
-const ConstellationDecoration = () => (
-  <svg className="absolute right-0 top-12 w-[340px] h-[340px] opacity-35 text-gold pointer-events-none z-0" viewBox="0 0 240 240" fill="none" stroke="currentColor">
-    {/* Concentric Celestial Rings */}
-    <circle cx="160" cy="80" r="30" strokeWidth="0.6" strokeDasharray="1 2" />
-    <circle cx="160" cy="80" r="50" strokeWidth="0.5" />
-    <circle cx="160" cy="80" r="75" strokeWidth="0.8" strokeDasharray="4 2" />
-    <circle cx="160" cy="80" r="95" strokeWidth="0.4" />
-    
-    {/* Planetary tilt ring */}
-    <ellipse cx="160" cy="80" rx="90" ry="25" strokeWidth="0.5" transform="rotate(-15, 160, 80)" strokeDasharray="3 3" />
-    
-    {/* Geometric Axis Lines */}
-    <line x1="60" y1="80" x2="260" y2="80" strokeWidth="0.4" />
-    <line x1="160" y1="-20" x2="160" y2="180" strokeWidth="0.4" />
-    
-    {/* Celestial coordinate markers */}
-    <path d="M 95 145 L 160 80 L 225 145" strokeWidth="0.5" />
-    <path d="M 125 45 C 140 35 180 35 195 45" strokeWidth="0.5" />
-    
-    {/* Constellation Stars and Nodes */}
-    {/* Star 1 */}
-    <circle cx="95" cy="145" r="2.5" fill="currentColor" />
-    <circle cx="95" cy="145" r="5" strokeWidth="0.3" strokeDasharray="1 1" />
-    
-    {/* Star 2 */}
-    <circle cx="225" cy="145" r="2.5" fill="currentColor" />
-    <circle cx="225" cy="145" r="5" strokeWidth="0.3" strokeDasharray="1 1" />
-
-    {/* Star 3 (Center) */}
-    <circle cx="160" cy="80" r="3" fill="currentColor" />
-    <polygon points="160,73 162,79 168,80 162,81 160,87 158,81 152,80 158,79" fill="currentColor" />
-    
-    {/* Ursa constellation lines */}
-    <path d="M 160 80 L 195 45 L 210 20 L 230 25" strokeWidth="0.5" strokeDasharray="2 1" />
-    <circle cx="195" cy="45" r="1.5" fill="currentColor" />
-    <circle cx="210" cy="20" r="1.5" fill="currentColor" />
-    <circle cx="230" cy="25" r="2" fill="currentColor" />
-    
-    {/* Sacred geometry triangles */}
-    <polygon points="160,5 110,80 210,80" strokeWidth="0.4" strokeDasharray="2 2" />
-  </svg>
-);
 
 export default function IdentitiesPage() {
   const { locale: langCode, t, getObject } = useLocale();
   const [selectedCard, setSelectedCard] = useState(null);
   const [filterFamily, setFilterFamily] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [apiRarities, setApiRarities] = useState({});
+
+  // Fetch live dynamic card rarities from backend
+  useEffect(() => {
+    let isMounted = true;
+    fetchAllCardRarities(langCode).then(data => {
+      if (isMounted && data) {
+        setApiRarities(data);
+      }
+    });
+    return () => { isMounted = false; };
+  }, [langCode]);
 
   // Prevent scroll when modal is open
   useEffect(() => {
@@ -258,45 +163,9 @@ export default function IdentitiesPage() {
   return (
     <AppShell isDashboard={true}>
       <div className="pt-28 pb-20 relative z-10 overflow-x-clip">
-        {/* Watercolor corner background decorations */}
-        <WatercolorStain
-          name="identities-navy-tl"
-          hue="navy"
-          seed={14}
-          intensity={0.16}
-          className="absolute left-[-15%] top-[-8%] h-[35rem] w-[35rem] pointer-events-none opacity-45 z-0"
-        />
-        <WatercolorStain
-          name="identities-clay-tl"
-          hue="clay"
-          seed={3}
-          intensity={0.10}
-          className="absolute left-[-10%] top-[4%] h-[28rem] w-[28rem] pointer-events-none opacity-30 z-0"
-        />
-        <WatercolorStain
-          name="identities-navy-tr"
-          hue="navy"
-          seed={9}
-          intensity={0.14}
-          className="absolute right-[-15%] top-[-10%] h-[35rem] w-[35rem] pointer-events-none opacity-45 z-0"
-        />
-        <WatercolorStain
-          name="identities-navy-bl"
-          hue="navy"
-          seed={21}
-          intensity={0.15}
-          className="absolute left-[-15%] bottom-[-5%] h-[35rem] w-[35rem] pointer-events-none opacity-45 z-0"
-        />
-        <WatercolorStain
-          name="identities-clay-br"
-          hue="clay"
-          seed={17}
-          intensity={0.12}
-          className="absolute right-[-10%] bottom-[-5%] h-[32rem] w-[32rem] pointer-events-none opacity-40 z-0"
-        />
 
-        <LeavesDecoration />
-        <ConstellationDecoration />
+
+
 
         <div className="mx-auto w-full max-w-[1240px] px-5 sm:px-8 relative z-10">
 
@@ -387,36 +256,43 @@ export default function IdentitiesPage() {
             )}
           </div>
 
-          {/* Glassmorphic Filter Bar */}
-          <div className="flex justify-center items-center flex-wrap gap-2 sm:gap-3 max-w-3xl mx-auto mb-16 px-5 py-2.5 bg-white/35 border border-white/55 shadow-contact-sm backdrop-blur-md rounded-full animate-fade-in">
-            {families.map(fam => {
-              const isActive = filterFamily === fam;
-              return (
-                <button
-                  key={fam}
-                  onClick={() => setFilterFamily(fam)}
-                  className={`group flex items-center gap-2 px-5 py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-300 rounded-full ${isActive
-                    ? 'bg-[#132338] text-white shadow-sm scale-[1.02]'
-                    : 'bg-transparent text-muted-foreground hover:text-foreground hover:bg-white/25'
-                    }`}
-                  style={{ cursor: 'pointer' }}
-                >
-                  {fam !== 'all' && (
-                    <span
-                      className="h-2 w-2 rounded-full transition-transform duration-300 group-hover:scale-125"
-                      style={{
-                        backgroundColor:
-                          fam === 'stratega' ? '#8A70D6' :
-                            fam === 'imperia' ? '#E06553' :
-                              fam === 'aura' ? '#8F7BCC' :
-                                fam === 'porta' ? '#5aa882' : '#E5A260'
-                      }}
-                    />
-                  )}
-                  <span>{getFamilyLabel(fam)}</span>
-                </button>
-              );
-            })}
+          {/* Mobile-Optimized Glassmorphic Filter Bar */}
+          <div className="w-full max-w-4xl mx-auto mb-12 sm:mb-16 animate-fade-in relative">
+            <div
+              className="flex sm:justify-center overflow-x-auto snap-x px-5 sm:px-0 pb-4 sm:pb-0 -mx-5 sm:mx-0 [&::-webkit-scrollbar]:hidden"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+              <div className="flex items-center gap-2.5 sm:gap-3 sm:px-5 sm:py-2.5 sm:bg-white/35 sm:border sm:border-white/55 sm:shadow-contact-sm sm:backdrop-blur-md sm:rounded-full min-w-max">
+                {families.map(fam => {
+                  const isActive = filterFamily === fam;
+                  return (
+                    <button
+                      key={fam}
+                      onClick={() => setFilterFamily(fam)}
+                      className={`group flex items-center gap-2 px-5 py-2.5 sm:py-2 text-[11px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-300 rounded-full snap-center whitespace-nowrap ${isActive
+                        ? 'bg-[#132338] text-white shadow-md scale-[1.02] border-transparent'
+                        : 'bg-white/70 sm:bg-transparent text-muted-foreground hover:text-foreground hover:bg-white/95 sm:hover:bg-white/25 border border-white/60 sm:border-transparent shadow-sm sm:shadow-none'
+                        }`}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      {fam !== 'all' && (
+                        <span
+                          className="h-2 w-2 rounded-full transition-transform duration-300 group-hover:scale-125"
+                          style={{
+                            backgroundColor:
+                              fam === 'stratega' ? '#8A70D6' :
+                                fam === 'imperia' ? '#E06553' :
+                                  fam === 'aura' ? '#8F7BCC' :
+                                    fam === 'porta' ? '#5aa882' : '#E5A260'
+                          }}
+                        />
+                      )}
+                      <span>{getFamilyLabel(fam)}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
 
           {/* Cards Grid */}
@@ -428,6 +304,7 @@ export default function IdentitiesPage() {
                   oneLine: 'Awaiting signature calculation...'
                 };
                 const img = CARD_IMAGES[card.id];
+                const rarity = getCardRarityData(card.id, apiRarities[card.id], langCode);
                 const m = Object.keys(CHARACTER_FAMILIES).find(
                   fam => CHARACTER_FAMILIES[fam].includes(card.id)
                 ) || 'stratega';
@@ -447,6 +324,22 @@ export default function IdentitiesPage() {
                     <div className="relative w-full max-w-[17.5rem]">
                       {/* Stylish rounded rectangle frame */}
                       <div className="relative aspect-[4/5] overflow-hidden rounded-[22px] bg-card shadow-[0_12px_36px_rgba(80,60,40,0.12)] border border-[#e5a260]/12 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[0_20px_48px_rgba(80,60,40,0.22)]">
+                        {/* Dynamic Rarity Pill Badge */}
+                        <div 
+                          className="absolute top-2.5 right-2.5 z-30 inline-flex items-center px-2 py-0.5 rounded-full shadow-sm transition-all duration-300"
+                          style={{
+                            backgroundColor: rarity.badgeBg,
+                            color: rarity.badgeText,
+                            border: `1px solid ${rarity.badgeBorder}`,
+                            fontFamily: "'Inter', sans-serif",
+                            fontSize: '10px',
+                            fontWeight: 600,
+                            letterSpacing: '0.01em'
+                          }}
+                        >
+                          <span>{rarity.badgeLabel}</span>
+                        </div>
+
                         <img
                           src={img}
                           alt={`${signature.name} kimliğini temsil eden mistik suluboya illüstrasyon`}
@@ -454,7 +347,7 @@ export default function IdentitiesPage() {
                         />
                         {/* Elegant dark gradient overlay limited only to the text area at the bottom */}
                         <div className="absolute bottom-0 left-0 right-0 h-[35%] bg-gradient-to-t from-black/72 to-transparent z-20" />
-                        
+
                         {/* Title absolute overlay inside image at the bottom */}
                         <div className="absolute bottom-0 left-0 right-0 p-4 pb-5.5 z-30 flex flex-col items-center text-center">
                           <h3 className="font-heading text-lg sm:text-xl font-semibold text-white tracking-wide leading-tight m-0">
@@ -503,82 +396,109 @@ export default function IdentitiesPage() {
           fam => CHARACTER_FAMILIES[fam].includes(selectedCard.id)
         ) || 'stratega';
 
-        return (
+        return createPortal(
           <div
             className="fixed inset-0 bg-navy/40 backdrop-blur-xl z-[9999] flex items-center justify-center p-4 sm:p-6 md:p-8 animate-fade-in"
             onClick={() => setSelectedCard(null)}
           >
             <div
-              className="bg-background/96 border border-white/70 shadow-contact-lg rounded-[32px] w-full max-w-[840px] p-6 sm:p-9 relative max-h-[92vh] overflow-y-auto animate-scale-in flex flex-col md:grid md:grid-cols-[1fr_1.2fr] gap-8 sm:gap-10"
+              className="bg-background/96 border border-white/70 shadow-contact-lg rounded-[32px] w-full max-w-[840px] relative max-h-[92vh] flex flex-col overflow-hidden animate-scale-in"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}
               <button
                 type="button"
                 onClick={() => setSelectedCard(null)}
-                className="absolute top-4 right-4 sm:top-5 sm:right-5 bg-foreground/5 hover:bg-foreground/10 text-foreground w-10 h-10 rounded-full flex items-center justify-center text-lg transition-all duration-300 hover:rotate-90 z-20"
-                style={{ cursor: 'pointer', border: 'none' }}
+                className="absolute top-4 right-4 sm:top-5 sm:right-5 bg-white/95 shadow-md text-navy hover:bg-white w-10 h-10 rounded-full flex items-center justify-center text-lg transition-all duration-300 hover:rotate-90 z-50 backdrop-blur-md"
+                style={{ cursor: 'pointer', border: '1px solid rgba(11,27,44,0.1)' }}
               >
                 ✕
               </button>
 
-              {/* Left Column: Visual Artwork Frame */}
-              <div className="flex flex-col items-center justify-center h-full w-full">
-                <div className="relative w-full aspect-[4/5] overflow-hidden rounded-[22px] bg-card shadow-[0_18px_48px_rgba(80,60,40,0.22)] border border-[#e5a260]/15">
-                  <WatercolorStain
-                    name={`modal-stain-${selectedCard.id}`}
-                    hue={cardFamily === 'stratega' ? 'lilac' : (cardFamily === 'imperia' ? 'clay' : (cardFamily === 'aura' ? 'peach' : (cardFamily === 'porta' ? 'gold' : 'peach')))}
-                    seed={42}
-                    intensity={0.32}
-                    className="absolute inset-0 h-full w-full scale-110 pointer-events-none z-0"
-                  />
-                  <img
-                    src={img}
-                    alt={signatureName}
-                    className="w-full h-full object-cover relative z-10"
-                  />
-                  {/* inner vignette to blend into backdrop background */}
-                  <div className="pointer-events-none absolute inset-0 rounded-[22px] shadow-[inset_0_0_40px_12px_var(--background)] z-20" />
+              <div className="overflow-y-auto p-6 sm:p-9 flex flex-col md:grid md:grid-cols-[1fr_1.2fr] gap-8 sm:gap-10 w-full h-full">
+
+                {/* Left Column: Visual Artwork Frame */}
+                <div className="flex flex-col items-center justify-center h-full w-full">
+                  <div className="relative w-full aspect-[4/5] overflow-hidden rounded-[22px] bg-card shadow-[0_18px_48px_rgba(80,60,40,0.22)] border border-[#e5a260]/15">
+                    <WatercolorStain
+                      name={`modal-stain-${selectedCard.id}`}
+                      hue={cardFamily === 'stratega' ? 'lilac' : (cardFamily === 'imperia' ? 'clay' : (cardFamily === 'aura' ? 'peach' : (cardFamily === 'porta' ? 'gold' : 'peach')))}
+                      seed={42}
+                      intensity={0.32}
+                      className="absolute inset-0 h-full w-full scale-110 pointer-events-none z-0"
+                    />
+                    <img
+                      src={img}
+                      alt={signatureName}
+                      className="w-full h-full object-cover relative z-10"
+                    />
+                    {/* inner vignette to blend into backdrop background */}
+                    <div className="pointer-events-none absolute inset-0 rounded-[22px] shadow-[inset_0_0_40px_12px_var(--background)] z-20" />
+                  </div>
+                </div>
+
+                {/* Right Column: Narrative Content */}
+                <div className="flex flex-col justify-center text-left">
+                  {/* Family Header */}
+                  <span className="font-mono text-xs uppercase tracking-[0.22em] text-clay/90 block mb-2">
+                    {getFamilyLabel(cardFamily)} {langCode === 'tr' ? 'Ailesi' : 'Family'}
+                  </span>
+
+                  {/* Name & Dynamic Rarity Badge */}
+                  {(() => {
+                    const modalRarity = getCardRarityData(selectedCard.id, apiRarities[selectedCard.id], langCode);
+                    return (
+                      <div className="flex items-center justify-between gap-3 flex-wrap mb-2">
+                        <h2 className="font-heading text-3xl sm:text-4xl lg:text-[2.6rem] font-medium leading-none text-foreground tracking-tight m-0">
+                          {signatureName}
+                        </h2>
+
+                        {/* Modal Rarity Pill Badge */}
+                        <div 
+                          className="inline-flex items-center px-3 py-0.8 rounded-full whitespace-nowrap shadow-sm"
+                          style={{
+                            backgroundColor: modalRarity.badgeBg,
+                            color: modalRarity.badgeText,
+                            border: `1px solid ${modalRarity.badgeBorder}`,
+                            fontFamily: "'Inter', sans-serif",
+                            fontSize: '12px',
+                            fontWeight: 600,
+                            letterSpacing: '0.01em'
+                          }}
+                        >
+                          <span>{modalRarity.badgeLabel}</span>
+                        </div>
+                      </div>
+                    );
+                  })()}
+
+                  <ConnectorDots className="w-40 h-6 text-gold/50 mb-3" variant="flat" />
+
+                  {/* Highlight Quote */}
+                  <p className="font-serif italic text-lg sm:text-[1.2rem] text-primary/95 leading-relaxed mb-6">
+                    "{signatureOneLine}"
+                  </p>
+
+                  {/* Detailed Analysis */}
+                  <p className="font-sans text-sm leading-relaxed text-muted-foreground/90 mb-8">
+                    {generateDetailedDescription(selectedCard.signals)}
+                  </p>
+
+                  {/* CTA Action */}
+                  <button
+                    type="button"
+                    onClick={handleStartQuiz}
+                    className="shadow-contact-sm w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground hover:bg-primary/95 transition-all duration-300 hover:scale-[1.02]"
+                    style={{ cursor: 'pointer', border: 'none' }}
+                  >
+                    <span>{t('ui', 'identities_cta_discover') || 'Bu Rolü Kendinde Keşfet'}</span>
+                    <span>→</span>
+                  </button>
                 </div>
               </div>
-
-              {/* Right Column: Narrative Content */}
-              <div className="flex flex-col justify-center text-left">
-                {/* Family Header */}
-                <span className="font-mono text-xs uppercase tracking-[0.22em] text-clay/90 block mb-2">
-                  {getFamilyLabel(cardFamily)} {langCode === 'tr' ? 'Ailesi' : 'Family'}
-                </span>
-
-                {/* Name */}
-                <h2 className="font-heading text-3xl sm:text-4xl lg:text-[2.6rem] font-medium leading-none text-foreground tracking-tight mb-2">
-                  {signatureName}
-                </h2>
-
-                <ConnectorDots className="w-40 h-6 text-gold/50 mb-3" variant="flat" />
-
-                {/* Highlight Quote */}
-                <p className="font-serif italic text-lg sm:text-[1.2rem] text-primary/95 leading-relaxed mb-6">
-                  "{signatureOneLine}"
-                </p>
-
-                {/* Detailed Analysis */}
-                <p className="font-sans text-sm leading-relaxed text-muted-foreground/90 mb-8">
-                  {generateDetailedDescription(selectedCard.signals)}
-                </p>
-
-                {/* CTA Action */}
-                <button
-                  type="button"
-                  onClick={handleStartQuiz}
-                  className="shadow-contact-sm w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground hover:bg-primary/95 transition-all duration-300 hover:scale-[1.02]"
-                  style={{ cursor: 'pointer', border: 'none' }}
-                >
-                  <span>{t('ui', 'identities_cta_discover') || 'Bu Rolü Kendinde Keşfet'}</span>
-                  <span>→</span>
-                </button>
-              </div>
             </div>
-          </div>
+          </div>,
+          document.body
         );
       })()}
 

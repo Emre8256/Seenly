@@ -4,6 +4,7 @@ import AppShell from '../components/AppShell';
 import { IntersectingCircles, WatercolorStain, HairLine, ConnectorDots } from '../components/marks';
 import { SiteFooter } from '../components/site-footer';
 import { useSeenlyShare, buildWhatsAppLink } from '../hooks/useSeenlyShare';
+import { calibrateAccuracyScore } from '../utils/psychometrics';
 
 import dengeliGozlemci from '../images/OkuyucuKartları/Dengeli Gözlemci.png';
 import netOkuyucu from '../images/OkuyucuKartları/Net Okuyucu.png';
@@ -58,13 +59,14 @@ export default function FriendResultPage({ slug, onNavigateToQuiz }) {
   };
 
   const styleId = result?.readerStyleId || 'clear_reader';
-  const accuracy = result?.accuracy ?? 75.0;
-  const [accuracyOffset, setAccuracyOffset] = useState(2 * Math.PI * 52);
+  const rawAccuracy = typeof result?.accuracy === 'number' ? result.accuracy : 75.0;
+  const accuracy = calibrateAccuracyScore(rawAccuracy);
+  const [accuracyOffset, setAccuracyOffset] = useState(2 * Math.PI * 48);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      const circumference = 2 * Math.PI * 52;
-      const targetOffset = circumference * (1 - accuracy / 100);
+      const circumference = 2 * Math.PI * 48;
+      const targetOffset = circumference * (1 - Math.max(0, Math.min(100, accuracy)) / 100);
       setAccuracyOffset(targetOffset);
     }, 150);
     return () => clearTimeout(timer);

@@ -25,6 +25,8 @@ public class ResultSnapshotDto {
     private final int totalResponders;
     private final String publicSlug;
     private final String displayName;
+    private final String email;
+    private final String avatar;
     private final boolean isPremium;
     private final Integer currentResponseCount;
     private final Integer maxResponseLimit;
@@ -52,6 +54,8 @@ public class ResultSnapshotDto {
         this.totalResponders = snapshot.getSeenly().getResponseCount();
         this.publicSlug = snapshot.getSeenly().getPublicSlug();
         this.displayName = snapshot.getSeenly().getDisplayName();
+        this.email = snapshot.getSeenly().getEmail();
+        this.avatar = snapshot.getSeenly().getAvatar();
         this.isPremium = snapshot.getSeenly().getIsPremium();
         this.currentResponseCount = snapshot.getSeenly().getResponseCount();
         this.maxResponseLimit = this.isPremium ? -1 : (snapshot.getSeenly().getBaseFormCapacity() + snapshot.getSeenly().getPurchasedExtraCapacity());
@@ -184,6 +188,14 @@ public class ResultSnapshotDto {
         return displayName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
     public boolean getIsPremium() {
         return isPremium;
     }
@@ -198,9 +210,15 @@ public class ResultSnapshotDto {
 
     private String extractLensFromQuestionId(String questionId) {
         if (questionId == null) return "samimiyet";
+        String lower = questionId.toLowerCase();
+        for (String lens : java.util.Arrays.asList("samimiyet", "cekicilik", "zeka", "vizyon", "enerji", "guvenilirlik", "ego", "basari", "comertlik", "olgunluk")) {
+            if (lower.contains(lens)) {
+                return lens;
+            }
+        }
         String[] parts = questionId.split("_");
         if (parts.length >= 3) {
-            return parts[2];
+            return parts[2].toLowerCase();
         }
         return "samimiyet";
     }

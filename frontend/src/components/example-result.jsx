@@ -40,7 +40,8 @@ export function ExampleResult() {
       />
       <div className="above-surface mx-auto max-w-[1180px] px-5 py-14 sm:px-8 md:py-20">
         <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
-          <Reveal className="relative order-2 lg:order-1">
+          {/* Desktop Image: hidden on mobile */}
+          <Reveal className="hidden lg:block relative mx-auto max-w-[320px] sm:max-w-none w-full">
             <div className="integrated-art mask-organic-1 shadow-contact paper-panel relative -ml-6 overflow-hidden p-0">
               <img
                 src="/images/example-result.png"
@@ -55,7 +56,7 @@ export function ExampleResult() {
             />
           </Reveal>
 
-          <div className="order-1 lg:order-2">
+          <div>
             <Reveal>
               <p className="font-mono text-[0.7rem] uppercase tracking-[0.34em] text-clay">
                 {t("ui", "landing_ex_tag") || "Örnek Okuma"}
@@ -68,12 +69,23 @@ export function ExampleResult() {
               </p>
             </Reveal>
 
-            <div className="mt-10 space-y-7">
+            {/* Mobile Image: displayed above the timeline blocks on mobile, hidden on desktop */}
+            <div className="lg:hidden my-6 mx-auto max-w-[320px] w-full relative">
+              <div className="integrated-art mask-organic-1 shadow-contact paper-panel overflow-hidden p-0">
+                <img
+                  src="/images/example-result.png"
+                  alt="Öz algı ve dış algının suluboya katmanlarla iç içe geçtiği örnek Seenly sonucu"
+                  className="soft-image-edge aspect-[5/4] w-full object-cover mask-organic-1"
+                />
+              </div>
+            </div>
+
+            <div className="mt-10 space-y-5 sm:space-y-7">
               {blocks.map((block, i) => (
                 <Reveal
                   key={block.title}
                   delay={i * 120}
-                  className="border-l border-border pl-6"
+                  className="border-l border-border pl-4 sm:pl-6"
                 >
                   <div className="flex items-center gap-2.5">
                     <span className={`h-1.5 w-1.5 rounded-full ${block.dot}`} />
