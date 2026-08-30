@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useLocale } from '../context/LocaleContext';
-import QuestionCard from '../components/QuestionCard';
-import AppShell from '../components/AppShell';
 import { submitFriendResponse, getBrowserFingerprint } from '../services/api';
+import FriendQuestionsRunner from './friend-quiz/FriendQuestionsRunner';
+import './friend-quiz/FriendQuizPage.css';
 
 const FRIEND_QUESTION_IDS = [
   "classic_friend_samimiyet_01",
@@ -39,10 +39,10 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
     return () => document.removeEventListener('mousedown', handleOutside);
   }, [langOpen]);
 
-  const handleLangToggle = (code) => {
+  const handleLangToggle = useCallback((code) => {
     setLocale(code);
     setLangOpen(false);
-  };
+  }, [setLocale]);
 
   // Load or initialize state from sessionStorage
   const [state, setState] = useState(() => {
@@ -50,7 +50,6 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
       const saved = sessionStorage.getItem('seenly_friend_state');
       if (saved) {
         const parsed = JSON.parse(saved);
-        // Ensure standard structure
         if (typeof parsed === 'object' && parsed !== null) {
           return {
             nickname: parsed.nickname !== undefined ? parsed.nickname : (initialNickname || ''),
@@ -61,7 +60,7 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
         }
       }
     } catch (e) {
-      // Ignore parsing errors
+      // Ignore
     }
     return {
       nickname: initialNickname || '',
@@ -77,25 +76,64 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
   // Ref to track entry time for the current question
   const entryTimeRef = useRef(Date.now());
 
-  // Reset entry time when current index changes
   useEffect(() => {
     entryTimeRef.current = Date.now();
   }, [state.currentIndex]);
 
-  // Sync state to sessionStorage
   useEffect(() => {
     sessionStorage.setItem('seenly_friend_state', JSON.stringify(state));
   }, [state]);
 
-  const handleSelectOption = (value) => {
+  const handleSelectOption = useCallback((value) => {
     const questionId = FRIEND_QUESTION_IDS[state.currentIndex];
     setState(prev => ({
       ...prev,
       answers: { ...prev.answers, [questionId]: value }
     }));
-  };
+  }, [state.currentIndex]);
 
-  const handleNext = () => {
+  const handleSubmit = useCallback(async (finalAnswers, finalTimeAnalytics) => {
+    setIsSubmitting(true);
+    setErrorMessage('');
+
+    const responsesPayload = FRIEND_QUESTION_IDS.map(qId => ({
+      questionId: qId,
+      answerValue: finalAnswers[qId] || 3
+    }));
+
+    try {
+      const fingerprint = getBrowserFingerprint();
+      const result = await submitFriendResponse(
+        slug,
+        state.nickname || '',
+        responsesPayload,
+        fingerprint,
+        finalTimeAnalytics
+      );
+
+      try {
+        const evaluatedStr = localStorage.getItem('seenly_evaluated_slugs');
+        let evaluatedSlugs = [];
+        if (evaluatedStr) evaluatedSlugs = JSON.parse(evaluatedStr);
+        if (!evaluatedSlugs.includes(slug)) {
+          evaluatedSlugs.push(slug);
+          localStorage.setItem('seenly_evaluated_slugs', JSON.stringify(evaluatedSlugs));
+        }
+      } catch (e) { /* ignore */ }
+
+      sessionStorage.setItem('seenly_friend_result', JSON.stringify(result));
+      sessionStorage.removeItem('seenly_friend_state');
+
+      if (onComplete) {
+        onComplete(result);
+      }
+    } catch (err) {
+      setErrorMessage(err.message || 'An error occurred while submitting your response.');
+      setIsSubmitting(false);
+    }
+  }, [slug, state.nickname, onComplete]);
+
+  const handleNext = useCallback(() => {
     const questionId = FRIEND_QUESTION_IDS[state.currentIndex];
     if (state.answers[questionId] === undefined) return;
 
@@ -116,9 +154,9 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
     } else {
       handleSubmit(state.answers, updatedTimeAnalytics);
     }
-  };
+  }, [state.currentIndex, state.answers, state.timeAnalytics, handleSubmit]);
 
-  const handleGoBack = () => {
+  const handleGoBack = useCallback(() => {
     const questionId = FRIEND_QUESTION_IDS[state.currentIndex];
     const signal = questionId.split('_')[2];
     const elapsed = Date.now() - entryTimeRef.current;
@@ -135,57 +173,9 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
       }));
       entryTimeRef.current = Date.now();
     } else {
-      // Navigate back to intro
       window.location.hash = `#/friend/${slug}`;
     }
-  };
-
-  const handleSubmit = async (finalAnswers, finalTimeAnalytics) => {
-    setIsSubmitting(true);
-    setErrorMessage('');
-
-    // Generate responses payload
-    const responsesPayload = FRIEND_QUESTION_IDS.map(qId => ({
-      questionId: qId,
-      answerValue: finalAnswers[qId] || 3 // neutral fallback
-    }));
-
-    const finger = getBrowserFingerprint();
-
-    try {
-      const result = await submitFriendResponse(
-        slug,
-        state.nickname,
-        finger,
-        responsesPayload,
-        finalTimeAnalytics
-      );
-
-      // Store results in sessionStorage
-      sessionStorage.setItem('seenly_friend_result', JSON.stringify(result));
-
-      // Append slug to evaluated slugs in localStorage to prevent duplicate submissions
-      const evaluatedStr = localStorage.getItem('seenly_evaluated_slugs');
-      let evaluatedSlugs = [];
-      try {
-        if (evaluatedStr) evaluatedSlugs = JSON.parse(evaluatedStr);
-      } catch (e) { /* ignore */ }
-      if (!evaluatedSlugs.includes(slug)) {
-        evaluatedSlugs.push(slug);
-        localStorage.setItem('seenly_evaluated_slugs', JSON.stringify(evaluatedSlugs));
-      }
-
-      // Clear quiz flow state
-      sessionStorage.removeItem('seenly_friend_state');
-
-      if (onComplete) {
-        onComplete(result);
-      }
-    } catch (err) {
-      setErrorMessage(err.message || 'An error occurred while submitting your response.');
-      setIsSubmitting(false);
-    }
-  };
+  }, [state.currentIndex, state.timeAnalytics, slug]);
 
   const progressPercentage = ((state.currentIndex + 1) / FRIEND_QUESTION_IDS.length) * 100;
 
@@ -215,12 +205,6 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
                 borderRadius: '1.5px'
               }}></div>
             </div>
-            <style>{`
-              @keyframes loadingProgress {
-                0% { left: -50%; }
-                100% { left: 100%; }
-              }
-            `}</style>
           </div>
         </div>
       </div>
@@ -257,13 +241,13 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
               aria-label="Dil seç"
             >
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <line x1="2" y1="12" x2="22" y2="12"/>
-                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                <circle cx="12" cy="12" r="10" />
+                <line x1="2" y1="12" x2="22" y2="12" />
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
               </svg>
               <span>{locale.toUpperCase()}</span>
               <svg className={`lang-dropdown-chevron ${langOpen ? 'open' : ''}`} width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="6 9 12 15 18 9"/>
+                <polyline points="6 9 12 15 18 9" />
               </svg>
             </button>
             {langOpen && (
@@ -279,7 +263,7 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
                     <span>{lang.label}</span>
                     {locale === lang.code && (
                       <svg className="lang-dropdown-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"/>
+                        <polyline points="20 6 9 17 4 12" />
                       </svg>
                     )}
                   </button>
@@ -299,44 +283,14 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
 
         {/* Wizard Body */}
         <div className="seenly-wizard-body">
-          <div className="seenly-wizard-content">
-            <h2 className="seenly-wizard-title question-text">
-              {t('questions', FRIEND_QUESTION_IDS[state.currentIndex])}
-            </h2>
-            <div className="seenly-wizard-list-container">
-              {[
-                { value: 1, label: t('ui', 'agreement_strongly_disagree') },
-                { value: 2, label: t('ui', 'agreement_disagree') },
-                { value: 3, label: t('ui', 'agreement_neutral') },
-                { value: 4, label: t('ui', 'agreement_agree') },
-                { value: 5, label: t('ui', 'agreement_strongly_agree') }
-              ].map((opt) => {
-                const questionId = FRIEND_QUESTION_IDS[state.currentIndex];
-                const isActive = state.answers[questionId] === opt.value;
-                return (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    className={`seenly-wizard-list-btn ${isActive ? 'active' : ''}`}
-                    onClick={() => handleSelectOption(opt.value)}
-                  >
-                    <span>{opt.label}</span>
-                    {isActive && <span className="seenly-wizard-checkmark">✓</span>}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-          <div className="seenly-wizard-footer-action">
-            <button
-              type="button"
-              className="seenly-wizard-primary-btn"
-              disabled={state.answers[FRIEND_QUESTION_IDS[state.currentIndex]] === undefined}
-              onClick={handleNext}
-            >
-              {t('ui', 'wizard_next_btn')}
-            </button>
-          </div>
+          <FriendQuestionsRunner
+            currentIndex={state.currentIndex}
+            friendQuestionIds={FRIEND_QUESTION_IDS}
+            answers={state.answers}
+            handleSelectOption={handleSelectOption}
+            handleNext={handleNext}
+            t={t}
+          />
         </div>
       </div>
     </div>

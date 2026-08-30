@@ -1,0 +1,194 @@
+import React, { memo } from 'react';
+
+const QuizQuestionsRunner = memo(function QuizQuestionsRunner({
+  currentIndex,
+  selfQuestionIds,
+  answers,
+  setAnswers,
+  selectedAvatar,
+  setSelectedAvatar,
+  avatarFilter,
+  setAvatarFilter,
+  filteredAvatars,
+  setCurrentIndex,
+  langCode,
+  t
+}) {
+  // Step 4: Quiz Questions (0 to 9)
+  if (currentIndex >= 0 && currentIndex < selfQuestionIds.length) {
+    const questionId = selfQuestionIds[currentIndex];
+    return (
+      <>
+        <div className="seenly-wizard-content">
+          <h2 className="seenly-wizard-title question-text">
+            {t('questions', questionId)}
+          </h2>
+          <div className="seenly-wizard-list-container">
+            {[
+              { value: 1, label: t('ui', 'agreement_strongly_disagree') },
+              { value: 2, label: t('ui', 'agreement_disagree') },
+              { value: 3, label: t('ui', 'agreement_neutral') },
+              { value: 4, label: t('ui', 'agreement_agree') },
+              { value: 5, label: t('ui', 'agreement_strongly_agree') }
+            ].map((opt) => {
+              const isActive = answers[questionId] === opt.value;
+              return (
+                <button
+                  key={opt.value}
+                  type="button"
+                  className={`seenly-wizard-list-btn ${isActive ? 'active' : ''}`}
+                  onClick={() => {
+                    setAnswers(prev => ({ ...prev, [questionId]: opt.value }));
+                  }}
+                >
+                  <span>{opt.label}</span>
+                  {isActive && <span className="seenly-wizard-checkmark">✓</span>}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        <div className="seenly-wizard-footer-action">
+          <button
+            type="button"
+            className="seenly-wizard-primary-btn"
+            disabled={answers[questionId] === undefined}
+            onClick={() => {
+              if (currentIndex < selfQuestionIds.length - 1) {
+                setCurrentIndex(prev => prev + 1);
+              } else {
+                setCurrentIndex(-9);
+              }
+            }}
+          >
+            {t('ui', 'wizard_next_btn')}
+          </button>
+        </div>
+      </>
+    );
+  }
+
+  // Step 5: Avatar Selection Screen (-9)
+  if (currentIndex === -9) {
+    return (
+      <>
+        <div className="seenly-wizard-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', padding: '0.2rem 0', boxSizing: 'border-box' }}>
+          {/* Header Icon */}
+          <div className="seenly-wizard-circle-icon icon-purple" style={{ margin: '0 auto 0.6rem auto', width: '48px', height: '48px', flexShrink: 0 }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </div>
+
+          {/* Title */}
+          <h2 className="seenly-wizard-title" style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-deep-ink)', marginBottom: '0.35rem', textAlign: 'center', width: '100%', fontSize: '1.5rem', lineHeight: '1.2' }}>
+            {langCode === 'tr' ? 'Avatarını Seç' : 'Choose Your Avatar'}
+          </h2>
+
+          {/* Subtitle */}
+          <p style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: '0.84rem',
+            color: 'rgba(11, 27, 44, 0.65)',
+            textAlign: 'center',
+            margin: '0 auto 0.75rem auto',
+            maxWidth: '340px',
+            lineHeight: '1.4'
+          }}>
+            {langCode === 'tr'
+              ? 'Profilinde ve arkadaşlarına ileteceğin test kartlarında yer alacak avatarını belirle.'
+              : 'Select the avatar that will represent you on your profile and test cards.'}
+          </p>
+
+          {/* Filter Pills */}
+          <div className="seenly-onboarding-avatar-filters">
+            <button
+              type="button"
+              onClick={() => setAvatarFilter('all')}
+              className={`seenly-onboarding-filter-pill ${avatarFilter === 'all' ? 'active' : ''}`}
+            >
+              {langCode === 'tr' ? 'Tümü (12)' : 'All (12)'}
+            </button>
+            <button
+              type="button"
+              onClick={() => setAvatarFilter('kadin')}
+              className={`seenly-onboarding-filter-pill ${avatarFilter === 'kadin' ? 'active' : ''}`}
+            >
+              {langCode === 'tr' ? 'Kadın (6)' : 'Women (6)'}
+            </button>
+            <button
+              type="button"
+              onClick={() => setAvatarFilter('erkek')}
+              className={`seenly-onboarding-filter-pill ${avatarFilter === 'erkek' ? 'active' : ''}`}
+            >
+              {langCode === 'tr' ? 'Erkek (6)' : 'Men (6)'}
+            </button>
+          </div>
+
+          {/* Responsive Avatar Grid */}
+          <div className="seenly-onboarding-avatar-grid">
+            {filteredAvatars.map((av) => {
+              const isSelected = selectedAvatar === av.id;
+              return (
+                <button
+                  key={av.id}
+                  type="button"
+                  onClick={() => {
+                    setSelectedAvatar(av.id);
+                    sessionStorage.setItem('seenly_avatar', av.id);
+                    localStorage.setItem('seenly_avatar', av.id);
+                  }}
+                  className={`seenly-onboarding-avatar-item ${isSelected ? 'is-selected' : ''}`}
+                  aria-label={av.label}
+                  title={av.label}
+                >
+                  <div className="seenly-onboarding-avatar-circle">
+                    <img
+                      src={av.src}
+                      alt={av.label}
+                      className="seenly-onboarding-avatar-img"
+                    />
+                    {isSelected && (
+                      <span className="seenly-onboarding-avatar-check">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      </span>
+                    )}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Action Button */}
+        <div className="seenly-wizard-footer-action">
+          <button
+            type="button"
+            className="seenly-wizard-primary-btn"
+            onClick={() => {
+              if (!selectedAvatar) {
+                setSelectedAvatar('kadin1');
+                sessionStorage.setItem('seenly_avatar', 'kadin1');
+                localStorage.setItem('seenly_avatar', 'kadin1');
+              }
+              setCurrentIndex(-10);
+            }}
+          >
+            <span>{t('ui', 'wizard_continue_btn') || 'Devam Et'}</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="seenly-wizard-arrow-icon">
+              <line x1="4" y1="12" x2="20" y2="12" />
+              <polyline points="13 5 20 12 13 19" />
+            </svg>
+          </button>
+        </div>
+      </>
+    );
+  }
+
+  return null;
+});
+
+export default QuizQuestionsRunner;

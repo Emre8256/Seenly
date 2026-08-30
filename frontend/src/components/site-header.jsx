@@ -66,11 +66,27 @@ export function SiteHeader({ onStartClick, onLoginClick, hideHowItWorks = false 
   ].filter(Boolean)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24)
-    onScroll()
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
-  }, [])
+    let ticking = false;
+    let lastScrolled = window.scrollY > 24;
+    setScrolled(lastScrolled);
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const nextScrolled = window.scrollY > 24;
+          if (nextScrolled !== lastScrolled) {
+            lastScrolled = nextScrolled;
+            setScrolled(nextScrolled);
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     if (!userMenuOpen) return undefined

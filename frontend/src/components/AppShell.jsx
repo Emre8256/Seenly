@@ -14,10 +14,24 @@ export default function AppShell({ children, isLanding = false, isDashboard = fa
   const avatarSrc = getAvatarSrc(userAvatar);
 
   useEffect(() => {
+    let ticking = false;
+    let lastScrolled = window.scrollY > 24;
+    setScrolled(lastScrolled);
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 24);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const nextScrolled = window.scrollY > 24;
+          if (nextScrolled !== lastScrolled) {
+            lastScrolled = nextScrolled;
+            setScrolled(nextScrolled);
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    handleScroll();
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -63,7 +77,7 @@ export default function AppShell({ children, isLanding = false, isDashboard = fa
 
   if (isDashboard) {
     return (
-      <div className="app-shell dashboard-layout min-h-screen text-foreground" style={{ position: 'relative', background: 'transparent' }}>
+      <div className="app-shell dashboard-layout min-h-screen text-foreground">
         <SiteHeader onStartClick={handleStartQuizClick} onLoginClick={handleLoginClick} hideHowItWorks={isLoggedIn} />
         <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           {children}

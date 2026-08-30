@@ -1,0 +1,7 @@
+/* Landing Page Custom Styles & Utilities */
+
+.seenly-landing-wrapper {
+  position: relative;
+  width: 100%;
+  overflow-x: hidden;
+}

@@ -1,0 +1,195 @@
+/* QuizPage Custom & Modular Styles */
+
+@keyframes loadingProgress {
+  0% { left: -50%; }
+  100% { left: 100%; }
+}
+
+.seenly-result-wizard-container {
+  width: 100vw !important;
+  height: 100dvh !important;
+  max-width: 100vw !important;
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  background-color: var(--color-paper-cream) !important;
+}
+
+@media (min-width: 768px) {
+  .seenly-result-wizard-container {
+    width: 100% !important;
+    max-width: 440px !important;
+    height: min(720px, calc(100dvh - 36px)) !important;
+    border-radius: 28px !important;
+    border: 1px solid rgba(11, 27, 44, 0.08) !important;
+    box-shadow: 0 24px 60px rgba(11, 27, 44, 0.12) !important;
+    margin: auto !important;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.spinner-mini {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Avatar Selection Styles */
+.seenly-onboarding-avatar-filters {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 0.75rem;
+}
+
+.seenly-onboarding-filter-pill {
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(197, 160, 89, 0.35);
+  background: #FAF6ED;
+  color: #6B5542;
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.seenly-onboarding-filter-pill:hover {
+  color: #0B1B2C;
+  border-color: rgba(197, 160, 89, 0.65);
+  background: #F4EEDF;
+}
+
+.seenly-onboarding-filter-pill.active {
+  background: #0B1B2C;
+  color: #FFFFFF;
+  border-color: #0B1B2C;
+  box-shadow: 0 2px 8px rgba(11, 27, 44, 0.18);
+}
+
+.seenly-onboarding-avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  max-height: clamp(230px, 36vh, 290px);
+  overflow-y: auto;
+  padding: 4px 4px 8px;
+  box-sizing: border-box;
+}
+
+.seenly-onboarding-avatar-grid::-webkit-scrollbar {
+  width: 4px;
+}
+.seenly-onboarding-avatar-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+.seenly-onboarding-avatar-grid::-webkit-scrollbar-thumb {
+  background: rgba(197, 160, 89, 0.35);
+  border-radius: 4px;
+}
+
+.seenly-onboarding-avatar-item {
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.seenly-onboarding-avatar-item:hover {
+  transform: translateY(-2px) scale(1.06);
+}
+
+.seenly-onboarding-avatar-item.is-selected {
+  transform: scale(1.06);
+}
+
+.seenly-onboarding-avatar-circle {
+  position: relative;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  padding: 2px;
+  border: 2px solid rgba(197, 160, 89, 0.28);
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+  background: #FDFBF4;
+}
+
+.seenly-onboarding-avatar-item:hover .seenly-onboarding-avatar-circle {
+  border-color: rgba(197, 160, 89, 0.65);
+  box-shadow: 0 4px 12px rgba(197, 160, 89, 0.22);
+}
+
+.seenly-onboarding-avatar-item.is-selected .seenly-onboarding-avatar-circle {
+  border-color: #C5A059;
+  border-width: 2.5px;
+  box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.25), 0 6px 16px rgba(80, 60, 40, 0.18);
+}
+
+.seenly-onboarding-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.seenly-onboarding-avatar-check {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #C5A059;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #FDFBF4;
+  box-shadow: 0 2px 6px rgba(11, 27, 44, 0.2);
+}
+
+@media (max-width: 380px) {
+  .seenly-onboarding-avatar-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    max-height: 240px;
+  }
+  .seenly-onboarding-avatar-circle {
+    width: 56px;
+    height: 56px;
+  }
+}

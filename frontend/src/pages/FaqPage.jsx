@@ -246,22 +246,20 @@ export default function FaqPage() {
                       width: '100%',
                       padding: '0.75rem 1.25rem 0.75rem 2.85rem',
                       borderRadius: '9999px',
-                      border: '1px solid rgba(255, 255, 255, 0.6)',
+                      border: '1px solid rgba(197, 160, 89, 0.35)',
                       fontSize: '0.88rem',
                       fontFamily: 'var(--font-sans), sans-serif',
                       color: 'var(--color-deep-ink)',
-                      backgroundColor: 'rgba(255, 255, 255, 0.42)',
-                      backdropFilter: 'blur(12px)',
-                      WebkitBackdropFilter: 'blur(12px)',
+                      backgroundColor: '#FFFFFF',
                       outline: 'none',
                       transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-                      boxShadow: '0 8px 24px rgba(11, 27, 44, 0.015), inset 0 1px 0 rgba(255, 255, 255, 0.5)',
+                      boxShadow: '0 4px 16px rgba(80, 60, 40, 0.04)',
                       boxSizing: 'border-box'
                     }}
                     onFocus={(e) => {
                       e.target.style.borderColor = 'var(--peach)';
-                      e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
-                      e.target.style.boxShadow = '0 0 0 4px rgba(217, 106, 83, 0.12)';
+                      e.target.style.backgroundColor = '#FFFFFF';
+                      e.target.style.boxShadow = '0 0 0 3px rgba(217, 106, 83, 0.12)';
                     }}
                     onBlur={(e) => {
                       e.target.style.borderColor = 'rgba(255, 255, 255, 0.6)';

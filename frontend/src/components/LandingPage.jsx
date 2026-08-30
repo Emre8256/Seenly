@@ -1,34 +1,27 @@
-import React from "react"
-import { SiteHeader } from "./site-header"
-import { Hero } from "./hero"
-import { SocialProof } from "./social-proof"
-import { OpeningStatement } from "./opening-statement"
-import { HowItWorks } from "./how-it-works"
-import { UseCases } from "./use-cases"
-import { ExampleResult } from "./example-result"
-import { SeenlyCodes } from "./seenly-codes"
-import { Pricing } from "./pricing"
-import { Security } from "./security"
-import { FinalCta } from "./final-cta"
-import { SiteFooter } from "./site-footer"
+import React, { memo } from "react";
+import { SiteHeader } from "./site-header";
+import { SiteFooter } from "./site-footer";
+import LandingHeroSection from "../pages/landing/LandingHeroSection";
+import LandingHowItWorks from "../pages/landing/LandingHowItWorks";
+import LandingFeatures from "../pages/landing/LandingFeatures";
+import LandingArchetypesShowcase from "../pages/landing/LandingArchetypesShowcase";
+import LandingFaqPricing from "../pages/landing/LandingFaqPricing";
+import "../pages/landing/LandingPage.css";
 
-export default function LandingPage({ onStartClick, onLoginClick }) {
+const LandingPage = memo(function LandingPage({ onStartClick, onLoginClick }) {
   return (
-    <div className="paper-wash min-h-screen bg-background text-foreground">
+    <div className="paper-wash min-h-screen bg-background text-foreground seenly-landing-wrapper">
       <SiteHeader onStartClick={onStartClick} onLoginClick={onLoginClick} />
       <main>
-        <Hero onStartClick={onStartClick} onLoginClick={onLoginClick} />
-        <SocialProof />
-        <OpeningStatement />
-        <HowItWorks />
-        <UseCases />
-        <ExampleResult />
-        <SeenlyCodes />
-        <Pricing onStartClick={onStartClick} />
-        <Security />
-        <FinalCta onStartClick={onStartClick} />
+        <LandingHeroSection onStartClick={onStartClick} onLoginClick={onLoginClick} />
+        <LandingHowItWorks />
+        <LandingFeatures />
+        <LandingArchetypesShowcase />
+        <LandingFaqPricing onStartClick={onStartClick} />
       </main>
       <SiteFooter />
     </div>
-  )
-}
+  );
+});
+
+export default LandingPage;
