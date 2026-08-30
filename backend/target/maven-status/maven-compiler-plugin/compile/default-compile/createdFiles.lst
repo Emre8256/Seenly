@@ -1,0 +1,4 @@
+com\seenly\backend\entity\Seenly$SeenlyBuilder.class
+com\seenly\backend\dto\ResultSnapshotDto.class
+com\seenly\backend\entity\Seenly.class
+com\seenly\backend\controller\SeenlyController.class

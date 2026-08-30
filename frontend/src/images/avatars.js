@@ -1,15 +1,15 @@
-import Erkek1 from './Avatars/Erkek1.png';
-import Erkek2 from './Avatars/Erkek2.png';
-import Erkek3 from './Avatars/Erkek3.png';
-import Erkek4 from './Avatars/Erkek4.png';
-import Erkek5 from './Avatars/Erkek5.png';
-import Erkek6 from './Avatars/Erkek6.png';
-import Kadin1 from './Avatars/Kadın1.png';
-import Kadin2 from './Avatars/Kadın2.png';
-import Kadin3 from './Avatars/Kadın3.png';
-import Kadin4 from './Avatars/Kadın4.png';
-import Kadin5 from './Avatars/Kadın5.png';
-import Kadin6 from './Avatars/Kadın6.png';
+import Erkek1 from './Avatars/Erkek1.avif';
+import Erkek2 from './Avatars/Erkek2.avif';
+import Erkek3 from './Avatars/Erkek3.avif';
+import Erkek4 from './Avatars/Erkek4.avif';
+import Erkek5 from './Avatars/Erkek5.avif';
+import Erkek6 from './Avatars/Erkek6.avif';
+import Kadin1 from './Avatars/Kadın1.avif';
+import Kadin2 from './Avatars/Kadın2.avif';
+import Kadin3 from './Avatars/Kadın3.avif';
+import Kadin4 from './Avatars/Kadın4.avif';
+import Kadin5 from './Avatars/Kadın5.avif';
+import Kadin6 from './Avatars/Kadın6.avif';
 
 export const AVATARS = [
   { id: 'kadin1', gender: 'kadin', label: 'Kadın 1', src: Kadin1 },

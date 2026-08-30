@@ -1,6 +1,7 @@
 import { Reveal } from "./reveal"
 import { WatercolorStain, ConnectorDots } from "./marks"
 import { useLocale } from "../context/LocaleContext"
+import exampleResultImg from "../images/landing/example-result.avif"
 
 export function ExampleResult() {
   const { t } = useLocale()
@@ -44,7 +45,7 @@ export function ExampleResult() {
           <Reveal className="hidden lg:block relative mx-auto max-w-[320px] sm:max-w-none w-full">
             <div className="integrated-art mask-organic-1 shadow-contact paper-panel relative -ml-6 overflow-hidden p-0">
               <img
-                src="/images/example-result.png"
+                src={exampleResultImg}
                 alt="Öz algı ve dış algının suluboya katmanlarla iç içe geçtiği örnek Seenly sonucu"
                 className="soft-image-edge aspect-[5/4] w-full object-cover mask-organic-1"
               />
@@ -73,7 +74,7 @@ export function ExampleResult() {
             <div className="lg:hidden my-6 mx-auto max-w-[320px] w-full relative">
               <div className="integrated-art mask-organic-1 shadow-contact paper-panel overflow-hidden p-0">
                 <img
-                  src="/images/example-result.png"
+                  src={exampleResultImg}
                   alt="Öz algı ve dış algının suluboya katmanlarla iç içe geçtiği örnek Seenly sonucu"
                   className="soft-image-edge aspect-[5/4] w-full object-cover mask-organic-1"
                 />

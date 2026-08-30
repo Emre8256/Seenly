@@ -147,23 +147,37 @@ public class SeenlyController {
 
     /**
      * PUT /api/v1/seenly/owner/display-name
-     * Updates the owner's display name.
+     * Updates the owner's display name with a 14-day cooldown rule.
      */
     @PutMapping("/owner/display-name")
-    public ResponseEntity<ResultSnapshotDto> updateDisplayName(
+    public ResponseEntity<?> updateDisplayName(
             @RequestHeader(value = "X-Owner-Token") String ownerToken,
             @RequestBody java.util.Map<String, String> request) {
         
         String newName = request.get("displayName");
-        if (newName == null || newName.trim().isEmpty()) {
-            return ResponseEntity.badRequest().build();
+        if (newName == null || newName.trim().length() < 2 || newName.trim().length() > 15) {
+            return ResponseEntity.badRequest().body(java.util.Map.of("message", "İsminiz 2 ile 15 karakter arasında olmalıdır."));
         }
 
         String tokenHash = tokenHashingService.hashToken(ownerToken);
         Seenly seenly = seenlyRepository.findByOwnerTokenHash(tokenHash)
             .orElseThrow(() -> new ResourceNotFoundException("Seenly profile not found."));
 
+        // Check 14-day cooldown
+        if (seenly.getLastNameChangedAt() != null) {
+            java.time.LocalDateTime nextAllowedDate = seenly.getLastNameChangedAt().plusDays(14);
+            if (java.time.LocalDateTime.now().isBefore(nextAllowedDate)) {
+                long daysRemaining = java.time.temporal.ChronoUnit.DAYS.between(java.time.LocalDateTime.now(), nextAllowedDate) + 1;
+                return ResponseEntity.status(429).body(java.util.Map.of(
+                    "message", "İsminizi 14 günde bir değiştirebilirsiniz. Kalan süre: " + daysRemaining + " gün.",
+                    "nextAllowedDate", nextAllowedDate.toString(),
+                    "daysRemaining", String.valueOf(daysRemaining)
+                ));
+            }
+        }
+
         seenly.setDisplayName(newName.trim());
+        seenly.setLastNameChangedAt(java.time.LocalDateTime.now());
         seenlyRepository.save(seenly);
 
         ResultSnapshotDto snapshotDto = new ResultSnapshotDto(seenly.getResultSnapshot());

@@ -43,6 +43,9 @@ public class Seenly {
     @Column(nullable = true)
     private String avatar;
 
+    @Column(nullable = true)
+    private LocalDateTime lastNameChangedAt;
+
     @Column(nullable = false)
     private int responseCount = 0;
 

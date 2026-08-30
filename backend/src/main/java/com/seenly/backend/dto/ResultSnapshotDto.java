@@ -30,6 +30,9 @@ public class ResultSnapshotDto {
     private final boolean isPremium;
     private final Integer currentResponseCount;
     private final Integer maxResponseLimit;
+    private final java.time.LocalDateTime lastNameChangedAt;
+    private final java.time.LocalDateTime nextAllowedNameChangeDate;
+    private final Long nameChangeDaysRemaining;
     private final Map<String, Double> selfAverages;
     private final Map<String, Double> friendAverages;
     private final Map<String, Double> friendTimeAnalytics;
@@ -59,6 +62,20 @@ public class ResultSnapshotDto {
         this.isPremium = snapshot.getSeenly().getIsPremium();
         this.currentResponseCount = snapshot.getSeenly().getResponseCount();
         this.maxResponseLimit = this.isPremium ? -1 : (snapshot.getSeenly().getBaseFormCapacity() + snapshot.getSeenly().getPurchasedExtraCapacity());
+        this.lastNameChangedAt = snapshot.getSeenly().getLastNameChangedAt();
+        if (this.lastNameChangedAt != null) {
+            java.time.LocalDateTime nextAllowed = this.lastNameChangedAt.plusDays(14);
+            if (java.time.LocalDateTime.now().isBefore(nextAllowed)) {
+                this.nextAllowedNameChangeDate = nextAllowed;
+                this.nameChangeDaysRemaining = java.time.temporal.ChronoUnit.DAYS.between(java.time.LocalDateTime.now(), nextAllowed) + 1;
+            } else {
+                this.nextAllowedNameChangeDate = null;
+                this.nameChangeDaysRemaining = 0L;
+            }
+        } else {
+            this.nextAllowedNameChangeDate = null;
+            this.nameChangeDaysRemaining = 0L;
+        }
 
         // Dynamic Zero-Leak Privacy filtering
         if (this.responseCount >= 3) {
@@ -245,5 +262,17 @@ public class ResultSnapshotDto {
 
     public List<ResponseSessionDto> getResponseSessions() {
         return responseSessions;
+    }
+
+    public java.time.LocalDateTime getLastNameChangedAt() {
+        return lastNameChangedAt;
+    }
+
+    public java.time.LocalDateTime getNextAllowedNameChangeDate() {
+        return nextAllowedNameChangeDate;
+    }
+
+    public Long getNameChangeDaysRemaining() {
+        return nameChangeDaysRemaining;
     }
 }

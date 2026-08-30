@@ -1,6 +1,7 @@
 import { Reveal } from "./reveal"
 import { IntersectingCircles, WatercolorStain } from "./marks"
 import { useLocale } from "../context/LocaleContext"
+import finalCtaImg from "../images/landing/final-cta.avif"
 
 export function FinalCta({ onStartClick }) {
   const { t } = useLocale()
@@ -33,7 +34,7 @@ export function FinalCta({ onStartClick }) {
             <div className="lg:hidden my-6 mx-auto max-w-[320px] w-full relative">
               <div className="integrated-art mask-organic-1 paper-panel overflow-hidden p-0">
                 <img
-                  src="/images/final-cta.png"
+                  src={finalCtaImg}
                   alt=""
                   aria-hidden="true"
                   className="soft-image-edge aspect-[16/10] w-full object-cover object-center mask-organic-1"
@@ -56,7 +57,7 @@ export function FinalCta({ onStartClick }) {
           <Reveal delay={120} className="hidden lg:block relative -mx-6 sm:mx-0 lg:-mr-24 mx-auto max-w-[320px] sm:max-w-none w-full">
             <div className="integrated-art mask-organic-1 paper-panel relative overflow-hidden p-0">
               <img
-                src="/images/final-cta.png"
+                src={finalCtaImg}
                 alt=""
                 aria-hidden="true"
                 className="soft-image-edge aspect-[16/10] w-full object-cover object-center lg:aspect-[16/9] mask-organic-1"

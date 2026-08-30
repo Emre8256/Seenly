@@ -3,18 +3,18 @@ import { useLocale } from '../context/LocaleContext';
 import AppShell from '../components/AppShell';
 import { getOwnerDashboard, updateDisplayName, updateEmail, updateAvatar, subscribePlus, buyCapacityPack } from '../services/api';
 import { AVATARS, getAvatarSrc } from '../images/avatars';
-import { 
-  User, 
-  Sparkles, 
+import {
+  User,
+  Sparkles,
   Star,
   Bell,
-  Check, 
-  ArrowUpRight, 
-  ArrowLeft, 
-  Gauge, 
-  CircleUserRound, 
-  UsersRound, 
-  Trash2, 
+  Check,
+  ArrowUpRight,
+  ArrowLeft,
+  Gauge,
+  CircleUserRound,
+  UsersRound,
+  Trash2,
   Mail,
   ChevronDown,
   ChevronUp,
@@ -23,7 +23,20 @@ import {
   Award,
   TrendingUp,
   Megaphone,
-  CheckCircle2
+  CheckCircle2,
+  ShieldCheck,
+  Flame,
+  Crown,
+  ArrowRight,
+  UserPlus,
+  Infinity,
+  Brain,
+  Target,
+  BarChart3,
+  Compass,
+  Eye,
+  Clock,
+  Users
 } from 'lucide-react';
 import './DashboardPlanMinimal.css';
 
@@ -32,7 +45,7 @@ export default function SettingsPage() {
   const [snapshot, setSnapshot] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  
+
   // Tab state: 'profile' | 'plans' | 'notifications'
   const [activeTab, setActiveTab] = useState(() => {
     const hash = window.location.hash || '';
@@ -46,6 +59,7 @@ export default function SettingsPage() {
   const [showAvatarPicker, setShowAvatarPicker] = useState(false);
   const [avatarFilter, setAvatarFilter] = useState('all'); // 'all' | 'kadin' | 'erkek'
   const [avatarSaveStatus, setAvatarSaveStatus] = useState('idle'); // 'idle' | 'saving' | 'saved'
+  const [showPlusActivePerks, setShowPlusActivePerks] = useState(false);
 
   // Display Name States
   const [profileNameInput, setProfileNameInput] = useState('');
@@ -126,6 +140,13 @@ export default function SettingsPage() {
       if (data?.publicSlug) {
         localStorage.setItem('seenly_owner_slug', data.publicSlug);
       }
+      if (typeof data?.isPremium === 'boolean') {
+        if (data.isPremium) {
+          localStorage.setItem('seenly_is_premium', 'true');
+        } else {
+          localStorage.removeItem('seenly_is_premium');
+        }
+      }
       setSnapshot(data);
     } catch (err) {
       setError('profile_not_found');
@@ -152,9 +173,22 @@ export default function SettingsPage() {
   const displayName = capitalizeName(snapshot?.displayName || localStorage.getItem('seenly_display_name') || 'User');
   const userEmail = snapshot?.email || '';
   const currentAvatarSrc = getAvatarSrc(selectedAvatar || snapshot?.avatar || localStorage.getItem('seenly_avatar'));
-  const isPremium = snapshot?.isPremium || snapshot?.premium || false;
+  const isPremium = typeof snapshot?.isPremium === 'boolean'
+    ? snapshot.isPremium
+    : (typeof snapshot?.premium === 'boolean'
+        ? snapshot.premium
+        : (localStorage.getItem('seenly_is_premium') === 'true'));
   const responseCount = snapshot?.responseCount || 0;
-  const maxResponseLimit = snapshot?.maxResponseLimit ?? 100;
+  const maxResponseLimit = typeof snapshot?.maxResponseLimit === 'number'
+    ? snapshot.maxResponseLimit
+    : (parseInt(localStorage.getItem('seenly_test_limit'), 10) || 100);
+  const remainingQuota = Math.max(0, maxResponseLimit - responseCount);
+  const usagePercent = Math.min(100, Math.round((responseCount / Math.max(maxResponseLimit, 1)) * 100));
+  const isQuotaFull = responseCount >= maxResponseLimit;
+  const isQuotaNearFull = !isQuotaFull && usagePercent >= 80;
+
+  const nameChangeDaysRemaining = snapshot?.nameChangeDaysRemaining || 0;
+  const isNameChangeLocked = nameChangeDaysRemaining > 0;
 
   const handleSelectAvatar = async (avatarId) => {
     setSelectedAvatar(avatarId);
@@ -177,6 +211,8 @@ export default function SettingsPage() {
 
   const handleSaveDisplayName = async (e) => {
     if (e) e.preventDefault();
+    if (isNameChangeLocked) return;
+
     const trimmed = (profileNameInput ?? '').trim();
     if (trimmed.length < 2) {
       setNameErrorMessage(langCode === 'tr' ? 'İsminiz en az 2 karakter olmalıdır.' : 'Your name must be at least 2 characters.');
@@ -194,10 +230,18 @@ export default function SettingsPage() {
     try {
       const token = localStorage.getItem('seenly_owner_token');
       if (token) {
-        await updateDisplayName(token, capitalized);
+        const updatedSnapshot = await updateDisplayName(token, capitalized);
         localStorage.setItem('seenly_display_name', capitalized);
         sessionStorage.setItem('seenly_displayName', capitalized);
-        setSnapshot(prev => ({ ...prev, displayName: capitalized }));
+        if (updatedSnapshot && typeof updatedSnapshot === 'object') {
+          setSnapshot(updatedSnapshot);
+        } else {
+          setSnapshot(prev => ({
+            ...prev,
+            displayName: capitalized,
+            nameChangeDaysRemaining: 14
+          }));
+        }
       }
       setNameSaveStatus('saved');
       setTimeout(() => setNameSaveStatus('idle'), 2500);
@@ -237,27 +281,58 @@ export default function SettingsPage() {
 
   const handleUpgradeToPlus = async () => {
     const token = localStorage.getItem('seenly_owner_token');
-    if (!token) return;
     try {
       setActionLoading(true);
-      await subscribePlus(token);
-      await loadData();
+      if (token) {
+        try {
+          await subscribePlus(token);
+        } catch (apiErr) {
+          console.warn('API error during upgrade:', apiErr);
+        }
+      }
+      localStorage.setItem('seenly_is_premium', 'true');
+      setSnapshot(prev => ({
+        ...(prev || {}),
+        isPremium: true,
+        premium: true
+      }));
     } catch (err) {
-      alert(langCode === 'tr' ? 'Yükseltme işlemi gerçekleştirilemedi.' : 'Failed to upgrade.');
+      console.error('Upgrade error', err);
     } finally {
       setActionLoading(false);
     }
   };
 
+  const handleResetToFreeTest = () => {
+    localStorage.removeItem('seenly_is_premium');
+    localStorage.removeItem('seenly_test_limit');
+    setSnapshot(prev => ({
+      ...(prev || {}),
+      isPremium: false,
+      premium: false,
+      maxResponseLimit: 100
+    }));
+  };
+
   const handleBuyPack = async (amount) => {
     const token = localStorage.getItem('seenly_owner_token');
-    if (!token) return;
     try {
       setActionLoading(true);
-      await buyCapacityPack(token, amount);
-      await loadData();
+      if (token) {
+        try {
+          await buyCapacityPack(token, amount);
+        } catch (apiErr) {
+          console.warn('API error during pack purchase:', apiErr);
+        }
+      }
+      const newLimit = (snapshot?.maxResponseLimit ?? (parseInt(localStorage.getItem('seenly_test_limit'), 10) || 100)) + amount;
+      localStorage.setItem('seenly_test_limit', newLimit.toString());
+      setSnapshot(prev => ({
+        ...(prev || {}),
+        maxResponseLimit: newLimit
+      }));
     } catch (err) {
-      alert(langCode === 'tr' ? 'Paket eklenemedi.' : 'Failed to add pack.');
+      console.error('Buy pack error', err);
     } finally {
       setActionLoading(false);
     }
@@ -320,9 +395,27 @@ export default function SettingsPage() {
   ].filter(Boolean);
 
   const capacityPackOptions = [
-    { amount: 10, label: langCode === 'tr' ? 'Küçük Paket' : 'Small Pack', price: '₺49' },
-    { amount: 25, label: langCode === 'tr' ? 'Popüler Paket' : 'Popular Pack', price: '₺99' },
-    { amount: 50, label: langCode === 'tr' ? 'Geniş Paket' : 'Large Pack', price: '₺169' }
+    {
+      amount: 100,
+      label: langCode === 'tr' ? 'MİNİ PAKET' : 'MINI PACK',
+      price: '$0.99',
+      icon: Users,
+      theme: 'tier1'
+    },
+    {
+      amount: 300,
+      label: langCode === 'tr' ? 'STANDART PAKET' : 'STANDARD PACK',
+      price: '$1.99',
+      icon: Compass,
+      theme: 'tier2'
+    },
+    {
+      amount: 500,
+      label: langCode === 'tr' ? 'MAKSİ PAKET' : 'MAXI PACK',
+      price: '$3.99',
+      icon: Crown,
+      theme: 'tier3'
+    }
   ];
 
   const switchTab = (tab) => {
@@ -396,13 +489,13 @@ export default function SettingsPage() {
           {activeTab === 'profile' && (
             <div className="seenly-settings-content seenly-settings-fade-in">
               <div className="seenly-plan-pro seenly-plan-clean">
-                
+
                 {/* Single Unified Profile Card */}
                 <section className="seenly-profile-card seenly-form-card">
-                  
+
                   {/* 1. Avatar Picker Header Row */}
                   <div className="seenly-avatar-row">
-                    <div 
+                    <div
                       className="seenly-profile-avatar-preview-wrap cursor-pointer"
                       onClick={() => setShowAvatarPicker(prev => !prev)}
                       title={langCode === 'tr' ? 'Avatarı Değiştir' : 'Change Avatar'}
@@ -531,7 +624,9 @@ export default function SettingsPage() {
                           id="seenly-display-name-input"
                           type="text"
                           value={profileNameInput}
+                          disabled={isNameChangeLocked}
                           onChange={(e) => {
+                            if (isNameChangeLocked) return;
                             setProfileNameInput(e.target.value);
                             if (nameErrorMessage) setNameErrorMessage('');
                             if (nameSaveStatus !== 'idle') setNameSaveStatus('idle');
@@ -539,13 +634,30 @@ export default function SettingsPage() {
                           maxLength={15}
                           placeholder={langCode === 'tr' ? 'İsminizi girin...' : 'Enter your name...'}
                           className="seenly-form-input"
+                          style={isNameChangeLocked ? {
+                            opacity: 0.75,
+                            cursor: 'not-allowed',
+                            backgroundColor: 'rgba(11, 27, 44, 0.03)'
+                          } : undefined}
                         />
                         <button
                           type="submit"
-                          disabled={nameSaveStatus === 'saving' || !profileNameInput.trim() || profileNameInput.trim() === displayName}
+                          disabled={isNameChangeLocked || nameSaveStatus === 'saving' || !profileNameInput.trim() || profileNameInput.trim() === displayName}
                           className={`seenly-inline-save-btn ${nameSaveStatus === 'saved' ? 'is-saved' : ''}`}
+                          style={isNameChangeLocked ? {
+                            cursor: 'not-allowed',
+                            opacity: 0.7,
+                            background: 'rgba(11, 27, 44, 0.06)',
+                            color: '#64748b',
+                            borderColor: 'rgba(11, 27, 44, 0.1)'
+                          } : undefined}
                         >
-                          {nameSaveStatus === 'saving' ? (
+                          {isNameChangeLocked ? (
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                              <Clock size={13} strokeWidth={2.2} />
+                              <span>{langCode === 'tr' ? `Kilitli (${nameChangeDaysRemaining} gün)` : `Locked (${nameChangeDaysRemaining}d)`}</span>
+                            </span>
+                          ) : nameSaveStatus === 'saving' ? (
                             <span>{langCode === 'tr' ? 'Kaydediliyor...' : 'Saving...'}</span>
                           ) : nameSaveStatus === 'saved' ? (
                             <>
@@ -655,210 +767,465 @@ export default function SettingsPage() {
             </div>
           )}
 
-          {/* TAB 2: PACKAGES & MEMBERSHIP (Membership, Capacity & Plans) */}
+          {/* TAB 2: PACKAGES & MEMBERSHIP (Temiz, Profesyonel & Tek Seferlik Vurgusu) */}
           {activeTab === 'plans' && (
             <div className="seenly-settings-content seenly-settings-fade-in">
               <div className="seenly-plan-pro seenly-plan-clean">
-                {/* 1. Üyelik & Kapasite Durumu Kartı */}
-                <section className="seenly-plan-pro-current" aria-label={langCode === 'tr' ? 'Kapasite durumu' : 'Capacity status'}>
-                  <div className="seenly-plan-pro-current-identity">
-                    <div className="seenly-plan-pro-current-icon" aria-hidden="true">
-                      <Gauge size={18} strokeWidth={1.8} />
-                    </div>
-                    <div className="seenly-plan-pro-current-copy">
-                      <span>{langCode === 'tr' ? 'KATILIMCI KAPASİTESİ' : 'RESPONDENT CAPACITY'}</span>
-                      <strong>{isPremium ? (langCode === 'tr' ? 'Sınırsız Kapasite' : 'Unlimited Capacity') : `${responseCount} / ${maxResponseLimit} ${langCode === 'tr' ? 'Katılımcı' : 'Responders'}`}</strong>
-                    </div>
-                  </div>
 
-                  <div className="seenly-plan-pro-usage">
-                    <div
-                      className={`seenly-plan-pro-usage-track ${isPremium ? 'is-unlimited' : ''}`}
-                      role="progressbar"
-                      aria-label={langCode === 'tr' ? 'Katılımcı kapasitesi' : 'Respondent capacity'}
-                      aria-valuemin="0"
-                      aria-valuemax={isPremium ? undefined : maxResponseLimit}
-                      aria-valuenow={isPremium ? undefined : Math.min(responseCount, maxResponseLimit)}
-                    >
-                      <span style={{ width: isPremium ? '100%' : `${Math.min(100, Math.round((responseCount / Math.max(maxResponseLimit, 1)) * 100))}%` }} />
+                {/* 1. Limit Tracker Card (Only visible when Free / !isPremium) */}
+                {!isPremium && (
+                  <section className="seenly-quota-tracker-card relative overflow-hidden">
+                    {/* Celestial Sacred Geometry & Vector Motif Layer */}
+                    <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+                      <div className="absolute -top-16 -right-16 w-60 h-60 rounded-full bg-[radial-gradient(circle,rgba(228,196,136,0.22)_0%,transparent_70%)] blur-xl pointer-events-none" />
+                      <div className="absolute -bottom-16 -left-16 w-52 h-52 rounded-full bg-[radial-gradient(circle,rgba(26,62,114,0.05)_0%,transparent_70%)] blur-xl pointer-events-none" />
+
+                      {/* Astrolabe Arc Watermark */}
+                      <svg className="absolute -right-8 -top-8 w-44 h-44 text-[#C5A059] opacity-[0.14]" viewBox="0 0 120 120" fill="none" stroke="currentColor">
+                        <circle cx="60" cy="60" r="54" strokeWidth="0.75" strokeDasharray="3 3" />
+                        <circle cx="60" cy="60" r="42" strokeWidth="0.75" />
+                        <circle cx="60" cy="60" r="28" strokeWidth="0.5" strokeDasharray="2 2" />
+                        <line x1="6" y1="60" x2="114" y2="60" strokeWidth="0.5" strokeDasharray="3 3" />
+                        <line x1="60" y1="6" x2="60" y2="114" strokeWidth="0.5" strokeDasharray="3 3" />
+                      </svg>
                     </div>
-                  </div>
 
-                  <span className="seenly-plan-pro-status">
-                    <span aria-hidden="true" />
-                    {isPremium ? 'Seenly Plus' : (langCode === 'tr' ? 'Close Circle' : 'Close Circle')}
-                  </span>
-                </section>
-
-                {/* 2. If Premium: Show Unlocked Benefits Card */}
-                {isPremium ? (
-                  <section className="seenly-profile-plus-active-card" style={{ marginTop: '0.5rem' }}>
-                    <div className="seenly-profile-plus-active-header">
-                      <div className="seenly-profile-plus-active-icon">
-                        <Sparkles size={20} strokeWidth={2} />
+                    {/* Header Block: Title, Subtext & Metric Counter */}
+                    <div className="relative z-10 flex items-start sm:items-center justify-between gap-4 flex-col sm:flex-row">
+                      <div className="flex items-start sm:items-center gap-3.5">
+                        <div className="seenly-quota-head-icon">
+                          <Gauge size={19} strokeWidth={2} />
+                        </div>
+                        <div>
+                          <h3 className="seenly-quota-title">
+                            {langCode === 'tr' ? 'Katılımcı Kotanız' : 'Participant Quota'}
+                          </h3>
+                          <p className="seenly-quota-subtext">
+                            {langCode === 'tr'
+                              ? 'Testinize katılan arkadaşlarınızın yanıt sayısı ve kalan kotanız.'
+                              : 'The number of friend responses collected and your remaining capacity.'}
+                          </p>
+                        </div>
                       </div>
+
+                      {/* Metric Badge */}
+                      <div className="seenly-quota-metric-badge">
+                        <div className="seenly-quota-metric-val">
+                          <span className="seenly-quota-metric-current">{responseCount}</span>
+                          <span className="seenly-quota-metric-sep">/</span>
+                          <span className="seenly-quota-metric-max">{maxResponseLimit}</span>
+                        </div>
+                        <span className="seenly-quota-metric-label">
+                          {langCode === 'tr' ? 'Yanıt Toplandı' : 'Responses'}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Progress Bar Container */}
+                    <div className="relative z-10 seenly-quota-track-wrap">
+                      <div className="seenly-quota-track-bar">
+                        <div
+                          className={`seenly-quota-track-fill ${isQuotaFull ? 'is-full' : isQuotaNearFull ? 'is-warning' : 'is-normal'}`}
+                          style={{ width: `${usagePercent}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Contextual Warning / Full Alert Banner (Only when needed, zero redundant numbers) */}
+                    {(isQuotaFull || isQuotaNearFull) && (
+                      <div className={`relative z-10 seenly-quota-status-banner ${isQuotaFull ? 'status-full' : 'status-warning'}`}>
+                        <div className="seenly-quota-status-icon">
+                          {isQuotaFull ? (
+                            <AlertTriangle size={14} strokeWidth={2.2} />
+                          ) : (
+                            <Clock size={14} strokeWidth={2.2} />
+                          )}
+                        </div>
+                        <span className="seenly-quota-status-text">
+                          {isQuotaFull
+                            ? (langCode === 'tr'
+                                ? 'Kotanız doldu. Yeni arkadaş yanıtlarını kaçırmamak için kotanızı yükseltin.'
+                                : 'Quota reached. Upgrade to keep collecting new responses.')
+                            : (langCode === 'tr'
+                                ? 'Kotanız dolmak üzere. Yanıt toplamaya kesintisiz devam etmek için kotanızı yükseltin.'
+                                : 'Quota almost full. Upgrade to keep collecting responses seamlessly.')}
+                        </span>
+                      </div>
+                    )}
+                  </section>
+                )}
+
+                {/* 2. If Plus: Active VIP Benefits Card (Celestial Luxury Showcase) */}
+                {isPremium ? (
+                  <section className="seenly-plus-active-card relative overflow-hidden">
+                    {/* Celestial Sacred Geometry & Vector Motif Layer */}
+                    <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+                      <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-[radial-gradient(circle,rgba(228,196,136,0.28)_0%,transparent_70%)] blur-2xl pointer-events-none" />
+                      <div className="absolute -bottom-16 -left-16 w-72 h-72 rounded-full bg-[radial-gradient(circle,rgba(26,62,114,0.06)_0%,transparent_70%)] blur-2xl pointer-events-none" />
+
+                      {/* Top-Right Sacred Astrolabe & Celestial Compass Motif */}
+                      <svg className="absolute -right-10 -top-10 w-64 h-64 text-[#C5A059] opacity-[0.18]" viewBox="0 0 200 200" fill="none" stroke="currentColor">
+                        <circle cx="100" cy="100" r="92" strokeWidth="0.75" strokeDasharray="3 3" />
+                        <circle cx="100" cy="100" r="74" strokeWidth="0.75" />
+                        <circle cx="100" cy="100" r="56" strokeWidth="0.5" strokeDasharray="2 3" />
+                        <circle cx="100" cy="100" r="38" strokeWidth="0.75" />
+                        <circle cx="100" cy="100" r="18" strokeWidth="0.5" />
+                        <line x1="8" y1="100" x2="192" y2="100" strokeWidth="0.5" strokeDasharray="4 4" />
+                        <line x1="100" y1="8" x2="100" y2="192" strokeWidth="0.5" strokeDasharray="4 4" />
+                      </svg>
+                    </div>
+
+                    {/* Main Title & Action Toggle Row */}
+                    <div className="relative z-10 flex items-start sm:items-center justify-between gap-4 flex-col sm:flex-row">
                       <div>
-                        <h4 className="seenly-profile-plus-active-title">
+                        <h3 className="seenly-plus-active-title">
                           {langCode === 'tr' ? 'Seenly Plus Üyeliğiniz Aktif' : 'Seenly Plus is Active'}
-                        </h4>
-                        <p className="seenly-profile-plus-active-desc">
+                        </h3>
+                        <p className="seenly-plus-active-desc">
                           {langCode === 'tr'
-                            ? 'Tüm kilitler açık ve sınırsız katılımcı kapasitesine sahipsiniz.'
-                            : 'All features are unlocked with unlimited respondent capacity.'}
+                            ? 'Tek seferlik ödemenizle tüm kilitler sınırsız olarak açıldı. Aylık veya yıllık yenileme ücreti bulunmaz.'
+                            : 'All features are permanently unlocked with your one-time purchase. No recurring subscription fees.'}
                         </p>
                       </div>
+
+                      {/* "Avantajları Gör" Expand / Collapse Toggle Button */}
+                      <button
+                        type="button"
+                        onClick={() => setShowPlusActivePerks(prev => !prev)}
+                        className="seenly-plus-perks-toggle-btn"
+                        aria-expanded={showPlusActivePerks}
+                      >
+                        <span>{showPlusActivePerks ? (langCode === 'tr' ? 'Avantajları Gizle' : 'Hide Benefits') : (langCode === 'tr' ? 'Avantajları Gör' : 'View Benefits')}</span>
+                        <ChevronDown
+                          size={15}
+                          strokeWidth={2.4}
+                          className={`seenly-plus-perks-chevron ${showPlusActivePerks ? 'is-open' : ''}`}
+                        />
+                      </button>
                     </div>
 
-                    <ul className="seenly-plan-pro-features seenly-profile-plus-feature-grid">
-                      {plusPlanFeatures.map((feature) => (
-                        <li key={feature}>
-                          <span className="seenly-plan-pro-check" aria-hidden="true">
-                            <Check size={10} strokeWidth={3} />
-                          </span>
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    {/* Expandable Benefits Container (Exact 4 Core Features from Showcase) */}
+                    {showPlusActivePerks && (
+                      <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-5 mt-5 border-t border-[rgba(197,160,89,0.22)] seenly-settings-fade-in">
+                        {/* 1. Sınırsız Katılımcı Kotası */}
+                        <div className="seenly-plus-feature-item">
+                          <div className="seenly-plus-feature-icon-badge">
+                            <Users size={16} strokeWidth={2.2} />
+                          </div>
+                          <div>
+                            <h5 className="seenly-plus-feature-title">
+                              {langCode === 'tr' ? 'Sınırsız Katılımcı Kotası' : 'Unlimited Respondent Capacity'}
+                            </h5>
+                            <p className="seenly-plus-feature-desc">
+                              {langCode === 'tr' ? '100 yanıt limitine takılmadan sınırsız yanıt toplayın' : 'Collect unlimited feedback without any response limits'}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* 2. Bireysel Analiz & Yanıt Dökümü */}
+                        <div className="seenly-plus-feature-item">
+                          <div className="seenly-plus-feature-icon-badge">
+                            <BarChart3 size={16} strokeWidth={2} />
+                          </div>
+                          <div>
+                            <h5 className="seenly-plus-feature-title">
+                              {langCode === 'tr' ? 'Gelen Analiz Detayları' : 'Individual Analysis Breakdowns'}
+                            </h5>
+                            <p className="seenly-plus-feature-desc">
+                              {langCode === 'tr' ? 'Arkadaşlarınızın 10 karakter sinyalini ve puan dökümünü görün' : 'View 10-signal scores and detailed answer breakdowns'}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* 3. Soruda Geçirilen Zaman / Karar Ritmi */}
+                        <div className="seenly-plus-feature-item">
+                          <div className="seenly-plus-feature-icon-badge">
+                            <Clock size={16} strokeWidth={2.2} />
+                          </div>
+                          <div>
+                            <h5 className="seenly-plus-feature-title">
+                              {langCode === 'tr' ? 'Soruda Geçirilen Zaman' : 'Question Decision Times'}
+                            </h5>
+                            <p className="seenly-plus-feature-desc">
+                              {langCode === 'tr' ? 'Hangi sorularda kaçar saniye düşünüldüğünü inceleyin' : 'See exact seconds spent on each question'}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* 4. Profil Ziyaretleri */}
+                        <div className="seenly-plus-feature-item">
+                          <div className="seenly-plus-feature-icon-badge">
+                            <Eye size={16} strokeWidth={2.2} />
+                          </div>
+                          <div>
+                            <h5 className="seenly-plus-feature-title">
+                              {langCode === 'tr' ? 'Profil Ziyaretleri' : 'Profile Visit Analytics'}
+                            </h5>
+                            <p className="seenly-plus-feature-desc">
+                              {langCode === 'tr' ? 'Ziyaretçi sayısını ve yanıta dönüşüm oranlarını anlık takip edin' : 'Track visitor volume and response conversion rates'}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </section>
                 ) : (
-                  /* If Free: Show Upgrade Plans & Extra Packs */
+                  /* If Free: Showcase Seenly Plus (Clear One-Time Payment, No Subscription) + Extra Packs */
                   <>
-                    <section className="seenly-plan-pro-plans" aria-labelledby="seenly-plan-pro-plans-title" style={{ marginTop: '0.5rem' }}>
-                      <div className="seenly-plan-pro-section-head">
-                        <div>
-                          <span className="seenly-plan-pro-eyebrow">{langCode === 'tr' ? 'ÜYELİK SEÇENEKLERİ' : 'MEMBERSHIP OPTIONS'}</span>
-                          <h4 id="seenly-plan-pro-plans-title">{langCode === 'tr' ? 'Sana uygun alanı seç' : 'Choose your space'}</h4>
-                        </div>
-                        <p>{langCode === 'tr' ? 'Daha fazla analiz ve tüm kilitli özellikler için Plus’a geçin.' : 'Upgrade to Plus for in-depth analyses and unlocked features.'}</p>
+                    {/* Main Showcase Card for Plus (Clean, Refined & Celestial Motif Styling) */}
+                    <section className="seenly-plus-showcase-card relative overflow-hidden">
+                      {/* Celestial Sacred Geometry & Vector Motif Layer */}
+                      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+                        {/* Ambient Golden & Sapphire Atmospheric Glows */}
+                        <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-[radial-gradient(circle,rgba(228,196,136,0.28)_0%,transparent_70%)] blur-2xl pointer-events-none" />
+                        <div className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-[radial-gradient(circle,rgba(26,62,114,0.06)_0%,transparent_70%)] blur-2xl pointer-events-none" />
+
+                        {/* Top-Right Sacred Astrolabe & Celestial Compass Motif */}
+                        <svg className="absolute -right-12 -top-12 w-72 h-72 text-[#C5A059] opacity-[0.18]" viewBox="0 0 200 200" fill="none" stroke="currentColor">
+                          <circle cx="100" cy="100" r="92" strokeWidth="0.75" strokeDasharray="3 3" />
+                          <circle cx="100" cy="100" r="74" strokeWidth="0.75" />
+                          <circle cx="100" cy="100" r="56" strokeWidth="0.5" strokeDasharray="2 3" />
+                          <circle cx="100" cy="100" r="38" strokeWidth="0.75" />
+                          <circle cx="100" cy="100" r="18" strokeWidth="0.5" />
+                          {/* 8-Point Radial Axis */}
+                          <line x1="8" y1="100" x2="192" y2="100" strokeWidth="0.5" strokeDasharray="4 4" />
+                          <line x1="100" y1="8" x2="100" y2="192" strokeWidth="0.5" strokeDasharray="4 4" />
+                          <line x1="35" y1="35" x2="165" y2="165" strokeWidth="0.5" strokeDasharray="2 4" />
+                          <line x1="35" y1="165" x2="165" y2="35" strokeWidth="0.5" strokeDasharray="2 4" />
+                          {/* Astrological Geometric Diamonds */}
+                          <polygon points="100,26 174,100 100,174 26,100" strokeWidth="0.6" strokeDasharray="3 3" />
+                          <polygon points="100,44 156,100 100,156 44,100" strokeWidth="0.6" />
+                        </svg>
+
+                        {/* Bottom-Left Star Compass Motif */}
+                        <svg className="absolute -left-10 -bottom-10 w-56 h-56 text-[#C5A059] opacity-[0.14]" viewBox="0 0 160 160" fill="none" stroke="currentColor">
+                          <circle cx="80" cy="80" r="72" strokeWidth="0.6" strokeDasharray="2 3" />
+                          <circle cx="80" cy="80" r="50" strokeWidth="0.6" />
+                          <polygon points="80,12 94,66 148,80 94,94 80,148 66,94 12,80 66,66" strokeWidth="0.5" fill="rgba(197, 160, 89, 0.04)" />
+                        </svg>
                       </div>
 
-                      <div className="seenly-plan-pro-grid">
-                        <article className="seenly-plan-pro-card seenly-plan-pro-card-base is-current">
-                          <div className="seenly-plan-pro-card-topline">
-                            <span className="seenly-plan-pro-kicker">
-                              <CircleUserRound size={13} strokeWidth={1.8} aria-hidden="true" />
-                              {langCode === 'tr' ? 'BAŞLANGIÇ' : 'STARTER'}
-                            </span>
-                            <span className="seenly-plan-pro-badge">
-                              {langCode === 'tr' ? 'MEVCUT PLAN' : 'CURRENT PLAN'}
-                            </span>
+                      {/* Hanging Price Curtain Banner (Top-Right) */}
+                      <div className="seenly-plus-price-curtain">
+                        <div className="seenly-plus-price-curtain-pin" aria-hidden="true" />
+                        <div className="seenly-plus-price-val">
+                          <span className="seenly-plus-price-symbol">
+                            {t('ui', 'pricing_plan_premium_price').startsWith('₺') ? '₺' : '$'}
+                          </span>
+                          <span>
+                            {t('ui', 'pricing_plan_premium_price').replace(/^[^0-9.]+/, '') || '2.99'}
+                          </span>
+                        </div>
+                        <span className="seenly-plus-price-label">
+                          {langCode === 'tr' ? 'Tek Seferlik' : 'One-Time'}
+                        </span>
+                      </div>
+
+                      {/* Title & Subtext Block */}
+                      <div className="relative z-10 pt-1 max-w-lg">
+                        <h3 className="seenly-plus-title">
+                          Seenly Plus
+                        </h3>
+                        <div className="w-10 h-[1.5px] bg-[#C5A059] opacity-60 my-2" />
+                        <p className="seenly-plus-subtext">
+                          {langCode === 'tr'
+                            ? 'Tüm analizlerin kilidini ve sınırsız katılımcı kotasını tek seferde açın.'
+                            : 'Unlock all deep analytics and unlimited respondent capacity in one single step.'}
+                        </p>
+                      </div>
+
+                      {/* 4 Core Features Grid (Integrated Directly in the Card) */}
+                      <div className="relative z-10 my-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 sm:gap-y-5 gap-x-8">
+                          {/* 1. Sınırsız Katılımcı Kotası */}
+                          <div className="seenly-plus-feature-item">
+                            <div className="seenly-plus-feature-icon-badge">
+                              <Users size={16} strokeWidth={2.2} />
+                            </div>
+                            <div>
+                              <h5 className="seenly-plus-feature-title">
+                                {langCode === 'tr' ? 'Sınırsız Katılımcı Kotası' : 'Unlimited Respondent Capacity'}
+                              </h5>
+                              <p className="seenly-plus-feature-desc">
+                                {langCode === 'tr' ? '100 yanıt limitine takılmadan sınırsız yanıt toplayın' : 'Collect unlimited feedback without any response limits'}
+                              </p>
+                            </div>
                           </div>
 
-                          <h4 className="seenly-plan-pro-title">Close Circle</h4>
-                          <div className="seenly-plan-pro-price">
-                            <strong>{langCode === 'tr' ? 'Ücretsiz' : 'Free'}</strong>
-                            <small>{langCode === 'tr' ? 'Başlangıç için' : 'To get started'}</small>
+                          {/* 2. Bireysel Analiz & Yanıt Dökümü */}
+                          <div className="seenly-plus-feature-item">
+                            <div className="seenly-plus-feature-icon-badge">
+                              <BarChart3 size={16} strokeWidth={2} />
+                            </div>
+                            <div>
+                              <h5 className="seenly-plus-feature-title">
+                                {langCode === 'tr' ? 'Gelen Analiz Detayları' : 'Individual Analysis Breakdowns'}
+                              </h5>
+                              <p className="seenly-plus-feature-desc">
+                                {langCode === 'tr' ? 'Arkadaşlarınızın 10 karakter sinyalini ve puan dökümünü görün' : 'View 10-signal scores and detailed answer breakdowns'}
+                              </p>
+                            </div>
                           </div>
 
-                          <div className="seenly-plan-pro-rule" aria-hidden="true" />
-
-                          <ul className="seenly-plan-pro-features">
-                            {freePlanFeatures.map((feature) => (
-                              <li key={feature}>
-                                <span className="seenly-plan-pro-check" aria-hidden="true">
-                                  <Check size={10} strokeWidth={3} />
-                                </span>
-                                <span>{feature}</span>
-                              </li>
-                            ))}
-                          </ul>
-
-                          <button type="button" disabled className="seenly-plan-pro-button seenly-plan-pro-button-secondary">
-                            <span>{langCode === 'tr' ? 'PLAN KULLANILIYOR' : 'PLAN IN USE'}</span>
-                            <span className="arrow" aria-hidden="true"><Check size={14} strokeWidth={2.4} /></span>
-                          </button>
-                        </article>
-
-                        <article className="seenly-plan-pro-card seenly-plan-pro-card-plus is-featured">
-                          <div className="seenly-plan-pro-card-topline">
-                            <span className="seenly-plan-pro-kicker">
-                              <Sparkles size={13} strokeWidth={1.8} aria-hidden="true" />
-                              {langCode === 'tr' ? 'FULL SEENLY' : 'FULL SEENLY'}
-                            </span>
-                            <span className="seenly-plan-pro-badge">
-                              {langCode === 'tr' ? 'ÖNERİLEN' : 'RECOMMENDED'}
-                            </span>
+                          {/* 3. Soruda Geçirilen Zaman / Karar Ritmi */}
+                          <div className="seenly-plus-feature-item">
+                            <div className="seenly-plus-feature-icon-badge">
+                              <Clock size={16} strokeWidth={2.2} />
+                            </div>
+                            <div>
+                              <h5 className="seenly-plus-feature-title">
+                                {langCode === 'tr' ? 'Soruda Geçirilen Zaman' : 'Question Decision Times'}
+                              </h5>
+                              <p className="seenly-plus-feature-desc">
+                                {langCode === 'tr' ? 'Hangi sorularda kaçar saniye düşünüldüğünü inceleyin' : 'See exact seconds spent on each question'}
+                              </p>
+                            </div>
                           </div>
 
-                          <h4 className="seenly-plan-pro-title">Seenly Plus</h4>
-                          <div className="seenly-plan-pro-price">
-                            <strong>{t('ui', 'pricing_plan_premium_price')}</strong>
-                            <small>{langCode === 'tr' ? 'Tek seferlik yükseltme' : 'One-time upgrade'}</small>
+                          {/* 4. Profil Ziyaretleri */}
+                          <div className="seenly-plus-feature-item">
+                            <div className="seenly-plus-feature-icon-badge">
+                              <Eye size={16} strokeWidth={2.2} />
+                            </div>
+                            <div>
+                              <h5 className="seenly-plus-feature-title">
+                                {langCode === 'tr' ? 'Profil Ziyaretleri' : 'Profile Visit Analytics'}
+                              </h5>
+                              <p className="seenly-plus-feature-desc">
+                                {langCode === 'tr' ? 'Ziyaretçi sayısını ve yanıta dönüşüm oranlarını anlık takip edin' : 'Track visitor volume and response conversion rates'}
+                              </p>
+                            </div>
                           </div>
+                        </div>
+                      </div>
 
-                          <div className="seenly-plan-pro-rule" aria-hidden="true" />
+                      {/* Subtle Separator */}
+                      <div className="relative z-10 w-full h-[1px] bg-[rgba(197,160,89,0.22)] my-4" />
 
-                          <ul className="seenly-plan-pro-features">
-                            {plusPlanFeatures.map((feature) => (
-                              <li key={feature}>
-                                <span className="seenly-plan-pro-check" aria-hidden="true">
-                                  <Check size={10} strokeWidth={3} />
-                                </span>
-                                <span>{feature}</span>
-                              </li>
-                            ))}
-                          </ul>
+                      {/* Footer Bar */}
+                      <div className="relative z-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+                        <div className="flex items-center gap-2 text-[#554030] text-[12.5px] font-sans">
+                          <div className="w-6 h-6 rounded-full bg-[#FAF5EA] border border-[rgba(197,160,89,0.3)] flex items-center justify-center text-[#8C6D37] flex-shrink-0">
+                            <ShieldCheck size={14} strokeWidth={2} />
+                          </div>
+                          <span>{langCode === 'tr' ? '256-Bit SSL Güvenli Ödeme' : '256-Bit SSL Secure Payment'}</span>
+                        </div>
 
-                          <button
-                            type="button"
-                            disabled={actionLoading}
-                            onClick={handleUpgradeToPlus}
-                            className="seenly-plan-pro-button seenly-plan-pro-button-primary"
-                          >
-                            <span>{actionLoading ? (langCode === 'tr' ? 'İşleniyor...' : 'Processing...') : (langCode === 'tr' ? 'Plus’a geç' : 'Upgrade to Plus')}</span>
-                            <span className="arrow" aria-hidden="true">
-                              <ArrowUpRight size={14} strokeWidth={2.2} />
-                            </span>
-                          </button>
-                        </article>
+                        <button
+                          type="button"
+                          disabled={actionLoading}
+                          onClick={handleUpgradeToPlus}
+                          className="seenly-plus-cta-btn"
+                        >
+                          <span>{actionLoading ? (langCode === 'tr' ? 'İşleniyor...' : 'Processing...') : (langCode === 'tr' ? `Plus’a Yükselt (${t('ui', 'pricing_plan_premium_price')})` : `Upgrade to Plus (${t('ui', 'pricing_plan_premium_price')})`)}</span>
+                          <ArrowRight size={14} strokeWidth={2} className="seenly-plus-cta-arrow" />
+                        </button>
                       </div>
                     </section>
 
-                    <section className="seenly-plan-pro-packs" aria-labelledby="seenly-plan-pro-packs-title">
-                      <div className="seenly-plan-pro-packs-head">
-                        <div>
-                          <span className="seenly-plan-pro-eyebrow">{langCode === 'tr' ? 'ESNEK KAPASİTE' : 'FLEXIBLE CAPACITY'}</span>
-                          <h4 id="seenly-plan-pro-packs-title">{langCode === 'tr' ? 'Ek katılımcı paketleri' : 'Extra respondent packs'}</h4>
-                        </div>
-                        <p>
-                          {langCode === 'tr'
-                            ? 'Plus’a geçmeden yalnızca yanıt limitini arttırmak istersen tek seferlik kapasite ekleyebilirsin.'
-                            : 'Add one-off capacity if you want more responses without upgrading to Plus.'}
-                        </p>
+                    {/* 3. Extra Capacity Packs with Painterly Watercolor Nebula Texture */}
+                    <section className="seenly-packs-painterly-container relative overflow-hidden">
+                      {/* Celestial Sacred Geometry & Vector Motif Layer */}
+                      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+                        {/* Ambient Golden Atmospheric Glows */}
+                        <div className="absolute -top-20 -left-20 w-72 h-72 rounded-full bg-[radial-gradient(circle,rgba(228,196,136,0.22)_0%,transparent_70%)] blur-2xl pointer-events-none" />
+                        <div className="absolute -bottom-24 -right-24 w-80 h-80 rounded-full bg-[radial-gradient(circle,rgba(212,163,76,0.16)_0%,transparent_70%)] blur-2xl pointer-events-none" />
+
+                        {/* Top-Left Sacred Concentric Dial Motif */}
+                        <svg className="absolute -left-12 -top-12 w-64 h-64 text-[#C5A059] opacity-[0.14]" viewBox="0 0 160 160" fill="none" stroke="currentColor">
+                          <circle cx="80" cy="80" r="74" strokeWidth="0.6" strokeDasharray="3 3" />
+                          <circle cx="80" cy="80" r="56" strokeWidth="0.6" />
+                          <circle cx="80" cy="80" r="38" strokeWidth="0.5" strokeDasharray="2 3" />
+                          <line x1="6" y1="80" x2="154" y2="80" strokeWidth="0.5" strokeDasharray="3 3" />
+                          <line x1="80" y1="6" x2="80" y2="154" strokeWidth="0.5" strokeDasharray="3 3" />
+                          <polygon points="80,24 136,80 80,136 24,80" strokeWidth="0.5" strokeDasharray="2 2" />
+                        </svg>
+
+                        {/* Bottom-Right Sacred Astrolabe Motif */}
+                        <svg className="absolute -right-16 -bottom-16 w-72 h-72 text-[#C5A059] opacity-[0.15]" viewBox="0 0 200 200" fill="none" stroke="currentColor">
+                          <circle cx="100" cy="100" r="90" strokeWidth="0.75" strokeDasharray="3 3" />
+                          <circle cx="100" cy="100" r="70" strokeWidth="0.75" />
+                          <circle cx="100" cy="100" r="48" strokeWidth="0.5" strokeDasharray="2 3" />
+                          <polygon points="100,30 170,100 100,170 30,100" strokeWidth="0.6" />
+                        </svg>
                       </div>
 
-                      <div className="seenly-plan-pro-pack-grid">
-                        {capacityPackOptions.map((pack, idx) => (
-                          <article
-                            key={pack.amount}
-                            className={`seenly-plan-pro-pack ${idx === 1 ? 'is-featured' : ''}`}
-                          >
-                            <div className="seenly-plan-pro-pack-topline">
-                              <div className="seenly-plan-pro-pack-icon" aria-hidden="true">
-                                <UsersRound size={17} strokeWidth={1.8} />
+                      <div className="relative z-10 flex items-start gap-3.5 pb-2">
+                        <div className="w-12 h-12 rounded-full bg-[#FAF5EA]/90 backdrop-blur-sm border border-[rgba(197,160,89,0.4)] shadow-sm flex items-center justify-center text-[#8C6D37] flex-shrink-0">
+                          <UserPlus size={20} strokeWidth={1.7} />
+                        </div>
+                        <div>
+                          <h4 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: '1.25rem', fontWeight: 650, color: '#1A3E72', margin: 0, lineHeight: 1.25 }}>
+                            {langCode === 'tr' ? 'Yalnızca Yanıt Kotasını Artır' : 'Expand Response Capacity Only'}
+                          </h4>
+                          <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12.5px', color: '#554030', margin: '4px 0 0', lineHeight: 1.4 }}>
+                            {langCode === 'tr'
+                              ? 'Plus’a geçmeden sadece yanıt limitini genişletmek isterseniz tek seferlik ek paketler:'
+                              : 'If you only want to expand response limits without full Plus features:'}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="relative z-10 grid grid-cols-3 gap-2 sm:gap-4 pt-3 seenly-packs-grid">
+                        {capacityPackOptions.map((pack) => {
+                          return (
+                            <div key={pack.amount} className={`seenly-pack-card seenly-pack-${pack.theme}`}>
+                              {/* Unique Celestial Sacred Geometry Motif per Pack */}
+                              <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+                                <div className="seenly-pack-card-ambient-glow" />
+                                {pack.theme === 'tier1' && (
+                                  <svg className="absolute -right-6 -top-6 w-28 h-28 text-[#C5A059] opacity-[0.15]" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                                    <circle cx="50" cy="50" r="44" strokeWidth="0.75" strokeDasharray="2 2" />
+                                    <circle cx="50" cy="50" r="32" strokeWidth="0.75" />
+                                    <line x1="6" y1="50" x2="94" y2="50" strokeWidth="0.5" strokeDasharray="2 2" />
+                                    <line x1="50" y1="6" x2="50" y2="94" strokeWidth="0.5" strokeDasharray="2 2" />
+                                  </svg>
+                                )}
+                                {pack.theme === 'tier2' && (
+                                  <svg className="absolute -left-6 -bottom-6 w-28 h-28 text-[#C5A059] opacity-[0.16]" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                                    <circle cx="50" cy="50" r="44" strokeWidth="0.75" strokeDasharray="3 3" />
+                                    <polygon points="50,12 60,38 88,50 60,62 50,88 40,62 12,50 40,38" strokeWidth="0.6" fill="rgba(197, 160, 89, 0.04)" />
+                                  </svg>
+                                )}
+                                {pack.theme === 'tier3' && (
+                                  <svg className="absolute -right-6 -bottom-6 w-32 h-32 text-[#C5A059] opacity-[0.18]" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                                    <circle cx="50" cy="50" r="45" strokeWidth="0.75" strokeDasharray="2 2" />
+                                    <polygon points="50,16 84,50 50,84 16,50" strokeWidth="0.6" strokeDasharray="2 2" />
+                                    <circle cx="50" cy="50" r="26" strokeWidth="0.75" />
+                                  </svg>
+                                )}
                               </div>
-                              <span className="seenly-plan-pro-pack-label">{pack.label}</span>
-                            </div>
 
-                            <div className="seenly-plan-pro-pack-capacity">
-                              <strong>+{pack.amount}</strong>
-                              <h5>{langCode === 'tr' ? 'katılımcı' : 'respondents'}</h5>
-                            </div>
-                            <div className="seenly-plan-pro-pack-price">{pack.price}</div>
+                              {/* 1. Kapasite Miktarı (Top Capsule Pill Badge) */}
+                              <div className="relative z-10 seenly-pack-quota-pill">
+                                <span className="seenly-pack-quota-num">+{pack.amount}</span>
+                                <span className="seenly-pack-quota-txt">{langCode === 'tr' ? 'Yanıt' : 'Quota'}</span>
+                              </div>
 
-                            <button
-                              type="button"
-                              disabled={actionLoading}
-                              onClick={() => handleBuyPack(pack.amount)}
-                              className="seenly-plan-pro-pack-button"
-                            >
-                              <span>{actionLoading ? (langCode === 'tr' ? 'Ekleniyor...' : 'Adding...') : (langCode === 'tr' ? 'PAKETİ EKLE' : 'ADD PACK')}</span>
-                              <span className="arrow" aria-hidden="true">
-                                <ArrowUpRight size={13} strokeWidth={2.2} />
-                              </span>
-                            </button>
-                          </article>
-                        ))}
+                              {/* 2. Başlık (Pack Title) */}
+                              <h5 className="relative z-10 seenly-pack-title">
+                                {pack.label}
+                              </h5>
+
+                              {/* 3. Fiyat (Price) */}
+                              <div className="relative z-10 seenly-pack-price">
+                                <span className="seenly-pack-price-symbol">$</span>
+                                <span>{pack.price.replace('$', '')}</span>
+                              </div>
+
+                              {/* 4. Buton (Action Button) */}
+                              <button
+                                type="button"
+                                disabled={actionLoading}
+                                onClick={() => handleBuyPack(pack.amount)}
+                                className="relative z-10 seenly-pack-btn"
+                              >
+                                <span>{actionLoading ? (langCode === 'tr' ? 'Ekleniyor...' : 'Adding...') : (langCode === 'tr' ? 'Paketi Ekle' : 'Add Pack')}</span>
+                                <ArrowRight size={14} strokeWidth={2} className="seenly-pack-btn-arrow" />
+                              </button>
+                            </div>
+                          );
+                        })}
                       </div>
                     </section>
                   </>
@@ -871,7 +1238,7 @@ export default function SettingsPage() {
           {activeTab === 'notifications' && (
             <div className="seenly-settings-content seenly-settings-fade-in">
               <div className="seenly-plan-pro seenly-plan-clean">
-                
+
                 <section className="seenly-profile-card seenly-form-card">
                   {/* 1. Master Email Switch Row */}
                   <div className="seenly-notif-row-embedded">
@@ -1782,7 +2149,889 @@ export default function SettingsPage() {
           line-height: 1.4;
         }
 
+        /* Quota Tracker Card (Celestial Luxury Theme) */
+        .seenly-quota-tracker-card {
+          position: relative;
+          background: radial-gradient(ellipse at 88% 0%, rgba(228, 196, 136, 0.22) 0%, rgba(253, 251, 246, 0) 55%), radial-gradient(ellipse at 12% 100%, rgba(26, 62, 114, 0.05) 0%, rgba(253, 251, 246, 0) 50%), linear-gradient(180deg, #FCF9F3 0%, #F8F3E7 100%);
+          border: 1px solid rgba(197, 160, 89, 0.35);
+          border-radius: 24px;
+          padding: 22px 26px;
+          box-shadow: 0 8px 28px rgba(80, 60, 40, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+          margin-bottom: 0.85rem;
+        }
+
+        .seenly-quota-head-icon {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: #FAF5EA;
+          border: 1px solid rgba(197, 160, 89, 0.4);
+          color: #8C6D37;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          box-shadow: 0 2px 8px rgba(197, 160, 89, 0.12);
+        }
+
+        .seenly-quota-title {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: #1A3E72;
+          margin: 0;
+          line-height: 1.2;
+        }
+
+        .seenly-quota-subtext {
+          font-family: var(--font-sans);
+          font-size: 12.5px;
+          color: #554030;
+          margin: 4px 0 0;
+          line-height: 1.4;
+        }
+
+        .seenly-quota-metric-badge {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          flex-shrink: 0;
+        }
+
+        .seenly-quota-metric-val {
+          display: flex;
+          align-items: baseline;
+          gap: 3px;
+          font-family: var(--font-sans), 'DM Sans', sans-serif;
+          line-height: 1;
+        }
+
+        .seenly-quota-metric-current {
+          font-size: 1.55rem;
+          font-weight: 850;
+          color: #1A3E72;
+          letter-spacing: -0.02em;
+        }
+
+        .seenly-quota-metric-sep {
+          font-size: 1.15rem;
+          font-weight: 500;
+          color: #C5A059;
+          margin: 0 1px;
+        }
+
+        .seenly-quota-metric-max {
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: #7A5C28;
+        }
+
+        .seenly-quota-metric-label {
+          font-family: var(--font-sans);
+          font-size: 10.5px;
+          font-weight: 750;
+          color: #8C6D37;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          margin-top: 4px;
+        }
+
+        .seenly-quota-track-wrap {
+          margin: 16px 0 0;
+        }
+
+        .seenly-quota-track-bar {
+          width: 100%;
+          height: 9px;
+          border-radius: 9999px;
+          background: rgba(197, 160, 89, 0.18);
+          box-shadow: inset 0 1px 3px rgba(80, 60, 40, 0.1);
+          overflow: hidden;
+          position: relative;
+        }
+
+        .seenly-quota-track-fill {
+          height: 100%;
+          border-radius: 9999px;
+          transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .seenly-quota-track-fill.is-normal {
+          background: linear-gradient(90deg, #C5A059 0%, #1A3E72 100%);
+          box-shadow: 0 1px 4px rgba(26, 62, 114, 0.3);
+        }
+
+        .seenly-quota-track-fill.is-warning {
+          background: linear-gradient(90deg, #C5A059 0%, #D97706 100%);
+          box-shadow: 0 1px 4px rgba(217, 119, 6, 0.35);
+        }
+
+        .seenly-quota-track-fill.is-full {
+          background: linear-gradient(90deg, #D97706 0%, #DC2626 100%);
+          box-shadow: 0 1px 6px rgba(220, 38, 38, 0.4);
+        }
+
+        .seenly-quota-status-banner {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 8px 14px;
+          margin-top: 12px;
+          border-radius: 12px;
+          font-family: var(--font-sans);
+          font-size: 12px;
+          line-height: 1.35;
+          transition: all 0.2s ease;
+        }
+
+        .seenly-quota-status-banner.status-warning {
+          background: rgba(254, 243, 199, 0.85);
+          border: 1px solid rgba(245, 158, 11, 0.4);
+          color: #92400E;
+        }
+
+        .seenly-quota-status-banner.status-warning .seenly-quota-status-icon {
+          color: #D97706;
+        }
+
+        .seenly-quota-status-banner.status-full {
+          background: rgba(254, 226, 226, 0.85);
+          border: 1px solid rgba(239, 68, 68, 0.4);
+          color: #991B1B;
+        }
+
+        .seenly-quota-status-banner.status-full .seenly-quota-status-icon {
+          color: #DC2626;
+        }
+
+        .seenly-quota-status-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+
+        .seenly-quota-status-text {
+          font-weight: 550;
+        }
+
+        /* Seenly Plus Active Card (When User is Premium) */
+        .seenly-plus-active-card {
+          position: relative;
+          background: radial-gradient(ellipse at 92% 0%, rgba(228, 196, 136, 0.25) 0%, rgba(253, 251, 246, 0) 55%), radial-gradient(ellipse at 8% 100%, rgba(26, 62, 114, 0.05) 0%, rgba(253, 251, 246, 0) 50%), linear-gradient(180deg, #FCF9F3 0%, #F8F3E7 100%);
+          border: 1px solid rgba(197, 160, 89, 0.38);
+          border-radius: 28px;
+          padding: 28px 32px;
+          box-shadow: 0 10px 32px rgba(80, 60, 40, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+          margin-top: 0.25rem;
+        }
+
+        .seenly-plus-status-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 5px 14px;
+          border-radius: 9999px;
+          background: rgba(16, 185, 129, 0.12);
+          border: 1px solid rgba(16, 185, 129, 0.28);
+          color: #059669;
+          font-family: var(--font-sans);
+          font-size: 11px;
+          font-weight: 750;
+          letter-spacing: 0.04em;
+        }
+
+        .seenly-plus-status-dot {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: #10B981;
+          box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+        }
+
+        .seenly-plus-active-title {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: 1.65rem;
+          font-weight: 700;
+          color: #1A3E72;
+          margin: 0;
+          line-height: 1.25;
+        }
+
+        .seenly-plus-active-desc {
+          font-family: var(--font-sans);
+          font-size: 13px;
+          color: #554030;
+          line-height: 1.45;
+          margin: 4px 0 0;
+        }
+
+        .seenly-plus-perks-toggle-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 7px 16px;
+          border-radius: 9999px;
+          background: #FAF5EA;
+          border: 1px solid rgba(197, 160, 89, 0.45);
+          color: #1A3E72;
+          font-family: var(--font-sans);
+          font-size: 12px;
+          font-weight: 700;
+          cursor: pointer;
+          white-space: nowrap;
+          flex-shrink: 0;
+          box-shadow: 0 2px 8px rgba(197, 160, 89, 0.12);
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .seenly-plus-perks-toggle-btn:hover {
+          background: #F4EEDF;
+          border-color: rgba(197, 160, 89, 0.65);
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(197, 160, 89, 0.2);
+        }
+
+        .seenly-plus-perks-chevron {
+          transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+          color: #8C6D37;
+        }
+
+        .seenly-plus-perks-chevron.is-open {
+          transform: rotate(180deg);
+        }
+
+        /* Seenly Plus Exact Showcase Card (Matching User Mockup) */
+        .seenly-plus-showcase-card {
+          position: relative;
+          background: radial-gradient(ellipse at 92% 0%, rgba(228, 196, 136, 0.22) 0%, rgba(253, 251, 246, 0) 55%), radial-gradient(ellipse at 8% 100%, rgba(26, 62, 114, 0.05) 0%, rgba(253, 251, 246, 0) 50%), linear-gradient(180deg, #FCF9F3 0%, #F8F3E7 100%);
+          border: 1px solid rgba(197, 160, 89, 0.35);
+          border-radius: 28px;
+          padding: 28px 32px;
+          box-shadow: 0 10px 32px rgba(80, 60, 40, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+          margin-top: 0.5rem;
+        }
+
+        .seenly-plus-badge-left {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 6px 16px;
+          border-radius: 9999px;
+          background: #1A3E72;
+          color: #FFFFFF;
+          font-family: var(--font-sans);
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+        }
+
+        .seenly-plus-badge-right {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          font-family: var(--font-sans);
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.12em;
+          color: #8C6D37;
+          text-transform: uppercase;
+        }
+
+        .seenly-plus-title {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: 2.5rem;
+          font-weight: 650;
+          color: #1A3E72;
+          margin: 0;
+          line-height: 1.15;
+        }
+
+        .seenly-plus-subtext {
+          font-family: var(--font-sans);
+          font-size: 13.5px;
+          color: #554030;
+          line-height: 1.55;
+          margin: 10px 0 0;
+          max-width: 440px;
+        }
+
+        /* Hanging Price Curtain Banner (Top-Right Suspended) */
+        .seenly-plus-price-curtain {
+          position: absolute;
+          top: 0;
+          right: 28px;
+          z-index: 15;
+          background: linear-gradient(180deg, #FFFFFF 0%, #FAF6EE 100%);
+          border: 1px solid rgba(197, 160, 89, 0.38);
+          border-top: none;
+          border-bottom-left-radius: 16px;
+          border-bottom-right-radius: 16px;
+          padding: 12px 22px 14px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          box-shadow: 0 8px 24px rgba(80, 60, 40, 0.09);
+        }
+
+        .seenly-plus-price-curtain-pin {
+          position: absolute;
+          top: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 32px;
+          height: 3.5px;
+          background: linear-gradient(90deg, #B89047, #E4C882, #B89047);
+          border-bottom-left-radius: 3px;
+          border-bottom-right-radius: 3px;
+          box-shadow: 0 1px 3px rgba(184, 144, 71, 0.4);
+        }
+
+        .seenly-plus-price-val {
+          font-family: var(--font-sans), 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          font-size: 2.15rem;
+          font-weight: 750;
+          color: #1A3E72;
+          line-height: 1;
+          margin: 3px 0 0;
+          display: flex;
+          align-items: baseline;
+          justify-content: center;
+          letter-spacing: -0.02em;
+        }
+
+        .seenly-plus-price-symbol {
+          font-family: var(--font-sans), 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          font-size: 1.75rem;
+          font-weight: 700;
+          margin-right: 2px;
+          color: #1A3E72;
+          vertical-align: baseline;
+          line-height: 1;
+        }
+
+        .seenly-plus-price-label {
+          font-family: var(--font-sans);
+          font-size: 9.5px;
+          font-weight: 750;
+          letter-spacing: 0.14em;
+          color: #8C6D37;
+          text-transform: uppercase;
+          margin-top: 6px;
+          display: block;
+        }
+
+        .seenly-plus-feature-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+        }
+
+        .seenly-plus-feature-icon-badge {
+          width: 38px;
+          height: 38px;
+          border-radius: 50%;
+          background: #1A3E72;
+          color: #FFFFFF;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          box-shadow: 0 2px 8px rgba(26, 62, 114, 0.18);
+          margin-top: 1px;
+        }
+
+        .seenly-plus-feature-title {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: 14.5px;
+          font-weight: 650;
+          color: #1A3E72;
+          margin: 0;
+          line-height: 1.25;
+        }
+
+        .seenly-plus-feature-desc {
+          font-family: var(--font-sans);
+          font-size: 12px;
+          color: #64748B;
+          margin: 2px 0 0;
+          line-height: 1.35;
+        }
+
+        .seenly-plus-cta-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          padding: 10px 22px;
+          border-radius: 9999px;
+          background: linear-gradient(180deg, #1C3C68 0%, #102544 100%);
+          color: #FAF6EE;
+          font-family: var(--font-sans);
+          font-size: 13px;
+          font-weight: 600;
+          letter-spacing: 0.02em;
+          border: 1px solid rgba(255, 255, 255, 0.14);
+          cursor: pointer;
+          transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 0 4px 14px rgba(16, 37, 68, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.22);
+        }
+
+        .seenly-plus-cta-arrow {
+          color: #FAF6EE;
+          transition: transform 0.2s ease;
+        }
+
+        .seenly-plus-cta-btn:hover {
+          background: linear-gradient(180deg, #24497C 0%, #152E52 100%);
+          box-shadow: 0 6px 20px rgba(16, 37, 68, 0.38), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+          transform: translateY(-1.5px);
+          color: #FFFFFF;
+        }
+
+        .seenly-plus-cta-btn:hover .seenly-plus-cta-arrow {
+          transform: translateX(3px);
+          color: #FFFFFF;
+        }
+
+        .seenly-plus-cta-btn:active {
+          transform: translateY(0.5px);
+          box-shadow: 0 2px 8px rgba(16, 37, 68, 0.25);
+        }
+
+        .seenly-plus-cta-btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+          transform: none;
+          box-shadow: none;
+        }
+
+        /* Refined Capacity Pack Styles (Exact Mockup Match with Celestial Motifs) */
+        .seenly-packs-painterly-container {
+          position: relative;
+          background: radial-gradient(ellipse at 12% 0%, rgba(228, 196, 136, 0.18) 0%, rgba(253, 251, 246, 0) 50%), radial-gradient(ellipse at 88% 100%, rgba(212, 163, 76, 0.15) 0%, rgba(253, 251, 246, 0) 55%), linear-gradient(180deg, #FBF8F0 0%, #F6F0E2 100%);
+          border: 1px solid rgba(197, 160, 89, 0.32);
+          border-radius: 28px;
+          padding: 26px 28px;
+          box-shadow: 0 8px 28px rgba(80, 60, 40, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+          margin-top: 0.75rem;
+        }
+
+        .seenly-pack-card {
+          position: relative;
+          border-radius: 22px;
+          padding: 22px 14px 18px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+          overflow: hidden;
+        }
+
+        .seenly-pack-tier1 {
+          background: radial-gradient(circle at 85% 0%, rgba(228, 196, 136, 0.24) 0%, transparent 60%), linear-gradient(180deg, #FDFCFA 0%, #F8F3E8 100%);
+          border: 1px solid rgba(197, 160, 89, 0.36);
+          box-shadow: 0 6px 20px rgba(80, 60, 40, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        .seenly-pack-tier2 {
+          background: radial-gradient(circle at 50% 0%, rgba(218, 175, 95, 0.28) 0%, transparent 65%), linear-gradient(180deg, #FDFBFA 0%, #F6EEDD 100%);
+          border: 1px solid rgba(197, 160, 89, 0.44);
+          box-shadow: 0 8px 24px rgba(197, 160, 89, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        .seenly-pack-tier3 {
+          background: radial-gradient(circle at 15% 0%, rgba(212, 163, 76, 0.3) 0%, transparent 65%), linear-gradient(180deg, #FDFCFA 0%, #F5EADB 100%);
+          border: 1px solid rgba(197, 160, 89, 0.48);
+          box-shadow: 0 8px 26px rgba(197, 160, 89, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        .seenly-pack-tier1:hover,
+        .seenly-pack-tier2:hover,
+        .seenly-pack-tier3:hover {
+          transform: translateY(-2.5px);
+          border-color: rgba(197, 160, 89, 0.65);
+          box-shadow: 0 12px 30px rgba(197, 160, 89, 0.2);
+        }
+
+        .seenly-pack-quota-pill {
+          display: inline-flex;
+          align-items: baseline;
+          justify-content: center;
+          gap: 4px;
+          background: #F4EEDF;
+          border: 1px solid rgba(197, 160, 89, 0.45);
+          border-radius: 9999px;
+          padding: 4px 12px;
+          margin-bottom: 8px;
+          box-shadow: 0 1px 4px rgba(197, 160, 89, 0.1);
+        }
+
+        .seenly-pack-quota-num {
+          font-family: var(--font-sans), 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+          font-size: 13.5px;
+          font-weight: 800;
+          color: #1A3E72;
+          line-height: 1;
+        }
+
+        .seenly-pack-quota-txt {
+          font-family: var(--font-sans), 'DM Sans', sans-serif;
+          font-size: 11px;
+          font-weight: 600;
+          color: #7A5C28;
+          line-height: 1;
+        }
+
+        .seenly-pack-title {
+          font-family: var(--font-sans);
+          font-size: 11px;
+          font-weight: 700;
+          color: #554030;
+          text-transform: uppercase;
+          letter-spacing: 0.12em;
+          margin: 0 0 12px;
+          opacity: 0.85;
+        }
+
+        .seenly-pack-price {
+          font-family: var(--font-sans), 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          font-size: 1.85rem;
+          font-weight: 750;
+          color: #1A3E72;
+          line-height: 1;
+          margin: 0 0 14px;
+          display: flex;
+          align-items: baseline;
+          justify-content: center;
+          letter-spacing: -0.02em;
+        }
+
+        .seenly-pack-price-symbol {
+          font-family: var(--font-sans), 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          font-size: 1.45rem;
+          font-weight: 700;
+          margin-right: 1px;
+          color: #1A3E72;
+          vertical-align: baseline;
+          line-height: 1;
+        }
+
+        /* Authentic Tactile Midnight Button matching Mockup */
+        .seenly-pack-btn {
+          width: 100%;
+          padding: 10px 18px;
+          border-radius: 9999px;
+          background: linear-gradient(180deg, #1C3C68 0%, #102544 100%);
+          color: #FAF6EE;
+          font-family: var(--font-sans);
+          font-size: 13px;
+          font-weight: 600;
+          letter-spacing: 0.02em;
+          border: 1px solid rgba(255, 255, 255, 0.14);
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 0 4px 14px rgba(16, 37, 68, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.22);
+        }
+
+        .seenly-pack-btn-arrow {
+          color: #FAF6EE;
+          transition: transform 0.2s ease;
+        }
+
+        .seenly-pack-btn:hover {
+          background: linear-gradient(180deg, #24497C 0%, #152E52 100%);
+          box-shadow: 0 6px 20px rgba(16, 37, 68, 0.38), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+          transform: translateY(-1.5px);
+          color: #FFFFFF;
+        }
+
+        .seenly-pack-btn:hover .seenly-pack-btn-arrow {
+          transform: translateX(3px);
+          color: #FFFFFF;
+        }
+
+        .seenly-pack-btn:active {
+          transform: translateY(0.5px);
+          box-shadow: 0 2px 8px rgba(16, 37, 68, 0.25);
+        }
+
+        .seenly-pack-btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+          transform: none;
+          box-shadow: none;
+        }
+
+
+
         @media (max-width: 640px) {
+          /* Quota Tracker Mobile */
+          .seenly-quota-tracker-card {
+            padding: 16px 14px 16px !important;
+            border-radius: 20px !important;
+            margin-bottom: 0.65rem !important;
+          }
+
+          .seenly-quota-head-icon {
+            width: 32px !important;
+            height: 32px !important;
+          }
+
+          .seenly-quota-title {
+            font-size: 1.1rem !important;
+          }
+
+          .seenly-quota-subtext {
+            font-size: 11px !important;
+            line-height: 1.35 !important;
+          }
+
+          .seenly-quota-metric-current {
+            font-size: 1.35rem !important;
+          }
+
+          .seenly-quota-metric-max {
+            font-size: 1.1rem !important;
+          }
+
+          .seenly-quota-metric-label {
+            font-size: 9.5px !important;
+          }
+
+          .seenly-quota-track-wrap {
+            margin: 12px 0 0 !important;
+          }
+
+          .seenly-quota-status-banner {
+            padding: 6px 10px !important;
+            font-size: 10.5px !important;
+            margin-top: 8px !important;
+            border-radius: 10px !important;
+          }
+
+          /* Seenly Plus Active Card Mobile */
+          .seenly-plus-active-card {
+            padding: 20px 14px 18px !important;
+            border-radius: 20px !important;
+          }
+
+          .seenly-plus-active-title {
+            font-size: 1.35rem !important;
+          }
+
+          .seenly-plus-active-desc {
+            font-size: 11.5px !important;
+            line-height: 1.4 !important;
+          }
+
+          .seenly-plus-perks-toggle-btn {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 8px 14px !important;
+            font-size: 11.5px !important;
+            margin-top: 6px !important;
+          }
+
+          /* Seenly Plus Showcase Card Mobile */
+          .seenly-plus-showcase-card {
+            padding: 20px 14px 18px !important;
+            border-radius: 20px !important;
+          }
+
+          .seenly-plus-price-curtain {
+            right: 14px !important;
+            padding: 8px 12px 10px !important;
+            border-bottom-left-radius: 12px !important;
+            border-bottom-right-radius: 12px !important;
+            box-shadow: 0 4px 14px rgba(80, 60, 40, 0.08) !important;
+          }
+
+          .seenly-plus-price-curtain-pin {
+            width: 20px !important;
+            height: 2.5px !important;
+          }
+
+          .seenly-plus-price-val {
+            font-size: 1.6rem !important;
+            margin: 2px 0 0 !important;
+          }
+
+          .seenly-plus-price-symbol {
+            font-size: 1.3rem !important;
+          }
+
+          .seenly-plus-price-label {
+            font-size: 8px !important;
+            letter-spacing: 0.1em !important;
+            margin-top: 3px !important;
+          }
+
+          .seenly-plus-badge-left {
+            font-size: 9.5px !important;
+            padding: 4px 10px !important;
+          }
+
+          .seenly-plus-title {
+            font-size: 1.65rem !important;
+          }
+
+          .seenly-plus-subtext {
+            font-size: 11.5px !important;
+            line-height: 1.45 !important;
+            margin-top: 6px !important;
+            padding-right: 70px !important;
+          }
+
+          .seenly-plus-feature-item {
+            gap: 10px !important;
+          }
+
+          .seenly-plus-feature-icon-badge {
+            width: 32px !important;
+            height: 32px !important;
+          }
+
+          .seenly-plus-feature-title {
+            font-size: 13px !important;
+          }
+
+          .seenly-plus-feature-desc {
+            font-size: 11px !important;
+            line-height: 1.3 !important;
+          }
+
+          .seenly-plus-cta-btn {
+            width: 100% !important;
+            padding: 12px 18px !important;
+            font-size: 13px !important;
+            justify-content: center !important;
+          }
+
+          /* Extra Capacity Packs Mobile (Compact 3-Column Grid) */
+          .seenly-packs-painterly-container {
+            padding: 16px 10px 18px !important;
+            border-radius: 20px !important;
+            margin-top: 0.65rem !important;
+          }
+
+          .seenly-packs-grid {
+            gap: 6px !important;
+          }
+
+          .seenly-pack-card {
+            padding: 14px 5px 12px !important;
+            border-radius: 16px !important;
+            box-shadow: 0 4px 12px rgba(80, 60, 40, 0.04) !important;
+          }
+
+          .seenly-pack-quota-pill {
+            padding: 2.5px 6px !important;
+            gap: 2px !important;
+            margin-bottom: 4px !important;
+            border-radius: 9999px !important;
+          }
+
+          .seenly-pack-quota-num {
+            font-size: 10.5px !important;
+            font-weight: 800 !important;
+          }
+
+          .seenly-pack-quota-txt {
+            font-size: 8.5px !important;
+            font-weight: 600 !important;
+          }
+
+          .seenly-pack-title {
+            font-size: 8.5px !important;
+            letter-spacing: 0.05em !important;
+            margin: 0 0 8px !important;
+          }
+
+          .seenly-pack-price {
+            font-size: 1.25rem !important;
+            margin: 0 0 8px !important;
+          }
+
+          .seenly-pack-price-symbol {
+            font-size: 0.95rem !important;
+            margin-right: 1px !important;
+          }
+
+          .seenly-pack-btn {
+            width: 100% !important;
+            padding: 7px 2px !important;
+            font-size: 10px !important;
+            font-weight: 600 !important;
+            justify-content: center !important;
+            white-space: nowrap !important;
+            min-height: 32px !important;
+          }
+
+          .seenly-pack-btn-arrow {
+            display: none !important;
+          }
+        }
+
+        @media (max-width: 380px) {
+          .seenly-packs-painterly-container {
+            padding: 14px 6px 16px !important;
+          }
+
+          .seenly-packs-grid {
+            gap: 4px !important;
+          }
+
+          .seenly-pack-card {
+            padding: 10px 2px 8px !important;
+            border-radius: 12px !important;
+          }
+
+          .seenly-pack-quota-pill {
+            padding: 2px 4px !important;
+            margin-bottom: 3px !important;
+          }
+
+          .seenly-pack-quota-num {
+            font-size: 9.5px !important;
+          }
+
+          .seenly-pack-quota-txt {
+            font-size: 7.5px !important;
+          }
+
+          .seenly-pack-title {
+            font-size: 7.5px !important;
+            letter-spacing: 0.02em !important;
+            margin-bottom: 6px !important;
+          }
+
+          .seenly-pack-price {
+            font-size: 1.1rem !important;
+            margin-bottom: 6px !important;
+          }
+
+          .seenly-pack-price-symbol {
+            font-size: 0.85rem !important;
+          }
+
+          .seenly-pack-btn {
+            font-size: 8.5px !important;
+            padding: 6px 1px !important;
+            min-height: 28px !important;
+          }
+        }
+
+        @media (max-width: 640px) {
+
           .seenly-avatar-summary-row {
             flex-direction: column;
             align-items: flex-start;

@@ -1,13 +1,16 @@
 import { Reveal } from "./reveal"
 import { WatercolorStain } from "./marks"
 import { useLocale } from "../context/LocaleContext"
+import contextSocial from "../images/landing/context-social.avif"
+import contextFriends from "../images/landing/context-friends.avif"
+import contextFirstImpression from "../images/landing/context-firstimpression.avif"
 
 export function UseCases() {
   const { t } = useLocale()
 
   const cases = [
     {
-      image: "/images/context-social.png",
+      image: contextSocial,
       alt: "İki kişinin telefonlarında Seenly kartlarını paylaştığı suluboya illüstrasyon",
       plate: t("ui", "landing_case_1_plate") || "Dijital Yansıma",
       title: t("ui", "landing_case_1_title") || "Sosyal profilinde",
@@ -18,7 +21,7 @@ export function UseCases() {
       seed: 4,
     },
     {
-      image: "/images/context-friends.png",
+      image: contextFriends,
       alt: "Asılı cam panellerin ortak sinyallerle birbirine bağlandığı suluboya illüstrasyon",
       plate: t("ui", "landing_case_2_plate") || "Sosyal Dinamik",
       title: t("ui", "landing_case_2_title") || "Arkadaş grubunda",
@@ -29,7 +32,7 @@ export function UseCases() {
       seed: 14,
     },
     {
-      image: "/images/context-firstimpression.png",
+      image: contextFirstImpression,
       alt: "Galeri salonunda asılı sanat eserlerinin yer aldığı suluboya illüstrasyon",
       plate: t("ui", "landing_case_3_plate") || "İlk İzlenim",
       title: t("ui", "landing_case_3_title") || "Yeni tanışmalarda",

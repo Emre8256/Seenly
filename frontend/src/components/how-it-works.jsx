@@ -1,6 +1,7 @@
 import { Reveal } from "./reveal"
 import { HairLine, WatercolorStain, ConnectorDots } from "./marks"
 import { useLocale } from "../context/LocaleContext"
+import howItWorksImg from "../images/landing/how-it-works.avif"
 
 export function HowItWorks() {
   const { t } = useLocale()
@@ -63,7 +64,7 @@ export function HowItWorks() {
             <Reveal delay={160} className="relative mt-10 mx-auto max-w-[320px] sm:max-w-none w-full">
               <div className="integrated-art mask-organic-2 shadow-contact paper-panel relative -ml-4 overflow-hidden p-0">
                 <img
-                  src="/images/how-it-works.png"
+                  src={howItWorksImg}
                   alt="Self, Outside ve Gap adımlarını gösteren üç katmanın suluboya illüstrasyonu"
                   className="soft-image-edge aspect-[4/3] w-full object-cover mask-organic-2"
                 />

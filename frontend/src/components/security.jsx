@@ -1,6 +1,7 @@
 import { Reveal } from "./reveal"
 import { HairLine, WatercolorStain, ConnectorDots } from "./marks"
 import { useLocale } from "../context/LocaleContext"
+import securityImg from "../images/landing/security.avif"
 
 export function Security() {
   const { t } = useLocale()
@@ -44,7 +45,7 @@ export function Security() {
             />
             <div className="integrated-art mask-organic-3 shadow-contact paper-panel relative -ml-5 overflow-hidden p-0">
               <img
-                src="/images/security.png"
+                src={securityImg}
                 alt="Bir portrenin anonim siluete dönüştüğü, güvenlik ve anonimliği anlatan suluboya illüstrasyon"
                 className="soft-image-edge aspect-[5/4] w-full object-cover mask-organic-3"
               />
@@ -76,7 +77,7 @@ export function Security() {
               />
               <div className="integrated-art mask-organic-3 shadow-contact paper-panel overflow-hidden p-0">
                 <img
-                  src="/images/security.png"
+                  src={securityImg}
                   alt="Bir portrenin anonim siluete dönüştüğü, güvenlik ve anonimliği anlatan suluboya illüstrasyon"
                   className="soft-image-edge aspect-[5/4] w-full object-cover mask-organic-3"
                 />

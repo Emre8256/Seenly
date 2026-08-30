@@ -3,14 +3,10 @@ import { useLocale } from '../context/LocaleContext';
 import QuestionCard from '../components/QuestionCard';
 import AppShell from '../components/AppShell';
 import LandingPage from '../components/LandingPage';
-import { createSeenly, sendVerificationCode, verifyCode, loginWithEmail } from '../services/api';
+import { createSeenly, sendVerificationCode, verifyCode, loginWithEmail, updateAvatar } from '../services/api';
 import { createPortal } from 'react-dom';
 import { useSeenlyShare, buildWhatsAppLink } from '../hooks/useSeenlyShare';
-import hiwStep1 from '../images/kart1.png';
-import hiwStep2 from '../images/kart2.png';
-import hiwStep3 from '../images/kart3.png';
-import hiwStep4 from '../images/kart4.png';
-
+import { AVATARS, getAvatarSrc } from '../images/avatars';
 import { CARD_IMAGES } from '../images/cardImages';
 import { getCardRarityData } from '../utils/rarityEngine';
 
@@ -283,8 +279,14 @@ export default function QuizPage({ onComplete }) {
   });
 
   const [currentIndex, setCurrentIndex] = useState(() => {
-    return Number(sessionStorage.getItem('seenly_currentIndex') || -1); // -1 is landing page, -5 is Email Entry, -6 is Code Entry, -2 is Nickname, -3 is Language, -4 is Info
+    return Number(sessionStorage.getItem('seenly_currentIndex') || -1); // -1 is landing, -2 is Nickname, -4 is Info, 0-9 is Questions, -9 is Avatar, -10 is Email, -11 is OTP
   });
+
+  const [selectedAvatar, setSelectedAvatar] = useState(() => {
+    return sessionStorage.getItem('seenly_avatar') || localStorage.getItem('seenly_avatar') || 'kadin1';
+  });
+  const [avatarFilter, setAvatarFilter] = useState('all'); // 'all' | 'kadin' | 'erkek'
+  const filteredAvatars = AVATARS.filter(av => (avatarFilter === 'all' ? true : av.gender === avatarFilter));
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -303,6 +305,8 @@ export default function QuizPage({ onComplete }) {
     setDisplayName('');
     setEmail('');
     setAnswers({});
+    setSelectedAvatar('kadin1');
+    setAvatarFilter('all');
     setVerificationCode(Array(4).fill(''));
     setPostQuizOtp(Array(4).fill(''));
     setAuthFlowNotification({ message: '', status: '' });
@@ -314,8 +318,11 @@ export default function QuizPage({ onComplete }) {
     sessionStorage.removeItem('seenly_displayName');
     sessionStorage.removeItem('seenly_email');
     sessionStorage.removeItem('seenly_answers');
+    sessionStorage.removeItem('seenly_avatar');
     sessionStorage.removeItem('seenly_currentIndex');
     sessionStorage.removeItem('seenly_isQuickLogin');
+    localStorage.removeItem('seenly_is_premium');
+    localStorage.removeItem('seenly_test_limit');
   }, []);
 
   useEffect(() => {
@@ -408,14 +415,20 @@ export default function QuizPage({ onComplete }) {
     } else if (currentIndex === -2) {
       resetOnboardingState();
       setCurrentIndex(-1);
-    } else if (currentIndex === -6 || currentIndex === -11) {
-      resetOnboardingState();
-      setCurrentIndex(-1);
+    } else if (currentIndex === -6) {
+      setCurrentIndex(-5);
     } else if (currentIndex === -5) {
       resetOnboardingState();
       setCurrentIndex(-1);
-    } else if (currentIndex === -10) {
+    } else if (currentIndex === -9) {
+      // Go back from Avatar Selection to last question (question 9)
       setCurrentIndex(SELF_QUESTION_IDS.length - 1);
+    } else if (currentIndex === -10) {
+      // Go back from Email input to Avatar Selection
+      setCurrentIndex(-9);
+    } else if (currentIndex === -11) {
+      // Go back from OTP to Email input
+      setCurrentIndex(-10);
     } else if (currentIndex > 0) {
       setCurrentIndex(prev => prev - 1);
     }
@@ -441,10 +454,27 @@ export default function QuizPage({ onComplete }) {
       if (response.publicSlug) {
         localStorage.setItem('seenly_owner_slug', response.publicSlug);
       }
+
+      // Ensure fresh default free status for newly registered account
+      localStorage.removeItem('seenly_is_premium');
+      localStorage.removeItem('seenly_test_limit');
+
+      // Save selected avatar
+      const avatarToSave = selectedAvatar || sessionStorage.getItem('seenly_avatar') || 'kadin1';
+      localStorage.setItem('seenly_avatar', avatarToSave);
+      if (response.ownerToken) {
+        try {
+          await updateAvatar(response.ownerToken, avatarToSave);
+        } catch (avatarErr) {
+          console.warn('Avatar save on quiz submit failed', avatarErr);
+        }
+      }
+
       // Clear session values
       sessionStorage.removeItem('seenly_displayName');
       sessionStorage.removeItem('seenly_email');
       sessionStorage.removeItem('seenly_answers');
+      sessionStorage.removeItem('seenly_avatar');
       sessionStorage.removeItem('seenly_currentIndex');
       sessionStorage.removeItem('seenly_selectedLang');
 
@@ -462,6 +492,7 @@ export default function QuizPage({ onComplete }) {
   };
 
   const handleSendCode = async () => {
+    if (resendTimer > 0) return;
     const trimmedEmail = email.trim();
     if (!isValidEmail(trimmedEmail)) {
       setEmailValidationError(t('ui', 'email_invalid_error') || 'Lütfen geçerli bir e-posta adresi giriniz.');
@@ -577,6 +608,7 @@ export default function QuizPage({ onComplete }) {
   };
 
   const handlePostQuizSendCode = async () => {
+    if (resendTimer > 0) return;
     const trimmedEmail = email.trim();
     if (!isValidEmail(trimmedEmail)) {
       setEmailValidationError(t('ui', 'email_invalid_error') || 'Lütfen geçerli bir e-posta adresi giriniz.');
@@ -654,11 +686,13 @@ export default function QuizPage({ onComplete }) {
   } else if (currentIndex === -4) {
     progressPercentage = 38;
   } else if (currentIndex >= 0) {
-    progressPercentage = 38 + ((currentIndex + 1) / SELF_QUESTION_IDS.length) * 48;
+    progressPercentage = 38 + ((currentIndex + 1) / SELF_QUESTION_IDS.length) * 44;
+  } else if (currentIndex === -9) {
+    progressPercentage = 86;
   } else if (currentIndex === -10) {
-    progressPercentage = 91;
+    progressPercentage = 92;
   } else if (currentIndex === -11) {
-    progressPercentage = 96;
+    progressPercentage = 97;
   }
 
   if (isSubmitting) {
@@ -786,16 +820,22 @@ export default function QuizPage({ onComplete }) {
                   type="button"
                   className="seenly-wizard-back-btn"
                   onClick={() => {
-                    setResendTimer(0);
-                    setIsQuickLogin(false);
-                    setCurrentIndex(-1);
+                    if (currentIndex === -10) {
+                      setCurrentIndex(-9);
+                    } else if (currentIndex === -11) {
+                      setCurrentIndex(-10);
+                    } else {
+                      setResendTimer(0);
+                      setIsQuickLogin(false);
+                      setCurrentIndex(-1);
+                    }
                   }}
-                  aria-label="Home"
-                  title={locale === 'tr' ? 'Ana Sayfa' : 'Home'}
+                  aria-label={locale === 'tr' ? 'Geri' : 'Back'}
+                  title={locale === 'tr' ? 'Geri' : 'Back'}
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                    <polyline points="9 22 9 12 15 12 15 22" />
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12" />
+                    <polyline points="12 19 5 12 12 5" />
                   </svg>
                 </button>
                 <div className="seenly-wizard-progress-track">
@@ -831,12 +871,14 @@ export default function QuizPage({ onComplete }) {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: isPostQuizFlow ? 'center' : 'space-between',
-              overflow: 'hidden',
+              overflowY: 'auto',
+              overflowX: 'hidden',
+              WebkitOverflowScrolling: 'touch',
               height: '100%',
               maxHeight: '100%',
               padding: isPostQuizFlow
                 ? '0.8rem 1.5rem 1.4rem 1.5rem'
-                : '0.4rem 1.4rem max(0.8rem, env(safe-area-inset-bottom)) 1.4rem',
+                : '0.4rem 1.2rem max(0.8rem, env(safe-area-inset-bottom)) 1.2rem',
               boxSizing: 'border-box'
             }}
           >
@@ -1037,6 +1079,11 @@ export default function QuizPage({ onComplete }) {
                       <div className="seenly-wizard-input-container" style={{ width: '100%', margin: '0.2rem 0 0 0' }}>
                         <input
                           type="email"
+                          inputMode="email"
+                          autoComplete="email"
+                          autoCapitalize="none"
+                          autoCorrect="off"
+                          spellCheck={false}
                           placeholder={t('ui', 'auth_mail_placeholder')}
                           value={email}
                           onChange={(e) => {
@@ -1054,13 +1101,13 @@ export default function QuizPage({ onComplete }) {
                             border: emailValidationError ? '1.5px solid var(--color-error, #ef4444)' : '1.5px solid rgba(11, 27, 44, 0.12)',
                             background: '#ffffff',
                             textAlign: 'center',
-                            fontSize: '0.94rem',
+                            fontSize: '1rem',
                             fontWeight: '500',
                             boxSizing: 'border-box',
                             boxShadow: 'inset 0 2px 4px rgba(11, 27, 44, 0.02)'
                           }}
                           onKeyDown={(e) => {
-                            if (e.key === 'Enter' && isValidEmail(email) && !isEmailSending) {
+                            if (e.key === 'Enter' && isValidEmail(email) && !isEmailSending && resendTimer === 0) {
                               handlePostQuizSendCode();
                             }
                           }}
@@ -1083,23 +1130,25 @@ export default function QuizPage({ onComplete }) {
                           borderRadius: '16px',
                           fontSize: '0.94rem',
                           fontWeight: '700',
-                          backgroundColor: isValidEmail(email) ? '#0B1B2C' : 'rgba(11, 27, 44, 0.06)',
-                          color: isValidEmail(email) ? '#ffffff' : 'rgba(11, 27, 44, 0.35)',
-                          border: isValidEmail(email) ? 'none' : '1px solid rgba(11, 27, 44, 0.08)',
-                          cursor: isValidEmail(email) ? 'pointer' : 'not-allowed',
+                          backgroundColor: (isValidEmail(email) && resendTimer === 0) ? '#0B1B2C' : 'rgba(11, 27, 44, 0.08)',
+                          color: (isValidEmail(email) && resendTimer === 0) ? '#ffffff' : 'rgba(11, 27, 44, 0.45)',
+                          border: (isValidEmail(email) && resendTimer === 0) ? 'none' : '1px solid rgba(11, 27, 44, 0.12)',
+                          cursor: (isValidEmail(email) && resendTimer === 0) ? 'pointer' : 'not-allowed',
                           display: 'flex',
                           justifyContent: 'center',
                           alignItems: 'center',
                           gap: '8px',
-                          boxShadow: isValidEmail(email) ? '0 10px 24px rgba(11, 27, 44, 0.14)' : 'none',
+                          boxShadow: (isValidEmail(email) && resendTimer === 0) ? '0 10px 24px rgba(11, 27, 44, 0.14)' : 'none',
                           transition: 'all 0.25s ease',
                           marginTop: '0.1rem'
                         }}
-                        disabled={isEmailSending || !isValidEmail(email)}
+                        disabled={isEmailSending || !isValidEmail(email) || resendTimer > 0}
                         onClick={handlePostQuizSendCode}
                       >
                         {isEmailSending ? (
                           <span className="spinner-mini"></span>
+                        ) : resendTimer > 0 ? (
+                          `${langCode === 'tr' ? 'Tekrar Kod Gönder' : 'Resend Code'} (${formatTimer(resendTimer)})`
                         ) : (
                           t('ui', 'auth_mail_btn')
                         )}
@@ -1209,6 +1258,11 @@ export default function QuizPage({ onComplete }) {
                               ref={(el) => (postQuizOtpRefs.current[i] = el)}
                               type="text"
                               inputMode="text"
+                              autoComplete={i === 0 ? "one-time-code" : "off"}
+                              autoCapitalize="characters"
+                              autoCorrect="off"
+                              spellCheck={false}
+                              aria-label={locale === 'tr' ? `Doğrulama hanesi ${i + 1}` : `Verification digit ${i + 1}`}
                               maxLength={1}
                               value={postQuizOtp[i] || ''}
                               onChange={(e) => handlePostQuizOtpDigitChange(e.target, i)}
@@ -1732,8 +1786,8 @@ export default function QuizPage({ onComplete }) {
             type="button"
             className="seenly-wizard-back-btn"
             onClick={handleGoBack}
-            aria-label={currentIndex === -6 || currentIndex === -11 ? "Home" : "Go back"}
-            title={currentIndex === -6 || currentIndex === -11 ? (locale === 'tr' ? 'Ana Sayfa' : 'Home') : (locale === 'tr' ? 'Geri' : 'Back')}
+            aria-label={locale === 'tr' ? 'Geri' : 'Back'}
+            title={locale === 'tr' ? 'Geri' : 'Back'}
             style={currentIndex === -5 || currentIndex === -6 ? {
               width: '44px',
               height: '44px',
@@ -1742,21 +1796,15 @@ export default function QuizPage({ onComplete }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '1.5rem',
-              fontWeight: '700',
               color: 'var(--color-deep-ink)',
               transition: 'all 0.2s',
               flexShrink: 0
             } : {}}
           >
-            {currentIndex === -6 || currentIndex === -11 ? (
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                <polyline points="9 22 9 12 15 12 15 22" />
-              </svg>
-            ) : (
-              '←'
-            )}
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12" />
+              <polyline points="12 19 5 12 12 5" />
+            </svg>
           </button>
           {(currentIndex === -5 || currentIndex === -6) && (
             <div style={{ flex: 1 }} />
@@ -1851,6 +1899,11 @@ export default function QuizPage({ onComplete }) {
                   <div className="seenly-wizard-input-container" style={{ width: '100%' }}>
                     <input
                       type="email"
+                      inputMode="email"
+                      autoComplete="email"
+                      autoCapitalize="none"
+                      autoCorrect="off"
+                      spellCheck={false}
                       placeholder={locale === 'tr' ? 'adiniz@ornek.com' : 'you@example.com'}
                       value={email}
                       onChange={(e) => {
@@ -1861,10 +1914,11 @@ export default function QuizPage({ onComplete }) {
                       autoFocus
                       className="seenly-wizard-input"
                       style={{
-                        borderColor: emailValidationError ? 'var(--color-error, #ef4444)' : undefined
+                        borderColor: emailValidationError ? 'var(--color-error, #ef4444)' : undefined,
+                        fontSize: '1rem'
                       }}
                       onKeyDown={(e) => {
-                        if (e.key === 'Enter' && isValidEmail(email) && !isEmailSending) {
+                        if (e.key === 'Enter' && isValidEmail(email) && !isEmailSending && resendTimer === 0) {
                           handleSendCode();
                         }
                       }}
@@ -1881,11 +1935,13 @@ export default function QuizPage({ onComplete }) {
                 <button
                   type="button"
                   className="seenly-wizard-primary-btn"
-                  disabled={isEmailSending || !isValidEmail(email)}
+                  disabled={isEmailSending || !isValidEmail(email) || resendTimer > 0}
                   onClick={handleSendCode}
                 >
                   {isEmailSending ? (
                     <span className="spinner-mini"></span>
+                  ) : resendTimer > 0 ? (
+                    <span>{`${langCode === 'tr' ? 'Tekrar Kod Gönder' : 'Resend Code'} (${formatTimer(resendTimer)})`}</span>
                   ) : (
                     <>
                       <span>{t('ui', 'wizard_continue_btn')}</span>
@@ -1974,7 +2030,7 @@ export default function QuizPage({ onComplete }) {
                   <div style={{
                     display: 'flex',
                     justifyContent: 'center',
-                    gap: '12px',
+                    gap: '10px',
                     width: '100%',
                     maxWidth: '340px',
                     margin: '0.25rem auto 0 auto'
@@ -1985,18 +2041,23 @@ export default function QuizPage({ onComplete }) {
                         ref={(el) => (inputRefs.current[i] = el)}
                         type="text"
                         inputMode="text"
+                        autoComplete={i === 0 ? "one-time-code" : "off"}
+                        autoCapitalize="characters"
+                        autoCorrect="off"
+                        spellCheck={false}
+                        aria-label={locale === 'tr' ? `Doğrulama hanesi ${i + 1}` : `Verification digit ${i + 1}`}
                         maxLength={1}
                         value={verificationCode[i] || ''}
                         onChange={(e) => handleCodeDigitChange(e.target, i)}
                         onKeyDown={(e) => handleCodeKeyDown(e, i)}
                         onPaste={handleCodePaste}
                         style={{
-                          width: '52px',
-                          height: '60px',
+                          width: '48px',
+                          height: '56px',
                           borderRadius: '14px',
                           border: '1.5px solid rgba(11, 27, 44, 0.12)',
                           textAlign: 'center',
-                          fontSize: '1.6rem',
+                          fontSize: '1.5rem',
                           fontFamily: 'var(--font-serif)',
                           fontWeight: '700',
                           color: 'var(--color-deep-ink)',
@@ -2139,6 +2200,11 @@ export default function QuizPage({ onComplete }) {
                 <div className="seenly-wizard-input-container" style={{ width: '100%', maxWidth: '400px', margin: '0 auto 1rem auto' }}>
                   <input
                     type="text"
+                    inputMode="text"
+                    autoComplete="name"
+                    autoCapitalize="words"
+                    autoCorrect="off"
+                    spellCheck={false}
                     placeholder={t('ui', 'wizard_nickname_placeholder')}
                     value={displayName}
                     onChange={(e) => setDisplayName(e.target.value)}
@@ -2146,6 +2212,7 @@ export default function QuizPage({ onComplete }) {
                     required
                     autoFocus
                     className="seenly-wizard-input"
+                    style={{ fontSize: '1.05rem' }}
                   />
                   {displayName.trim().length > 0 && displayName.trim().length < 2 && (
                     <p style={{ color: 'var(--color-error, #ef4444)', fontSize: '0.85rem', marginTop: '0.5rem', textAlign: 'center' }}>
@@ -2265,13 +2332,270 @@ export default function QuizPage({ onComplete }) {
                     if (currentIndex < SELF_QUESTION_IDS.length - 1) {
                       setCurrentIndex(prev => prev + 1);
                     } else {
-                      setCurrentIndex(-10);
+                      setCurrentIndex(-9);
                     }
                   }}
                 >
                   {t('ui', 'wizard_next_btn')}
                 </button>
               </div>
+            </>
+          )}
+
+          {currentIndex === -9 && (
+            /* Step 5: Avatar Selection Screen (Post-quiz, Pre-email) */
+            <>
+              <div className="seenly-wizard-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', padding: '0.2rem 0', boxSizing: 'border-box' }}>
+                {/* Header Icon */}
+                <div className="seenly-wizard-circle-icon icon-purple" style={{ margin: '0 auto 0.6rem auto', width: '48px', height: '48px', flexShrink: 0 }}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                  </svg>
+                </div>
+
+                {/* Title */}
+                <h2 className="seenly-wizard-title" style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-deep-ink)', marginBottom: '0.35rem', textAlign: 'center', width: '100%', fontSize: '1.5rem', lineHeight: '1.2' }}>
+                  {langCode === 'tr' ? 'Avatarını Seç' : 'Choose Your Avatar'}
+                </h2>
+
+                {/* Subtitle */}
+                <p style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '0.84rem',
+                  color: 'rgba(11, 27, 44, 0.65)',
+                  textAlign: 'center',
+                  margin: '0 auto 0.75rem auto',
+                  maxWidth: '340px',
+                  lineHeight: '1.4'
+                }}>
+                  {langCode === 'tr'
+                    ? 'Profilinde ve arkadaşlarına ileteceğin test kartlarında yer alacak avatarını belirle.'
+                    : 'Select the avatar that will represent you on your profile and test cards.'}
+                </p>
+
+                {/* Filter Pills */}
+                <div className="seenly-onboarding-avatar-filters">
+                  <button
+                    type="button"
+                    onClick={() => setAvatarFilter('all')}
+                    className={`seenly-onboarding-filter-pill ${avatarFilter === 'all' ? 'active' : ''}`}
+                  >
+                    {langCode === 'tr' ? 'Tümü (12)' : 'All (12)'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setAvatarFilter('kadin')}
+                    className={`seenly-onboarding-filter-pill ${avatarFilter === 'kadin' ? 'active' : ''}`}
+                  >
+                    {langCode === 'tr' ? 'Kadın (6)' : 'Women (6)'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setAvatarFilter('erkek')}
+                    className={`seenly-onboarding-filter-pill ${avatarFilter === 'erkek' ? 'active' : ''}`}
+                  >
+                    {langCode === 'tr' ? 'Erkek (6)' : 'Men (6)'}
+                  </button>
+                </div>
+
+                {/* Responsive Avatar Grid */}
+                <div className="seenly-onboarding-avatar-grid">
+                  {filteredAvatars.map((av) => {
+                    const isSelected = selectedAvatar === av.id;
+                    return (
+                      <button
+                        key={av.id}
+                        type="button"
+                        onClick={() => {
+                          setSelectedAvatar(av.id);
+                          sessionStorage.setItem('seenly_avatar', av.id);
+                          localStorage.setItem('seenly_avatar', av.id);
+                        }}
+                        className={`seenly-onboarding-avatar-item ${isSelected ? 'is-selected' : ''}`}
+                        aria-label={av.label}
+                        title={av.label}
+                      >
+                        <div className="seenly-onboarding-avatar-circle">
+                          <img
+                            src={av.src}
+                            alt={av.label}
+                            className="seenly-onboarding-avatar-img"
+                          />
+                          {isSelected && (
+                            <span className="seenly-onboarding-avatar-check">
+                              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="20 6 9 17 4 12" />
+                              </svg>
+                            </span>
+                          )}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Action Button */}
+              <div className="seenly-wizard-footer-action">
+                <button
+                  type="button"
+                  className="seenly-wizard-primary-btn"
+                  onClick={() => {
+                    if (!selectedAvatar) {
+                      setSelectedAvatar('kadin1');
+                      sessionStorage.setItem('seenly_avatar', 'kadin1');
+                      localStorage.setItem('seenly_avatar', 'kadin1');
+                    }
+                    setCurrentIndex(-10);
+                  }}
+                >
+                  <span>{t('ui', 'wizard_continue_btn') || 'Devam Et'}</span>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="seenly-wizard-arrow-icon">
+                    <line x1="4" y1="12" x2="20" y2="12" />
+                    <polyline points="13 5 20 12 13 19" />
+                  </svg>
+                </button>
+              </div>
+
+              <style>{`
+                .seenly-onboarding-avatar-filters {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 8px;
+                  margin-bottom: 0.75rem;
+                }
+
+                .seenly-onboarding-filter-pill {
+                  padding: 4px 12px;
+                  border-radius: 999px;
+                  border: 1px solid rgba(197, 160, 89, 0.35);
+                  background: #FAF6ED;
+                  color: #6B5542;
+                  font-family: var(--font-sans);
+                  font-size: 0.76rem;
+                  font-weight: 600;
+                  cursor: pointer;
+                  transition: all 0.2s ease;
+                }
+
+                .seenly-onboarding-filter-pill:hover {
+                  color: #0B1B2C;
+                  border-color: rgba(197, 160, 89, 0.65);
+                  background: #F4EEDF;
+                }
+
+                .seenly-onboarding-filter-pill.active {
+                  background: #0B1B2C;
+                  color: #FFFFFF;
+                  border-color: #0B1B2C;
+                  box-shadow: 0 2px 8px rgba(11, 27, 44, 0.18);
+                }
+
+                .seenly-onboarding-avatar-grid {
+                  display: grid;
+                  grid-template-columns: repeat(4, 1fr);
+                  gap: 10px;
+                  width: 100%;
+                  max-width: 360px;
+                  margin: 0 auto;
+                  max-height: clamp(230px, 36vh, 290px);
+                  overflow-y: auto;
+                  padding: 4px 4px 8px;
+                  box-sizing: border-box;
+                }
+
+                .seenly-onboarding-avatar-grid::-webkit-scrollbar {
+                  width: 4px;
+                }
+                .seenly-onboarding-avatar-grid::-webkit-scrollbar-track {
+                  background: transparent;
+                }
+                .seenly-onboarding-avatar-grid::-webkit-scrollbar-thumb {
+                  background: rgba(197, 160, 89, 0.35);
+                  border-radius: 4px;
+                }
+
+                .seenly-onboarding-avatar-item {
+                  padding: 0;
+                  border: none;
+                  background: transparent;
+                  cursor: pointer;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  outline: none;
+                  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+                }
+
+                .seenly-onboarding-avatar-item:hover {
+                  transform: translateY(-2px) scale(1.06);
+                }
+
+                .seenly-onboarding-avatar-item.is-selected {
+                  transform: scale(1.06);
+                }
+
+                .seenly-onboarding-avatar-circle {
+                  position: relative;
+                  width: 62px;
+                  height: 62px;
+                  border-radius: 50%;
+                  padding: 2px;
+                  border: 2px solid rgba(197, 160, 89, 0.28);
+                  box-sizing: border-box;
+                  transition: all 0.2s ease;
+                  background: #FDFBF4;
+                }
+
+                .seenly-onboarding-avatar-item:hover .seenly-onboarding-avatar-circle {
+                  border-color: rgba(197, 160, 89, 0.65);
+                  box-shadow: 0 4px 12px rgba(197, 160, 89, 0.22);
+                }
+
+                .seenly-onboarding-avatar-item.is-selected .seenly-onboarding-avatar-circle {
+                  border-color: #C5A059;
+                  border-width: 2.5px;
+                  box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.25), 0 6px 16px rgba(80, 60, 40, 0.18);
+                }
+
+                .seenly-onboarding-avatar-img {
+                  width: 100%;
+                  height: 100%;
+                  border-radius: 50%;
+                  object-fit: cover;
+                  display: block;
+                }
+
+                .seenly-onboarding-avatar-check {
+                  position: absolute;
+                  bottom: -2px;
+                  right: -2px;
+                  width: 18px;
+                  height: 18px;
+                  border-radius: 50%;
+                  background: #C5A059;
+                  color: #ffffff;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  border: 2px solid #FDFBF4;
+                  box-shadow: 0 2px 6px rgba(11, 27, 44, 0.2);
+                }
+
+                @media (max-width: 380px) {
+                  .seenly-onboarding-avatar-grid {
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 8px;
+                    max-height: 240px;
+                  }
+                  .seenly-onboarding-avatar-circle {
+                    width: 56px;
+                    height: 56px;
+                  }
+                }
+              `}</style>
             </>
           )}
         </div>

@@ -1,6 +1,7 @@
 import { Reveal } from "./reveal"
 import { WatercolorStain } from "./marks"
 import { useLocale } from "../context/LocaleContext"
+import codesImg from "../images/landing/codes.avif"
 
 export function SeenlyCodes() {
   const { t } = useLocale()
@@ -47,7 +48,7 @@ export function SeenlyCodes() {
               />
               <div className="integrated-art mask-organic-2 shadow-contact paper-panel overflow-hidden p-0">
                 <img
-                  src="/images/codes.png"
+                  src={codesImg}
                   alt="Altın çerçeveli koleksiyon kartları halinde sunulan Seenly kodlarının suluboya illüstrasyonu"
                   className="soft-image-edge aspect-square w-full object-cover mask-organic-2"
                 />
@@ -101,7 +102,7 @@ export function SeenlyCodes() {
             />
             <div className="integrated-art mask-organic-2 shadow-contact paper-panel relative -mr-5 overflow-hidden p-0">
               <img
-                src="/images/codes.png"
+                src={codesImg}
                 alt="Altın çerçeveli koleksiyon kartları halinde sunulan Seenly kodlarının suluboya illüstrasyonu"
                 className="soft-image-edge aspect-square w-full object-cover mask-organic-2"
               />

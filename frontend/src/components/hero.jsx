@@ -1,6 +1,7 @@
 import { Reveal } from "./reveal"
 import { IntersectingCircles, WatercolorStain, HairLine } from "./marks"
 import { useLocale } from "../context/LocaleContext"
+import heroImg from "../images/landing/hero.avif"
 
 export function Hero({ onStartClick, onLoginClick }) {
   const { t } = useLocale()
@@ -113,7 +114,7 @@ export function Hero({ onStartClick, onLoginClick }) {
               />
               <div className="integrated-art mask-organic-1 shadow-contact paper-panel relative -mr-3 overflow-hidden p-0 sm:-mr-6">
                 <img
-                  src="/images/hero.png"
+                  src={heroImg}
                   alt="Seenly profillerini birbirine baglayan suluboya illusturasyon"
                   className="soft-image-edge aspect-[4/5] w-full object-cover sm:aspect-[5/4] lg:aspect-[4/5] mask-organic-1"
                 />

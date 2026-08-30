@@ -11,10 +11,9 @@ import { calibrateTraitScore, calculateCalibratedAlignment, calibrateAccuracySco
 import { CARD_IMAGES } from '../images/cardImages';
 import { getAvatarSrc } from '../images/avatars';
 
-import { SignalBadgeIcon } from '../components/SignalBadgeIcon';
-import premiumBg from '../images/premium_bg.png';
-import premiumBg2 from '../images/premium_bg2.png';
-import anonimLogo from '../images/Icons/AnonimLOGO.png';
+import premiumBg from '../images/backgrounds/premium_bg.avif';
+import premiumBg2 from '../images/backgrounds/premium_bg2.avif';
+import anonimLogo from '../images/Icons/AnonimLOGO.avif';
 
 const SIGNATURE_IMAGES = CARD_IMAGES;
 const RESPONSE_HISTORY_PAGE_SIZE = 5;
@@ -33,32 +32,20 @@ const TabInfoNotice = ({ icon: Icon = Info, children }) => (
 
 const LockedMask = ({ title, description, responseCount, targetCount, langCode }) => {
   return (
-    <div className="seenly-dashboard-locked-mask" style={{
-      background: 'linear-gradient(135deg, rgba(253, 251, 247, 0.75) 0%, rgba(245, 237, 230, 0.55) 100%)',
+    <div className="seenly-dashboard-locked-mask p-6 sm:p-12 md:p-14 text-center w-full min-h-[320px] sm:min-h-[360px] flex flex-col items-center justify-center relative overflow-hidden box-border rounded-[24px] sm:rounded-[32px]" style={{
+      background: 'linear-gradient(135deg, rgba(253, 251, 247, 0.88) 0%, rgba(245, 237, 230, 0.65) 100%)',
       backdropFilter: 'blur(12px)',
       WebkitBackdropFilter: 'blur(12px)',
-      border: '1px solid rgba(11, 27, 44, 0.08)',
-      borderRadius: '24px',
-      padding: '4.5rem 2rem',
-      textAlign: 'center',
-      width: '100%',
-      minHeight: '340px',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      boxSizing: 'border-box',
-      boxShadow: '0 16px 48px rgba(11, 27, 44, 0.03)',
-      position: 'relative',
-      overflow: 'hidden'
+      border: '1px solid rgba(197, 160, 89, 0.25)',
+      boxShadow: '0 12px 36px rgba(80, 60, 40, 0.04)'
     }}>
       {/* Decorative background dashed ring */}
       <div style={{
         position: 'absolute',
-        width: '320px',
-        height: '320px',
+        width: 'min(320px, 80vw)',
+        height: 'min(320px, 80vw)',
         borderRadius: '50%',
-        border: '1px dashed rgba(143, 123, 204, 0.15)',
+        border: '1px dashed rgba(197, 160, 89, 0.2)',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
@@ -66,70 +53,34 @@ const LockedMask = ({ title, description, responseCount, targetCount, langCode }
         zIndex: 0
       }}></div>
 
-      <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div className="relative z-10 flex flex-col items-center max-w-[420px] mx-auto">
         {/* Glowing Padlock Icon Wrapper */}
-        <div style={{
-          width: '72px',
-          height: '72px',
-          borderRadius: '50%',
-          background: 'linear-gradient(135deg, rgba(217, 106, 83, 0.15) 0%, rgba(143, 123, 204, 0.1) 100%)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginBottom: '1.5rem',
-          border: '1px solid rgba(217, 106, 83, 0.25)',
-          boxShadow: '0 8px 24px rgba(217, 106, 83, 0.08)',
-          color: 'var(--color-burnt-coral)',
-          animation: 'scaleIn 0.3s ease'
+        <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mb-4 sm:mb-5 text-[#8C6D37]" style={{
+          background: 'linear-gradient(135deg, rgba(228, 196, 136, 0.25) 0%, rgba(26, 62, 114, 0.08) 100%)',
+          border: '1.5px solid rgba(197, 160, 89, 0.35)',
+          boxShadow: '0 8px 24px rgba(197, 160, 89, 0.15)'
         }}>
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
             <path d="M7 11V7a5 5 0 0 1 10 0v4" />
           </svg>
         </div>
 
         {/* Lock Title */}
-        <h4 style={{
-          fontFamily: 'var(--font-serif)',
-          fontSize: '1.6rem',
-          color: 'var(--color-deep-ink)',
-          marginBottom: '0.75rem',
-          fontWeight: 900,
-          lineHeight: 1.25
-        }}>
+        <h4 className="font-serif text-[1.35rem] sm:text-[1.65rem] font-bold text-[#1A3E72] mb-2 leading-tight tracking-tight">
           {title}
         </h4>
 
         {/* Description */}
-        <p style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: '0.95rem',
-          color: 'var(--color-text-muted)',
-          lineHeight: 1.55,
-          margin: '0 auto 1.5rem auto',
-          maxWidth: '380px',
-          opacity: 0.95
-        }}>
+        <p className="font-sans text-[0.88rem] sm:text-[0.94rem] text-[#4A5568] leading-relaxed mb-5 max-w-[340px] sm:max-w-[380px]">
           {description}
         </p>
 
         {/* Progress pill indicator */}
-        <div style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '8px',
-          background: 'rgba(11, 27, 44, 0.04)',
-          border: '1px solid rgba(11, 27, 44, 0.06)',
-          padding: '6px 16px',
-          borderRadius: '100px',
-          fontFamily: 'var(--font-sans)',
-          fontSize: '0.85rem',
-          fontWeight: 700,
-          color: 'var(--color-deep-ink)'
-        }}>
+        <div className="inline-flex items-center gap-2 bg-[#F4EFE6] border border-[rgba(197,160,89,0.28)] px-4 py-2 rounded-full font-sans text-[0.82rem] sm:text-[0.86rem] font-bold text-[#1A3E72] shadow-xs">
           <span>🔒</span>
           <span>{responseCount} / {targetCount}</span>
-          <span style={{ opacity: 0.6, fontWeight: 500 }}>
+          <span className="opacity-70 font-normal">
             {langCode === 'tr' ? 'Yanıt Toplandı' : 'Responses Received'}
           </span>
         </div>
@@ -152,7 +103,7 @@ const CharacterBalanceBanner = ({ signals, langCode }) => {
 
   return (
     <div
-      className="seenly-dashboard-premium-card w-full p-5 sm:p-6 rounded-[28px] box-border mb-1"
+      className="seenly-dashboard-premium-card w-full p-4 sm:p-6 rounded-[24px] sm:rounded-[28px] box-border mb-1"
       style={{
         background: '#FDFBF4',
         border: '1px solid rgba(197, 160, 89, 0.22)',
@@ -161,16 +112,16 @@ const CharacterBalanceBanner = ({ signals, langCode }) => {
         WebkitBackdropFilter: 'none'
       }}
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 relative">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 relative">
         {/* Perfectly Centered Vertical Divider */}
         <div className="hidden md:block absolute top-2 bottom-2 left-1/2 w-[1px] bg-[#EFE8DC] -translate-x-1/2 pointer-events-none" />
 
         {/* Left Column: Top 3 Strengths */}
         <div className="flex flex-col w-full md:pr-4">
           {/* Header Row */}
-          <div className="flex items-center justify-center text-center w-full pb-3 mb-1 border-b border-[#EFE8DC]">
+          <div className="flex items-center justify-center text-center w-full pb-2.5 sm:pb-3 mb-1 border-b border-[#EFE8DC]">
             <span
-              className="text-[12px] font-bold uppercase tracking-[0.08em] text-[#8C6D37]"
+              className="text-[11.5px] sm:text-[12px] font-bold uppercase tracking-[0.08em] text-[#8C6D37]"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               {langCode === 'tr' ? 'En Güçlü 3 Yönünüz' : 'Top 3 Strengths'}
@@ -182,28 +133,28 @@ const CharacterBalanceBanner = ({ signals, langCode }) => {
             {top3Signals.map((sig, idx) => (
               <div
                 key={sig.key}
-                className="w-full flex items-center justify-between py-2.5 sm:py-3 border-b border-[#F4EFE6] last:border-b-0 transition-colors duration-150"
+                className="w-full flex items-center justify-between py-2 sm:py-2.5 border-b border-[#F4EFE6] last:border-b-0 transition-colors duration-150"
               >
-                <div className="flex items-center gap-3 min-w-0">
+                <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
                   <div
-                    className="w-[26px] h-[26px] rounded-full flex items-center justify-center flex-shrink-0 text-[11.5px] font-bold transition-transform"
+                    className="w-[22px] h-[22px] sm:w-[25px] sm:h-[25px] rounded-full flex items-center justify-center flex-shrink-0 text-[10.5px] sm:text-[11px] font-bold transition-transform"
                     style={{
                       fontFamily: "'Inter', sans-serif",
                       backgroundColor: idx === 0 ? '#C5A059' : idx === 1 ? 'rgba(197, 160, 89, 0.22)' : 'rgba(197, 160, 89, 0.12)',
                       color: idx === 0 ? '#FFFFFF' : '#8C6D37',
                       border: idx === 0 ? '1px solid #B89243' : '1px solid rgba(197, 160, 89, 0.35)',
-                      boxShadow: idx === 0 ? '0 2px 8px rgba(197, 160, 89, 0.3)' : 'none'
+                      boxShadow: idx === 0 ? '0 2px 8px rgba(197, 160, 89, 0.25)' : 'none'
                     }}
                   >
                     {idx + 1}
                   </div>
-                  <span className="font-serif text-[15px] font-semibold text-[#1A202C] truncate">
+                  <span className="font-serif text-[14px] sm:text-[15px] font-semibold text-[#1A202C] truncate">
                     {sig.label}
                   </span>
                 </div>
 
                 <span
-                  className="px-3 py-0.8 rounded-full text-[12.5px] font-bold tabular-nums text-center flex-shrink-0"
+                  className="px-2.5 py-0.5 sm:px-3 sm:py-0.8 rounded-full text-[11.5px] sm:text-[12.5px] font-bold tabular-nums text-center flex-shrink-0"
                   style={{
                     fontFamily: "'Inter', sans-serif",
                     color: '#8C6D37',
@@ -221,9 +172,9 @@ const CharacterBalanceBanner = ({ signals, langCode }) => {
         {/* Right Column: Top 3 Weakest Traits */}
         <div className="flex flex-col w-full md:pl-4">
           {/* Header Row */}
-          <div className="flex items-center justify-center text-center w-full pb-3 mb-1 border-b border-[#EFE8DC]">
+          <div className="flex items-center justify-center text-center w-full pb-2.5 sm:pb-3 mb-1 border-b border-[#EFE8DC]">
             <span
-              className="text-[12px] font-bold uppercase tracking-[0.08em] text-[#4A5568]"
+              className="text-[11.5px] sm:text-[12px] font-bold uppercase tracking-[0.08em] text-[#4A5568]"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               {langCode === 'tr' ? 'En Zayıf 3 Yönünüz' : 'Top 3 Weakest Traits'}
@@ -235,11 +186,11 @@ const CharacterBalanceBanner = ({ signals, langCode }) => {
             {bottom3Signals.map((sig, idx) => (
               <div
                 key={sig.key}
-                className="w-full flex items-center justify-between py-2.5 sm:py-3 border-b border-[#F4EFE6] last:border-b-0 transition-colors duration-150"
+                className="w-full flex items-center justify-between py-2 sm:py-2.5 border-b border-[#F4EFE6] last:border-b-0 transition-colors duration-150"
               >
-                <div className="flex items-center gap-3 min-w-0">
+                <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
                   <div
-                    className="w-[26px] h-[26px] rounded-full flex items-center justify-center flex-shrink-0 text-[11.5px] font-bold"
+                    className="w-[22px] h-[22px] sm:w-[25px] sm:h-[25px] rounded-full flex items-center justify-center flex-shrink-0 text-[10.5px] sm:text-[11px] font-bold"
                     style={{
                       fontFamily: "'Inter', sans-serif",
                       backgroundColor: idx === 0 ? '#4A5568' : idx === 1 ? 'rgba(113, 128, 150, 0.18)' : 'rgba(113, 128, 150, 0.10)',
@@ -250,13 +201,13 @@ const CharacterBalanceBanner = ({ signals, langCode }) => {
                   >
                     {idx + 1}
                   </div>
-                  <span className="font-serif text-[15px] font-semibold text-[#2D3748] truncate">
+                  <span className="font-serif text-[14px] sm:text-[15px] font-semibold text-[#2D3748] truncate">
                     {sig.label}
                   </span>
                 </div>
 
                 <span
-                  className="px-3 py-0.8 rounded-full text-[12.5px] font-bold tabular-nums text-center flex-shrink-0"
+                  className="px-2.5 py-0.5 sm:px-3 sm:py-0.8 rounded-full text-[11.5px] sm:text-[12.5px] font-bold tabular-nums text-center flex-shrink-0"
                   style={{
                     fontFamily: "'Inter', sans-serif",
                     color: '#4A5568',
@@ -278,21 +229,21 @@ const CharacterBalanceBanner = ({ signals, langCode }) => {
 
 const SocialSignalsPanel = ({ signals, archetypeName, langCode }) => {
   return (
-    <div className="seenly-dashboard-premium-card seenly-dashboard-signal-card seenly-wide-signal-card p-5 sm:p-6 flex flex-col rounded-[32px] flex-1 box-border" style={{
+    <div className="seenly-dashboard-premium-card seenly-dashboard-signal-card seenly-wide-signal-card p-4 sm:p-6 flex flex-col rounded-[24px] sm:rounded-[32px] flex-1 box-border" style={{
       background: '#FDFBF4',
       border: '1px solid rgba(197, 160, 89, 0.28)',
       boxShadow: '0 8px 28px rgba(80, 60, 40, 0.04)'
     }}>
       {/* Header bar for 10 signals */}
-      <div className="flex items-center justify-between w-full pb-3 mb-2.5 border-b border-[#EFE8DC]">
+      <div className="flex items-center justify-between w-full pb-2.5 sm:pb-3 mb-2 border-b border-[#EFE8DC]">
         <span
-          className="text-[11.5px] font-bold uppercase tracking-[0.08em] text-[#1A3E72]"
+          className="text-[11px] sm:text-[11.5px] font-bold uppercase tracking-[0.08em] text-[#1A3E72]"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
           {langCode === 'tr' ? '10 Sosyal Sinyal Dağılımı' : '10 Social Signal Distribution'}
         </span>
         <span
-          className="text-[10.5px] font-semibold text-[#A0988A] uppercase tracking-wider"
+          className="text-[10px] sm:text-[10.5px] font-semibold text-[#A0988A] uppercase tracking-wider"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
           {langCode === 'tr' ? 'Puan' : 'Score'}
@@ -307,10 +258,10 @@ const SocialSignalsPanel = ({ signals, archetypeName, langCode }) => {
             className="w-full flex items-center justify-between py-1.5 sm:py-2 border-b border-[#F4EFE6] last:border-b-0 transition-colors duration-150"
           >
             {/* Left: Icon + Label */}
-            <div className="flex items-center gap-3 min-w-0">
-              <SignalBadgeIcon signalKey={sig.key} size={16} boxSize={34} />
+            <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+              <SignalBadgeIcon signalKey={sig.key} size={15} boxSize={32} />
               <span
-                className="font-serif text-[14px] sm:text-[14.5px] font-semibold text-[#1A202C] whitespace-nowrap"
+                className="font-serif text-[13.5px] sm:text-[14.5px] font-semibold text-[#1A202C] whitespace-nowrap"
                 style={{ letterSpacing: '-0.01em' }}
               >
                 {sig.label}
@@ -318,8 +269,8 @@ const SocialSignalsPanel = ({ signals, archetypeName, langCode }) => {
             </div>
 
             {/* Right: Progress Bar + Score Badge */}
-            <div className="flex items-center gap-2.5 flex-1 justify-end ml-3 max-w-[155px]">
-              <div className="w-full h-[5px] rounded-full bg-[#ECE5D8] overflow-hidden">
+            <div className="flex items-center gap-2 sm:gap-2.5 flex-1 justify-end ml-2 sm:ml-3 max-w-[125px] sm:max-w-[155px]">
+              <div className="w-full h-[5px] sm:h-[6px] rounded-full bg-[#ECE5D8] overflow-hidden">
                 <div
                   className="h-full rounded-full transition-all duration-700 ease-out"
                   style={{
@@ -329,7 +280,7 @@ const SocialSignalsPanel = ({ signals, archetypeName, langCode }) => {
                 />
               </div>
               <span
-                className="px-2 py-0.5 rounded-md text-[11.5px] font-bold text-[#1A3E72] bg-[rgba(26,62,114,0.08)] tabular-nums min-w-[30px] text-center flex-shrink-0"
+                className="px-1.5 sm:px-2 py-0.5 rounded-md text-[11px] sm:text-[11.5px] font-bold text-[#1A3E72] bg-[rgba(26,62,114,0.08)] tabular-nums min-w-[28px] sm:min-w-[30px] text-center flex-shrink-0"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 {sig.percentage}
@@ -744,7 +695,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
       { key: 'zeka', label: lang === 'tr' ? 'Zeka' : 'Intellect', color: '#6A53D9' },
       { key: 'vizyon', label: lang === 'tr' ? 'Vizyon' : 'Vision', color: '#7B9FCC' },
       { key: 'enerji', label: lang === 'tr' ? 'Enerji' : 'Energy', color: '#D98A53' },
-      { key: 'guvenilirlik', label: lang === 'tr' ? 'Güvenilirlik' : 'Trustworthiness', color: '#7BCCAA' },
+      { key: 'guvenilirlik', label: lang === 'tr' ? 'Güvenilirlik' : 'Reliability', color: '#7BCCAA' },
       { key: 'ego', label: lang === 'tr' ? 'Ego' : 'Ego', color: '#CC7BBA' },
       { key: 'basari', label: lang === 'tr' ? 'Başarı' : 'Success', color: '#53A6D9' },
       { key: 'comertlik', label: lang === 'tr' ? 'Cömertlik' : 'Generosity', color: '#E5A260' },
@@ -1174,8 +1125,8 @@ export default function DashboardPage({ onNavigateToQuiz }) {
         <div className="seenly-dashboard-container">
 
           {/* Dashboard Header: Seamless Profile Hero (Vertical Centered Option 1) */}
-          <header className="seenly-dashboard-header w-full flex justify-center items-center py-6 px-4 bg-transparent border-b-0">
-            <div className="flex flex-col items-center justify-center gap-3.5 w-full max-w-[480px] mx-auto text-center">
+          <header className="seenly-dashboard-header w-full flex justify-center items-center py-5 sm:py-6 px-3 sm:px-4 bg-transparent border-b-0">
+            <div className="flex flex-col items-center justify-center gap-3 sm:gap-3.5 w-full max-w-[480px] mx-auto text-center">
               {/* Centered Large Avatar with Gold Bezel */}
               <div className="relative mx-auto">
                 {avatarSrc ? (
@@ -1184,8 +1135,8 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                     alt={displayName}
                     className="rounded-full object-cover shadow-md"
                     style={{
-                      width: 'clamp(94px, 15vw, 112px)',
-                      height: 'clamp(94px, 15vw, 112px)',
+                      width: 'clamp(86px, 14vw, 112px)',
+                      height: 'clamp(86px, 14vw, 112px)',
                       border: '3.5px solid #C5A059',
                       boxShadow: '0 8px 24px rgba(197, 160, 89, 0.28)'
                     }}
@@ -1194,8 +1145,8 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                   <div
                     className="rounded-full flex items-center justify-center font-serif text-3xl sm:text-4xl font-black text-white shadow-md mx-auto"
                     style={{
-                      width: 'clamp(94px, 15vw, 112px)',
-                      height: 'clamp(94px, 15vw, 112px)',
+                      width: 'clamp(86px, 14vw, 112px)',
+                      height: 'clamp(86px, 14vw, 112px)',
                       backgroundColor: '#1A3E72',
                       border: '3.5px solid #C5A059',
                       boxShadow: '0 8px 24px rgba(197, 160, 89, 0.28)'
@@ -1209,16 +1160,16 @@ export default function DashboardPage({ onNavigateToQuiz }) {
               {/* Centered Name & Response Badge Block */}
               <div className="flex flex-col items-center text-center w-full px-2">
                 <h2
-                  className="font-serif text-[1.85rem] sm:text-[2.25rem] font-bold text-[#1A202C] tracking-tight leading-tight m-0 break-words max-w-full"
+                  className="font-serif text-[1.65rem] sm:text-[2.25rem] font-bold text-[#1A202C] tracking-tight leading-tight m-0 break-words max-w-full"
                   title={displayName}
                 >
                   {displayName}
                 </h2>
 
                 {/* Meta Row: Count Capsule Badge */}
-                <div className="flex items-center justify-center gap-2 mt-2">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] sm:text-[12.5px] font-semibold bg-[rgba(26,62,114,0.06)] text-[#1A3E72] border border-[rgba(26,62,114,0.14)] shadow-xs">
-                    <UsersRound size={13} strokeWidth={2.4} />
+                <div className="flex items-center justify-center gap-2 mt-1.5 sm:mt-2">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11.5px] sm:text-[12.5px] font-semibold bg-[rgba(26,62,114,0.06)] text-[#1A3E72] border border-[rgba(26,62,114,0.14)] shadow-xs">
+                    <UsersRound size={12.5} strokeWidth={2.4} />
                     <span>
                       {responseCount} {langCode === 'tr' ? 'Yanıt' : (responseCount === 1 ? 'Response' : 'Responses')}
                     </span>
@@ -1227,16 +1178,16 @@ export default function DashboardPage({ onNavigateToQuiz }) {
               </div>
 
               {/* Minimalist Dual Action Share Bar (Deep Ink Dark Theme, Non-pill, Copy Icon) */}
-              <div className="flex flex-col items-center gap-2 mt-1">
+              <div className="flex flex-col items-center gap-1.5 sm:gap-2 mt-0.5 sm:mt-1 w-full max-w-[340px] px-2">
                 <div
-                  className="inline-flex items-center rounded-2xl bg-[#0B1B2C] border border-[#1E334A] p-1 shadow-md transition-all hover:border-[rgba(197,160,89,0.45)]"
+                  className="inline-flex items-center justify-center w-full sm:w-auto rounded-2xl bg-[#0B1B2C] border border-[#1E334A] p-1 shadow-md transition-all hover:border-[rgba(197,160,89,0.45)] box-border"
                   style={{ boxShadow: '0 4px 16px rgba(11, 27, 44, 0.18)' }}
                 >
                   {/* Copy Link Button */}
                   <button
                     type="button"
                     onClick={handleCopyLink}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 active:scale-[0.98] text-[#FDFDF8] text-[13px] font-semibold tracking-wide transition-all cursor-pointer"
+                    className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 active:scale-[0.98] text-[#FDFDF8] text-[12px] sm:text-[13px] font-semibold tracking-wide transition-all cursor-pointer whitespace-nowrap"
                     style={{ fontFamily: "'Inter', sans-serif" }}
                   >
                     {copied ? (
@@ -1252,13 +1203,13 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                     )}
                   </button>
 
-                  <div className="w-[1px] h-5 bg-white/15 mx-1" />
+                  <div className="w-[1px] h-5 bg-white/15 mx-1 shrink-0" />
 
                   {/* QR Button */}
                   <button
                     type="button"
                     onClick={() => setQrModalOpen(true)}
-                    className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-[#FDFDF8]/90 hover:text-white hover:bg-white/10 active:scale-[0.98] text-[13px] font-semibold transition-all cursor-pointer"
+                    className="inline-flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-2.5 rounded-xl text-[#FDFDF8]/90 hover:text-white hover:bg-white/10 active:scale-[0.98] text-[12px] sm:text-[13px] font-semibold transition-all cursor-pointer shrink-0"
                     style={{ fontFamily: "'Inter', sans-serif" }}
                     title={langCode === 'tr' ? 'Karekod' : 'QR Code'}
                   >
@@ -1273,7 +1224,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                   </button>
                 </div>
 
-                <p className="text-[11.5px] text-[#718096] text-center m-0 font-sans">
+                <p className="text-[11px] sm:text-[11.5px] text-[#718096] text-center m-0 font-sans max-w-[280px] sm:max-w-none">
                   {langCode === 'tr' ? 'Arkadaşlarının seni okuması için bu linki paylaş' : 'Share this link for friends to read your signals'}
                 </p>
               </div>
@@ -1322,8 +1273,8 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                   {/* Main Flow: Left Archetype Card + Right 10 Social Signals */}
                   <div className="seenly-signal-flow flex flex-col md:flex-row items-stretch justify-center w-full gap-5">
                     {/* Left Column: Glass Card (New Seamless Organic Layout) */}
-                    <div className="seenly-signal-summary-wrap flex flex-col items-center z-10 w-full md:w-[350px] flex-shrink-0">
-                      <div className="seenly-dashboard-premium-card seenly-signal-summary-card p-5 sm:p-6 flex flex-col items-center justify-between text-center relative rounded-[32px] w-full h-full box-border" style={{
+                    <div className="seenly-signal-summary-wrap flex flex-col items-center z-10 w-full md:w-[340px] lg:w-[350px] flex-shrink-0">
+                      <div className="seenly-dashboard-premium-card seenly-signal-summary-card p-4 sm:p-6 flex flex-col items-center justify-between text-center relative rounded-[24px] sm:rounded-[32px] w-full h-full box-border" style={{
                         background: '#FDFBF4',
                         backgroundColor: '#FDFBF4',
                         border: '1px solid rgba(197, 160, 89, 0.25)',
@@ -1333,7 +1284,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                         opacity: 1
                       }}>
                         {/* Top Section: Title (Left) + Rarity Pill Badge (Right) + Description */}
-                        <div className="flex flex-col items-start text-left w-full px-1 mb-2">
+                        <div className="flex flex-col items-start text-left w-full px-0.5 sm:px-1 mb-2">
                           <div className="flex items-center justify-between gap-2 w-full mb-1.5 flex-nowrap">
                             <h3
                               className="font-serif m-0 whitespace-nowrap"
@@ -1350,13 +1301,13 @@ export default function DashboardPage({ onNavigateToQuiz }) {
 
                             {/* Rarity Pill Badge */}
                             <div
-                              className="inline-flex items-center px-2.5 py-0.5 rounded-full flex-shrink-0 whitespace-nowrap transition-all duration-200"
+                              className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full flex-shrink-0 whitespace-nowrap transition-all duration-200"
                               style={{
                                 backgroundColor: selfRarity.badgeBg,
                                 color: selfRarity.badgeText,
                                 border: `1px solid ${selfRarity.badgeBorder}`,
                                 fontFamily: "'Inter', sans-serif",
-                                fontSize: '11.5px',
+                                fontSize: '11px',
                                 fontWeight: 600,
                                 letterSpacing: '0.01em'
                               }}
@@ -1370,8 +1321,8 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                               className="m-0 max-w-[295px] mt-1"
                               style={{
                                 fontFamily: "'Newsreader', Georgia, serif",
-                                fontSize: '14.5px',
-                                lineHeight: '1.55',
+                                fontSize: '14px',
+                                lineHeight: '1.5',
                                 color: '#4B5568',
                                 fontWeight: 400,
                                 letterSpacing: '0.01em'
@@ -1384,7 +1335,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
 
                         {/* Middle Artwork - Seamless Organic Watercolor Vignette (Multiply & Soft Feather) */}
                         <div
-                          className="relative w-full max-w-[315px] flex items-center justify-center my-1"
+                          className="relative w-full max-w-[280px] sm:max-w-[315px] flex items-center justify-center my-1 sm:my-2"
                           style={{
                             WebkitMaskImage: 'radial-gradient(circle at center, black 48%, rgba(0, 0, 0, 0.8) 66%, transparent 90%)',
                             maskImage: 'radial-gradient(circle at center, black 48%, rgba(0, 0, 0, 0.8) 66%, transparent 90%)',
@@ -1393,7 +1344,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                           <img
                             src={SIGNATURE_IMAGES[activeSelfSignatureId]}
                             alt={selfSignatureName}
-                            className="w-full h-auto object-contain pointer-events-none select-none scale-[1.04]"
+                            className="w-full h-auto object-contain pointer-events-none select-none scale-[1.03] sm:scale-[1.04]"
                             style={{
                               mixBlendMode: 'multiply',
                               WebkitMaskImage: 'radial-gradient(circle at center, black 48%, rgba(0, 0, 0, 0.8) 66%, transparent 90%)',
@@ -1403,25 +1354,25 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                         </div>
 
                         {/* Bottom Action Bar: Harmonized Navy & Porcelain Action Bar */}
-                        <div className="flex items-center justify-between gap-2.5 w-full mt-auto pt-2 box-border">
+                        <div className="flex items-center justify-between gap-2 sm:gap-2.5 w-full mt-auto pt-2 box-border">
                           <button
                             type="button"
                             onClick={() => {
                               localStorage.setItem('seenly_selected_identity', activeSelfSignatureId);
                               window.location.hash = '#/identities';
                             }}
-                            className="flex-1 h-[46px] px-4 rounded-full text-white flex items-center justify-between transition-all duration-200 hover:-translate-y-0.5 cursor-pointer"
+                            className="flex-1 h-[42px] sm:h-[46px] px-3 sm:px-4 rounded-full text-white flex items-center justify-between transition-all duration-200 hover:-translate-y-0.5 cursor-pointer"
                             style={{
                               background: '#1A3E72',
                               boxShadow: '0 4px 14px rgba(26, 62, 114, 0.22)',
                               fontFamily: "'Inter', sans-serif",
-                              fontSize: '12.5px',
+                              fontSize: '12px',
                               fontWeight: 500,
                               letterSpacing: '0.02em'
                             }}
                           >
                             <span>{langCode === 'tr' ? 'Detaylı Analizi Gör' : 'View Detailed Analysis'}</span>
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" className="ml-1.5 flex-shrink-0 opacity-95">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" className="ml-1 flex-shrink-0 opacity-95">
                               <path d="M5 12h14M12 5l7 7-7 7" />
                             </svg>
                           </button>
@@ -1431,7 +1382,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                             href={getDashboardWhatsAppLink(selfSignatureName)}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-[46px] h-[46px] rounded-[16px] flex items-center justify-center text-[#1A3E72] transition-all duration-200 flex-shrink-0 hover:bg-[#F4F7FC] hover:border-[rgba(26,62,114,0.35)] hover:shadow-md hover:-translate-y-0.5 cursor-pointer"
+                            className="w-[42px] sm:w-[46px] h-[42px] sm:h-[46px] rounded-[14px] sm:rounded-[16px] flex items-center justify-center text-[#1A3E72] transition-all duration-200 flex-shrink-0 hover:bg-[#F4F7FC] hover:border-[rgba(26,62,114,0.35)] hover:shadow-md hover:-translate-y-0.5 cursor-pointer"
                             style={{
                               background: '#FFFFFF',
                               border: '1px solid rgba(26, 62, 114, 0.16)',
@@ -1439,7 +1390,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                             }}
                             title={langCode === 'tr' ? "Paylaş" : "Share"}
                           >
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
                               <path d="M4 12v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6" />
                               <polyline points="16 6 12 2 8 6" />
                               <line x1="12" y1="2" x2="12" y2="15" />
@@ -1451,7 +1402,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                             type="button"
                             onClick={() => handleDashboardInstagramStory(selfSignatureName, SIGNATURE_IMAGES[activeSelfSignatureId])}
                             disabled={isGenerating}
-                            className="w-[46px] h-[46px] rounded-[16px] flex items-center justify-center text-[#1A3E72] transition-all duration-200 flex-shrink-0 hover:bg-[#F4F7FC] hover:border-[rgba(26,62,114,0.35)] hover:shadow-md hover:-translate-y-0.5 cursor-pointer"
+                            className="w-[42px] sm:w-[46px] h-[42px] sm:h-[46px] rounded-[14px] sm:rounded-[16px] flex items-center justify-center text-[#1A3E72] transition-all duration-200 flex-shrink-0 hover:bg-[#F4F7FC] hover:border-[rgba(26,62,114,0.35)] hover:shadow-md hover:-translate-y-0.5 cursor-pointer"
                             style={{
                               background: '#FFFFFF',
                               border: '1px solid rgba(26, 62, 114, 0.16)',
@@ -1465,7 +1416,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                                 <path d="M21 12a9 9 0 1 1-6.219-8.56" />
                               </svg>
                             ) : (
-                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+                              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
                               </svg>
                             )}
@@ -1486,8 +1437,8 @@ export default function DashboardPage({ onNavigateToQuiz }) {
             )}
 
             {activeTab === 1 && (
-              <div className={`seenly-dashboard-tab-content ${responseCount < 1 ? 'full-width-layout' : 'seenly-gap-editorial-content'}`} style={{ maxWidth: '980px', margin: '0 auto', width: '100%' }}>
-                {responseCount >= 1 ? (
+              <div className={`seenly-dashboard-tab-content ${responseCount < 3 ? 'full-width-layout' : 'seenly-gap-editorial-content'}`} style={{ maxWidth: '980px', margin: '0 auto', width: '100%' }}>
+                {responseCount >= 3 ? (
                   <div className="flex flex-col gap-5 w-full box-border">
                     {/* Horizontal General Statistics Banner (Above both Personality Card & 10 Signals) */}
                     <CharacterBalanceBanner
@@ -1498,8 +1449,8 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                     {/* Main Flow: Left Archetype Card + Right 10 Social Signals */}
                     <div className="seenly-outside-flow flex flex-col md:flex-row items-stretch justify-center w-full gap-5">
                       {/* Left Column: Glass Card (New Aesthetic Layout) */}
-                      <div className="seenly-outside-summary-wrap flex flex-col items-center z-10 w-full md:w-[350px] flex-shrink-0">
-                        <div className="seenly-dashboard-premium-card seenly-outside-summary-card p-5 sm:p-6 flex flex-col items-center justify-between text-center relative rounded-[32px] w-full h-full box-border" style={{
+                      <div className="seenly-outside-summary-wrap flex flex-col items-center z-10 w-full md:w-[340px] lg:w-[350px] flex-shrink-0">
+                        <div className="seenly-dashboard-premium-card seenly-outside-summary-card p-4 sm:p-6 flex flex-col items-center justify-between text-center relative rounded-[24px] sm:rounded-[32px] w-full h-full box-border" style={{
                           background: '#FDFBF4',
                           backgroundColor: '#FDFBF4',
                           border: '1px solid rgba(197, 160, 89, 0.25)',
@@ -1509,7 +1460,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                           opacity: 1
                         }}>
                           {/* Top Section: Title (Left) + Rarity Pill Badge (Right) + Description */}
-                          <div className="flex flex-col items-start text-left w-full px-1 mb-2">
+                          <div className="flex flex-col items-start text-left w-full px-0.5 sm:px-1 mb-2">
                             <div className="flex items-center justify-between gap-2 w-full mb-1.5 flex-nowrap">
                               <h3
                                 className="font-serif m-0 whitespace-nowrap"
@@ -1526,13 +1477,13 @@ export default function DashboardPage({ onNavigateToQuiz }) {
 
                               {/* Rarity Pill Badge */}
                               <div
-                                className="inline-flex items-center px-2.5 py-0.5 rounded-full flex-shrink-0 whitespace-nowrap transition-all duration-200"
+                                className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full flex-shrink-0 whitespace-nowrap transition-all duration-200"
                                 style={{
                                   backgroundColor: outsideRarity.badgeBg,
                                   color: outsideRarity.badgeText,
                                   border: `1px solid ${outsideRarity.badgeBorder}`,
                                   fontFamily: "'Inter', sans-serif",
-                                  fontSize: '11.5px',
+                                  fontSize: '11px',
                                   fontWeight: 600,
                                   letterSpacing: '0.01em'
                                 }}
@@ -1546,8 +1497,8 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                                 className="m-0 max-w-[295px] mt-1"
                                 style={{
                                   fontFamily: "'Newsreader', Georgia, serif",
-                                  fontSize: '14.5px',
-                                  lineHeight: '1.55',
+                                  fontSize: '14px',
+                                  lineHeight: '1.5',
                                   color: '#4B5568',
                                   fontWeight: 400,
                                   letterSpacing: '0.01em'
@@ -1560,7 +1511,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
 
                           {/* Middle Artwork - Seamless Organic Watercolor Vignette (Multiply & Soft Feather) */}
                           <div
-                            className="relative w-full max-w-[315px] flex items-center justify-center my-1"
+                            className="relative w-full max-w-[280px] sm:max-w-[315px] flex items-center justify-center my-1 sm:my-2"
                             style={{
                               WebkitMaskImage: 'radial-gradient(circle at center, black 48%, rgba(0, 0, 0, 0.8) 66%, transparent 90%)',
                               maskImage: 'radial-gradient(circle at center, black 48%, rgba(0, 0, 0, 0.8) 66%, transparent 90%)',
@@ -1569,7 +1520,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                             <img
                               src={SIGNATURE_IMAGES[activeOutsideSignatureId]}
                               alt={outsideSignatureName}
-                              className="w-full h-auto object-contain pointer-events-none select-none scale-[1.04]"
+                              className="w-full h-auto object-contain pointer-events-none select-none scale-[1.03] sm:scale-[1.04]"
                               style={{
                                 mixBlendMode: 'multiply',
                                 WebkitMaskImage: 'radial-gradient(circle at center, black 48%, rgba(0, 0, 0, 0.8) 66%, transparent 90%)',
@@ -1579,25 +1530,25 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                           </div>
 
                           {/* Bottom Action Bar: Harmonized Navy & Porcelain Action Bar */}
-                          <div className="flex items-center justify-between gap-2.5 w-full mt-auto pt-2 box-border">
+                          <div className="flex items-center justify-between gap-2 sm:gap-2.5 w-full mt-auto pt-2 box-border">
                             <button
                               type="button"
                               onClick={() => {
                                 localStorage.setItem('seenly_selected_identity', activeOutsideSignatureId);
                                 window.location.hash = '#/identities';
                               }}
-                              className="flex-1 h-[46px] px-4 rounded-full text-white flex items-center justify-between transition-all duration-200 hover:-translate-y-0.5 cursor-pointer"
+                              className="flex-1 h-[42px] sm:h-[46px] px-3 sm:px-4 rounded-full text-white flex items-center justify-between transition-all duration-200 hover:-translate-y-0.5 cursor-pointer"
                               style={{
                                 background: '#1A3E72',
                                 boxShadow: '0 4px 14px rgba(26, 62, 114, 0.22)',
                                 fontFamily: "'Inter', sans-serif",
-                                fontSize: '12.5px',
+                                fontSize: '12px',
                                 fontWeight: 500,
                                 letterSpacing: '0.02em'
                               }}
                             >
                               <span>{langCode === 'tr' ? 'Detaylı Analizi Gör' : 'View Detailed Analysis'}</span>
-                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" className="ml-1.5 flex-shrink-0 opacity-95">
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" className="ml-1 flex-shrink-0 opacity-95">
                                 <path d="M5 12h14M12 5l7 7-7 7" />
                               </svg>
                             </button>
@@ -1607,7 +1558,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                               href={getDashboardWhatsAppLink(outsideSignatureName)}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="w-[46px] h-[46px] rounded-[16px] flex items-center justify-center text-[#1A3E72] transition-all duration-200 flex-shrink-0 hover:bg-[#F4F7FC] hover:border-[rgba(26,62,114,0.35)] hover:shadow-md hover:-translate-y-0.5 cursor-pointer"
+                              className="w-[42px] sm:w-[46px] h-[42px] sm:h-[46px] rounded-[14px] sm:rounded-[16px] flex items-center justify-center text-[#1A3E72] transition-all duration-200 flex-shrink-0 hover:bg-[#F4F7FC] hover:border-[rgba(26,62,114,0.35)] hover:shadow-md hover:-translate-y-0.5 cursor-pointer"
                               style={{
                                 background: '#FFFFFF',
                                 border: '1px solid rgba(26, 62, 114, 0.16)',
@@ -1615,7 +1566,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                               }}
                               title={langCode === 'tr' ? "Paylaş" : "Share"}
                             >
-                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+                              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M4 12v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6" />
                                 <polyline points="16 6 12 2 8 6" />
                                 <line x1="12" y1="2" x2="12" y2="15" />
@@ -1627,7 +1578,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                               type="button"
                               onClick={() => handleDashboardInstagramStory(outsideSignatureName, SIGNATURE_IMAGES[activeOutsideSignatureId])}
                               disabled={isGenerating}
-                              className="w-[46px] h-[46px] rounded-[16px] flex items-center justify-center text-[#1A3E72] transition-all duration-200 flex-shrink-0 hover:bg-[#F4F7FC] hover:border-[rgba(26,62,114,0.35)] hover:shadow-md hover:-translate-y-0.5 cursor-pointer"
+                              className="w-[42px] sm:w-[46px] h-[42px] sm:h-[46px] rounded-[14px] sm:rounded-[16px] flex items-center justify-center text-[#1A3E72] transition-all duration-200 flex-shrink-0 hover:bg-[#F4F7FC] hover:border-[rgba(26,62,114,0.35)] hover:shadow-md hover:-translate-y-0.5 cursor-pointer"
                               style={{
                                 background: '#FFFFFF',
                                 border: '1px solid rgba(26, 62, 114, 0.16)',
@@ -1641,7 +1592,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                                   <path d="M21 12a9 9 0 1 1-6.219-8.56" />
                                 </svg>
                               ) : (
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
                                   <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
                                 </svg>
                               )}
@@ -1664,7 +1615,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                       title={t('ui', 'locked_section_title')}
                       description={t('ui', 'locked_section_outside_desc')}
                       responseCount={responseCount}
-                      targetCount={1}
+                      targetCount={3}
                       langCode={langCode}
                     />
                   </div>
@@ -1675,10 +1626,10 @@ export default function DashboardPage({ onNavigateToQuiz }) {
             {activeTab === 2 && (
               <div className="seenly-dashboard-tab-content full-width-layout scrollable-gap-content seenly-gap-editorial-content" style={{ maxWidth: '880px', width: '100%' }}>
                 {responseCount >= 1 ? (
-                  <div className="flex flex-col gap-5 w-full">
+                  <div className="flex flex-col gap-4 sm:gap-5 w-full">
                     {/* 1. Seamless Embedded Overview Banner */}
                     <div
-                      className="seenly-dashboard-premium-card p-5 sm:p-6 sm:px-8 rounded-[28px] w-full flex flex-col md:flex-row items-start md:items-center gap-6 box-border"
+                      className="seenly-dashboard-premium-card p-4 sm:p-6 sm:px-8 rounded-[24px] sm:rounded-[28px] w-full flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6 box-border"
                       style={{
                         background: '#FDFBF4',
                         border: '1px solid rgba(197, 160, 89, 0.25)',
@@ -1686,11 +1637,11 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                       }}
                     >
                       {/* Left: Title & Subtitle */}
-                      <div className="text-left md:max-w-[530px] shrink-0">
-                        <h3 className="font-serif text-[1.35rem] sm:text-[1.5rem] font-bold text-[#1A3E72] m-0 tracking-tight leading-tight">
+                      <div className="text-left flex-1 md:max-w-[530px] shrink-0">
+                        <h3 className="font-serif text-[1.25rem] sm:text-[1.5rem] font-bold text-[#1A3E72] m-0 tracking-tight leading-tight">
                           {langCode === 'tr' ? 'Algı Boşluğu ve Paralellik' : 'Perception Gap & Alignment'}
                         </h3>
-                        <p className="font-sans text-[0.88rem] sm:text-[0.92rem] text-[#4A5568] mt-1.5 leading-[1.55] m-0">
+                        <p className="font-sans text-[0.84rem] sm:text-[0.92rem] text-[#4A5568] mt-1 sm:mt-1.5 leading-[1.55] m-0">
                           {langCode === 'tr'
                             ? 'Kendi algınız ile arkadaşlarınızın sizde gözlemlediği sosyal sinyaller arasındaki mesafe ve uyumu analiz eder.'
                             : 'Analyzes the distance and alignment between your self-perception and the social signals observed by friends.'
@@ -1698,9 +1649,9 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                         </p>
                       </div>
 
-                      {/* Right: Circular Gauge Metric centered perfectly between text end and right border */}
-                      <div className="flex-1 flex items-center justify-center w-full md:w-auto self-center">
-                        <div className="relative w-[64px] h-[64px] sm:w-[72px] sm:h-[72px] flex items-center justify-center flex-shrink-0">
+                      {/* Right: Circular Gauge Metric */}
+                      <div className="flex items-center justify-center shrink-0 self-center sm:self-auto">
+                        <div className="relative w-[58px] h-[58px] sm:w-[72px] sm:h-[72px] flex items-center justify-center flex-shrink-0">
                           <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
                             <path
                               className="text-[#EFE8DC]"
@@ -1719,7 +1670,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                               d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                             />
                           </svg>
-                          <span className="absolute font-serif text-[17px] sm:text-[19px] font-bold text-[#1A3E72] tracking-tight">
+                          <span className="absolute font-serif text-[15px] sm:text-[19px] font-bold text-[#1A3E72] tracking-tight">
                             {gapEditorial.alignmentRatio}%
                           </span>
                         </div>
@@ -1727,35 +1678,35 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                     </div>
 
                     {/* 2. Sinyal Boyut Karşılaştırması */}
-                    <div className="seenly-dashboard-premium-card p-6 sm:p-7 rounded-[32px] w-full flex flex-col box-border" style={{
+                    <div className="seenly-dashboard-premium-card p-4 sm:p-6 sm:p-7 rounded-[24px] sm:rounded-[32px] w-full flex flex-col box-border" style={{
                       background: '#FDFBF4',
                       border: '1px solid rgba(197, 160, 89, 0.28)',
                       boxShadow: '0 8px 28px rgba(80, 60, 40, 0.04)'
                     }}>
                       {/* Header & Legend */}
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 mb-3 border-b border-[#EFE8DC]">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-3 pb-3 mb-2.5 border-b border-[#EFE8DC]">
                         <span
-                          className="text-[12px] font-bold uppercase tracking-[0.08em] text-[#1A3E72]"
+                          className="text-[11px] sm:text-[12px] font-bold uppercase tracking-[0.08em] text-[#1A3E72]"
                           style={{ fontFamily: "'Inter', sans-serif" }}
                         >
                           {langCode === 'tr' ? '10 Sinyal Boyut Karşılaştırması' : '10 Signal Dimension Comparison'}
                         </span>
 
                         {/* Elegant Legend */}
-                        <div className="flex items-center gap-4 text-[12px] font-semibold text-[#4A5568]">
+                        <div className="flex items-center gap-3 sm:gap-4 text-[11px] sm:text-[12px] font-semibold text-[#4A5568]">
                           <span className="flex items-center gap-1.5">
-                            <span className="w-2.5 h-2.5 rounded-full bg-[#C5A059] shadow-sm" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-[#C5A059] shadow-xs" />
                             <span>{langCode === 'tr' ? 'Kendi Algın' : 'Self Perception'}</span>
                           </span>
                           <span className="flex items-center gap-1.5">
-                            <span className="w-2.5 h-2.5 rounded-full bg-[#1A3E72] shadow-sm" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-[#1A3E72] shadow-xs" />
                             <span>{langCode === 'tr' ? 'Dış Algı' : 'Outside Perception'}</span>
                           </span>
                         </div>
                       </div>
 
                       {/* 10 Clean Comparison Rows */}
-                      <div className="flex flex-col gap-1 w-full">
+                      <div className="flex flex-col gap-0.5 sm:gap-1 w-full">
                         {gapEditorial.rows.map((row) => {
                           const gapDiff = row.friendPosition - row.selfPosition;
                           const absGap = Math.abs(gapDiff);
@@ -1764,25 +1715,25 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                           return (
                             <div
                               key={row.key}
-                              className="w-full flex items-center justify-between py-2 sm:py-2.5 border-b border-[#F4EFE6] last:border-b-0 transition-colors"
+                              className="w-full flex items-center justify-between py-1.5 sm:py-2.5 border-b border-[#F4EFE6] last:border-b-0 transition-colors"
                             >
                               {/* Left: Icon + Label */}
-                              <div className="flex items-center gap-2.5 min-w-[130px] sm:min-w-[160px]">
-                                <SignalBadgeIcon signalKey={row.key} size={14} boxSize={28} />
-                                <span className="font-serif text-[14.5px] font-semibold text-[#1A202C]">
+                              <div className="flex items-center gap-2 sm:gap-2.5 min-w-[88px] sm:min-w-[150px] max-w-[110px] sm:max-w-none">
+                                <SignalBadgeIcon signalKey={row.key} size={13} boxSize={26} className="sm:w-[28px] sm:h-[28px]" />
+                                <span className="font-serif text-[13px] sm:text-[14.5px] font-semibold text-[#1A202C] truncate">
                                   {row.label}
                                 </span>
                               </div>
 
                               {/* Center: Dual-pin Range Track */}
-                              <div className="relative flex-1 mx-3 sm:mx-6 h-6 flex items-center">
+                              <div className="relative flex-1 mx-2 sm:mx-6 h-6 flex items-center">
                                 {/* Base track */}
-                                <div className="absolute left-0 right-0 h-[5px] rounded-full bg-[#ECE5D8]" />
+                                <div className="absolute left-0 right-0 h-[4px] sm:h-[5px] rounded-full bg-[#ECE5D8]" />
 
                                 {isExactMatch ? (
                                   /* Only for exact collision: Single delicate merged pin */
                                   <div
-                                    className="absolute -translate-x-1/2 flex items-center justify-center w-3.5 h-3.5 rounded-full border-2 border-white shadow-md z-10 transition-transform hover:scale-125 cursor-help"
+                                    className="absolute -translate-x-1/2 flex items-center justify-center w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full border-2 border-white shadow-md z-10 transition-transform hover:scale-125 cursor-help"
                                     style={{
                                       left: `${(row.selfPosition + row.friendPosition) / 2}%`,
                                       background: 'linear-gradient(135deg, #C5A059 0%, #1A3E72 100%)'
@@ -1793,7 +1744,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                                   <>
                                     {/* Gap range span */}
                                     <div
-                                      className="absolute h-[5px] rounded-full opacity-70"
+                                      className="absolute h-[4px] sm:h-[5px] rounded-full opacity-70"
                                       style={{
                                         left: `${Math.min(row.selfPosition, row.friendPosition)}%`,
                                         width: `${absGap}%`,
@@ -1803,14 +1754,14 @@ export default function DashboardPage({ onNavigateToQuiz }) {
 
                                     {/* Self Dot (Gold) */}
                                     <div
-                                      className="absolute -translate-x-1/2 flex items-center justify-center w-3.5 h-3.5 rounded-full bg-[#C5A059] border-2 border-white shadow-md z-10 transition-transform hover:scale-125 cursor-help"
+                                      className="absolute -translate-x-1/2 flex items-center justify-center w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-[#C5A059] border-2 border-white shadow-md z-10 transition-transform hover:scale-125 cursor-help"
                                       style={{ left: `${row.selfPosition}%` }}
                                       title={`${langCode === 'tr' ? 'Kendi Algın' : 'Self'}: %${row.selfPosition}`}
                                     />
 
                                     {/* Outside Dot (Navy) */}
                                     <div
-                                      className="absolute -translate-x-1/2 flex items-center justify-center w-3.5 h-3.5 rounded-full bg-[#1A3E72] border-2 border-white shadow-md z-10 transition-transform hover:scale-125 cursor-help"
+                                      className="absolute -translate-x-1/2 flex items-center justify-center w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-[#1A3E72] border-2 border-white shadow-md z-10 transition-transform hover:scale-125 cursor-help"
                                       style={{ left: `${row.friendPosition}%` }}
                                       title={`${langCode === 'tr' ? 'Dış Algı' : 'Outside'}: %${row.friendPosition}`}
                                     />
@@ -1819,9 +1770,9 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                               </div>
 
                               {/* Right: Modern Dynamic Perspective Capsule */}
-                              <div className="min-w-[46px] text-right flex-shrink-0 flex items-center justify-end">
+                              <div className="min-w-[34px] sm:min-w-[46px] text-right flex-shrink-0 flex items-center justify-end">
                                 <span
-                                  className="h-6 px-2.5 rounded-full flex items-center justify-center gap-1 inline-flex transition-transform hover:scale-105 cursor-help"
+                                  className="h-5 sm:h-6 px-1.5 sm:px-2.5 rounded-full flex items-center justify-center gap-1 inline-flex transition-transform hover:scale-105 cursor-help"
                                   style={{
                                     backgroundColor: isBalanced
                                       ? 'rgba(100, 116, 139, 0.10)'
@@ -1848,11 +1799,11 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                                   }
                                 >
                                   {isBalanced ? (
-                                    <Minus size={13} strokeWidth={2.8} />
+                                    <Minus size={11} strokeWidth={2.8} className="sm:w-[13px] sm:h-[13px]" />
                                   ) : gapDiff > 0 ? (
-                                    <TrendingUp size={13} strokeWidth={2.4} />
+                                    <TrendingUp size={11} strokeWidth={2.4} className="sm:w-[13px] sm:h-[13px]" />
                                   ) : (
-                                    <TrendingDown size={13} strokeWidth={2.4} />
+                                    <TrendingDown size={11} strokeWidth={2.4} className="sm:w-[13px] sm:h-[13px]" />
                                   )}
                                 </span>
                               </div>
@@ -1863,80 +1814,80 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                     </div>
 
                     {/* 3. Editorial Analysis 3 Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4 w-full">
                       {/* 1. Kör Nokta */}
-                      <div className="seenly-dashboard-premium-card p-5 sm:p-6 rounded-[26px] text-left flex flex-col justify-between box-border transition-all duration-200 hover:-translate-y-0.5" style={{
+                      <div className="seenly-dashboard-premium-card p-4 sm:p-5 sm:p-6 rounded-[22px] sm:rounded-[26px] text-left flex flex-col justify-between box-border transition-all duration-200 hover:-translate-y-0.5" style={{
                         background: '#FDFBF4',
                         border: '1px solid rgba(197, 160, 89, 0.35)',
                         boxShadow: '0 4px 18px rgba(80, 60, 40, 0.04)'
                       }}>
                         <div>
-                          <div className="flex items-center justify-between mb-3">
-                            <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold uppercase tracking-wider bg-[rgba(197,160,89,0.15)] text-[#8C6D37] border border-[rgba(197,160,89,0.3)]">
+                          <div className="flex items-center justify-between mb-2.5 sm:mb-3">
+                            <span className="px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider bg-[rgba(197,160,89,0.15)] text-[#8C6D37] border border-[rgba(197,160,89,0.3)]">
                               {langCode === 'tr' ? 'KÖR NOKTA' : 'BLIND SPOT'}
                             </span>
                             {gapEditorial.blindSpot?.key && (
-                              <SignalBadgeIcon signalKey={gapEditorial.blindSpot.key} size={15} boxSize={28} />
+                              <SignalBadgeIcon signalKey={gapEditorial.blindSpot.key} size={14} boxSize={26} className="sm:w-[28px] sm:h-[28px]" />
                             )}
                           </div>
 
-                          <h4 className="font-serif text-[1.3rem] font-bold text-[#1A3E72] tracking-tight mb-2 m-0">
+                          <h4 className="font-serif text-[1.18rem] sm:text-[1.3rem] font-bold text-[#1A3E72] tracking-tight mb-1.5 sm:mb-2 m-0">
                             {gapEditorial.blindSpot?.label}
                           </h4>
 
-                          <p className="font-sans text-[0.85rem] text-[#4A5568] leading-relaxed m-0">
+                          <p className="font-sans text-[0.82rem] sm:text-[0.85rem] text-[#4A5568] leading-relaxed m-0">
                             {gapBlindSpotDesc}
                           </p>
                         </div>
                       </div>
 
                       {/* 2. Sosyal Maske */}
-                      <div className="seenly-dashboard-premium-card p-5 sm:p-6 rounded-[26px] text-left flex flex-col justify-between box-border transition-all duration-200 hover:-translate-y-0.5" style={{
+                      <div className="seenly-dashboard-premium-card p-4 sm:p-5 sm:p-6 rounded-[22px] sm:rounded-[26px] text-left flex flex-col justify-between box-border transition-all duration-200 hover:-translate-y-0.5" style={{
                         background: '#FDFBF4',
                         border: '1px solid rgba(224, 101, 83, 0.3)',
                         boxShadow: '0 4px 18px rgba(80, 60, 40, 0.04)'
                       }}>
                         <div>
-                          <div className="flex items-center justify-between mb-3">
-                            <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold uppercase tracking-wider bg-[rgba(224,101,83,0.12)] text-[#D96552] border border-[rgba(224,101,83,0.25)]">
+                          <div className="flex items-center justify-between mb-2.5 sm:mb-3">
+                            <span className="px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider bg-[rgba(224,101,83,0.12)] text-[#D96552] border border-[rgba(224,101,83,0.25)]">
                               {langCode === 'tr' ? 'SOSYAL MASKE' : 'SOCIAL MASK'}
                             </span>
                             {gapEditorial.illusionOfSelf?.key && (
-                              <SignalBadgeIcon signalKey={gapEditorial.illusionOfSelf.key} size={15} boxSize={28} />
+                              <SignalBadgeIcon signalKey={gapEditorial.illusionOfSelf.key} size={14} boxSize={26} className="sm:w-[28px] sm:h-[28px]" />
                             )}
                           </div>
 
-                          <h4 className="font-serif text-[1.3rem] font-bold text-[#1A3E72] tracking-tight mb-2 m-0">
+                          <h4 className="font-serif text-[1.18rem] sm:text-[1.3rem] font-bold text-[#1A3E72] tracking-tight mb-1.5 sm:mb-2 m-0">
                             {gapEditorial.illusionOfSelf?.label}
                           </h4>
 
-                          <p className="font-sans text-[0.85rem] text-[#4A5568] leading-relaxed m-0">
+                          <p className="font-sans text-[0.82rem] sm:text-[0.85rem] text-[#4A5568] leading-relaxed m-0">
                             {gapIllusionDesc}
                           </p>
                         </div>
                       </div>
 
                       {/* 3. Senkronizasyon */}
-                      <div className="seenly-dashboard-premium-card p-5 sm:p-6 rounded-[26px] text-left flex flex-col justify-between box-border transition-all duration-200 hover:-translate-y-0.5" style={{
+                      <div className="seenly-dashboard-premium-card p-4 sm:p-5 sm:p-6 rounded-[22px] sm:rounded-[26px] text-left flex flex-col justify-between box-border transition-all duration-200 hover:-translate-y-0.5" style={{
                         background: '#FDFBF4',
                         border: '1px solid rgba(26, 62, 114, 0.25)',
                         boxShadow: '0 4px 18px rgba(80, 60, 40, 0.04)'
                       }}>
                         <div>
-                          <div className="flex items-center justify-between mb-3">
-                            <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold uppercase tracking-wider bg-[rgba(26,62,114,0.08)] text-[#1A3E72] border border-[rgba(26,62,114,0.2)]">
+                          <div className="flex items-center justify-between mb-2.5 sm:mb-3">
+                            <span className="px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider bg-[rgba(26,62,114,0.08)] text-[#1A3E72] border border-[rgba(26,62,114,0.2)]">
                               {langCode === 'tr' ? 'TAM UYUM' : 'DEEP SYNC'}
                             </span>
                             {gapEditorial.deepAlignment?.key && (
-                              <SignalBadgeIcon signalKey={gapEditorial.deepAlignment.key} size={15} boxSize={28} />
+                              <SignalBadgeIcon signalKey={gapEditorial.deepAlignment.key} size={14} boxSize={26} className="sm:w-[28px] sm:h-[28px]" />
                             )}
                           </div>
 
-                          <h4 className="font-serif text-[1.3rem] font-bold text-[#1A3E72] tracking-tight mb-2 m-0">
+                          <h4 className="font-serif text-[1.18rem] sm:text-[1.3rem] font-bold text-[#1A3E72] tracking-tight mb-1.5 sm:mb-2 m-0">
                             {gapEditorial.deepAlignment?.label}
                           </h4>
 
-                          <p className="font-sans text-[0.85rem] text-[#4A5568] leading-relaxed m-0">
+                          <p className="font-sans text-[0.82rem] sm:text-[0.85rem] text-[#4A5568] leading-relaxed m-0">
                             {gapAlignmentDesc}
                           </p>
                         </div>
@@ -1949,7 +1900,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                       title={t('ui', 'locked_section_title')}
                       description={t('ui', 'locked_section_gap_desc')}
                       responseCount={responseCount}
-                      targetCount={1}
+                      targetCount={3}
                       langCode={langCode}
                     />
                   </div>
@@ -1959,15 +1910,15 @@ export default function DashboardPage({ onNavigateToQuiz }) {
 
             {activeTab === 3 && (
               <div className="seenly-dashboard-tab-content full-width-layout scrollable-gap-content seenly-gap-editorial-content" style={{ maxWidth: '860px', width: '100%', margin: '0 auto' }}>
-                {responseCount < 1 ? (
+                {responseCount < 3 ? (
                   <div className="seenly-dashboard-locked-state w-full box-border" style={{ minHeight: '260px' }}>
                     <LockedMask
                       title={langCode === 'tr' ? 'Düşünce Ritimleri Kilitli' : 'Pondering Rhythms Locked'}
                       description={langCode === 'tr'
-                        ? 'Arkadaşlarınızın soruları cevaplarken ne kadar süre düşündüklerini analiz edebilmemiz için en az 1 yanıt gelmesi gerekmektedir.'
-                        : 'At least 1 response is required to analyze how long your friends spent pondering the questions.'}
+                        ? 'Arkadaşlarınızın soruları cevaplarken ne kadar süre düşündüklerini analiz edebilmemiz için en az 3 yanıt gelmesi gerekmektedir.'
+                        : 'At least 3 responses are required to analyze how long your friends spent pondering the questions.'}
                       responseCount={responseCount}
-                      targetCount={1}
+                      targetCount={3}
                       langCode={langCode}
                     />
                   </div>
@@ -1978,7 +1929,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                   <div className="flex flex-col gap-4 w-full box-border">
                     {/* Hero Intelligence Overview: Luxury premium_bg.png Card */}
                     <div
-                      className="p-6 sm:p-7 rounded-[26px] w-full flex flex-col md:flex-row items-start md:items-center justify-between gap-5 box-border text-left relative overflow-hidden"
+                      className="p-5 sm:p-7 rounded-[22px] sm:rounded-[26px] w-full flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-5 box-border text-left relative overflow-hidden"
                       style={{
                         border: '1.5px solid rgba(26, 62, 114, 0.45)',
                         boxShadow: '0 16px 36px rgba(11, 27, 44, 0.16)'
@@ -1997,20 +1948,20 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                       />
 
                       <div className="flex-1 max-w-xl relative z-10">
-                        <h3 className="font-serif text-[1.35rem] sm:text-[1.5rem] font-bold text-white tracking-tight leading-snug m-0 drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
+                        <h3 className="font-serif text-[1.25rem] sm:text-[1.5rem] font-bold text-white tracking-tight leading-snug m-0 drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
                           {langCode === 'tr'
                             ? 'Düşünce Süreleri'
                             : 'Decision Times'}
                         </h3>
 
-                        <p className="font-sans text-[0.84rem] sm:text-[0.85rem] text-[#F8FAFC] font-medium leading-relaxed max-w-lg m-0 mt-1.5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)] opacity-95">
+                        <p className="font-sans text-[0.82rem] sm:text-[0.85rem] text-[#F8FAFC] font-medium leading-relaxed max-w-lg m-0 mt-1 sm:mt-1.5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)] opacity-95">
                           {langCode === 'tr'
                             ? 'Arkadaşlarınızın karar sürelerini, en çok duraksadıkları soruları ve sessiz ziyaretçileri keşfedin.'
                             : 'Discover decision times, hesitation points, and silent profile visits.'}
                         </p>
                       </div>
 
-                      <div className="shrink-0 w-full md:w-auto relative z-10 flex flex-col items-center md:items-end">
+                      <div className="shrink-0 w-full md:w-auto relative z-10 flex flex-col items-center md:items-end mt-1 md:mt-0">
                         <div className="relative inline-block w-full md:w-auto">
                           {/* Floating Micro Seal: Tek Seferlik */}
                           <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#DFBF6A] via-[#FFF8E7] to-[#DFBF6A] text-[#0B1B2C] text-[8px] font-black uppercase tracking-[0.14em] shadow-[0_2px_8px_rgba(0,0,0,0.35)] z-20 border border-white/75 pointer-events-none whitespace-nowrap">
@@ -2020,7 +1971,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                           <button
                             type="button"
                             onClick={handleUpgradeToPlus}
-                            className="group w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#0B1B2C]/80 hover:bg-[#0B1B2C] text-[#F3DE9A] hover:text-white font-sans font-semibold text-[12px] tracking-wider uppercase backdrop-blur-md border border-[#F3DE9A]/35 hover:border-[#F3DE9A]/70 shadow-sm active:scale-[0.98] transition-all cursor-pointer"
+                            className="group w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#0B1B2C]/80 hover:bg-[#0B1B2C] text-[#F3DE9A] hover:text-white font-sans font-semibold text-[11.5px] sm:text-[12px] tracking-wider uppercase backdrop-blur-md border border-[#F3DE9A]/35 hover:border-[#F3DE9A]/70 shadow-sm active:scale-[0.98] transition-all cursor-pointer"
                           >
                             <span>{langCode === 'tr' ? 'Plus ile Kilidi Aç' : 'Unlock with Plus'}</span>
                             <ArrowRight size={13} strokeWidth={2.2} className="text-[#F3DE9A] group-hover:text-white group-hover:translate-x-0.5 transition-all" />
@@ -2033,7 +1984,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                     <div className="flex flex-col gap-3.5 w-full box-border">
                       {/* Top Horizontal: Social Conversion */}
                       <div
-                        className="p-4 sm:p-6 rounded-[20px] sm:rounded-[22px] text-left flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 sm:gap-5 box-border relative"
+                        className="p-4 sm:p-6 rounded-[20px] sm:rounded-[24px] text-left flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3.5 sm:gap-5 box-border relative"
                         style={{
                           background: '#FDFBF4',
                           border: '1px solid rgba(197, 160, 89, 0.22)',
@@ -2041,23 +1992,23 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                         }}
                       >
                         {/* Lock Icon in Top-Right Corner */}
-                        <div className="absolute top-4 right-4 sm:top-5 sm:right-5 text-[#8C6D37]">
+                        <div className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 text-[#8C6D37]">
                           <Lock size={13} strokeWidth={2.2} />
                         </div>
 
                         <div className="flex-1 max-w-lg pr-6 sm:pr-0">
-                          <h4 className="font-serif text-[1.2rem] sm:text-[1.35rem] font-bold text-[#1A3E72] m-0 mb-1">
+                          <h4 className="font-serif text-[1.18rem] sm:text-[1.35rem] font-bold text-[#1A3E72] m-0 mb-1">
                             {langCode === 'tr' ? 'Gizli İncelemeler & Ziyaretçi Dağılımı' : 'Profile Visits & Silent Viewers'}
                           </h4>
 
-                          <p className="font-sans text-[0.82rem] sm:text-[0.84rem] text-[#64748B] leading-relaxed m-0">
+                          <p className="font-sans text-[0.8rem] sm:text-[0.84rem] text-[#64748B] leading-relaxed m-0">
                             {langCode === 'tr'
                               ? 'Profilinizi kaç kişinin açıp incelediğini, kaçının sadece bakıp geçtiğini ve kaçının testi tamamladığını öğrenin.'
                               : 'Discover how many people opened and viewed your profile, who silently browsed, and how many completed the quiz.'}
                           </p>
                         </div>
 
-                        <div className="flex flex-row sm:flex-col items-center justify-between sm:justify-center shrink-0 min-w-[170px] pt-3 sm:pt-0 sm:border-l sm:border-[#EFE8DC] border-t sm:border-t-0 border-[#EFE8DC] sm:px-6 sm:py-2">
+                        <div className="flex flex-row sm:flex-col items-center justify-between sm:justify-center shrink-0 min-w-[150px] sm:min-w-[170px] pt-2.5 sm:pt-0 sm:border-l sm:border-[#EFE8DC] border-t sm:border-t-0 border-[#EFE8DC] sm:px-6 sm:py-2">
                           <div className="flex items-baseline justify-center gap-1.5">
                             <span className="font-serif text-2xl sm:text-4xl font-black text-[#1A3E72] leading-none opacity-40">
                               --
@@ -2066,7 +2017,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                               {langCode === 'tr' ? 'Ziyaret' : 'Visits'}
                             </span>
                           </div>
-                          <span className="font-sans text-[11px] text-[#64748B] sm:mt-1 text-center">
+                          <span className="font-sans text-[10.5px] sm:text-[11px] text-[#64748B] sm:mt-1 text-center">
                             %-- {langCode === 'tr' ? 'Tamamlama Oranı' : 'Conversion'}
                           </span>
                         </div>
@@ -2085,13 +2036,13 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                         >
                           <div>
                             <div className="flex items-center justify-between gap-2 mb-2">
-                              <span className="text-[10px] uppercase font-bold tracking-[0.08em] text-[#8C6D37]">
+                              <span className="text-[9.5px] sm:text-[10px] uppercase font-bold tracking-[0.08em] text-[#8C6D37]">
                                 {langCode === 'tr' ? 'BİLİŞSEL DURAKSAMA' : 'LONGEST HESITATION'}
                               </span>
                               <Lock size={12} strokeWidth={2.2} className="text-[#8C6D37]" />
                             </div>
 
-                            <h4 className="font-serif text-[1.2rem] sm:text-[1.25rem] font-bold text-[#1A3E72] m-0 mb-1">
+                            <h4 className="font-serif text-[1.15rem] sm:text-[1.25rem] font-bold text-[#1A3E72] m-0 mb-1">
                               {langCode === 'tr' ? 'Kilitli Sinyal' : 'Locked Signal'}
                             </h4>
 
@@ -2099,13 +2050,13 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                               <span className="font-serif text-2xl font-black text-[#1A3E72] leading-none opacity-40">
                                 --.-s
                               </span>
-                              <span className="font-sans text-[11px] text-[#64748B]">
+                              <span className="font-sans text-[10.5px] sm:text-[11px] text-[#64748B]">
                                 {langCode === 'tr' ? 'ortalama düşünme süresi' : 'average pause'}
                               </span>
                             </div>
                           </div>
 
-                          <p className="font-sans text-[0.8rem] text-[#64748B] leading-relaxed m-0 mt-3 pt-2.5 border-t border-[#EFE8DC]">
+                          <p className="font-sans text-[0.78rem] sm:text-[0.8rem] text-[#64748B] leading-relaxed m-0 mt-3 pt-2.5 border-t border-[#EFE8DC]">
                             {langCode === 'tr'
                               ? 'Arkadaşlarınızın sizi değerlendirirken en çok duraksadığı soru.'
                               : 'The trait where your circle paused the longest before answering.'}
@@ -2123,13 +2074,13 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                         >
                           <div>
                             <div className="flex items-center justify-between gap-2 mb-2">
-                              <span className="text-[10px] uppercase font-bold tracking-[0.08em] text-[#8C6D37]">
+                              <span className="text-[9.5px] sm:text-[10px] uppercase font-bold tracking-[0.08em] text-[#8C6D37]">
                                 {langCode === 'tr' ? 'REFLEKS KARAR' : 'INSTANT CONVICTION'}
                               </span>
                               <Lock size={12} strokeWidth={2.2} className="text-[#8C6D37]" />
                             </div>
 
-                            <h4 className="font-serif text-[1.2rem] sm:text-[1.25rem] font-bold text-[#1A3E72] m-0 mb-1">
+                            <h4 className="font-serif text-[1.15rem] sm:text-[1.25rem] font-bold text-[#1A3E72] m-0 mb-1">
                               {langCode === 'tr' ? 'Kilitli Sinyal' : 'Locked Signal'}
                             </h4>
 
@@ -2137,13 +2088,13 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                               <span className="font-serif text-2xl font-black text-[#1A3E72] leading-none opacity-40">
                                 --.-s
                               </span>
-                              <span className="font-sans text-[11px] text-[#64748B]">
+                              <span className="font-sans text-[10.5px] sm:text-[11px] text-[#64748B]">
                                 {langCode === 'tr' ? 'ortalama karar hızı' : 'instant speed'}
                               </span>
                             </div>
                           </div>
 
-                          <p className="font-sans text-[0.8rem] text-[#64748B] leading-relaxed m-0 mt-3 pt-2.5 border-t border-[#EFE8DC]">
+                          <p className="font-sans text-[0.78rem] sm:text-[0.8rem] text-[#64748B] leading-relaxed m-0 mt-3 pt-2.5 border-t border-[#EFE8DC]">
                             {langCode === 'tr'
                               ? 'Arkadaşlarınızın sizi değerlendirirken üzerine en az düşündüğü ve doğrudan işaretlediği soru.'
                               : 'The question your friends spent the least time reflecting on.'}
@@ -2159,7 +2110,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                   <div className="flex flex-col gap-3.5 w-full box-border">
                     {/* Top: Horizontal PROFIL ZIYARETI & STALK Card */}
                     <div
-                      className="p-4 sm:p-6 rounded-[20px] sm:rounded-[22px] text-left flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 sm:gap-5 box-border"
+                      className="p-4 sm:p-6 rounded-[20px] sm:rounded-[24px] text-left flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3.5 sm:gap-5 box-border"
                       style={{
                         background: '#FDFBF4',
                         border: '1px solid rgba(197, 160, 89, 0.25)',
@@ -2167,11 +2118,11 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                       }}
                     >
                       <div className="flex-1 max-w-lg">
-                        <h4 className="font-serif text-[1.2rem] sm:text-[1.35rem] font-bold text-[#1A3E72] m-0 mb-1">
+                        <h4 className="font-serif text-[1.18rem] sm:text-[1.35rem] font-bold text-[#1A3E72] m-0 mb-1">
                           {langCode === 'tr' ? 'Gizli İncelemeler & Ziyaretçi Dağılımı' : 'Profile Visits & Silent Viewers'}
                         </h4>
 
-                        <p className="font-sans text-[0.82rem] sm:text-[0.84rem] text-[#4A5568] leading-relaxed m-0 mb-3">
+                        <p className="font-sans text-[0.8rem] sm:text-[0.84rem] text-[#4A5568] leading-relaxed m-0 mb-2.5 sm:mb-3">
                           {totalProfileClicks === 0 ? (
                             langCode === 'tr'
                               ? 'Profil linkiniz henüz ziyaret almadı. Linkinizi paylaştığınızda sizi inceleyenlerin ve analizi çözenlerin oranı burada gösterilecektir.'
@@ -2186,11 +2137,11 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                         {/* Micro Status Badges */}
                         {totalProfileClicks > 0 && (
                           <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10.5px] sm:text-[11px] font-bold bg-[#1A3E72]/[0.07] text-[#1A3E72] border border-[#1A3E72]/15">
+                            <span className="inline-flex items-center gap-1.5 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-bold bg-[#1A3E72]/[0.07] text-[#1A3E72] border border-[#1A3E72]/15">
                               <span className="w-1.5 h-1.5 rounded-full bg-[#1A3E72]"></span>
                               <span>{totalResponders} {langCode === 'tr' ? 'Testi Tamamlayan' : 'Completed'}</span>
                             </span>
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10.5px] sm:text-[11px] font-bold bg-[#8C6D37]/[0.08] text-[#8C6D37] border border-[#8C6D37]/20">
+                            <span className="inline-flex items-center gap-1.5 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-bold bg-[#8C6D37]/[0.08] text-[#8C6D37] border border-[#8C6D37]/20">
                               <span className="w-1.5 h-1.5 rounded-full bg-[#8C6D37]"></span>
                               <span>{Math.max(0, totalProfileClicks - totalResponders)} {langCode === 'tr' ? 'Sessiz İzleyici' : 'Silent Viewers'}</span>
                             </span>
@@ -2198,7 +2149,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                         )}
                       </div>
 
-                      <div className="flex flex-row sm:flex-col items-center justify-between sm:justify-center shrink-0 min-w-[170px] pt-3 sm:pt-0 sm:border-l sm:border-[#EFE8DC] border-t sm:border-t-0 border-[#EFE8DC] sm:px-6 sm:py-2">
+                      <div className="flex flex-row sm:flex-col items-center justify-between sm:justify-center shrink-0 min-w-[150px] sm:min-w-[170px] pt-2.5 sm:pt-0 sm:border-l sm:border-[#EFE8DC] border-t sm:border-t-0 border-[#EFE8DC] sm:px-6 sm:py-2">
                         <div className="flex items-baseline gap-1.5">
                           <span className="font-serif text-2xl sm:text-4xl font-black text-[#1A3E72] leading-none">
                             {totalProfileClicks}
@@ -2207,7 +2158,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                             {langCode === 'tr' ? 'Ziyaret' : 'Visits'}
                           </span>
                         </div>
-                        <span className="inline-flex items-center px-2.5 py-0.5 sm:p-0 rounded-md sm:rounded-none bg-[#8C6D37]/[0.08] sm:bg-transparent text-[11px] font-semibold text-[#8C6D37] sm:mt-1.5 text-center">
+                        <span className="inline-flex items-center px-2.5 py-0.5 sm:p-0 rounded-md sm:rounded-none bg-[#8C6D37]/[0.08] sm:bg-transparent text-[10.5px] sm:text-[11px] font-semibold text-[#8C6D37] sm:mt-1.5 text-center">
                           %{ratio} {langCode === 'tr' ? 'Tamamlama' : 'Conversion'}
                         </span>
                       </div>
@@ -2226,27 +2177,27 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                       >
                         <div>
                           <div className="flex items-center justify-between gap-2 mb-2">
-                            <span className="text-[10px] uppercase font-bold tracking-[0.08em] text-[#8C6D37]">
+                            <span className="text-[9.5px] sm:text-[10px] uppercase font-bold tracking-[0.08em] text-[#8C6D37]">
                               {langCode === 'tr' ? 'BİLİŞSEL DURAKSAMA' : 'LONGEST HESITATION'}
                             </span>
                             <Timer size={13} strokeWidth={2.2} className="text-[#8C6D37]" />
                           </div>
 
-                          <h4 className="font-serif text-[1.2rem] sm:text-[1.3rem] font-bold text-[#1A3E72] m-0 mb-1 truncate" title={slowestSignal ? t('ui', `signal_labels.${slowestSignal}`) : ''}>
+                          <h4 className="font-serif text-[1.18rem] sm:text-[1.3rem] font-bold text-[#1A3E72] m-0 mb-1 truncate" title={slowestSignal ? t('ui', `signal_labels.${slowestSignal}`) : ''}>
                             {slowestSignal ? t('ui', `signal_labels.${slowestSignal}`) : '-'}
                           </h4>
 
                           <div className="flex items-baseline gap-1.5 my-1.5">
-                            <span className="font-serif text-2xl font-black text-[#1A3E72] leading-none">
+                            <span className="font-serif text-2xl sm:text-3xl font-black text-[#1A3E72] leading-none">
                               {slowestTimeSec}s
                             </span>
-                            <span className="font-sans text-[11px] text-[#64748B]">
+                            <span className="font-sans text-[10.5px] sm:text-[11px] text-[#64748B]">
                               {langCode === 'tr' ? 'ortalama düşünme süresi' : 'average pause'}
                             </span>
                           </div>
                         </div>
 
-                        <p className="font-sans text-[0.82rem] text-[#4A5568] leading-relaxed m-0 mt-3 pt-2.5 border-t border-[#EFE8DC]">
+                        <p className="font-sans text-[0.8rem] sm:text-[0.82rem] text-[#4A5568] leading-relaxed m-0 mt-3 pt-2.5 border-t border-[#EFE8DC]">
                           {langCode === 'tr'
                             ? 'Arkadaşlarınız bu soruyu yanıtlarken en çok duraksadı. Karakterinizin üzerine en çok düşünülen boyutu.'
                             : 'Your circle spent the most time reflecting on this question before answering.'}
@@ -2264,27 +2215,27 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                       >
                         <div>
                           <div className="flex items-center justify-between gap-2 mb-2">
-                            <span className="text-[10px] uppercase font-bold tracking-[0.08em] text-[#8C6D37]">
+                            <span className="text-[9.5px] sm:text-[10px] uppercase font-bold tracking-[0.08em] text-[#8C6D37]">
                               {langCode === 'tr' ? 'REFLEKS KARAR' : 'INSTANT CONVICTION'}
                             </span>
                             <Zap size={13} strokeWidth={2.2} className="text-[#8C6D37]" />
                           </div>
 
-                          <h4 className="font-serif text-[1.2rem] sm:text-[1.3rem] font-bold text-[#1A3E72] m-0 mb-1 truncate" title={fastestSignal ? t('ui', `signal_labels.${fastestSignal}`) : ''}>
+                          <h4 className="font-serif text-[1.18rem] sm:text-[1.3rem] font-bold text-[#1A3E72] m-0 mb-1 truncate" title={fastestSignal ? t('ui', `signal_labels.${fastestSignal}`) : ''}>
                             {fastestSignal ? t('ui', `signal_labels.${fastestSignal}`) : '-'}
                           </h4>
 
                           <div className="flex items-baseline gap-1.5 my-1.5">
-                            <span className="font-serif text-2xl font-black text-[#1A3E72] leading-none">
+                            <span className="font-serif text-2xl sm:text-3xl font-black text-[#1A3E72] leading-none">
                               {fastestTimeSec}s
                             </span>
-                            <span className="font-sans text-[11px] text-[#64748B]">
+                            <span className="font-sans text-[10.5px] sm:text-[11px] text-[#64748B]">
                               {langCode === 'tr' ? 'ortalama karar süresi' : 'average decision time'}
                             </span>
                           </div>
                         </div>
 
-                        <p className="font-sans text-[0.82rem] text-[#4A5568] leading-relaxed m-0 mt-3 pt-2.5 border-t border-[#EFE8DC]">
+                        <p className="font-sans text-[0.8rem] sm:text-[0.82rem] text-[#4A5568] leading-relaxed m-0 mt-3 pt-2.5 border-t border-[#EFE8DC]">
                           {langCode === 'tr'
                             ? 'Arkadaşlarınız değerlendirme yaparken bu soru üzerine en az düşündü. Dışarıdan en net ve belirgin algılanan yönünüz.'
                             : 'Your friends spent the least time reflecting on this question. Your most clearly recognized trait.'}
@@ -2298,11 +2249,11 @@ export default function DashboardPage({ onNavigateToQuiz }) {
 
             {activeTab === 4 && (
               <div className="seenly-dashboard-tab-content full-width-layout scrollable-gap-content seenly-gap-editorial-content" style={{ maxWidth: '840px', width: '100%' }}>
-                <div className="flex flex-col gap-5 w-full box-border">
+                <div className="flex flex-col gap-4 sm:gap-5 w-full box-border">
                   {/* Non-Plus Hero Intelligence Banner for Gelen Analizler (using premium_bg2.png) */}
                   {!isPremium && (
                     <div
-                      className="p-6 sm:p-7 rounded-[26px] w-full flex flex-col md:flex-row items-start md:items-center justify-between gap-5 box-border text-left relative overflow-hidden"
+                      className="p-5 sm:p-7 rounded-[22px] sm:rounded-[26px] w-full flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-5 box-border text-left relative overflow-hidden"
                       style={{
                         border: '1.5px solid rgba(197, 160, 89, 0.45)',
                         boxShadow: '0 16px 36px rgba(60, 44, 35, 0.08)'
@@ -2321,20 +2272,20 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                       />
 
                       <div className="flex-1 max-w-xl relative z-10">
-                        <h3 className="font-serif text-[1.35rem] sm:text-[1.5rem] font-bold text-[#3C2C23] tracking-tight leading-snug m-0 drop-shadow-[0_1px_2px_rgba(255,255,255,0.7)]">
+                        <h3 className="font-serif text-[1.25rem] sm:text-[1.5rem] font-bold text-[#3C2C23] tracking-tight leading-snug m-0 drop-shadow-[0_1px_2px_rgba(255,255,255,0.7)]">
                           {langCode === 'tr'
                             ? 'Anonim İncelemeler'
                             : 'Anonymous Reviews'}
                         </h3>
 
-                        <p className="font-sans text-[0.84rem] sm:text-[0.85rem] text-[#3C2C23]/90 font-medium leading-relaxed max-w-lg m-0 mt-1.5 drop-shadow-[0_1px_1px_rgba(255,255,255,0.6)]">
+                        <p className="font-sans text-[0.82rem] sm:text-[0.85rem] text-[#3C2C23]/90 font-medium leading-relaxed max-w-lg m-0 mt-1 sm:mt-1.5 drop-shadow-[0_1px_1px_rgba(255,255,255,0.6)]">
                           {langCode === 'tr'
                             ? 'Arkadaşlarınızın sorulara verdiği tüm bireysel yanıtları ve soru bazlı detayları tamamen anonim olarak inceleyin.'
                             : 'Review all individual friend answers and question-by-question breakdowns completely anonymously.'}
                         </p>
                       </div>
 
-                      <div className="shrink-0 w-full md:w-auto relative z-10 flex flex-col items-center md:items-end">
+                      <div className="shrink-0 w-full md:w-auto relative z-10 flex flex-col items-center md:items-end mt-1 md:mt-0">
                         <div className="relative inline-block w-full md:w-auto">
                           {/* Floating Micro Seal: Tek Seferlik */}
                           <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#DFBF6A] via-[#FFF8E7] to-[#DFBF6A] text-[#0B1B2C] text-[8px] font-black uppercase tracking-[0.14em] shadow-[0_2px_8px_rgba(0,0,0,0.25)] z-20 border border-white/75 pointer-events-none whitespace-nowrap">
@@ -2344,7 +2295,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                           <button
                             type="button"
                             onClick={handleUpgradeToPlus}
-                            className="group w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#16222F] hover:bg-[#0E1721] text-white font-sans font-semibold text-[12px] tracking-wider uppercase shadow-[0_4px_16px_rgba(22,34,47,0.2)] active:scale-[0.98] transition-all cursor-pointer border border-white/10"
+                            className="group w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#16222F] hover:bg-[#0E1721] text-white font-sans font-semibold text-[11.5px] sm:text-[12px] tracking-wider uppercase shadow-[0_4px_16px_rgba(22,34,47,0.2)] active:scale-[0.98] transition-all cursor-pointer border border-white/10"
                           >
                             <span>{langCode === 'tr' ? 'Plus ile Kilidi Aç' : 'Unlock with Plus'}</span>
                             <ArrowRight size={13} strokeWidth={2.2} className="text-white group-hover:translate-x-0.5 transition-all" />
@@ -2356,11 +2307,11 @@ export default function DashboardPage({ onNavigateToQuiz }) {
 
                   {/* Vertical Timeline List of Cards */}
                   {responseSessions.length === 0 ? (
-                    <div className="p-8 rounded-3xl border border-white/40 bg-white/25 backdrop-blur-md shadow-contact-sm text-center relative overflow-hidden box-border">
+                    <div className="p-6 sm:p-8 rounded-[24px] sm:rounded-3xl border border-white/40 bg-white/25 backdrop-blur-md shadow-contact-sm text-center relative overflow-hidden box-border">
                       <div className="w-12 h-12 rounded-full bg-black/5 flex items-center justify-center mx-auto mb-3 text-muted-foreground">
                         <UsersRound size={22} strokeWidth={1.8} />
                       </div>
-                      <h4 className="font-serif text-lg font-bold text-foreground mt-2 mb-2">
+                      <h4 className="font-serif text-base sm:text-lg font-bold text-foreground mt-2 mb-2">
                         {langCode === 'tr' ? 'Henüz Analiz Alınmadı' : 'No Analyses Received Yet'}
                       </h4>
                       <p className="font-sans text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-md mx-auto m-0">
@@ -2370,9 +2321,9 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                       </p>
                     </div>
                   ) : (
-                    <div className="p-3.5 sm:p-5 rounded-[26px] sm:rounded-[28px] bg-[#EFE9DD]/60 border border-[rgba(197,160,89,0.28)] shadow-[inset_0_1px_6px_rgba(80,60,40,0.02)] flex flex-col gap-3.5 sm:gap-4 w-full box-border">
+                    <div className="p-3 sm:p-5 rounded-[22px] sm:rounded-[28px] bg-[#EFE9DD]/60 border border-[rgba(197,160,89,0.28)] shadow-[inset_0_1px_6px_rgba(80,60,40,0.02)] flex flex-col gap-3 sm:gap-4 w-full box-border">
                       {/* Independent List Cards */}
-                      <div className="flex flex-col gap-2.5 sm:gap-3 w-full box-border">
+                      <div className="flex flex-col gap-2 sm:gap-3 w-full box-border">
                         {visibleResponseSessions.map((session) => {
                           const relativeTime = getRelativeTime(session.completedAt);
                           const isAccurate = session.readerType === 'telepathic_reader' || session.readerType === 'clear_reader';
@@ -2388,29 +2339,29 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                             <div
                               key={session.id}
                               onClick={() => setSelectedResponse(session)}
-                              className="group p-3.5 sm:p-4 px-4 sm:px-5 rounded-[18px] sm:rounded-[20px] bg-white hover:bg-[#FDFBF7] border border-[rgba(197,160,89,0.32)] hover:border-[rgba(197,160,89,0.7)] shadow-[0_4px_14px_rgba(80,60,40,0.04)] hover:shadow-[0_8px_24px_rgba(80,60,40,0.09)] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 box-border"
+                              className="group p-3 sm:p-4 px-3.5 sm:px-5 rounded-[16px] sm:rounded-[20px] bg-white hover:bg-[#FDFBF7] border border-[rgba(197,160,89,0.32)] hover:border-[rgba(197,160,89,0.7)] shadow-[0_4px_14px_rgba(80,60,40,0.04)] hover:shadow-[0_8px_24px_rgba(80,60,40,0.09)] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3.5 box-border"
                             >
                               {/* Left Side: Avatar + Reader Style Title + Accuracy Score */}
-                              <div className="flex items-center gap-3.5 flex-1 min-w-0">
+                              <div className="flex items-center gap-3 sm:gap-3.5 flex-1 min-w-0">
                                 {initialLetter ? (
-                                  <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-[#F5EFE4] to-[#EAE1D2] border-[1.5px] border-[rgba(197,160,89,0.45)] flex items-center justify-center shrink-0 shadow-sm text-[#1A3E72] font-serif font-bold text-[14px] sm:text-[15px]">
+                                  <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-[#F5EFE4] to-[#EAE1D2] border-[1.5px] border-[rgba(197,160,89,0.45)] flex items-center justify-center shrink-0 shadow-sm text-[#1A3E72] font-serif font-bold text-[13px] sm:text-[15px]">
                                     <span>{initialLetter}</span>
                                   </div>
                                 ) : (
                                   <img
                                     src={anonimLogo}
                                     alt="Anonim"
-                                    className="w-10 h-10 sm:w-11 sm:h-11 rounded-full object-contain shrink-0 shadow-sm border-[1.5px] border-[rgba(197,160,89,0.45)] ring-1 ring-[rgba(26,62,114,0.08)]"
+                                    className="w-9 h-9 sm:w-11 sm:h-11 rounded-full object-contain shrink-0 shadow-sm border-[1.5px] border-[rgba(197,160,89,0.45)] ring-1 ring-[rgba(26,62,114,0.08)]"
                                   />
                                 )}
 
-                                <div className="flex flex-col items-start sm:flex-row sm:items-center gap-1.5 sm:gap-2.5 min-w-0">
-                                  <h4 className="font-serif text-[1.05rem] sm:text-[1.12rem] font-bold text-[#1A3E72] m-0 truncate group-hover:text-[#0E274A] transition-colors leading-tight">
+                                <div className="flex flex-col items-start sm:flex-row sm:items-center gap-1 sm:gap-2.5 min-w-0">
+                                  <h4 className="font-serif text-[0.98rem] sm:text-[1.12rem] font-bold text-[#1A3E72] m-0 truncate group-hover:text-[#0E274A] transition-colors leading-tight">
                                     {!isAnonymous ? `${displayName} · ${archetypeName}` : archetypeName}
                                   </h4>
 
                                   {/* Accuracy Tag */}
-                                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10.5px] sm:text-[11px] font-sans font-bold tracking-tight border shrink-0 ${isAccurate
+                                  <span className={`inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-sans font-bold tracking-tight border shrink-0 ${isAccurate
                                       ? 'bg-[#1A3E72]/[0.06] text-[#1A3E72] border-[#1A3E72]/18'
                                       : 'bg-[#8C6D37]/[0.08] text-[#8C6D37] border-[#8C6D37]/22'
                                     }`}>
@@ -2420,13 +2371,13 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                               </div>
 
                               {/* Right Side: Timestamp + Hover Arrow */}
-                              <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-[#EFE8DC]">
-                                <span className="font-sans text-[11.5px] sm:text-[12px] text-[#8C9AA8] font-normal">
+                              <div className="flex items-center justify-between sm:justify-end gap-2.5 sm:gap-3 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-[#EFE8DC]">
+                                <span className="font-sans text-[11px] sm:text-[12px] text-[#8C9AA8] font-normal">
                                   {relativeTime}
                                 </span>
 
-                                <div className="w-8 h-8 rounded-full bg-[#1A3E72]/[0.03] group-hover:bg-[#1A3E72]/[0.08] flex items-center justify-center text-[#8C9AA8] group-hover:text-[#1A3E72] transition-all duration-300 ease-out">
-                                  <ArrowRight size={14} strokeWidth={2.2} className="transform transition-transform duration-300 ease-out group-hover:translate-x-0.5" />
+                                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#1A3E72]/[0.03] group-hover:bg-[#1A3E72]/[0.08] flex items-center justify-center text-[#8C9AA8] group-hover:text-[#1A3E72] transition-all duration-300 ease-out">
+                                  <ArrowRight size={13} strokeWidth={2.2} className="transform transition-transform duration-300 ease-out group-hover:translate-x-0.5" />
                                 </div>
                               </div>
                             </div>
@@ -2495,60 +2446,60 @@ export default function DashboardPage({ onNavigateToQuiz }) {
 
       {selectedResponse && !isPremium && createPortal(
         <div
-          className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-[#0A1118]/65 backdrop-blur-md transition-all duration-300"
+          className="fixed inset-0 z-[99999] flex items-center justify-center p-3.5 sm:p-4 bg-[#0A1118]/65 backdrop-blur-md transition-all duration-300"
           onClick={() => setSelectedResponse(null)}
         >
           <div
-            className="w-full max-w-[420px] rounded-[30px] sm:rounded-[32px] bg-[#FDFBF4] border border-[rgba(197,160,89,0.35)] shadow-[0_24px_70px_rgba(20,15,10,0.22)] overflow-hidden relative p-6 sm:p-7 text-center box-border"
+            className="w-full max-w-[400px] rounded-[24px] sm:rounded-[32px] bg-[#FDFBF4] border border-[rgba(197,160,89,0.35)] shadow-[0_24px_70px_rgba(20,15,10,0.22)] overflow-hidden relative p-5 sm:p-7 text-center box-border"
             onClick={(event) => event.stopPropagation()}
           >
             {/* Top Close Button */}
             <button
               type="button"
-              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center text-[#786C5E] hover:text-[#1A3E72] transition-colors border border-[rgba(197,160,89,0.18)]"
+              className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center text-[#786C5E] hover:text-[#1A3E72] transition-colors border border-[rgba(197,160,89,0.18)]"
               onClick={() => setSelectedResponse(null)}
               aria-label={langCode === 'tr' ? 'Pencereyi kapat' : 'Close dialog'}
             >
-              <X size={16} strokeWidth={2.4} />
+              <X size={15} strokeWidth={2.4} />
             </button>
 
             {/* Respondent Avatar & Archetype Badge */}
-            <div className="flex flex-col items-center gap-2.5 pt-1 pb-1">
+            <div className="flex flex-col items-center gap-2 pt-1 pb-1">
               <div className="relative">
                 <img
                   src={anonimLogo}
                   alt="Anonim"
-                  className="w-15 h-15 rounded-full object-contain shadow-sm border-[2px] border-[rgba(197,160,89,0.45)] ring-2 ring-[rgba(26,62,114,0.06)]"
+                  className="w-13 h-13 sm:w-15 sm:h-15 rounded-full object-contain shadow-sm border-[2px] border-[rgba(197,160,89,0.45)] ring-2 ring-[rgba(26,62,114,0.06)]"
                 />
-                <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#16222F] border-2 border-[#FDFBF4] flex items-center justify-center text-[#C5A059] shadow-sm">
-                  <Lock size={11} strokeWidth={2.5} />
+                <div className="absolute -bottom-1 -right-1 w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-[#16222F] border-2 border-[#FDFBF4] flex items-center justify-center text-[#C5A059] shadow-sm">
+                  <Lock size={10} strokeWidth={2.5} />
                 </div>
               </div>
 
-              <div className="flex flex-col items-center gap-1">
-                <span className="font-sans text-[10px] uppercase tracking-[0.15em] font-bold text-[#8C6D37]">
+              <div className="flex flex-col items-center gap-0.5 sm:gap-1">
+                <span className="font-sans text-[9.5px] uppercase tracking-[0.15em] font-bold text-[#8C6D37]">
                   {langCode === 'tr' ? 'BİREYSEL ANALİZ' : 'INDIVIDUAL ANALYSIS'}
                 </span>
-                <h3 className="font-serif text-[1.35rem] sm:text-[1.45rem] font-bold text-[#1A3E72] m-0 tracking-tight leading-tight">
+                <h3 className="font-serif text-[1.25rem] sm:text-[1.45rem] font-bold text-[#1A3E72] m-0 tracking-tight leading-tight">
                   {getObject('readerStyles', selectedResponse.readerType)?.name || selectedResponse.readerType.replace('_', ' ').toUpperCase()}
                 </h3>
-                <span className="inline-flex items-center px-2.5 py-0.5 mt-0.5 rounded-full text-[11px] font-sans font-bold bg-[#8C6D37]/[0.08] text-[#8C6D37] border border-[#8C6D37]/20">
+                <span className="inline-flex items-center px-2.5 py-0.5 mt-0.5 rounded-full text-[10.5px] sm:text-[11px] font-sans font-bold bg-[#8C6D37]/[0.08] text-[#8C6D37] border border-[#8C6D37]/20">
                   {langCode === 'tr' ? `%${getSessionCalibratedAccuracy(selectedResponse)} Uyum` : `${getSessionCalibratedAccuracy(selectedResponse)}% Match`}
                 </span>
               </div>
             </div>
 
             {/* Feature Teasers List */}
-            <div className="my-4 py-3 px-4 rounded-[20px] bg-[#F7F2E7]/85 border border-[rgba(197,160,89,0.22)] text-left flex flex-col gap-2.5 box-border">
-              <div className="flex items-center gap-2.5 text-[12px] text-[#334155] font-medium">
+            <div className="my-3.5 sm:my-4 py-2.5 sm:py-3 px-3.5 sm:px-4 rounded-[18px] sm:rounded-[20px] bg-[#F7F2E7]/85 border border-[rgba(197,160,89,0.22)] text-left flex flex-col gap-2 sm:gap-2.5 box-border">
+              <div className="flex items-center gap-2 sm:gap-2.5 text-[11.5px] sm:text-[12px] text-[#334155] font-medium">
                 <Sparkles size={13} className="text-[#C5A059] shrink-0" />
                 <span>{langCode === 'tr' ? '10 sorunun tamamında verdiği bireysel yanıtlar' : 'Individual answers across all 10 questions'}</span>
               </div>
-              <div className="flex items-center gap-2.5 text-[12px] text-[#334155] font-medium">
+              <div className="flex items-center gap-2 sm:gap-2.5 text-[11.5px] sm:text-[12px] text-[#334155] font-medium">
                 <Timer size={13} className="text-[#C5A059] shrink-0" />
                 <span>{langCode === 'tr' ? 'Sorulardaki düşünme ve karar süreleri' : 'Exact thought and decision durations'}</span>
               </div>
-              <div className="flex items-center gap-2.5 text-[12px] text-[#334155] font-medium">
+              <div className="flex items-center gap-2 sm:gap-2.5 text-[11.5px] sm:text-[12px] text-[#334155] font-medium">
                 <ShieldCheck size={13} className="text-[#C5A059] shrink-0" />
                 <span>{langCode === 'tr' ? 'Sosyal sinyal ve karakter algı sapmaları' : 'Social signal and archetype deviations'}</span>
               </div>
@@ -2569,15 +2520,15 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                   setSelectedResponse(null);
                   handleUpgradeToPlus();
                 }}
-                className="w-full py-3 sm:py-3.5 px-5 rounded-full bg-[#16222F] hover:bg-[#0E1721] text-white font-sans text-[13.5px] sm:text-[14px] font-bold tracking-wide shadow-[0_8px_20px_rgba(22,34,47,0.22)] hover:shadow-[0_12px_28px_rgba(22,34,47,0.32)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 flex items-center justify-center gap-2 border border-[#C5A059]/30"
+                className="w-full py-2.5 sm:py-3.5 px-4 sm:px-5 rounded-full bg-[#16222F] hover:bg-[#0E1721] text-white font-sans text-[13px] sm:text-[14px] font-bold tracking-wide shadow-[0_8px_20px_rgba(22,34,47,0.22)] hover:shadow-[0_12px_28px_rgba(22,34,47,0.32)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 flex items-center justify-center gap-2 border border-[#C5A059]/30"
               >
                 <span>{langCode === 'tr' ? 'Plus ile Detayları Aç' : 'Unlock Details with Plus'}</span>
-                <ArrowRight size={15} strokeWidth={2.4} className="text-[#C5A059]" />
+                <ArrowRight size={14} strokeWidth={2.4} className="text-[#C5A059]" />
               </button>
             </div>
 
             {/* Privacy Guarantee Note */}
-            <div className="mt-3.5 pt-3 border-t border-[#EFE8DC] flex items-center justify-center gap-1.5 text-[11px] text-[#8C9AA8] font-medium">
+            <div className="mt-3 sm:mt-3.5 pt-2.5 sm:pt-3 border-t border-[#EFE8DC] flex items-center justify-center gap-1.5 text-[10.5px] sm:text-[11px] text-[#8C9AA8] font-medium">
               <ShieldCheck size={13} className="text-[#C5A059] shrink-0" />
               <span>
                 {langCode === 'tr'
@@ -2591,7 +2542,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
       )}
       {selectedResponse && isPremium && createPortal(
         <div
-          className="fixed inset-0 z-[99999] flex items-center justify-center p-3.5 sm:p-5 bg-[#0A1118]/65 backdrop-blur-md transition-all duration-300"
+          className="fixed inset-0 z-[99999] flex items-center justify-center p-3 sm:p-5 bg-[#0A1118]/65 backdrop-blur-md transition-all duration-300"
           onClick={() => setSelectedResponse(null)}
         >
           {(() => {
@@ -2601,7 +2552,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
               { key: 'zeka', label: langCode === 'tr' ? 'Zeka' : 'Intellect' },
               { key: 'vizyon', label: langCode === 'tr' ? 'Vizyon' : 'Vision' },
               { key: 'enerji', label: langCode === 'tr' ? 'Enerji' : 'Energy' },
-              { key: 'guvenilirlik', label: langCode === 'tr' ? 'Güvenilirlik' : 'Trustworthiness' },
+              { key: 'guvenilirlik', label: langCode === 'tr' ? 'Güvenilirlik' : 'Reliability' },
               { key: 'ego', label: langCode === 'tr' ? 'Ego' : 'Ego' },
               { key: 'basari', label: langCode === 'tr' ? 'Başarı' : 'Success' },
               { key: 'comertlik', label: langCode === 'tr' ? 'Cömertlik' : 'Generosity' },
@@ -2622,36 +2573,36 @@ export default function DashboardPage({ onNavigateToQuiz }) {
 
             return (
               <div
-                className="w-full max-w-[540px] max-h-[88vh] rounded-[30px] sm:rounded-[34px] bg-[#FDFBF4] border border-[rgba(197,160,89,0.35)] shadow-[0_28px_80px_rgba(20,15,10,0.25)] flex flex-col overflow-hidden relative box-border text-left"
+                className="w-full max-w-[540px] max-h-[88vh] rounded-[24px] sm:rounded-[34px] bg-[#FDFBF4] border border-[rgba(197,160,89,0.35)] shadow-[0_28px_80px_rgba(20,15,10,0.25)] flex flex-col overflow-hidden relative box-border text-left"
                 onClick={(event) => event.stopPropagation()}
               >
                 {/* Header Profile Section */}
-                <div className="p-5 sm:p-6 pb-4 border-b border-[#EFE8DC] bg-[#FDFBF4] flex items-center justify-between shrink-0 relative">
-                  <div className="flex items-center gap-3.5 min-w-0 pr-8">
+                <div className="p-4 sm:p-6 pb-3 sm:pb-4 border-b border-[#EFE8DC] bg-[#FDFBF4] flex items-center justify-between shrink-0 relative">
+                  <div className="flex items-center gap-3 sm:gap-3.5 min-w-0 pr-8">
                     {initialLetter ? (
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#F5EFE4] to-[#EAE1D2] border-[1.5px] border-[rgba(197,160,89,0.45)] flex items-center justify-center shrink-0 shadow-sm text-[#1A3E72] font-serif font-bold text-[16px]">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-[#F5EFE4] to-[#EAE1D2] border-[1.5px] border-[rgba(197,160,89,0.45)] flex items-center justify-center shrink-0 shadow-sm text-[#1A3E72] font-serif font-bold text-[14px] sm:text-[16px]">
                         <span>{initialLetter}</span>
                       </div>
                     ) : (
                       <img
                         src={anonimLogo}
                         alt="Anonim"
-                        className="w-12 h-12 rounded-full object-contain shrink-0 shadow-sm border-[1.5px] border-[rgba(197,160,89,0.45)] ring-1 ring-[rgba(26,62,114,0.08)]"
+                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-contain shrink-0 shadow-sm border-[1.5px] border-[rgba(197,160,89,0.45)] ring-1 ring-[rgba(26,62,114,0.08)]"
                       />
                     )}
 
                     <div className="min-w-0">
-                      <span className="font-sans text-[9.5px] uppercase tracking-[0.14em] font-bold text-[#8C6D37] block">
+                      <span className="font-sans text-[9px] sm:text-[9.5px] uppercase tracking-[0.14em] font-bold text-[#8C6D37] block">
                         {langCode === 'tr' ? 'BİREYSEL YANSIMA DETAYI' : 'INDIVIDUAL REFLECTION DETAIL'}
                       </span>
-                      <h3 className="font-serif text-[1.25rem] sm:text-[1.4rem] font-bold text-[#1A3E72] m-0 truncate leading-tight">
+                      <h3 className="font-serif text-[1.15rem] sm:text-[1.4rem] font-bold text-[#1A3E72] m-0 truncate leading-tight">
                         {!isAnonymous ? `${displayName} · ${readerName}` : readerName}
                       </h3>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10.5px] font-sans font-bold bg-[#8C6D37]/[0.08] text-[#8C6D37] border border-[#8C6D37]/20">
+                      <div className="flex items-center gap-1.5 sm:gap-2 mt-0.5 sm:mt-1">
+                        <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-[10.5px] font-sans font-bold bg-[#8C6D37]/[0.08] text-[#8C6D37] border border-[#8C6D37]/20">
                           {langCode === 'tr' ? `%${accuracyScore} Uyum` : `${accuracyScore}% Match`}
                         </span>
-                        <span className="font-sans text-[11px] text-[#8C9AA8]">
+                        <span className="font-sans text-[10.5px] sm:text-[11px] text-[#8C9AA8]">
                           • {relativeTime}
                         </span>
                       </div>
@@ -2661,34 +2612,34 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                   {/* Close Button */}
                   <button
                     type="button"
-                    className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center text-[#786C5E] hover:text-[#1A3E72] transition-colors border border-[rgba(197,160,89,0.18)]"
+                    className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center text-[#786C5E] hover:text-[#1A3E72] transition-colors border border-[rgba(197,160,89,0.18)]"
                     onClick={() => setSelectedResponse(null)}
                     aria-label={langCode === 'tr' ? 'Pencereyi kapat' : 'Close dialog'}
                   >
-                    <X size={16} strokeWidth={2.4} />
+                    <X size={15} strokeWidth={2.4} />
                   </button>
                 </div>
 
                 {/* Scrollable Content Body */}
-                <div className="overflow-y-auto p-5 sm:p-6 flex flex-col gap-5 box-border">
+                <div className="overflow-y-auto p-4 sm:p-6 flex flex-col gap-4 sm:gap-5 box-border">
                   {/* Signal Distribution (10 Signals Breakdown) */}
-                  <div className="p-4 sm:p-5 rounded-[22px] bg-white border border-[rgba(197,160,89,0.25)] shadow-[0_2px_12px_rgba(80,60,40,0.03)] flex flex-col gap-3">
+                  <div className="p-3.5 sm:p-5 rounded-[20px] sm:rounded-[22px] bg-white border border-[rgba(197,160,89,0.25)] shadow-[0_2px_12px_rgba(80,60,40,0.03)] flex flex-col gap-2.5 sm:gap-3">
                     <div className="pb-1 border-b border-[#EFE8DC]">
-                      <h4 className="font-serif text-[1.05rem] font-bold text-[#1A3E72] m-0">
+                      <h4 className="font-serif text-[1rem] sm:text-[1.05rem] font-bold text-[#1A3E72] m-0">
                         {langCode === 'tr' ? '10 Sosyal Sinyal Dağılımı' : '10 Social Signal Distribution'}
                       </h4>
-                      <p className="font-sans text-[11.5px] text-[#64748B] m-0 mt-0.5">
+                      <p className="font-sans text-[11px] sm:text-[11.5px] text-[#64748B] m-0 mt-0.5">
                         {langCode === 'tr' ? 'Bu kişinin verdiği yanıtlara göre profilinizdeki sinyal skorları:' : 'Signals read by this respondent across questions:'}
                       </p>
                     </div>
 
-                    <div className="flex flex-col gap-2.5 pt-1">
+                    <div className="flex flex-col gap-2 sm:gap-2.5 pt-1">
                       {detailSignals.map((signal) => {
                         const value = responseSignals[signal.key] !== undefined ? responseSignals[signal.key] : 3;
                         const percent = calibrateTraitScore(signal.key, value);
                         return (
-                          <div key={signal.key} className="flex items-center justify-between gap-3 text-[12px]">
-                            <span className="font-sans font-semibold text-[#334155] w-24 sm:w-28 shrink-0 truncate">
+                          <div key={signal.key} className="flex items-center justify-between gap-2.5 sm:gap-3 text-[11.5px] sm:text-[12px]">
+                            <span className="font-sans font-semibold text-[#334155] w-22 sm:w-28 shrink-0 truncate">
                               {signal.label}
                             </span>
                             <div className="flex-1 h-2 rounded-full bg-[#EFE8DC] overflow-hidden">
@@ -2697,7 +2648,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                                 style={{ width: `${percent}%` }}
                               />
                             </div>
-                            <span className="font-mono text-[11.5px] font-bold text-[#1A3E72] w-10 text-right shrink-0">
+                            <span className="font-mono text-[11px] sm:text-[11.5px] font-bold text-[#1A3E72] w-9 sm:w-10 text-right shrink-0">
                               %{percent}
                             </span>
                           </div>
@@ -2708,28 +2659,28 @@ export default function DashboardPage({ onNavigateToQuiz }) {
 
                   {/* 3. Decision & Cognitive Rhythm (Cevap Süreleri) */}
                   {timeEntries.length > 0 && (
-                    <div className="p-4 sm:p-5 rounded-[22px] bg-white border border-[rgba(197,160,89,0.25)] shadow-[0_2px_12px_rgba(80,60,40,0.03)] flex flex-col gap-3">
+                    <div className="p-3.5 sm:p-5 rounded-[20px] sm:rounded-[22px] bg-white border border-[rgba(197,160,89,0.25)] shadow-[0_2px_12px_rgba(80,60,40,0.03)] flex flex-col gap-2.5 sm:gap-3">
                       <div className="pb-1 border-b border-[#EFE8DC]">
-                        <h4 className="font-serif text-[1.05rem] font-bold text-[#1A3E72] m-0">
+                        <h4 className="font-serif text-[1rem] sm:text-[1.05rem] font-bold text-[#1A3E72] m-0">
                           {langCode === 'tr' ? 'Bilişsel Karar Ritmi' : 'Cognitive Decision Rhythm'}
                         </h4>
-                        <p className="font-sans text-[11.5px] text-[#64748B] m-0 mt-0.5">
+                        <p className="font-sans text-[11px] sm:text-[11.5px] text-[#64748B] m-0 mt-0.5">
                           {langCode === 'tr' ? 'Sorularda nerede en çok, nerede en az düşündü?' : 'Where did they spend the most and least time?'}
                         </p>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 pt-1">
                         {slowestEntry && (
-                          <div className="p-3.5 rounded-[18px] bg-[#FDFBF4] border border-[rgba(197,160,89,0.28)] shadow-[0_2px_8px_rgba(80,60,40,0.02)] flex flex-col gap-1.5">
-                            <div className="flex items-center gap-1.5 text-[#8C6D37] text-[10.5px] font-bold uppercase tracking-wider">
-                              <Timer size={13} className="text-[#C5A059]" />
+                          <div className="p-3 sm:p-3.5 rounded-[16px] sm:rounded-[18px] bg-[#FDFBF4] border border-[rgba(197,160,89,0.28)] shadow-[0_2px_8px_rgba(80,60,40,0.02)] flex flex-col gap-1.5">
+                            <div className="flex items-center gap-1.5 text-[#8C6D37] text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider">
+                              <Timer size={12} className="text-[#C5A059]" />
                               <span>{langCode === 'tr' ? 'En Çok Düşündüğü' : 'Longest Pause'}</span>
                             </div>
                             <div className="flex items-baseline justify-between gap-1">
-                              <span className="font-serif text-[1.05rem] font-bold text-[#1A3E72]">
+                              <span className="font-serif text-[1rem] sm:text-[1.05rem] font-bold text-[#1A3E72] truncate">
                                 {signalLabelByKey[slowestEntry[0]] || slowestEntry[0]}
                               </span>
-                              <span className="font-mono text-[12.5px] font-bold text-[#8C6D37]">
+                              <span className="font-mono text-[12px] sm:text-[12.5px] font-bold text-[#8C6D37] shrink-0">
                                 {(slowestEntry[1] / 1000).toFixed(1)}s
                               </span>
                             </div>
@@ -2737,31 +2688,22 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                         )}
 
                         {fastestEntry && (
-                          <div className="p-3.5 rounded-[18px] bg-[#FDFBF4] border border-[rgba(197,160,89,0.28)] shadow-[0_2px_8px_rgba(80,60,40,0.02)] flex flex-col gap-1.5">
-                            <div className="flex items-center gap-1.5 text-[#8C6D37] text-[10.5px] font-bold uppercase tracking-wider">
-                              <Zap size={13} className="text-[#C5A059]" />
+                          <div className="p-3 sm:p-3.5 rounded-[16px] sm:rounded-[18px] bg-[#FDFBF4] border border-[rgba(197,160,89,0.28)] shadow-[0_2px_8px_rgba(80,60,40,0.02)] flex flex-col gap-1.5">
+                            <div className="flex items-center gap-1.5 text-[#8C6D37] text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider">
+                              <Zap size={12} className="text-[#C5A059]" />
                               <span>{langCode === 'tr' ? 'En Az Düşündüğü' : 'Fastest Answer'}</span>
                             </div>
                             <div className="flex items-baseline justify-between gap-1">
-                              <span className="font-serif text-[1.05rem] font-bold text-[#1A3E72]">
+                              <span className="font-serif text-[1rem] sm:text-[1.05rem] font-bold text-[#1A3E72] truncate">
                                 {signalLabelByKey[fastestEntry[0]] || fastestEntry[0]}
                               </span>
-                              <span className="font-mono text-[12.5px] font-bold text-[#8C6D37]">
+                              <span className="font-mono text-[12px] sm:text-[12.5px] font-bold text-[#8C6D37] shrink-0">
                                 {(fastestEntry[1] / 1000).toFixed(1)}s
                               </span>
                             </div>
                           </div>
                         )}
                       </div>
-
-                      {slowestEntry && fastestEntry && (
-                        <p className="font-sans text-[11.5px] text-[#64748B] italic m-0 pt-1 leading-relaxed">
-                          {langCode === 'tr'
-                            ? `Arkadaşınız sizin hakkınızda değerlendirme yaparken en çok "${signalLabelByKey[slowestEntry[0]] || slowestEntry[0]}" sorusu üzerinde düşündü; en az ise "${signalLabelByKey[fastestEntry[0]] || fastestEntry[0]}" sorusu üzerine düşündü.`
-                            : `While evaluating you, your friend spent the most time contemplating your "${signalLabelByKey[slowestEntry[0]] || slowestEntry[0]}", and the least time on "${signalLabelByKey[fastestEntry[0]] || fastestEntry[0]}".`
-                          }
-                        </p>
-                      )}
                     </div>
                   )}
                 </div>
@@ -2776,93 +2718,41 @@ export default function DashboardPage({ onNavigateToQuiz }) {
         (() => {
           const inviteUrl = snapshot?.publicSlug ? `${window.location.origin}/#/friend/${snapshot.publicSlug}` : '';
           return createPortal(
-            <div style={{
-              position: 'fixed',
-              top: 0, left: 0, right: 0, bottom: 0,
-              backgroundColor: 'rgba(11, 27, 44, 0.4)',
-              backdropFilter: 'blur(4px)',
-              zIndex: 99999,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '20px'
-            }} onClick={() => setQrModalOpen(false)}>
-              <div style={{
-                background: 'var(--color-paper-cream)',
-                borderRadius: '24px',
-                padding: '32px',
-                maxWidth: '320px',
-                width: '100%',
-                boxShadow: '0 24px 60px rgba(11, 27, 44, 0.15)',
-                position: 'relative',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                border: '1px solid rgba(11, 27, 44, 0.05)'
-              }} onClick={(e) => e.stopPropagation()}>
+            <div
+              className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-[#0A1118]/65 backdrop-blur-md transition-all duration-300"
+              onClick={() => setQrModalOpen(false)}
+            >
+              <div
+                className="w-full max-w-[340px] rounded-[26px] sm:rounded-[32px] bg-[#FDFBF4] border border-[rgba(197,160,89,0.35)] shadow-[0_24px_70px_rgba(20,15,10,0.22)] p-6 sm:p-8 relative flex flex-col items-center text-center box-border"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <button
+                  type="button"
                   onClick={() => setQrModalOpen(false)}
-                  style={{
-                    position: 'absolute',
-                    top: '16px',
-                    right: '16px',
-                    background: 'rgba(11, 27, 44, 0.05)',
-                    border: 'none',
-                    borderRadius: '50%',
-                    width: '32px',
-                    height: '32px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                    color: 'var(--color-deep-ink)',
-                    transition: 'all 0.2s ease'
-                  }}
-                  className="hover:bg-black/10"
+                  className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center text-[#786C5E] hover:text-[#1A3E72] transition-colors border border-[rgba(197,160,89,0.18)]"
+                  aria-label={langCode === 'tr' ? 'Kapat' : 'Close'}
                 >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                  </svg>
+                  <X size={15} strokeWidth={2.4} />
                 </button>
 
-                <h3 style={{
-                  fontFamily: 'var(--font-serif)',
-                  fontSize: '1.5rem',
-                  fontWeight: 800,
-                  color: 'var(--color-deep-ink)',
-                  margin: '0 0 8px 0',
-                  textAlign: 'center'
-                }}>
+                <h3 className="font-serif text-[1.3rem] sm:text-[1.5rem] font-bold text-[#1A3E72] m-0 mb-1.5 leading-tight">
                   {langCode === 'tr' ? 'Profil Karekodu' : 'Profile QR Code'}
                 </h3>
 
-                <p style={{
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: '0.85rem',
-                  color: 'var(--color-text-muted)',
-                  textAlign: 'center',
-                  margin: '0 0 24px 0',
-                  lineHeight: 1.4
-                }}>
+                <p className="font-sans text-[0.8rem] sm:text-[0.85rem] text-[#64748B] m-0 mb-4 sm:mb-5 leading-relaxed max-w-[260px]">
                   {langCode === 'tr' ? 'Arkadaşlarının seni okuması için bu karekodu okutmasını sağla.' : 'Let your friends scan this QR code to read your signals.'}
                 </p>
 
-                <div style={{
-                  background: '#ffffff',
-                  padding: '16px',
-                  borderRadius: '16px',
-                  boxShadow: '0 8px 24px rgba(11, 27, 44, 0.06)',
-                  marginBottom: '24px'
-                }}>
+                <div className="p-3 sm:p-4 rounded-2xl bg-white border border-[rgba(197,160,89,0.25)] shadow-[0_4px_16px_rgba(80,60,40,0.06)] mb-4 sm:mb-5">
                   <img
                     src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(inviteUrl)}`}
                     alt="Profile QR Code"
-                    style={{ width: '200px', height: '200px', display: 'block' }}
+                    className="w-[160px] h-[160px] sm:w-[190px] sm:h-[190px] object-contain block rounded-lg"
                   />
                 </div>
 
                 <button
+                  type="button"
                   onClick={() => {
                     fetch(`https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${encodeURIComponent(inviteUrl)}`)
                       .then(res => res.blob())
@@ -2873,27 +2763,9 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                         link.click();
                       });
                   }}
-                  style={{
-                    width: '100%',
-                    background: 'var(--color-deep-ink)',
-                    color: 'var(--color-paper-cream)',
-                    border: 'none',
-                    borderRadius: '100px',
-                    padding: '14px 24px',
-                    fontFamily: 'var(--font-sans)',
-                    fontWeight: 800,
-                    fontSize: '0.85rem',
-                    letterSpacing: '0.05em',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                    transition: 'all 0.3s ease'
-                  }}
-                  className="hover:scale-[1.02] active:scale-[0.98]"
+                  className="w-full py-2.5 sm:py-3 px-5 rounded-full bg-[#16222F] hover:bg-[#0E1721] text-[#F3DE9A] hover:text-white font-sans text-[12px] sm:text-[12.5px] font-bold uppercase tracking-wider shadow-[0_4px_16px_rgba(22,34,47,0.2)] active:scale-[0.98] transition-all flex items-center justify-center gap-2 border border-[#F3DE9A]/30 cursor-pointer"
                 >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                     <polyline points="7 10 12 15 17 10"></polyline>
                     <line x1="12" y1="15" x2="12" y2="3"></line>

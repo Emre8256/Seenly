@@ -56,7 +56,7 @@ export const SIGNAL_CONFIG = {
   guvenilirlik: {
     Icon: ShieldCheck,
     labelTr: 'Güvenilirlik',
-    labelEn: 'Trustworthiness',
+    labelEn: 'Reliability',
     color: '#10B981',
     bg: 'rgba(16, 185, 129, 0.12)',
     border: 'rgba(16, 185, 129, 0.28)'
