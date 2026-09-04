@@ -7,7 +7,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "self_answers")
+@Table(name = "self_answers", indexes = {
+    @Index(name = "idx_self_answer_seenly_id", columnList = "seenly_id")
+})
 @Getter
 @Setter
 @NoArgsConstructor

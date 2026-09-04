@@ -116,11 +116,11 @@ export function SiteHeader({ onStartClick, onLoginClick, hideHowItWorks = false 
 
   return (
     <header
-      className={`transition-colors duration-500 ${scrolled
-          ? "paper-grain border-b border-border/50 bg-background/95 shadow-contact-sm"
-          : "border-b border-transparent bg-transparent"
+      className={`transition-all duration-300 backdrop-blur-md ${scrolled
+        ? "paper-grain border-b border-border/50 bg-background/90 shadow-contact-sm"
+        : "border-b border-transparent bg-transparent"
         }`}
-      style={{ position: 'sticky', top: 0, zIndex: 50 }}
+      style={{ position: 'sticky', top: 0, zIndex: 100, width: '100%' }}
     >
       <div className="mx-auto flex h-[72px] max-w-[1180px] items-center justify-between px-5 sm:px-8">
         <a href="#" className="group flex items-center gap-2.5" aria-label="Seenly ana sayfa">
@@ -203,12 +203,12 @@ export function SiteHeader({ onStartClick, onLoginClick, hideHowItWorks = false 
               </button>
               {userMenuOpen && (
                 <div className="seenly-user-menu-panel" style={{ minWidth: '200px', padding: '10px' }}>
-                  <div style={{ 
-                    padding: '6px 10px 10px 10px', 
-                    marginBottom: '6px', 
-                    borderBottom: '1px solid rgba(11, 27, 44, 0.08)', 
-                    fontFamily: 'var(--font-serif)', 
-                    fontWeight: '700', 
+                  <div style={{
+                    padding: '6px 10px 10px 10px',
+                    marginBottom: '6px',
+                    borderBottom: '1px solid rgba(11, 27, 44, 0.08)',
+                    fontFamily: 'var(--font-serif)',
+                    fontWeight: '700',
                     fontSize: '1.05rem',
                     color: 'var(--color-deep-ink)',
                     textAlign: 'left',
@@ -267,7 +267,7 @@ export function SiteHeader({ onStartClick, onLoginClick, hideHowItWorks = false 
                     }}
                   >
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
                     </svg>
                     {langCode === 'tr' ? 'Profil' : 'Profile'}
                   </button>
@@ -307,7 +307,7 @@ export function SiteHeader({ onStartClick, onLoginClick, hideHowItWorks = false 
                     }}
                   >
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" />
                     </svg>
                     {langCode === 'tr' ? 'Bildirimler' : 'Notifications'}
                   </button>
@@ -327,7 +327,7 @@ export function SiteHeader({ onStartClick, onLoginClick, hideHowItWorks = false 
                     }}
                   >
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/>
+                      <rect x="3" y="3" width="7" height="9" /><rect x="14" y="3" width="7" height="5" /><rect x="14" y="12" width="7" height="9" /><rect x="3" y="16" width="7" height="5" />
                     </svg>
                     {langCode === 'tr' ? 'Panelim' : 'Dashboard'}
                   </button>

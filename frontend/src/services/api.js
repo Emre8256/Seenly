@@ -16,13 +16,17 @@ export async function createSeenly(displayName, email, selfAnswers) {
 
   if (!response.ok) {
     let errorMsg = 'Error creating Seenly profile';
+    let errData = null;
     try {
-      const err = await response.json();
-      errorMsg = err.message || errorMsg;
+      errData = await response.json();
+      errorMsg = errData.message || errorMsg;
     } catch (e) {
       // JSON parsing failed
     }
-    throw new Error(errorMsg);
+    const err = new Error(errorMsg);
+    err.status = response.status;
+    err.data = errData;
+    throw err;
   }
   return response.json();
 }
@@ -43,13 +47,17 @@ export async function updateDisplayName(ownerToken, newDisplayName) {
 
   if (!response.ok) {
     let errorMsg = 'Error updating display name';
+    let errData = null;
     try {
-      const err = await response.json();
-      errorMsg = err.message || errorMsg;
+      errData = await response.json();
+      errorMsg = errData.message || errorMsg;
     } catch (e) {
       // JSON parsing failed
     }
-    throw new Error(errorMsg);
+    const err = new Error(errorMsg);
+    err.status = response.status;
+    err.data = errData;
+    throw err;
   }
 
   return response.json();
@@ -71,13 +79,17 @@ export async function updateEmail(ownerToken, newEmail) {
 
   if (!response.ok) {
     let errorMsg = 'Error updating email';
+    let errData = null;
     try {
-      const err = await response.json();
-      errorMsg = err.message || errorMsg;
+      errData = await response.json();
+      errorMsg = errData.message || errorMsg;
     } catch (e) {
       // JSON parsing failed
     }
-    throw new Error(errorMsg);
+    const err = new Error(errorMsg);
+    err.status = response.status;
+    err.data = errData;
+    throw err;
   }
 
   return response.json();
@@ -99,13 +111,17 @@ export async function updateAvatar(ownerToken, avatar) {
 
   if (!response.ok) {
     let errorMsg = 'Error updating avatar';
+    let errData = null;
     try {
-      const err = await response.json();
-      errorMsg = err.message || errorMsg;
+      errData = await response.json();
+      errorMsg = errData.message || errorMsg;
     } catch (e) {
       // JSON parsing failed
     }
-    throw new Error(errorMsg);
+    const err = new Error(errorMsg);
+    err.status = response.status;
+    err.data = errData;
+    throw err;
   }
 
   return response.json();
@@ -123,13 +139,17 @@ export async function sendVerificationCode(email, isLogin = false) {
 
   if (!response.ok) {
     let errorMsg = 'Error sending verification code';
+    let errData = null;
     try {
-      const err = await response.json();
-      errorMsg = err.message || errorMsg;
+      errData = await response.json();
+      errorMsg = errData.message || errorMsg;
     } catch (e) {
       // JSON parsing failed
     }
-    throw new Error(errorMsg);
+    const err = new Error(errorMsg);
+    err.status = response.status;
+    err.data = errData;
+    throw err;
   }
 
   return response.json();
@@ -147,13 +167,17 @@ export async function verifyCode(email, code) {
 
   if (!response.ok) {
     let errorMsg = 'Error verifying code';
+    let errData = null;
     try {
-      const err = await response.json();
-      errorMsg = err.message || errorMsg;
+      errData = await response.json();
+      errorMsg = errData.message || errorMsg;
     } catch (e) {
       // JSON parsing failed
     }
-    throw new Error(errorMsg);
+    const err = new Error(errorMsg);
+    err.status = response.status;
+    err.data = errData;
+    throw err;
   }
 
   return response.json();
@@ -298,13 +322,17 @@ export async function loginWithEmail(email, code) {
 
   if (!response.ok) {
     let errorMsg = 'Error logging in';
+    let errData = null;
     try {
-      const err = await response.json();
-      errorMsg = err.message || errorMsg;
+      errData = await response.json();
+      errorMsg = errData.message || errorMsg;
     } catch (e) {
       // JSON parsing failed
     }
-    throw new Error(errorMsg);
+    const err = new Error(errorMsg);
+    err.status = response.status;
+    err.data = errData;
+    throw err;
   }
 
   return response.json();

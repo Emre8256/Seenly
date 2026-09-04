@@ -19,11 +19,16 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
   formatTimer,
   errorMessage,
   authFlowNotification,
+  setAuthFlowNotification,
+  onSwitchToLogin,
   isValidEmail,
   langCode,
   locale,
   t
 }) {
+  const isConflict = authFlowNotification?.status === 'conflict';
+  const hasError = !!emailValidationError || (authFlowNotification?.status === 'error') || !!errorMessage;
+
   return (
     <div
       className="seenly-wizard-body seenly-wizard-result-body"
@@ -51,7 +56,7 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
           alignItems: 'center',
           justifyContent: 'center',
           width: '100%',
-          maxWidth: 'clamp(260px, min(80vw, 40vh), 340px)',
+          maxWidth: 'clamp(260px, min(80vw, 40vh), 360px)',
           margin: 'auto 0',
           boxSizing: 'border-box'
         }}
@@ -72,7 +77,7 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
               position: 'relative',
               zIndex: 2,
               width: '100%',
-              maxWidth: '340px',
+              maxWidth: '350px',
               textAlign: 'center',
               display: 'flex',
               flexDirection: 'column',
@@ -143,6 +148,7 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
                   onChange={(e) => {
                     setEmail(e.target.value);
                     if (emailValidationError) setEmailValidationError('');
+                    if (authFlowNotification?.status) setAuthFlowNotification?.({ message: '', status: '' });
                   }}
                   required
                   autoFocus
@@ -152,13 +158,19 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
                     height: '48px',
                     minHeight: '48px',
                     borderRadius: '16px',
-                    border: emailValidationError ? '1.5px solid var(--color-error, #ef4444)' : '1.5px solid rgba(11, 27, 44, 0.12)',
+                    border: isConflict
+                      ? '1.5px solid rgba(217, 106, 83, 0.65)'
+                      : hasError
+                        ? '1.5px solid var(--color-error, #ef4444)'
+                        : '1.5px solid rgba(11, 27, 44, 0.12)',
                     background: '#ffffff',
                     textAlign: 'center',
                     fontSize: '1rem',
                     fontWeight: '500',
                     boxSizing: 'border-box',
-                    boxShadow: 'inset 0 2px 4px rgba(11, 27, 44, 0.02)'
+                    boxShadow: isConflict
+                      ? '0 0 0 3px rgba(217, 106, 83, 0.12)'
+                      : 'inset 0 2px 4px rgba(11, 27, 44, 0.02)'
                   }}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && isValidEmail(email) && !isEmailSending && resendTimer === 0) {
@@ -166,7 +178,75 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
                     }
                   }}
                 />
-                {emailValidationError && (
+
+                {/* Conflict Notice Card (409 Conflict) */}
+                {isConflict && (
+                  <div style={{
+                    marginTop: '0.65rem',
+                    padding: '0.75rem 0.85rem',
+                    borderRadius: '14px',
+                    background: 'rgba(255, 248, 242, 0.95)',
+                    border: '1px solid rgba(217, 106, 83, 0.3)',
+                    boxShadow: '0 4px 16px rgba(217, 106, 83, 0.06)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '0.45rem',
+                    textAlign: 'center',
+                    boxSizing: 'border-box',
+                    animation: 'fadeInUp 0.3s ease'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--color-burnt-coral)' }}>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="8" x2="12" y2="12" />
+                        <line x1="12" y1="16" x2="12.01" y2="16" />
+                      </svg>
+                      <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#9a3412' }}>
+                        {langCode === 'tr' ? 'Hesap Zaten Mevcut' : 'Account Already Exists'}
+                      </span>
+                    </div>
+                    <p style={{
+                      margin: 0,
+                      fontSize: '0.78rem',
+                      lineHeight: '1.4',
+                      color: '#7c2d12',
+                      fontWeight: 500
+                    }}>
+                      {authFlowNotification.message}
+                    </p>
+                    {onSwitchToLogin && (
+                      <button
+                        type="button"
+                        onClick={onSwitchToLogin}
+                        style={{
+                          marginTop: '0.2rem',
+                          padding: '0.35rem 0.9rem',
+                          borderRadius: '10px',
+                          border: '1px solid rgba(217, 106, 83, 0.35)',
+                          backgroundColor: '#ffffff',
+                          color: 'var(--color-burnt-coral)',
+                          fontSize: '0.8rem',
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '5px',
+                          boxShadow: '0 2px 6px rgba(217, 106, 83, 0.1)',
+                          transition: 'all 0.2s ease'
+                        }}
+                      >
+                        <span>{langCode === 'tr' ? 'Giriş Yap' : 'Log In'}</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="9 18 15 12 9 6" />
+                        </svg>
+                      </button>
+                    )}
+                  </div>
+                )}
+
+                {/* Standard validation error */}
+                {emailValidationError && !isConflict && (
                   <p style={{ color: 'var(--color-error, #ef4444)', fontSize: '0.82rem', marginTop: '0.35rem', textAlign: 'center', fontWeight: '600' }}>
                     {emailValidationError}
                   </p>
@@ -214,7 +294,7 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
               position: 'relative',
               zIndex: 2,
               width: '100%',
-              maxWidth: '340px',
+              maxWidth: '350px',
               textAlign: 'center',
               display: 'flex',
               flexDirection: 'column',
@@ -319,14 +399,19 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
                       aria-label={locale === 'tr' ? `Doğrulama hanesi ${i + 1}` : `Verification digit ${i + 1}`}
                       maxLength={1}
                       value={postQuizOtp[i] || ''}
-                      onChange={(e) => handlePostQuizOtpDigitChange(e.target, i)}
+                      onChange={(e) => {
+                        handlePostQuizOtpDigitChange(e.target, i);
+                        if (authFlowNotification?.status) setAuthFlowNotification?.({ message: '', status: '' });
+                      }}
                       onKeyDown={(e) => handlePostQuizOtpKeyDown(e, i)}
                       onPaste={handlePostQuizOtpPaste}
                       style={{
                         width: '46px',
                         height: '52px',
                         borderRadius: '12px',
-                        border: '1.5px solid rgba(11, 27, 44, 0.14)',
+                        border: (authFlowNotification?.status === 'error' || errorMessage)
+                          ? '1.5px solid rgba(239, 68, 68, 0.65)'
+                          : '1.5px solid rgba(11, 27, 44, 0.14)',
                         textAlign: 'center',
                         fontSize: '1.45rem',
                         fontFamily: "'Fraunces', Georgia, serif",
@@ -342,7 +427,7 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
                         e.target.style.boxShadow = '0 0 0 3px rgba(217, 106, 83, 0.15)';
                       }}
                       onBlur={(e) => {
-                        e.target.style.borderColor = 'rgba(11, 27, 44, 0.14)';
+                        e.target.style.borderColor = (authFlowNotification?.status === 'error' || errorMessage) ? 'rgba(239, 68, 68, 0.65)' : 'rgba(11, 27, 44, 0.14)';
                         e.target.style.boxShadow = 'inset 0 2px 4px rgba(11, 27, 44, 0.02)';
                       }}
                     />
@@ -403,26 +488,34 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
                   )}
                 </div>
 
-                {/* Error Alert if any */}
-                {(errorMessage || authFlowNotification.status === 'error') && (
+                {/* Error Banner if any */}
+                {(errorMessage || authFlowNotification?.status === 'error') && (
                   <div style={{
                     display: 'flex',
                     alignItems: 'center',
                     gap: '6px',
-                    padding: '0.45rem 0.75rem',
-                    borderRadius: '10px',
-                    background: 'rgba(239, 68, 68, 0.08)',
-                    border: '1px solid rgba(239, 68, 68, 0.2)',
+                    padding: '0.55rem 0.8rem',
+                    borderRadius: '12px',
+                    background: 'rgba(254, 242, 242, 0.95)',
+                    border: '1px solid rgba(239, 68, 68, 0.25)',
+                    boxShadow: '0 2px 8px rgba(239, 68, 68, 0.05)',
                     width: '100%',
                     boxSizing: 'border-box'
                   }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="12" y1="8" x2="12" y2="12" />
+                      <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
                     <p style={{
                       margin: 0,
                       fontSize: '0.78rem',
                       fontWeight: 600,
                       color: '#dc2626',
                       lineHeight: 1.3
-                    }}>{authFlowNotification.message || errorMessage}</p>
+                    }}>
+                      {authFlowNotification?.message || errorMessage}
+                    </p>
                   </div>
                 )}
               </div>

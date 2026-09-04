@@ -11,7 +11,10 @@ import java.util.UUID;
 @Entity
 @Table(name = "seenlys", indexes = {
     @Index(name = "idx_seenly_public_slug", columnList = "publicSlug", unique = true),
-    @Index(name = "idx_seenly_owner_token_hash", columnList = "ownerTokenHash", unique = true)
+    @Index(name = "idx_seenly_owner_token_hash", columnList = "ownerTokenHash", unique = true),
+    @Index(name = "idx_seenly_email", columnList = "email"),
+    @Index(name = "idx_seenly_user_id", columnList = "user_id"),
+    @Index(name = "idx_seenly_email_created_at", columnList = "email, createdAt")
 })
 @Getter
 @Setter
@@ -46,12 +49,15 @@ public class Seenly {
     @Column(nullable = true)
     private LocalDateTime lastNameChangedAt;
 
+    @Builder.Default
     @Column(nullable = false)
     private int responseCount = 0;
 
+    @Builder.Default
     @Column(nullable = false)
     private int totalProfileClicks = 0;
 
+    @Builder.Default
     @Column(nullable = false)
     private boolean isCapped = false;
 

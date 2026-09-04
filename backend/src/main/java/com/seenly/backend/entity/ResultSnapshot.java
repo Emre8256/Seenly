@@ -8,7 +8,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "result_snapshots")
+@Table(name = "result_snapshots", indexes = {
+    @Index(name = "idx_result_snapshot_seenly_id", columnList = "seenly_id")
+})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,6 +25,7 @@ public class ResultSnapshot {
     @JoinColumn(name = "seenly_id", nullable = false)
     private Seenly seenly;
 
+    @Builder.Default
     @Column(nullable = false)
     private String scoringVersion = "v1.0";
 
@@ -47,6 +50,7 @@ public class ResultSnapshot {
     @Column
     private String gapStrength; // "subtle" | "clear" | "strong"
 
+    @Builder.Default
     @Column(nullable = false)
     private String confidenceBand = "self_only"; // "self_only" | "forming" | "outside_open" | "gap_open" | "stronger_signal"
 

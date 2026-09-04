@@ -1,0 +1,313 @@
+/* Legal Pages Porcelain Theme */
+.seenly-legal-container {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem 1.5rem;
+  box-sizing: border-box;
+}
+
+.seenly-legal-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  background: rgba(255, 253, 250, 0.85);
+  border: 1px solid rgba(11, 27, 44, 0.1);
+  color: var(--color-deep-ink, #0B1B2C);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(11, 27, 44, 0.03);
+  transition: all 0.2s ease;
+  margin-bottom: 2rem;
+  cursor: pointer;
+}
+
+.seenly-legal-back-btn:hover {
+  background: #ffffff;
+  border-color: rgba(217, 106, 83, 0.3);
+  color: var(--color-burnt-coral, #d96a53);
+  transform: translateX(-2px);
+  box-shadow: 0 4px 12px rgba(11, 27, 44, 0.06);
+}
+
+.seenly-legal-card {
+  background: rgba(255, 253, 250, 0.92);
+  border: 1px solid rgba(197, 160, 89, 0.22);
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 12px 40px rgba(11, 27, 44, 0.04);
+  backdrop-filter: blur(8px);
+}
+
+@media (max-width: 640px) {
+  .seenly-legal-container {
+    padding: 1.5rem 1rem 3.5rem 1rem;
+  }
+
+  .seenly-legal-card {
+    padding: 1.75rem 1.25rem;
+    border-radius: 18px;
+  }
+}
+
+.seenly-legal-header {
+  border-bottom: 1px solid rgba(11, 27, 44, 0.08);
+  padding-bottom: 1.75rem;
+  margin-bottom: 2rem;
+}
+
+.seenly-legal-badge {
+  display: inline-block;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--color-burnt-coral, #d96a53);
+  background: rgba(217, 106, 83, 0.08);
+  padding: 4px 10px;
+  border-radius: 8px;
+  margin-bottom: 0.85rem;
+}
+
+.seenly-legal-title {
+  font-family: var(--font-serif, 'Fraunces', Georgia, serif);
+  font-size: clamp(1.85rem, 3.5vw, 2.5rem);
+  font-weight: 600;
+  color: #0B1B2C;
+  line-height: 1.2;
+  margin: 0 0 0.65rem 0;
+  letter-spacing: -0.02em;
+}
+
+.seenly-legal-meta {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.85rem;
+  color: #64748B;
+  margin: 0;
+}
+
+.seenly-legal-section {
+  margin-bottom: 2rem;
+}
+
+.seenly-legal-section:last-child {
+  margin-bottom: 0;
+}
+
+.seenly-legal-section-title {
+  font-family: var(--font-serif, 'Fraunces', Georgia, serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #0B1B2C;
+  margin: 0 0 0.85rem 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.seenly-legal-section-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: rgba(11, 27, 44, 0.05);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #0B1B2C;
+  flex-shrink: 0;
+}
+
+.seenly-legal-text {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: #334155;
+  margin: 0 0 0.85rem 0;
+}
+
+.seenly-legal-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.seenly-legal-list li {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #334155;
+  padding-left: 1.4rem;
+  position: relative;
+}
+
+.seenly-legal-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0.35rem;
+  top: 0;
+  color: var(--color-burnt-coral, #d96a53);
+  font-weight: 800;
+}
+
+.seenly-legal-highlight-box {
+  background: rgba(254, 243, 199, 0.35);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  margin: 1.25rem 0;
+}
+
+.seenly-legal-highlight-box.is-success {
+  background: rgba(240, 253, 244, 0.55);
+  border-color: rgba(34, 197, 94, 0.25);
+}
+
+.seenly-legal-highlight-text {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: #78350f;
+  margin: 0;
+  font-weight: 500;
+}
+
+.seenly-legal-highlight-box.is-success .seenly-legal-highlight-text {
+  color: #14532d;
+}
+
+.seenly-legal-subtitle {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0B1B2C;
+  margin: 1.25rem 0 0.4rem 0;
+  letter-spacing: -0.01em;
+}
+
+.seenly-legal-link {
+  color: var(--color-burnt-coral, #d96a53);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.2s ease;
+  font-weight: 600;
+}
+
+.seenly-legal-link:hover {
+  opacity: 0.8;
+}
+
+/* Privacy policy — editorial document layout */
+.seenly-privacy-card {
+  position: relative;
+  overflow: hidden;
+  padding: 0 3.5rem 3.5rem;
+  border-color: rgba(11, 27, 44, 0.1);
+  background: rgba(253, 251, 247, 0.96);
+  box-shadow:
+    0 24px 70px rgba(11, 27, 44, 0.07),
+    0 2px 10px rgba(11, 27, 44, 0.035);
+}
+
+.seenly-privacy-card .seenly-legal-header {
+  margin: 0 -3.5rem 2.25rem;
+  padding: 3.75rem 3.5rem 2.75rem;
+  background:
+    radial-gradient(circle at 88% 20%, rgba(143, 123, 204, 0.12), transparent 30%),
+    radial-gradient(circle at 8% 100%, rgba(217, 106, 83, 0.09), transparent 34%);
+}
+
+.seenly-privacy-card .seenly-legal-title {
+  max-width: 650px;
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.seenly-legal-lead {
+  max-width: 620px;
+  margin: 1rem 0 1.35rem;
+  color: #475569;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  line-height: 1.65;
+}
+
+.seenly-privacy-card .seenly-legal-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid rgba(11, 27, 44, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.seenly-privacy-card .seenly-legal-meta::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #69a47b;
+}
+
+.seenly-privacy-card .seenly-legal-section {
+  scroll-margin-top: 96px;
+  margin-bottom: 0;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(11, 27, 44, 0.07);
+}
+
+.seenly-privacy-card .seenly-legal-intro {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.seenly-privacy-card .seenly-legal-section-title {
+  margin-bottom: 1rem;
+  font-size: clamp(1.28rem, 2.4vw, 1.55rem);
+}
+
+.seenly-privacy-card .seenly-legal-text,
+.seenly-privacy-card .seenly-legal-list li {
+  font-size: 0.95rem;
+  line-height: 1.78;
+}
+
+.seenly-privacy-card .seenly-legal-list li::before {
+  content: '';
+  top: 0.72em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-burnt-coral, #d96a53);
+}
+
+@media (max-width: 640px) {
+  .seenly-privacy-card {
+    padding: 0 1.25rem 2rem;
+  }
+
+  .seenly-privacy-card .seenly-legal-header {
+    margin: 0 -1.25rem 1.5rem;
+    padding: 2.75rem 1.25rem 2rem;
+  }
+
+  .seenly-privacy-card .seenly-legal-title {
+    font-size: clamp(2rem, 11vw, 2.75rem);
+  }
+
+  .seenly-privacy-card .seenly-legal-section {
+    padding: 1.6rem 0;
+  }
+}

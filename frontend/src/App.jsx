@@ -10,6 +10,8 @@ import IdentitiesPage from './pages/IdentitiesPage';
 import FaqPage from './pages/FaqPage';
 import PlansPage from './pages/PlansPage';
 import SettingsPage from './pages/SettingsPage';
+import TermsOfUsePage from './pages/TermsOfUsePage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 
 const parseHashRoute = (hash) => {
   const cleanHash = hash.replace(/^#/, ''); // e.g. "/friend/abc/quiz"
@@ -36,6 +38,14 @@ const parseHashRoute = (hash) => {
 
   if (cleanHash.startsWith('/plans')) {
     return { type: 'plans', slug: null };
+  }
+
+  if (cleanHash.startsWith('/terms') || cleanHash.startsWith('/refund')) {
+    return { type: 'terms', slug: null };
+  }
+
+  if (cleanHash.startsWith('/privacy')) {
+    return { type: 'privacy', slug: null };
   }
   
   const friendQuizRegex = /^\/friend\/([^\/]+)\/quiz$/;
@@ -159,6 +169,10 @@ export default function App() {
         return <FaqPage />;
       case 'plans':
         return <PlansPage />;
+      case 'terms':
+        return <TermsOfUsePage />;
+      case 'privacy':
+        return <PrivacyPolicyPage />;
       case 'friend-intro':
         return (
           <FriendIntroPage 

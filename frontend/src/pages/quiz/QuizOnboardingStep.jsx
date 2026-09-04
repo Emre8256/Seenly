@@ -20,6 +20,10 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
   resendTimer,
   formatTimer,
   errorMessage,
+  setErrorMessage,
+  authFlowNotification,
+  setAuthFlowNotification,
+  onStartQuiz,
   isQuickLogin,
   setCurrentIndex,
   isValidEmail,
@@ -27,6 +31,10 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
   locale,
   t
 }) {
+  const isNotFound = authFlowNotification?.status === 'not_found';
+  const isConflict = authFlowNotification?.status === 'conflict';
+  const hasError = !!emailValidationError || (authFlowNotification?.status === 'error') || !!errorMessage;
+
   // Step 1: Quick Login - Email Entry (-5)
   if (currentIndex === -5) {
     return (
@@ -76,11 +84,15 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
           <div className="seenly-auth-card" style={{
             width: '100%',
             maxWidth: '400px',
-            background: 'rgba(255, 253, 250, 0.55)',
-            border: '1px solid rgba(11, 27, 44, 0.06)',
+            background: 'rgba(255, 253, 250, 0.75)',
+            border: isNotFound
+              ? '1.5px solid rgba(197, 160, 89, 0.45)'
+              : isConflict
+                ? '1.5px solid rgba(217, 106, 83, 0.45)'
+                : '1px solid rgba(11, 27, 44, 0.08)',
             borderRadius: '20px',
             padding: '1.75rem 1.5rem',
-            boxShadow: '0 10px 30px rgba(11, 27, 44, 0.02)',
+            boxShadow: '0 10px 30px rgba(11, 27, 44, 0.03)',
             display: 'flex',
             flexDirection: 'column',
             gap: '0.75rem',
@@ -112,13 +124,26 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
                 onChange={(e) => {
                   setEmail(e.target.value);
                   if (emailValidationError) setEmailValidationError('');
+                  if (authFlowNotification?.status) setAuthFlowNotification?.({ message: '', status: '' });
+                  if (setErrorMessage) setErrorMessage('');
                 }}
                 required
                 autoFocus
                 className="seenly-wizard-input"
                 style={{
-                  borderColor: emailValidationError ? 'var(--color-error, #ef4444)' : undefined,
-                  fontSize: '1rem'
+                  borderColor: isNotFound
+                    ? 'rgba(197, 160, 89, 0.75)'
+                    : isConflict
+                      ? 'rgba(217, 106, 83, 0.75)'
+                      : hasError
+                        ? 'var(--color-error, #ef4444)'
+                        : undefined,
+                  fontSize: '1rem',
+                  boxShadow: isNotFound
+                    ? '0 0 0 3px rgba(197, 160, 89, 0.12)'
+                    : isConflict
+                      ? '0 0 0 3px rgba(217, 106, 83, 0.12)'
+                      : undefined
                 }}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && isValidEmail(email) && !isEmailSending && resendTimer === 0) {
@@ -126,7 +151,79 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
                   }
                 }}
               />
-              {emailValidationError && (
+
+              {/* 404 Not Found Porcelain Card */}
+              {isNotFound && (
+                <div style={{
+                  marginTop: '0.75rem',
+                  padding: '0.85rem 1rem',
+                  borderRadius: '14px',
+                  background: 'rgba(255, 252, 245, 0.95)',
+                  border: '1px solid rgba(197, 160, 89, 0.35)',
+                  boxShadow: '0 4px 16px rgba(197, 160, 89, 0.08)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  textAlign: 'center',
+                  boxSizing: 'border-box',
+                  animation: 'fadeInUp 0.3s ease'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#92400e' }}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="12" y1="8" x2="12" y2="12" />
+                      <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                    <span style={{ fontSize: '0.82rem', fontWeight: 700 }}>
+                      {langCode === 'tr' ? 'Hesap Bulunamadı' : 'Account Not Found'}
+                    </span>
+                  </div>
+                  <p style={{
+                    margin: 0,
+                    fontSize: '0.8rem',
+                    lineHeight: '1.45',
+                    color: '#78350f',
+                    fontWeight: 500
+                  }}>
+                    {authFlowNotification.message}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (onStartQuiz) {
+                        onStartQuiz();
+                      } else {
+                        setCurrentIndex(-2);
+                      }
+                    }}
+                    style={{
+                      marginTop: '0.25rem',
+                      padding: '0.45rem 1.1rem',
+                      borderRadius: '12px',
+                      border: '1px solid rgba(197, 160, 89, 0.45)',
+                      backgroundColor: '#0B1B2C',
+                      color: '#ffffff',
+                      fontSize: '0.82rem',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      boxShadow: '0 4px 12px rgba(11, 27, 44, 0.12)',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <span>{langCode === 'tr' ? 'Testi Başlat' : 'Start Test'}</span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                  </button>
+                </div>
+              )}
+
+              {/* Standard Validation Error */}
+              {emailValidationError && !isNotFound && (
                 <p style={{ color: 'var(--color-error, #ef4444)', fontSize: '0.85rem', marginTop: '0.4rem', textAlign: 'center', fontWeight: '500' }}>
                   {emailValidationError}
                 </p>
@@ -162,6 +259,8 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
 
   // Step 2: Quick Login - 4-Digit Code Verification (-6)
   if (currentIndex === -6) {
+    const isOtpError = !!errorMessage || authFlowNotification?.status === 'error';
+
     return (
       <>
         <div className="seenly-wizard-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', flex: 1 }}>
@@ -205,11 +304,11 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
           <div className="seenly-auth-card" style={{
             width: '100%',
             maxWidth: '400px',
-            background: 'rgba(255, 253, 250, 0.55)',
-            border: '1px solid rgba(11, 27, 44, 0.06)',
+            background: 'rgba(255, 253, 250, 0.75)',
+            border: isOtpError ? '1.5px solid rgba(239, 68, 68, 0.35)' : '1px solid rgba(11, 27, 44, 0.08)',
             borderRadius: '20px',
             padding: '1.75rem 1.5rem',
-            boxShadow: '0 10px 30px rgba(11, 27, 44, 0.02)',
+            boxShadow: '0 10px 30px rgba(11, 27, 44, 0.03)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -250,14 +349,18 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
                   aria-label={locale === 'tr' ? `Doğrulama hanesi ${i + 1}` : `Verification digit ${i + 1}`}
                   maxLength={1}
                   value={verificationCode[i] || ''}
-                  onChange={(e) => handleCodeDigitChange(e.target, i)}
+                  onChange={(e) => {
+                    handleCodeDigitChange(e.target, i);
+                    if (setErrorMessage) setErrorMessage('');
+                    if (authFlowNotification?.status) setAuthFlowNotification?.({ message: '', status: '' });
+                  }}
                   onKeyDown={(e) => handleCodeKeyDown(e, i)}
                   onPaste={handleCodePaste}
                   style={{
                     width: '48px',
                     height: '56px',
                     borderRadius: '14px',
-                    border: '1.5px solid rgba(11, 27, 44, 0.12)',
+                    border: isOtpError ? '1.5px solid rgba(239, 68, 68, 0.65)' : '1.5px solid rgba(11, 27, 44, 0.12)',
                     textAlign: 'center',
                     fontSize: '1.5rem',
                     fontFamily: 'var(--font-serif)',
@@ -273,7 +376,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
                     e.target.style.boxShadow = '0 0 0 4px rgba(217, 106, 83, 0.15)';
                   }}
                   onBlur={(e) => {
-                    e.target.style.borderColor = 'rgba(11, 27, 44, 0.12)';
+                    e.target.style.borderColor = isOtpError ? 'rgba(239, 68, 68, 0.65)' : 'rgba(11, 27, 44, 0.12)';
                     e.target.style.boxShadow = 'inset 0 2px 4px rgba(11, 27, 44, 0.02)';
                   }}
                 />
@@ -333,19 +436,22 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
               )}
             </div>
 
-            {errorMessage && (
+            {/* Error Feedback Banner */}
+            {(errorMessage || authFlowNotification?.status === 'error') && (
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
                 padding: '0.65rem 1rem',
                 borderRadius: '12px',
-                background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(220, 38, 38, 0.05) 100%)',
-                border: '1px solid rgba(239, 68, 68, 0.2)',
+                background: 'rgba(254, 242, 242, 0.95)',
+                border: '1px solid rgba(239, 68, 68, 0.25)',
                 width: '100%',
-                boxSizing: 'border-box'
+                boxSizing: 'border-box',
+                boxShadow: '0 2px 8px rgba(239, 68, 68, 0.05)',
+                animation: 'fadeInUp 0.3s ease'
               }}>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
                   <circle cx="12" cy="12" r="10" />
                   <line x1="12" y1="8" x2="12" y2="12" />
                   <line x1="12" y1="16" x2="12.01" y2="16" />
@@ -357,7 +463,9 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
                   fontWeight: 600,
                   color: '#dc2626',
                   lineHeight: 1.4
-                }}>{errorMessage}</p>
+                }}>
+                  {authFlowNotification?.message || errorMessage}
+                </p>
               </div>
             )}
           </div>
@@ -370,7 +478,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
             onClick={handleVerifyCode}
           >
             {isVerifying ? (
-              <span>...</span>
+              <span className="spinner-mini"></span>
             ) : (
               <>
                 <span>{t('ui', 'auth_otp_btn')}</span>
@@ -420,18 +528,13 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
                 }
               }}
             />
-            {displayName.trim().length > 0 && displayName.trim().length < 2 && (
-              <p style={{ color: 'var(--color-error, #ef4444)', fontSize: '0.85rem', marginTop: '0.5rem', textAlign: 'center' }}>
-                {langCode === 'tr' ? 'İsminiz en az 2 karakter olmalıdır.' : 'Your name must be at least 2 characters.'}
-              </p>
-            )}
           </div>
         </div>
         <div className="seenly-wizard-footer-action">
           <button
             type="button"
             className="seenly-wizard-primary-btn"
-            disabled={displayName.trim().length < 2}
+            disabled={!displayName || displayName.trim().length < 2}
             onClick={() => setCurrentIndex(-4)}
           >
             <span>{t('ui', 'wizard_continue_btn')}</span>

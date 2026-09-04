@@ -203,9 +203,13 @@ export default function QuizPage({ onComplete }) {
   const [selectedAvatar, setSelectedAvatar] = useState(() => {
     return sessionStorage.getItem('seenly_avatar') || localStorage.getItem('seenly_avatar') || 'kadin1';
   });
-  const [avatarFilter, setAvatarFilter] = useState('all');
+  const [avatarFilter, setAvatarFilter] = useState(() => {
+    const saved = sessionStorage.getItem('seenly_avatar') || localStorage.getItem('seenly_avatar');
+    if (saved && saved.startsWith('erkek')) return 'erkek';
+    return 'kadin';
+  });
   const filteredAvatars = useMemo(() => {
-    return AVATARS.filter(av => (avatarFilter === 'all' ? true : av.gender === avatarFilter));
+    return AVATARS.filter(av => av.gender === avatarFilter);
   }, [avatarFilter]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -403,17 +407,39 @@ export default function QuizPage({ onComplete }) {
     setEmailValidationError('');
     setIsEmailSending(true);
     setErrorMessage('');
+    setAuthFlowNotification({ message: '', status: '' });
     try {
       await sendVerificationCode(trimmedEmail, isQuickLogin);
       setVerificationCode(Array(4).fill(''));
       setResendTimer(60);
       setCurrentIndex(-6);
     } catch (err) {
-      setErrorMessage(err.message || 'Error sending verification code.');
+      if (err.status === 404 && isQuickLogin) {
+        setAuthFlowNotification({
+          message: langCode === 'tr'
+            ? 'Bu e-posta adresine ait bir hesap bulunamadı. Lütfen önce testinizi tamamlayın.'
+            : 'No account found for this email. Please complete your test first.',
+          status: 'not_found'
+        });
+      } else if (err.status === 409 && !isQuickLogin) {
+        setAuthFlowNotification({
+          message: langCode === 'tr'
+            ? 'Bu e-posta adresiyle kayıtlı bir hesap zaten var. Lütfen giriş yapın.'
+            : 'An account with this email already exists. Please log in.',
+          status: 'conflict'
+        });
+      } else {
+        const msg = err.message || (langCode === 'tr' ? 'Doğrulama kodu gönderilemedi.' : 'Error sending verification code.');
+        setErrorMessage(msg);
+        setAuthFlowNotification({
+          message: msg,
+          status: 'error'
+        });
+      }
     } finally {
       setIsEmailSending(false);
     }
-  }, [resendTimer, email, isValidEmail, t, isQuickLogin]);
+  }, [resendTimer, email, isValidEmail, t, isQuickLogin, langCode]);
 
   const handleCodeDigitChange = useCallback((element, index) => {
     const val = element.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
@@ -447,6 +473,7 @@ export default function QuizPage({ onComplete }) {
   const handleVerifyCode = useCallback(async () => {
     setIsVerifying(true);
     setErrorMessage('');
+    setAuthFlowNotification({ message: '', status: '' });
     const fullCode = verificationCode.join('');
     try {
       if (isQuickLogin) {
@@ -470,11 +497,15 @@ export default function QuizPage({ onComplete }) {
         setCurrentIndex(-2);
       }
     } catch (err) {
-      setErrorMessage(err.message || 'Error verifying code.');
+      const msg = (err.status === 400 || err.status === 404)
+        ? (langCode === 'tr' ? 'Doğrulama kodu hatalı veya süresi dolmuş. Lütfen tekrar deneyin.' : 'Verification code is invalid or expired. Please try again.')
+        : (err.message || (langCode === 'tr' ? 'Doğrulama başarısız.' : 'Error verifying code.'));
+      setErrorMessage(msg);
+      setAuthFlowNotification({ message: msg, status: 'error' });
     } finally {
       setIsVerifying(false);
     }
-  }, [verificationCode, isQuickLogin, email, onComplete]);
+  }, [verificationCode, isQuickLogin, email, onComplete, langCode]);
 
   const handlePostQuizOtpDigitChange = useCallback((element, index) => {
     const val = element.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
@@ -521,16 +552,30 @@ export default function QuizPage({ onComplete }) {
       setPostQuizOtp(Array(4).fill(''));
       setResendTimer(60);
       setAuthFlowNotification({
-        message: t('ui', 'auth_notification_sent'),
+        message: t('ui', 'auth_notification_sent') || 'Doğrulama kodu gönderildi.',
         status: 'success'
       });
       setCurrentIndex(-11);
     } catch (err) {
-      setErrorMessage(err.message || 'Error sending verification code.');
+      if (err.status === 409) {
+        setAuthFlowNotification({
+          message: langCode === 'tr'
+            ? 'Bu e-posta adresiyle kayıtlı bir hesap zaten var. Sonucunuzu bu hesaba bağlamak için lütfen giriş yapın.'
+            : 'An account with this email already exists. Please log in to link your result to this account.',
+          status: 'conflict'
+        });
+      } else {
+        const msg = err.message || (langCode === 'tr' ? 'Doğrulama kodu gönderilemedi.' : 'Error sending verification code.');
+        setErrorMessage(msg);
+        setAuthFlowNotification({
+          message: msg,
+          status: 'error'
+        });
+      }
     } finally {
       setIsEmailSending(false);
     }
-  }, [resendTimer, email, isValidEmail, t]);
+  }, [resendTimer, email, isValidEmail, t, langCode]);
 
   const handlePostQuizVerifyCode = useCallback(async () => {
     setIsVerifying(true);
@@ -540,19 +585,23 @@ export default function QuizPage({ onComplete }) {
     try {
       await verifyCode(email, fullCode);
       setAuthFlowNotification({
-        message: t('ui', 'auth_notification_success'),
+        message: t('ui', 'auth_notification_success') || 'Doğrulandı.',
         status: 'success'
       });
       await handleSubmitQuiz(true);
     } catch (err) {
+      const msg = (err.status === 400 || err.status === 404)
+        ? (langCode === 'tr' ? 'Doğrulama kodu hatalı veya süresi dolmuş. Lütfen tekrar deneyin.' : 'Verification code is invalid or expired. Please try again.')
+        : (err.message || t('ui', 'auth_notification_error') || 'Hata oluştu.');
+      setErrorMessage(msg);
       setAuthFlowNotification({
-        message: err.message || t('ui', 'auth_notification_error'),
+        message: msg,
         status: 'error'
       });
     } finally {
       setIsVerifying(false);
     }
-  }, [postQuizOtp, email, t, handleSubmitQuiz]);
+  }, [postQuizOtp, email, handleSubmitQuiz, t, langCode]);
 
   useEffect(() => {
     if (currentIndex === -6 && inputRefs.current[0]) {
@@ -742,6 +791,11 @@ export default function QuizPage({ onComplete }) {
               formatTimer={formatTimer}
               errorMessage={errorMessage}
               authFlowNotification={authFlowNotification}
+              setAuthFlowNotification={setAuthFlowNotification}
+              onSwitchToLogin={() => {
+                setIsQuickLogin(true);
+                setCurrentIndex(-5);
+              }}
               isValidEmail={isValidEmail}
               langCode={langCode}
               locale={locale}
@@ -838,6 +892,13 @@ export default function QuizPage({ onComplete }) {
               resendTimer={resendTimer}
               formatTimer={formatTimer}
               errorMessage={errorMessage}
+              setErrorMessage={setErrorMessage}
+              authFlowNotification={authFlowNotification}
+              setAuthFlowNotification={setAuthFlowNotification}
+              onStartQuiz={() => {
+                setIsQuickLogin(false);
+                setCurrentIndex(-2);
+              }}
               isQuickLogin={isQuickLogin}
               setCurrentIndex={setCurrentIndex}
               isValidEmail={isValidEmail}

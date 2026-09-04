@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useLocale } from '../context/LocaleContext';
 import AppShell from '../components/AppShell';
-import { getOwnerDashboard, updateDisplayName, updateEmail, updateAvatar, subscribePlus, buyCapacityPack } from '../services/api';
+import { getOwnerDashboard, updateDisplayName, updateEmail, updateAvatar, subscribePlus, buyCapacityPack, sendVerificationCode, verifyCode } from '../services/api';
 import { AVATARS, getAvatarSrc } from '../images/avatars';
 import {
   User,
@@ -10,13 +10,151 @@ import {
   ArrowLeft,
   Users,
   Compass,
-  Crown
+  Crown,
+  ShieldCheck,
+  TriangleAlert,
+  X
 } from 'lucide-react';
 import ProfileSettingsTab from './settings/ProfileSettingsTab';
 import SubscriptionTab from './settings/SubscriptionTab';
 import SecuritySettingsTab from './settings/SecuritySettingsTab';
 import './DashboardPlanMinimal.css';
 import './settings/SettingsPage.css';
+
+function SettingsActionModal({ type, langCode, email, onClose, onConfirm }) {
+  const isEmail = type === 'email';
+  const [digits, setDigits] = useState(['', '', '', '']);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const digitRefs = useRef([]);
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape' && !isSubmitting) onClose();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    if (isEmail) requestAnimationFrame(() => digitRefs.current[0]?.focus());
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isEmail, isSubmitting, onClose]);
+
+  const setDigit = (index, value) => {
+    const nextValue = value.replace(/\D/g, '').slice(-1);
+    setDigits((current) => {
+      const next = [...current];
+      next[index] = nextValue;
+      return next;
+    });
+    setErrorMessage('');
+    if (nextValue && index < 3) digitRefs.current[index + 1]?.focus();
+  };
+
+  const handleDigitKeyDown = (event, index) => {
+    if (event.key === 'Backspace' && !digits[index] && index > 0) {
+      digitRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const handlePaste = (event) => {
+    const pastedDigits = event.clipboardData.getData('text').replace(/\D/g, '').slice(0, 4).split('');
+    if (!pastedDigits.length) return;
+    event.preventDefault();
+    setDigits(Array.from({ length: 4 }, (_, index) => pastedDigits[index] || ''));
+    setErrorMessage('');
+    digitRefs.current[Math.min(pastedDigits.length, 4) - 1]?.focus();
+  };
+
+  const handleConfirm = async () => {
+    const code = digits.join('');
+    if (isEmail && code.length !== 4) {
+      setErrorMessage(langCode === 'tr' ? 'Lütfen 4 haneli kodu eksiksiz girin.' : 'Please enter the complete 4-digit code.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setErrorMessage('');
+    try {
+      await onConfirm(code);
+    } catch (error) {
+      setErrorMessage(error.message || (langCode === 'tr' ? 'İşlem doğrulanamadı.' : 'Unable to verify the action.'));
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="seenly-settings-modal-overlay" onMouseDown={(event) => event.target === event.currentTarget && !isSubmitting && onClose()}>
+      <div className="seenly-settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-action-title">
+        <button type="button" className="seenly-settings-modal-close" onClick={onClose} disabled={isSubmitting} aria-label={langCode === 'tr' ? 'Pencereyi kapat' : 'Close dialog'}>
+          <X size={18} strokeWidth={2} />
+        </button>
+
+        <div className={`seenly-settings-modal-icon ${isEmail ? 'is-email' : 'is-warning'}`}>
+          {isEmail ? <ShieldCheck size={24} strokeWidth={1.8} /> : <TriangleAlert size={24} strokeWidth={1.8} />}
+        </div>
+
+        <h2 id="settings-action-title" className="seenly-settings-modal-title">
+          {isEmail
+            ? (langCode === 'tr' ? 'E-posta adresini doğrula' : 'Verify your email address')
+            : (langCode === 'tr' ? 'İsim değişikliğini onayla' : 'Confirm name change')}
+        </h2>
+
+        <p className="seenly-settings-modal-description">
+          {isEmail
+            ? (langCode === 'tr' ? `${email} adresine gönderilen 4 haneli kodu girin.` : `Enter the 4-digit code sent to ${email}.`)
+            : (langCode === 'tr'
+              ? 'Görünen isminizi değiştirdikten sonra 14 gün boyunca tekrar değiştiremezsiniz. Devam etmek istediğinizden emin misiniz?'
+              : 'After changing your display name, you will not be able to change it again for 14 days. Are you sure you want to continue?')}
+        </p>
+
+        {isEmail && (
+          <>
+            <div className="seenly-settings-otp" onPaste={handlePaste}>
+              {digits.map((digit, index) => (
+                <input
+                  key={index}
+                  ref={(element) => { digitRefs.current[index] = element; }}
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete={index === 0 ? 'one-time-code' : 'off'}
+                  maxLength={1}
+                  value={digit}
+                  onChange={(event) => setDigit(index, event.target.value)}
+                  onKeyDown={(event) => handleDigitKeyDown(event, index)}
+                  className={errorMessage ? 'has-error' : ''}
+                  aria-label={langCode === 'tr' ? `Doğrulama kodu ${index + 1}. hane` : `Verification code digit ${index + 1}`}
+                />
+              ))}
+            </div>
+            {import.meta.env.DEV && (
+              <p className="seenly-settings-dev-code">
+                {langCode === 'tr' ? 'Geliştirme kodu: ' : 'Development code: '}<strong>1234</strong>
+              </p>
+            )}
+          </>
+        )}
+
+        {errorMessage && <p className="seenly-settings-modal-error" role="alert">{errorMessage}</p>}
+
+        <div className="seenly-settings-modal-actions">
+          <button type="button" className="seenly-settings-modal-secondary" onClick={onClose} disabled={isSubmitting}>
+            {langCode === 'tr' ? 'Vazgeç' : 'Cancel'}
+          </button>
+          <button type="button" className="seenly-settings-modal-primary" onClick={handleConfirm} disabled={isSubmitting || (isEmail && digits.some((digit) => !digit))}>
+            {isSubmitting
+              ? (langCode === 'tr' ? 'İşleniyor...' : 'Processing...')
+              : isEmail
+                ? (langCode === 'tr' ? 'Doğrula ve Güncelle' : 'Verify and Update')
+                : (langCode === 'tr' ? 'Onayla ve Güncelle' : 'Confirm and Update')}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function SettingsPage() {
   const { locale: langCode, t } = useLocale();
@@ -35,7 +173,14 @@ export default function SettingsPage() {
   // Avatar states
   const [selectedAvatar, setSelectedAvatar] = useState(() => localStorage.getItem('seenly_avatar') || '');
   const [showAvatarPicker, setShowAvatarPicker] = useState(false);
-  const [avatarFilter, setAvatarFilter] = useState('all'); // 'all' | 'kadin' | 'erkek'
+  const [avatarFilter, setAvatarFilter] = useState(() => {
+    const saved = localStorage.getItem('seenly_avatar') || '';
+    if (saved.toLowerCase().startsWith('erkek')) return 'erkek';
+    return 'kadin';
+  });
+  const filteredAvatars = useMemo(() => {
+    return AVATARS.filter(av => av.gender === avatarFilter);
+  }, [avatarFilter]);
   const [avatarSaveStatus, setAvatarSaveStatus] = useState('idle'); // 'idle' | 'saving' | 'saved'
   const [showPlusActivePerks, setShowPlusActivePerks] = useState(false);
 
@@ -48,6 +193,8 @@ export default function SettingsPage() {
   const [emailInput, setEmailInput] = useState('');
   const [emailSaveStatus, setEmailSaveStatus] = useState('idle'); // 'idle' | 'saving' | 'saved'
   const [emailErrorMessage, setEmailErrorMessage] = useState('');
+  const [settingsAction, setSettingsAction] = useState(null); // null | 'name' | 'email'
+  const [pendingEmail, setPendingEmail] = useState('');
 
   // Notification Preferences
   const defaultNotifPrefs = useMemo(() => ({
@@ -186,20 +333,8 @@ export default function SettingsPage() {
     }
   }, []);
 
-  const handleSaveDisplayName = useCallback(async (e) => {
-    if (e) e.preventDefault();
-    if (isNameChangeLocked) return;
-
+  const commitDisplayName = useCallback(async () => {
     const trimmed = (profileNameInput ?? '').trim();
-    if (trimmed.length < 2) {
-      setNameErrorMessage(langCode === 'tr' ? 'İsminiz en az 2 karakter olmalıdır.' : 'Your name must be at least 2 characters.');
-      return;
-    }
-    if (trimmed.length > 15) {
-      setNameErrorMessage(langCode === 'tr' ? 'İsminiz en fazla 15 karakter olabilir.' : 'Your name must be at most 15 characters.');
-      return;
-    }
-
     setNameErrorMessage('');
     setNameSaveStatus('saving');
     const capitalized = capitalizeName(trimmed);
@@ -222,15 +357,58 @@ export default function SettingsPage() {
       }
       setNameSaveStatus('saved');
       setTimeout(() => setNameSaveStatus('idle'), 2500);
+      return true;
     } catch (err) {
       console.error('Failed to update name', err);
       setNameErrorMessage(err.message || (langCode === 'tr' ? 'İsim güncellenirken bir hata oluştu.' : 'Failed to update name.'));
       setNameSaveStatus('idle');
+      return false;
     }
-  }, [isNameChangeLocked, profileNameInput, langCode, capitalizeName]);
+  }, [profileNameInput, langCode, capitalizeName]);
 
-  const handleSaveEmail = useCallback(async (e) => {
-    if (e) e.preventDefault();
+  const handleSaveDisplayName = useCallback((event) => {
+    event?.preventDefault();
+    if (isNameChangeLocked) return;
+    const trimmed = (profileNameInput ?? '').trim();
+    if (trimmed.length < 2) {
+      setNameErrorMessage(langCode === 'tr' ? 'İsminiz en az 2 karakter olmalıdır.' : 'Your name must be at least 2 characters.');
+      return;
+    }
+    if (trimmed.length > 15) {
+      setNameErrorMessage(langCode === 'tr' ? 'İsminiz en fazla 15 karakter olabilir.' : 'Your name must be at most 15 characters.');
+      return;
+    }
+    setNameErrorMessage('');
+    setSettingsAction('name');
+  }, [isNameChangeLocked, profileNameInput, langCode]);
+
+  const commitEmail = useCallback(async (targetEmail) => {
+    setEmailErrorMessage('');
+    setEmailSaveStatus('saving');
+
+    try {
+      const token = localStorage.getItem('seenly_owner_token');
+      if (token) {
+        await updateEmail(token, targetEmail);
+        setSnapshot(prev => ({ ...prev, email: targetEmail }));
+      }
+      setEmailSaveStatus('saved');
+      setTimeout(() => setEmailSaveStatus('idle'), 2500);
+      return true;
+    } catch (err) {
+      console.error('Failed to update email', err);
+      if (err.status === 409) {
+        setEmailErrorMessage(langCode === 'tr' ? 'Bu e-posta başka bir hesap tarafından kullanılıyor.' : 'This email is already used by another account.');
+      } else {
+        setEmailErrorMessage(err.message || (langCode === 'tr' ? 'E-posta güncellenirken bir hata oluştu.' : 'Failed to update email.'));
+      }
+      setEmailSaveStatus('idle');
+      return false;
+    }
+  }, [langCode]);
+
+  const handleSaveEmail = useCallback(async (event) => {
+    event?.preventDefault();
     const trimmed = (emailInput ?? '').trim().toLowerCase();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!trimmed || !emailRegex.test(trimmed)) {
@@ -239,22 +417,49 @@ export default function SettingsPage() {
     }
 
     setEmailErrorMessage('');
-    setEmailSaveStatus('saving');
+    setPendingEmail(trimmed);
 
-    try {
-      const token = localStorage.getItem('seenly_owner_token');
-      if (token) {
-        await updateEmail(token, trimmed);
-        setSnapshot(prev => ({ ...prev, email: trimmed }));
+    if (!import.meta.env.DEV) {
+      setEmailSaveStatus('saving');
+      try {
+        await sendVerificationCode(trimmed, false);
+      } catch (err) {
+        setEmailSaveStatus('idle');
+        setEmailErrorMessage(err.message || (langCode === 'tr' ? 'Doğrulama kodu gönderilemedi.' : 'Unable to send the verification code.'));
+        return;
       }
-      setEmailSaveStatus('saved');
-      setTimeout(() => setEmailSaveStatus('idle'), 2500);
-    } catch (err) {
-      console.error('Failed to update email', err);
-      setEmailErrorMessage(err.message || (langCode === 'tr' ? 'E-posta güncellenirken bir hata oluştu.' : 'Failed to update email.'));
       setEmailSaveStatus('idle');
     }
+
+    setSettingsAction('email');
   }, [emailInput, langCode]);
+
+  const handleConfirmSettingsAction = useCallback(async (code) => {
+    if (settingsAction === 'name') {
+      const saved = await commitDisplayName();
+      if (saved) setSettingsAction(null);
+      else throw new Error(langCode === 'tr' ? 'İsim güncellenemedi. Lütfen tekrar deneyin.' : 'The name could not be updated. Please try again.');
+      return;
+    }
+
+    if (settingsAction === 'email') {
+      if (import.meta.env.DEV) {
+        if (code !== '1234') {
+          throw new Error(langCode === 'tr' ? 'Doğrulama kodu hatalı. Geliştirme ortamında 1234 kullanın.' : 'Incorrect code. Use 1234 in development.');
+        }
+      } else {
+        try {
+          await verifyCode(pendingEmail, code);
+        } catch (err) {
+          throw new Error(err.message || (langCode === 'tr' ? 'Doğrulama kodu hatalı veya süresi dolmuş.' : 'The verification code is incorrect or expired.'));
+        }
+      }
+
+      const saved = await commitEmail(pendingEmail);
+      if (saved) setSettingsAction(null);
+      else throw new Error(langCode === 'tr' ? 'E-posta adresi güncellenemedi. Lütfen tekrar deneyin.' : 'The email address could not be updated. Please try again.');
+    }
+  }, [settingsAction, commitDisplayName, pendingEmail, commitEmail, langCode]);
 
   const handleUpgradeToPlus = useCallback(async () => {
     const token = localStorage.getItem('seenly_owner_token');
@@ -335,13 +540,6 @@ export default function SettingsPage() {
       alert(isTurkish ? 'Hesap silinirken bir hata oluştu: ' + err.message : 'Error deleting account: ' + err.message);
     }
   }, [langCode]);
-
-  const filteredAvatars = useMemo(() => {
-    return AVATARS.filter(av => {
-      if (avatarFilter === 'all') return true;
-      return av.gender === avatarFilter;
-    });
-  }, [avatarFilter]);
 
   const capacityPackOptions = useMemo(() => [
     {
@@ -497,6 +695,16 @@ export default function SettingsPage() {
           )}
         </div>
       </div>
+      {settingsAction && (
+        <SettingsActionModal
+          key={`${settingsAction}-${pendingEmail}`}
+          type={settingsAction}
+          langCode={langCode}
+          email={pendingEmail}
+          onClose={() => setSettingsAction(null)}
+          onConfirm={handleConfirmSettingsAction}
+        />
+      )}
     </AppShell>
   );
 }

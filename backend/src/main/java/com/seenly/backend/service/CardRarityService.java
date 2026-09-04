@@ -3,8 +3,7 @@ package com.seenly.backend.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seenly.backend.dto.CardRarityDto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +14,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
+@Slf4j
 @Service
 public class CardRarityService {
-
-    private static final Logger log = LoggerFactory.getLogger(CardRarityService.class);
 
     // Total platform generation counter
     private final AtomicLong totalPlatformGenerations = new AtomicLong(0);

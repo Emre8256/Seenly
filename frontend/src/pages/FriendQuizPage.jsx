@@ -106,8 +106,8 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
       const result = await submitFriendResponse(
         slug,
         state.nickname || '',
-        responsesPayload,
         fingerprint,
+        responsesPayload,
         finalTimeAnalytics
       );
 

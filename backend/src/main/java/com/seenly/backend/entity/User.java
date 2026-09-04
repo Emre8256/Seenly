@@ -8,7 +8,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", indexes = {
+    @Index(name = "idx_users_email", columnList = "email", unique = true)
+})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,6 +24,7 @@ public class User {
     @Column(unique = true)
     private String email;
 
+    @Builder.Default
     @Column(nullable = false)
     private boolean emailVerified = false;
 
@@ -44,7 +47,4 @@ public class User {
     @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime updatedAt;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private ReaderProfile readerProfile;
 }

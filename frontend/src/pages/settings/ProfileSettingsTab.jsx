@@ -105,17 +105,10 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
               <div className="seenly-avatar-filter-row">
                 <button
                   type="button"
-                  onClick={() => setAvatarFilter('all')}
-                  className={`seenly-avatar-filter-btn ${avatarFilter === 'all' ? 'active' : ''}`}
-                >
-                  {langCode === 'tr' ? 'Tümü (12)' : 'All (12)'}
-                </button>
-                <button
-                  type="button"
                   onClick={() => setAvatarFilter('kadin')}
                   className={`seenly-avatar-filter-btn ${avatarFilter === 'kadin' ? 'active' : ''}`}
                 >
-                  {langCode === 'tr' ? 'Kadın (6)' : 'Women (6)'}
+                  {langCode === 'tr' ? 'Kız (6)' : 'Women (6)'}
                 </button>
                 <button
                   type="button"

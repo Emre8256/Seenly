@@ -7,7 +7,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "friend_responses")
+@Table(name = "friend_responses", indexes = {
+    @Index(name = "idx_friend_response_session_id", columnList = "response_session_id")
+})
 @Getter
 @Setter
 @NoArgsConstructor

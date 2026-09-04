@@ -8,8 +8,9 @@ export function SiteFooter() {
   const links = [
     { label: t("ui", "nav_faq") || "SSS", href: "#/faq" },
     { label: t("ui", "footer_contact_us") || "İletişim", href: "#/faq" },
-    { label: t("ui", "footer_privacy_policy") || "Gizlilik Politikası", href: "#" },
     { label: t("ui", "nav_social_identities") || "Sosyal Kimlikler", href: "#/identities" },
+    { label: t("ui", "footer_privacy_policy") || "Gizlilik Politikası", href: "#/privacy" },
+    { label: t("ui", "footer_terms_of_use") || "Kullanım Koşulları", href: "#/terms" },
   ]
 
   return (

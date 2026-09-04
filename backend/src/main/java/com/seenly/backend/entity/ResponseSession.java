@@ -8,7 +8,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "response_sessions")
+@Table(name = "response_sessions", indexes = {
+    @Index(name = "idx_response_session_seenly_id", columnList = "seenly_id"),
+    @Index(name = "idx_session_dup_guard", columnList = "seenly_id, ipAddress, fingerprintHash")
+})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,10 +25,6 @@ public class ResponseSession {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "seenly_id", nullable = false)
     private Seenly seenly;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reader_id", nullable = true)
-    private User reader; // Linked to friend's User if they have a saved reader profile
 
     @Column
     private String nickname; // Optional name chosen by the respondent

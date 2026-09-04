@@ -105,17 +105,10 @@ const QuizQuestionsRunner = memo(function QuizQuestionsRunner({
           <div className="seenly-onboarding-avatar-filters">
             <button
               type="button"
-              onClick={() => setAvatarFilter('all')}
-              className={`seenly-onboarding-filter-pill ${avatarFilter === 'all' ? 'active' : ''}`}
-            >
-              {langCode === 'tr' ? 'Tümü (12)' : 'All (12)'}
-            </button>
-            <button
-              type="button"
               onClick={() => setAvatarFilter('kadin')}
               className={`seenly-onboarding-filter-pill ${avatarFilter === 'kadin' ? 'active' : ''}`}
             >
-              {langCode === 'tr' ? 'Kadın (6)' : 'Women (6)'}
+              {langCode === 'tr' ? 'Kız (6)' : 'Women (6)'}
             </button>
             <button
               type="button"

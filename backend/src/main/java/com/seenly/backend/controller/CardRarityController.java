@@ -2,21 +2,21 @@ package com.seenly.backend.controller;
 
 import com.seenly.backend.dto.CardRarityDto;
 import com.seenly.backend.service.CardRarityService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/rarity")
 @CrossOrigin(origins = "*")
+@RequiredArgsConstructor
 public class CardRarityController {
 
     private final CardRarityService rarityService;
-
-    public CardRarityController(CardRarityService rarityService) {
-        this.rarityService = rarityService;
-    }
 
     @GetMapping("/all")
     public ResponseEntity<Map<String, CardRarityDto>> getAllCardRarities(

@@ -502,6 +502,11 @@ html::-webkit-scrollbar-thumb:hover {
   flex-direction: column;
 }
 
+/* Pages that manage their own content gutter keep global chrome edge-to-edge. */
+.app-shell.full-width-layout {
+  padding-inline: 0;
+}
+
 @media (min-width: 640px) {
   .app-shell {
     padding: 0 2rem;
