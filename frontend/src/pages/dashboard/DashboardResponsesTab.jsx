@@ -16,7 +16,11 @@ const DashboardResponsesTab = memo(function DashboardResponsesTab({
   setResponseHistoryPage,
   getRelativeTime,
   getSessionCalibratedAccuracy,
-  getObject
+  getObject,
+  historyLoading,
+  historyError,
+  historyHasMore,
+  loadMoreResponseHistory
 }) {
   return (
     <div className="seenly-dashboard-tab-content full-width-layout scrollable-gap-content seenly-gap-editorial-content" style={{ maxWidth: '840px', width: '100%' }}>
@@ -55,6 +59,13 @@ const DashboardResponsesTab = memo(function DashboardResponsesTab({
                   : 'Review all individual friend answers and question-by-question breakdowns completely anonymously.'}
               </p>
             </div>
+            {historyError && <p role="alert" className="text-center text-sm text-red-700">{historyError}</p>}
+            {historyHasMore && (
+              <button type="button" onClick={loadMoreResponseHistory} disabled={historyLoading}
+                className="mx-auto rounded-full border border-[#1A3E72]/20 px-4 py-2 text-sm text-[#1A3E72] disabled:opacity-60">
+                {historyLoading ? (langCode === 'tr' ? 'Yükleniyor…' : 'Loading…') : (langCode === 'tr' ? 'Daha fazla yükle' : 'Load more')}
+              </button>
+            )}
 
             <div className="shrink-0 w-full md:w-auto relative z-10 flex flex-col items-center md:items-end mt-1 md:mt-0">
               <div className="relative inline-block w-full md:w-auto">

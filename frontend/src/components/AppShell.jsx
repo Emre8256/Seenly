@@ -1,12 +1,14 @@
 import React from 'react';
 import { SiteHeader } from './site-header';
 import { SiteFooter } from './site-footer';
+import WatercolorBackground from './WatercolorBackground';
 
 export default function AppShell({
   children,
   isLanding = false,
   isDashboard = false,
-  fullWidth = false,
+  watercolorBackground = false,
+  fullWidth = true,
   footerMode = 'standard',
   userName = 'Panelim'
 }) {
@@ -16,9 +18,8 @@ export default function AppShell({
     e?.preventDefault?.();
     sessionStorage.setItem('seenly_currentIndex', '-2');
     sessionStorage.setItem('seenly_isQuickLogin', 'false');
-    if (window.location.hash === '#/' || window.location.hash === '') {
-      window.dispatchEvent(new CustomEvent('seenly_trigger_start_quiz'));
-    } else {
+    window.dispatchEvent(new CustomEvent('seenly_trigger_start_quiz'));
+    if (window.location.hash !== '#/' && window.location.hash !== '') {
       window.location.hash = '#/';
     }
   };
@@ -27,19 +28,18 @@ export default function AppShell({
     e?.preventDefault?.();
     sessionStorage.setItem('seenly_currentIndex', '-5');
     sessionStorage.setItem('seenly_isQuickLogin', 'true');
-    if (window.location.hash === '#/' || window.location.hash === '') {
-      window.dispatchEvent(new CustomEvent('seenly_trigger_login'));
-    } else {
+    window.dispatchEvent(new CustomEvent('seenly_trigger_login'));
+    if (window.location.hash !== '#/' && window.location.hash !== '') {
       window.location.hash = '#/';
     }
   };
 
   return (
-    <div className={`app-shell ${isLanding ? 'landing-layout' : ''} ${isDashboard ? 'dashboard-layout' : ''} ${fullWidth ? 'full-width-layout' : ''} min-h-screen text-foreground flex flex-col`}>
+    <div className={`app-shell ${watercolorBackground ? 'watercolor-page' : ''} ${isLanding ? 'landing-layout' : ''} ${isDashboard ? 'dashboard-layout' : ''} ${fullWidth ? 'full-width-layout' : ''} min-h-screen bg-background text-foreground flex flex-col`}>
+      {watercolorBackground && <WatercolorBackground />}
       <SiteHeader
         onStartClick={handleStartQuizClick}
         onLoginClick={handleLoginClick}
-        hideHowItWorks={isLoggedIn}
       />
       <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         {children}

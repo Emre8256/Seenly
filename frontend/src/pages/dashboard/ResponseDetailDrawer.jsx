@@ -28,11 +28,11 @@ const ResponseDetailDrawer = memo(function ResponseDetailDrawer({
   if (!isPremium) {
     return createPortal(
       <div
-        className="fixed inset-0 z-[99999] flex items-center justify-center p-3.5 sm:p-4 bg-[#0A1118]/65 backdrop-blur-md transition-all duration-300"
+        className="fixed inset-0 z-[99999] flex items-center justify-center p-3.5 sm:p-4 bg-[#0A1118]/65 transition-all duration-300"
         onClick={() => setSelectedResponse(null)}
       >
         <div
-          className="w-full max-w-[400px] rounded-[24px] sm:rounded-[32px] bg-[#FDFBF4] border border-[rgba(197,160,89,0.35)] shadow-[0_24px_70px_rgba(20,15,10,0.22)] overflow-hidden relative p-5 sm:p-7 text-center box-border"
+          className="w-full max-w-[400px] rounded-[24px] sm:rounded-[32px] bg-[#FDFBF4] border border-[rgba(197,160,89,0.35)] overflow-hidden relative p-5 sm:p-7 text-center box-border"
           onClick={(event) => event.stopPropagation()}
         >
           {/* Top Close Button */}
@@ -151,18 +151,18 @@ const ResponseDetailDrawer = memo(function ResponseDetailDrawer({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[99999] flex items-center justify-center p-3 sm:p-5 bg-[#0A1118]/65 backdrop-blur-md transition-all duration-300"
+      className="fixed inset-0 z-[99999] flex items-center justify-center p-3 sm:p-5 bg-[#0A1118]/65 transition-all duration-300"
       onClick={() => setSelectedResponse(null)}
     >
       <div
-        className="w-full max-w-[540px] max-h-[88vh] rounded-[24px] sm:rounded-[34px] bg-[#FDFBF4] border border-[rgba(197,160,89,0.35)] shadow-[0_28px_80px_rgba(20,15,10,0.25)] flex flex-col overflow-hidden relative box-border text-left"
+        className="w-full max-w-[540px] max-h-[88vh] rounded-[24px] sm:rounded-[34px] bg-[#FDFBF4] border border-[rgba(197,160,89,0.35)] flex flex-col overflow-hidden relative box-border text-left"
         onClick={(event) => event.stopPropagation()}
       >
         {/* Header Profile Section */}
         <div className="p-4 sm:p-6 pb-3 sm:pb-4 border-b border-[#EFE8DC] bg-[#FDFBF4] flex items-center justify-between shrink-0 relative">
           <div className="flex items-center gap-3 sm:gap-3.5 min-w-0 pr-8">
             {initialLetter ? (
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-[#F5EFE4] to-[#EAE1D2] border-[1.5px] border-[rgba(197,160,89,0.45)] flex items-center justify-center shrink-0 shadow-sm text-[#1A3E72] font-serif font-bold text-[14px] sm:text-[16px]">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-[#F5EFE4] to-[#EAE1D2] border-[1.5px] border-[rgba(197,160,89,0.45)] flex items-center justify-center shrink-0 text-[#1A3E72] font-serif font-bold text-[14px] sm:text-[16px]">
                 <span>{initialLetter}</span>
               </div>
             ) : (

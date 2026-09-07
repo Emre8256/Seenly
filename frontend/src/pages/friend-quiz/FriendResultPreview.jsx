@@ -46,7 +46,7 @@ const FriendResultPreview = memo(function FriendResultPreview({
             style={{
               background: '#FDFBF4',
               border: '1px solid rgba(197, 160, 89, 0.28)',
-              boxShadow: '0 10px 32px rgba(80, 60, 40, 0.05)'
+              boxShadow: 'none'
             }}
           >
             <div className="flex flex-col items-center justify-center flex-1 w-full py-1">
@@ -55,7 +55,7 @@ const FriendResultPreview = memo(function FriendResultPreview({
                 className="relative w-full max-w-[250px] sm:max-w-[280px] aspect-[3/4] mb-3 overflow-hidden rounded-[20px] bg-white box-border"
                 style={{
                   border: '1.5px solid rgba(197, 160, 89, 0.35)',
-                  boxShadow: '0 10px 28px rgba(80, 60, 40, 0.11)'
+                  boxShadow: 'none'
                 }}
               >
                 <img

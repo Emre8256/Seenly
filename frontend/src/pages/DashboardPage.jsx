@@ -3,7 +3,7 @@ import { UsersRound, Copy, Check } from 'lucide-react';
 import { useSeenlyShare, buildWhatsAppLink } from '../hooks/useSeenlyShare';
 import { useLocale } from '../context/LocaleContext';
 import AppShell from '../components/AppShell';
-import { getOwnerDashboard, subscribePlus, buyCapacityPack } from '../services/api';
+import { getOwnerDashboard, getOwnerResponseHistory, createPaymentCheckout, PAYMENT_PRODUCT_CODES } from '../services/api';
 import { getCardRarityData } from '../utils/rarityEngine';
 import { calibrateTraitScore, calculateCalibratedAlignment, calibrateAccuracyScore } from '../utils/psychometrics';
 import { CARD_IMAGES } from '../images/cardImages';
@@ -31,6 +31,9 @@ export default function DashboardPage({ onNavigateToQuiz }) {
   const [selectedResponse, setSelectedResponse] = useState(null);
   const [responseHistoryPage, setResponseHistoryPage] = useState(1);
   const [qrModalOpen, setQrModalOpen] = useState(false);
+  const [responseHistory, setResponseHistory] = useState({ items: [], nextCursor: null, hasMore: false, totalCount: 0 });
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [historyError, setHistoryError] = useState('');
 
   const getRelativeTime = useCallback((isoString) => {
     if (!isoString) return '';
@@ -81,12 +84,26 @@ export default function DashboardPage({ onNavigateToQuiz }) {
           localStorage.setItem('seenly_owner_slug', data.publicSlug);
         }
         setSnapshot(data);
+        if (data?.isPremium) {
+          setHistoryLoading(true);
+          try {
+            setResponseHistory(await getOwnerResponseHistory(token));
+          } catch (historyRequestError) {
+            setHistoryError(historyRequestError.message || 'Response history could not be loaded.');
+          } finally {
+            setHistoryLoading(false);
+          }
+        }
       } catch (err) {
-        localStorage.removeItem('seenly_owner_token');
-        localStorage.removeItem('seenly_display_name');
-        localStorage.removeItem('seenly_owner_slug');
-        sessionStorage.clear();
-        setError('profile_not_found');
+        if (err.status === 401 || err.status === 403) {
+          localStorage.removeItem('seenly_owner_token');
+          localStorage.removeItem('seenly_display_name');
+          localStorage.removeItem('seenly_owner_slug');
+          sessionStorage.clear();
+          setError('session_expired');
+        } else {
+          setError(`http_${err.status || 'network'}`);
+        }
       } finally {
         setLoading(false);
       }
@@ -98,11 +115,32 @@ export default function DashboardPage({ onNavigateToQuiz }) {
   useEffect(() => {
     const totalPages = Math.max(
       1,
-      Math.ceil((snapshot?.responseSessions?.length || 0) / RESPONSE_HISTORY_PAGE_SIZE)
+      Math.ceil((responseHistory.items.length || 0) / RESPONSE_HISTORY_PAGE_SIZE)
     );
 
     setResponseHistoryPage((currentPage) => Math.min(currentPage, totalPages));
-  }, [snapshot?.responseSessions?.length]);
+  }, [responseHistory.items.length]);
+
+  const loadMoreResponseHistory = useCallback(async () => {
+    if (!responseHistory.hasMore || !responseHistory.nextCursor || historyLoading) return;
+    const token = localStorage.getItem('seenly_owner_token');
+    if (!token) return;
+    setHistoryLoading(true);
+    setHistoryError('');
+    try {
+      const next = await getOwnerResponseHistory(token, responseHistory.nextCursor);
+      setResponseHistory(current => ({
+        items: [...current.items, ...next.items],
+        nextCursor: next.nextCursor,
+        hasMore: next.hasMore,
+        totalCount: next.totalCount
+      }));
+    } catch (requestError) {
+      setHistoryError(requestError.message || 'Response history could not be loaded.');
+    } finally {
+      setHistoryLoading(false);
+    }
+  }, [historyLoading, responseHistory.hasMore, responseHistory.nextCursor]);
 
   useEffect(() => {
     if (selectedResponse || qrModalOpen) {
@@ -136,15 +174,13 @@ export default function DashboardPage({ onNavigateToQuiz }) {
     if (!token) return;
 
     try {
-      const updatedSnapshot = await subscribePlus(token);
-      setSnapshot(updatedSnapshot);
-      alert(langCode === 'tr'
-        ? 'Tebrikler! Başarıyla Seenly Plus planına geçtiniz. Sınırsız katılımcı limiti ve gelişmiş analizler aktif edildi!'
-        : 'Congratulations! You have successfully upgraded to Seenly Plus. Unlimited participant capacity and advanced analytics are now active!');
+      const checkout = await createPaymentCheckout(token, PAYMENT_PRODUCT_CODES.SEENLY_PLUS);
+      if (!checkout.checkoutUrl) throw new Error('Checkout is unavailable.');
+      window.location.assign(checkout.checkoutUrl);
     } catch (err) {
       alert(langCode === 'tr'
-        ? `Abonelik işlemi sırasında hata oluştu: ${err.message}`
-        : `Error during subscription process: ${err.message}`);
+        ? `Seenly Plus satın alma işlemi başlatılamadı: ${err.message}`
+        : `Seenly Plus purchase could not be started: ${err.message}`);
     }
   }, [snapshot?.isPremium, snapshot?.premium, langCode]);
 
@@ -358,12 +394,12 @@ export default function DashboardPage({ onNavigateToQuiz }) {
   }, []);
 
   const responseSessions = useMemo(() => {
-    return [...(snapshot?.responseSessions || [])].sort((firstSession, secondSession) => {
+    return [...responseHistory.items].sort((firstSession, secondSession) => {
       const firstDate = new Date(firstSession.completedAt || 0).getTime();
       const secondDate = new Date(secondSession.completedAt || 0).getTime();
       return secondDate - firstDate;
     });
-  }, [snapshot?.responseSessions]);
+  }, [responseHistory.items]);
 
   const getGapEditorialReport = useCallback(() => {
     const selfSignals = get10Signals(langCode, false);
@@ -443,7 +479,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
 
   if (loading) {
     return (
-      <AppShell isDashboard={true}>
+      <AppShell isDashboard={true} watercolorBackground>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1, padding: '8rem 1.5rem', textAlign: 'center' }}>
           <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', fontStyle: 'italic', color: 'var(--color-text-muted)', margin: 0 }}>
             {t('ui', 'missing_id_fallback')}...
@@ -454,23 +490,51 @@ export default function DashboardPage({ onNavigateToQuiz }) {
   }
 
   if (error) {
+    const errorCopy = (() => {
+      if (error === 'no_token' || error === 'session_expired' || error === 'http_401' || error === 'http_403') {
+        return langCode === 'tr'
+          ? ['Oturumunuz sona erdi', 'Güvenliğiniz için yeniden giriş yapmanız gerekiyor.']
+          : ['Your session has ended', 'Please sign in again to continue securely.'];
+      }
+      if (error === 'http_404') return langCode === 'tr'
+        ? ['Profil bulunamadı', 'İstenen Seenly profili mevcut değil veya silinmiş.']
+        : ['Profile not found', 'The requested Seenly profile does not exist or was removed.'];
+      if (error === 'http_409') return langCode === 'tr'
+        ? ['İşlem tamamlanamadı', 'Bilgiler başka bir işlemle çakıştı. Sayfayı yenileyip tekrar deneyin.']
+        : ['Action could not be completed', 'The data conflicted with another action. Refresh and try again.'];
+      if (error === 'http_429') return langCode === 'tr'
+        ? ['Çok fazla istek', 'Kısa bir süre bekleyip tekrar deneyin.']
+        : ['Too many requests', 'Wait a moment and try again.'];
+      if (error === 'http_503') return langCode === 'tr'
+        ? ['Seenly geçici olarak kullanılamıyor', 'Hizmet kısa süre içinde yeniden kullanılabilir.']
+        : ['Seenly is temporarily unavailable', 'The service should be available again shortly.'];
+      if (error === 'http_network') return langCode === 'tr'
+        ? ['Bağlantı kurulamadı', 'İnternet bağlantınızı kontrol edip tekrar deneyin.']
+        : ['Connection problem', 'Check your internet connection and try again.'];
+      return langCode === 'tr'
+        ? ['Beklenmeyen bir sorun oluştu', 'Bilgileriniz yüklenemedi. Lütfen tekrar deneyin.']
+        : ['Something went wrong', 'Your information could not be loaded. Please try again.'];
+    })();
     return (
-      <AppShell isDashboard={true}>
+      <AppShell isDashboard={true} watercolorBackground>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1, padding: '6rem 1.5rem', textAlign: 'center' }}>
           <div className="editorial-card" style={{ maxWidth: '500px', width: '100%', padding: '3rem 2rem' }}>
             <h2 className="editorial-title" style={{ color: 'red', fontSize: '1.75rem', marginBottom: '1.5rem' }}>
-              {langCode === 'tr' ? 'Profil Bulunamadı' : 'Seenly Profile Not Found'}
+              {errorCopy[0]}
             </h2>
             <p className="editorial-body" style={{ color: 'var(--color-text-muted)', marginBottom: '2.5rem', fontSize: '0.95rem', lineHeight: 1.5 }}>
-              {langCode === 'tr' ? 'Aradığınız Seenly profili mevcut değil veya silinmiş.' : 'The requested Seenly profile does not exist.'}
+              {errorCopy[1]}
             </p>
             <button
               type="button"
               className="btn-editorial"
-              onClick={() => window.location.hash = '#/'}
+              onClick={() => error === 'no_token' || error === 'session_expired'
+                ? window.location.hash = '#/' : window.location.reload()}
               style={{ width: '100%' }}
             >
-              {langCode === 'tr' ? 'Ana Sayfaya Dön' : 'Back to Home'}
+              {error === 'no_token' || error === 'session_expired'
+                ? (langCode === 'tr' ? 'Girişe dön' : 'Back to sign in')
+                : (langCode === 'tr' ? 'Tekrar dene' : 'Try again')}
             </button>
           </div>
         </div>
@@ -658,7 +722,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
   const gapAlignmentDesc = getAlignmentDescription(gapEditorial.deepAlignment);
 
   return (
-    <AppShell isDashboard={true} userName={displayName}>
+    <AppShell isDashboard={true} userName={displayName} watercolorBackground>
       <div className="seenly-dashboard-page-wrapper">
         <div className="seenly-dashboard-container">
 
@@ -877,6 +941,10 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                 getRelativeTime={getRelativeTime}
                 getSessionCalibratedAccuracy={getSessionCalibratedAccuracy}
                 getObject={getObject}
+                historyLoading={historyLoading}
+                historyError={historyError}
+                historyHasMore={responseHistory.hasMore}
+                loadMoreResponseHistory={loadMoreResponseHistory}
               />
             )}
           </div>

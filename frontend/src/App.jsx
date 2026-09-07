@@ -1,50 +1,60 @@
-import React, { useState, useEffect } from 'react';
+import React, { lazy, Suspense, useState, useEffect, useCallback } from 'react';
 import { LocaleProvider } from './context/LocaleContext';
-import QuizPage from './pages/QuizPage';
-import ResultPage from './pages/ResultPage';
-import DashboardPage from './pages/DashboardPage';
-import FriendIntroPage from './pages/FriendIntroPage';
-import FriendQuizPage from './pages/FriendQuizPage';
-import FriendResultPage from './pages/FriendResultPage';
-import IdentitiesPage from './pages/IdentitiesPage';
-import FaqPage from './pages/FaqPage';
-import PlansPage from './pages/PlansPage';
-import SettingsPage from './pages/SettingsPage';
-import TermsOfUsePage from './pages/TermsOfUsePage';
-import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import LandingPage from './components/LandingPage';
+
+// The public landing shell is synchronous; the registration flow remains a
+// separate route chunk and is requested only when the visitor starts it.
+const QuizPage = lazy(() => import('./pages/QuizPage'));
+const ResultPage = lazy(() => import('./pages/ResultPage'));
+const DashboardPage = lazy(() => import('./pages/DashboardPage'));
+const FriendIntroPage = lazy(() => import('./pages/FriendIntroPage'));
+const FriendQuizPage = lazy(() => import('./pages/FriendQuizPage'));
+const FriendResultPage = lazy(() => import('./pages/FriendResultPage'));
+const IdentitiesPage = lazy(() => import('./pages/IdentitiesPage'));
+const FaqPage = lazy(() => import('./pages/FaqPage'));
+const PlansPage = lazy(() => import('./pages/PlansPage'));
+const SettingsPage = lazy(() => import('./pages/SettingsPage'));
+const TermsOfUsePage = lazy(() => import('./pages/TermsOfUsePage'));
+const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
+const RefundPolicyPage = lazy(() => import('./pages/RefundPolicyPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 const parseHashRoute = (hash) => {
   const cleanHash = hash.replace(/^#/, ''); // e.g. "/friend/abc/quiz"
   
-  if (cleanHash.startsWith('/result')) {
+  if (/^\/result(?:\?|$)/.test(cleanHash)) {
     return { type: 'result', slug: null };
   }
 
-  if (cleanHash.startsWith('/dashboard')) {
+  if (/^\/dashboard(?:\?|$)/.test(cleanHash)) {
     return { type: 'dashboard', slug: null };
   }
 
-  if (cleanHash.startsWith('/settings')) {
+  if (/^\/settings(?:\?|$)/.test(cleanHash)) {
     return { type: 'settings', slug: null };
   }
 
-  if (cleanHash.startsWith('/identities')) {
+  if (/^\/identities(?:\?|$)/.test(cleanHash)) {
     return { type: 'identities', slug: null };
   }
   
-  if (cleanHash.startsWith('/faq')) {
+  if (/^\/faq(?:\?|$)/.test(cleanHash)) {
     return { type: 'faq', slug: null };
   }
 
-  if (cleanHash.startsWith('/plans')) {
+  if (/^\/plans(?:\?|$)/.test(cleanHash)) {
     return { type: 'plans', slug: null };
   }
 
-  if (cleanHash.startsWith('/terms') || cleanHash.startsWith('/refund')) {
+  if (/^\/terms(?:\?|$)/.test(cleanHash)) {
     return { type: 'terms', slug: null };
   }
 
-  if (cleanHash.startsWith('/privacy')) {
+  if (/^\/refund(?:\?|$)/.test(cleanHash)) {
+    return { type: 'refund', slug: null };
+  }
+
+  if (/^\/privacy(?:\?|$)/.test(cleanHash)) {
     return { type: 'privacy', slug: null };
   }
   
@@ -66,7 +76,8 @@ const parseHashRoute = (hash) => {
     return { type: 'friend-intro', slug: matchIntro[1] };
   }
   
-  return { type: 'quiz', slug: null };
+  if (cleanHash === '' || cleanHash === '/' || cleanHash === 'nasil-calisir' || cleanHash === '/nasil-calisir' || cleanHash === 'quiz' || cleanHash === '/quiz' || /^\/quiz(?:\?|$)/.test(cleanHash)) return { type: 'quiz', slug: null };
+  return { type: 'not-found', slug: null };
 };
 
 export default function App() {
@@ -78,10 +89,64 @@ export default function App() {
     return initialRoute;
   });
   const [friendNickname, setFriendNickname] = useState('');
+  const [showLandingHeader, setShowLandingHeader] = useState(() => {
+    const cleanHash = window.location.hash.replace(/^#/, '');
+    if ((cleanHash === 'quiz' || cleanHash === '/quiz' || /^\/quiz(?:\?|$)/.test(cleanHash))) {
+      return false;
+    }
+    return Number(sessionStorage.getItem('seenly_currentIndex') || -1) === -1;
+  });
+
+  const handleLandingStart = useCallback(() => {
+    sessionStorage.setItem('seenly_isQuickLogin', 'false');
+    sessionStorage.setItem('seenly_currentIndex', '-2');
+    setShowLandingHeader(false);
+  }, []);
+
+  const handleLandingLogin = useCallback(() => {
+    sessionStorage.setItem('seenly_isQuickLogin', 'true');
+    sessionStorage.setItem('seenly_currentIndex', '-5');
+    setShowLandingHeader(false);
+  }, []);
+
+  const handleLandingVisibilityChange = useCallback((visible) => {
+    setShowLandingHeader(visible);
+  }, []);
+
+  useEffect(() => {
+    const handleTriggerStart = () => {
+      setShowLandingHeader(false);
+    };
+    const handleTriggerLogin = () => {
+      setShowLandingHeader(false);
+    };
+    const handleTriggerLanding = () => {
+      setShowLandingHeader(true);
+    };
+    window.addEventListener('seenly_trigger_start_quiz', handleTriggerStart);
+    window.addEventListener('seenly_trigger_login', handleTriggerLogin);
+    window.addEventListener('seenly_trigger_landing', handleTriggerLanding);
+    return () => {
+      window.removeEventListener('seenly_trigger_start_quiz', handleTriggerStart);
+      window.removeEventListener('seenly_trigger_login', handleTriggerLogin);
+      window.removeEventListener('seenly_trigger_landing', handleTriggerLanding);
+    };
+  }, []);
 
   useEffect(() => {
     const handleHashChange = () => {
-      setRoute(parseHashRoute(window.location.hash));
+      const newRoute = parseHashRoute(window.location.hash);
+      setRoute(newRoute);
+      if (newRoute.type === 'quiz') {
+        const cleanHash = window.location.hash.replace(/^#/, '');
+        const isQuizRoute = cleanHash === 'quiz' || cleanHash === '/quiz' || /^\/quiz(?:\?|$)/.test(cleanHash);
+        const curIdx = Number(sessionStorage.getItem('seenly_currentIndex') || -1);
+        if (isQuizRoute || curIdx !== -1) {
+          setShowLandingHeader(false);
+        } else {
+          setShowLandingHeader(true);
+        }
+      }
     };
 
     window.addEventListener('hashchange', handleHashChange);
@@ -173,6 +238,10 @@ export default function App() {
         return <TermsOfUsePage />;
       case 'privacy':
         return <PrivacyPolicyPage />;
+      case 'refund':
+        return <RefundPolicyPage />;
+      case 'not-found':
+        return <NotFoundPage />;
       case 'friend-intro':
         return (
           <FriendIntroPage 
@@ -197,13 +266,23 @@ export default function App() {
         );
       case 'quiz':
       default:
-        return <QuizPage onComplete={handleCompleteSelfQuiz} />;
+        if (showLandingHeader) {
+          return <LandingPage onStartClick={handleLandingStart} onLoginClick={handleLandingLogin} />;
+        }
+        return (
+          <QuizPage
+            onComplete={handleCompleteSelfQuiz}
+            onLandingVisibilityChange={handleLandingVisibilityChange}
+          />
+        );
     }
   };
 
   return (
     <LocaleProvider>
-      {renderRoute()}
+      <Suspense fallback={<div className="min-h-screen bg-white" aria-busy="true" />}>
+        {renderRoute()}
+      </Suspense>
     </LocaleProvider>
   );
 }

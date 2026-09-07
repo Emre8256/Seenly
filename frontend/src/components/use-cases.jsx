@@ -1,4 +1,3 @@
-import { Reveal } from "./reveal"
 import { WatercolorStain } from "./marks"
 import { useLocale } from "../context/LocaleContext"
 import contextSocial from "../images/landing/context-social.avif"
@@ -18,29 +17,29 @@ export function UseCases() {
       mask: "mask-organic-1",
       offset: "md:mt-0",
       hue: "peach",
-      seed: 4,
-    },
-    {
-      image: contextFriends,
-      alt: "Asılı cam panellerin ortak sinyallerle birbirine bağlandığı suluboya illüstrasyon",
-      plate: t("ui", "landing_case_2_plate") || "Sosyal Dinamik",
-      title: t("ui", "landing_case_2_title") || "Arkadaş grubunda",
-      text: t("ui", "landing_case_2_text") || "Yakın çevrenden geri bildirim al ve sizi birbirinize bağlayan ortak sinyallerle keşfet.",
-      mask: "mask-organic-3",
-      offset: "md:mt-20",
-      hue: "lilac",
       seed: 14,
     },
     {
-      image: contextFirstImpression,
-      alt: "Galeri salonunda asılı sanat eserlerinin yer aldığı suluboya illüstrasyon",
-      plate: t("ui", "landing_case_3_plate") || "İlk İzlenim",
-      title: t("ui", "landing_case_3_title") || "Yeni tanışmalarda",
-      text: t("ui", "landing_case_3_text") || "İlk izlenimlerin ile kendini nasıl gördüğün arasındaki ilişkiyi incele.",
+      image: contextFriends,
+      alt: "Grup içinde arkadaşların Seenly okumalarını tartıştığı suluboya illüstrasyon",
+      plate: t("ui", "landing_case_2_plate") || "İlişki Derinliği",
+      title: t("ui", "landing_case_2_title") || "Arkadaş grubunda",
+      text: t("ui", "landing_case_2_text") || "En yakın arkadaşlarından geri bildirim al. Sadece nasıl biri olduğunu değil, grubun içinde ne ifade ettiğini öğren.",
       mask: "mask-organic-2",
-      offset: "md:mt-8",
+      offset: "md:mt-10",
+      hue: "lilac",
+      seed: 22,
+    },
+    {
+      image: contextFirstImpression,
+      alt: "İki kişinin ilk karşılaşma anını tasvir eden suluboya illüstrasyon",
+      plate: t("ui", "landing_case_3_plate") || "İlk Karşılaşma",
+      title: t("ui", "landing_case_3_title") || "İlk izlenimlerde",
+      text: t("ui", "landing_case_3_text") || "Biriyle tanıştığında bıraktığın ilk hissin, zamanla oluşan gerçek etkinle ne kadar örtüştüğünü gör.",
+      mask: "mask-organic-3",
+      offset: "md:mt-4",
       hue: "gold",
-      seed: 21,
+      seed: 31,
     },
   ]
 
@@ -50,7 +49,7 @@ export function UseCases() {
       className="paper-grain surface-color wash-lilac relative scroll-mt-20 overflow-hidden bg-background"
     >
       <div className="above-surface mx-auto max-w-[1180px] px-5 py-14 sm:px-8 md:py-20">
-        <Reveal className="max-w-2xl">
+        <div className="max-w-2xl">
           <p className="font-mono text-[0.7rem] uppercase tracking-[0.34em] text-clay">
             {t("ui", "landing_cases_tag") || "Bağlamlar"}
           </p>
@@ -60,14 +59,12 @@ export function UseCases() {
           <p className="mt-5 text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
             {t("ui", "landing_cases_desc") || "İnsanların seni nasıl deneyimlediğini, hayatının farklı sahnelerinde keşfedebilirsin."}
           </p>
-        </Reveal>
+        </div>
 
         <div className="mt-16 grid gap-10 md:grid-cols-3 md:gap-8">
           {cases.map((item, i) => (
-            <Reveal
-              as="figure"
+            <figure
               key={item.title}
-              delay={i * 140}
               className={`group relative flex flex-row items-center gap-5 md:flex-col md:items-stretch ${item.offset}`}
             >
               {/* the plate's own pigment, soaking into the paper beneath it */}
@@ -83,6 +80,10 @@ export function UseCases() {
               >
                 <img
                   src={item.image || "/placeholder.svg"}
+                  loading="eager"
+                  decoding="async"
+                  width="680"
+                  height="850"
                   alt={item.alt}
                   className={`soft-image-edge aspect-[4/5] w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04] ${item.mask}`}
                 />
@@ -102,7 +103,7 @@ export function UseCases() {
                   {item.text}
                 </p>
               </figcaption>
-            </Reveal>
+            </figure>
           ))}
         </div>
       </div>

@@ -61,6 +61,7 @@ export default function IdentitiesPage() {
   const handleStartQuiz = useCallback(() => {
     sessionStorage.setItem('seenly_currentIndex', '-2');
     sessionStorage.setItem('seenly_isQuickLogin', 'false');
+    window.dispatchEvent(new CustomEvent('seenly_trigger_start_quiz'));
     window.location.hash = '#/';
   }, []);
 
@@ -71,16 +72,16 @@ export default function IdentitiesPage() {
         if (!members.includes(card.id)) return false;
       }
 
-      const query = searchQuery.toLowerCase().trim();
+      const query = searchQuery.toLocaleLowerCase(langCode).trim();
       if (!query) return true;
 
       const signature = getObject('signatures', card.id) || { name: card.id };
-      const name = (signature.name || '').toLowerCase();
-      const oneLine = (signature.oneLine || '').toLowerCase();
+      const name = (signature.name || '').toLocaleLowerCase(langCode);
+      const oneLine = (signature.oneLine || '').toLocaleLowerCase(langCode);
 
       return name.includes(query) || oneLine.includes(query) || card.id.toLowerCase().includes(query);
     });
-  }, [filterFamily, searchQuery, getObject]);
+  }, [filterFamily, searchQuery, getObject, langCode]);
 
   const getFamilyLabel = useCallback((famKey) => {
     if (famKey === 'all') return t('ui', 'identities_filter_all') || 'Hepsi';
@@ -97,12 +98,12 @@ export default function IdentitiesPage() {
   }, [t]);
 
   return (
-    <AppShell isDashboard={true}>
-      <div className="pt-20 sm:pt-26 pb-16 sm:pb-20 relative z-10 overflow-x-clip">
+    <AppShell isDashboard={false} fullWidth={true} watercolorBackground>
+      <div className="identities-gallery relative z-10">
         <div className="mx-auto w-full max-w-[1240px] px-4 sm:px-8 relative z-10">
 
           {/* Header Intro */}
-          <div className="text-center max-w-[760px] mx-auto mb-8 sm:mb-10 animate-fade-in relative z-10 px-2">
+          <div className="identities-intro">
             <IntersectingCircles className="mx-auto h-7 sm:h-8 w-10 sm:w-12 text-gold mb-2.5 sm:mb-3" />
             <h1 className="font-heading text-4xl sm:text-5xl lg:text-[3.5rem] leading-[1.1] font-medium tracking-tight text-foreground m-0">
               {t('ui', 'nav_social_identities') || 'Sosyal Kimlikler'}
@@ -121,12 +122,16 @@ export default function IdentitiesPage() {
             filterFamily={filterFamily}
             setFilterFamily={setFilterFamily}
             getFamilyLabel={getFamilyLabel}
+            langCode={langCode}
             t={t}
           />
 
           {/* Cards Grid */}
           <IdentitiesCardGrid
             filteredCards={filteredCards}
+            filterFamily={filterFamily}
+            getFamilyLabel={getFamilyLabel}
+            onReset={() => { setSearchQuery(''); setFilterFamily('all'); }}
             apiRarities={apiRarities}
             langCode={langCode}
             getObject={getObject}

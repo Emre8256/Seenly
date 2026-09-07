@@ -1,15 +1,25 @@
-# v0 sandbox internal files
-__v0_runtime_loader.js
-__v0_devtools.tsx
-__v0_jsx-dev-runtime.ts
-.snowflake/
-.v0-trash/
-.vercel/
+# Dependency directories
+**/node_modules/
 
-# Environment variables
-.env*.local
+# Build output
+**/dist/
+**/target/
 
-# Common ignores
-node_modules
-.next/
+# Browser, coverage and audit output
+**/playwright-report/
+**/test-results/
+**/coverage/
+**/lighthouse-*.log
+**/.lighthouseci/
+
+# IDE and operating-system metadata
+.idea/
+.vscode/
+*.iml
 .DS_Store
+Thumbs.db
+
+# Local environment files (templates remain trackable)
+.env
+.env.local
+.env.*.local

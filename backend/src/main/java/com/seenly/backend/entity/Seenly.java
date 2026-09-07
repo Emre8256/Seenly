@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,6 +37,12 @@ public class Seenly {
 
     @Column(nullable = false, unique = true)
     private String ownerTokenHash;
+
+    @Column(nullable = true)
+    private Instant ownerTokenExpiresAt;
+
+    @Column(nullable = true)
+    private Instant ownerTokenRevokedAt;
 
     @Column(nullable = false)
     private String displayName;

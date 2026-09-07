@@ -3,11 +3,12 @@ import { SeenlyLogo } from "./seenly-logo"
 import { useLocale } from "../context/LocaleContext"
 import LocaleSwitch from "./LocaleSwitch"
 import { getAvatarSrc } from "../images/avatars"
+import { logoutOwner } from "../services/api"
 
-export function SiteHeader({ onStartClick, onLoginClick, hideHowItWorks = false }) {
+export function SiteHeader({ onStartClick, onLoginClick }) {
   const { t, locale: langCode } = useLocale()
   const [open, setOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
+  const [scrolled, setScrolled] = useState(() => window.scrollY > 24)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const userMenuRef = useRef(null)
   const [mobileUserMenuOpen, setMobileUserMenuOpen] = useState(false)
@@ -31,7 +32,15 @@ export function SiteHeader({ onStartClick, onLoginClick, hideHowItWorks = false 
     window.location.hash = "#/dashboard"
   }
 
-  const logout = () => {
+  const logout = async () => {
+    const ownerToken = localStorage.getItem("seenly_owner_token")
+    if (ownerToken) {
+      try {
+        await logoutOwner(ownerToken)
+      } catch {
+        // Local logout must still complete if the server is unavailable.
+      }
+    }
     localStorage.removeItem("seenly_owner_token")
     localStorage.removeItem("seenly_display_name")
     sessionStorage.clear()
@@ -41,6 +50,15 @@ export function SiteHeader({ onStartClick, onLoginClick, hideHowItWorks = false 
     window.location.hash = "#/"
   }
 
+  const handleLogoClick = (e) => {
+    sessionStorage.setItem('seenly_currentIndex', '-1');
+    sessionStorage.setItem('seenly_isQuickLogin', 'false');
+    window.dispatchEvent(new CustomEvent('seenly_trigger_landing'));
+    if (window.location.hash !== '#/' && window.location.hash !== '') {
+      window.location.hash = '#/';
+    }
+  };
+
   const navItems = [
     {
       label: isLoggedIn ? (t("ui", "nav_dashboard") || "Panelim") : (t("ui", "nav_start") || "Testi Baslat"),
@@ -48,18 +66,17 @@ export function SiteHeader({ onStartClick, onLoginClick, hideHowItWorks = false 
       onClick: (e) => {
         if (isLoggedIn) return
         e.preventDefault()
-        onStartClick?.()
-      },
-    },
-    !hideHowItWorks && {
-      label: t("ui", "nav_how_it_works") || "Nasil Calisir",
-      href: "#nasil-calisir",
-      onClick: (e) => {
-        if (window.location.hash !== '#/' && window.location.hash !== '') {
-          e.preventDefault()
-          window.location.hash = '#/nasil-calisir'
+        if (onStartClick) {
+          onStartClick(e)
+        } else {
+          sessionStorage.setItem('seenly_currentIndex', '-2')
+          sessionStorage.setItem('seenly_isQuickLogin', 'false')
+          window.dispatchEvent(new CustomEvent('seenly_trigger_start_quiz'))
+          if (window.location.hash !== '#/' && window.location.hash !== '') {
+            window.location.hash = '#/'
+          }
         }
-      }
+      },
     },
     { label: t("ui", "nav_social_identities") || "Sosyal Kimlikler", href: "#/identities" },
     { label: t("ui", "nav_faq") || "Sorular", href: "#/faq" },
@@ -68,7 +85,6 @@ export function SiteHeader({ onStartClick, onLoginClick, hideHowItWorks = false 
   useEffect(() => {
     let ticking = false;
     let lastScrolled = window.scrollY > 24;
-    setScrolled(lastScrolled);
 
     const onScroll = () => {
       if (!ticking) {
@@ -116,14 +132,14 @@ export function SiteHeader({ onStartClick, onLoginClick, hideHowItWorks = false 
 
   return (
     <header
-      className={`transition-all duration-300 backdrop-blur-md ${scrolled
-        ? "paper-grain border-b border-border/50 bg-background/90 shadow-contact-sm"
+      className={`${scrolled
+        ? "border-b border-border/60 bg-background transition-colors duration-300"
         : "border-b border-transparent bg-transparent"
         }`}
       style={{ position: 'sticky', top: 0, zIndex: 100, width: '100%' }}
     >
       <div className="mx-auto flex h-[72px] max-w-[1180px] items-center justify-between px-5 sm:px-8">
-        <a href="#" className="group flex items-center gap-2.5" aria-label="Seenly ana sayfa">
+        <a href="#" onClick={handleLogoClick} className="group flex items-center gap-2.5" aria-label="Seenly ana sayfa">
           <SeenlyLogo className="h-6 w-6 text-navy transition-transform duration-500 group-hover:rotate-[8deg]" />
           <span className="font-heading text-[1.35rem] font-medium tracking-tight text-foreground">
             Seenly
@@ -150,21 +166,24 @@ export function SiteHeader({ onStartClick, onLoginClick, hideHowItWorks = false 
                 type="button"
                 onClick={() => setUserMenuOpen((v) => !v)}
                 style={{
-                  width: '36px',
                   height: '36px',
-                  borderRadius: '50%',
+                  padding: '0 0.85rem',
+                  borderRadius: '18px',
                   border: '1.5px solid rgba(11, 27, 44, 0.08)',
                   backgroundColor: 'rgba(255, 255, 255, 0.55)',
                   backdropFilter: 'blur(8px)',
                   WebkitBackdropFilter: 'blur(8px)',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'var(--color-deep-ink)',
-                  boxShadow: '0 2px 8px rgba(11, 27, 44, 0.01)',
+                  gap: '6px',
                   cursor: 'pointer',
+                  color: 'var(--color-deep-ink)',
+                  fontFamily: 'var(--font-sans), sans-serif',
+                  fontSize: '0.78rem',
+                  fontWeight: '600',
+                  letterSpacing: '0.02em',
                   transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-                  padding: 0,
+                  boxShadow: '0 2px 8px rgba(11, 27, 44, 0.01)',
                   outline: 'none',
                   boxSizing: 'border-box'
                 }}
@@ -175,31 +194,59 @@ export function SiteHeader({ onStartClick, onLoginClick, hideHowItWorks = false 
                   e.currentTarget.style.transform = 'translateY(-1px)';
                   e.currentTarget.style.backgroundColor = '#ffffff';
                   e.currentTarget.style.boxShadow = '0 4px 12px rgba(217, 106, 83, 0.06)';
+                  const svg = e.currentTarget.querySelector('.user-icon-svg');
+                  if (svg) svg.style.transform = 'scale(1.1)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.borderColor = 'rgba(11, 27, 44, 0.08)';
                   e.currentTarget.style.transform = '';
                   e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.55)';
                   e.currentTarget.style.boxShadow = '0 2px 8px rgba(11, 27, 44, 0.01)';
+                  const svg = e.currentTarget.querySelector('.user-icon-svg');
+                  if (svg) svg.style.transform = '';
                 }}
               >
-                {avatarSrc ? (
-                  <img
-                    src={avatarSrc}
-                    alt={displayName}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      borderRadius: '50%',
-                      objectFit: 'cover'
-                    }}
-                  />
-                ) : (
-                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                    <circle cx="12" cy="7" r="4" />
-                  </svg>
-                )}
+                {/* User Icon - identical weight & stroke to globe icon */}
+                <svg
+                  className="user-icon-svg"
+                  width="13"
+                  height="13"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{
+                    transition: 'transform 0.3s ease'
+                  }}
+                >
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+
+                <span style={{ maxWidth: '105px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {displayName}
+                </span>
+
+                {/* Dropdown Chevron Arrow matching LocaleSwitch */}
+                <svg
+                  width="10"
+                  height="10"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{
+                    transform: userMenuOpen ? 'rotate(180deg)' : 'none',
+                    transition: 'transform 0.2s ease',
+                    opacity: 0.7
+                  }}
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
               </button>
               {userMenuOpen && (
                 <div className="seenly-user-menu-panel" style={{ minWidth: '200px', padding: '10px' }}>
@@ -289,7 +336,7 @@ export function SiteHeader({ onStartClick, onLoginClick, hideHowItWorks = false 
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                     </svg>
-                    {langCode === 'tr' ? 'Üyelik' : 'Membership'}
+                    Seenly Plus
                   </button>
 
                   <button
@@ -405,27 +452,14 @@ export function SiteHeader({ onStartClick, onLoginClick, hideHowItWorks = false 
               <button
                 type="button"
                 onClick={() => setMobileUserMenuOpen((v) => !v)}
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-transparent text-[var(--color-deep-ink)] transition-all hover:text-peach overflow-hidden"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-transparent text-[var(--color-deep-ink)] transition-all hover:text-peach"
                 aria-label="Kullanıcı Menüsü"
                 aria-expanded={mobileUserMenuOpen}
               >
-                {avatarSrc ? (
-                  <img
-                    src={avatarSrc}
-                    alt={displayName}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      borderRadius: '50%',
-                      objectFit: 'cover'
-                    }}
-                  />
-                ) : (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                    <circle cx="12" cy="7" r="4" />
-                  </svg>
-                )}
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
               </button>
 
               {mobileUserMenuOpen && (
@@ -520,7 +554,7 @@ export function SiteHeader({ onStartClick, onLoginClick, hideHowItWorks = false 
                       gap: '8px'
                     }}
                   >
-                    {langCode === 'tr' ? 'Üyelik' : 'Membership'}
+                    Seenly Plus
                   </button>
 
                   <button

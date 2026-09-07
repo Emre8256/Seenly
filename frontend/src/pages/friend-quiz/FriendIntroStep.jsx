@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { UsersRound } from 'lucide-react';
 import { getAvatarSrc } from '../../images/avatars';
 import {
   CharacterBalanceBanner,
@@ -89,6 +90,16 @@ const FriendIntroStep = memo(function FriendIntroStep({
           <h2 className="font-serif text-3xl sm:text-[2.75rem] font-black text-[#0b1b2c] m-0" style={{ letterSpacing: '-0.03em', lineHeight: 1.1 }}>
             {displayName}
           </h2>
+
+          {/* Centered Participant / Response Count Badge (Same as user's own profile) */}
+          <div className="flex items-center justify-center gap-2 mt-2 sm:mt-2.5">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11.5px] sm:text-[12.5px] font-semibold bg-[rgba(26,62,114,0.06)] text-[#1A3E72] border border-[rgba(26,62,114,0.14)] shadow-xs">
+              <UsersRound size={12.5} strokeWidth={2.4} />
+              <span>
+                {responseCount} {langCode === 'tr' ? 'Yanıt' : (responseCount === 1 ? 'Response' : 'Responses')}
+              </span>
+            </span>
+          </div>
 
           {/* Premium Gold Divider */}
           <div className="flex items-center justify-center gap-3 my-3 sm:my-4 w-full">

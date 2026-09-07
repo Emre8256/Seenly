@@ -139,7 +139,7 @@ const SubscriptionTab = memo(function SubscriptionTab({
             <div className="relative z-10 flex items-start sm:items-center justify-between gap-4 flex-col sm:flex-row">
               <div>
                 <h3 className="seenly-plus-active-title">
-                  {langCode === 'tr' ? 'Seenly Plus Üyeliğiniz Aktif' : 'Seenly Plus is Active'}
+                  {langCode === 'tr' ? 'Seenly Plus Aktif' : 'Seenly Plus is Active'}
                 </h3>
                 <p className="seenly-plus-active-desc">
                   {langCode === 'tr'
@@ -207,7 +207,7 @@ const SubscriptionTab = memo(function SubscriptionTab({
                       {langCode === 'tr' ? 'Soruda Geçirilen Zaman' : 'Question Decision Times'}
                     </h5>
                     <p className="seenly-plus-feature-desc">
-                      {langCode === 'tr' ? 'Hangi sorularda kaçar saniye düşünüldüğünü inceleyin' : 'See exact seconds spent on each question'}
+                      {langCode === 'tr' ? 'En çok ve en az düşünülen sorular' : 'See the most and least contemplated questions'}
                     </p>
                   </div>
                 </div>
@@ -334,7 +334,7 @@ const SubscriptionTab = memo(function SubscriptionTab({
                         {langCode === 'tr' ? 'Soruda Geçirilen Zaman' : 'Question Decision Times'}
                       </h5>
                       <p className="seenly-plus-feature-desc">
-                        {langCode === 'tr' ? 'Hangi sorularda kaçar saniye düşünüldüğünü inceleyin' : 'See exact seconds spent on each question'}
+                        {langCode === 'tr' ? 'En çok ve en az düşünülen sorular' : 'See the most and least contemplated questions'}
                       </p>
                     </div>
                   </div>
@@ -473,7 +473,7 @@ const SubscriptionTab = memo(function SubscriptionTab({
                       <button
                         type="button"
                         disabled={actionLoading}
-                        onClick={() => handleBuyPack(pack.amount)}
+                        onClick={() => handleBuyPack(pack.productCode)}
                         className="relative z-10 seenly-pack-btn"
                       >
                         <span>{actionLoading ? (langCode === 'tr' ? 'Ekleniyor...' : 'Adding...') : (langCode === 'tr' ? 'Paketi Ekle' : 'Add Pack')}</span>

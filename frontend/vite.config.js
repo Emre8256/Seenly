@@ -21,5 +21,12 @@ export default defineConfig({
         changeOrigin: true
       }
     }
+  },
+  test: {
+    environment: 'jsdom',
+    setupFiles: './src/test/setup.js',
+    css: true,
+    clearMocks: true,
+    exclude: ['e2e/**', 'node_modules/**', 'dist/**']
   }
 });

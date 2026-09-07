@@ -1,6 +1,5 @@
-/* Landing Page Custom Styles & Utilities */
-
-.seenly-landing-wrapper {
-  position: relative;
-  width: 100%;
+/* Section backgrounds must not cut the shared wash into separate panels. */
+.landing-watercolor > main > section,
+.landing-watercolor > main > footer {
+  background-color: transparent;
 }

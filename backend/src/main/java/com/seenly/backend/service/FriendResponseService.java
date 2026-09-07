@@ -1,128 +1,127 @@
 package com.seenly.backend.service;
 
-import com.seenly.backend.constant.AppConstants;
 import com.seenly.backend.dto.FriendResponseInput;
-import com.seenly.backend.dto.ResultSnapshotDto;
-import com.seenly.backend.dto.SubmitResponseResult;
+import com.seenly.backend.dto.ParticipantSubmissionResultDto;
 import com.seenly.backend.entity.FriendResponse;
 import com.seenly.backend.entity.ResponseSession;
 import com.seenly.backend.entity.Seenly;
+import com.seenly.backend.exception.DuplicateResponseException;
 import com.seenly.backend.exception.QuotaExceededException;
 import com.seenly.backend.exception.ResourceNotFoundException;
 import com.seenly.backend.exception.SelfEvaluationException;
 import com.seenly.backend.repository.ResponseSessionRepository;
 import com.seenly.backend.repository.SeenlyRepository;
+import com.seenly.backend.observability.ApplicationMetrics;
+import com.seenly.backend.observability.AuditEvent;
+import com.seenly.backend.observability.AuditLogService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class FriendResponseService {
-
     private final SeenlyRepository seenlyRepository;
     private final ResponseSessionRepository sessionRepository;
     private final ScoringEngineService scoringEngineService;
     private final ReaderGameService readerGameService;
-    private final TokenHashingService tokenHashingService;
-    private final SnapshotMapperService snapshotMapperService;
+    private final OwnerSessionService ownerSessionService;
+    private final AbuseSignalService abuseSignalService;
+    private final AssessmentValidationService assessmentValidationService;
+    private final AuditLogService auditLogService;
+    private final ApplicationMetrics metrics;
 
     /**
-     * Complete workflow for friend response submission: validates self-evaluation,
-     * builds and saves response session entity, updates calculations, and returns SubmitResponseResult.
+     * The target row lock serializes duplicate validation, capacity consumption,
+     * response persistence, and snapshot recalculation for one profile.
      */
     @Transactional
-    public SubmitResponseResult processFriendSubmission(String publicSlug,
-                                                        String ownerToken,
-                                                        String ipAddress,
-                                                        FriendResponseInput request) {
-        // 1. Fetch profile & guard self-evaluation
-        Seenly seenly = seenlyRepository.findByPublicSlug(publicSlug)
-            .orElseThrow(() -> new ResourceNotFoundException("Seenly not found"));
+    public ParticipantSubmissionResultDto processFriendSubmission(
+            String publicSlug, String ownerToken, String remoteAddress, FriendResponseInput request) {
+        try {
+            assessmentValidationService.validateFriendSubmission(request);
+        } catch (RuntimeException ex) {
+            reject("validation");
+            throw ex;
+        }
+        String fingerprintHash;
+        try {
+            fingerprintHash = abuseSignalService.fingerprintHash(request.getFingerprintHash());
+        } catch (RuntimeException ex) {
+            reject("fingerprint_validation");
+            throw ex;
+        }
 
-        if (ownerToken != null && seenly.getOwnerTokenHash().equals(tokenHashingService.hashToken(ownerToken))) {
+        Seenly seenly = seenlyRepository.findByPublicSlugForUpdate(publicSlug)
+            .orElseThrow(() -> new ResourceNotFoundException("Seenly not found"));
+        if (ownerSessionService.matchesActiveOwner(seenly, ownerToken)) {
+            reject("self_evaluation");
             throw new SelfEvaluationException("You cannot evaluate yourself.");
         }
-
-        // 2. Build session and response entities
-        ResponseSession session = ResponseSession.builder()
-            .nickname(request.getNickname())
-            .fingerprintHash(request.getFingerprintHash())
-            .ipAddress(ipAddress)
-            .friendTimeAnalytics(request.getFriendTimeAnalytics() != null ? request.getFriendTimeAnalytics() : new HashMap<>())
-            .build();
-
-        session.setResponses(request.getFriendResponses().stream().map(ans ->
-            FriendResponse.builder()
-                .responseSession(session)
-                .questionId(ans.getQuestionId())
-                .answerValue(ans.getAnswerValue())
-                .build()
-        ).collect(Collectors.toList()));
-
-        // 3. Submit responses and calculate reader style
-        String styleId = submitResponse(publicSlug, session);
-
-        // 4. Fetch updated snapshot
-        Seenly updatedSeenly = seenlyRepository.findByPublicSlug(publicSlug)
-            .orElseThrow(() -> new ResourceNotFoundException("Seenly not found"));
-
-        ResultSnapshotDto snapshotDto = snapshotMapperService.toDto(updatedSeenly.getResultSnapshot());
-
-        double accuracy = readerGameService.calculatePerceptionAccuracy(session);
-
-        return new SubmitResponseResult(styleId, 0, 1, accuracy, snapshotDto);
-    }
-
-    /**
-     * Submits a friend response session, increments the response counter atomically,
-     * triggers optimistic locking checks, and recalculates the result snapshot.
-     * Returns the computed readerStyleId for this session.
-     */
-    @Transactional
-    public String submitResponse(String publicSlug, ResponseSession requestSession) {
-        // 1. Fetch Seenly profile
-        Seenly seenly = seenlyRepository.findByPublicSlug(publicSlug)
-            .orElseThrow(() -> new ResourceNotFoundException("Seenly not found"));
-
-        // 2. Strict limit validation
-        int totalResponders = seenly.getResponseCount();
-        int totalAllowedCapacity = Integer.MAX_VALUE;
-        if (!seenly.getIsPremium()) {
-            totalAllowedCapacity = seenly.getBaseFormCapacity() + seenly.getPurchasedExtraCapacity();
+        if (sessionRepository.existsBySeenlyIdAndFingerprintHash(seenly.getId(), fingerprintHash)) {
+            duplicate();
+            throw new DuplicateResponseException();
         }
 
-        if (seenly.isCapped() || totalResponders >= totalAllowedCapacity) {
-            if (!seenly.isCapped()) {
-                seenly.setCapped(true);
-                seenlyRepository.saveAndFlush(seenly);
-            }
+        int totalAllowedCapacity = seenly.getIsPremium()
+            ? Integer.MAX_VALUE
+            : seenly.getBaseFormCapacity() + seenly.getPurchasedExtraCapacity();
+        if (seenly.isCapped() || seenly.getResponseCount() >= totalAllowedCapacity) {
+            seenly.setCapped(true);
+            metrics.participantSubmission("capacity_exhausted");
+            auditLogService.record(AuditEvent.PARTICIPANT_SUBMISSION_REJECTED, "blocked",
+                java.util.Map.of("reason", "capacity_exhausted"));
             throw new QuotaExceededException("This Seenly profile has reached its maximum response capacity quota.");
         }
 
-        // 3. Link session to Seenly and save
-        requestSession.setSeenly(seenly);
-        sessionRepository.save(requestSession);
+        ResponseSession session = ResponseSession.builder()
+            .seenly(seenly)
+            .nickname(request.getNickname() == null ? null : request.getNickname().trim())
+            .fingerprintHash(fingerprintHash)
+            .ipAddress(abuseSignalService.networkHash(remoteAddress))
+            .friendTimeAnalytics(request.getFriendTimeAnalytics() == null
+                ? new HashMap<>() : new HashMap<>(request.getFriendTimeAnalytics()))
+            .build();
+        session.setResponses(request.getFriendResponses().stream().map(answer -> FriendResponse.builder()
+            .responseSession(session)
+            .questionId(answer.getQuestionId())
+            .answerValue(answer.getAnswerValue())
+            .build()).collect(Collectors.toList()));
 
-        // 4. Atomically increment and check if cap is reached
+        try {
+            sessionRepository.saveAndFlush(session);
+        } catch (DataIntegrityViolationException ex) {
+            duplicate();
+            throw new DuplicateResponseException();
+        }
+
         int nextCount = seenly.getResponseCount() + 1;
         seenly.setResponseCount(nextCount);
         if (!seenly.getIsPremium() && nextCount >= totalAllowedCapacity) {
             seenly.setCapped(true);
         }
-
-        // 5. Save seenly (this triggers the JPA @Version lock validation)
         seenlyRepository.saveAndFlush(seenly);
-
-        // 6. Recalculate ResultSnapshot
         scoringEngineService.recalculateResultSnapshot(seenly);
 
-        // 7. Calculate Reader Style
-        return readerGameService.calculateReaderStyle(requestSession);
+        String styleId = readerGameService.calculateReaderStyle(session);
+        double accuracy = readerGameService.calculatePerceptionAccuracy(session);
+        metrics.participantSubmission("accepted");
+        auditLogService.record(AuditEvent.PARTICIPANT_SUBMISSION_ACCEPTED, "success");
+        return new ParticipantSubmissionResultDto(styleId, 0, 1, accuracy);
+    }
+
+    private void duplicate() {
+        metrics.participantSubmission("duplicate");
+        auditLogService.record(AuditEvent.DUPLICATE_RESPONSE_REJECTED, "blocked");
+    }
+
+    private void reject(String reason) {
+        metrics.participantSubmission("rejected");
+        auditLogService.record(AuditEvent.PARTICIPANT_SUBMISSION_REJECTED, "failure",
+            java.util.Map.of("reason", reason));
     }
 }

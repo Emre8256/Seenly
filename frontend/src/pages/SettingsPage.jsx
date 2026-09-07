@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useLocale } from '../context/LocaleContext';
 import AppShell from '../components/AppShell';
-import { getOwnerDashboard, updateDisplayName, updateEmail, updateAvatar, subscribePlus, buyCapacityPack, sendVerificationCode, verifyCode } from '../services/api';
+import { getOwnerDashboard, updateDisplayName, updateEmail, updateAvatar, createPaymentCheckout, PAYMENT_PRODUCT_CODES, sendVerificationCode, verifyCode } from '../services/api';
 import { AVATARS, getAvatarSrc } from '../images/avatars';
 import {
   User,
@@ -21,24 +21,36 @@ import SecuritySettingsTab from './settings/SecuritySettingsTab';
 import './DashboardPlanMinimal.css';
 import './settings/SettingsPage.css';
 
-function SettingsActionModal({ type, langCode, email, onClose, onConfirm }) {
+export function SettingsActionModal({ type, langCode, email, onClose, onConfirm }) {
   const isEmail = type === 'email';
   const [digits, setDigits] = useState(['', '', '', '']);
   const [errorMessage, setErrorMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const digitRefs = useRef([]);
+  const dialogRef = useRef(null);
+  const openerRef = useRef(null);
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
+    openerRef.current = document.activeElement;
     document.body.style.overflow = 'hidden';
     const handleKeyDown = (event) => {
       if (event.key === 'Escape' && !isSubmitting) onClose();
+      if (event.key === 'Tab' && dialogRef.current) {
+        const controls = [...dialogRef.current.querySelectorAll('button:not(:disabled), input:not(:disabled), [href], [tabindex]:not([tabindex="-1"])')];
+        if (!controls.length) return;
+        const first = controls[0];
+        const last = controls[controls.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+        if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+      }
     };
     document.addEventListener('keydown', handleKeyDown);
     if (isEmail) requestAnimationFrame(() => digitRefs.current[0]?.focus());
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = previousOverflow;
+      openerRef.current?.focus?.();
     };
   }, [isEmail, isSubmitting, onClose]);
 
@@ -87,7 +99,7 @@ function SettingsActionModal({ type, langCode, email, onClose, onConfirm }) {
 
   return (
     <div className="seenly-settings-modal-overlay" onMouseDown={(event) => event.target === event.currentTarget && !isSubmitting && onClose()}>
-      <div className="seenly-settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-action-title">
+      <div ref={dialogRef} className="seenly-settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-action-title">
         <button type="button" className="seenly-settings-modal-close" onClick={onClose} disabled={isSubmitting} aria-label={langCode === 'tr' ? 'Pencereyi kapat' : 'Close dialog'}>
           <X size={18} strokeWidth={2} />
         </button>
@@ -129,11 +141,6 @@ function SettingsActionModal({ type, langCode, email, onClose, onConfirm }) {
                 />
               ))}
             </div>
-            {import.meta.env.DEV && (
-              <p className="seenly-settings-dev-code">
-                {langCode === 'tr' ? 'Geliştirme kodu: ' : 'Development code: '}<strong>1234</strong>
-              </p>
-            )}
           </>
         )}
 
@@ -382,14 +389,14 @@ export default function SettingsPage() {
     setSettingsAction('name');
   }, [isNameChangeLocked, profileNameInput, langCode]);
 
-  const commitEmail = useCallback(async (targetEmail) => {
+  const commitEmail = useCallback(async (targetEmail, verificationGrant) => {
     setEmailErrorMessage('');
     setEmailSaveStatus('saving');
 
     try {
       const token = localStorage.getItem('seenly_owner_token');
       if (token) {
-        await updateEmail(token, targetEmail);
+        await updateEmail(token, targetEmail, verificationGrant);
         setSnapshot(prev => ({ ...prev, email: targetEmail }));
       }
       setEmailSaveStatus('saved');
@@ -419,17 +426,16 @@ export default function SettingsPage() {
     setEmailErrorMessage('');
     setPendingEmail(trimmed);
 
-    if (!import.meta.env.DEV) {
-      setEmailSaveStatus('saving');
-      try {
-        await sendVerificationCode(trimmed, false);
-      } catch (err) {
-        setEmailSaveStatus('idle');
-        setEmailErrorMessage(err.message || (langCode === 'tr' ? 'Doğrulama kodu gönderilemedi.' : 'Unable to send the verification code.'));
-        return;
-      }
+    setEmailSaveStatus('saving');
+    try {
+      const token = localStorage.getItem('seenly_owner_token');
+      await sendVerificationCode(trimmed, 'EMAIL_CHANGE', token);
+    } catch (err) {
       setEmailSaveStatus('idle');
+      setEmailErrorMessage(err.message || (langCode === 'tr' ? 'Doğrulama kodu gönderilemedi.' : 'Unable to send the verification code.'));
+      return;
     }
+    setEmailSaveStatus('idle');
 
     setSettingsAction('email');
   }, [emailInput, langCode]);
@@ -443,19 +449,16 @@ export default function SettingsPage() {
     }
 
     if (settingsAction === 'email') {
-      if (import.meta.env.DEV) {
-        if (code !== '1234') {
-          throw new Error(langCode === 'tr' ? 'Doğrulama kodu hatalı. Geliştirme ortamında 1234 kullanın.' : 'Incorrect code. Use 1234 in development.');
-        }
-      } else {
-        try {
-          await verifyCode(pendingEmail, code);
-        } catch (err) {
-          throw new Error(err.message || (langCode === 'tr' ? 'Doğrulama kodu hatalı veya süresi dolmuş.' : 'The verification code is incorrect or expired.'));
-        }
+      let verificationGrant;
+      try {
+        const token = localStorage.getItem('seenly_owner_token');
+        const response = await verifyCode(pendingEmail, code, 'EMAIL_CHANGE', token);
+        verificationGrant = response.verificationGrant;
+      } catch (err) {
+        throw new Error(err.message || (langCode === 'tr' ? 'Doğrulama kodu hatalı veya süresi dolmuş.' : 'The verification code is incorrect or expired.'));
       }
 
-      const saved = await commitEmail(pendingEmail);
+      const saved = await commitEmail(pendingEmail, verificationGrant);
       if (saved) setSettingsAction(null);
       else throw new Error(langCode === 'tr' ? 'E-posta adresi güncellenemedi. Lütfen tekrar deneyin.' : 'The email address could not be updated. Please try again.');
     }
@@ -465,49 +468,31 @@ export default function SettingsPage() {
     const token = localStorage.getItem('seenly_owner_token');
     try {
       setActionLoading(true);
-      if (token) {
-        try {
-          await subscribePlus(token);
-        } catch (apiErr) {
-          console.warn('API error during upgrade:', apiErr);
-        }
-      }
-      localStorage.setItem('seenly_is_premium', 'true');
-      setSnapshot(prev => ({
-        ...(prev || {}),
-        isPremium: true,
-        premium: true
-      }));
+      if (!token) throw new Error('Owner session is required.');
+      const checkout = await createPaymentCheckout(token, PAYMENT_PRODUCT_CODES.SEENLY_PLUS);
+      if (!checkout.checkoutUrl) throw new Error('Checkout is unavailable.');
+      window.location.assign(checkout.checkoutUrl);
     } catch (err) {
-      console.error('Upgrade error', err);
+      alert(err.message || (langCode === 'tr' ? 'Ödeme şu anda kullanılamıyor.' : 'Payment is currently unavailable.'));
     } finally {
       setActionLoading(false);
     }
-  }, []);
+  }, [langCode]);
 
-  const handleBuyPack = useCallback(async (amount) => {
+  const handleBuyPack = useCallback(async (productCode) => {
     const token = localStorage.getItem('seenly_owner_token');
     try {
       setActionLoading(true);
-      if (token) {
-        try {
-          await buyCapacityPack(token, amount);
-        } catch (apiErr) {
-          console.warn('API error during pack purchase:', apiErr);
-        }
-      }
-      const newLimit = (snapshot?.maxResponseLimit ?? (parseInt(localStorage.getItem('seenly_test_limit'), 10) || 100)) + amount;
-      localStorage.setItem('seenly_test_limit', newLimit.toString());
-      setSnapshot(prev => ({
-        ...(prev || {}),
-        maxResponseLimit: newLimit
-      }));
+      if (!token) throw new Error('Owner session is required.');
+      const checkout = await createPaymentCheckout(token, productCode);
+      if (!checkout.checkoutUrl) throw new Error('Checkout is unavailable.');
+      window.location.assign(checkout.checkoutUrl);
     } catch (err) {
-      console.error('Buy pack error', err);
+      alert(err.message || (langCode === 'tr' ? 'Ödeme şu anda kullanılamıyor.' : 'Payment is currently unavailable.'));
     } finally {
       setActionLoading(false);
     }
-  }, [snapshot?.maxResponseLimit]);
+  }, [langCode]);
 
   const handleDeleteAccount = useCallback(async () => {
     const isTurkish = langCode === 'tr';
@@ -544,13 +529,15 @@ export default function SettingsPage() {
   const capacityPackOptions = useMemo(() => [
     {
       amount: 100,
+      productCode: PAYMENT_PRODUCT_CODES.CAPACITY_100,
       label: langCode === 'tr' ? 'MİNİ PAKET' : 'MINI PACK',
       price: '$0.99',
       icon: Users,
       theme: 'tier1'
     },
     {
-      amount: 300,
+      amount: 250,
+      productCode: PAYMENT_PRODUCT_CODES.CAPACITY_250,
       label: langCode === 'tr' ? 'STANDART PAKET' : 'STANDARD PACK',
       price: '$1.99',
       icon: Compass,
@@ -558,6 +545,7 @@ export default function SettingsPage() {
     },
     {
       amount: 500,
+      productCode: PAYMENT_PRODUCT_CODES.CAPACITY_500,
       label: langCode === 'tr' ? 'MAKSİ PAKET' : 'MAXI PACK',
       price: '$3.99',
       icon: Crown,
@@ -593,8 +581,8 @@ export default function SettingsPage() {
             </h1>
             <p className="seenly-settings-subtitle">
               {langCode === 'tr'
-                ? 'Profilinizi ve üyelik tercihlerinizi yönetin.'
-                : 'Manage your profile and membership preferences.'}
+                ? 'Profilinizi ve Seenly Plus seçeneklerini yönetin.'
+                : 'Manage your profile and Seenly Plus options.'}
             </p>
           </div>
 
@@ -616,7 +604,7 @@ export default function SettingsPage() {
                 className={`seenly-settings-tab-btn ${activeTab === 'plans' ? 'active' : ''}`}
               >
                 <Star size={16} strokeWidth={2} />
-                <span>{langCode === 'tr' ? 'Üyelik' : 'Membership'}</span>
+                <span>Seenly Plus</span>
               </button>
 
               <button

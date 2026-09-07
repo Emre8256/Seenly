@@ -1,0 +1,13 @@
+package com.seenly.backend.payment;
+
+public enum PaymentStatus {
+    CREATED,
+    PENDING,
+    PAID,
+    FAILED,
+    CANCELLED,
+    EXPIRED,
+    REFUNDED,
+    PARTIALLY_REFUNDED,
+    CHARGEBACK
+}

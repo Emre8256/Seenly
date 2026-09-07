@@ -14,7 +14,7 @@ const DashboardGapTab = memo(function DashboardGapTab({
 }) {
   return (
     <div className="seenly-dashboard-tab-content full-width-layout scrollable-gap-content seenly-gap-editorial-content" style={{ maxWidth: '880px', width: '100%' }}>
-      {responseCount >= 1 ? (
+      {responseCount >= 3 ? (
         <div className="flex flex-col gap-4 sm:gap-5 w-full">
           {/* 1. Seamless Embedded Overview Banner */}
           <div

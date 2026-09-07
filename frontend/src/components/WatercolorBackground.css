@@ -1,0 +1,35 @@
+/* Shared full-page canvas; independent of content width and section heights. */
+.watercolor-page {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+}
+
+.watercolor-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url("/textures/landing-watercolor.svg") center top / clamp(980px, 100vw, 1600px) auto repeat;
+}
+
+.watercolor-page > footer {
+  background-color: transparent;
+}
+
+/* Disable the dashboard's older grain overlay, keeping a single canvas. */
+.app-shell.dashboard-layout.watercolor-page::before {
+  display: none !important;
+}
+
+.app-shell.dashboard-layout.watercolor-page {
+  width: 100% !important;
+}
+
+@media (max-width: 767px) {
+  .watercolor-canvas {
+    background-size: 820px auto;
+    background-position: 42% top;
+    opacity: 0.65;
+  }
+}

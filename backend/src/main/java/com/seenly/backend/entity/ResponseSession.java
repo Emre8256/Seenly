@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "response_sessions", indexes = {
+@Table(name = "response_sessions", uniqueConstraints = {
+    @UniqueConstraint(name = "uk_response_target_fingerprint", columnNames = {"seenly_id", "fingerprint_hash"})
+}, indexes = {
     @Index(name = "idx_response_session_seenly_id", columnList = "seenly_id"),
     @Index(name = "idx_session_dup_guard", columnList = "seenly_id, ipAddress, fingerprintHash")
 })
@@ -30,10 +32,10 @@ public class ResponseSession {
     private String nickname; // Optional name chosen by the respondent
 
     @Column(nullable = false)
-    private String fingerprintHash; // IP or browser fingerprint hash to guard against spam
+    private String fingerprintHash; // Server-side pseudonymous hash of a weak client signal
 
     @Column
-    private String ipAddress; // IP address of the respondent for spam protection
+    private String ipAddress; // Pseudonymous network hash; never the raw request IP
 
     @OneToMany(mappedBy = "responseSession", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<FriendResponse> responses;

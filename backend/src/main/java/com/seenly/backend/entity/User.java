@@ -40,6 +40,9 @@ public class User {
     @Builder.Default
     private Integer purchasedExtraCapacity = 0;
 
+    @Column(name = "premium_payment_transaction_id")
+    private UUID premiumPaymentTransactionId;
+
     @CreationTimestamp
     @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;

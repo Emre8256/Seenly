@@ -2,6 +2,26 @@
 
 import { useEffect, useRef, useState } from "react"
 
+const listenerMap = new Map();
+let sharedObserver = null;
+
+function getSharedObserver() {
+  if (typeof window === "undefined") return null;
+  if (!sharedObserver) {
+    sharedObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const callback = listenerMap.get(entry.target);
+          if (callback) {
+            callback(entry.isIntersecting, entry);
+          }
+        }
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -4% 0px" }
+    );
+  }
+  return sharedObserver;
+}
 
 /**
  * Slow, gentle scroll-reveal. Atmosphere, not attention.
@@ -32,22 +52,31 @@ export function Reveal({
       return
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setShown(true)
-            if (once) observer.unobserve(entry.target)
-          } else if (!once) {
-            setShown(false)
-          }
-        })
-      },
-      { threshold: 0.16, rootMargin: "0px 0px -8% 0px" },
-    )
+    const observer = getSharedObserver();
+    if (!observer) {
+      setShown(true);
+      return;
+    }
 
-    observer.observe(el)
-    return () => observer.disconnect()
+    const handleIntersect = (isIntersecting) => {
+      if (isIntersecting) {
+        setShown(true);
+        if (once) {
+          observer.unobserve(el);
+          listenerMap.delete(el);
+        }
+      } else if (!once) {
+        setShown(false);
+      }
+    };
+
+    listenerMap.set(el, handleIntersect);
+    observer.observe(el);
+
+    return () => {
+      observer.unobserve(el);
+      listenerMap.delete(el);
+    };
   }, [once])
 
   return (

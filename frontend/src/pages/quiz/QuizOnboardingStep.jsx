@@ -40,7 +40,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
     return (
       <>
         <div className="seenly-wizard-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', flex: 1 }}>
-          <div style={{
+          <div className="seenly-wizard-circle-icon seenly-auth-step-icon" style={{
             width: '72px',
             height: '72px',
             borderRadius: '50%',
@@ -84,15 +84,15 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
           <div className="seenly-auth-card" style={{
             width: '100%',
             maxWidth: '400px',
-            background: 'rgba(255, 253, 250, 0.75)',
+            background: '#ffffff',
             border: isNotFound
               ? '1.5px solid rgba(197, 160, 89, 0.45)'
               : isConflict
                 ? '1.5px solid rgba(217, 106, 83, 0.45)'
                 : '1px solid rgba(11, 27, 44, 0.08)',
             borderRadius: '20px',
-            padding: '1.75rem 1.5rem',
-            boxShadow: '0 10px 30px rgba(11, 27, 44, 0.03)',
+            padding: '1.25rem 1.25rem',
+            boxShadow: '0 8px 24px rgba(11, 27, 44, 0.03)',
             display: 'flex',
             flexDirection: 'column',
             gap: '0.75rem',
@@ -114,6 +114,8 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
             <div className="seenly-wizard-input-container" style={{ width: '100%' }}>
               <input
                 type="email"
+                  aria-label={locale === 'tr' ? 'E-posta adresi' : 'Email address'}
+                  enterKeyHint="go"
                 inputMode="email"
                 autoComplete="email"
                 autoCapitalize="none"
@@ -128,7 +130,6 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
                   if (setErrorMessage) setErrorMessage('');
                 }}
                 required
-                autoFocus
                 className="seenly-wizard-input"
                 style={{
                   borderColor: isNotFound
@@ -147,6 +148,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
                 }}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && isValidEmail(email) && !isEmailSending && resendTimer === 0) {
+                    e.target.blur();
                     handleSendCode();
                   }
                 }}
@@ -264,7 +266,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
     return (
       <>
         <div className="seenly-wizard-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', flex: 1 }}>
-          <div style={{
+          <div className="seenly-wizard-circle-icon seenly-auth-step-icon" style={{
             width: '72px',
             height: '72px',
             borderRadius: '50%',
@@ -304,11 +306,11 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
           <div className="seenly-auth-card" style={{
             width: '100%',
             maxWidth: '400px',
-            background: 'rgba(255, 253, 250, 0.75)',
+            background: '#ffffff',
             border: isOtpError ? '1.5px solid rgba(239, 68, 68, 0.35)' : '1px solid rgba(11, 27, 44, 0.08)',
             borderRadius: '20px',
-            padding: '1.75rem 1.5rem',
-            boxShadow: '0 10px 30px rgba(11, 27, 44, 0.03)',
+            padding: '1.25rem 1.25rem',
+            boxShadow: '0 8px 24px rgba(11, 27, 44, 0.03)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -499,7 +501,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
     return (
       <>
         <div className="seenly-wizard-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-          <div className="seenly-wizard-circle-icon icon-peach" style={{ margin: '0 auto 1.5rem auto' }}>
+          <div className="seenly-wizard-circle-icon icon-peach">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
               <circle cx="12" cy="7" r="4" />
@@ -510,7 +512,9 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
             <input
               type="text"
               inputMode="text"
-              autoComplete="name"
+              autoComplete="nickname"
+              aria-label={t('ui', 'wizard_nickname_title')}
+              enterKeyHint="next"
               autoCapitalize="words"
               autoCorrect="off"
               spellCheck={false}
@@ -519,11 +523,11 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
               onChange={(e) => setDisplayName(e.target.value)}
               maxLength={15}
               required
-              autoFocus
               className="seenly-wizard-input"
               style={{ fontSize: '1.05rem' }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && displayName.trim().length >= 2) {
+                  e.target.blur();
                   setCurrentIndex(-4);
                 }
               }}
@@ -553,7 +557,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
     return (
       <>
         <div className="seenly-wizard-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', padding: '0.5rem 0' }}>
-          <div className="seenly-wizard-circle-icon icon-purple" style={{ margin: '0 auto 0.75rem auto' }}>
+          <div className="seenly-wizard-circle-icon icon-purple">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
               <polyline points="14 2 14 8 20 8" />

@@ -1,5 +1,4 @@
 import { SeenlyLogo } from "./seenly-logo"
-import { DottedThread } from "./marks"
 import { useLocale } from "../context/LocaleContext"
 
 export function SiteFooter() {
@@ -14,11 +13,9 @@ export function SiteFooter() {
   ]
 
   return (
-    <footer className="paper-grain relative border-t border-border/60 bg-cream">
+    <footer className="relative border-t border-border/60 bg-background">
       <div className="mx-auto max-w-[1180px] px-5 py-10 sm:px-8">
-        <DottedThread className="h-5 w-40 text-clay/40" />
-
-        <div className="mt-10 flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
+        <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <div className="max-w-sm">
             <div className="flex items-center gap-2.5">
               <SeenlyLogo className="h-6 w-6 text-navy" />
@@ -74,7 +71,7 @@ export function SiteFooter() {
           <p className="text-xs text-muted-foreground">
             © {new Date().getFullYear()} {t("ui", "landing_footer_rights") || "Seenly. Tüm hakları saklıdır."}
           </p>
-          <p className="font-mono text-[0.7rem] uppercase tracking-[0.28em] text-clay/60">
+          <p className="font-mono text-[0.7rem] uppercase tracking-[0.28em] text-muted-foreground">
             {t("ui", "landing_footer_slogan") || "Kendini gör"}
           </p>
         </div>

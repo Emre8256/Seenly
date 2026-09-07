@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: seenly-dev-postgres
+    environment:
+      POSTGRES_DB: seenly_dev
+      POSTGRES_USER: seenly_dev
+      POSTGRES_PASSWORD: seenly_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - seenly_dev_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U seenly_dev -d seenly_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  seenly_dev_postgres_data:

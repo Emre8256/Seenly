@@ -1,7 +1,7 @@
-import { Reveal } from "./reveal"
 import { IntersectingCircles, WatercolorStain, HairLine } from "./marks"
 import { useLocale } from "../context/LocaleContext"
 import heroImg from "../images/landing/hero.avif"
+import heroMobileImg from "../images/landing/hero-mobile.avif"
 
 export function Hero({ onStartClick, onLoginClick }) {
   const { t } = useLocale()
@@ -19,62 +19,51 @@ export function Hero({ onStartClick, onLoginClick }) {
 
   return (
     <section
-      id="baslat"
-      className="paper-grain surface-color wash-peach relative flex min-h-[calc(100vh-72px)] items-center overflow-hidden bg-background"
       aria-labelledby="hero-title"
+      className="paper-grain relative overflow-hidden bg-background"
     >
       <WatercolorStain
-        name="hero-peach"
-        hue="peach"
-        seed={7}
-        intensity={0.22}
-        className="right-[-9%] top-[-12%] h-[34rem] w-[34rem]"
+        name="hero-blush"
+        hue="blush"
+        seed={3}
+        intensity={0.14}
+        className="right-[-10%] top-[-8%] h-[32rem] w-[32rem]"
       />
       <WatercolorStain
         name="hero-clay"
         hue="clay"
-        seed={3}
-        intensity={0.14}
-        className="bottom-[-16%] left-[-10%] h-[26rem] w-[26rem]"
+        seed={7}
+        intensity={0.12}
+        className="left-[-12%] top-[30%] h-[26rem] w-[26rem]"
       />
 
       <div className="above-surface mx-auto w-full max-w-[1240px] px-5 sm:px-8">
         <div className="grid items-center gap-y-8 pb-8 pt-4 md:pb-10 md:pt-6 lg:grid-cols-[1.04fr_0.96fr] lg:gap-x-16">
           <div className="relative flex flex-col items-center text-center lg:items-start lg:text-left lg:pr-6">
-            <Reveal
-              as="h1"
+            <h1
               id="hero-title"
-              delay={120}
               className="max-w-xl text-balance font-heading text-[2.7rem] font-medium leading-[1.02] tracking-tight text-foreground sm:text-6xl lg:text-[4.3rem]"
             >
               {t("ui", "landing_hero_title_1") || "Insanlarin seni nasil "}
               <span className="italic text-clay">{t("ui", "landing_hero_title_italic") || "deneyimledigini"}</span>
               {t("ui", "landing_hero_title_2") || " kesfet."}
-            </Reveal>
+            </h1>
 
-            <Reveal delay={200} className="mt-5">
+            <div className="mt-5">
               <HairLine className="w-20 text-gold" />
-            </Reveal>
+            </div>
 
-            <Reveal
-              as="p"
-              delay={260}
-              className="mt-5 max-w-md text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg"
-            >
+            <p className="mt-5 max-w-md text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
               {t("ui", "landing_hero_desc") || "Kendini nasil gordugunu, seni taniyan insanlarin seni nasil deneyimledigiyle karsilastir."}
-            </Reveal>
+            </p>
 
             {isLoggedIn && (
-              <Reveal
-                as="p"
-                delay={320}
-                className="mt-4 max-w-md text-pretty font-heading text-[1.35rem] leading-snug text-clay"
-              >
+              <p className="mt-4 max-w-md text-pretty font-heading text-[1.35rem] leading-snug text-clay">
                 Panelin hazir. Sosyal yansimani, gelen degerlendirmeleri ve fark katmanini tek yerde oku.
-              </Reveal>
+              </p>
             )}
 
-            <Reveal delay={360} className="mt-7 flex flex-row items-center justify-center lg:justify-start gap-4 sm:gap-7 w-full">
+            <div className="mt-7 flex flex-row items-center justify-center lg:justify-start gap-4 sm:gap-7 w-full">
               <button
                 type="button"
                 onClick={handlePrimaryClick}
@@ -94,16 +83,16 @@ export function Hero({ onStartClick, onLoginClick }) {
                   </span>
                 </button>
               )}
-            </Reveal>
+            </div>
 
             {!isLoggedIn && (
-              <Reveal as="p" delay={440} className="mt-4 text-[0.7rem] min-[360px]:text-xs text-muted-foreground">
+              <p className="mt-4 text-[0.7rem] min-[360px]:text-xs text-muted-foreground">
                 {t("ui", "landing_hero_cta_free") || "Ucretsiz basla · Ilk sonuclarini dakikalar icinde gor"}
-              </Reveal>
+              </p>
             )}
           </div>
 
-          <Reveal delay={180} className="relative lg:-mr-6 lg:pl-4">
+          <div className="relative lg:-mr-6 lg:pl-4">
             <figure className="relative mx-auto max-w-[280px] sm:max-w-none">
               <WatercolorStain
                 name="hero-plate"
@@ -113,14 +102,22 @@ export function Hero({ onStartClick, onLoginClick }) {
                 className="-left-8 -top-6 h-[112%] w-[112%]"
               />
               <div className="integrated-art mask-organic-1 shadow-contact paper-panel relative -mr-3 overflow-hidden p-0 sm:-mr-6">
-                <img
-                  src={heroImg}
-                  alt="Seenly profillerini birbirine baglayan suluboya illusturasyon"
-                  className="soft-image-edge aspect-[4/5] w-full object-cover sm:aspect-[5/4] lg:aspect-[4/5] mask-organic-1"
-                />
+                <picture>
+                  <source media="(max-width: 768px)" srcSet={heroMobileImg} />
+                  <img
+                    src={heroImg}
+                    alt="Seenly profillerini birbirine baglayan suluboya illusturasyon"
+                    width="768"
+                    height="960"
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
+                    className="soft-image-edge aspect-[4/5] w-full object-cover sm:aspect-[5/4] lg:aspect-[4/5] mask-organic-1"
+                  />
+                </picture>
               </div>
             </figure>
-          </Reveal>
+          </div>
         </div>
       </div>
     </section>

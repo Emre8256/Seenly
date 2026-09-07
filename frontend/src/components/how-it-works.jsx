@@ -1,4 +1,3 @@
-import { Reveal } from "./reveal"
 import { HairLine, WatercolorStain, ConnectorDots } from "./marks"
 import { useLocale } from "../context/LocaleContext"
 import howItWorksImg from "../images/landing/how-it-works.avif"
@@ -18,18 +17,18 @@ export function HowItWorks() {
     {
       index: "II",
       title: "Outside",
-      turkish: t("ui", "landing_hiw_m2_turkish") || "Dışarının sesi",
-      text: t("ui", "landing_hiw_m2_text") || "Seni tanıyan insanlar anonim olarak katkıda bulunur. Tek tek cevaplar değil, tekrar eden ortak sinyaller önemlidir.",
-      accent: "text-peach",
-      rule: "bg-peach/50",
+      turkish: t("ui", "landing_hiw_m2_turkish") || "Dışarının yansıması",
+      text: t("ui", "landing_hiw_m2_text") || "Bağlantını paylaştığın insanlar sessizce katkıda bulunur. Seni en iyi tanıyanların gözünden yansıman oluşur.",
+      accent: "text-[#b4532a]",
+      rule: "bg-[#b4532a]/50",
     },
     {
       index: "III",
       title: "Gap",
       turkish: t("ui", "landing_hiw_m3_turkish") || "Aradaki boşluk",
       text: t("ui", "landing_hiw_m3_text") || "Öz algın ile dış algın yan yana gelir. Nerede buluştuğunuzu ve nerede ayrıştığınızı birlikte görürsün.",
-      accent: "text-lilac",
-      rule: "bg-lilac/50",
+      accent: "text-[#6b4c82]",
+      rule: "bg-[#6b4c82]/50",
     },
   ]
 
@@ -49,7 +48,7 @@ export function HowItWorks() {
         <div className="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
           {/* left: the framing + woven image */}
           <div className="lg:sticky lg:top-28 lg:self-start">
-            <Reveal>
+            <div>
               <p className="font-mono text-[0.7rem] uppercase tracking-[0.34em] text-clay">
                 {t("ui", "landing_hiw_tag") || "Deneyim"}
               </p>
@@ -59,12 +58,16 @@ export function HowItWorks() {
               <p className="mt-5 max-w-md text-pretty text-base leading-relaxed text-muted-foreground">
                 {t("ui", "landing_hiw_desc") || "Önce sen kendini anlatırsın. Sonra çevren sessizce katkıda bulunur. Son hareket, ikisinin birbirine değdiği yerdir."}
               </p>
-            </Reveal>
+            </div>
 
-            <Reveal delay={160} className="relative mt-10 mx-auto max-w-[320px] sm:max-w-none w-full">
+            <div className="relative mt-10 mx-auto max-w-[320px] sm:max-w-none w-full">
               <div className="integrated-art mask-organic-2 shadow-contact paper-panel relative -ml-4 overflow-hidden p-0">
                 <img
                   src={howItWorksImg}
+                  loading="eager"
+                  decoding="async"
+                  width="800"
+                  height="600"
                   alt="Self, Outside ve Gap adımlarını gösteren üç katmanın suluboya illüstrasyonu"
                   className="soft-image-edge aspect-[4/3] w-full object-cover mask-organic-2"
                 />
@@ -74,26 +77,24 @@ export function HowItWorks() {
                 variant="rise"
                 className="pointer-events-none absolute -right-10 top-6 hidden h-16 w-36 text-clay/60 lg:block"
               />
-            </Reveal>
+            </div>
           </div>
 
           {/* right: the three movements as a vertical score */}
           <ol className="relative">
             <span
               aria-hidden="true"
-              className="absolute left-[1.15rem] top-2 bottom-2 w-px bg-border"
+              className="absolute left-[1.15rem] top-2 bottom-2 w-px bg-foreground/20"
             />
-            {movements.map((m, i) => (
-              <Reveal
-                as="li"
+            {movements.map((m) => (
+              <li
                 key={m.title}
-                delay={i * 120}
                 className="relative grid grid-cols-[2.3rem_1fr] gap-5 pb-10 sm:pb-14 last:pb-0 sm:gap-7"
               >
                 <span
                   className={`relative z-10 mt-1 font-heading text-lg ${m.accent}`}
                 >
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full border border-foreground/20 bg-card shadow-xs font-semibold">
                     {m.index}
                   </span>
                 </span>
@@ -113,7 +114,7 @@ export function HowItWorks() {
                     {m.text}
                   </p>
                 </div>
-              </Reveal>
+              </li>
             ))}
           </ol>
         </div>

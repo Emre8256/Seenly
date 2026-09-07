@@ -97,7 +97,7 @@ public class CardRarityService {
      * Records a card generation event from a completed quiz or survey.
      */
     public void recordCardGeneration(String cardId) {
-        if (cardId == null || cardId.isBlank()) return;
+        requireKnownCard(cardId);
         totalPlatformGenerations.incrementAndGet();
         empiricalCounts.computeIfAbsent(cardId, k -> new AtomicLong(0)).incrementAndGet();
     }
@@ -108,11 +108,7 @@ public class CardRarityService {
     public CardRarityDto getCardRarity(String cardId, String langCode) {
         long N = totalPlatformGenerations.get();
         CardPrior prior = priorMatrix.get(cardId);
-
-        // Edge Case: If card is completely unknown, handle dynamic onboarding
-        if (prior == null) {
-            prior = handleDynamicCardOnboarding(cardId);
-        }
+        if (prior == null) throw new IllegalArgumentException("Unknown card identifier.");
 
         double smoothedRatio;
         int topPercentile;
@@ -147,19 +143,10 @@ public class CardRarityService {
         return result;
     }
 
-    /**
-     * Handles newly introduced archetypes post-launch (N > 10,000) without distortion.
-     */
-    private CardPrior handleDynamicCardOnboarding(String cardId) {
-        log.warn("Onboarding dynamic unindexed card ID: {}", cardId);
-        int defaultPercentile = 48;
-        String defaultTier = "YAYGIN";
-        double alphaWeight = 200.0;
-
-        CardPrior newPrior = new CardPrior(cardId, cardId, cardId, defaultPercentile, defaultTier, alphaWeight);
-        priorMatrix.put(cardId, newPrior);
-        this.totalAlphaSum += alphaWeight;
-        return newPrior;
+    private void requireKnownCard(String cardId) {
+        if (cardId == null || !priorMatrix.containsKey(cardId)) {
+            throw new IllegalArgumentException("Unknown card identifier.");
+        }
     }
 
     private CardRarityDto buildCardRarityDto(String cardId, int topPercentile, long totalSamples, String langCode) {

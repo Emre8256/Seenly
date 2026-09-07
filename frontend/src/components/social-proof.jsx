@@ -1,5 +1,4 @@
 import { useLocale } from "../context/LocaleContext"
-import { Reveal } from "./reveal"
 import { DottedThread, WatercolorStain } from "./marks"
 
 export function SocialProof() {
@@ -46,9 +45,7 @@ export function SocialProof() {
       />
 
       <div className="above-surface mx-auto max-w-[1180px] px-5 py-14 sm:px-8 md:py-20">
-        <Reveal className="relative">
-          <div className="absolute left-0 right-0 top-1/2 hidden h-px -translate-y-1/2 bg-border/55 lg:block" />
-          <div className="absolute left-[8%] right-[8%] top-[calc(50%+2.1rem)] hidden border-t border-dotted border-clay/25 lg:block" />
+        <div className="relative">
           <DottedThread className="mx-auto h-5 w-32 text-clay/45" />
 
           <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-6 lg:grid-cols-4 max-w-md sm:max-w-none mx-auto">
@@ -85,7 +82,7 @@ export function SocialProof() {
             </span>
             <span className="h-px flex-1 bg-current/35" />
           </div>
-        </Reveal>
+        </div>
       </div>
     </section>
   )

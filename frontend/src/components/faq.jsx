@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { Reveal } from "./reveal"
 import { WatercolorStain } from "./marks"
 
 const faqs = [
@@ -18,20 +17,20 @@ const faqs = [
     a: "Hayır. Katılımcıların kimlikleri hiçbir zaman paylaşılmaz.",
   },
   {
-    q: "Sonuçlar değişebilir mi?",
-    a: "Evet. Yeni katkılar geldikçe sonuçların zamanla gelişebilir.",
+    q: "Sonuçlarımı paylaşabilir miyim?",
+    a: "Evet. Dilediğin katmanı seçip özel bir kart veya bağlantı olarak paylaşabilirsin.",
   },
   {
-    q: "Sonuçlarımı paylaşmak zorunda mıyım?",
-    a: "Hayır. Paylaşım tamamen senin kontrolündedir.",
+    q: "Ücretli mi?",
+    a: "Temel deneyim ücretsizdir. Ayrıntılı analiz ve koleksiyon kartları için tek seferlik bir rapor alınabilir.",
   },
 ]
 
 export function Faq() {
-  const [open, setOpen] = useState(0)
+  const [open, setOpen] = useState(null)
 
   return (
-    <section id="sorular" className="paper-grain relative scroll-mt-20 overflow-hidden bg-background">
+    <section className="paper-grain relative overflow-hidden bg-background">
       <WatercolorStain
         name="faq-gold"
         hue="gold"
@@ -41,20 +40,20 @@ export function Faq() {
       />
       <div className="above-surface mx-auto max-w-[1180px] px-5 py-24 sm:px-8 md:py-36">
         <div className="grid gap-12 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20">
-          <Reveal className="lg:sticky lg:top-28 lg:self-start">
+          <div className="lg:sticky lg:top-28 lg:self-start">
             <p className="font-mono text-[0.7rem] uppercase tracking-[0.34em] text-clay">
               Sorular
             </p>
             <h2 className="mt-5 text-balance font-heading text-3xl font-medium leading-[1.1] tracking-tight text-foreground sm:text-[2.6rem]">
               Merak ettiklerin.
             </h2>
-          </Reveal>
+          </div>
 
           <ol className="divide-y divide-border/70 border-t border-border/70">
             {faqs.map((faq, i) => {
               const isOpen = open === i
               return (
-                <Reveal as="li" key={faq.q} delay={i * 70}>
+                <li key={faq.q}>
                   <button
                     type="button"
                     onClick={() => setOpen(isOpen ? null : i)}
@@ -85,7 +84,7 @@ export function Faq() {
                       {faq.a}
                     </p>
                   </div>
-                </Reveal>
+                </li>
               )
             })}
           </ol>

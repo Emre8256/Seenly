@@ -43,7 +43,7 @@ export default function RefundPolicyPage() {
               <span>Digital Goods & Immediate Delivery</span>
             </h2>
             <p className="seenly-legal-text">
-              All commercial offerings available on Seenly—including the Seenly Plus subscription and standalone Response Capacity Packs (100, 250, and 500 response capacity allotments)—are intangible digital goods delivered electronically and activated immediately upon successful transaction confirmation by our payment processing partners.
+              All commercial offerings available on Seenly—including the one-time Seenly Plus purchase and standalone Response Capacity Packs (100, 250, and 500 response capacity allotments)—are intangible digital goods delivered electronically and activated immediately upon successful transaction confirmation by our payment processing partners.
             </p>
           </section>
 
@@ -76,8 +76,8 @@ export default function RefundPolicyPage() {
                 Once capacity is consumed or evaluations are gathered from your public reflection link, the purchase is strictly non-refundable.
               </li>
               <li>
-                <strong>Utilized Subscription Periods: </strong>
-                Active Seenly Plus subscription cycles where premium analytical features, deep signal metrics, or extended perks have been accessed.
+                <strong>Utilized Seenly Plus Features: </strong>
+                Seenly Plus purchases where premium analytical features, deep signal metrics, or extended perks have been accessed.
               </li>
               <li>
                 <strong>Expired Time Window: </strong>

@@ -79,7 +79,7 @@ const QuizSelfResultCard = memo(function QuizSelfResultCard({
             borderRadius: '22px',
             overflow: 'hidden',
             border: '1px solid rgba(197, 160, 89, 0.32)',
-            boxShadow: '0 18px 42px -6px rgba(11, 27, 44, 0.15), 0 3px 10px rgba(11, 27, 44, 0.04)',
+            boxShadow: 'none',
             background: '#ffffff',
             boxSizing: 'border-box',
             flexShrink: 0
@@ -106,7 +106,7 @@ const QuizSelfResultCard = memo(function QuizSelfResultCard({
                   justifyContent: 'center',
                   whiteSpace: 'nowrap',
                   userSelect: 'none',
-                  boxShadow: '0 2px 8px rgba(11, 27, 44, 0.08)'
+                  boxShadow: 'none'
                 }}
               >
                 <span>{cardRarity.badgeLabel}</span>

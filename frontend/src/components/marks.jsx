@@ -104,46 +104,6 @@ export function ConnectorDots({
  *
  * `name` must be unique per instance so the SVG filter/gradient ids don't collide.
  */
-export function WatercolorStain({
-  name,
-  hue = "peach",
-  seed = 4,
-  intensity = 0.2,
-  className,
-  style,
-}) {
-  const fid = `stain-f-${name}`
-  const gid = `stain-g-${name}`
-  const color = `var(--${hue})`
-  return (
-    <span aria-hidden="true" className={`pigment ${className ?? ""}`} style={style}>
-      <svg viewBox="0 0 220 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <filter id={fid} x="-25%" y="-25%" width="150%" height="150%">
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0.013"
-              numOctaves="3"
-              seed={seed}
-              result="noise"
-            />
-            <feDisplacementMap
-              in="SourceGraphic"
-              in2="noise"
-              scale="48"
-              xChannelSelector="R"
-              yChannelSelector="G"
-            />
-            <feGaussianBlur stdDeviation="2" />
-          </filter>
-          <radialGradient id={gid} cx="46%" cy="43%" r="58%">
-            <stop offset="0%" stopColor={color} stopOpacity={intensity} />
-            <stop offset="46%" stopColor={color} stopOpacity={intensity * 0.5} />
-            <stop offset="100%" stopColor={color} stopOpacity="0" />
-          </radialGradient>
-        </defs>
-        <ellipse cx="110" cy="105" rx="86" ry="80" fill={`url(#${gid})`} filter={`url(#${fid})`} />
-      </svg>
-    </span>
-  )
+export function WatercolorStain() {
+  return null;
 }

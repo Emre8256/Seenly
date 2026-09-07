@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="720" viewBox="0 0 980 720">
+  <defs>
+    <!-- Original paper-wash contours and palette from eski.zip. Generous filter
+         bounds and neighboring copies wrap pigment across every tile edge. -->
+    <filter id="wash" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".009 .021" numOctaves="4" seed="31" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="58"/>
+      <feGaussianBlur stdDeviation="1.4"/>
+    </filter>
+    <g id="pigment" filter="url(#wash)">
+      <path d="M-80 140 C86 52 214 84 356 66 C520 46 662 -14 1060 82 L1060 218 C766 170 640 220 444 198 C246 174 108 236 -80 206Z" fill="#e69c73" fill-opacity=".07"/>
+      <path d="M606 404 C730 314 842 352 1056 292 L1056 552 C828 502 704 584 548 526 C424 480 318 524 210 626 C292 454 470 500 606 404Z" fill="#a992bf" fill-opacity=".055"/>
+      <path d="M-96 610 C80 482 234 586 398 500 C512 440 620 470 742 530 C560 636 372 724 160 690 C48 672 -22 708 -96 744Z" fill="#d2a44f" fill-opacity=".052"/>
+    </g>
+    <pattern id="seamless" width="980" height="720" patternUnits="userSpaceOnUse">
+      <use href="#pigment" x="-980" y="-720"/>
+      <use href="#pigment" y="-720"/>
+      <use href="#pigment" x="980" y="-720"/>
+      <use href="#pigment" x="-980"/>
+      <use href="#pigment"/>
+      <use href="#pigment" x="980"/>
+      <use href="#pigment" x="-980" y="720"/>
+      <use href="#pigment" y="720"/>
+      <use href="#pigment" x="980" y="720"/>
+    </pattern>
+  </defs>
+  <rect width="980" height="720" fill="url(#seamless)"/>
+</svg>

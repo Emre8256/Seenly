@@ -2,7 +2,6 @@ import React, { memo, useCallback, useMemo, useState } from 'react';
 import { useLocale } from '../context/LocaleContext';
 import AppShell from '../components/AppShell';
 import faqIllustration from '../images/illustrations/faq_contact_illustration.avif';
-import { WatercolorStain } from '../components/marks';
 
 const FaqAccordionItem = memo(function FaqAccordionItem({ item, isOpen, onToggle }) {
   return (
@@ -10,11 +9,9 @@ const FaqAccordionItem = memo(function FaqAccordionItem({ item, isOpen, onToggle
       className="w-full box-border mb-4 faq-accordion-card p-4 sm:p-5 md:px-6"
       style={{
         borderRadius: '24px',
-        border: '1px solid rgba(255, 255, 255, 0.55)',
-        background: isOpen ? 'rgba(254, 252, 247, 0.72)' : 'rgba(254, 252, 247, 0.42)',
-        boxShadow: isOpen
-          ? '0 12px 32px rgba(11, 27, 44, 0.035), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
-          : '0 6px 18px rgba(11, 27, 44, 0.015), inset 0 1px 0 rgba(255, 255, 255, 0.6)',
+        border: '1px solid rgba(11, 27, 44, 0.08)',
+        background: isOpen ? 'rgba(255, 255, 255, 0.92)' : 'rgba(255, 255, 255, 0.55)',
+        boxShadow: 'none',
         cursor: 'pointer',
         contain: 'layout paint',
         contentVisibility: 'auto',
@@ -71,12 +68,14 @@ export default function FaqPage() {
   const handleStartQuiz = () => {
     sessionStorage.setItem('seenly_currentIndex', '-2');
     sessionStorage.setItem('seenly_isQuickLogin', 'false');
+    window.dispatchEvent(new CustomEvent('seenly_trigger_start_quiz'));
     window.location.hash = '#/';
   };
 
   const handleLoginClick = () => {
     sessionStorage.setItem('seenly_currentIndex', '-5');
     sessionStorage.setItem('seenly_isQuickLogin', 'true');
+    window.dispatchEvent(new CustomEvent('seenly_trigger_login'));
     window.location.hash = '#/';
   };
 
@@ -93,31 +92,8 @@ export default function FaqPage() {
   const langCode = t('lang_code') || 'tr';
 
   return (
-    <AppShell isDashboard={true}>
-      <div className="relative overflow-x-clip">
-        {/* Page-level watercolor stains */}
-        <WatercolorStain
-          name="faq-bg-peach"
-          hue="peach"
-          seed={11}
-          intensity={0.14}
-          className="absolute left-[-12%] top-[10%] h-[32rem] w-[32rem] pointer-events-none z-0"
-        />
-        <WatercolorStain
-          name="faq-bg-lilac"
-          hue="lilac"
-          seed={19}
-          intensity={0.11}
-          className="absolute right-[-10%] top-[45%] h-[30rem] w-[30rem] pointer-events-none z-0"
-        />
-        <WatercolorStain
-          name="faq-bg-clay"
-          seed={7}
-          hue="clay"
-          intensity={0.09}
-          className="absolute left-[-10%] bottom-[15%] h-[28rem] w-[28rem] pointer-events-none z-0"
-        />
-
+    <AppShell isDashboard={false} fullWidth={true} watercolorBackground>
+      <div className="relative overflow-x-clip bg-transparent">
         <main className="pt-20 sm:pt-24 md:pt-32 pb-24 relative z-10 box-border w-full flex justify-center">
           <div className="w-full max-w-[1080px] px-6 md:px-10 box-border flex flex-col gap-12 md:gap-16">
 
@@ -126,14 +102,7 @@ export default function FaqPage() {
 
               {/* Left Column: Organic Mask Image Frame (Desktop only) */}
               <div className="hidden md:flex flex-col items-center w-full max-w-[320px] md:max-w-[360px] z-10">
-                <div className="relative w-full aspect-[4/5] overflow-hidden shadow-contact border border-transparent p-0 bg-transparent mask-organic-1 transition-transform duration-700 hover:scale-[1.02]">
-                  <WatercolorStain
-                    name={`faq-hero-bg`}
-                    hue="lilac"
-                    seed={12}
-                    intensity={0.24}
-                    className="absolute inset-0 h-full w-full opacity-60 scale-110 pointer-events-none z-0"
-                  />
+                <div className="integrated-art mask-organic-1 shadow-contact paper-panel relative w-full aspect-[4/5] overflow-hidden p-0 transition-transform duration-700 hover:scale-[1.02]">
                   <img
                     src={faqIllustration}
                     alt="Contact Illustration"
@@ -156,14 +125,7 @@ export default function FaqPage() {
 
                   {/* Mobile Image Frame */}
                   <div className="flex md:hidden flex-col items-center w-40 sm:w-48 shrink-0 z-10 mt-1">
-                    <div className="relative w-full aspect-[4/5] overflow-hidden shadow-contact border border-transparent p-0 bg-transparent mask-organic-1 transition-transform duration-700">
-                      <WatercolorStain
-                        name={`faq-hero-bg-mobile`}
-                        hue="lilac"
-                        seed={12}
-                        intensity={0.24}
-                        className="absolute inset-0 h-full w-full opacity-60 scale-110 pointer-events-none z-0"
-                      />
+                    <div className="integrated-art mask-organic-1 shadow-contact paper-panel relative w-full aspect-[4/5] overflow-hidden p-0 transition-transform duration-700">
                       <img
                         src={faqIllustration}
                         alt="Contact Illustration"
@@ -253,18 +215,18 @@ export default function FaqPage() {
                       backgroundColor: '#FFFFFF',
                       outline: 'none',
                       transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-                      boxShadow: '0 4px 16px rgba(80, 60, 40, 0.04)',
+                      boxShadow: 'none',
                       boxSizing: 'border-box'
                     }}
                     onFocus={(e) => {
                       e.target.style.borderColor = 'var(--peach)';
                       e.target.style.backgroundColor = '#FFFFFF';
-                      e.target.style.boxShadow = '0 0 0 3px rgba(217, 106, 83, 0.12)';
+                      e.target.style.boxShadow = 'none';
                     }}
                     onBlur={(e) => {
-                      e.target.style.borderColor = 'rgba(255, 255, 255, 0.6)';
-                      e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.42)';
-                      e.target.style.boxShadow = '0 8px 24px rgba(11, 27, 44, 0.015), inset 0 1px 0 rgba(255, 255, 255, 0.5)';
+                      e.target.style.borderColor = 'rgba(197, 160, 89, 0.35)';
+                      e.target.style.backgroundColor = '#FFFFFF';
+                      e.target.style.boxShadow = 'none';
                     }}
                   />
                   <div style={{

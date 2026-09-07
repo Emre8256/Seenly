@@ -25,7 +25,7 @@ graph TD
     Client["Kullanıcı Tarayıcısı (React 18 + Vite)"]
     ViteProxy["Vite Dev Proxy (/api)"]
     Backend["Spring Boot 3.2.5 REST API"]
-    DB[("PostgreSQL / H2 Database")]
+    DB[("PostgreSQL Database")]
 
     Client -->|HTTP / Hash Routing| ViteProxy
     ViteProxy -->|JSON REST Calls| Backend
@@ -35,7 +35,7 @@ graph TD
 ### 2.1 Backend Yığını
 - **Çalışma Zamanı & Çatı:** Java 17, Spring Boot `3.2.5`
 - **Modüller:** Spring Web (MVC), Spring Data JPA, Spring Validation (Jakarta), Lombok, Spring Boot Starter Test.
-- **Veritabanı:** PostgreSQL (Production) / H2 In-Memory (Test/Local).
+- **Veritabanı:** PostgreSQL (development, test ve production). H2 artık desteklenmez.
 - **Güvenlik & Kriptografi:** SHA-256 Token Hashing, Secure Random Token/Slug Generation, IP & Fingerprint bazlı spam koruması.
 - **Mimari Desen:** Controller - Service - Repository - Entity - DTO katmanlı mimarisi, Optimistic Locking (`@Version`).
 
@@ -437,14 +437,18 @@ Frontend, Vite ile derlenen SPA yapısındadır. Sayfalar hash bazlı yönlendir
 - Java 17+ (JDK)
 - Apache Maven 3.8+
 - Node.js 18+ & npm
+- PostgreSQL 16+ (local development ve integration test için)
 
 ### 8.2 Backend Başlatma
 ```bash
+docker compose -f docker-compose.dev.yml up -d
 cd backend
-mvn clean test-compile
-mvn spring-boot:run
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ```
-*Backend varsayılan olarak `http://localhost:8080` portunda ayağa kalkar.*
+*Backend varsayılan olarak `http://localhost:8080` portunda ayağa kalkar. Dev profili `seenly_dev` PostgreSQL veritabanını kullanır; yerel varsayılan kullanıcı/parola yalnızca geliştirme içindir. Alternatif olarak `DEV_DB_URL`, `DEV_DB_USERNAME` ve `DEV_DB_PASSWORD` ortam değişkenleri verilebilir. Flyway dev/test/prod ortamlarında şemayı yönetir ve Hibernate `ddl-auto=validate` ile yalnızca doğrulama yapar.*
+
+### 8.2.1 Test Veritabanı
+Integration test profili PostgreSQL semantiğiyle çalışır ve varsayılan olarak `seenly_test` veritabanını bekler. Yerel PostgreSQL kullanılıyorsa `TEST_DB_URL`, `TEST_DB_USERNAME` ve `TEST_DB_PASSWORD` ile izole test veritabanı açıkça gösterilmelidir. Testler development veya production veritabanını hedeflememelidir.
 
 ### 8.3 Frontend Başlatma
 ```bash
@@ -471,7 +475,7 @@ mvn clean package -DskipTests
 
 - **Gerçek Ödeme Sağlayıcı Entegrasyonu:** `BillingController` mock servislerinin Stripe / Iyzico webhook altyapısına bağlanması.
 - **E-posta Servis Sağlayıcısı:** Mock OTP akışının AWS SES / SendGrid / Resend API ile canlı e-posta gönderimine bağlanması.
-- **Veritabanı Migration:** Production veritabanı şema güncellemeleri için Flyway veya Liquibase entegrasyonu.
+- **Veritabanı Migration:** Flyway kalıcı tüm ortamlarda tek şema yönetim yoludur; yeni şema değişiklikleri `backend/src/main/resources/db/migration` altında migration olarak eklenmelidir.
 - **Push Bildirimleri:** Arkadaş testi tamamlandığında sahibe web-push veya e-posta anlık bildirimi gönderilmesi.
 
 ---

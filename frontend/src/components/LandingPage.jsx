@@ -1,25 +1,35 @@
-import React, { memo } from "react";
+import React, { memo, useEffect } from "react";
 import { SiteHeader } from "./site-header";
-import { SiteFooter } from "./site-footer";
-import LandingHeroSection from "../pages/landing/LandingHeroSection";
-import LandingHowItWorks from "../pages/landing/LandingHowItWorks";
-import LandingFeatures from "../pages/landing/LandingFeatures";
-import LandingArchetypesShowcase from "../pages/landing/LandingArchetypesShowcase";
-import LandingFaqPricing from "../pages/landing/LandingFaqPricing";
+import { Hero } from "./hero";
+import WatercolorBackground from "./WatercolorBackground";
+import LandingBelowFold from "../pages/landing/LandingBelowFold";
 import "../pages/landing/LandingPage.css";
 
 const LandingPage = memo(function LandingPage({ onStartClick, onLoginClick }) {
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash;
+      if (hash && (hash.includes("nasil-calisir") || hash.includes("baglamlar") || hash.includes("ornek") || hash.includes("teklif"))) {
+        const targetId = hash.replace(/^#\/?/, "");
+        const el = document.getElementById(targetId);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    };
+    handleHash();
+    window.addEventListener("hashchange", handleHash);
+    return () => window.removeEventListener("hashchange", handleHash);
+  }, []);
+
   return (
-    <div className="paper-wash min-h-screen bg-background text-foreground seenly-landing-wrapper">
+    <div className="landing-watercolor watercolor-page min-h-screen bg-background text-foreground">
+      <WatercolorBackground />
       <SiteHeader onStartClick={onStartClick} onLoginClick={onLoginClick} />
       <main>
-        <LandingHeroSection onStartClick={onStartClick} onLoginClick={onLoginClick} />
-        <LandingHowItWorks />
-        <LandingFeatures />
-        <LandingArchetypesShowcase />
-        <LandingFaqPricing onStartClick={onStartClick} />
+        <Hero onStartClick={onStartClick} onLoginClick={onLoginClick} />
+        <LandingBelowFold onStartClick={onStartClick} />
       </main>
-      <SiteFooter />
     </div>
   );
 });

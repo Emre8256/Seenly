@@ -68,7 +68,7 @@ export const LockedMask = memo(function LockedMask({ title, description, respons
         <div className="inline-flex items-center gap-2 bg-[#F4EFE6] border border-[rgba(197,160,89,0.28)] px-4 py-2 rounded-full font-sans text-[0.82rem] sm:text-[0.86rem] font-bold text-[#1A3E72] shadow-xs">
           <span>🔒</span>
           <span>{responseCount} / {targetCount}</span>
-          <span className="opacity-70 font-normal">
+          <span className="opacity-90 font-normal">
             {langCode === 'tr' ? 'Yanıt Toplandı' : 'Responses Received'}
           </span>
         </div>

@@ -31,18 +31,18 @@ const IdentityDetailModal = memo(function IdentityDetailModal({
 
   return createPortal(
     <div
-      className="fixed inset-0 bg-[#0A1118]/65 backdrop-blur-md z-[9999] flex items-center justify-center p-3.5 sm:p-6 md:p-8 animate-fade-in"
+      className="fixed inset-0 bg-[#0A1118]/65 z-[9999] flex items-center justify-center p-3.5 sm:p-6 md:p-8 animate-fade-in"
       onClick={() => setSelectedCard(null)}
     >
       <div
-        className="bg-[#FDFBF4] border border-[rgba(197,160,89,0.35)] shadow-[0_28px_80px_rgba(20,15,10,0.25)] rounded-[26px] sm:rounded-[34px] w-full max-w-[800px] relative max-h-[90vh] flex flex-col overflow-hidden animate-scale-in"
+        className="bg-[#FDFBF4] border border-[rgba(197,160,89,0.35)] rounded-[26px] sm:rounded-[34px] w-full max-w-[800px] relative max-h-[90vh] flex flex-col overflow-hidden animate-scale-in"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
           type="button"
           onClick={() => setSelectedCard(null)}
-          className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 bg-white/90 hover:bg-white shadow-sm text-[#786C5E] hover:text-[#1A3E72] w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center transition-colors z-50 border border-[rgba(197,160,89,0.25)] cursor-pointer"
+          className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 bg-white/90 hover:bg-white text-[#786C5E] hover:text-[#1A3E72] w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center transition-colors z-50 border border-[rgba(197,160,89,0.25)] cursor-pointer"
           aria-label={langCode === 'tr' ? 'Kapat' : 'Close'}
         >
           <span className="text-sm sm:text-base font-bold">✕</span>
@@ -51,7 +51,7 @@ const IdentityDetailModal = memo(function IdentityDetailModal({
         <div className="overflow-y-auto p-5 sm:p-8 md:p-9 flex flex-col md:grid md:grid-cols-[1fr_1.2fr] gap-6 sm:gap-8 w-full h-full box-border">
           {/* Left Column: Visual Artwork Frame */}
           <div className="flex flex-col items-center justify-center w-full">
-            <div className="relative w-full max-w-[240px] sm:max-w-[280px] md:max-w-none aspect-[4/5] overflow-hidden rounded-[20px] sm:rounded-[24px] bg-[#FDFBF4] shadow-[0_12px_36px_rgba(80,60,40,0.14)] border border-[rgba(197,160,89,0.25)]">
+            <div className="relative w-full max-w-[240px] sm:max-w-[280px] md:max-w-none aspect-[4/5] overflow-hidden rounded-[20px] sm:rounded-[24px] bg-[#FDFBF4] border border-[rgba(197,160,89,0.25)]">
               <WatercolorStain
                 name={`modal-stain-${selectedCard.id}`}
                 hue={cardFamily === 'stratega' ? 'lilac' : (cardFamily === 'imperia' ? 'clay' : (cardFamily === 'aura' ? 'peach' : (cardFamily === 'porta' ? 'gold' : 'peach')))}

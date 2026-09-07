@@ -2,11 +2,10 @@ package com.seenly.backend.service;
 
 import com.seenly.backend.constant.AppConstants;
 import com.seenly.backend.entity.SelfAnswer;
-import com.seenly.backend.entity.FriendResponse;
 import com.seenly.backend.entity.ResultSnapshot;
 import com.seenly.backend.entity.Seenly;
-import com.seenly.backend.entity.ResponseSession;
 import com.seenly.backend.repository.ResultSnapshotRepository;
+import com.seenly.backend.repository.FriendResponseRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,6 +20,7 @@ public class ScoringEngineService {
 
     private final ResultSnapshotRepository snapshotRepository;
     private final CardRarityService cardRarityService;
+    private final FriendResponseRepository friendResponseRepository;
 
     /**
      * Normalizes a 1-5 answer to a 0.0-1.0 range.
@@ -91,17 +91,8 @@ public class ScoringEngineService {
             return;
         }
 
-        // Aggregate friend answers
-        List<FriendResponse> allFriendResponses = new ArrayList<>();
-        if (seenly.getResponseSessions() != null) {
-            for (ResponseSession session : seenly.getResponseSessions()) {
-                if (session.getResponses() != null) {
-                    allFriendResponses.addAll(session.getResponses());
-                }
-            }
-        }
-
-        Map<String, Double> outsideLenses = calculateFriendLensAverages(allFriendResponses);
+        Map<String, Double> outsideLenses = calculateFriendLensAverages(
+            friendResponseRepository.findAnswerAveragesBySeenlyId(seenly.getId()));
         String outsideFamilyId = determineSocialFamily(outsideLenses);
         String outsideSignatureId = determineSocialSignature(outsideLenses, outsideFamilyId);
 
@@ -161,31 +152,24 @@ public class ScoringEngineService {
         return averages;
     }
 
-    private Map<String, Double> calculateFriendLensAverages(List<FriendResponse> answers) {
-        Map<String, List<Double>> lensValues = new HashMap<>();
+    private Map<String, Double> calculateFriendLensAverages(
+            List<FriendResponseRepository.AnswerAverage> answers) {
+        Map<String, Double> lensValues = new HashMap<>();
         for (String lens : AppConstants.LENSES) {
-            lensValues.put(lens, new ArrayList<>());
+            lensValues.put(lens, 0.5);
         }
 
-        for (FriendResponse answer : answers) {
+        for (FriendResponseRepository.AnswerAverage answer : answers) {
             String lens = extractLensFromQuestionId(answer.getQuestionId());
             if (lensValues.containsKey(lens)) {
-                lensValues.get(lens).add(normalizeAnswer(answer.getAnswerValue()));
+                lensValues.put(lens, normalizeAverage(answer.getAverageValue()));
             }
         }
+        return lensValues;
+    }
 
-        Map<String, Double> averages = new HashMap<>();
-        for (String lens : AppConstants.LENSES) {
-            List<Double> vals = lensValues.get(lens);
-            if (vals.isEmpty()) {
-                averages.put(lens, 0.5); // neutral fallback
-            } else {
-                double sum = 0.0;
-                for (double v : vals) sum += v;
-                averages.put(lens, sum / vals.size());
-            }
-        }
-        return averages;
+    private double normalizeAverage(Double averageValue) {
+        return averageValue == null ? 0.5 : (averageValue - 1.0) / 4.0;
     }
 
     public String determineSocialFamily(Map<String, Double> lensScores) {

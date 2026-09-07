@@ -214,9 +214,7 @@ export default function FriendIntroPage({ slug, onStart }) {
   }
 
   const responseCount = snapshot?.responseCount || 0;
-  const isPremium = snapshot?.isPremium || snapshot?.premium || false;
-  const maxResponseLimit = snapshot?.maxResponseLimit ?? 100;
-  const isCapped = !isPremium && (responseCount >= maxResponseLimit);
+  const isCapped = snapshot?.acceptingResponses === false;
   const isLoggedIn = !!localStorage.getItem('seenly_owner_token');
 
   const activeOutsideSignatureId = calculatePersonalityCard(snapshot?.friendAverages || {});

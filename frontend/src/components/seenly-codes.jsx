@@ -1,4 +1,3 @@
-import { Reveal } from "./reveal"
 import { WatercolorStain } from "./marks"
 import { useLocale } from "../context/LocaleContext"
 import codesImg from "../images/landing/codes.avif"
@@ -20,13 +19,13 @@ export function SeenlyCodes() {
       <WatercolorStain
         name="codes-clay"
         hue="clay"
-        seed={31}
+        seed={2}
         intensity={0.12}
         className="right-[-8%] bottom-[-6%] h-[28rem] w-[28rem]"
       />
       <div className="above-surface mx-auto max-w-[1180px] px-5 py-14 sm:px-8 md:py-20">
-        <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
-          <Reveal>
+        <div className="grid items-center gap-y-10 gap-x-14 lg:grid-cols-2 lg:gap-20">
+          <div className="lg:col-start-1 lg:row-start-1">
             <p className="font-mono text-[0.7rem] uppercase tracking-[0.34em] text-clay">
               {t("ui", "landing_codes_tag") || "Koleksiyon"}
             </p>
@@ -36,30 +35,35 @@ export function SeenlyCodes() {
             <p className="mt-5 max-w-md text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
               {t("ui", "landing_codes_desc") || "Seenly sonuçları yalnızca bir açıklama değil; paylaşılabilir bir kimlik ve keşfedilecek bir koleksiyon parçası sunar."}
             </p>
+          </div>
 
-            {/* Mobile Image: displayed above cards grid on mobile, hidden on desktop */}
-            <div className="lg:hidden my-6 mx-auto max-w-[280px] w-full relative">
-              <WatercolorStain
-                name="codes-gold-mobile"
-                hue="gold"
-                seed={12}
-                intensity={0.2}
-                className="-left-6 -top-6 h-[112%] w-[112%]"
+          {/* Single responsive image element - positioned on right on desktop, between title and cards on mobile */}
+          <div className="relative mx-auto max-w-[280px] sm:max-w-none w-full lg:col-start-2 lg:row-start-1 lg:row-span-2">
+            <WatercolorStain
+              name="codes-gold"
+              hue="gold"
+              seed={12}
+              intensity={0.2}
+              className="-left-6 -top-6 h-[112%] w-[112%]"
+            />
+            <div className="integrated-art mask-organic-2 shadow-contact paper-panel relative lg:-mr-5 overflow-hidden p-0">
+              <img
+                src={codesImg}
+                loading="lazy"
+                decoding="async"
+                width="880"
+                height="880"
+                alt="Altın çerçeveli koleksiyon kartları halinde sunulan Seenly kodlarının suluboya illüstrasyonu"
+                className="soft-image-edge aspect-square w-full object-cover mask-organic-2"
               />
-              <div className="integrated-art mask-organic-2 shadow-contact paper-panel overflow-hidden p-0">
-                <img
-                  src={codesImg}
-                  alt="Altın çerçeveli koleksiyon kartları halinde sunulan Seenly kodlarının suluboya illüstrasyonu"
-                  className="soft-image-edge aspect-square w-full object-cover mask-organic-2"
-                />
-              </div>
             </div>
+          </div>
 
-            <div className="mt-9 grid grid-cols-2 gap-3 sm:grid-cols-3">
-              {codes.map((item, i) => (
-                <Reveal
+          <div className="lg:col-start-1 lg:row-start-2">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {codes.map((item) => (
+                <div
                   key={item.code}
-                  delay={i * 70}
                   className={`group rounded-lg border bg-card/60 p-4 transition-all duration-500 hover:-translate-y-1 hover:bg-card ${item.b}`}
                 >
                   <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
@@ -70,7 +74,7 @@ export function SeenlyCodes() {
                   >
                     {item.name}
                   </p>
-                </Reveal>
+                </div>
               ))}
             </div>
 
@@ -90,24 +94,7 @@ export function SeenlyCodes() {
                 </span>
               </a>
             </div>
-          </Reveal>
-
-          <Reveal delay={120} className="hidden lg:block relative mx-auto max-w-[280px] sm:max-w-none w-full">
-            <WatercolorStain
-              name="codes-gold"
-              hue="gold"
-              seed={12}
-              intensity={0.2}
-              className="-left-6 -top-6 h-[112%] w-[112%]"
-            />
-            <div className="integrated-art mask-organic-2 shadow-contact paper-panel relative -mr-5 overflow-hidden p-0">
-              <img
-                src={codesImg}
-                alt="Altın çerçeveli koleksiyon kartları halinde sunulan Seenly kodlarının suluboya illüstrasyonu"
-                className="soft-image-edge aspect-square w-full object-cover mask-organic-2"
-              />
-            </div>
-          </Reveal>
+          </div>
         </div>
       </div>
     </section>

@@ -1,5 +1,121 @@
 /* QuizPage Custom & Modular Styles */
 
+/* Authentication owns one scroll area inside the actual visible viewport. */
+.seenly-wizard-wrapper.seenly-auth-viewport {
+  position: fixed;
+  inset: var(--auth-top, 0px) 0 auto;
+  width: 100%;
+  height: var(--auth-height, 100dvh);
+  min-height: 0;
+  padding: 20px !important;
+}
+
+.seenly-auth-viewport .seenly-wizard-container {
+  width: min(100%, 520px);
+  height: min(660px, 100%);
+  min-height: 0;
+  max-height: 100%;
+}
+
+.seenly-auth-viewport .seenly-wizard-header {
+  padding: 12px 16px 8px !important;
+  min-height: 64px !important;
+}
+
+.seenly-auth-viewport .seenly-wizard-back-btn,
+.seenly-auth-viewport .lang-dropdown-trigger {
+  min-width: 44px;
+  min-height: 44px !important;
+  height: 44px !important;
+}
+
+.seenly-auth-viewport .seenly-wizard-body {
+  flex: 1 1 0;
+  height: auto !important;
+  min-height: 0;
+  justify-content: flex-start !important;
+  padding: 20px 24px max(20px, env(safe-area-inset-bottom)) !important;
+  gap: 24px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-padding-block: 16px;
+}
+
+.seenly-auth-viewport .seenly-wizard-content {
+  flex: 0 0 auto !important;
+  width: 100%;
+  max-width: 400px !important;
+  margin: auto 0 !important;
+  gap: 12px;
+  overflow-wrap: anywhere;
+}
+
+.seenly-auth-viewport .seenly-wizard-footer-action {
+  position: static;
+  width: 100%;
+  max-width: 400px;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0 !important;
+}
+
+.seenly-auth-viewport .seenly-wizard-primary-btn {
+  min-height: 48px !important;
+  height: auto;
+  white-space: normal;
+  padding: 12px 20px;
+}
+
+.seenly-auth-viewport input {
+  min-width: 0;
+  min-height: 48px !important;
+  font-size: max(16px, 1em) !important;
+  scroll-margin-block: 16px;
+}
+
+.seenly-auth-viewport button:focus-visible {
+  outline: 2px solid var(--color-deep-ink);
+  outline-offset: 3px;
+}
+
+.seenly-auth-viewport[data-compact='true'] .seenly-wizard-circle-icon {
+  display: none !important;
+}
+
+.seenly-auth-viewport[data-compact='true'] .seenly-wizard-content {
+  margin: 0 !important;
+  gap: 8px !important;
+}
+
+.seenly-auth-viewport[data-compact='true'] .seenly-wizard-content > p {
+  margin-bottom: 8px !important;
+}
+
+.seenly-auth-viewport[data-compact='true'] .seenly-wizard-body {
+  gap: 16px;
+  padding-top: 8px !important;
+}
+
+@media (max-width: 640px) {
+  .seenly-wizard-wrapper.seenly-auth-viewport {
+    padding: 0 !important;
+  }
+  .seenly-auth-viewport .seenly-wizard-container {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+  .seenly-auth-viewport .seenly-wizard-header {
+    padding-top: max(8px, env(safe-area-inset-top)) !important;
+    padding-left: max(16px, env(safe-area-inset-left)) !important;
+    padding-right: max(16px, env(safe-area-inset-right)) !important;
+  }
+  .seenly-auth-viewport .seenly-wizard-body {
+    padding-left: max(16px, env(safe-area-inset-left)) !important;
+    padding-right: max(16px, env(safe-area-inset-right)) !important;
+  }
+}
+
 @keyframes loadingProgress {
   0% { left: -50%; }
   100% { left: 100%; }

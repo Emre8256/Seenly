@@ -138,6 +138,8 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
               <div className="seenly-wizard-input-container" style={{ width: '100%', margin: '0.2rem 0 0 0' }}>
                 <input
                   type="email"
+                  aria-label={locale === 'tr' ? 'E-posta adresi' : 'Email address'}
+                  enterKeyHint="go"
                   inputMode="email"
                   autoComplete="email"
                   autoCapitalize="none"
@@ -151,7 +153,6 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
                     if (authFlowNotification?.status) setAuthFlowNotification?.({ message: '', status: '' });
                   }}
                   required
-                  autoFocus
                   className="seenly-wizard-input"
                   style={{
                     width: '100%',

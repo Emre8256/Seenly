@@ -12,6 +12,7 @@ import QuizQuestionsRunner from './quiz/QuizQuestionsRunner';
 import QuizSelfResultCard from './quiz/QuizSelfResultCard';
 import QuizAuthClaimModal from './quiz/QuizAuthClaimModal';
 import './quiz/QuizPage.css';
+import useAuthViewport from './quiz/useAuthViewport';
 
 const SIGNATURE_IMAGES = CARD_IMAGES;
 
@@ -119,7 +120,7 @@ const calculatePersonalityCard = (answersOrScores) => {
   return bestCard || 'the_safe_haven';
 };
 
-export default function QuizPage({ onComplete }) {
+export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
   const { locale, setLocale, t, getObject } = useLocale();
   const langCode = locale;
   const [langOpen, setLangOpen] = useState(false);
@@ -181,6 +182,7 @@ export default function QuizPage({ onComplete }) {
   const [verificationCode, setVerificationCode] = useState(Array(4).fill(''));
   const [isEmailSending, setIsEmailSending] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
+  const [registrationGrant, setRegistrationGrant] = useState(() => sessionStorage.getItem('seenly_registration_grant') || '');
   const inputRefs = useRef([]);
 
   // Post-quiz verification flow state
@@ -199,6 +201,12 @@ export default function QuizPage({ onComplete }) {
   const [currentIndex, setCurrentIndex] = useState(() => {
     return Number(sessionStorage.getItem('seenly_currentIndex') || -1);
   });
+  const isAuthStep = [-2, -4, -5, -6, -10, -11].includes(currentIndex);
+  const authViewportRef = useAuthViewport(isAuthStep);
+
+  useEffect(() => {
+    onLandingVisibilityChange?.(currentIndex === -1);
+  }, [currentIndex, onLandingVisibilityChange]);
 
   const [selectedAvatar, setSelectedAvatar] = useState(() => {
     return sessionStorage.getItem('seenly_avatar') || localStorage.getItem('seenly_avatar') || 'kadin1';
@@ -227,6 +235,8 @@ export default function QuizPage({ onComplete }) {
     setSelectedAvatar('kadin1');
     setAvatarFilter('all');
     setVerificationCode(Array(4).fill(''));
+    setRegistrationGrant('');
+    sessionStorage.removeItem('seenly_registration_grant');
     setPostQuizOtp(Array(4).fill(''));
     setAuthFlowNotification({ message: '', status: '' });
     setEmailValidationError('');
@@ -345,7 +355,7 @@ export default function QuizPage({ onComplete }) {
     }
   }, [quizResult, onComplete, currentIndex, resetOnboardingState]);
 
-  const handleSubmitQuiz = useCallback(async (bypassFullscreen = false) => {
+  const handleSubmitQuiz = useCallback(async (bypassFullscreen = false, grantOverride = '') => {
     if (!bypassFullscreen) {
       setIsSubmitting(true);
     }
@@ -357,7 +367,7 @@ export default function QuizPage({ onComplete }) {
     }));
 
     try {
-      const response = await createSeenly(displayName, email.trim(), selfAnswersPayload);
+      const response = await createSeenly(displayName, email.trim(), selfAnswersPayload, grantOverride || registrationGrant);
 
       localStorage.setItem('seenly_owner_token', response.ownerToken);
       if (response.publicSlug) {
@@ -383,6 +393,7 @@ export default function QuizPage({ onComplete }) {
       sessionStorage.removeItem('seenly_avatar');
       sessionStorage.removeItem('seenly_currentIndex');
       sessionStorage.removeItem('seenly_selectedLang');
+      sessionStorage.removeItem('seenly_registration_grant');
 
       setQuizResult(response);
       if (!bypassFullscreen) {
@@ -395,7 +406,7 @@ export default function QuizPage({ onComplete }) {
       }
       throw err;
     }
-  }, [answers, displayName, email, selectedAvatar]);
+  }, [answers, displayName, email, selectedAvatar, registrationGrant]);
 
   const handleSendCode = useCallback(async () => {
     if (resendTimer > 0) return;
@@ -409,7 +420,8 @@ export default function QuizPage({ onComplete }) {
     setErrorMessage('');
     setAuthFlowNotification({ message: '', status: '' });
     try {
-      await sendVerificationCode(trimmedEmail, isQuickLogin);
+      await sendVerificationCode(trimmedEmail, isQuickLogin ? 'LOGIN' : 'REGISTER');
+      setEmail(trimmedEmail);
       setVerificationCode(Array(4).fill(''));
       setResendTimer(60);
       setCurrentIndex(-6);
@@ -442,13 +454,15 @@ export default function QuizPage({ onComplete }) {
   }, [resendTimer, email, isValidEmail, t, isQuickLogin, langCode]);
 
   const handleCodeDigitChange = useCallback((element, index) => {
-    const val = element.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+    const val = element.value.replace(/\D/g, '');
     const newCode = [...verificationCode];
     newCode[index] = val ? val.substring(val.length - 1) : '';
     setVerificationCode(newCode);
 
     if (val && index < 3 && inputRefs.current[index + 1]) {
       inputRefs.current[index + 1].focus();
+    } else if (val && index === 3) {
+      element.blur();
     }
   }, [verificationCode]);
 
@@ -460,7 +474,7 @@ export default function QuizPage({ onComplete }) {
 
   const handleCodePaste = useCallback((e) => {
     e.preventDefault();
-    const pasteText = e.clipboardData.getData('text').replace(/[^A-Za-z0-9]/g, '').toUpperCase().substring(0, 4);
+    const pasteText = e.clipboardData.getData('text').replace(/\D/g, '').substring(0, 4);
     if (pasteText.length === 4) {
       const digits = pasteText.split('');
       setVerificationCode(digits);
@@ -493,7 +507,9 @@ export default function QuizPage({ onComplete }) {
           onComplete(response.ownerToken);
         }
       } else {
-        await verifyCode(email, fullCode);
+        const response = await verifyCode(email, fullCode, 'REGISTER');
+        setRegistrationGrant(response.verificationGrant);
+        sessionStorage.setItem('seenly_registration_grant', response.verificationGrant);
         setCurrentIndex(-2);
       }
     } catch (err) {
@@ -508,13 +524,15 @@ export default function QuizPage({ onComplete }) {
   }, [verificationCode, isQuickLogin, email, onComplete, langCode]);
 
   const handlePostQuizOtpDigitChange = useCallback((element, index) => {
-    const val = element.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+    const val = element.value.replace(/\D/g, '');
     const newCode = [...postQuizOtp];
     newCode[index] = val ? val.substring(val.length - 1) : '';
     setPostQuizOtp(newCode);
 
     if (val && index < 3 && postQuizOtpRefs.current[index + 1]) {
       postQuizOtpRefs.current[index + 1].focus();
+    } else if (val && index === 3) {
+      element.blur();
     }
   }, [postQuizOtp]);
 
@@ -526,7 +544,7 @@ export default function QuizPage({ onComplete }) {
 
   const handlePostQuizOtpPaste = useCallback((e) => {
     e.preventDefault();
-    const pasteText = e.clipboardData.getData('text').replace(/[^A-Za-z0-9]/g, '').toUpperCase().substring(0, 4);
+    const pasteText = e.clipboardData.getData('text').replace(/\D/g, '').substring(0, 4);
     if (pasteText.length === 4) {
       const digits = pasteText.split('');
       setPostQuizOtp(digits);
@@ -548,13 +566,17 @@ export default function QuizPage({ onComplete }) {
     setErrorMessage('');
     setAuthFlowNotification({ message: '', status: '' });
     try {
-      await sendVerificationCode(trimmedEmail, false);
+      await sendVerificationCode(trimmedEmail, 'REGISTER');
+      setEmail(trimmedEmail);
       setPostQuizOtp(Array(4).fill(''));
       setResendTimer(60);
       setAuthFlowNotification({
         message: t('ui', 'auth_notification_sent') || 'Doğrulama kodu gönderildi.',
         status: 'success'
       });
+      // Change the flow state only after the send endpoint has accepted the
+      // request. This is the source of truth used by QuizAuthClaimModal to
+      // render the OTP screen.
       setCurrentIndex(-11);
     } catch (err) {
       if (err.status === 409) {
@@ -583,12 +605,14 @@ export default function QuizPage({ onComplete }) {
     setAuthFlowNotification({ message: '', status: '' });
     const fullCode = postQuizOtp.join('');
     try {
-      await verifyCode(email, fullCode);
+      const response = await verifyCode(email, fullCode, 'REGISTER');
+      setRegistrationGrant(response.verificationGrant);
+      sessionStorage.setItem('seenly_registration_grant', response.verificationGrant);
       setAuthFlowNotification({
         message: t('ui', 'auth_notification_success') || 'Doğrulandı.',
         status: 'success'
       });
-      await handleSubmitQuiz(true);
+      await handleSubmitQuiz(true, response.verificationGrant);
     } catch (err) {
       const msg = (err.status === 400 || err.status === 404)
         ? (langCode === 'tr' ? 'Doğrulama kodu hatalı veya süresi dolmuş. Lütfen tekrar deneyin.' : 'Verification code is invalid or expired. Please try again.')
@@ -603,17 +627,7 @@ export default function QuizPage({ onComplete }) {
     }
   }, [postQuizOtp, email, handleSubmitQuiz, t, langCode]);
 
-  useEffect(() => {
-    if (currentIndex === -6 && inputRefs.current[0]) {
-      inputRefs.current[0].focus();
-    }
-  }, [currentIndex]);
 
-  useEffect(() => {
-    if (currentIndex === -11 && postQuizOtpRefs.current[0]) {
-      postQuizOtpRefs.current[0].focus();
-    }
-  }, [currentIndex]);
 
   let progressPercentage = 0;
   if (quizResult) {
@@ -692,7 +706,7 @@ export default function QuizPage({ onComplete }) {
     const cardRarity = getCardRarityData(signatureId, quizResult?.resultSnapshot?.selfRarity, locale);
 
     return (
-      <div className="seenly-wizard-wrapper" style={{ padding: 0 }}>
+      <div ref={authViewportRef} className={`seenly-wizard-wrapper ${isAuthStep ? 'seenly-auth-viewport' : ''}`} style={{ padding: 0 }}>
         <div className={`seenly-wizard-container ${!isPostQuizFlow ? 'seenly-result-wizard-container' : ''}`}>
           {/* Wizard Header */}
           <header
@@ -823,31 +837,16 @@ export default function QuizPage({ onComplete }) {
   }
 
   return (
-    <div className="seenly-wizard-wrapper">
+    <div ref={authViewportRef} className={`seenly-wizard-wrapper ${isAuthStep ? 'seenly-auth-viewport' : ''}`}>
       <div className="seenly-wizard-container">
         {/* Wizard Header */}
-        <header
-          className="seenly-wizard-header"
-          style={currentIndex === -5 || currentIndex === -6 ? { display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '0.5rem', padding: '1.5rem 1.25rem 0.5rem 1.25rem' } : {}}
-        >
+        <header className="seenly-wizard-header">
           <button
             type="button"
             className="seenly-wizard-back-btn"
             onClick={handleGoBack}
             aria-label={locale === 'tr' ? 'Geri' : 'Back'}
             title={locale === 'tr' ? 'Geri' : 'Back'}
-            style={currentIndex === -5 || currentIndex === -6 ? {
-              width: '44px',
-              height: '44px',
-              borderRadius: '50%',
-              backgroundColor: 'rgba(11, 27, 44, 0.05)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'var(--color-deep-ink)',
-              transition: 'all 0.2s',
-              flexShrink: 0
-            } : {}}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="19" y1="12" x2="5" y2="12" />
