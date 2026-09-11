@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useLocale } from '../context/LocaleContext';
 
 export default function LocaleSwitch({ mobile = false }) {
-  const { locale, setLocale } = useLocale();
+  const { locale, setLocale, supportedLocales, t } = useLocale();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -28,7 +28,7 @@ export default function LocaleSwitch({ mobile = false }) {
         type="button"
         className="locale-globe-btn"
         onClick={() => setIsOpen(!isOpen)}
-        aria-label="Select Language"
+        aria-label={t('accessibility.languageSelector')}
         style={mobile ? {
           height: '36px',
           width: '36px',
@@ -150,76 +150,47 @@ export default function LocaleSwitch({ mobile = false }) {
             boxSizing: 'border-box'
           }}
         >
-          <button
-            type="button"
-            onClick={() => handleSelect('tr')}
-            style={{
-              padding: '8px 12px',
-              border: 'none',
-              borderRadius: '10px',
-              backgroundColor: locale === 'tr' ? 'rgba(217, 106, 83, 0.08)' : 'transparent',
-              color: locale === 'tr' ? 'var(--color-burnt-coral)' : 'var(--color-deep-ink)',
-              fontFamily: 'var(--font-sans), sans-serif',
-              fontWeight: locale === 'tr' ? '700' : '500',
-              fontSize: '0.82rem',
-              textAlign: 'left',
-              cursor: 'pointer',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              transition: 'all 0.2s ease'
-            }}
-            onMouseEnter={(e) => {
-              if (locale !== 'tr') e.currentTarget.style.backgroundColor = 'rgba(217, 106, 83, 0.03)';
-            }}
-            onMouseLeave={(e) => {
-              if (locale !== 'tr') e.currentTarget.style.backgroundColor = 'transparent';
-            }}
-          >
-            <span>TR</span>
-            {locale === 'tr' && (
-              <span style={{ color: 'var(--color-burnt-coral)', display: 'flex', alignItems: 'center' }}>
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </span>
-            )}
-          </button>
-          <button
-            type="button"
-            onClick={() => handleSelect('en')}
-            style={{
-              padding: '8px 12px',
-              border: 'none',
-              borderRadius: '10px',
-              backgroundColor: locale === 'en' ? 'rgba(217, 106, 83, 0.08)' : 'transparent',
-              color: locale === 'en' ? 'var(--color-burnt-coral)' : 'var(--color-deep-ink)',
-              fontFamily: 'var(--font-sans), sans-serif',
-              fontWeight: locale === 'en' ? '700' : '500',
-              fontSize: '0.82rem',
-              textAlign: 'left',
-              cursor: 'pointer',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              transition: 'all 0.2s ease'
-            }}
-            onMouseEnter={(e) => {
-              if (locale !== 'en') e.currentTarget.style.backgroundColor = 'rgba(217, 106, 83, 0.03)';
-            }}
-            onMouseLeave={(e) => {
-              if (locale !== 'en') e.currentTarget.style.backgroundColor = 'transparent';
-            }}
-          >
-            <span>EN</span>
-            {locale === 'en' && (
-              <span style={{ color: 'var(--color-burnt-coral)', display: 'flex', alignItems: 'center' }}>
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </span>
-            )}
-          </button>
+          {supportedLocales.map((loc) => {
+            const isSelected = locale === loc.code;
+            return (
+              <button
+                key={loc.code}
+                type="button"
+                onClick={() => handleSelect(loc.code)}
+                style={{
+                  padding: '8px 12px',
+                  border: 'none',
+                  borderRadius: '10px',
+                  backgroundColor: isSelected ? 'rgba(217, 106, 83, 0.08)' : 'transparent',
+                  color: isSelected ? 'var(--color-burnt-coral)' : 'var(--color-deep-ink)',
+                  fontFamily: 'var(--font-sans), sans-serif',
+                  fontWeight: isSelected ? '700' : '500',
+                  fontSize: '0.82rem',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  if (!isSelected) e.currentTarget.style.backgroundColor = 'rgba(217, 106, 83, 0.03)';
+                }}
+                onMouseLeave={(e) => {
+                  if (!isSelected) e.currentTarget.style.backgroundColor = 'transparent';
+                }}
+              >
+                <span>{loc.code.toUpperCase()}</span>
+                {isSelected && (
+                  <span style={{ color: 'var(--color-burnt-coral)', display: 'flex', alignItems: 'center' }}>
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
       )}
     </div>

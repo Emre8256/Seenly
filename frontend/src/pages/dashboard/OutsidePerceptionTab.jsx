@@ -129,7 +129,7 @@ const OutsidePerceptionTab = memo(function OutsidePerceptionTab({
                       letterSpacing: '0.02em'
                     }}
                   >
-                    <span>{langCode === 'tr' ? 'Detaylı Analizi Gör' : 'View Detailed Analysis'}</span>
+                    <span>{t('dashboard.outside.viewDetailed')}</span>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" className="ml-1 flex-shrink-0 opacity-95">
                       <path d="M5 12h14M12 5l7 7-7 7" />
                     </svg>
@@ -146,7 +146,7 @@ const OutsidePerceptionTab = memo(function OutsidePerceptionTab({
                       border: '1px solid rgba(26, 62, 114, 0.16)',
                       boxShadow: '0 4px 14px rgba(26, 62, 114, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04)'
                     }}
-                    title={langCode === 'tr' ? "Paylaş" : "Share"}
+                    title={t('common.share')}
                   >
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M4 12v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6" />
@@ -154,31 +154,6 @@ const OutsidePerceptionTab = memo(function OutsidePerceptionTab({
                       <line x1="12" y1="2" x2="12" y2="15" />
                     </svg>
                   </a>
-
-                  {/* Bookmark / Instagram Story Button */}
-                  <button
-                    type="button"
-                    onClick={() => handleDashboardInstagramStory(outsideSignatureName, SIGNATURE_IMAGES[activeOutsideSignatureId])}
-                    disabled={isGenerating}
-                    className="w-[42px] sm:w-[46px] h-[42px] sm:h-[46px] rounded-[14px] sm:rounded-[16px] flex items-center justify-center text-[#1A3E72] transition-all duration-200 flex-shrink-0 hover:bg-[#F4F7FC] hover:border-[rgba(26,62,114,0.35)] hover:shadow-md hover:-translate-y-0.5 cursor-pointer"
-                    style={{
-                      background: '#FFFFFF',
-                      border: '1px solid rgba(26, 62, 114, 0.16)',
-                      boxShadow: '0 4px 14px rgba(26, 62, 114, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04)',
-                      opacity: isGenerating ? 0.5 : 1
-                    }}
-                    title={langCode === 'tr' ? "Kaydet / Hikaye Oluştur" : "Save / Create Story"}
-                  >
-                    {isGenerating ? (
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ animation: 'spin 1s linear infinite' }}>
-                        <path d="M21 12a9 9 0 1 1-6.219-8.56" />
-                      </svg>
-                    ) : (
-                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
-                      </svg>
-                    )}
-                  </button>
                 </div>
               </div>
             </div>
@@ -194,8 +169,8 @@ const OutsidePerceptionTab = memo(function OutsidePerceptionTab({
       ) : (
         <div className="seenly-dashboard-locked-state" style={{ width: '100%' }}>
           <LockedMask
-            title={t('ui', 'locked_section_title')}
-            description={t('ui', 'locked_section_outside_desc')}
+            title={t('dashboard.lockedSectionTitle')}
+            description={t('dashboard.lockedSectionOutsideDesc')}
             responseCount={responseCount}
             targetCount={3}
             langCode={langCode}

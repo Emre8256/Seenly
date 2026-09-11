@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import { Info, Lock } from 'lucide-react';
 import SignalBadgeIcon from '../../components/SignalBadgeIcon';
+import { useLocale } from '../../context/LocaleContext';
 
 export const TabInfoNotice = memo(function TabInfoNotice({ icon: Icon = Info, children }) {
   return (
@@ -15,7 +16,18 @@ export const TabInfoNotice = memo(function TabInfoNotice({ icon: Icon = Info, ch
   );
 });
 
-export const LockedMask = memo(function LockedMask({ title, description, responseCount, targetCount, langCode }) {
+export const LockedMask = memo(function LockedMask({
+  title,
+  description,
+  responseCount,
+  targetCount = 3,
+  langCode: propLangCode,
+  showProgress = true,
+  actionButton = null
+}) {
+  const { t, locale } = useLocale();
+  const tr = (key, vars) => t(key, vars, propLangCode || locale);
+
   return (
     <div
       className="seenly-dashboard-locked-mask p-6 sm:p-12 md:p-14 text-center w-full min-h-[320px] sm:min-h-[360px] flex flex-col items-center justify-center relative overflow-hidden box-border rounded-[24px] sm:rounded-[32px]"
@@ -65,19 +77,30 @@ export const LockedMask = memo(function LockedMask({ title, description, respons
         </p>
 
         {/* Progress pill indicator */}
-        <div className="inline-flex items-center gap-2 bg-[#F4EFE6] border border-[rgba(197,160,89,0.28)] px-4 py-2 rounded-full font-sans text-[0.82rem] sm:text-[0.86rem] font-bold text-[#1A3E72] shadow-xs">
-          <span>🔒</span>
-          <span>{responseCount} / {targetCount}</span>
-          <span className="opacity-90 font-normal">
-            {langCode === 'tr' ? 'Yanıt Toplandı' : 'Responses Received'}
-          </span>
-        </div>
+        {showProgress && (
+          <div className="inline-flex items-center gap-2 bg-[#F4EFE6] border border-[rgba(197,160,89,0.28)] px-4 py-2 rounded-full font-sans text-[0.82rem] sm:text-[0.86rem] font-bold text-[#1A3E72] shadow-xs">
+            <span>🔒</span>
+            <span>{responseCount} / {targetCount}</span>
+            <span className="opacity-90 font-normal">
+              {tr('dashboard.overview.responsesReceived')}
+            </span>
+          </div>
+        )}
+
+        {/* Action CTA Button */}
+        {actionButton && (
+          <div className="mt-2 flex items-center justify-center w-full">
+            {actionButton}
+          </div>
+        )}
       </div>
     </div>
   );
 });
 
-export const CharacterBalanceBanner = memo(function CharacterBalanceBanner({ signals, langCode }) {
+export const CharacterBalanceBanner = memo(function CharacterBalanceBanner({ signals, langCode: propLangCode }) {
+  const { t, locale } = useLocale();
+  const tr = (key, vars) => t(key, vars, propLangCode || locale);
   const sortedSignals = [...signals].sort((a, b) => b.percentage - a.percentage);
   const top3Signals = sortedSignals.slice(0, 3);
   const bottom3Signals = [...sortedSignals].reverse().slice(0, 3);
@@ -104,7 +127,7 @@ export const CharacterBalanceBanner = memo(function CharacterBalanceBanner({ sig
               className="text-[11.5px] sm:text-[12px] font-bold uppercase tracking-[0.08em] text-[#8C6D37]"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
-              {langCode === 'tr' ? 'En Güçlü 3 Yönünüz' : 'Top 3 Strengths'}
+              {tr('dashboard.overview.topStrengths')}
             </span>
           </div>
 
@@ -128,7 +151,7 @@ export const CharacterBalanceBanner = memo(function CharacterBalanceBanner({ sig
                     {idx + 1}
                   </div>
                   <span className="font-serif text-[14px] sm:text-[15px] font-semibold text-[#1A202C] truncate">
-                    {sig.label}
+                    {tr(`common.signals.${sig.key}`) || sig.label}
                   </span>
                 </div>
 
@@ -155,7 +178,7 @@ export const CharacterBalanceBanner = memo(function CharacterBalanceBanner({ sig
               className="text-[11.5px] sm:text-[12px] font-bold uppercase tracking-[0.08em] text-[#4A5568]"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
-              {langCode === 'tr' ? 'En Zayıf 3 Yönünüz' : 'Top 3 Weakest Traits'}
+              {tr('dashboard.overview.topWeaknesses')}
             </span>
           </div>
 
@@ -173,7 +196,7 @@ export const CharacterBalanceBanner = memo(function CharacterBalanceBanner({ sig
                     {idx + 1}
                   </div>
                   <span className="font-serif text-[14px] sm:text-[15px] font-medium text-[#4A5568] truncate">
-                    {sig.label}
+                    {tr(`common.signals.${sig.key}`) || sig.label}
                   </span>
                 </div>
 
@@ -192,7 +215,10 @@ export const CharacterBalanceBanner = memo(function CharacterBalanceBanner({ sig
   );
 });
 
-export const SocialSignalsPanel = memo(function SocialSignalsPanel({ signals, archetypeName, langCode }) {
+export const SocialSignalsPanel = memo(function SocialSignalsPanel({ signals, archetypeName, langCode: propLangCode }) {
+  const { t, locale } = useLocale();
+  const tr = (key, vars) => t(key, vars, propLangCode || locale);
+
   return (
     <div
       className="seenly-dashboard-premium-card seenly-dashboard-signal-card seenly-wide-signal-card p-4 sm:p-6 flex flex-col rounded-[24px] sm:rounded-[32px] flex-1 box-border"
@@ -208,13 +234,13 @@ export const SocialSignalsPanel = memo(function SocialSignalsPanel({ signals, ar
           className="text-[11px] sm:text-[11.5px] font-bold uppercase tracking-[0.08em] text-[#1A3E72]"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
-          {langCode === 'tr' ? '10 Sosyal Sinyal Dağılımı' : '10 Social Signal Distribution'}
+          {tr('dashboard.responses.signalsDistributionTitle')}
         </span>
         <span
           className="text-[10px] sm:text-[10.5px] font-semibold text-[#A0988A] uppercase tracking-wider"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
-          {langCode === 'tr' ? 'Puan' : 'Score'}
+          {tr('dashboard.overview.score')}
         </span>
       </div>
 
@@ -232,7 +258,7 @@ export const SocialSignalsPanel = memo(function SocialSignalsPanel({ signals, ar
                 className="font-serif text-[13.5px] sm:text-[14.5px] font-semibold text-[#1A202C] whitespace-nowrap"
                 style={{ letterSpacing: '-0.01em' }}
               >
-                {sig.label}
+                {tr(`common.signals.${sig.key}`) || sig.label}
               </span>
             </div>
 

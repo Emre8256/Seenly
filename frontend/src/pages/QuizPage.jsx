@@ -412,7 +412,7 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
     if (resendTimer > 0) return;
     const trimmedEmail = email.trim();
     if (!isValidEmail(trimmedEmail)) {
-      setEmailValidationError(t('ui', 'email_invalid_error') || 'Lütfen geçerli bir e-posta adresi giriniz.');
+      setEmailValidationError(t('errors.emailInvalid'));
       return;
     }
     setEmailValidationError('');
@@ -428,20 +428,16 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
     } catch (err) {
       if (err.status === 404 && isQuickLogin) {
         setAuthFlowNotification({
-          message: langCode === 'tr'
-            ? 'Bu e-posta adresine ait bir hesap bulunamadı. Lütfen önce testinizi tamamlayın.'
-            : 'No account found for this email. Please complete your test first.',
+          message: t('auth.noAccountFound'),
           status: 'not_found'
         });
       } else if (err.status === 409 && !isQuickLogin) {
         setAuthFlowNotification({
-          message: langCode === 'tr'
-            ? 'Bu e-posta adresiyle kayıtlı bir hesap zaten var. Lütfen giriş yapın.'
-            : 'An account with this email already exists. Please log in.',
+          message: t('auth.accountAlreadyExists'),
           status: 'conflict'
         });
       } else {
-        const msg = err.message || (langCode === 'tr' ? 'Doğrulama kodu gönderilemedi.' : 'Error sending verification code.');
+        const msg = err.message || t('auth.codeSendFailed');
         setErrorMessage(msg);
         setAuthFlowNotification({
           message: msg,
@@ -514,8 +510,8 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
       }
     } catch (err) {
       const msg = (err.status === 400 || err.status === 404)
-        ? (langCode === 'tr' ? 'Doğrulama kodu hatalı veya süresi dolmuş. Lütfen tekrar deneyin.' : 'Verification code is invalid or expired. Please try again.')
-        : (err.message || (langCode === 'tr' ? 'Doğrulama başarısız.' : 'Error verifying code.'));
+        ? t('auth.codeInvalidOrExpired')
+        : (err.message || t('auth.codeVerifyFailed'));
       setErrorMessage(msg);
       setAuthFlowNotification({ message: msg, status: 'error' });
     } finally {
@@ -558,7 +554,7 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
     if (resendTimer > 0) return;
     const trimmedEmail = email.trim();
     if (!isValidEmail(trimmedEmail)) {
-      setEmailValidationError(t('ui', 'email_invalid_error') || 'Lütfen geçerli bir e-posta adresi giriniz.');
+      setEmailValidationError(t('errors.emailInvalid'));
       return;
     }
     setEmailValidationError('');
@@ -571,7 +567,7 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
       setPostQuizOtp(Array(4).fill(''));
       setResendTimer(60);
       setAuthFlowNotification({
-        message: t('ui', 'auth_notification_sent') || 'Doğrulama kodu gönderildi.',
+        message: t('auth.codeSent'),
         status: 'success'
       });
       // Change the flow state only after the send endpoint has accepted the
@@ -581,13 +577,11 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
     } catch (err) {
       if (err.status === 409) {
         setAuthFlowNotification({
-          message: langCode === 'tr'
-            ? 'Bu e-posta adresiyle kayıtlı bir hesap zaten var. Sonucunuzu bu hesaba bağlamak için lütfen giriş yapın.'
-            : 'An account with this email already exists. Please log in to link your result to this account.',
+          message: t('auth.accountAlreadyExistsLink'),
           status: 'conflict'
         });
       } else {
-        const msg = err.message || (langCode === 'tr' ? 'Doğrulama kodu gönderilemedi.' : 'Error sending verification code.');
+        const msg = err.message || t('auth.codeSendFailed');
         setErrorMessage(msg);
         setAuthFlowNotification({
           message: msg,
@@ -609,14 +603,14 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
       setRegistrationGrant(response.verificationGrant);
       sessionStorage.setItem('seenly_registration_grant', response.verificationGrant);
       setAuthFlowNotification({
-        message: t('ui', 'auth_notification_success') || 'Doğrulandı.',
+        message: t('auth.verificationSuccess'),
         status: 'success'
       });
       await handleSubmitQuiz(true, response.verificationGrant);
     } catch (err) {
       const msg = (err.status === 400 || err.status === 404)
-        ? (langCode === 'tr' ? 'Doğrulama kodu hatalı veya süresi dolmuş. Lütfen tekrar deneyin.' : 'Verification code is invalid or expired. Please try again.')
-        : (err.message || t('ui', 'auth_notification_error') || 'Hata oluştu.');
+        ? t('auth.codeInvalidOrExpired')
+        : (err.message || t('auth.codeVerifyFailed'));
       setErrorMessage(msg);
       setAuthFlowNotification({
         message: msg,
@@ -668,7 +662,7 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
         <div className="seenly-wizard-container">
           <div className="seenly-wizard-body" style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
             <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '2rem', fontWeight: '400', marginBottom: '1.5rem', color: 'var(--color-deep-ink)' }}>
-              {t('ui', 'missing_id_fallback')}
+              {t('quiz.results.awaitingSignalAnalysis')}
             </h2>
             <div style={{
               width: '100%',
@@ -699,11 +693,11 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
   if (quizResult || isPostQuizFlow) {
     const signatureId = quizResult?.resultSnapshot?.selfSignatureId || calculatePersonalityCard(answers && Object.keys(answers).length > 0 ? answers : (quizResult?.resultSnapshot?.selfAverages || {})) || 'the_safe_haven';
     const signature = getObject('signatures', signatureId);
-    const signatureName = signature ? signature.name : t('ui', 'missing_id_fallback');
+    const signatureName = signature ? signature.name : t('quiz.results.awaitingSignalAnalysis');
     const signatureCardLine = signature ? signature.cardLine : "";
     const signatureImage = SIGNATURE_IMAGES[signatureId];
     const publicSlug = quizResult?.publicSlug || localStorage.getItem('seenly_owner_slug') || '';
-    const cardRarity = getCardRarityData(signatureId, quizResult?.resultSnapshot?.selfRarity, locale);
+    const cardRarity = getCardRarityData(signatureId, quizResult?.resultSnapshot?.selfRarity, t);
 
     return (
       <div ref={authViewportRef} className={`seenly-wizard-wrapper ${isAuthStep ? 'seenly-auth-viewport' : ''}`} style={{ padding: 0 }}>
@@ -737,8 +731,8 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
                       setCurrentIndex(-1);
                     }
                   }}
-                  aria-label={locale === 'tr' ? 'Geri' : 'Back'}
-                  title={locale === 'tr' ? 'Geri' : 'Back'}
+                  aria-label={t('common.back')}
+                  title={t('common.back')}
                 >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="19" y1="12" x2="5" y2="12" />
@@ -763,7 +757,7 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
                 textTransform: 'uppercase',
                 userSelect: 'none'
               }}>
-                {t('ui', 'self_view_title')}
+                {t('quiz.results.selfViewTitle')}
               </span>
             )}
             {languageDropdown}
@@ -845,8 +839,8 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
             type="button"
             className="seenly-wizard-back-btn"
             onClick={handleGoBack}
-            aria-label={locale === 'tr' ? 'Geri' : 'Back'}
-            title={locale === 'tr' ? 'Geri' : 'Back'}
+            aria-label={t('common.back')}
+            title={t('common.back')}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="19" y1="12" x2="5" y2="12" />

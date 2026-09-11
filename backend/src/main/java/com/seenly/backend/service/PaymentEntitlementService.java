@@ -12,10 +12,13 @@ import com.seenly.backend.repository.SeenlyRepository;
 import com.seenly.backend.repository.UserRepository;
 import com.seenly.backend.observability.ApplicationMetrics;
 import com.seenly.backend.observability.AuditEvent;
+import com.seenly.backend.email.EmailNotificationService;
+import com.seenly.backend.email.NotificationType;
 import com.seenly.backend.observability.AuditLogService;
 import com.seenly.backend.observability.TransactionalObservability;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -30,8 +33,10 @@ public class PaymentEntitlementService {
     private final AuditLogService auditLogService;
     private final ApplicationMetrics metrics;
     private final TransactionalObservability transactionalObservability;
+    private final EmailNotificationService emailNotificationService;
 
-    void grant(PaymentTransaction transaction, Instant grantedAt) {
+    @Transactional
+    public void grant(PaymentTransaction transaction, Instant grantedAt) {
         if (transaction.getEntitlementGrantedAt() != null) {
             return;
         }
@@ -41,7 +46,9 @@ public class PaymentEntitlementService {
         if (transaction.getEntitlementType() == EntitlementType.PLUS) {
             user.setIsPremium(true);
             user.setPremiumPaymentTransactionId(transaction.getId());
-            seenlyRepository.findByUser(user).forEach(seenly -> seenly.setCapped(false));
+            var seenlies = seenlyRepository.findByUser(user);
+            seenlies.forEach(seenly -> seenly.setCapped(false));
+            seenlyRepository.saveAll(seenlies);
         } else {
             int current = Objects.requireNonNullElse(user.getPurchasedExtraCapacity(), 0);
             try {
@@ -51,15 +58,51 @@ public class PaymentEntitlementService {
             }
             int responses = seenlyRepository.findByUser(user).stream().mapToInt(Seenly::getResponseCount).sum();
             transaction.setResponseCountAtGrant(responses);
-            seenlyRepository.findByUser(user).forEach(seenly -> {
+            var seenlies = seenlyRepository.findByUser(user);
+            seenlies.forEach(seenly -> {
                 int allowed = user.getBaseFormCapacity() + user.getPurchasedExtraCapacity();
                 if (seenly.getResponseCount() < allowed) {
                     seenly.setCapped(false);
                 }
             });
+            seenlyRepository.saveAll(seenlies);
         }
         transaction.setEntitlementGrantedAt(grantedAt);
         userRepository.save(user);
+
+        if (user.getEmail() != null && !user.getEmail().isBlank()) {
+            if (transaction.getEntitlementType() == EntitlementType.PLUS) {
+                emailNotificationService.enqueue(
+                    NotificationType.PLUS_WELCOME,
+                    user.getEmail(),
+                    user.getId(),
+                    "tr",
+                    Map.of("dashboardUrl", "https://seenly.app/dashboard"),
+                    "plus-welcome:" + transaction.getId(),
+                    grantedAt,
+                    null
+                );
+            }
+
+            emailNotificationService.enqueue(
+                NotificationType.PURCHASE_RECEIPT,
+                user.getEmail(),
+                user.getId(),
+                "tr",
+                Map.of(
+                    "product", transaction.getProductCode() != null ? transaction.getProductCode() : "Seenly Plus",
+                    "amount", String.format(java.util.Locale.ROOT, "%.2f", transaction.getAmountMinor() / 100.0),
+                    "currency", transaction.getCurrency() != null ? transaction.getCurrency() : "TRY",
+                    "reference", transaction.getId().toString().substring(0, 8),
+                    "timestamp", grantedAt.toString(),
+                    "dashboardUrl", "https://seenly.app/dashboard"
+                ),
+                "purchase-receipt:" + transaction.getId(),
+                grantedAt,
+                null
+            );
+        }
+
         transactionalObservability.afterCommit(() -> {
             metrics.entitlement(transaction.getEntitlementType().name(), "success");
             auditLogService.record(AuditEvent.ENTITLEMENT_GRANTED, "success", Map.of(
@@ -69,7 +112,8 @@ public class PaymentEntitlementService {
         });
     }
 
-    void handleFullReversal(PaymentTransaction transaction) {
+    @Transactional
+    public void handleFullReversal(PaymentTransaction transaction) {
         if (transaction.getEntitlementGrantedAt() == null) {
             transaction.setReversalStatus(EntitlementReversalStatus.NONE);
             return;
@@ -103,6 +147,14 @@ public class PaymentEntitlementService {
         user.setIsPremium(false);
         user.setPremiumPaymentTransactionId(null);
         userRepository.save(user);
+        var seenlies = seenlyRepository.findByUser(user);
+        seenlies.forEach(seenly -> {
+            int allowed = user.getBaseFormCapacity() + Objects.requireNonNullElse(user.getPurchasedExtraCapacity(), 0);
+            if (seenly.getResponseCount() >= allowed) {
+                seenly.setCapped(true);
+            }
+        });
+        seenlyRepository.saveAll(seenlies);
         transaction.setReversalStatus(EntitlementReversalStatus.REVERSED);
     }
 }

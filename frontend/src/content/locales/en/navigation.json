@@ -1,0 +1,27 @@
+{
+  "home": "Home",
+  "dashboard": "Dashboard",
+  "settings": "Profile",
+  "packages": "Seenly Plus",
+  "start": "Start Quiz",
+  "login": "Log In",
+  "logout": "Log Out",
+  "howItWorks": "How It Works",
+  "socialIdentities": "Social Identities",
+  "plans": "Plans",
+  "faq": "FAQ",
+  "backHome": "Back to Home",
+  "goBack": "Go Back",
+  "footer": {
+    "quickLinks": "Explore",
+    "support": "Support & Info",
+    "privacy": "Privacy Policy",
+    "privacyPolicy": "Privacy Policy",
+    "terms": "Terms & Conditions",
+    "contact": "Contact",
+    "contactUs": "Contact",
+    "description": "Seenly is designed with care to help people understand themselves and each other better.",
+    "rights": "Seenly. All rights reserved.",
+    "slogan": "See yourself"
+  }
+}

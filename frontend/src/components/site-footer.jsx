@@ -5,11 +5,11 @@ export function SiteFooter() {
   const { t } = useLocale()
 
   const links = [
-    { label: t("ui", "nav_faq") || "SSS", href: "#/faq" },
-    { label: t("ui", "footer_contact_us") || "İletişim", href: "#/faq" },
-    { label: t("ui", "nav_social_identities") || "Sosyal Kimlikler", href: "#/identities" },
-    { label: t("ui", "footer_privacy_policy") || "Gizlilik Politikası", href: "#/privacy" },
-    { label: t("ui", "footer_terms_of_use") || "Kullanım Koşulları", href: "#/terms" },
+    { label: t("navigation.faq"), href: "#/faq" },
+    { label: t("navigation.footer.contact"), href: "#/faq" },
+    { label: t("navigation.socialIdentities"), href: "#/identities" },
+    { label: t("navigation.footer.privacy"), href: "#/privacy" },
+    { label: t("navigation.footer.terms"), href: "#/terms" },
   ]
 
   return (
@@ -24,7 +24,7 @@ export function SiteFooter() {
               </span>
             </div>
             <p className="mt-5 text-pretty text-sm leading-relaxed text-muted-foreground">
-              {t("ui", "landing_footer_desc") || "Seenly, insanların kendilerini ve birbirlerini daha iyi anlamalarına yardımcı olmak için özenle tasarlandı."}
+              {t("navigation.footer.description")}
             </p>
             <div className="mt-6 flex items-center gap-4 text-muted-foreground">
               <a
@@ -32,7 +32,7 @@ export function SiteFooter() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-peach transition-colors duration-300"
-                aria-label="Instagram"
+                aria-label={t("accessibility.instagram")}
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
@@ -45,7 +45,7 @@ export function SiteFooter() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-peach transition-colors duration-300"
-                aria-label="TikTok"
+                aria-label={t("accessibility.tiktok")}
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
@@ -54,7 +54,7 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <nav className="grid grid-cols-2 gap-x-8 gap-y-3.5 sm:flex sm:flex-wrap" aria-label="Alt menü">
+          <nav className="grid grid-cols-2 gap-x-8 gap-y-3.5 sm:flex sm:flex-wrap" aria-label={t("navigation.footer.quickLinks")}>
             {links.map((link) => (
               <a
                 key={link.label}
@@ -69,10 +69,10 @@ export function SiteFooter() {
 
         <div className="mt-14 flex flex-col gap-3 border-t border-border/60 pt-7 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} {t("ui", "landing_footer_rights") || "Seenly. Tüm hakları saklıdır."}
+            © {new Date().getFullYear()} {t("navigation.footer.rights")}
           </p>
           <p className="font-mono text-[0.7rem] uppercase tracking-[0.28em] text-muted-foreground">
-            {t("ui", "landing_footer_slogan") || "Kendini gör"}
+            {t("navigation.footer.slogan")}
           </p>
         </div>
       </div>

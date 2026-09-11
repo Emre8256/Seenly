@@ -2,11 +2,11 @@ import React from 'react';
 import { useLocale } from '../context/LocaleContext';
 
 export default function GapPatternCard({ gapPatternId, gapStrength, selfSignatureId, outsideSignatureId }) {
-  const { locale, t, getObject } = useLocale();
+  const { t, getObject } = useLocale();
 
   const gapObj = getObject('gaps', gapPatternId) || {
-    name: gapPatternId || 'Awaiting Calibration',
-    description: 'Signals are being computed.'
+    name: gapPatternId || '',
+    description: ''
   };
 
   const selfSig = getObject('signatures', selfSignatureId);
@@ -52,7 +52,7 @@ export default function GapPatternCard({ gapPatternId, gapStrength, selfSignatur
             letterSpacing: '0.05em',
             fontWeight: 700
           }}>
-            {t('ui', 'gap_strength_label')}: {t('ui', 'strength_' + gapStrength) || gapStrength}
+            {t('dashboard.gap.strengthLabel')}: {t(`dashboard.gap.strength_${gapStrength}`) || gapStrength}
           </span>
         )}
       </div>
@@ -87,7 +87,7 @@ export default function GapPatternCard({ gapPatternId, gapStrength, selfSignatur
             margin: 0,
             textAlign: 'left'
           }}>
-            {locale === 'tr' ? 'Algı Karşılaştırması' : 'Perception Comparison'}
+            {t('dashboard.gap.comparisonTitle')}
           </h4>
 
           <div className="gap-comparison-grid">
@@ -111,7 +111,7 @@ export default function GapPatternCard({ gapPatternId, gapStrength, selfSignatur
                 marginBottom: '0.4rem',
                 opacity: 0.7
               }}>
-                {locale === 'tr' ? 'Kendini Nasıl Görüyorsun' : 'How You See Yourself'}
+                {t('dashboard.gap.howYouSeeYourself')}
               </span>
               <h5 style={{
                 fontFamily: 'var(--font-serif)',
@@ -153,7 +153,7 @@ export default function GapPatternCard({ gapPatternId, gapStrength, selfSignatur
                   whiteSpace: 'nowrap',
                   boxShadow: '0 4px 10px rgba(217, 106, 83, 0.25)'
                 }}>
-                  {locale === 'tr' ? 'FARK' : 'GAP'}
+                  {t('dashboard.gap.gapBadge')}
                 </div>
               </div>
             </div>
@@ -177,7 +177,7 @@ export default function GapPatternCard({ gapPatternId, gapStrength, selfSignatur
                 display: 'block',
                 marginBottom: '0.4rem'
               }}>
-                {locale === 'tr' ? 'İnsanlar Seni Nasıl Görüyor' : 'How Friends See You'}
+                {t('dashboard.gap.howFriendsSeeYou')}
               </span>
               <h5 style={{
                 fontFamily: 'var(--font-serif)',
@@ -222,7 +222,7 @@ export default function GapPatternCard({ gapPatternId, gapStrength, selfSignatur
               letterSpacing: '0.05em'
             }}>
               <span>💡</span>
-              <span>{locale === 'tr' ? 'Fark Analizi Rehberi' : 'Gap Analysis Insight'}</span>
+              <span>{t('dashboard.gap.insightGuide')}</span>
             </strong>
             <p style={{
               fontFamily: 'var(--font-sans)',
@@ -232,9 +232,7 @@ export default function GapPatternCard({ gapPatternId, gapStrength, selfSignatur
               lineHeight: '1.5',
               margin: 0
             }}>
-              {locale === 'tr'
-                ? 'Bu fark, kendi içsel algınız ile dış dünyaya yaydığınız sosyal sinyaller arasındaki eşsiz kesişimi temsil eder. Bir uyumsuzluk olmanın ötesinde, başkalarında bıraktığınız saklı ve özgün etkinin bir göstergesidir.'
-                : 'This gap represents the unique intersection between your inner self-perception and the social signals you radiate to the outside world. Rather than a misalignment, it highlights the hidden, authentic impact you leave on others.'}
+              {t('dashboard.gap.insightGuideDesc')}
             </p>
           </div>
         </div>

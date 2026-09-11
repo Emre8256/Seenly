@@ -24,6 +24,10 @@ public class PublicProfileDto {
     private String avatar;
     private int responseCount;
     private boolean acceptingResponses;
+    @com.fasterxml.jackson.annotation.JsonProperty("outsidePerceptionLocked")
+    private boolean outsidePerceptionLocked;
+    @com.fasterxml.jackson.annotation.JsonProperty("outsidePerceptionLockReason")
+    private String outsidePerceptionLockReason;
     private String outsideSignatureId;
     private String outsideFamilyId;
     private String confidenceBand;

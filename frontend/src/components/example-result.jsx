@@ -8,20 +8,20 @@ export function ExampleResult() {
 
   const blocks = [
     {
-      title: t("ui", "landing_ex_b1_title") || "01 / Testi Çözün ve Profilinizi Oluşturun",
-      text: t("ui", "landing_ex_b1_text") || "Birkaç dakikalık öz değerlendirmeyi tamamlayarak kendi anlatımınızı şekillendirin ve dijital Self kartınızı anında alın.",
+      title: t("home.howItWorks.s1Title"),
+      text: t("home.howItWorks.s1Text"),
       icon: User,
       accent: "text-navy",
     },
     {
-      title: t("ui", "landing_ex_b2_title") || "02 / Linkinizi Profilinize Ekleyin ve Paylaşın",
-      text: t("ui", "landing_ex_b2_text") || "Size özel üretilen profil bağlantısını kopyalayıp sosyal medya hesaplarınıza veya yakın çevrenize ulaştırarak tamamen anonim geri bildirimleri toplamaya başlayın.",
+      title: t("home.howItWorks.s2Title"),
+      text: t("home.howItWorks.s2Text"),
       icon: Share2,
       accent: "text-[#b4532a]",
     },
     {
-      title: t("ui", "landing_ex_b3_title") || "03 / Çevrenizden Anonim Yansımalar Alın",
-      text: t("ui", "landing_ex_b3_text") || "İnsanların sizi baskı olmadan, gerçek ve filtrelenmemiş halleriyle nasıl deneyimlediklerini şeffaf bir okuma olarak izleyin.",
+      title: t("home.howItWorks.s3Title"),
+      text: t("home.howItWorks.s3Text"),
       icon: Activity,
       accent: "text-[#6b4c82]",
     },
@@ -43,13 +43,13 @@ export function ExampleResult() {
         <div className="grid items-center gap-y-10 gap-x-14 lg:grid-cols-2 lg:gap-20">
           <div className="lg:col-start-2 lg:row-start-1">
             <p className="font-mono text-[0.7rem] uppercase tracking-[0.34em] text-clay">
-              {t("ui", "landing_ex_tag") || "Örnek Okuma"}
+              {t("home.howItWorks.tag")}
             </p>
             <h2 className="mt-5 text-balance font-heading text-3xl font-medium leading-[1.1] tracking-tight text-foreground sm:text-[2.6rem]">
-              {t("ui", "landing_ex_title") || "Sonuçların bir etiketten fazlasıdır."}
+              {t("home.howItWorks.title")}
             </h2>
             <p className="mt-5 max-w-md text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-              {t("ui", "landing_ex_desc") || "Seenly yalnızca seni tanımlamaz. Kendini nasıl gördüğünü ve insanların seni nasıl deneyimlediğini, birbirine bağlı bir okuma olarak gösterir."}
+              {t("home.howItWorks.desc")}
             </p>
           </div>
 
@@ -62,7 +62,7 @@ export function ExampleResult() {
                 decoding="async"
                 width="952"
                 height="760"
-                alt="Öz algı ve dış algının suluboya katmanlarla iç içe geçtiği örnek Seenly sonucu"
+                alt={t("home.howItWorks.illustrationAlt")}
                 className="soft-image-edge aspect-[5/4] w-full object-cover mask-organic-1"
               />
             </div>

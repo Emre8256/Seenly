@@ -12,7 +12,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.seenly.backend.email.EmailNotificationService;
+import com.seenly.backend.email.NotificationType;
+
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -23,6 +30,7 @@ public class BillingService {
     private final UserRepository userRepository;
     private final OwnerSessionService ownerSessionService;
     private final AuditLogService auditLogService;
+    private final EmailNotificationService emailNotificationService;
 
     /**
      * Completely deletes the user account, associated Seenly profiles, and cascade-removes data.
@@ -32,6 +40,25 @@ public class BillingService {
         validateOwnerToken(ownerToken);
         Seenly seenly = getSeenlyFromToken(ownerToken);
         User user = seenly.getUser();
+        String email = user != null ? user.getEmail() : seenly.getEmail();
+        UUID userId = user != null ? user.getId() : null;
+
+        if (email != null && !email.isBlank()) {
+            try {
+                emailNotificationService.enqueue(
+                    NotificationType.ACCOUNT_DELETED,
+                    email,
+                    userId,
+                    "tr",
+                    Map.of("homeUrl", "https://seenly.app"),
+                    "account-deleted:" + (userId != null ? userId : seenly.getId()) + ":" + System.currentTimeMillis(),
+                    Instant.now(),
+                    Instant.now().plus(Duration.ofHours(24))
+                );
+            } catch (Exception ex) {
+                log.warn("Failed to enqueue account deletion email notification: {}", ex.getMessage());
+            }
+        }
 
         if (user != null) {
             // Find and delete all Seenly profiles belonging to this user

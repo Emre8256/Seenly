@@ -23,10 +23,10 @@ export function FinalCta({ onStartClick }) {
           <div className="relative z-10 max-w-xl lg:pt-10 flex flex-col items-center text-center lg:items-start lg:text-left lg:col-start-1 lg:row-start-1">
             <IntersectingCircles className="h-10 w-16 text-peach/70 mx-auto lg:mx-0" />
             <h2 className="mt-7 text-balance font-heading text-[2.2rem] font-medium leading-[1.08] tracking-tight text-foreground sm:text-5xl">
-              {t("ui", "landing_final_title") || "Kendini nasıl gördüğünü ve insanların seni nasıl deneyimlediğini karşılaştır."}
+              {t("home.finalCta.title")}
             </h2>
             <p className="mt-6 max-w-md text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-              {t("ui", "landing_final_desc") || "Seenly deneyimini başlat ve seni tanıyan insanların gördüğü ortak sinyalleri keşfet."}
+              {t("home.finalCta.desc")}
             </p>
           </div>
 
@@ -53,7 +53,7 @@ export function FinalCta({ onStartClick }) {
               onClick={onStartClick}
               className="w-full sm:w-auto shadow-contact-sm group inline-flex items-center justify-center gap-3 rounded-full bg-primary px-7 py-3.5 text-base text-primary-foreground transition-all duration-500 hover:gap-4 cursor-pointer"
             >
-              {t("ui", "landing_start_cta") || "Kendi Seenly'ni başlat"}
+              {t("home.finalCta.startCta")}
               <span aria-hidden="true">→</span>
             </button>
           </div>

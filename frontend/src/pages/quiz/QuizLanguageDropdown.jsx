@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { useLocale } from '../../context/LocaleContext';
 
 const QuizLanguageDropdown = memo(function QuizLanguageDropdown({
   locale,
@@ -7,10 +8,7 @@ const QuizLanguageDropdown = memo(function QuizLanguageDropdown({
   onSelect,
   dropdownRef
 }) {
-  const supportedLangs = [
-    { code: 'tr', label: 'Türkçe' },
-    { code: 'en', label: 'English' },
-  ];
+  const { supportedLocales, t } = useLocale();
 
   return (
     <div className="seenly-wizard-step-lang" ref={dropdownRef}>
@@ -18,7 +16,7 @@ const QuizLanguageDropdown = memo(function QuizLanguageDropdown({
         type="button"
         className="lang-dropdown-trigger"
         onClick={onToggle}
-        aria-label="Dil seç"
+        aria-label={t('accessibility.languageSelector')}
         aria-haspopup="menu"
         aria-expanded={isOpen}
       >
@@ -38,29 +36,32 @@ const QuizLanguageDropdown = memo(function QuizLanguageDropdown({
           role="menu"
           onMouseDown={(event) => event.stopPropagation()}
         >
-          {supportedLangs.map(lang => (
-            <button
-              key={lang.code}
-              type="button"
-              className={`lang-dropdown-item ${locale === lang.code ? 'active' : ''}`}
-              onMouseDown={(event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                onSelect(lang.code);
-              }}
-              onClick={(event) => event.stopPropagation()}
-              role="menuitemradio"
-              aria-checked={locale === lang.code}
-            >
-              <span className="lang-dropdown-code">{lang.code.toUpperCase()}</span>
-              <span>{lang.label}</span>
-              {locale === lang.code && (
-                <svg className="lang-dropdown-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              )}
-            </button>
-          ))}
+          {supportedLocales.map((lang) => {
+            const isSelected = locale === lang.code;
+            return (
+              <button
+                key={lang.code}
+                type="button"
+                className={`lang-dropdown-item ${isSelected ? 'active' : ''}`}
+                onMouseDown={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  onSelect(lang.code);
+                }}
+                onClick={(event) => event.stopPropagation()}
+                role="menuitemradio"
+                aria-checked={isSelected}
+              >
+                <span className="lang-dropdown-code">{lang.code.toUpperCase()}</span>
+                <span>{lang.nativeName || lang.name}</span>
+                {isSelected && (
+                  <svg className="lang-dropdown-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                )}
+              </button>
+            );
+          })}
         </div>
       )}
     </div>

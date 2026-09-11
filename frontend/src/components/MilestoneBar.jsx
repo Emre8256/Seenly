@@ -7,8 +7,8 @@ export default function MilestoneBar({ responseCount }) {
   const percentage = Math.min((responseCount / maxCap) * 100, 100);
 
   const milestones = [
-    { value: 3, label: 'Outside' },
-    { value: 6, label: 'Gap' }
+    { value: 3, label: t('common.outsideMilestone') },
+    { value: 6, label: t('common.gapMilestone') }
   ];
 
   const isFull = responseCount >= maxCap;
@@ -28,10 +28,10 @@ export default function MilestoneBar({ responseCount }) {
         fontSize: 'clamp(0.8rem, 1.5vw, 0.95rem)'
       }}>
         <span style={{ color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-          {t('ui', 'responses_received')}
+          {t('common.responses_received')}
         </span>
         <span style={{ fontWeight: 600, color: 'var(--color-text-primary)' }}>
-          {responseCount} / {maxCap} {isFull && `(${t('ui', 'full_signal_label')})`}
+          {responseCount} / {maxCap} {isFull && `(${t('common.full_signal_label')})`}
         </span>
       </div>
 
@@ -106,7 +106,7 @@ export default function MilestoneBar({ responseCount }) {
           textAlign: 'center',
           color: 'var(--color-text-primary)'
         }}>
-          <strong>{t('ui', 'capacity_full_label')}:</strong> {t('ui', 'privacy_note')}
+          <strong>{t('common.capacity_full_label')}:</strong> {t('common.privacy_note')}
         </div>
       )}
     </div>

@@ -3,60 +3,58 @@ import { useLocale } from "../context/LocaleContext"
 import { ShieldCheck, Check } from "lucide-react"
 
 export function Pricing({ onStartClick }) {
-  const { locale, t } = useLocale()
-
-  const premiumPrice = t("ui", "pricing_plan_premium_price") || "$2.99"
+  const { t } = useLocale()
 
   const plans = [
     {
       id: "free",
-      name: t("ui", "landing_pricing_p1_name") || "Ücretsiz",
-      price: "$0",
-      period: locale === 'tr' ? "her zaman" : "always",
-      description: t("ui", "landing_pricing_p1_desc") || (locale === 'tr' ? "Profilini oluştur ve temel algı analizine ücretsiz eriş." : "Create your profile and access basic perception analysis for free."),
+      name: t("home.pricing.freeName"),
+      price: t("home.pricing.freePrice"),
+      period: t("home.pricing.freePeriod"),
+      description: t("home.pricing.freeDesc"),
       features: [
         {
-          title: t("ui", "landing_pricing_p1_f1") || "Öz Değerlendirme & Self Kartı",
-          desc: locale === 'tr' ? "10 hızlı sinyalle başlangıç profilin" : "Initial profile with 10 quick signals",
+          title: t("home.pricing.freeF1Title"),
+          desc: t("home.pricing.freeF1Desc"),
         },
         {
-          title: t("ui", "landing_pricing_p1_f3") || "Maksimum 100 Katılımcı Kapasitesi",
-          desc: locale === 'tr' ? "100 arkadaş yanıtına kadar ücretsiz kota" : "Free quota for up to 100 friend responses",
+          title: t("home.pricing.freeF2Title"),
+          desc: t("home.pricing.freeF2Desc"),
         },
         {
-          title: t("ui", "landing_pricing_p1_f4") || "Temel Fark (Gap) Analizi",
-          desc: locale === 'tr' ? "Öz algı ile dış algı kesişimi" : "Overlap of self and outside perception",
+          title: t("home.pricing.freeF3Title"),
+          desc: t("home.pricing.freeF3Desc"),
         },
         {
-          title: t("ui", "landing_pricing_p1_f2") || "Temel Sonuçlar & Güvenli Paylaşım",
-          desc: locale === 'tr' ? "Anonim profil bağlantınla kolay paylaşım" : "Easy sharing with anonymous link",
+          title: t("home.pricing.freeF4Title"),
+          desc: t("home.pricing.freeF4Desc"),
         },
       ],
       highlighted: false,
     },
     {
       id: "plus",
-      name: "Seenly Plus",
-      price: premiumPrice,
-      period: locale === 'tr' ? "tek seferlik" : "one-time",
-      badge: locale === 'tr' ? "Abonelik Yok" : "No Subscription",
-      description: t("ui", "landing_pricing_p2_desc") || (locale === 'tr' ? "Tüm analizlerin kilidini ve sınırsız katılımcı kotasını tek seferde açın." : "Unlock all deep analytics and unlimited respondent capacity in one single step."),
+      name: t("home.pricing.plusName"),
+      price: t("home.pricing.plusPrice"),
+      period: t("home.pricing.plusPeriod"),
+      badge: t("home.pricing.plusBadge"),
+      description: t("home.pricing.plusDesc"),
       features: [
         {
-          title: t("ui", "landing_pricing_p2_f1") || "Sınırsız Katılımcı Kotası",
-          desc: locale === 'tr' ? "100 yanıt limitine takılmadan sınırsız yanıt toplayın" : "Collect unlimited feedback without any response limits",
+          title: t("home.pricing.plusF1Title"),
+          desc: t("home.pricing.plusF1Desc"),
         },
         {
-          title: t("ui", "landing_pricing_p2_f2") || "Gelen Analiz Detayları",
-          desc: locale === 'tr' ? "10 karakter sinyali ve puan dökümünü görün" : "View 10-signal scores and detailed answer breakdowns",
+          title: t("home.pricing.plusF2Title"),
+          desc: t("home.pricing.plusF2Desc"),
         },
         {
-          title: t("ui", "landing_pricing_p2_f3") || "Soruda Geçirilen Zaman",
-          desc: locale === 'tr' ? "En çok ve en az düşünülen sorular" : "See the most and least contemplated questions",
+          title: t("home.pricing.plusF3Title"),
+          desc: t("home.pricing.plusF3Desc"),
         },
         {
-          title: t("ui", "landing_pricing_p2_f4") || "Profil Ziyaretleri",
-          desc: locale === 'tr' ? "Ziyaretçi sayısını ve yanıta dönüşüm oranlarını takip edin" : "Track visitor volume and response conversion rates",
+          title: t("home.pricing.plusF4Title"),
+          desc: t("home.pricing.plusF4Desc"),
         },
       ],
       highlighted: true,
@@ -78,13 +76,13 @@ export function Pricing({ onStartClick }) {
       <div className="above-surface mx-auto max-w-[1180px] px-4 py-10 sm:px-6 sm:py-14 md:py-20">
         <div className="mx-auto max-w-2xl text-center">
           <p className="font-mono text-[0.68rem] uppercase tracking-[0.32em] text-clay">
-            {t("ui", "landing_pricing_tag") || "Teklif"}
+            {t("home.pricing.tag")}
           </p>
           <h2 className="mt-3 sm:mt-4 text-balance font-heading text-2xl min-[375px]:text-3xl font-medium leading-[1.15] tracking-tight text-foreground sm:text-4xl">
-            {t("ui", "landing_pricing_title") || "Önce değer, sonra teklif."}
+            {t("home.pricing.title")}
           </h2>
           <p className="mt-3 sm:mt-4 text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base max-w-xl mx-auto">
-            {t("ui", "landing_pricing_desc") || "Temel deneyim ücretsizdir. Daha derin bir okuma istediğinde tek seferlik bir raporla devam edebilirsin."}
+            {t("home.pricing.desc")}
           </p>
         </div>
 
@@ -188,7 +186,7 @@ export function Pricing({ onStartClick }) {
         {/* Security & Payment assurance footer */}
         <div className="mt-6 sm:mt-8 flex items-center justify-center gap-2 text-[11.5px] sm:text-xs text-muted-foreground text-center">
           <ShieldCheck className="w-3.5 h-3.5 text-clay shrink-0" />
-          <span>{locale === 'tr' ? "256-Bit SSL Güvenli Ödeme • Tek Seferlik • Yenileme Ücreti Yok" : "256-Bit SSL Secure Payment • One-Time • No Recurring Fees"}</span>
+          <span>{t("home.pricing.securityBadge")}</span>
         </div>
       </div>
     </section>

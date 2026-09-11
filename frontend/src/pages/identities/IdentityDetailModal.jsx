@@ -27,7 +27,7 @@ const IdentityDetailModal = memo(function IdentityDetailModal({
     fam => CHARACTER_FAMILIES[fam].includes(selectedCard.id)
   ) || 'stratega';
 
-  const modalRarity = getCardRarityData(selectedCard.id, apiRarities[selectedCard.id], langCode);
+  const modalRarity = getCardRarityData(selectedCard.id, apiRarities[selectedCard.id], t);
 
   return createPortal(
     <div
@@ -43,7 +43,7 @@ const IdentityDetailModal = memo(function IdentityDetailModal({
           type="button"
           onClick={() => setSelectedCard(null)}
           className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 bg-white/90 hover:bg-white text-[#786C5E] hover:text-[#1A3E72] w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center transition-colors z-50 border border-[rgba(197,160,89,0.25)] cursor-pointer"
-          aria-label={langCode === 'tr' ? 'Kapat' : 'Close'}
+          aria-label={t('accessibility.closeDialog')}
         >
           <span className="text-sm sm:text-base font-bold">✕</span>
         </button>
@@ -71,7 +71,7 @@ const IdentityDetailModal = memo(function IdentityDetailModal({
           <div className="flex flex-col justify-center text-left">
             {/* Family Header */}
             <span className="font-sans text-[10px] sm:text-[10.5px] uppercase tracking-[0.16em] font-bold text-[#8C6D37] block mb-1">
-              {getFamilyLabel(cardFamily)} {langCode === 'tr' ? 'Ailesi' : 'Family'}
+              {t('quiz.identities.familyLabel', { name: getFamilyLabel(cardFamily) })}
             </span>
 
             {/* Name & Dynamic Rarity Badge */}
@@ -115,7 +115,7 @@ const IdentityDetailModal = memo(function IdentityDetailModal({
               onClick={handleStartQuiz}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-[#16222F] hover:bg-[#0E1721] text-white py-3 sm:py-3.5 px-6 text-[13px] sm:text-[13.5px] font-bold tracking-wide shadow-[0_4px_16px_rgba(22,34,47,0.2)] hover:shadow-[0_8px_24px_rgba(22,34,47,0.3)] transition-all cursor-pointer border border-white/10 active:scale-[0.98]"
             >
-              <span>{t('ui', 'identities_cta_discover') || 'Bu Rolü Kendinde Keşfet'}</span>
+              <span>{t('quiz.identities.ctaDiscover')}</span>
               <span>→</span>
             </button>
           </div>

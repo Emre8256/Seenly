@@ -29,8 +29,8 @@ export default function QuestionCard({ question, currentValue, onSelect }) {
       </div>
 
       <div className="scale-captions">
-        <span>{t('ui', 'agreement_strongly_disagree')}</span>
-        <span>{t('ui', 'agreement_strongly_agree')}</span>
+        <span>{t('common.agreement_strongly_disagree')}</span>
+        <span>{t('common.agreement_strongly_agree')}</span>
       </div>
     </div>
   );

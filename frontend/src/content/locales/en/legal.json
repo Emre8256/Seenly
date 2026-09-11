@@ -1,0 +1,1060 @@
+{
+  "chrome": {
+    "goBack": "Go Back",
+    "backHome": "Back to Home",
+    "lastUpdated": "Last updated: {date}",
+    "fallbackNotice": "This legal document is currently available only in its canonical English version."
+  },
+  "terms": {
+    "title": "Terms & Conditions",
+    "lastUpdated": "September 4, 2026",
+    "sections": [
+      {
+        "id": "intro",
+        "intro": true,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Welcome to Seenly."
+          },
+          {
+            "type": "p",
+            "text": "These Terms & Conditions (\"Terms\") govern your access to and use of Seenly, including our website, assessments, profiles, sharing features, digital products, and related services (collectively, the **\"Service\"**)."
+          },
+          {
+            "type": "p",
+            "text": "By accessing or using Seenly, creating an account, submitting an assessment, participating through a shared link, or purchasing a digital product, you agree to these Terms and our Privacy Policy."
+          },
+          {
+            "type": "p",
+            "text": "If you do not agree with these Terms, please do not use the Service."
+          }
+        ]
+      },
+      {
+        "id": "about",
+        "title": "1. About Seenly",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Seenly is an independent social perception and self-reflection platform developed and operated by its creators."
+          },
+          {
+            "type": "p",
+            "text": "The Service allows users to complete self-assessments, invite other people to provide feedback, compare self-perception with peer perception, and receive automatically generated scores, archetypes, cards, visualizations, and related insights."
+          },
+          {
+            "type": "p",
+            "text": "Seenly may change, add, remove, or improve features over time."
+          }
+        ]
+      },
+      {
+        "id": "personal-insight",
+        "title": "2. Personal Insight — Not Professional Advice",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Seenly is designed for **personal insight and social reflection**."
+          },
+          {
+            "type": "p",
+            "text": "Assessment results, perception gaps, scores, archetypes, participant feedback, visualizations, and other outputs are generated from information submitted through the Service."
+          },
+          {
+            "type": "p",
+            "text": "Seenly does not provide medical, psychiatric, psychological, clinical, legal, employment, or other professional advice."
+          },
+          {
+            "type": "p",
+            "text": "Results should not be treated as a diagnosis or as a comprehensive or objectively accurate assessment of a person's personality, psychological condition, abilities, or suitability for any particular purpose."
+          },
+          {
+            "type": "p",
+            "text": "You remain responsible for any decisions or actions you take based on information obtained through Seenly."
+          },
+          {
+            "type": "p",
+            "text": "Seenly should not be used to make high-impact decisions about another person, including decisions relating to employment, recruitment, healthcare, credit, insurance, education, or similar matters."
+          }
+        ]
+      },
+      {
+        "id": "eligibility",
+        "title": "3. Eligibility",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "You may use Seenly only if you are legally permitted to enter into these Terms and provide any consent required for use of the Service under the laws applicable to you."
+          },
+          {
+            "type": "p",
+            "text": "If you are not legally permitted to use the Service independently, you may use Seenly only where appropriate authorization has been obtained."
+          }
+        ]
+      },
+      {
+        "id": "accounts-security",
+        "title": "4. Accounts and Security",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Some Seenly features require an account."
+          },
+          {
+            "type": "p",
+            "text": "You agree to provide accurate information and to maintain reasonable security over your account and authentication methods."
+          },
+          {
+            "type": "p",
+            "text": "You are responsible for activity performed through your account unless that activity results from circumstances reasonably outside your control."
+          },
+          {
+            "type": "p",
+            "text": "You must not:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Create accounts for fraudulent or abusive purposes;",
+              "Impersonate another person;",
+              "Attempt to obtain unauthorized access to another account;",
+              "Share or misuse authentication credentials in a way that compromises account security;",
+              "Deliberately circumvent account, participation, or usage restrictions."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "If you believe your account has been compromised, contact us at support@seenly.app."
+          },
+          {
+            "type": "p",
+            "text": "We may temporarily restrict, suspend, or terminate an account where reasonably necessary to protect Seenly or its users, investigate abuse, comply with legal obligations, or address a material violation of these Terms."
+          }
+        ]
+      },
+      {
+        "id": "participant-feedback",
+        "title": "5. Participant Feedback and Shared Links",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Seenly allows users to invite other people to submit feedback through participation links."
+          },
+          {
+            "type": "p",
+            "text": "Participants are responsible for the responses they voluntarily submit."
+          },
+          {
+            "type": "p",
+            "text": "You agree not to use Seenly to:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Harass, threaten, intimidate, or abuse another person;",
+              "Impersonate another individual;",
+              "Deliberately submit false responses for the purpose of manipulating results;",
+              "Coordinate fraudulent or artificial submissions;",
+              "Use automated systems, bots, scripts, or similar tools to generate responses;",
+              "Submit unlawful, defamatory, hateful, or otherwise abusive content."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Anonymous participation means that Seenly does not intentionally display the participant's identity to the profile owner through their submitted feedback, except as otherwise clearly disclosed by a particular feature or where disclosure is legally required."
+          },
+          {
+            "type": "p",
+            "text": "Seenly may use technical measures to detect duplicate submissions, automated activity, manipulation, or abuse."
+          }
+        ]
+      },
+      {
+        "id": "acceptable-use",
+        "title": "6. Acceptable Use",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "You may use Seenly only for lawful purposes and in accordance with these Terms."
+          },
+          {
+            "type": "p",
+            "text": "You must not:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Attempt to gain unauthorized access to the Service or its infrastructure;",
+              "Interfere with the normal operation or security of the Service;",
+              "Deliberately bypass rate limits, participation limits, or security mechanisms;",
+              "Introduce malware, malicious code, or automated attacks;",
+              "Scrape or systematically extract substantial portions of the Service without permission;",
+              "Reverse engineer or attempt to derive non-public source code except where such restriction is prohibited by applicable law;",
+              "Use Seenly content, systems, or data to create a competing service through unauthorized copying or extraction;",
+              "Use the Service in a way that violates another person's rights or applicable law."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "We may take reasonable technical or account-level measures to prevent or respond to prohibited activity."
+          }
+        ]
+      },
+      {
+        "id": "purchases-digital-products",
+        "title": "7. Purchases and Digital Products",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Seenly may offer paid digital products or features, including premium functionality and additional participation capacity."
+          },
+          {
+            "type": "p",
+            "text": "The price, features, and applicable conditions of a purchase will be displayed before you complete the transaction."
+          },
+          {
+            "type": "p",
+            "text": "Payments may be processed by an independent payment processor or Merchant of Record. By completing a purchase, you also agree to any terms presented by the relevant payment provider where applicable."
+          },
+          {
+            "type": "p",
+            "text": "A purchase is considered completed once payment has been successfully confirmed and the relevant digital product or entitlement has been made available to your account."
+          },
+          {
+            "type": "p",
+            "text": "We reserve the right to:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Change prices for future purchases;",
+              "Add, modify, or discontinue paid products;",
+              "Refuse or cancel a transaction where reasonably necessary to prevent fraud, abuse, pricing errors, or technical mistakes."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "A price change will not retroactively alter a purchase that has already been completed."
+          },
+          {
+            "type": "p",
+            "text": "If payment is successfully collected but we are unable to provide the purchased digital product, we will provide an appropriate remedy, which may include restoring access, replacement, account credit, or a refund."
+          }
+        ]
+      },
+      {
+        "id": "refunds",
+        "title": "8. Refunds",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Unless otherwise stated at the time of purchase, Seenly offers a **14-day refund period for eligible unused Response Capacity Packs**."
+          },
+          {
+            "type": "p",
+            "text": "A Response Capacity Pack is generally eligible for a full refund where:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "The request is submitted within 14 calendar days of purchase; and",
+              "None of the purchased additional response capacity has been consumed."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Once purchased response capacity has been used to collect responses, the consumed digital capacity is generally non-refundable."
+          },
+          {
+            "type": "p",
+            "text": "Duplicate or clearly erroneous charges will be investigated and refunded where appropriate."
+          },
+          {
+            "type": "p",
+            "text": "Other digital products or premium features may have different refund conditions depending on the nature of the product and whether it has already been delivered, activated, accessed, or consumed."
+          },
+          {
+            "type": "p",
+            "text": "Nothing in this section limits any refund, cancellation, or consumer right that cannot lawfully be excluded."
+          },
+          {
+            "type": "p",
+            "text": "The policies or requirements of the payment provider or Merchant of Record may also apply to a transaction."
+          },
+          {
+            "type": "p",
+            "text": "Refund requests can be sent to:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "billing@seenly.app",
+              "support@seenly.app"
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Please include sufficient information to identify the relevant transaction, such as your Order ID and account email address."
+          },
+          {
+            "type": "p",
+            "text": "Approved refunds are returned through the original payment method where reasonably possible. Processing times may vary depending on the payment provider and financial institution."
+          }
+        ]
+      },
+      {
+        "id": "intellectual-property",
+        "title": "9. Intellectual Property",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Seenly and the original materials made available through the Service are protected by applicable intellectual property laws."
+          },
+          {
+            "type": "p",
+            "text": "This includes, where applicable:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "The Seenly name and branding;",
+              "Logos and visual identity;",
+              "Original archetype artwork and illustrations;",
+              "Assessment presentation and original written content;",
+              "Scoring and analysis implementations;",
+              "User-interface designs;",
+              "Software and source code;",
+              "Original graphics and other digital assets."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Except where expressly permitted, you may not reproduce, redistribute, sell, commercially exploit, systematically scrape, or create unauthorized derivative copies of protected Seenly materials."
+          },
+          {
+            "type": "p",
+            "text": "Using Seenly does not transfer ownership of Seenly intellectual property to you."
+          },
+          {
+            "type": "p",
+            "text": "Content or information that you personally submit to Seenly remains yours to the extent you have rights in it. You grant Seenly the limited rights necessary to process that content for operating and providing the Service in accordance with these Terms and our Privacy Policy."
+          }
+        ]
+      },
+      {
+        "id": "service-availability",
+        "title": "10. Service Availability and Changes",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "We aim to provide Seenly reliably, but we do not guarantee uninterrupted or error-free availability."
+          },
+          {
+            "type": "p",
+            "text": "The Service may occasionally be unavailable because of:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Maintenance;",
+              "Technical problems;",
+              "Infrastructure failures;",
+              "Security incidents;",
+              "Third-party service interruptions;",
+              "Updates or changes to the Service;",
+              "Circumstances outside our reasonable control."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "We may modify, suspend, or discontinue features where reasonably necessary."
+          },
+          {
+            "type": "p",
+            "text": "Where a change materially affects a paid product that has already been purchased, we will take reasonable steps to provide an appropriate solution consistent with applicable requirements."
+          }
+        ]
+      },
+      {
+        "id": "disclaimers",
+        "title": "11. Disclaimers and Limitation of Liability",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Seenly is provided on an **\"as is\"** and **\"as available\"** basis."
+          },
+          {
+            "type": "p",
+            "text": "We do not guarantee that:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Assessment results will perfectly or objectively describe you or another person;",
+              "Participant feedback will be accurate, truthful, complete, or representative;",
+              "Scores, archetypes, perception gaps, or other outputs will meet your expectations;",
+              "The Service will always be uninterrupted, error-free, or completely secure."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "To the maximum extent permitted by applicable law, Seenly and its creators will not be responsible for indirect, incidental, special, consequential, or similar losses arising from use of or inability to use the Service."
+          },
+          {
+            "type": "p",
+            "text": "Nothing in these Terms excludes or limits liability or consumer rights that cannot legally be excluded or limited."
+          }
+        ]
+      },
+      {
+        "id": "third-party-services",
+        "title": "12. Third-Party Services",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Seenly may rely on or link to third-party services, including payment providers, infrastructure providers, social platforms, or external websites."
+          },
+          {
+            "type": "p",
+            "text": "Those services operate independently and may be governed by their own terms and privacy policies."
+          },
+          {
+            "type": "p",
+            "text": "Seenly is not responsible for the independent operation or content of third-party services except to the extent responsibility cannot legally be excluded."
+          }
+        ]
+      },
+      {
+        "id": "termination",
+        "title": "13. Termination",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "You may stop using Seenly at any time and may delete your account where account deletion functionality is available."
+          },
+          {
+            "type": "p",
+            "text": "We may restrict, suspend, or terminate access where reasonably necessary because of:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "A material violation of these Terms;",
+              "Fraudulent or abusive activity;",
+              "Attempts to manipulate Seenly results;",
+              "Security threats;",
+              "Unlawful activity;",
+              "Legal or regulatory requirements."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Where reasonable in the circumstances, we may provide notice or an opportunity to resolve the issue before permanent termination."
+          },
+          {
+            "type": "p",
+            "text": "Termination does not affect provisions that by their nature should continue to apply, including intellectual property, completed payment obligations, disclaimers, and limitations of liability."
+          }
+        ]
+      },
+      {
+        "id": "changes-to-terms",
+        "title": "14. Changes to These Terms",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "We may update these Terms when Seenly, our commercial practices, our service providers, or applicable requirements change."
+          },
+          {
+            "type": "p",
+            "text": "The **\"Last updated\"** date at the top of this page will indicate the latest revision."
+          },
+          {
+            "type": "p",
+            "text": "By continuing to use Seenly after revised Terms become effective, you agree to the updated Terms where permitted by applicable law."
+          },
+          {
+            "type": "p",
+            "text": "Where a material change requires additional notice or consent, we will take appropriate steps."
+          }
+        ]
+      },
+      {
+        "id": "governing-language",
+        "title": "15. Governing Language",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "These Terms are written in English."
+          },
+          {
+            "type": "p",
+            "text": "Seenly may provide translations for convenience. If there is a material inconsistency between the English version and a translated version, the English version will govern to the extent permitted by applicable law."
+          }
+        ]
+      },
+      {
+        "id": "general-terms",
+        "title": "16. General Terms",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "If any provision of these Terms is found to be invalid or unenforceable, the remaining provisions will continue in effect."
+          },
+          {
+            "type": "p",
+            "text": "Our failure to enforce a provision of these Terms does not waive our right to enforce it later."
+          },
+          {
+            "type": "p",
+            "text": "You may not transfer your rights or obligations under these Terms without our permission where such restriction is legally permitted."
+          },
+          {
+            "type": "p",
+            "text": "If Seenly's operation is transferred to another person or entity in the future, these Terms and the rights and obligations connected with the Service may be transferred as part of that transition, subject to applicable law."
+          },
+          {
+            "type": "p",
+            "text": "These Terms, together with our Privacy Policy and any refund or purchase terms presented to you, constitute the agreement governing your use of Seenly."
+          },
+          {
+            "type": "p",
+            "text": "Nothing in these Terms removes rights that cannot legally be waived or restricted."
+          }
+        ]
+      },
+      {
+        "id": "contact",
+        "title": "17. Contact",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Seenly is currently an independent project developed and operated by its creators."
+          },
+          {
+            "type": "list",
+            "items": [
+              "For questions about these Terms: legal@seenly.app",
+              "For general support: support@seenly.app",
+              "For billing or refund inquiries: billing@seenly.app"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "September 4, 2026",
+    "sections": [
+      {
+        "id": "intro",
+        "intro": true,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Seenly (\"Seenly\", \"we\", \"us\", or \"our\") is an independent social perception and self-reflection platform developed and operated by its creators."
+          },
+          {
+            "type": "p",
+            "text": "We care about privacy because Seenly processes personal reflections, assessment responses, social perceptions, and feedback submitted by people you invite."
+          },
+          {
+            "type": "p",
+            "text": "This Privacy Policy explains what information we collect, how we use it, when it may be shared, how long we keep it, and what choices you have."
+          },
+          {
+            "type": "highlight",
+            "text": "**Our Privacy Commitment:** Seenly is built around personal and interpersonal reflection. We do not sell personal information, self-assessment responses, or peer-assessment data to advertisers or data brokers. We use information entrusted to Seenly only to provide, protect, maintain, and improve the Service as described in this Privacy Policy."
+          }
+        ]
+      },
+      {
+        "id": "information-we-collect",
+        "title": "What Information We Collect",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "We collect information that you provide directly to Seenly and limited technical information generated when you use the Service."
+          },
+          {
+            "type": "h3",
+            "text": "Account and Profile Information"
+          },
+          {
+            "type": "p",
+            "text": "When you create an account, we may process:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Display name;",
+              "Email address;",
+              "Account identifier;",
+              "Selected avatar;",
+              "Language and interface preferences;",
+              "Authentication and account-security information."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Your email address may be used for authentication, one-time verification codes, account recovery, security notices, purchase-related messages, and support."
+          },
+          {
+            "type": "h3",
+            "text": "Assessment Information"
+          },
+          {
+            "type": "p",
+            "text": "When you complete a Seenly assessment, we process the responses you voluntarily provide."
+          },
+          {
+            "type": "p",
+            "text": "These responses may relate to personality traits, interpersonal behavior, communication, social dynamics, self-perception, and similar characteristics. We use them to generate Seenly results such as scores, comparisons, perception gaps, archetypes, cards, and visual insights."
+          },
+          {
+            "type": "p",
+            "style": "italic",
+            "text": "Seenly assessments are intended for personal insight, entertainment, and social reflection. They are not medical, psychological, psychiatric, or clinical diagnoses."
+          },
+          {
+            "type": "h3",
+            "text": "Peer and Participant Feedback"
+          },
+          {
+            "type": "p",
+            "text": "Seenly allows people you invite to provide feedback through a participation link."
+          },
+          {
+            "type": "p",
+            "text": "Participant responses may be aggregated, subject to minimum-response thresholds, or otherwise presented in a way designed to protect individual participants from unnecessary identification."
+          },
+          {
+            "type": "p",
+            "text": "Unless a feature clearly states otherwise, Seenly does not intentionally reveal the identity of an anonymous participant to the profile owner."
+          },
+          {
+            "type": "h3",
+            "text": "Technical and Security Information"
+          },
+          {
+            "type": "p",
+            "text": "When you use Seenly, we may process limited technical information such as:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "IP address;",
+              "Browser and device information;",
+              "Timestamps;",
+              "Authentication and security events;",
+              "Rate-limit information;",
+              "Error and performance information;",
+              "Pseudonymous browser or device identifiers."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Seenly may use hashed or pseudonymized browser/device fingerprint signals to prevent duplicate submissions, automated activity, manipulation, spam, and abuse. These identifiers are not used to create advertising profiles."
+          }
+        ]
+      },
+      {
+        "id": "how-we-use-information",
+        "title": "How We Use Information",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "We use information to:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Create and maintain accounts;",
+              "Authenticate users;",
+              "Process assessments and generate results;",
+              "Collect and aggregate participant feedback;",
+              "Provide profile and sharing features;",
+              "Provide paid features;",
+              "Process and recognize purchases;",
+              "Prevent fraud, abuse, spam, and duplicate submissions;",
+              "Secure Seenly and user accounts;",
+              "Provide support and essential communications;",
+              "Troubleshoot and improve the Service."
+            ]
+          },
+          {
+            "type": "highlight",
+            "text": "We do not sell or rent personal information. We do not sell self-assessment responses, peer feedback, personality-related results, or social-perception data to advertisers, advertising networks, or data brokers."
+          }
+        ]
+      },
+      {
+        "id": "payments",
+        "title": "Payments",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Seenly may offer paid digital features or additional participation capacity."
+          },
+          {
+            "type": "p",
+            "text": "Payments may be processed by an independent payment provider or Merchant of Record. The payment provider may process billing, payment method, transaction, tax, and related information required to complete the purchase."
+          },
+          {
+            "type": "p",
+            "text": "Where payment information is entered directly through the payment provider, Seenly does not intentionally store full payment card numbers or card security codes on its own application servers."
+          },
+          {
+            "type": "p",
+            "text": "We may receive limited transaction information such as:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Transaction ID;",
+              "Product purchased;",
+              "Amount and currency;",
+              "Payment status;",
+              "Purchase date;",
+              "Refund or chargeback status."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Payment providers process payment information according to their own privacy policies and legal obligations."
+          }
+        ]
+      },
+      {
+        "id": "anonymous-participation",
+        "title": "Anonymous Participation",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Anonymous participation on Seenly means that a participant's identity is not intentionally shown to the profile owner through their submitted feedback."
+          },
+          {
+            "type": "p",
+            "text": "It does not mean that Seenly processes no technical information. Limited technical information may still be used to prevent:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Duplicate submissions;",
+              "Bots;",
+              "Spam;",
+              "Manipulation;",
+              "Attempts to bypass participation limits."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Seenly will not intentionally reveal an anonymous participant's identity merely because another user requests it, except where disclosure is legally required."
+          }
+        ]
+      },
+      {
+        "id": "public-profiles",
+        "title": "Public Profiles and Sharing",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Certain Seenly features allow users to share profiles, results, cards, or participation links."
+          },
+          {
+            "type": "p",
+            "text": "Information you intentionally make public or share through these features may be accessible to other people. People who receive such content may copy, screenshot, save, or redistribute it outside Seenly. We cannot control information that others independently copy or share outside the Service."
+          }
+        ]
+      },
+      {
+        "id": "cookies",
+        "title": "Cookies and Browser Storage",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Seenly may use essential cookies, localStorage, sessionStorage, or similar technologies to:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Maintain authentication;",
+              "Secure sessions;",
+              "Remember language and interface preferences;",
+              "Preserve assessments that are still in progress;",
+              "Provide essential Service functionality."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "We do not use these technologies to sell your browsing activity to third-party advertising networks. If we introduce non-essential technologies that require consent, appropriate consent controls will be provided where required."
+          }
+        ]
+      },
+      {
+        "id": "information-sharing",
+        "title": "Service Providers and Information Sharing",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "We may use trusted third-party providers to operate Seenly, including providers of:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Hosting and cloud infrastructure;",
+              "Databases and storage;",
+              "Transactional email;",
+              "Security and abuse prevention;",
+              "Error or performance monitoring;",
+              "Customer support;",
+              "Payment processing."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "These providers may process only the information reasonably necessary to provide their services to Seenly."
+          },
+          {
+            "type": "p",
+            "text": "We may also disclose information where reasonably necessary to comply with applicable law, valid legal process, fraud prevention, security investigations, or protection of our rights and users."
+          },
+          {
+            "type": "p",
+            "text": "We do not share personal information with third parties for their own behavioral advertising purposes."
+          }
+        ]
+      },
+      {
+        "id": "international-processing",
+        "title": "International Processing",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Seenly is intended for users in multiple regions and may rely on service providers or infrastructure located in different jurisdictions. As a result, information may be processed or stored outside the location where you live."
+          },
+          {
+            "type": "p",
+            "text": "Where applicable privacy requirements impose restrictions on international transfers, appropriate safeguards will be used where required."
+          }
+        ]
+      },
+      {
+        "id": "data-retention",
+        "title": "Data Retention and Deletion",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "We keep personal information only for as long as reasonably necessary to provide Seenly, maintain security, prevent abuse, process transactions, comply with legal obligations, or resolve disputes."
+          },
+          {
+            "type": "list",
+            "items": [
+              "Account and assessment information may generally remain while your Seenly account is active.",
+              "Temporary authentication information may expire automatically.",
+              "Security and anti-abuse information may be retained for a limited period where necessary to prevent repeated misuse.",
+              "Payment, refund, chargeback, tax, or accounting records may be retained where required or reasonably necessary."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "If you delete your Seenly account, information directly associated with the active account will be deleted or de-identified where reasonably possible."
+          },
+          {
+            "type": "p",
+            "text": "Certain limited information may remain temporarily where necessary for legal obligations, transaction records, security, fraud prevention, dispute resolution, or backup retention."
+          }
+        ]
+      },
+      {
+        "id": "your-rights",
+        "title": "Your Privacy Rights",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Depending on the privacy rules applicable to you, you may have rights to:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Access personal information associated with you;",
+              "Correct inaccurate information;",
+              "Request deletion of eligible information;",
+              "Object to or restrict certain processing;",
+              "Withdraw consent where processing relies on consent;",
+              "Request certain information in a portable format;",
+              "Exercise other privacy rights available under applicable law."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "We may need to verify that you control the relevant Seenly account or email address before processing certain requests."
+          },
+          {
+            "type": "p",
+            "text": "Privacy requests can be sent to: privacy@seenly.app"
+          }
+        ]
+      },
+      {
+        "id": "security",
+        "title": "Security",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "We use reasonable technical and organizational measures designed to protect information against unauthorized access, disclosure, alteration, loss, or misuse."
+          },
+          {
+            "type": "p",
+            "text": "These measures may include encryption in transit, authentication controls, restricted access, cryptographic protection of credentials, pseudonymization or hashing, rate limiting, anti-abuse controls, and security monitoring."
+          },
+          {
+            "type": "p",
+            "text": "No internet service can guarantee absolute security. If a security incident occurs and notification is required, we will take appropriate steps to investigate, mitigate the issue, and provide legally required notices."
+          }
+        ]
+      },
+      {
+        "id": "age-requirements",
+        "title": "Age Requirements",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Seenly is not intended for individuals who are legally unable to provide the permissions required to use the Service in their jurisdiction."
+          },
+          {
+            "type": "p",
+            "text": "We do not knowingly seek to collect personal information in violation of applicable age or consent requirements. If you believe that information has been submitted without the authorization required by applicable law, contact us at: privacy@seenly.app"
+          }
+        ]
+      },
+      {
+        "id": "third-party-services-privacy",
+        "title": "Third-Party Services",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Seenly may link to or interact with third-party websites, payment services, or social platforms. Those services operate independently and process information according to their own privacy practices."
+          },
+          {
+            "type": "p",
+            "text": "This Privacy Policy applies only to information processed by or on behalf of Seenly."
+          }
+        ]
+      },
+      {
+        "id": "policy-changes",
+        "title": "Changes to This Policy",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "We may update this Privacy Policy as Seenly, our service providers, or applicable privacy requirements change. The \"Last updated\" date at the top of this page will show when the Policy was most recently revised."
+          },
+          {
+            "type": "p",
+            "text": "Where a material change requires additional notice or consent, we will take appropriate steps."
+          }
+        ]
+      },
+      {
+        "id": "contact-privacy",
+        "title": "Contact",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Seenly is currently an independent project developed and operated by its creators."
+          },
+          {
+            "type": "list",
+            "items": [
+              "For privacy questions or requests: privacy@seenly.app",
+              "For account or product support: support@seenly.app"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "refund": {
+    "title": "Refund Policy",
+    "lastUpdated": "September 2026",
+    "sections": [
+      {
+        "id": "digital-goods",
+        "number": 1,
+        "title": "Digital Goods & Immediate Delivery",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "All commercial offerings available on Seenly—including the one-time Seenly Plus purchase and standalone Response Capacity Packs (100, 250, and 500 response capacity allotments)—are intangible digital goods delivered electronically and activated immediately upon successful transaction confirmation by our payment processing partners."
+          }
+        ]
+      },
+      {
+        "id": "unused-guarantee",
+        "number": 2,
+        "title": "14-Day Unused Pack Refund Guarantee",
+        "blocks": [
+          {
+            "type": "highlight",
+            "text": "Eligible Full Refund: If you purchase a Response Capacity Pack and ZERO (0) evaluations/responses have been recorded or consumed from that purchased pack, you are eligible to request a 100% full refund within 14 calendar days of the transaction date."
+          },
+          {
+            "type": "p",
+            "text": "Additionally, if a technical error or network interruption results in an unintended duplicate charge for the same order, the redundant transaction will be fully refunded upon verification."
+          }
+        ]
+      },
+      {
+        "id": "non-refundable",
+        "number": 3,
+        "title": "Non-Refundable Scenarios",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Due to the immediate performance and irreversible consumption of digital capacity, refunds cannot be granted under the following conditions:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "**Consumed Response Capacity:** Once capacity is consumed or evaluations are gathered from your public reflection link, the purchase is strictly non-refundable.",
+              "**Utilized Seenly Plus Features:** Seenly Plus purchases where premium analytical features, deep signal metrics, or extended perks have been accessed.",
+              "**Expired Time Window:** Refund requests submitted more than 14 calendar days after the original purchase timestamp.",
+              "**Subjective Dissatisfaction:** Personal disagreement with the ratings, perception feedback, or archetype classifications submitted by your peers.",
+              "**Policy Violations:** Accounts suspended or permanently banned due to breaches of our Terms of Use or anti-spam rules."
+            ]
+          }
+        ]
+      },
+      {
+        "id": "how-to-request",
+        "number": 4,
+        "title": "How to Request a Refund",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "To initiate a refund request for an eligible unused pack or report a billing discrepancy, please contact our support team at support@seenly.app or billing@seenly.app from the email address associated with your Seenly account."
+          },
+          {
+            "type": "p",
+            "text": "Please include the following information in your request:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Order ID / Merchant Transaction Reference",
+              "Registered Seenly Account Email",
+              "Detailed description of the issue or refund reason"
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Approved refunds are reviewed within 3 to 5 business days and credited back to your original payment method within 5 to 10 business days, depending on your financial institution."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -6,12 +6,12 @@ export function SeenlyCodes() {
   const { t } = useLocale()
 
   const codes = [
-    { code: "SLF-04", name: t("ui", "landing_codes_c1") || "Dürüst İdealist", family: "gratia", c: "text-navy", b: "border-navy/25" },
-    { code: "OUT-11", name: t("ui", "landing_codes_c2") || "Huzur Deposu", family: "porta", c: "text-peach", b: "border-peach/30" },
-    { code: "GAP-07", name: t("ui", "landing_codes_c3") || "Estetik Vizyon", family: "aura", c: "text-lilac", b: "border-lilac/30" },
-    { code: "SLF-09", name: t("ui", "landing_codes_c4") || "Asil Dayanak", family: "aura", c: "text-navy", b: "border-navy/25" },
-    { code: "OUT-02", name: t("ui", "landing_codes_c5") || "Usta Stratejist", family: "stratega", c: "text-peach", b: "border-peach/30" },
-    { code: "GAP-13", name: t("ui", "landing_codes_c6") || "Neşeli Çıpa", family: "porta", c: "text-lilac", b: "border-lilac/30" },
+    { code: "SLF-04", name: t("home.collection.c1"), family: "gratia", c: "text-navy", b: "border-navy/25" },
+    { code: "OUT-11", name: t("home.collection.c2"), family: "porta", c: "text-peach", b: "border-peach/30" },
+    { code: "GAP-07", name: t("home.collection.c3"), family: "aura", c: "text-lilac", b: "border-lilac/30" },
+    { code: "SLF-09", name: t("home.collection.c4"), family: "aura", c: "text-navy", b: "border-navy/25" },
+    { code: "OUT-02", name: t("home.collection.c5"), family: "stratega", c: "text-peach", b: "border-peach/30" },
+    { code: "GAP-13", name: t("home.collection.c6"), family: "porta", c: "text-lilac", b: "border-lilac/30" },
   ]
 
   return (
@@ -27,13 +27,13 @@ export function SeenlyCodes() {
         <div className="grid items-center gap-y-10 gap-x-14 lg:grid-cols-2 lg:gap-20">
           <div className="lg:col-start-1 lg:row-start-1">
             <p className="font-mono text-[0.7rem] uppercase tracking-[0.34em] text-clay">
-              {t("ui", "landing_codes_tag") || "Koleksiyon"}
+              {t("home.collection.tag")}
             </p>
             <h2 className="mt-5 text-balance font-heading text-3xl font-medium leading-[1.1] tracking-tight text-foreground sm:text-[2.6rem]">
-              {t("ui", "landing_codes_title") || "Her sonucun kendine ait bir dili vardır."}
+              {t("home.collection.title")}
             </h2>
             <p className="mt-5 max-w-md text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-              {t("ui", "landing_codes_desc") || "Seenly sonuçları yalnızca bir açıklama değil; paylaşılabilir bir kimlik ve keşfedilecek bir koleksiyon parçası sunar."}
+              {t("home.collection.desc")}
             </p>
           </div>
 
@@ -53,7 +53,7 @@ export function SeenlyCodes() {
                 decoding="async"
                 width="880"
                 height="880"
-                alt="Altın çerçeveli koleksiyon kartları halinde sunulan Seenly kodlarının suluboya illüstrasyonu"
+                alt={t("home.collection.illustrationAlt")}
                 className="soft-image-edge aspect-square w-full object-cover mask-organic-2"
               />
             </div>
@@ -67,7 +67,7 @@ export function SeenlyCodes() {
                   className={`group rounded-lg border bg-card/60 p-4 transition-all duration-500 hover:-translate-y-1 hover:bg-card ${item.b}`}
                 >
                   <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
-                    {t("ui", "family_" + item.family) || item.family}
+                    {t(`quiz.identities.families.${item.family}`)}
                   </p>
                   <p
                     className={`mt-2 font-heading text-sm font-medium ${item.c}`}
@@ -84,7 +84,7 @@ export function SeenlyCodes() {
                 className="group inline-flex items-center gap-2 text-sm font-medium text-foreground hover:text-peach transition-colors duration-300"
               >
                 <span className="border-b border-foreground/30 pb-0.5 transition-colors duration-300 group-hover:border-peach">
-                  {t("ui", "landing_codes_view_all") || "Tüm Sosyal Kimlikleri Keşfet"}
+                  {t("home.collection.viewAll")}
                 </span>
                 <span
                   aria-hidden="true"

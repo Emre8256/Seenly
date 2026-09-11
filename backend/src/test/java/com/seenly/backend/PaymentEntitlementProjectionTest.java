@@ -62,4 +62,76 @@ class PaymentEntitlementProjectionTest {
         assertThat(premium.getResponseSessions()).isEmpty();
         assertThat(premium.getTotalProfileClicks()).isEqualTo(42);
     }
+
+    @Test
+    void publicProfileAcceptsResponsesCorrectlyAcrossFreePlusAndExtraCapacity() {
+        User user = User.builder().isPremium(false).baseFormCapacity(3).purchasedExtraCapacity(0).build();
+        Seenly seenly = Seenly.builder()
+            .user(user)
+            .displayName("Quota User")
+            .publicSlug("quota-user-1")
+            .ownerTokenHash("hash")
+            .responseCount(2)
+            .isCapped(false)
+            .build();
+        ResultSnapshot snapshot = ResultSnapshot.builder().seenly(seenly).build();
+
+        // 1. Free tier with 2 responses (< 3): accepting responses
+        assertThat(seenly.isCapped()).isFalse();
+        assertThat(mapper.toPublicDto(snapshot).isAcceptingResponses()).isTrue();
+
+        // 2. Free tier reaches 3 responses (>= 3): capped
+        seenly.setResponseCount(3);
+        seenly.setCapped(true);
+        assertThat(seenly.isCapped()).isTrue();
+        assertThat(mapper.toPublicDto(snapshot).isAcceptingResponses()).isFalse();
+
+        // 3. User buys Seenly Plus: even if old isCapped flag was true in DB, accepting responses is true
+        user.setIsPremium(true);
+        assertThat(seenly.isCapped()).isFalse();
+        assertThat(mapper.toPublicDto(snapshot).isAcceptingResponses()).isTrue();
+
+        // 4. User reverts to free but has purchased extra capacity pack (+5 -> total 8):
+        user.setIsPremium(false);
+        user.setPurchasedExtraCapacity(5);
+        // responseCount is 3, capacity is 8
+        assertThat(seenly.isCapped()).isFalse();
+        assertThat(mapper.toPublicDto(snapshot).isAcceptingResponses()).isTrue();
+
+        // 5. User reaches 8 responses (>= 8): capped
+        seenly.setResponseCount(8);
+        assertThat(seenly.isCapped()).isTrue();
+        assertThat(mapper.toPublicDto(snapshot).isAcceptingResponses()).isFalse();
+    }
+
+    @Test
+    void responseSessionHistoryMasksSignalsAndTimesForFreeUsersWhilePreservingTeaserMetadata() {
+        ResponseSession session = ResponseSession.builder()
+            .nickname("Ali")
+            .createdAt(LocalDateTime.now())
+            .friendTimeAnalytics(Map.of("samimiyet", 1200))
+            .build();
+        session.setResponses(List.of(FriendResponse.builder()
+            .responseSession(session)
+            .questionId("classic_friend_samimiyet_01")
+            .answerValue(4)
+            .build()));
+
+        Map<String, Integer> selfAnswers = Map.of("samimiyet", 4);
+
+        // Free user session DTO
+        var freeSessionDto = mapper.toSessionDto(session, selfAnswers, false);
+        assertThat(freeSessionDto.getNickname()).isEqualTo("Ali");
+        assertThat(freeSessionDto.getCompletedAt()).isNotNull();
+        assertThat(freeSessionDto.getReaderType()).isNotNull();
+        assertThat(freeSessionDto.getAccuracy()).isEqualTo(100.0);
+        assertThat(freeSessionDto.getSignals()).isEmpty();
+        assertThat(freeSessionDto.getFriendTimeAnalytics()).isEmpty();
+
+        // Plus user session DTO
+        var plusSessionDto = mapper.toSessionDto(session, selfAnswers, true);
+        assertThat(plusSessionDto.getNickname()).isEqualTo("Ali");
+        assertThat(plusSessionDto.getSignals()).containsEntry("samimiyet", 4);
+        assertThat(plusSessionDto.getFriendTimeAnalytics()).containsEntry("samimiyet", 1200);
+    }
 }

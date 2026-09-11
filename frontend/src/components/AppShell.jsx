@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocale } from '../context/LocaleContext';
 import { SiteHeader } from './site-header';
 import { SiteFooter } from './site-footer';
 import WatercolorBackground from './WatercolorBackground';
@@ -12,6 +13,7 @@ export default function AppShell({
   footerMode = 'standard',
   userName = 'Panelim'
 }) {
+  const { t } = useLocale();
   const isLoggedIn = Boolean(localStorage.getItem('seenly_owner_token'));
 
   const handleStartQuizClick = (e) => {
@@ -67,7 +69,7 @@ export default function AppShell({
               letterSpacing: '0.12em'
             }}
           >
-            &copy; 2026 SEENLY. ALL RIGHTS RESERVED.
+            &copy; {new Date().getFullYear()} {t("navigation.footer.rights").toUpperCase()}
           </span>
         </footer>
       ) : (

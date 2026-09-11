@@ -28,13 +28,10 @@ const DashboardGapTab = memo(function DashboardGapTab({
             {/* Left: Title & Subtitle */}
             <div className="text-left flex-1 md:max-w-[530px] shrink-0">
               <h3 className="font-serif text-[1.25rem] sm:text-[1.5rem] font-bold text-[#1A3E72] m-0 tracking-tight leading-tight">
-                {langCode === 'tr' ? 'Algı Boşluğu ve Paralellik' : 'Perception Gap & Alignment'}
+                {t('dashboard.gap.overviewTitle')}
               </h3>
               <p className="font-sans text-[0.84rem] sm:text-[0.92rem] text-[#4A5568] mt-1 sm:mt-1.5 leading-[1.55] m-0">
-                {langCode === 'tr'
-                  ? 'Kendi algınız ile arkadaşlarınızın sizde gözlemlediği sosyal sinyaller arasındaki mesafe ve uyumu analiz eder.'
-                  : 'Analyzes the distance and alignment between your self-perception and the social signals observed by friends.'
-                }
+                {t('dashboard.gap.overviewDesc')}
               </p>
             </div>
 
@@ -81,18 +78,18 @@ const DashboardGapTab = memo(function DashboardGapTab({
                 className="text-[11px] sm:text-[12px] font-bold uppercase tracking-[0.08em] text-[#1A3E72]"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
-                {langCode === 'tr' ? '10 Sinyal Boyut Karşılaştırması' : '10 Signal Dimension Comparison'}
+                {t('dashboard.gap.comparisonTitle')}
               </span>
 
               {/* Elegant Legend */}
               <div className="flex items-center gap-3 sm:gap-4 text-[11px] sm:text-[12px] font-semibold text-[#4A5568]">
                 <span className="flex items-center gap-1.5">
                   <span className="w-2.5 h-2.5 rounded-full bg-[#C5A059] shadow-xs" />
-                  <span>{langCode === 'tr' ? 'Kendi Algın' : 'Self Perception'}</span>
+                  <span>{t('dashboard.gap.howYouSeeYourself')}</span>
                 </span>
                 <span className="flex items-center gap-1.5">
                   <span className="w-2.5 h-2.5 rounded-full bg-[#1A3E72] shadow-xs" />
-                  <span>{langCode === 'tr' ? 'Dış Algı' : 'Outside Perception'}</span>
+                  <span>{t('dashboard.gap.howFriendsSeeYou')}</span>
                 </span>
               </div>
             </div>
@@ -113,7 +110,7 @@ const DashboardGapTab = memo(function DashboardGapTab({
                     <div className="flex items-center gap-2 sm:gap-2.5 min-w-[88px] sm:min-w-[150px] max-w-[110px] sm:max-w-none">
                       <SignalBadgeIcon signalKey={row.key} size={13} boxSize={26} className="sm:w-[28px] sm:h-[28px]" />
                       <span className="font-serif text-[13px] sm:text-[14.5px] font-semibold text-[#1A202C] truncate">
-                        {row.label}
+                        {t(`common.signals.${row.key}`) || row.label}
                       </span>
                     </div>
 
@@ -130,7 +127,7 @@ const DashboardGapTab = memo(function DashboardGapTab({
                             left: `${(row.selfPosition + row.friendPosition) / 2}%`,
                             background: 'linear-gradient(135deg, #C5A059 0%, #1A3E72 100%)'
                           }}
-                          title={`${langCode === 'tr' ? 'Birebir Eşleşme' : 'Exact Match'}: %${Math.round((row.selfPosition + row.friendPosition) / 2)}`}
+                          title={`${t('dashboard.gap.exactMatch')}: %${Math.round((row.selfPosition + row.friendPosition) / 2)}`}
                         />
                       ) : (
                         <>
@@ -148,14 +145,14 @@ const DashboardGapTab = memo(function DashboardGapTab({
                           <div
                             className="absolute -translate-x-1/2 flex items-center justify-center w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-[#C5A059] border-2 border-white shadow-md z-10 transition-transform hover:scale-125 cursor-help"
                             style={{ left: `${row.selfPosition}%` }}
-                            title={`${langCode === 'tr' ? 'Kendi Algın' : 'Self'}: %${row.selfPosition}`}
+                            title={`${t('dashboard.gap.legendSelf')}: %${row.selfPosition}`}
                           />
 
                           {/* Outside Dot (Navy) */}
                           <div
                             className="absolute -translate-x-1/2 flex items-center justify-center w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-[#1A3E72] border-2 border-white shadow-md z-10 transition-transform hover:scale-125 cursor-help"
                             style={{ left: `${row.friendPosition}%` }}
-                            title={`${langCode === 'tr' ? 'Dış Algı' : 'Outside'}: %${row.friendPosition}`}
+                            title={`${t('dashboard.gap.legendFriend')}: %${row.friendPosition}`}
                           />
                         </>
                       )}
@@ -184,10 +181,10 @@ const DashboardGapTab = memo(function DashboardGapTab({
                           boxShadow: '0 1px 3px rgba(0, 0, 0, 0.03)'
                         }}
                         title={isBalanced
-                          ? (langCode === 'tr' ? 'Uyumlu / Dengeli' : 'Balanced Match')
+                          ? t('dashboard.gap.balancedMatch')
                           : gapDiff > 0
-                            ? (langCode === 'tr' ? 'Dış Algı Daha Yüksek (Yükseliş)' : 'Outside Perceived Higher (Elevated)')
-                            : (langCode === 'tr' ? 'Kendi Algın Daha Yüksek (Düşüş)' : 'Self Perceived Higher (Lower Outside)')
+                            ? t('dashboard.gap.outsideHigher')
+                            : t('dashboard.gap.selfHigher')
                         }
                       >
                         {isBalanced ? (
@@ -219,7 +216,7 @@ const DashboardGapTab = memo(function DashboardGapTab({
               <div>
                 <div className="flex items-center justify-between mb-2.5 sm:mb-3">
                   <span className="px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider bg-[rgba(197,160,89,0.15)] text-[#8C6D37] border border-[rgba(197,160,89,0.3)]">
-                    {langCode === 'tr' ? 'KÖR NOKTA' : 'BLIND SPOT'}
+                    {t('dashboard.gap.blindSpotBadge')}
                   </span>
                   {gapEditorial.blindSpot?.key && (
                     <SignalBadgeIcon signalKey={gapEditorial.blindSpot.key} size={14} boxSize={26} className="sm:w-[28px] sm:h-[28px]" />
@@ -248,7 +245,7 @@ const DashboardGapTab = memo(function DashboardGapTab({
               <div>
                 <div className="flex items-center justify-between mb-2.5 sm:mb-3">
                   <span className="px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider bg-[rgba(224,101,83,0.12)] text-[#D96552] border border-[rgba(224,101,83,0.25)]">
-                    {langCode === 'tr' ? 'SOSYAL MASKE' : 'SOCIAL MASK'}
+                    {t('dashboard.gap.socialMaskBadge')}
                   </span>
                   {gapEditorial.illusionOfSelf?.key && (
                     <SignalBadgeIcon signalKey={gapEditorial.illusionOfSelf.key} size={14} boxSize={26} className="sm:w-[28px] sm:h-[28px]" />
@@ -277,7 +274,7 @@ const DashboardGapTab = memo(function DashboardGapTab({
               <div>
                 <div className="flex items-center justify-between mb-2.5 sm:mb-3">
                   <span className="px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider bg-[rgba(26,62,114,0.08)] text-[#1A3E72] border border-[rgba(26,62,114,0.2)]">
-                    {langCode === 'tr' ? 'TAM UYUM' : 'DEEP SYNC'}
+                    {t('dashboard.gap.deepSyncBadge')}
                   </span>
                   {gapEditorial.deepAlignment?.key && (
                     <SignalBadgeIcon signalKey={gapEditorial.deepAlignment.key} size={14} boxSize={26} className="sm:w-[28px] sm:h-[28px]" />
@@ -298,8 +295,8 @@ const DashboardGapTab = memo(function DashboardGapTab({
       ) : (
         <div className="seenly-dashboard-locked-state">
           <LockedMask
-            title={t('ui', 'locked_section_title')}
-            description={t('ui', 'locked_section_gap_desc')}
+            title={t('dashboard.lockedSectionTitle')}
+            description={t('dashboard.lockedSectionGapDesc')}
             responseCount={responseCount}
             targetCount={3}
             langCode={langCode}

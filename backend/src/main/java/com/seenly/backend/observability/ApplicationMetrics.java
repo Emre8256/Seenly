@@ -44,6 +44,26 @@ public class ApplicationMetrics {
         increment("seenly.cleanup.runs", "type", cleanupType(type), "outcome", outcomeTag(outcome));
     }
 
+    public void emailSent(String type) {
+        increment("email.sent", "notification_type", enumTag(type));
+    }
+
+    public void emailFailed(String type) {
+        increment("email.failed", "notification_type", enumTag(type));
+    }
+
+    public void emailRetry(String type) {
+        increment("email.retry", "notification_type", enumTag(type));
+    }
+
+    public void emailSkipped(String type, String reason) {
+        increment("email.skipped", "notification_type", enumTag(type), "reason", reason);
+    }
+
+    public void emailProviderDisabled(String type) {
+        increment("email.provider.disabled", "notification_type", enumTag(type));
+    }
+
     private void increment(String name, String... tags) {
         Counter.builder(name).tags(tags).register(registry).increment();
     }

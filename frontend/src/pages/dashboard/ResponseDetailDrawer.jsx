@@ -11,17 +11,21 @@ import {
 } from 'lucide-react';
 import anonimLogo from '../../images/Icons/AnonimLOGO.avif';
 import { calibrateTraitScore } from '../../utils/psychometrics';
+import { useLocale } from '../../context/LocaleContext';
 
 const ResponseDetailDrawer = memo(function ResponseDetailDrawer({
   selectedResponse,
   setSelectedResponse,
   isPremium,
-  langCode,
+  langCode: propLangCode,
   handleUpgradeToPlus,
   getObject,
   getSessionCalibratedAccuracy,
   getRelativeTime
 }) {
+  const { t, locale } = useLocale();
+  const tr = (key, vars) => t(key, vars, propLangCode || locale);
+
   if (!selectedResponse) return null;
 
   // 1. FREE USER TEASER MODAL
@@ -40,7 +44,7 @@ const ResponseDetailDrawer = memo(function ResponseDetailDrawer({
             type="button"
             className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center text-[#786C5E] hover:text-[#1A3E72] transition-colors border border-[rgba(197,160,89,0.18)]"
             onClick={() => setSelectedResponse(null)}
-            aria-label={langCode === 'tr' ? 'Pencereyi kapat' : 'Close dialog'}
+            aria-label={tr('dashboard.responses.drawerClose')}
           >
             <X size={15} strokeWidth={2.4} />
           </button>
@@ -50,7 +54,7 @@ const ResponseDetailDrawer = memo(function ResponseDetailDrawer({
             <div className="relative">
               <img
                 src={anonimLogo}
-                alt="Anonim"
+                alt={tr('common.anonymous')}
                 className="w-13 h-13 sm:w-15 sm:h-15 rounded-full object-contain shadow-sm border-[2px] border-[rgba(197,160,89,0.45)] ring-2 ring-[rgba(26,62,114,0.06)]"
               />
               <div className="absolute -bottom-1 -right-1 w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-[#16222F] border-2 border-[#FDFBF4] flex items-center justify-center text-[#C5A059] shadow-sm">
@@ -60,13 +64,13 @@ const ResponseDetailDrawer = memo(function ResponseDetailDrawer({
 
             <div className="flex flex-col items-center gap-0.5 sm:gap-1">
               <span className="font-sans text-[9.5px] uppercase tracking-[0.15em] font-bold text-[#8C6D37]">
-                {langCode === 'tr' ? 'BİREYSEL ANALİZ' : 'INDIVIDUAL ANALYSIS'}
+                {tr('dashboard.responses.individualAnalysis')}
               </span>
               <h3 className="font-serif text-[1.25rem] sm:text-[1.45rem] font-bold text-[#1A3E72] m-0 tracking-tight leading-tight">
                 {getObject('readerStyles', selectedResponse.readerType)?.name || selectedResponse.readerType.replace('_', ' ').toUpperCase()}
               </h3>
               <span className="inline-flex items-center px-2.5 py-0.5 mt-0.5 rounded-full text-[10.5px] sm:text-[11px] font-sans font-bold bg-[#8C6D37]/[0.08] text-[#8C6D37] border border-[#8C6D37]/20">
-                {langCode === 'tr' ? `%${getSessionCalibratedAccuracy(selectedResponse)} Uyum` : `${getSessionCalibratedAccuracy(selectedResponse)}% Match`}
+                {tr('dashboard.responses.matchRate', { accuracy: getSessionCalibratedAccuracy(selectedResponse) })}
               </span>
             </div>
           </div>
@@ -75,15 +79,15 @@ const ResponseDetailDrawer = memo(function ResponseDetailDrawer({
           <div className="my-3.5 sm:my-4 py-2.5 sm:py-3 px-3.5 sm:px-4 rounded-[18px] sm:rounded-[20px] bg-[#F7F2E7]/85 border border-[rgba(197,160,89,0.22)] text-left flex flex-col gap-2 sm:gap-2.5 box-border">
             <div className="flex items-center gap-2 sm:gap-2.5 text-[11.5px] sm:text-[12px] text-[#334155] font-medium">
               <Sparkles size={13} className="text-[#C5A059] shrink-0" />
-              <span>{langCode === 'tr' ? '10 sorunun tamamında verdiği bireysel yanıtlar' : 'Individual answers across all 10 questions'}</span>
+              <span>{tr('dashboard.responses.answersAcrossQuestions')}</span>
             </div>
             <div className="flex items-center gap-2 sm:gap-2.5 text-[11.5px] sm:text-[12px] text-[#334155] font-medium">
               <Timer size={13} className="text-[#C5A059] shrink-0" />
-              <span>{langCode === 'tr' ? 'Sorulardaki düşünme ve karar süreleri' : 'Exact thought and decision durations'}</span>
+              <span>{tr('dashboard.responses.decisionDurations')}</span>
             </div>
             <div className="flex items-center gap-2 sm:gap-2.5 text-[11.5px] sm:text-[12px] text-[#334155] font-medium">
               <ShieldCheck size={13} className="text-[#C5A059] shrink-0" />
-              <span>{langCode === 'tr' ? 'Sosyal sinyal ve karakter algı sapmaları' : 'Social signal and archetype deviations'}</span>
+              <span>{tr('dashboard.responses.archetypeDeviations')}</span>
             </div>
           </div>
 
@@ -91,7 +95,7 @@ const ResponseDetailDrawer = memo(function ResponseDetailDrawer({
           <div className="relative pt-1.5">
             <div className="absolute -top-1 left-1/2 -translate-x-1/2 z-10 pointer-events-none">
               <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#D4AF37] text-[#16222F] text-[8px] font-black tracking-[0.14em] uppercase shadow-sm">
-                {langCode === 'tr' ? 'TEK SEFERLİK' : 'ONE-TIME'}
+                {tr('common.oneTime').toUpperCase()}
               </span>
             </div>
 
@@ -103,7 +107,7 @@ const ResponseDetailDrawer = memo(function ResponseDetailDrawer({
               }}
               className="w-full py-2.5 sm:py-3.5 px-4 sm:px-5 rounded-full bg-[#16222F] hover:bg-[#0E1721] text-white font-sans text-[13px] sm:text-[14px] font-bold tracking-wide shadow-[0_8px_20px_rgba(22,34,47,0.22)] hover:shadow-[0_12px_28px_rgba(22,34,47,0.32)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 flex items-center justify-center gap-2 border border-[#C5A059]/30"
             >
-              <span>{langCode === 'tr' ? 'Plus ile Detayları Aç' : 'Unlock Details with Plus'}</span>
+              <span>{tr('dashboard.responses.unlockDetailsWithPlus')}</span>
               <ArrowRight size={14} strokeWidth={2.4} className="text-[#C5A059]" />
             </button>
           </div>
@@ -111,11 +115,7 @@ const ResponseDetailDrawer = memo(function ResponseDetailDrawer({
           {/* Privacy Guarantee Note */}
           <div className="mt-3 sm:mt-3.5 pt-2.5 sm:pt-3 border-t border-[#EFE8DC] flex items-center justify-center gap-1.5 text-[10.5px] sm:text-[11px] text-[#8C9AA8] font-medium">
             <ShieldCheck size={13} className="text-[#C5A059] shrink-0" />
-            <span>
-              {langCode === 'tr'
-                ? 'Gizlilik Güvencesi: Tüm yansımalar %100 anonimdir.'
-                : 'Privacy Guard: All reflections remain 100% anonymous.'}
-            </span>
+            <span>{tr('dashboard.responses.privacyGuardTeaser')}</span>
           </div>
         </div>
       </div>,
@@ -125,16 +125,16 @@ const ResponseDetailDrawer = memo(function ResponseDetailDrawer({
 
   // 2. PLUS USER FULL BREAKDOWN MODAL
   const detailSignals = [
-    { key: 'samimiyet', label: langCode === 'tr' ? 'Samimiyet' : 'Sincerity' },
-    { key: 'cekicilik', label: langCode === 'tr' ? 'Çekicilik' : 'Charm' },
-    { key: 'zeka', label: langCode === 'tr' ? 'Zeka' : 'Intellect' },
-    { key: 'vizyon', label: langCode === 'tr' ? 'Vizyon' : 'Vision' },
-    { key: 'enerji', label: langCode === 'tr' ? 'Enerji' : 'Energy' },
-    { key: 'guvenilirlik', label: langCode === 'tr' ? 'Güvenilirlik' : 'Reliability' },
-    { key: 'ego', label: langCode === 'tr' ? 'Ego' : 'Ego' },
-    { key: 'basari', label: langCode === 'tr' ? 'Başarı' : 'Success' },
-    { key: 'comertlik', label: langCode === 'tr' ? 'Cömertlik' : 'Generosity' },
-    { key: 'olgunluk', label: langCode === 'tr' ? 'Olgunluk' : 'Maturity' }
+    { key: 'samimiyet', label: tr('common.signals.samimiyet') },
+    { key: 'cekicilik', label: tr('common.signals.cekicilik') },
+    { key: 'zeka', label: tr('common.signals.zeka') },
+    { key: 'vizyon', label: tr('common.signals.vizyon') },
+    { key: 'enerji', label: tr('common.signals.enerji') },
+    { key: 'guvenilirlik', label: tr('common.signals.guvenilirlik') },
+    { key: 'ego', label: tr('common.signals.ego') },
+    { key: 'basari', label: tr('common.signals.basari') },
+    { key: 'comertlik', label: tr('common.signals.comertlik') },
+    { key: 'olgunluk', label: tr('common.signals.olgunluk') }
   ];
   const responseSignals = selectedResponse.signals || {};
   const timeEntries = Object.entries(selectedResponse.friendTimeAnalytics || {})
@@ -168,21 +168,21 @@ const ResponseDetailDrawer = memo(function ResponseDetailDrawer({
             ) : (
               <img
                 src={anonimLogo}
-                alt="Anonim"
+                alt={tr('common.anonymous')}
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-contain shrink-0 shadow-sm border-[1.5px] border-[rgba(197,160,89,0.45)] ring-1 ring-[rgba(26,62,114,0.08)]"
               />
             )}
 
             <div className="min-w-0">
               <span className="font-sans text-[9px] sm:text-[9.5px] uppercase tracking-[0.14em] font-bold text-[#8C6D37] block">
-                {langCode === 'tr' ? 'BİREYSEL YANSIMA DETAYI' : 'INDIVIDUAL REFLECTION DETAIL'}
+                {tr('dashboard.responses.individualReflectionDetail')}
               </span>
               <h3 className="font-serif text-[1.15rem] sm:text-[1.4rem] font-bold text-[#1A3E72] m-0 truncate leading-tight">
                 {!isAnonymous ? `${displayName} · ${readerName}` : readerName}
               </h3>
               <div className="flex items-center gap-1.5 sm:gap-2 mt-0.5 sm:mt-1">
                 <span className="inline-flex items-center px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-[10.5px] font-sans font-bold bg-[#8C6D37]/[0.08] text-[#8C6D37] border border-[#8C6D37]/20">
-                  {langCode === 'tr' ? `%${accuracyScore} Uyum` : `${accuracyScore}% Match`}
+                  {tr('dashboard.responses.matchRate', { accuracy: accuracyScore })}
                 </span>
                 <span className="font-sans text-[10.5px] sm:text-[11px] text-[#8C9AA8]">
                   • {relativeTime}
@@ -196,7 +196,7 @@ const ResponseDetailDrawer = memo(function ResponseDetailDrawer({
             type="button"
             className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center text-[#786C5E] hover:text-[#1A3E72] transition-colors border border-[rgba(197,160,89,0.18)]"
             onClick={() => setSelectedResponse(null)}
-            aria-label={langCode === 'tr' ? 'Pencereyi kapat' : 'Close dialog'}
+            aria-label={tr('dashboard.responses.drawerClose')}
           >
             <X size={15} strokeWidth={2.4} />
           </button>
@@ -208,10 +208,10 @@ const ResponseDetailDrawer = memo(function ResponseDetailDrawer({
           <div className="p-3.5 sm:p-5 rounded-[20px] sm:rounded-[22px] bg-white border border-[rgba(197,160,89,0.25)] shadow-[0_2px_12px_rgba(80,60,40,0.03)] flex flex-col gap-2.5 sm:gap-3">
             <div className="pb-1 border-b border-[#EFE8DC]">
               <h4 className="font-serif text-[1rem] sm:text-[1.05rem] font-bold text-[#1A3E72] m-0">
-                {langCode === 'tr' ? '10 Sosyal Sinyal Dağılımı' : '10 Social Signal Distribution'}
+                {tr('dashboard.responses.signalsDistributionTitle')}
               </h4>
               <p className="font-sans text-[11px] sm:text-[11.5px] text-[#64748B] m-0 mt-0.5">
-                {langCode === 'tr' ? 'Bu kişinin verdiği yanıtlara göre profilinizdeki sinyal skorları:' : 'Signals read by this respondent across questions:'}
+                {tr('dashboard.responses.signalsDistributionDesc')}
               </p>
             </div>
 
@@ -244,10 +244,10 @@ const ResponseDetailDrawer = memo(function ResponseDetailDrawer({
             <div className="p-3.5 sm:p-5 rounded-[20px] sm:rounded-[22px] bg-white border border-[rgba(197,160,89,0.25)] shadow-[0_2px_12px_rgba(80,60,40,0.03)] flex flex-col gap-2.5 sm:gap-3">
               <div className="pb-1 border-b border-[#EFE8DC]">
                 <h4 className="font-serif text-[1rem] sm:text-[1.05rem] font-bold text-[#1A3E72] m-0">
-                  {langCode === 'tr' ? 'Bilişsel Karar Ritmi' : 'Cognitive Decision Rhythm'}
+                  {tr('dashboard.responses.cognitiveRhythmTitle')}
                 </h4>
                 <p className="font-sans text-[11px] sm:text-[11.5px] text-[#64748B] m-0 mt-0.5">
-                  {langCode === 'tr' ? 'Sorularda nerede en çok, nerede en az düşündü?' : 'Where did they spend the most and least time?'}
+                  {tr('dashboard.responses.cognitiveRhythmDesc')}
                 </p>
               </div>
 
@@ -256,7 +256,7 @@ const ResponseDetailDrawer = memo(function ResponseDetailDrawer({
                   <div className="p-3 sm:p-3.5 rounded-[16px] sm:rounded-[18px] bg-[#FDFBF4] border border-[rgba(197,160,89,0.28)] shadow-[0_2px_8px_rgba(80,60,40,0.02)] flex flex-col gap-1.5">
                     <div className="flex items-center gap-1.5 text-[#8C6D37] text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider">
                       <Timer size={12} className="text-[#C5A059]" />
-                      <span>{langCode === 'tr' ? 'En Çok Düşündüğü' : 'Longest Pause'}</span>
+                      <span>{tr('dashboard.responses.longestPause')}</span>
                     </div>
                     <div className="flex items-baseline justify-between gap-1">
                       <span className="font-serif text-[1rem] sm:text-[1.05rem] font-bold text-[#1A3E72] truncate">
@@ -273,7 +273,7 @@ const ResponseDetailDrawer = memo(function ResponseDetailDrawer({
                   <div className="p-3 sm:p-3.5 rounded-[16px] sm:rounded-[18px] bg-[#FDFBF4] border border-[rgba(197,160,89,0.28)] shadow-[0_2px_8px_rgba(80,60,40,0.02)] flex flex-col gap-1.5">
                     <div className="flex items-center gap-1.5 text-[#8C6D37] text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider">
                       <Zap size={12} className="text-[#C5A059]" />
-                      <span>{langCode === 'tr' ? 'En Az Düşündüğü' : 'Fastest Answer'}</span>
+                      <span>{tr('dashboard.responses.fastestAnswer')}</span>
                     </div>
                     <div className="flex items-baseline justify-between gap-1">
                       <span className="font-serif text-[1rem] sm:text-[1.05rem] font-bold text-[#1A3E72] truncate">

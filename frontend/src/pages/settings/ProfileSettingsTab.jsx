@@ -6,9 +6,9 @@ import {
   Clock,
   Trash2
 } from 'lucide-react';
+import { useLocale } from '../../context/LocaleContext';
 
 const ProfileSettingsTab = memo(function ProfileSettingsTab({
-  langCode,
   displayName,
   userEmail,
   currentAvatarSrc,
@@ -38,6 +38,8 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
   handleSaveEmail,
   handleDeleteAccount
 }) {
+  const { t } = useLocale();
+
   return (
     <div className="seenly-settings-content seenly-settings-fade-in">
       <div className="seenly-plan-pro seenly-plan-clean">
@@ -50,7 +52,7 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
             <div
               className="seenly-profile-avatar-preview-wrap cursor-pointer"
               onClick={() => setShowAvatarPicker(prev => !prev)}
-              title={langCode === 'tr' ? 'Avatarı Değiştir' : 'Change Avatar'}
+              title={t('settings.profile.changeAvatar')}
             >
               {currentAvatarSrc ? (
                 <img
@@ -68,24 +70,22 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
             <div className="seenly-avatar-details">
               <div className="seenly-avatar-details-title-row">
                 <h3 className="seenly-avatar-details-title">
-                  {langCode === 'tr' ? 'Profil Avatarı' : 'Profile Avatar'}
+                  {t('settings.profile.avatarTitle')}
                 </h3>
                 {avatarSaveStatus === 'saved' && (
                   <span className="seenly-profile-status-badge">
                     <Check size={12} strokeWidth={2.5} />
-                    {langCode === 'tr' ? 'Kaydedildi' : 'Saved'}
+                    {t('settings.profile.avatarSaved')}
                   </span>
                 )}
                 {avatarSaveStatus === 'saving' && (
                   <span className="seenly-profile-status-badge is-saving">
-                    {langCode === 'tr' ? 'Kaydediliyor...' : 'Saving...'}
+                    {t('settings.profile.avatarSaving')}
                   </span>
                 )}
               </div>
               <p className="seenly-avatar-details-subtext">
-                {langCode === 'tr'
-                  ? 'Panelinizde ve test bağlantınızda görünen temsilciniz.'
-                  : 'Your avatar shown across your dashboard and test link.'}
+                {t('settings.profile.avatarSubtitle')}
               </p>
             </div>
 
@@ -94,7 +94,7 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
               onClick={() => setShowAvatarPicker(prev => !prev)}
               className={`seenly-avatar-toggle-btn ${showAvatarPicker ? 'active' : ''}`}
             >
-              <span>{showAvatarPicker ? (langCode === 'tr' ? 'Kapat' : 'Close') : (langCode === 'tr' ? 'Avatarı Değiştir' : 'Change Avatar')}</span>
+              <span>{showAvatarPicker ? t('settings.profile.closeAvatar') : t('settings.profile.changeAvatar')}</span>
               {showAvatarPicker ? <ChevronUp size={16} strokeWidth={2.2} /> : <ChevronDown size={16} strokeWidth={2.2} />}
             </button>
           </div>
@@ -108,14 +108,14 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
                   onClick={() => setAvatarFilter('kadin')}
                   className={`seenly-avatar-filter-btn ${avatarFilter === 'kadin' ? 'active' : ''}`}
                 >
-                  {langCode === 'tr' ? 'Kız (6)' : 'Women (6)'}
+                  {t('settings.profile.womenCategory')}
                 </button>
                 <button
                   type="button"
                   onClick={() => setAvatarFilter('erkek')}
                   className={`seenly-avatar-filter-btn ${avatarFilter === 'erkek' ? 'active' : ''}`}
                 >
-                  {langCode === 'tr' ? 'Erkek (6)' : 'Men (6)'}
+                  {t('settings.profile.menCategory')}
                 </button>
               </div>
 
@@ -158,7 +158,7 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
             <div className="seenly-form-field">
               <div className="seenly-form-label-row">
                 <label htmlFor="seenly-display-name-input" className="seenly-form-label">
-                  {langCode === 'tr' ? 'Görünen İsim' : 'Display Name'}
+                  {t('settings.profile.displayNameTitle')}
                 </label>
                 <span className="seenly-field-counter">
                   {profileNameInput.length}/15
@@ -177,7 +177,7 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
                     if (nameSaveStatus !== 'idle') setNameSaveStatus('idle');
                   }}
                   maxLength={15}
-                  placeholder={langCode === 'tr' ? 'İsminizi girin...' : 'Enter your name...'}
+                  placeholder={t('settings.profile.displayNamePlaceholder')}
                   className="seenly-form-input"
                   style={isNameChangeLocked ? {
                     opacity: 0.75,
@@ -200,17 +200,17 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
                   {isNameChangeLocked ? (
                     <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                       <Clock size={13} strokeWidth={2.2} />
-                      <span>{langCode === 'tr' ? `Kilitli (${nameChangeDaysRemaining} gün)` : `Locked (${nameChangeDaysRemaining}d)`}</span>
+                      <span>{t('settings.profile.lockedDays', { days: nameChangeDaysRemaining })}</span>
                     </span>
                   ) : nameSaveStatus === 'saving' ? (
-                    <span>{langCode === 'tr' ? 'Kaydediliyor...' : 'Saving...'}</span>
+                    <span>{t('common.processing')}</span>
                   ) : nameSaveStatus === 'saved' ? (
                     <>
                       <Check size={14} strokeWidth={2.5} />
-                      <span>{langCode === 'tr' ? 'Güncellendi' : 'Updated'}</span>
+                      <span>{t('settings.profile.updated')}</span>
                     </>
                   ) : (
-                    <span>{langCode === 'tr' ? 'İsmi Güncelle' : 'Update Name'}</span>
+                    <span>{t('settings.profile.updateName')}</span>
                   )}
                 </button>
               </div>
@@ -222,7 +222,7 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
             )}
             {nameSaveStatus === 'saved' && !nameErrorMessage && (
               <div className="seenly-profile-feedback is-success">
-                {langCode === 'tr' ? 'İsminiz başarıyla güncellendi.' : 'Your name has been updated successfully.'}
+                {t('settings.profile.nameSuccess')}
               </div>
             )}
           </form>
@@ -235,7 +235,7 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
             <div className="seenly-form-field">
               <div className="seenly-form-label-row">
                 <label htmlFor="seenly-email-input" className="seenly-form-label">
-                  {langCode === 'tr' ? 'E-posta Adresi' : 'Email Address'}
+                  {t('settings.profile.emailTitle')}
                 </label>
               </div>
               <div className="seenly-inline-input-group">
@@ -248,7 +248,7 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
                     if (emailErrorMessage) setEmailErrorMessage('');
                     if (emailSaveStatus !== 'idle') setEmailSaveStatus('idle');
                   }}
-                  placeholder={langCode === 'tr' ? 'eposta@adresiniz.com' : 'your@email.com'}
+                  placeholder={t('settings.profile.emailPlaceholder')}
                   className="seenly-form-input"
                 />
                 <button
@@ -257,14 +257,14 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
                   className={`seenly-inline-save-btn ${emailSaveStatus === 'saved' ? 'is-saved' : ''}`}
                 >
                   {emailSaveStatus === 'saving' ? (
-                    <span>{langCode === 'tr' ? 'Kaydediliyor...' : 'Saving...'}</span>
+                    <span>{t('common.processing')}</span>
                   ) : emailSaveStatus === 'saved' ? (
                     <>
                       <Check size={14} strokeWidth={2.5} />
-                      <span>{langCode === 'tr' ? 'Güncellendi' : 'Updated'}</span>
+                      <span>{t('settings.profile.updated')}</span>
                     </>
                   ) : (
-                    <span>{langCode === 'tr' ? 'E-postayı Güncelle' : 'Update Email'}</span>
+                    <span>{t('settings.profile.updateEmail')}</span>
                   )}
                 </button>
               </div>
@@ -276,7 +276,7 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
             )}
             {emailSaveStatus === 'saved' && !emailErrorMessage && (
               <div className="seenly-profile-feedback is-success">
-                {langCode === 'tr' ? 'E-posta adresiniz başarıyla güncellendi.' : 'Your email address has been updated successfully.'}
+                {t('settings.profile.emailSuccess')}
               </div>
             )}
           </form>
@@ -288,12 +288,10 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
           <div className="seenly-danger-content">
             <div className="seenly-danger-info">
               <h4 className="seenly-danger-title">
-                {langCode === 'tr' ? 'Hesabı Sil' : 'Delete Account'}
+                {t('settings.deleteAccount.deleteAccountBtn')}
               </h4>
               <p className="seenly-danger-subtext">
-                {langCode === 'tr'
-                  ? 'Hesabınızı ve hesabınıza ait tüm analiz verilerini kalıcı olarak kaldırın. Bu işlem geri alınamaz.'
-                  : 'Permanently remove your account and all associated test data. This action cannot be undone.'}
+                {t('settings.deleteAccount.confirmDialog')}
               </p>
             </div>
 
@@ -303,7 +301,7 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
               className="seenly-danger-outline-btn"
             >
               <Trash2 size={14} strokeWidth={2} />
-              <span>{langCode === 'tr' ? 'Hesabımı Sil' : 'Delete Account'}</span>
+              <span>{t('settings.deleteAccount.deleteAccountBtn')}</span>
             </button>
           </div>
 

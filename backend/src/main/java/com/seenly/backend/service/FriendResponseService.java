@@ -19,7 +19,17 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.seenly.backend.email.EmailNotificationService;
+import com.seenly.backend.email.NotificationType;
+import com.seenly.backend.repository.EmailOutboxRepository;
+
+import java.time.Clock;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +44,9 @@ public class FriendResponseService {
     private final AssessmentValidationService assessmentValidationService;
     private final AuditLogService auditLogService;
     private final ApplicationMetrics metrics;
+    private final EmailNotificationService emailNotificationService;
+    private final EmailOutboxRepository emailOutboxRepository;
+    private final Clock clock;
 
     /**
      * The target row lock serializes duplicate validation, capacity consumption,
@@ -70,7 +83,7 @@ public class FriendResponseService {
         int totalAllowedCapacity = seenly.getIsPremium()
             ? Integer.MAX_VALUE
             : seenly.getBaseFormCapacity() + seenly.getPurchasedExtraCapacity();
-        if (seenly.isCapped() || seenly.getResponseCount() >= totalAllowedCapacity) {
+        if (!seenly.getIsPremium() && (seenly.isCapped() || seenly.getResponseCount() >= totalAllowedCapacity)) {
             seenly.setCapped(true);
             metrics.participantSubmission("capacity_exhausted");
             auditLogService.record(AuditEvent.PARTICIPANT_SUBMISSION_REJECTED, "blocked",
@@ -99,13 +112,89 @@ public class FriendResponseService {
             throw new DuplicateResponseException();
         }
 
-        int nextCount = seenly.getResponseCount() + 1;
+        int prevCount = seenly.getResponseCount();
+        int nextCount = prevCount + 1;
         seenly.setResponseCount(nextCount);
+        seenly.setLastActivityAt(LocalDateTime.ofInstant(clock.instant(), ZoneOffset.UTC));
         if (!seenly.getIsPremium() && nextCount >= totalAllowedCapacity) {
             seenly.setCapped(true);
+        } else {
+            seenly.setCapped(false);
         }
         seenlyRepository.saveAndFlush(seenly);
         scoringEngineService.recalculateResultSnapshot(seenly);
+
+        // Cancel any pending inactivity reminder on activity
+        emailOutboxRepository.cancelPendingByPrefix("inactivity-reminder:" + seenly.getId() + ":%", clock.instant());
+
+        String email = seenly.getEmail();
+        UUID userId = seenly.getUser() != null ? seenly.getUser().getId() : null;
+
+        if (email != null && !email.isBlank()) {
+            Instant now = clock.instant();
+
+            // 1. Report Unlocked on exactly 2 -> 3 transition
+            if (prevCount == 2 && nextCount == 3) {
+                emailNotificationService.enqueue(
+                    NotificationType.REPORT_UNLOCKED,
+                    email,
+                    userId,
+                    "tr",
+                    Map.of("dashboardUrl", "https://seenly.app/dashboard"),
+                    "report-unlocked:" + seenly.getId(),
+                    now,
+                    null
+                );
+                // Cancel pending first-share reminder once 3 responses are received
+                emailOutboxRepository.cancelPendingByPrefix("first-share-reminder:" + seenly.getId() + "%", now);
+            }
+
+            // 2. Debounce new evaluations (10 minute window)
+            long windowEpoch = now.getEpochSecond() / 600;
+            Instant scheduledEnd = Instant.ofEpochSecond((windowEpoch + 1) * 600);
+            String debounceKey = "new-evaluation:" + seenly.getId() + ":" + windowEpoch;
+            emailNotificationService.enqueue(
+                NotificationType.NEW_EVALUATION,
+                email,
+                userId,
+                "tr",
+                Map.of("count", 1, "dashboardUrl", "https://seenly.app/dashboard"),
+                debounceKey,
+                scheduledEnd,
+                null
+            );
+
+            // 3. Capacity alerts for non-premium profiles
+            if (!seenly.getIsPremium() && totalAllowedCapacity > 0) {
+                String capacityVersion = seenly.getBaseFormCapacity() + "_" + seenly.getPurchasedExtraCapacity();
+                double prevRatio = (double) prevCount / totalAllowedCapacity;
+                double nextRatio = (double) nextCount / totalAllowedCapacity;
+
+                if (prevRatio < 0.8 && nextRatio >= 0.8 && nextRatio < 1.0) {
+                    emailNotificationService.enqueue(
+                        NotificationType.CAPACITY_80_PERCENT,
+                        email,
+                        userId,
+                        "tr",
+                        Map.of("currentResponses", nextCount, "maxCapacity", totalAllowedCapacity, "upgradeUrl", "https://seenly.app/pricing"),
+                        "capacity-80:" + seenly.getId() + ":" + capacityVersion,
+                        now,
+                        null
+                    );
+                } else if (prevCount < totalAllowedCapacity && nextCount >= totalAllowedCapacity) {
+                    emailNotificationService.enqueue(
+                        NotificationType.CAPACITY_FULL,
+                        email,
+                        userId,
+                        "tr",
+                        Map.of("maxCapacity", totalAllowedCapacity, "upgradeUrl", "https://seenly.app/pricing"),
+                        "capacity-full:" + seenly.getId() + ":" + capacityVersion,
+                        now,
+                        null
+                    );
+                }
+            }
+        }
 
         String styleId = readerGameService.calculateReaderStyle(session);
         double accuracy = readerGameService.calculatePerceptionAccuracy(session);

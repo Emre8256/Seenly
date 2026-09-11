@@ -156,11 +156,12 @@ export function getCardRarityData(signatureId, dynamicApiData = null, langCode =
     tierConfig = getRarityFromTopPercentile(topPercentile);
   }
 
-  const isTr = langCode === 'tr';
-  const badgeLabel = isTr ? tierConfig.trLabel : tierConfig.enLabel;
+  const tierKey = `common.rarity.${tierConfig.id.toLowerCase()}`;
+  const badgeLabel = typeof langCode === 'function' ? langCode(tierKey) : (langCode === 'en' ? tierConfig.enLabel : tierConfig.trLabel);
 
   return {
     ...tierConfig,
+    tierKey,
     topPercentile,
     badgeLabel,
     hasSymbol: false,

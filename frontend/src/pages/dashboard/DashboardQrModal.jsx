@@ -2,14 +2,17 @@ import React, { memo, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import QRCode from 'qrcode';
+import { useLocale } from '../../context/LocaleContext';
 
 const DashboardQrModal = memo(function DashboardQrModal({
   qrModalOpen,
   setQrModalOpen,
   snapshot,
   displayName,
-  langCode
+  langCode: propLangCode
 }) {
+  const { t, locale } = useLocale();
+  const tr = (key, vars) => t(key, vars, propLangCode || locale);
   const [qrDataUrl, setQrDataUrl] = useState('');
   const dialogRef = useRef(null);
   const closeRef = useRef(null);
@@ -55,24 +58,24 @@ const DashboardQrModal = memo(function DashboardQrModal({
           type="button"
           onClick={() => setQrModalOpen(false)}
           className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center text-[#786C5E] hover:text-[#1A3E72] transition-colors border border-[rgba(197,160,89,0.18)]"
-          aria-label={langCode === 'tr' ? 'Kapat' : 'Close'}
+          aria-label={tr('dashboard.qr.close')}
           ref={closeRef}
         >
           <X size={15} strokeWidth={2.4} />
         </button>
 
         <h3 id="dashboard-qr-title" className="font-serif text-[1.3rem] sm:text-[1.5rem] font-bold text-[#1A3E72] m-0 mb-1.5 leading-tight">
-          {langCode === 'tr' ? 'Profil Karekodu' : 'Profile QR Code'}
+          {tr('dashboard.qr.modalTitle')}
         </h3>
 
         <p className="font-sans text-[0.8rem] sm:text-[0.85rem] text-[#64748B] m-0 mb-4 sm:mb-5 leading-relaxed max-w-[260px]">
-          {langCode === 'tr' ? 'Arkadaşlarının seni okuması için bu karekodu okutmasını sağla.' : 'Let your friends scan this QR code to read your signals.'}
+          {tr('dashboard.qr.modalDesc')}
         </p>
 
         <div className="p-3 sm:p-4 rounded-2xl bg-white border border-[rgba(197,160,89,0.25)] shadow-[0_4px_16px_rgba(80,60,40,0.06)] mb-4 sm:mb-5">
           <img
             src={qrDataUrl}
-            alt="Profile QR Code"
+            alt={tr('accessibility.profileQrCode')}
             className="w-[160px] h-[160px] sm:w-[190px] sm:h-[190px] object-contain block rounded-lg"
           />
         </div>
@@ -94,7 +97,7 @@ const DashboardQrModal = memo(function DashboardQrModal({
             <polyline points="7 10 12 15 17 10"></polyline>
             <line x1="12" y1="15" x2="12" y2="3"></line>
           </svg>
-          <span>{langCode === 'tr' ? 'KAREKODU İNDİR' : 'DOWNLOAD QR'}</span>
+          <span>{tr('dashboard.qr.downloadQr')}</span>
         </button>
       </div>
     </div>,

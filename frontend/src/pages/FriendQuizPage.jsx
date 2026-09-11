@@ -128,10 +128,10 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
         onComplete(result);
       }
     } catch (err) {
-      setErrorMessage(err.message || 'An error occurred while submitting your response.');
+      setErrorMessage(err.message || t('errors.generic'));
       setIsSubmitting(false);
     }
-  }, [slug, state.nickname, onComplete]);
+  }, [slug, state.nickname, onComplete, t]);
 
   const handleNext = useCallback(() => {
     const questionId = FRIEND_QUESTION_IDS[state.currentIndex];
@@ -185,7 +185,7 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
         <div className="seenly-wizard-container">
           <div className="seenly-wizard-body" style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
             <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '2rem', fontWeight: '400', marginBottom: '1.5rem', color: 'var(--color-deep-ink)' }}>
-              {t('ui', 'missing_id_fallback')}
+              {t('participant.quiz.submittingTitle')}
             </h2>
             <div style={{
               width: '100%',
@@ -220,7 +220,7 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
             type="button"
             className="seenly-wizard-back-btn"
             onClick={handleGoBack}
-            aria-label="Go back"
+            aria-label={t('accessibility.goBack')}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="19" y1="12" x2="5" y2="12" />
@@ -238,7 +238,7 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
               type="button"
               className="lang-dropdown-trigger"
               onClick={() => setLangOpen(prev => !prev)}
-              aria-label="Dil seç"
+              aria-label={t('accessibility.selectLanguage')}
             >
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10" />

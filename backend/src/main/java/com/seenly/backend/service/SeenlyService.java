@@ -43,11 +43,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Pattern;
+
+import com.seenly.backend.dto.NotificationPreferencesDto;
+import com.seenly.backend.email.EmailNotificationService;
+import com.seenly.backend.email.NotificationType;
+import com.seenly.backend.email.UserNotificationPreferencesService;
+
+import java.time.Clock;
+import java.time.Duration;
+import java.time.ZoneOffset;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class SeenlyService {
+
+    private static final Pattern PARTICIPANT_SIGNAL_PATTERN = Pattern.compile("^[A-Za-z0-9_-]{8,64}$");
 
     private final SeenlyRepository seenlyRepository;
     private final UserRepository userRepository;
@@ -60,6 +72,9 @@ public class SeenlyService {
     private final AbuseSignalService abuseSignalService;
     private final ResponseSessionRepository responseSessionRepository;
     private final AuditLogService auditLogService;
+    private final EmailNotificationService emailNotificationService;
+    private final UserNotificationPreferencesService preferencesService;
+    private final Clock clock;
 
     /**
      * Creates a new Seenly profile with owner's self answers.
@@ -82,6 +97,7 @@ public class SeenlyService {
         OwnerSessionService.SessionCredentials session = ownerSessionService.newCredentials();
         String publicSlug = tokenHashingService.generatePublicSlug();
 
+        LocalDateTime nowDateTime = LocalDateTime.ofInstant(clock.instant(), ZoneOffset.UTC);
         Seenly seenly = Seenly.builder()
             .displayName(request.getDisplayName())
             .email(normalizedEmail)
@@ -90,6 +106,7 @@ public class SeenlyService {
             .ownerTokenExpiresAt(session.expiresAt())
             .responseCount(0)
             .isCapped(false)
+            .lastActivityAt(nowDateTime)
             .build();
 
         seenly.setSelfAnswers(request.getSelfAnswers().stream().map(ans ->
@@ -101,6 +118,19 @@ public class SeenlyService {
         ).collect(Collectors.toList()));
 
         seenlyRepository.save(seenly);
+
+        if (normalizedEmail != null) {
+            emailNotificationService.enqueue(
+                NotificationType.FIRST_SHARE_REMINDER,
+                normalizedEmail,
+                null,
+                "tr",
+                Map.of("shareUrl", "https://seenly.app/p/" + publicSlug),
+                "first-share-reminder:" + seenly.getId(),
+                clock.instant().plus(Duration.ofHours(24)),
+                null
+            );
+        }
 
         ResultSnapshot snapshot = scoringEngineService.calculateSelfResult(seenly);
         OwnerDashboardDto snapshotDto = snapshotMapperService.toOwnerDto(snapshot);
@@ -121,19 +151,19 @@ public class SeenlyService {
     @Transactional(readOnly = true)
     public OwnerResponseHistoryPageDto getOwnerResponseHistory(String ownerToken, String cursor, int limit) {
         Seenly seenly = getSeenlyFromToken(ownerToken);
-        if (!seenly.getIsPremium()) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Seenly Plus is required for response history.");
-        }
         HistoryCursor before = decodeHistoryCursor(cursor);
         var slice = responseSessionRepository.findOwnerHistory(
             seenly.getId(), before == null ? null : before.createdAt(),
             before == null ? null : before.id(), PageRequest.of(0, Math.min(Math.max(limit, 1), 25)));
         Map<String, Integer> selfAnswers = new HashMap<>();
-        for (SelfAnswer answer : seenly.getSelfAnswers()) {
-            selfAnswers.put(SnapshotMapperService.extractLensFromQuestionId(answer.getQuestionId()), answer.getAnswerValue());
+        if (seenly.getSelfAnswers() != null) {
+            for (SelfAnswer answer : seenly.getSelfAnswers()) {
+                selfAnswers.put(SnapshotMapperService.extractLensFromQuestionId(answer.getQuestionId()), answer.getAnswerValue());
+            }
         }
+        boolean isPremium = Boolean.TRUE.equals(seenly.getIsPremium());
         List<ResponseSessionDto> items = slice.getContent().stream()
-            .map(session -> snapshotMapperService.toSessionDto(session, selfAnswers))
+            .map(session -> snapshotMapperService.toSessionDto(session, selfAnswers, isPremium))
             .toList();
         String next = slice.hasNext() && !slice.getContent().isEmpty()
             ? encodeHistoryCursor(slice.getContent().get(slice.getContent().size() - 1))
@@ -161,13 +191,50 @@ public class SeenlyService {
     private record HistoryCursor(LocalDateTime createdAt, UUID id) {}
 
     /**
-     * Returns public dashboard snapshot with zero-leak privacy masking.
+     * Fail-closed overload: unauthenticated callers are locked by default with COMPLETE_TEST_REQUIRED.
      */
     @Transactional(readOnly = true)
     public PublicProfileDto getPublicDashboard(String publicSlug) {
+        return getPublicDashboard(publicSlug, null, null);
+    }
+
+    /**
+     * Returns public dashboard snapshot with strict server-side access control for outside perception.
+     * Outside perception data is only revealed if:
+     * 1. Viewer is verified participant (via hashed signal match on target profile) OR verified active owner.
+     * 2. Response threshold (>= 3) is met.
+     */
+    @Transactional(readOnly = true)
+    public PublicProfileDto getPublicDashboard(String publicSlug, String participantSignal, String ownerToken) {
         Seenly seenly = seenlyRepository.findPublicProfileBySlug(publicSlug)
             .orElseThrow(() -> new ResourceNotFoundException("Seenly profile not found for the provided slug."));
-        return snapshotMapperService.toPublicDto(seenly.getResultSnapshot());
+
+        boolean isOwner = false;
+        if (ownerToken != null && !ownerToken.isBlank()) {
+            isOwner = ownerSessionService.matchesActiveOwner(seenly, ownerToken.trim());
+        }
+
+        boolean isParticipant = false;
+        if (participantSignal != null) {
+            String trimmedSignal = participantSignal.trim();
+            if (PARTICIPANT_SIGNAL_PATTERN.matcher(trimmedSignal).matches()) {
+                String hashedSignal = abuseSignalService.fingerprintHash(trimmedSignal);
+                isParticipant = responseSessionRepository.existsBySeenlyIdAndFingerprintHash(seenly.getId(), hashedSignal);
+            }
+        }
+
+        boolean isAuthorizedViewer = isOwner || isParticipant;
+        boolean thresholdMet = seenly.getResponseCount() >= AppConstants.MIN_RESPONSES_FOR_OUTSIDE;
+
+        boolean outsidePerceptionAllowed = isAuthorizedViewer && thresholdMet;
+        String lockReason = null;
+        if (!isAuthorizedViewer) {
+            lockReason = "COMPLETE_TEST_REQUIRED";
+        } else if (!thresholdMet) {
+            lockReason = "INSUFFICIENT_RESPONSES";
+        }
+
+        return snapshotMapperService.toPublicDto(seenly.getResultSnapshot(), outsidePerceptionAllowed, lockReason);
     }
 
     /**
@@ -228,13 +295,42 @@ public class SeenlyService {
             throw new EmailAlreadyExistsException("Bu e-posta adresi başka bir hesap tarafından kullanılıyor.");
         }
 
+        String oldEmail = seenly.getEmail();
         seenly.setEmail(cleanedEmail);
         if (seenly.getUser() != null) {
             seenly.getUser().setEmail(cleanedEmail);
         }
         seenlyRepository.save(seenly);
 
+        if (oldEmail != null && !oldEmail.equalsIgnoreCase(cleanedEmail)) {
+            emailNotificationService.enqueue(
+                NotificationType.EMAIL_CHANGED,
+                oldEmail,
+                seenly.getUser() != null ? seenly.getUser().getId() : null,
+                "tr",
+                Map.of("securityUrl", "https://seenly.app/settings/security"),
+                "email-changed:" + seenly.getId() + ":" + EmailNotificationService.hashRecipient(oldEmail) + ":" + clock.instant().toEpochMilli(),
+                clock.instant(),
+                null
+            );
+        }
+
         return snapshotMapperService.toOwnerDto(seenly.getResultSnapshot());
+    }
+
+    @Transactional(readOnly = true)
+    public NotificationPreferencesDto getNotificationPreferences(String ownerToken) {
+        Seenly seenly = getSeenlyFromToken(ownerToken);
+        return preferencesService.getPreferences(seenly.getUser());
+    }
+
+    @Transactional
+    public NotificationPreferencesDto updateNotificationPreferences(String ownerToken, NotificationPreferencesDto dto) {
+        Seenly seenly = getSeenlyFromToken(ownerToken);
+        if (seenly.getUser() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Profile must have an active user account to configure preferences");
+        }
+        return preferencesService.updatePreferences(seenly.getUser(), dto);
     }
 
     /**

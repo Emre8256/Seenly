@@ -29,7 +29,7 @@ export default function FriendResultPage({ slug, onNavigateToQuiz }) {
   const _slug = slug || result?.publicSlug || '';
 
   const getWhatsAppShareLink = useCallback((cardName) =>
-    buildWhatsAppLink(cardName, _slug), [_slug]);
+    buildWhatsAppLink(cardName, _slug, t), [_slug, t]);
 
   const handleInstagramShare = useCallback((cardName, illustrationSrc) => {
     handleInstagramStory(cardName, illustrationSrc, _slug, langCode);
@@ -75,11 +75,11 @@ export default function FriendResultPage({ slug, onNavigateToQuiz }) {
 
   const styleObj = getObject('readerStyles', styleId) || {
     name: styleId,
-    oneLine: 'Awaiting style calibration...'
+    oneLine: ''
   };
 
   return (
-    <AppShell isDashboard={true} showLogout={false} footerMode="simple">
+    <AppShell isDashboard={true} watercolorBackground footerMode="simple">
       <div className="seenly-dashboard-page-wrapper py-6 sm:py-10">
         <FriendResultPreview
           styleId={styleId}

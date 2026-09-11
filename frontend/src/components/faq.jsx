@@ -1,33 +1,13 @@
 "use client"
 
 import { useState } from "react"
+import { useLocale } from "../context/LocaleContext"
 import { WatercolorStain } from "./marks"
 
-const faqs = [
-  {
-    q: "Seenly bir kişilik testi mi?",
-    a: "Hayır. Seenly, öz algın ile dış algın arasındaki ilişkiyi keşfetmene yardımcı olan bir deneyimdir; seni bir kalıba sokmaz.",
-  },
-  {
-    q: "Kaç kişinin katkısı gerekir?",
-    a: "Outside özeti için en az 3, Gap okuması için en az 6 katkı gerekir.",
-  },
-  {
-    q: "Katılımcılar görünür mü?",
-    a: "Hayır. Katılımcıların kimlikleri hiçbir zaman paylaşılmaz.",
-  },
-  {
-    q: "Sonuçlarımı paylaşabilir miyim?",
-    a: "Evet. Dilediğin katmanı seçip özel bir kart veya bağlantı olarak paylaşabilirsin.",
-  },
-  {
-    q: "Ücretli mi?",
-    a: "Temel deneyim ücretsizdir. Ayrıntılı analiz ve koleksiyon kartları için tek seferlik bir rapor alınabilir.",
-  },
-]
-
 export function Faq() {
+  const { t, faq: localeFaq } = useLocale()
   const [open, setOpen] = useState(null)
+  const items = Array.isArray(localeFaq) ? localeFaq.slice(0, 5) : []
 
   return (
     <section className="paper-grain relative overflow-hidden bg-background">
@@ -42,26 +22,26 @@ export function Faq() {
         <div className="grid gap-12 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20">
           <div className="lg:sticky lg:top-28 lg:self-start">
             <p className="font-mono text-[0.7rem] uppercase tracking-[0.34em] text-clay">
-              Sorular
+              {t("common.faq.questionsTag")}
             </p>
             <h2 className="mt-5 text-balance font-heading text-3xl font-medium leading-[1.1] tracking-tight text-foreground sm:text-[2.6rem]">
-              Merak ettiklerin.
+              {t("common.faq.questionsHeadline")}
             </h2>
           </div>
 
           <ol className="divide-y divide-border/70 border-t border-border/70">
-            {faqs.map((faq, i) => {
+            {items.map((item, i) => {
               const isOpen = open === i
               return (
-                <li key={faq.q}>
+                <li key={item.id || item.question}>
                   <button
                     type="button"
                     onClick={() => setOpen(isOpen ? null : i)}
-                    className="flex w-full items-start justify-between gap-6 py-6 text-left"
+                    className="flex w-full items-start justify-between gap-6 py-6 text-left touch-manipulation cursor-pointer select-none"
                     aria-expanded={isOpen}
                   >
                     <span className="font-heading text-lg font-medium text-foreground sm:text-xl">
-                      {faq.q}
+                      {item.question}
                     </span>
                     <span
                       aria-hidden="true"
@@ -69,19 +49,19 @@ export function Faq() {
                     >
                       <span className="absolute left-0 top-1/2 h-px w-4 -translate-y-1/2 bg-clay" />
                       <span
-                        className={`absolute left-1/2 top-0 h-4 w-px -translate-x-1/2 bg-clay transition-transform duration-500 ${isOpen ? "rotate-90 opacity-0" : "rotate-0"}`}
+                        className={`absolute left-1/2 top-0 h-4 w-px -translate-x-1/2 bg-clay transition-transform duration-200 ${isOpen ? "rotate-90 opacity-0" : "rotate-0"}`}
                       />
                     </span>
                   </button>
                   <div
-                    className={`grid transition-all duration-500 ease-out ${
+                    className={`grid transition-all duration-200 ease-out ${
                       isOpen
                         ? "grid-rows-[1fr] pb-6 opacity-100"
                         : "grid-rows-[0fr] opacity-0"
                     }`}
                   >
                     <p className="overflow-hidden text-pretty text-base leading-relaxed text-muted-foreground">
-                      {faq.a}
+                      {item.answer}
                     </p>
                   </div>
                 </li>

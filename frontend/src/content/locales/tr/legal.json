@@ -1,0 +1,20 @@
+{
+  "chrome": {
+    "goBack": "Geri Dön",
+    "backHome": "Ana Sayfaya Dön",
+    "lastUpdated": "Son güncelleme: {date}",
+    "fallbackNotice": "Bu yasal metin şu anda yalnızca resmi İngilizce sürümünde mevcuttur. Türkçe metin onaylandığında güncellenecektir."
+  },
+  "terms": {
+    "title": "Kullanım Koşulları",
+    "lastUpdated": "4 Eylül 2026"
+  },
+  "privacy": {
+    "title": "Gizlilik Politikası",
+    "lastUpdated": "4 Eylül 2026"
+  },
+  "refund": {
+    "title": "İade Politikası",
+    "lastUpdated": "Eylül 2026"
+  }
+}

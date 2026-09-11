@@ -61,7 +61,7 @@ class PerformanceQueryIntegrationTest {
 
         SessionFactory sessionFactory = entityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
         sessionFactory.getStatistics().clear();
-        PublicProfileDto profile = seenlyService.getPublicDashboard(slug);
+        PublicProfileDto profile = seenlyService.getPublicDashboard(slug, null, "query-budget-token");
 
         assertThat(profile.getFriendAverages()).hasSize(10).allSatisfy((lens, average) ->
             assertThat(average).isEqualTo(3.0));

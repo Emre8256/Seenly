@@ -1,0 +1,142 @@
+{
+  "FIRST_SHARE_REMINDER": {
+    "subject": "Seenly profiliniz ilk yanıtlarını bekliyor",
+    "preheader": "Profil linkinizi arkadaşlarınızla paylaşarak analizinizi başlatın.",
+    "title": "Profiliniz Hazır, Şimdi Paylaşma Zamanı",
+    "body": "Seenly profilinizi oluşturdunuz ancak henüz yeterli değerlendirme gelmedi. Arkadaşlarınızın hakkınızdaki samimi izlenimlerini öğrenmek için linkinizi paylaşın.",
+    "ctaText": "Profilimi Paylaş",
+    "ctaUrl": "{{shareUrl}}",
+    "footer": "Bu e-posta Seenly hesabınız için gönderilmiştir.",
+    "plainText": "Merhaba,\n\nSeenly profiliniz hazır! Arkadaşlarınızın hakkınızdaki samimi izlenimlerini öğrenmek için linkinizi paylaşın:\n{{shareUrl}}\n\nSeenly Ekibi"
+  },
+  "NEW_EVALUATION": {
+    "subject": "Seenly'niz için {{count}} yeni değerlendirme geldi",
+    "preheader": "Arkadaşlarınız soruları yanıtladı.",
+    "title": "Yeni Değerlendirmeler Alındı",
+    "body": "Seenly profiliniz için {{count}} yeni anonim değerlendirme kaydedildi. Sonuçlarınızı incelemek için panelinize göz atın.",
+    "ctaText": "Sonuçları Gör",
+    "ctaUrl": "{{dashboardUrl}}",
+    "footer": "Bu e-posta yeni değerlendirme bildirimleri açık olduğu için gönderilmiştir.",
+    "plainText": "Merhaba,\n\nSeenly profiliniz için {{count}} yeni anonim değerlendirme kaydedildi!\nSonuçları incelemek için:\n{{dashboardUrl}}\n\nSeenly Ekibi"
+  },
+  "REPORT_UNLOCKED": {
+    "subject": "Tebrikler! Dış Görünüş Raporunuz Açıldı",
+    "preheader": "3 değerlendirme eşiğine ulaşıldı ve raporunuz hazır.",
+    "title": "Raporunuz Artık Erişilebilir",
+    "body": "Harika haber! Profiliniz için 3 değerlendirme tamamlandı. Dışarıdan nasıl algılandığınızı gösteren ilk analiziniz hazır.",
+    "ctaText": "Raporu İncele",
+    "ctaUrl": "{{dashboardUrl}}",
+    "footer": "Seenly Rapor Bildirimi",
+    "plainText": "Merhaba,\n\nHarika haber! Profiliniz için 3 değerlendirme tamamlandı ve dış görünüş raporunuz açıldı.\nİncelemek için:\n{{dashboardUrl}}\n\nSeenly Ekibi"
+  },
+  "INACTIVITY_REMINDER": {
+    "subject": "Seenly profilinizde son durum",
+    "preheader": "Profilinizi güncel tutarak yeni geri bildirimler toplayabilirsiniz.",
+    "title": "Sizi Özledik",
+    "body": "Bir süredir profilinizde yeni bir hareketlilik olmadı. Linkinizi tekrar paylaşarak arkadaşlarınızın güncel izlenimlerini alabilirsiniz.",
+    "ctaText": "Panele Git",
+    "ctaUrl": "{{dashboardUrl}}",
+    "footer": "Bu hatırlatmayı bildirim tercihlerinizden kapatabilirsiniz.",
+    "plainText": "Merhaba,\n\nBir süredir profilinizde yeni hareketlilik olmadı. Linkinizi tekrar paylaşarak güncel izlenimler toplayabilirsiniz:\n{{dashboardUrl}}\n\nSeenly Ekibi"
+  },
+  "CAPACITY_80_PERCENT": {
+    "subject": "Kapasitenizin %80'ine ulaştınız",
+    "preheader": "Yanıt sınırınıza yaklaşıyorsunuz.",
+    "title": "Kapasite Uyarısı (%80)",
+    "body": "Seenly profiliniz izin verilen yanıt kapasitesinin %80'ine ulaştı ({{currentResponses}}/{{maxCapacity}}). Yeni yanıtları kaçırmamak için kapasitenizi artırabilirsiniz.",
+    "ctaText": "Kapasiteyi Artır",
+    "ctaUrl": "{{upgradeUrl}}",
+    "footer": "Seenly Kapasite Bildirimi",
+    "plainText": "Merhaba,\n\nProfiliniz izin verilen yanıt kapasitesinin %80'ine ulaştı ({{currentResponses}}/{{maxCapacity}}).\nKapasiteyi artırmak için:\n{{upgradeUrl}}\n\nSeenly Ekibi"
+  },
+  "CAPACITY_FULL": {
+    "subject": "Yanıt kapasiteniz doldu",
+    "preheader": "Profiliniz yeni yanıtlara kapandı.",
+    "title": "Kapasite Tamamen Doldu",
+    "body": "Seenly profiliniz maksimum yanıt sınırına ulaştı ({{maxCapacity}} yanıt). Daha fazla arkadaşınızın yanıt verebilmesi için profilinizi yükseltebilirsiniz.",
+    "ctaText": "Kapasiteyi Yükselt",
+    "ctaUrl": "{{upgradeUrl}}",
+    "footer": "Seenly Kapasite Bildirimi",
+    "plainText": "Merhaba,\n\nProfiliniz maksimum yanıt kapasitesine ulaştı. Yeni yanıtları kabul etmek için:\n{{upgradeUrl}}\n\nSeenly Ekibi"
+  },
+  "PLUS_WELCOME": {
+    "subject": "Seenly Plus'a Hoş Geldiniz!",
+    "preheader": "Tek seferlik satın alımınız onaylandı.",
+    "title": "Plus Özellikleriniz Aktif Edildi",
+    "body": "Seenly Plus tek seferlik satın alımınız başarıyla tamamlandı. Artık sınırsız yanıt kapasitesi ve derinlemesine analizlerin keyfini çıkarabilirsiniz.",
+    "ctaText": "Panelime Dön",
+    "ctaUrl": "{{dashboardUrl}}",
+    "footer": "Seenly Plus — Tek Seferlik Satın Alım",
+    "plainText": "Merhaba,\n\nSeenly Plus tek seferlik satın alımınız onaylandı ve profilinize tanımlandı.\nPanelinize erişmek için:\n{{dashboardUrl}}\n\nSeenly Ekibi"
+  },
+  "PURCHASE_RECEIPT": {
+    "subject": "Seenly Satın Alım Makbuzu (#{{reference}})",
+    "preheader": "Ödemeniz başarıyla alındı.",
+    "title": "Satın Alım Detayları",
+    "body": "Ödemeniz başarıyla işlendi. Ürün: {{product}}, Tutar: {{amount}} {{currency}}, İşlem Referansı: {{reference}}, Tarih: {{timestamp}}.",
+    "ctaText": "Faturayı Görüntüle",
+    "ctaUrl": "{{dashboardUrl}}",
+    "footer": "Bu e-posta mali işlem kaydı olarak iletilmiştir.",
+    "plainText": "Merhaba,\n\nÖdemeniz başarıyla alındı.\nÜrün: {{product}}\nTutar: {{amount}} {{currency}}\nReferans: {{reference}}\nTarih: {{timestamp}}\n\nSeenly Ekibi"
+  },
+  "EMAIL_CHANGED": {
+    "subject": "Seenly hesap e-postanız güncellendi",
+    "preheader": "E-posta değişikliği hakkında güvenlik bilgilendirmesi.",
+    "title": "E-posta Adresiniz Değiştirildi",
+    "body": "Seenly hesabınıza bağlı e-posta adresi başarıyla güncellendi. Bu işlemi siz yapmadıysanız lütfen derhal destek ekibimizle iletişime geçin.",
+    "ctaText": "Güvenlik Ayarları",
+    "ctaUrl": "{{securityUrl}}",
+    "footer": "Seenly Güvenlik Uyarısı",
+    "plainText": "Merhaba,\n\nSeenly hesabınıza bağlı e-posta adresi güncellendi. Bu işlemi siz yapmadıysanız lütfen acilen bizimle iletişime geçin:\n{{securityUrl}}\n\nSeenly Ekibi"
+  },
+  "ACCOUNT_DELETED": {
+    "subject": "Seenly hesabınız silindi",
+    "preheader": "Hesap silme işlemi tamamlandı.",
+    "title": "Hesabınız Başarıyla Silindi",
+    "body": "Seenly hesabınız ve ilişkili tüm profil verileriniz talebiniz üzerine kalıcı olarak silinmiştir. Bizimle olduğunuz için teşekkür ederiz.",
+    "ctaText": "Seenly Ana Sayfa",
+    "ctaUrl": "{{homeUrl}}",
+    "footer": "Seenly Hesap Bildirimi",
+    "plainText": "Merhaba,\n\nSeenly hesabınız ve verileriniz başarıyla silinmiştir.\n\nSeenly Ekibi"
+  },
+  "LOGIN_VERIFICATION": {
+    "subject": "Seenly giriş doğrulama kodunuz: {{code}}",
+    "preheader": "Giriş kodunuz kısa süre geçerlidir.",
+    "title": "Giriş Doğrulama Kodu",
+    "body": "Seenly hesabınıza giriş yapmak için doğrulama kodunuz: <strong>{{code}}</strong>. Bu kod kısa süre için geçerlidir ve tek kullanımlıktır. Kodunuzu kimseyle paylaşmayın.",
+    "ctaText": "Girişi Tamamla",
+    "ctaUrl": "{{loginUrl}}",
+    "footer": "Bu isteği siz başlatmadıysanız bu e-postayı dikkate almayın.",
+    "plainText": "Merhaba,\n\nSeenly giriş doğrulama kodunuz: {{code}}\nBu kod kısa süre için geçerlidir ve tek kullanımlıktır. Kimseyle paylaşmayın.\n\nSeenly Ekibi"
+  },
+  "REGISTRATION_VERIFICATION": {
+    "subject": "Seenly kayıt doğrulama kodunuz: {{code}}",
+    "preheader": "Kayıt işleminizi tamamlayın.",
+    "title": "Kayıt Doğrulama Kodu",
+    "body": "Seenly profilinizi kaydetmek için doğrulama kodunuz: <strong>{{code}}</strong>. Bu kod kısa süre için geçerlidir ve tek kullanımlıktır.",
+    "ctaText": "Kaydı Tamamla",
+    "ctaUrl": "{{registerUrl}}",
+    "footer": "Bu isteği siz başlatmadıysanız bu e-postayı dikkate almayın.",
+    "plainText": "Merhaba,\n\nSeenly kayıt doğrulama kodunuz: {{code}}\nBu kod kısa süre için geçerlidir ve tek kullanımlıktır.\n\nSeenly Ekibi"
+  },
+  "EMAIL_CHANGE_VERIFICATION": {
+    "subject": "Seenly e-posta değişikliği doğrulama kodunuz: {{code}}",
+    "preheader": "Yeni e-posta adresinizi onaylayın.",
+    "title": "E-posta Değişikliği Doğrulama",
+    "body": "Seenly hesabınızın e-posta adresini güncellemek için doğrulama kodunuz: <strong>{{code}}</strong>. Bu kod kısa süre için geçerlidir.",
+    "ctaText": "Onayla",
+    "ctaUrl": "{{securityUrl}}",
+    "footer": "Bu işlemi siz yapmadıysanız lütfen dikkate almayın.",
+    "plainText": "Merhaba,\n\nSeenly e-posta güncelleme doğrulama kodunuz: {{code}}\nBu kod kısa süre için geçerlidir.\n\nSeenly Ekibi"
+  },
+  "SOCIAL_CARD_CHANGED": {
+    "subject": "Sosyal Kimlik Kartınız Güncellendi!",
+    "preheader": "Arkadaşlarınızın değerlendirmeleriyle kartınız yeni bir forma büründü.",
+    "title": "Yeni Sosyal Kartınız Hazır",
+    "body": "Gelen yeni değerlendirmeler sonucunda dış algı profiliniz ve sosyal kimlik kartınız güncellendi. Yeni kartınızı inceleyin ve paylaşın!",
+    "ctaText": "Yeni Kartı İncele",
+    "ctaUrl": "{{dashboardUrl}}",
+    "footer": "Seenly Sosyal Kart Bildirimi",
+    "plainText": "Merhaba,\n\nGelen yeni değerlendirmeler sonucunda sosyal kimlik kartınız güncellendi!\nYeni kartınızı incelemek için:\n{{dashboardUrl}}\n\nSeenly Ekibi"
+  }
+}

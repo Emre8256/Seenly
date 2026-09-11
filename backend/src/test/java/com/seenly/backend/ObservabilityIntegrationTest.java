@@ -104,7 +104,7 @@ class ObservabilityIntegrationTest {
         try {
             mockMvc.perform(get("/api/v1/seenly/public/NotFound")).andExpect(status().isNotFound());
             ILoggingEvent event = appender.list.stream()
-                .filter(item -> item.getFormattedMessage().equals("http_request_completed"))
+                .filter(item -> item.getFormattedMessage().startsWith("http_request_completed"))
                 .reduce((first, second) -> second).orElseThrow();
             assertThat(event.getMDCPropertyMap())
                 .containsKeys("requestId", "httpMethod", "httpPath", "httpStatus", "durationMs")

@@ -84,16 +84,16 @@ export default function IdentitiesPage() {
   }, [filterFamily, searchQuery, getObject, langCode]);
 
   const getFamilyLabel = useCallback((famKey) => {
-    if (famKey === 'all') return t('ui', 'identities_filter_all') || 'Hepsi';
-    return t('ui', 'family_' + famKey) || famKey;
+    if (famKey === 'all') return t('quiz.identities.filterAll');
+    return t(`quiz.identities.families.${famKey}`) || famKey;
   }, [t]);
 
   const generateDetailedDescription = useCallback((signals) => {
     const s1 = signals[0];
     const s2 = signals[1];
-    const d1 = t('ui', 'desc_' + s1) || '';
-    const d2 = t('ui', 'desc_' + s2) || '';
-    const template = t('ui', 'identities_desc_template') || '';
+    const d1 = t(`common.signalDescriptions.${s1}`);
+    const d2 = t(`common.signalDescriptions.${s2}`);
+    const template = t('quiz.identities.descTemplate');
     return template.replace('{d1}', d1).replace('{d2}', d2);
   }, [t]);
 
@@ -106,7 +106,7 @@ export default function IdentitiesPage() {
           <div className="identities-intro">
             <IntersectingCircles className="mx-auto h-7 sm:h-8 w-10 sm:w-12 text-gold mb-2.5 sm:mb-3" />
             <h1 className="font-heading text-4xl sm:text-5xl lg:text-[3.5rem] leading-[1.1] font-medium tracking-tight text-foreground m-0">
-              {t('ui', 'nav_social_identities') || 'Sosyal Kimlikler'}
+              {t('quiz.identities.title')}
             </h1>
             <div className="flex items-center justify-center gap-3 mt-3">
               <span className="h-0.5 w-12 bg-gold/50" />

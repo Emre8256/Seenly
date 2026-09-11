@@ -147,16 +147,16 @@ export default function FriendIntroPage({ slug, onStart }) {
     const serverAverages = snapshot?.friendAverages || {};
 
     const dimensions = [
-      { key: 'samimiyet', label: lang === 'tr' ? 'Samimiyet' : 'Sincerity', color: '#8F7BCC' },
-      { key: 'cekicilik', label: lang === 'tr' ? 'Çekicilik' : 'Charm', color: '#E06553' },
-      { key: 'zeka', label: lang === 'tr' ? 'Zeka' : 'Intellect', color: '#6A53D9' },
-      { key: 'vizyon', label: lang === 'tr' ? 'Vizyon' : 'Vision', color: '#7B9FCC' },
-      { key: 'enerji', label: lang === 'tr' ? 'Enerji' : 'Energy', color: '#D98A53' },
-      { key: 'guvenilirlik', label: lang === 'tr' ? 'Güvenilirlik' : 'Reliability', color: '#7BCCAA' },
-      { key: 'ego', label: lang === 'tr' ? 'Ego' : 'Ego', color: '#CC7BBA' },
-      { key: 'basari', label: lang === 'tr' ? 'Başarı' : 'Success', color: '#53A6D9' },
-      { key: 'comertlik', label: lang === 'tr' ? 'Cömertlik' : 'Generosity', color: '#E5A260' },
-      { key: 'olgunluk', label: lang === 'tr' ? 'Olgunluk' : 'Maturity', color: '#8C9D86' }
+      { key: 'samimiyet', label: t('common.signals.samimiyet'), color: '#8F7BCC' },
+      { key: 'cekicilik', label: t('common.signals.cekicilik'), color: '#E06553' },
+      { key: 'zeka', label: t('common.signals.zeka'), color: '#6A53D9' },
+      { key: 'vizyon', label: t('common.signals.vizyon'), color: '#7B9FCC' },
+      { key: 'enerji', label: t('common.signals.enerji'), color: '#D98A53' },
+      { key: 'guvenilirlik', label: t('common.signals.guvenilirlik'), color: '#7BCCAA' },
+      { key: 'ego', label: t('common.signals.ego'), color: '#CC7BBA' },
+      { key: 'basari', label: t('common.signals.basari'), color: '#53A6D9' },
+      { key: 'comertlik', label: t('common.signals.comertlik'), color: '#E5A260' },
+      { key: 'olgunluk', label: t('common.signals.olgunluk'), color: '#8C9D86' }
     ];
 
     return dimensions.map(d => {
@@ -174,14 +174,14 @@ export default function FriendIntroPage({ slug, onStart }) {
         percentage: visualPercentage
       };
     });
-  }, [snapshot?.friendAverages]);
+  }, [snapshot?.friendAverages, t, langCode]);
 
   if (loading) {
     return (
-      <AppShell isDashboard={true}>
+      <AppShell isDashboard={true} watercolorBackground>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1, padding: '8rem 1.5rem', textAlign: 'center' }}>
           <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', fontStyle: 'italic', color: 'var(--color-text-muted)', margin: 0 }}>
-            {t('ui', 'missing_id_fallback')}...
+            {t('common.loading')}
           </p>
         </div>
       </AppShell>
@@ -190,14 +190,14 @@ export default function FriendIntroPage({ slug, onStart }) {
 
   if (error) {
     return (
-      <AppShell isDashboard={true}>
+      <AppShell isDashboard={true} watercolorBackground>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1, padding: '6rem 1.5rem', textAlign: 'center' }}>
           <div className="editorial-card" style={{ maxWidth: '500px', width: '100%', padding: '3rem 2rem' }}>
             <h2 className="editorial-title" style={{ color: 'red', fontSize: '1.75rem', marginBottom: '1.5rem' }}>
-              {langCode === 'tr' ? 'Profil Bulunamadı' : 'Seenly Profile Not Found'}
+              {t('errors.notFoundTitle')}
             </h2>
             <p className="editorial-body" style={{ color: 'var(--color-text-muted)', marginBottom: '2.5rem', fontSize: '0.95rem', lineHeight: 1.5 }}>
-              {langCode === 'tr' ? 'Aradığınız Seenly profili mevcut değil veya silinmiş.' : 'The requested Seenly profile does not exist.'}
+              {t('errors.notFoundDesc')}
             </p>
             <button
               type="button"
@@ -205,7 +205,7 @@ export default function FriendIntroPage({ slug, onStart }) {
               onClick={() => window.location.hash = '#/'}
               style={{ width: '100%' }}
             >
-              {langCode === 'tr' ? 'Ana Sayfaya Dön' : 'Back to Home'}
+              {t('common.backToHome')}
             </button>
           </div>
         </div>
@@ -219,19 +219,19 @@ export default function FriendIntroPage({ slug, onStart }) {
 
   const activeOutsideSignatureId = calculatePersonalityCard(snapshot?.friendAverages || {});
   const outsideSignature = getObject('signatures', activeOutsideSignatureId);
-  const outsideSignatureName = outsideSignature ? outsideSignature.name : t('ui', 'missing_id_fallback');
+  const outsideSignatureName = outsideSignature ? outsideSignature.name : t('common.unknownSignature');
   const outsideSignatureCardLine = outsideSignature ? outsideSignature.cardLine : "";
-  const outsideRarity = getCardRarityData(activeOutsideSignatureId, langCode);
+  const outsideRarity = getCardRarityData(activeOutsideSignatureId, snapshot?.outsideRarity, t);
 
   const getDashboardWhatsAppLink = (cardName) =>
-    buildWhatsAppLink(cardName, slug);
+    buildWhatsAppLink(cardName, slug, t);
 
   const handleDashboardInstagramStory = (cardName, illustrationSrc) => {
-    handleInstagramStory(cardName, illustrationSrc, slug, langCode);
+    handleInstagramStory(cardName, illustrationSrc, slug);
   };
 
   return (
-    <AppShell isDashboard={true} showLogout={false}>
+    <AppShell isDashboard={true} watercolorBackground>
       <FriendIntroStep
         slug={slug}
         snapshot={snapshot}

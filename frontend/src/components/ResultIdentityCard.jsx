@@ -8,7 +8,7 @@ export default function ResultIdentityCard({ signatureId, familyId }) {
   const family = getObject('families', familyId);
 
   // Safe fallback rendering mechanisms to prevent application crashes
-  const signatureName = signature ? signature.name : t('ui', 'missing_id_fallback');
+  const signatureName = signature ? signature.name : t('common.unknownSignature');
   const signatureOneLine = signature ? signature.oneLine : "";
   const signatureCardLine = signature ? signature.cardLine : "";
 

@@ -6,23 +6,23 @@ export function SocialProof() {
 
   const stats = [
     {
-      value: t("ui", "landing_stats_1_val") || "1.2K+",
-      label: t("ui", "landing_stats_1_lbl") || "Oluşturulan Profil",
+      value: t("home.stats.stat1Val"),
+      label: t("home.stats.stat1Lbl"),
       accent: "text-clay",
     },
     {
-      value: t("ui", "landing_stats_2_val") || "15K+",
-      label: t("ui", "landing_stats_2_lbl") || "Paylaşılan Yanıt",
+      value: t("home.stats.stat2Val"),
+      label: t("home.stats.stat2Lbl"),
       accent: "text-foreground",
     },
     {
-      value: t("ui", "landing_stats_3_val") || "240K+",
-      label: t("ui", "landing_stats_3_lbl") || "Toplam Algı Sinyali",
+      value: t("home.stats.stat3Val"),
+      label: t("home.stats.stat3Lbl"),
       accent: "text-clay",
     },
     {
-      value: t("ui", "landing_stats_4_val") || "89.4%",
-      label: t("ui", "landing_stats_4_lbl") || "Analiz Tutarlılığı",
+      value: t("home.stats.stat4Val"),
+      label: t("home.stats.stat4Lbl"),
       accent: "text-foreground",
     },
   ]
@@ -78,7 +78,7 @@ export function SocialProof() {
           <div className="mt-2 flex items-center justify-between gap-5 text-clay/45">
             <span className="h-px flex-1 bg-current/35" />
             <span className="font-mono text-[0.62rem] uppercase tracking-[0.32em]">
-              collective reading index
+              {t("home.stats.collectiveIndex")}
             </span>
             <span className="h-px flex-1 bg-current/35" />
           </div>

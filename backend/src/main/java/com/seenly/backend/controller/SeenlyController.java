@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.constraints.Pattern;
@@ -160,17 +161,38 @@ public class SeenlyController {
         return ResponseEntity.ok(seenlyService.updateAvatar(ownerToken, request.getAvatar()));
     }
 
+    @GetMapping("/owner/notification-preferences")
+    public ResponseEntity<NotificationPreferencesDto> getNotificationPreferences(
+            @RequestHeader(value = "X-Owner-Token", required = false) String ownerToken) {
+        return ResponseEntity.ok(seenlyService.getNotificationPreferences(ownerToken));
+    }
+
+    @PutMapping("/owner/notification-preferences")
+    public ResponseEntity<NotificationPreferencesDto> updateNotificationPreferences(
+            @RequestHeader(value = "X-Owner-Token", required = false) String ownerToken,
+            @RequestBody NotificationPreferencesDto request,
+            HttpServletRequest httpRequest) {
+        ownerMutationLimit("OWNER_PREFS", ownerToken, httpRequest);
+        return ResponseEntity.ok(seenlyService.updateNotificationPreferences(ownerToken, request));
+    }
+
     /**
      * GET /api/v1/seenly/public/{publicSlug}
-     * Returns public dashboard snapshot with zero-leak privacy masking.
+     * Returns public dashboard snapshot with server-side access control for outside perception.
+     * Response is private/no-store to prevent CDN/browser cache leakage across viewers.
      */
     @GetMapping("/public/{publicSlug}")
     public ResponseEntity<PublicProfileDto> getPublicDashboard(
             @PathVariable @Pattern(regexp = "[A-Za-z0-9_-]{8}") String publicSlug,
+            @RequestHeader(value = "X-Participant-Signal", required = false) String participantSignal,
+            @RequestHeader(value = "X-Owner-Token", required = false) String ownerToken,
             HttpServletRequest httpRequest) {
         rateLimitService.check("PUBLIC_PROFILE", network(httpRequest) + "|" + publicSlug,
             ratePolicy.publicReads, Duration.ofMinutes(1));
-        return ResponseEntity.ok(seenlyService.getPublicDashboard(publicSlug));
+        PublicProfileDto profile = seenlyService.getPublicDashboard(publicSlug, participantSignal, ownerToken);
+        return ResponseEntity.ok()
+            .header(HttpHeaders.CACHE_CONTROL, "private, no-store, max-age=0")
+            .body(profile);
     }
 
     /**

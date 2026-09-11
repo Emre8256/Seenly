@@ -1,0 +1,65 @@
+{
+  "onboarding": {
+    "nameTitle": "Sana nasıl hitap edelim?",
+    "namePlaceholder": "Adın",
+    "languageTitle": "Dilinizi seçin",
+    "infoTitle": "Başlamadan önce",
+    "infoBullet1": "Yaklaşık 60 saniye sürer",
+    "infoBullet2": "Doğru veya yanlış cevap yoktur",
+    "infoBullet3": "Tüm sorular yanıtlanmalıdır",
+    "infoCta": "Başlayalım",
+    "startTest": "Testi Başlat"
+  },
+  "runner": {
+    "chooseAvatarTitle": "Avatarını Seç",
+    "chooseAvatarSubtitle": "Profilinde ve arkadaşlarına ileteceğin test kartlarında yer alacak avatarını belirle.",
+    "avatarWomen": "Kız (6)",
+    "avatarMen": "Erkek (6)",
+    "questionCounter": "Soru {current} / {total}",
+    "progressAria": "Test ilerlemesi: Soru {current} / {total}"
+  },
+  "results": {
+    "resultTitle": "Öz Yansıman",
+    "selfViewTitle": "Öz-Algı",
+    "awaitingSignalAnalysis": "Sinyal Analizi Bekleniyor",
+    "kicker": "TEST SONUCUN",
+    "signatureLabel": "Sosyal İmzan",
+    "strongestTrait": "En baskın sinyal",
+    "weakestTrait": "Geri plandaki sinyal",
+    "motivation": "Motivasyon",
+    "shareSuite": "PAYLAŞIM MERKEZİ",
+    "shareYourResult": "Sonucunu Paylaş",
+    "shareModalSubtitle": "Arkadaşlarının seni nasıl gördüğünü keşfetmek için kartını ve linkini paylaş.",
+    "downloadStory": "Hikaye görseli indir ve paylaş",
+    "instagramStory": "Instagram Hikayesi",
+    "sendDirect": "Arkadaşlarına doğrudan mesaj gönder",
+    "copyLink": "Bağlantıyı Kopyala",
+    "copiedLink": "Bağlantı Kopyalandı!",
+    "copyProfileLink": "Profil linkini panoya kopyala",
+    "inviteFriendsTitle": "Dış Algıyı Açmak İçin Arkadaşlarını Davet Et",
+    "inviteFriendsDesc": "Bu linki arkadaşlarına gönder. 3 kişi yanıtladığında Dış Görünüşünü ve Aradaki Farkı açacaksın.",
+    "copyFriendLink": "Arkadaş Linkini Kopyala",
+    "viewProfileBtn": "Profili Gör"
+  },
+  "identities": {
+    "title": "Sosyal Kimlikler",
+    "subtitle": "10 sosyal sinyalin kombinasyonundan doğan 45 özgün sosyal imza. Kendi yansımanızı ve bıraktığınız izleri keşfetmek için kartları inceleyin.",
+    "searchPlaceholder": "Kimliklerde ara...",
+    "filterAll": "Tümü",
+    "analysisTitle": "Kimlik Analizi",
+    "ctaDiscover": "Kendindeki Bu Rolü Keşfet",
+    "descTemplate": "Sosyal algıda bu karakter {d1} Aynı zamanda bu profil {d2} Bu iki baskın özelliğin yarattığı sinerji, sizi sosyal çevrenizde hem ayrıştıran hem de saygı duyulan özgün bir imza haline getirir. İnsanlar bu kombinasyonu hisseder ve yaydığınız doğal derinliğe çekilirler.",
+    "families": {
+      "stratega": "Stratega",
+      "imperia": "Imperia",
+      "aura": "Aura",
+      "porta": "Porta",
+      "gratia": "Gratia"
+    },
+    "familyFilterAria": "Karakter ailesi",
+    "familyLabel": "{name} Ailesi",
+    "emptyTitle": "Henüz bir eşleşme yok",
+    "emptyDesc": "Başka bir isim deneyebilir veya filtreleri temizleyebilirsin.",
+    "clearFilters": "Filtreleri temizle"
+  }
+}

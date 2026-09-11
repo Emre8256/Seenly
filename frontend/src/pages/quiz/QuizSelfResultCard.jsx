@@ -1,6 +1,7 @@
 import React, { memo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useSeenlyShare, buildWhatsAppLink } from '../../hooks/useSeenlyShare';
+import { useLocale } from '../../context/LocaleContext';
 
 const QuizSelfResultCard = memo(function QuizSelfResultCard({
   quizResult,
@@ -11,8 +12,10 @@ const QuizSelfResultCard = memo(function QuizSelfResultCard({
   publicSlug,
   onComplete,
   locale,
-  t
+  t: propT
 }) {
+  const { t: contextT } = useLocale();
+  const tr = propT || contextT;
   const [showShareModal, setShowShareModal] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
   const { handleInstagramStory, isGenerating: isStoryGenerating } = useSeenlyShare();
@@ -188,7 +191,7 @@ const QuizSelfResultCard = memo(function QuizSelfResultCard({
             if (onComplete) onComplete(token);
           }}
         >
-          <span>{t('ui', 'view_profile_btn') || 'Profilimi Gör'}</span>
+          <span>{tr('quiz.results.viewProfileBtn')}</span>
           <span style={{ fontSize: '0.94rem' }}>➔</span>
         </button>
 
@@ -219,7 +222,7 @@ const QuizSelfResultCard = memo(function QuizSelfResultCard({
             <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
             <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
           </svg>
-          <span>{t('ui', 'share_result_btn') || 'Sonucumu paylaş'}</span>
+          <span>{tr('quiz.results.shareYourResult')}</span>
         </button>
       </div>
 
@@ -294,7 +297,7 @@ const QuizSelfResultCard = memo(function QuizSelfResultCard({
               display: 'block',
               marginBottom: '4px'
             }}>
-              {locale === 'tr' ? 'PAYLAŞIM MERKEZİ' : 'SHARE SUITE'}
+              {tr('quiz.results.shareSuite')}
             </span>
 
             <h3 style={{
@@ -304,7 +307,7 @@ const QuizSelfResultCard = memo(function QuizSelfResultCard({
               color: '#0b1b2c',
               margin: '0 0 6px 0'
             }}>
-              {locale === 'tr' ? 'Sonucunu Paylaş' : 'Share Your Result'}
+              {tr('quiz.results.shareYourResult')}
             </h3>
 
             <p style={{
@@ -314,9 +317,7 @@ const QuizSelfResultCard = memo(function QuizSelfResultCard({
               margin: '0 0 1.3rem 0',
               fontFamily: 'var(--font-serif)'
             }}>
-              {locale === 'tr'
-                ? 'Arkadaşlarının seni nasıl gördüğünü keşfetmek için kartını ve linkini paylaş.'
-                : 'Share your card and link to discover how your circle perceives you.'}
+              {tr('quiz.results.shareModalSubtitle')}
             </p>
 
             {/* Share Options List */}
@@ -361,9 +362,9 @@ const QuizSelfResultCard = memo(function QuizSelfResultCard({
                     </svg>
                   </div>
                   <div style={{ textAlign: 'left' }}>
-                    <strong style={{ display: 'block', fontSize: '0.92rem', color: '#0b1b2c' }}>Instagram Story</strong>
+                    <strong style={{ display: 'block', fontSize: '0.92rem', color: '#0b1b2c' }}>{tr('quiz.results.instagramStory')}</strong>
                     <small style={{ fontSize: '0.74rem', color: 'rgba(11, 27, 44, 0.6)' }}>
-                      {locale === 'tr' ? 'Hikaye görseli indir ve paylaş' : 'Download story card & share'}
+                      {tr('quiz.results.downloadStory')}
                     </small>
                   </div>
                 </div>
@@ -378,7 +379,7 @@ const QuizSelfResultCard = memo(function QuizSelfResultCard({
               <button
                 type="button"
                 onClick={() => {
-                  const waUrl = buildWhatsAppLink(signatureName, publicSlug);
+                  const waUrl = buildWhatsAppLink(signatureName, publicSlug, tr);
                   window.open(waUrl, '_blank');
                 }}
                 style={{
@@ -414,7 +415,7 @@ const QuizSelfResultCard = memo(function QuizSelfResultCard({
                   <div style={{ textAlign: 'left' }}>
                     <strong style={{ display: 'block', fontSize: '0.92rem', color: '#0b1b2c' }}>WhatsApp</strong>
                     <small style={{ fontSize: '0.74rem', color: 'rgba(11, 27, 44, 0.6)' }}>
-                      {locale === 'tr' ? 'Arkadaşlarına doğrudan mesaj gönder' : 'Send direct invite to friends'}
+                      {tr('quiz.results.sendDirect')}
                     </small>
                   </div>
                 </div>
@@ -471,15 +472,15 @@ const QuizSelfResultCard = memo(function QuizSelfResultCard({
                   </div>
                   <div style={{ textAlign: 'left' }}>
                     <strong style={{ display: 'block', fontSize: '0.92rem', color: copiedLink ? '#2a5a3a' : '#0b1b2c' }}>
-                      {copiedLink ? (locale === 'tr' ? 'Bağlantı Kopyalandı!' : 'Link Copied!') : (locale === 'tr' ? 'Bağlantıyı Kopyala' : 'Copy Link')}
+                      {copiedLink ? tr('quiz.results.copiedLink') : tr('quiz.results.copyLink')}
                     </strong>
                     <small style={{ fontSize: '0.74rem', color: 'rgba(11, 27, 44, 0.6)' }}>
-                      {locale === 'tr' ? 'Profil linkini panoya kopyala' : 'Copy profile link to clipboard'}
+                      {tr('quiz.results.copyProfileLink')}
                     </small>
                   </div>
                 </div>
                 <span style={{ fontSize: '0.82rem', fontWeight: 700, color: copiedLink ? '#2a5a3a' : '#c5a059' }}>
-                  {copiedLink ? '✓' : (locale === 'tr' ? 'Kopyala' : 'Copy')}
+                  {copiedLink ? '✓' : tr('common.copy')}
                 </span>
               </button>
             </div>

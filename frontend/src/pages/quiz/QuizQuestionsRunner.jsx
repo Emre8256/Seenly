@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { useLocale } from '../../context/LocaleContext';
 
 const QuizQuestionsRunner = memo(function QuizQuestionsRunner({
   currentIndex,
@@ -12,8 +13,11 @@ const QuizQuestionsRunner = memo(function QuizQuestionsRunner({
   filteredAvatars,
   setCurrentIndex,
   langCode,
-  t
+  t: propT
 }) {
+  const { t: contextT } = useLocale();
+  const t = propT || contextT;
+  const tr = t;
   // Step 4: Quiz Questions (0 to 9)
   if (currentIndex >= 0 && currentIndex < selfQuestionIds.length) {
     const questionId = selfQuestionIds[currentIndex];
@@ -25,11 +29,11 @@ const QuizQuestionsRunner = memo(function QuizQuestionsRunner({
           </h2>
           <div className="seenly-wizard-list-container">
             {[
-              { value: 1, label: t('ui', 'agreement_strongly_disagree') },
-              { value: 2, label: t('ui', 'agreement_disagree') },
-              { value: 3, label: t('ui', 'agreement_neutral') },
-              { value: 4, label: t('ui', 'agreement_agree') },
-              { value: 5, label: t('ui', 'agreement_strongly_agree') }
+              { value: 1, label: t('common.agreement_strongly_disagree') },
+              { value: 2, label: t('common.agreement_disagree') },
+              { value: 3, label: t('common.agreement_neutral') },
+              { value: 4, label: t('common.agreement_agree') },
+              { value: 5, label: t('common.agreement_strongly_agree') }
             ].map((opt) => {
               const isActive = answers[questionId] === opt.value;
               return (
@@ -61,7 +65,7 @@ const QuizQuestionsRunner = memo(function QuizQuestionsRunner({
               }
             }}
           >
-            {t('ui', 'wizard_next_btn')}
+            {t('common.next')}
           </button>
         </div>
       </>
@@ -83,7 +87,7 @@ const QuizQuestionsRunner = memo(function QuizQuestionsRunner({
 
           {/* Title */}
           <h2 className="seenly-wizard-title" style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-deep-ink)', marginBottom: '0.35rem', textAlign: 'center', width: '100%', fontSize: '1.5rem', lineHeight: '1.2' }}>
-            {langCode === 'tr' ? 'Avatarını Seç' : 'Choose Your Avatar'}
+            {tr('quiz.runner.chooseAvatarTitle')}
           </h2>
 
           {/* Subtitle */}
@@ -96,9 +100,7 @@ const QuizQuestionsRunner = memo(function QuizQuestionsRunner({
             maxWidth: '340px',
             lineHeight: '1.4'
           }}>
-            {langCode === 'tr'
-              ? 'Profilinde ve arkadaşlarına ileteceğin test kartlarında yer alacak avatarını belirle.'
-              : 'Select the avatar that will represent you on your profile and test cards.'}
+            {tr('quiz.runner.chooseAvatarSubtitle')}
           </p>
 
           {/* Filter Pills */}
@@ -108,14 +110,14 @@ const QuizQuestionsRunner = memo(function QuizQuestionsRunner({
               onClick={() => setAvatarFilter('kadin')}
               className={`seenly-onboarding-filter-pill ${avatarFilter === 'kadin' ? 'active' : ''}`}
             >
-              {langCode === 'tr' ? 'Kız (6)' : 'Women (6)'}
+              {tr('quiz.runner.avatarWomen')}
             </button>
             <button
               type="button"
               onClick={() => setAvatarFilter('erkek')}
               className={`seenly-onboarding-filter-pill ${avatarFilter === 'erkek' ? 'active' : ''}`}
             >
-              {langCode === 'tr' ? 'Erkek (6)' : 'Men (6)'}
+              {tr('quiz.runner.avatarMen')}
             </button>
           </div>
 
@@ -170,7 +172,7 @@ const QuizQuestionsRunner = memo(function QuizQuestionsRunner({
               setCurrentIndex(-10);
             }}
           >
-            <span>{t('ui', 'wizard_continue_btn') || 'Devam Et'}</span>
+            <span>{t('common.next')}</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="seenly-wizard-arrow-icon">
               <line x1="4" y1="12" x2="20" y2="12" />
               <polyline points="13 5 20 12 13 19" />

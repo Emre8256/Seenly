@@ -11,6 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.seenly.backend.email.EmailNotificationService;
+import com.seenly.backend.email.NotificationType;
+
+import java.time.Clock;
 import java.util.*;
 
 @Slf4j
@@ -21,6 +25,8 @@ public class ScoringEngineService {
     private final ResultSnapshotRepository snapshotRepository;
     private final CardRarityService cardRarityService;
     private final FriendResponseRepository friendResponseRepository;
+    private final EmailNotificationService emailNotificationService;
+    private final Clock clock;
 
     /**
      * Normalizes a 1-5 answer to a 0.0-1.0 range.
@@ -96,8 +102,25 @@ public class ScoringEngineService {
         String outsideFamilyId = determineSocialFamily(outsideLenses);
         String outsideSignatureId = determineSocialSignature(outsideLenses, outsideFamilyId);
 
+        String previousOutsideSignatureId = snapshot.getOutsideSignatureId();
         snapshot.setOutsideSignatureId(outsideSignatureId);
         snapshot.setOutsideFamilyId(outsideFamilyId);
+
+        if (previousOutsideSignatureId != null && outsideSignatureId != null
+                && !previousOutsideSignatureId.equals(outsideSignatureId)
+                && seenly.getEmail() != null && !seenly.getEmail().isBlank()) {
+            UUID userId = seenly.getUser() != null ? seenly.getUser().getId() : null;
+            emailNotificationService.enqueue(
+                NotificationType.SOCIAL_CARD_CHANGED,
+                seenly.getEmail(),
+                userId,
+                "tr",
+                Map.of("dashboardUrl", "https://seenly.app/dashboard"),
+                "social-card-changed:" + seenly.getId() + ":" + outsideSignatureId,
+                clock.instant(),
+                null
+            );
+        }
 
         if (cardRarityService != null && outsideSignatureId != null) {
             cardRarityService.recordCardGeneration(outsideSignatureId);

@@ -10,10 +10,10 @@ export function UseCases() {
   const cases = [
     {
       image: contextSocial,
-      alt: "İki kişinin telefonlarında Seenly kartlarını paylaştığı suluboya illüstrasyon",
-      plate: t("ui", "landing_case_1_plate") || "Dijital Yansıma",
-      title: t("ui", "landing_case_1_title") || "Sosyal profilinde",
-      text: t("ui", "landing_case_1_text") || "Profiline Seenly linkini ekle. İnsanlar seni nasıl sunduğunu ve nasıl deneyimlendirdiğini görebilsin.",
+      alt: t("home.contexts.c1Alt"),
+      plate: t("home.contexts.c1Plate"),
+      title: t("home.contexts.c1Title"),
+      text: t("home.contexts.c1Text"),
       mask: "mask-organic-1",
       offset: "md:mt-0",
       hue: "peach",
@@ -21,10 +21,10 @@ export function UseCases() {
     },
     {
       image: contextFriends,
-      alt: "Grup içinde arkadaşların Seenly okumalarını tartıştığı suluboya illüstrasyon",
-      plate: t("ui", "landing_case_2_plate") || "İlişki Derinliği",
-      title: t("ui", "landing_case_2_title") || "Arkadaş grubunda",
-      text: t("ui", "landing_case_2_text") || "En yakın arkadaşlarından geri bildirim al. Sadece nasıl biri olduğunu değil, grubun içinde ne ifade ettiğini öğren.",
+      alt: t("home.contexts.c2Alt"),
+      plate: t("home.contexts.c2Plate"),
+      title: t("home.contexts.c2Title"),
+      text: t("home.contexts.c2Text"),
       mask: "mask-organic-2",
       offset: "md:mt-10",
       hue: "lilac",
@@ -32,10 +32,10 @@ export function UseCases() {
     },
     {
       image: contextFirstImpression,
-      alt: "İki kişinin ilk karşılaşma anını tasvir eden suluboya illüstrasyon",
-      plate: t("ui", "landing_case_3_plate") || "İlk Karşılaşma",
-      title: t("ui", "landing_case_3_title") || "İlk izlenimlerde",
-      text: t("ui", "landing_case_3_text") || "Biriyle tanıştığında bıraktığın ilk hissin, zamanla oluşan gerçek etkinle ne kadar örtüştüğünü gör.",
+      alt: t("home.contexts.c3Alt"),
+      plate: t("home.contexts.c3Plate"),
+      title: t("home.contexts.c3Title"),
+      text: t("home.contexts.c3Text"),
       mask: "mask-organic-3",
       offset: "md:mt-4",
       hue: "gold",
@@ -51,13 +51,13 @@ export function UseCases() {
       <div className="above-surface mx-auto max-w-[1180px] px-5 py-14 sm:px-8 md:py-20">
         <div className="max-w-2xl">
           <p className="font-mono text-[0.7rem] uppercase tracking-[0.34em] text-clay">
-            {t("ui", "landing_cases_tag") || "Bağlamlar"}
+            {t("home.contexts.tag")}
           </p>
           <h2 className="mt-5 text-balance font-heading text-3xl font-medium leading-[1.1] tracking-tight text-foreground sm:text-[2.6rem]">
-            {t("ui", "landing_cases_title") || "Seenly sadece bir test değildir."}
+            {t("home.contexts.title")}
           </h2>
           <p className="mt-5 text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-            {t("ui", "landing_cases_desc") || "İnsanların seni nasıl deneyimlediğini, hayatının farklı sahnelerinde keşfedebilirsin."}
+            {t("home.contexts.desc")}
           </p>
         </div>
 

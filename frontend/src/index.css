@@ -460,8 +460,8 @@ body {
   }
 
   /* 7. Compositor-cheap sticky header: solid opaque background, no blur, no shadow */
-  header,
-  .main-header,
+  header.scrolled,
+  header.menu-open,
   .main-header.scrolled {
     background-color: var(--background) !important;
     backdrop-filter: none !important;

@@ -11,10 +11,9 @@ import {
   UserPlus,
   ChevronDown
 } from 'lucide-react';
+import { useLocale } from '../../context/LocaleContext';
 
 const SubscriptionTab = memo(function SubscriptionTab({
-  langCode,
-  t,
   isPremium,
   responseCount,
   maxResponseLimit,
@@ -28,6 +27,8 @@ const SubscriptionTab = memo(function SubscriptionTab({
   capacityPackOptions,
   handleBuyPack
 }) {
+  const { t } = useLocale();
+
   return (
     <div className="seenly-settings-content seenly-settings-fade-in">
       <div className="seenly-plan-pro seenly-plan-clean">
@@ -58,12 +59,10 @@ const SubscriptionTab = memo(function SubscriptionTab({
                 </div>
                 <div>
                   <h3 className="seenly-quota-title">
-                    {langCode === 'tr' ? 'Katılımcı Kotanız' : 'Participant Quota'}
+                    {t('settings.subscription.quotaTitle')}
                   </h3>
                   <p className="seenly-quota-subtext">
-                    {langCode === 'tr'
-                      ? 'Testinize katılan arkadaşlarınızın yanıt sayısı ve kalan kotanız.'
-                      : 'The number of friend responses collected and your remaining capacity.'}
+                    {t('settings.subscription.quotaDesc')}
                   </p>
                 </div>
               </div>
@@ -76,7 +75,7 @@ const SubscriptionTab = memo(function SubscriptionTab({
                   <span className="seenly-quota-metric-max">{maxResponseLimit}</span>
                 </div>
                 <span className="seenly-quota-metric-label">
-                  {langCode === 'tr' ? 'Yanıt Toplandı' : 'Responses'}
+                  {t('settings.subscription.responsesCollected')}
                 </span>
               </div>
             </div>
@@ -103,12 +102,8 @@ const SubscriptionTab = memo(function SubscriptionTab({
                 </div>
                 <span className="seenly-quota-status-text">
                   {isQuotaFull
-                    ? (langCode === 'tr'
-                        ? 'Kotanız doldu. Yeni arkadaş yanıtlarını kaçırmamak için kotanızı yükseltin.'
-                        : 'Quota reached. Upgrade to keep collecting new responses.')
-                    : (langCode === 'tr'
-                        ? 'Kotanız dolmak üzere. Yanıt toplamaya kesintisiz devam etmek için kotanızı yükseltin.'
-                        : 'Quota almost full. Upgrade to keep collecting responses seamlessly.')}
+                    ? t('settings.subscription.quotaFullAlert')
+                    : t('settings.subscription.quotaNearFullAlert')}
                 </span>
               </div>
             )}
@@ -139,23 +134,21 @@ const SubscriptionTab = memo(function SubscriptionTab({
             <div className="relative z-10 flex items-start sm:items-center justify-between gap-4 flex-col sm:flex-row">
               <div>
                 <h3 className="seenly-plus-active-title">
-                  {langCode === 'tr' ? 'Seenly Plus Aktif' : 'Seenly Plus is Active'}
+                  {t('settings.subscription.plusActiveTitle')}
                 </h3>
                 <p className="seenly-plus-active-desc">
-                  {langCode === 'tr'
-                    ? 'Tek seferlik ödemenizle tüm kilitler sınırsız olarak açıldı. Aylık veya yıllık yenileme ücreti bulunmaz.'
-                    : 'All features are permanently unlocked with your one-time purchase. No recurring subscription fees.'}
+                  {t('settings.subscription.plusActiveDesc')}
                 </p>
               </div>
 
-              {/* "Avantajları Gör" Expand / Collapse Toggle Button */}
+              {/* Expand / Collapse Toggle Button */}
               <button
                 type="button"
                 onClick={() => setShowPlusActivePerks(prev => !prev)}
                 className="seenly-plus-perks-toggle-btn"
                 aria-expanded={showPlusActivePerks}
               >
-                <span>{showPlusActivePerks ? (langCode === 'tr' ? 'Avantajları Gizle' : 'Hide Benefits') : (langCode === 'tr' ? 'Avantajları Gör' : 'View Benefits')}</span>
+                <span>{showPlusActivePerks ? t('settings.subscription.hideBenefits') : t('settings.subscription.viewBenefits')}</span>
                 <ChevronDown
                   size={15}
                   strokeWidth={2.4}
@@ -174,10 +167,10 @@ const SubscriptionTab = memo(function SubscriptionTab({
                   </div>
                   <div>
                     <h5 className="seenly-plus-feature-title">
-                      {langCode === 'tr' ? 'Sınırsız Katılımcı Kotası' : 'Unlimited Respondent Capacity'}
+                      {t('settings.subscription.unlimitedCapacity')}
                     </h5>
                     <p className="seenly-plus-feature-desc">
-                      {langCode === 'tr' ? '100 yanıt limitine takılmadan sınırsız yanıt toplayın' : 'Collect unlimited feedback without any response limits'}
+                      {t('settings.subscription.unlimitedCapacityDesc')}
                     </p>
                   </div>
                 </div>
@@ -189,10 +182,10 @@ const SubscriptionTab = memo(function SubscriptionTab({
                   </div>
                   <div>
                     <h5 className="seenly-plus-feature-title">
-                      {langCode === 'tr' ? 'Gelen Analiz Detayları' : 'Individual Analysis Breakdowns'}
+                      {t('settings.subscription.individualBreakdowns')}
                     </h5>
                     <p className="seenly-plus-feature-desc">
-                      {langCode === 'tr' ? 'Arkadaşlarınızın 10 karakter sinyalini ve puan dökümünü görün' : 'View 10-signal scores and detailed answer breakdowns'}
+                      {t('settings.subscription.individualBreakdownsDesc')}
                     </p>
                   </div>
                 </div>
@@ -204,10 +197,10 @@ const SubscriptionTab = memo(function SubscriptionTab({
                   </div>
                   <div>
                     <h5 className="seenly-plus-feature-title">
-                      {langCode === 'tr' ? 'Soruda Geçirilen Zaman' : 'Question Decision Times'}
+                      {t('settings.subscription.decisionTimes')}
                     </h5>
                     <p className="seenly-plus-feature-desc">
-                      {langCode === 'tr' ? 'En çok ve en az düşünülen sorular' : 'See the most and least contemplated questions'}
+                      {t('settings.subscription.decisionTimesDesc')}
                     </p>
                   </div>
                 </div>
@@ -219,10 +212,10 @@ const SubscriptionTab = memo(function SubscriptionTab({
                   </div>
                   <div>
                     <h5 className="seenly-plus-feature-title">
-                      {langCode === 'tr' ? 'Profil Ziyaretleri' : 'Profile Visit Analytics'}
+                      {t('settings.subscription.profileVisits')}
                     </h5>
                     <p className="seenly-plus-feature-desc">
-                      {langCode === 'tr' ? 'Ziyaretçi sayısını ve yanıta dönüşüm oranlarını anlık takip edin' : 'Track visitor volume and response conversion rates'}
+                      {t('settings.subscription.profileVisitsDesc')}
                     </p>
                   </div>
                 </div>
@@ -267,14 +260,14 @@ const SubscriptionTab = memo(function SubscriptionTab({
                 <div className="seenly-plus-price-curtain-pin" aria-hidden="true" />
                 <div className="seenly-plus-price-val">
                   <span className="seenly-plus-price-symbol">
-                    {t('ui', 'pricing_plan_premium_price').startsWith('₺') ? '₺' : '$'}
+                    {t('billing.premium.price').startsWith('₺') ? '₺' : '$'}
                   </span>
                   <span>
-                    {t('ui', 'pricing_plan_premium_price').replace(/^[^0-9.]+/, '') || '2.99'}
+                    {t('billing.premium.price').replace(/^[^0-9.]+/, '') || '2.99'}
                   </span>
                 </div>
                 <span className="seenly-plus-price-label">
-                  {langCode === 'tr' ? 'Tek Seferlik' : 'One-Time'}
+                  {t('common.oneTime')}
                 </span>
               </div>
 
@@ -285,9 +278,7 @@ const SubscriptionTab = memo(function SubscriptionTab({
                 </h3>
                 <div className="w-10 h-[1.5px] bg-[#C5A059] opacity-60 my-2" />
                 <p className="seenly-plus-subtext">
-                  {langCode === 'tr'
-                    ? 'Tüm analizlerin kilidini ve sınırsız katılımcı kotasını tek seferde açın.'
-                    : 'Unlock all deep analytics and unlimited respondent capacity in one single step.'}
+                  {t('settings.subscription.upgradePlusDesc')}
                 </p>
               </div>
 
@@ -301,10 +292,10 @@ const SubscriptionTab = memo(function SubscriptionTab({
                     </div>
                     <div>
                       <h5 className="seenly-plus-feature-title">
-                        {langCode === 'tr' ? 'Sınırsız Katılımcı Kotası' : 'Unlimited Respondent Capacity'}
+                        {t('settings.subscription.unlimitedCapacity')}
                       </h5>
                       <p className="seenly-plus-feature-desc">
-                        {langCode === 'tr' ? '100 yanıt limitine takılmadan sınırsız yanıt toplayın' : 'Collect unlimited feedback without any response limits'}
+                        {t('settings.subscription.unlimitedCapacityDesc')}
                       </p>
                     </div>
                   </div>
@@ -316,10 +307,10 @@ const SubscriptionTab = memo(function SubscriptionTab({
                     </div>
                     <div>
                       <h5 className="seenly-plus-feature-title">
-                        {langCode === 'tr' ? 'Gelen Analiz Detayları' : 'Individual Analysis Breakdowns'}
+                        {t('settings.subscription.individualBreakdowns')}
                       </h5>
                       <p className="seenly-plus-feature-desc">
-                        {langCode === 'tr' ? 'Arkadaşlarınızın 10 karakter sinyalini ve puan dökümünü görün' : 'View 10-signal scores and detailed answer breakdowns'}
+                        {t('settings.subscription.individualBreakdownsDesc')}
                       </p>
                     </div>
                   </div>
@@ -331,10 +322,10 @@ const SubscriptionTab = memo(function SubscriptionTab({
                     </div>
                     <div>
                       <h5 className="seenly-plus-feature-title">
-                        {langCode === 'tr' ? 'Soruda Geçirilen Zaman' : 'Question Decision Times'}
+                        {t('settings.subscription.decisionTimes')}
                       </h5>
                       <p className="seenly-plus-feature-desc">
-                        {langCode === 'tr' ? 'En çok ve en az düşünülen sorular' : 'See the most and least contemplated questions'}
+                        {t('settings.subscription.decisionTimesDesc')}
                       </p>
                     </div>
                   </div>
@@ -346,10 +337,10 @@ const SubscriptionTab = memo(function SubscriptionTab({
                     </div>
                     <div>
                       <h5 className="seenly-plus-feature-title">
-                        {langCode === 'tr' ? 'Profil Ziyaretleri' : 'Profile Visit Analytics'}
+                        {t('settings.subscription.profileVisits')}
                       </h5>
                       <p className="seenly-plus-feature-desc">
-                        {langCode === 'tr' ? 'Ziyaretçi sayısını ve yanıta dönüşüm oranlarını anlık takip edin' : 'Track visitor volume and response conversion rates'}
+                        {t('settings.subscription.profileVisitsDesc')}
                       </p>
                     </div>
                   </div>
@@ -365,7 +356,7 @@ const SubscriptionTab = memo(function SubscriptionTab({
                   <div className="w-6 h-6 rounded-full bg-[#FAF5EA] border border-[rgba(197,160,89,0.3)] flex items-center justify-center text-[#8C6D37] flex-shrink-0">
                     <ShieldCheck size={14} strokeWidth={2} />
                   </div>
-                  <span>{langCode === 'tr' ? '256-Bit SSL Güvenli Ödeme' : '256-Bit SSL Secure Payment'}</span>
+                  <span>{t('settings.subscription.securePayment')}</span>
                 </div>
 
                 <button
@@ -374,7 +365,11 @@ const SubscriptionTab = memo(function SubscriptionTab({
                   onClick={handleUpgradeToPlus}
                   className="seenly-plus-cta-btn"
                 >
-                  <span>{actionLoading ? (langCode === 'tr' ? 'İşleniyor...' : 'Processing...') : (langCode === 'tr' ? `Plus’a Yükselt (${t('ui', 'pricing_plan_premium_price')})` : `Upgrade to Plus (${t('ui', 'pricing_plan_premium_price')})`)}</span>
+                  <span>
+                    {actionLoading
+                      ? t('common.processing')
+                      : t('settings.subscription.upgradeBtn', { price: t('billing.premium.price') })}
+                  </span>
                   <ArrowRight size={14} strokeWidth={2} className="seenly-plus-cta-arrow" />
                 </button>
               </div>
@@ -412,12 +407,10 @@ const SubscriptionTab = memo(function SubscriptionTab({
                 </div>
                 <div>
                   <h4 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: '1.25rem', fontWeight: 650, color: '#1A3E72', margin: 0, lineHeight: 1.25 }}>
-                    {langCode === 'tr' ? 'Yalnızca Yanıt Kotasını Artır' : 'Expand Response Capacity Only'}
+                    {t('settings.subscription.expandCapacityTitle')}
                   </h4>
                   <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12.5px', color: '#554030', margin: '4px 0 0', lineHeight: 1.4 }}>
-                    {langCode === 'tr'
-                      ? 'Plus’a geçmeden sadece yanıt limitini genişletmek isterseniz tek seferlik ek paketler:'
-                      : 'If you only want to expand response limits without full Plus features:'}
+                    {t('settings.subscription.expandCapacityDesc')}
                   </p>
                 </div>
               </div>
@@ -455,7 +448,7 @@ const SubscriptionTab = memo(function SubscriptionTab({
                       {/* 1. Kapasite Miktarı */}
                       <div className="relative z-10 seenly-pack-quota-pill">
                         <span className="seenly-pack-quota-num">+{pack.amount}</span>
-                        <span className="seenly-pack-quota-txt">{langCode === 'tr' ? 'Yanıt' : 'Quota'}</span>
+                        <span className="seenly-pack-quota-txt">{t('settings.subscription.quotaText')}</span>
                       </div>
 
                       {/* 2. Başlık */}
@@ -476,7 +469,7 @@ const SubscriptionTab = memo(function SubscriptionTab({
                         onClick={() => handleBuyPack(pack.productCode)}
                         className="relative z-10 seenly-pack-btn"
                       >
-                        <span>{actionLoading ? (langCode === 'tr' ? 'Ekleniyor...' : 'Adding...') : (langCode === 'tr' ? 'Paketi Ekle' : 'Add Pack')}</span>
+                        <span>{actionLoading ? t('settings.subscription.addingPack') : t('settings.subscription.addPackBtn')}</span>
                         <ArrowRight size={14} strokeWidth={2} className="seenly-pack-btn-arrow" />
                       </button>
                     </div>

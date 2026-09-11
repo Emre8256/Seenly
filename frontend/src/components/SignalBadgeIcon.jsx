@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocale } from '../context/LocaleContext';
 import {
   HeartHandshake,
   Sparkles,
@@ -106,6 +107,7 @@ export const SignalBadgeIcon = ({
   className = "",
   style = {}
 }) => {
+  const { t } = useLocale();
   const conf = SIGNAL_CONFIG[signalKey] || {
     Icon: Sparkles,
     color: '#C5A059',
@@ -114,6 +116,7 @@ export const SignalBadgeIcon = ({
   };
 
   const IconComponent = conf.Icon;
+  const label = (signalKey && t(`common.signals.${signalKey}`)) || conf.labelTr;
 
   return (
     <div
@@ -126,7 +129,7 @@ export const SignalBadgeIcon = ({
         boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
         ...style
       }}
-      title={conf.labelTr}
+      title={label}
     >
       <IconComponent
         size={size}

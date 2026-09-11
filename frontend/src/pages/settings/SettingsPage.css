@@ -1212,7 +1212,7 @@
           border: 1px solid rgba(197, 160, 89, 0.35);
           border-radius: 28px;
           padding: 28px 32px;
-          box-shadow: none;
+          box-shadow: 0 10px 32px rgba(80, 60, 40, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.85);
           margin-top: 0.5rem;
         }
 

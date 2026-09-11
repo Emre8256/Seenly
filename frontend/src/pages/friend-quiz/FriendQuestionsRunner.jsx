@@ -15,15 +15,15 @@ const FriendQuestionsRunner = memo(function FriendQuestionsRunner({
     <>
       <div className="seenly-wizard-content">
         <h2 className="seenly-wizard-title question-text">
-          {t('questions', questionId)}
+          {t(`questions.${questionId}`)}
         </h2>
         <div className="seenly-wizard-list-container">
           {[
-            { value: 1, label: t('ui', 'agreement_strongly_disagree') },
-            { value: 2, label: t('ui', 'agreement_disagree') },
-            { value: 3, label: t('ui', 'agreement_neutral') },
-            { value: 4, label: t('ui', 'agreement_agree') },
-            { value: 5, label: t('ui', 'agreement_strongly_agree') }
+            { value: 1, label: t('common.agreement_strongly_disagree') },
+            { value: 2, label: t('common.agreement_disagree') },
+            { value: 3, label: t('common.agreement_neutral') },
+            { value: 4, label: t('common.agreement_agree') },
+            { value: 5, label: t('common.agreement_strongly_agree') }
           ].map((opt) => {
             const isActive = selectedValue === opt.value;
             return (
@@ -47,7 +47,7 @@ const FriendQuestionsRunner = memo(function FriendQuestionsRunner({
           disabled={selectedValue === undefined}
           onClick={handleNext}
         >
-          {t('ui', 'wizard_next_btn')}
+          {t('common.continue')}
         </button>
       </div>
     </>

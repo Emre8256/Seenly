@@ -1,0 +1,60 @@
+{
+  "intro": {
+    "title": "Read Your Friend",
+    "desc": "Go beyond casual social interactions. Evaluate your friend's social energy, presence, and boundaries. This quiz is anonymous; your individual answers will never be shared directly.",
+    "question": "How are they perceived in the eyes of others?",
+    "nicknameLabel": "Enter a nickname (Optional)",
+    "startBtn": "Start Evaluation",
+    "evaluatedTitle": "Evaluation Completed",
+    "evaluatedDesc": "You have successfully shared your perspective for this person. Thank you for your contribution.",
+    "cappedTitle": "Respondent Capacity Full",
+    "cappedDesc": "{name}'s profile has reached its maximum participant limit.",
+    "lockedMaskDesc": "At least 3 friends must complete the quiz to unlock this profile.",
+    "lockedMaskTitle": "Outside Perception is Locked",
+    "lockedCompleteTestTitle": "Complete Quiz to View Outside Perception",
+    "lockedCompleteTestDesc": "To view this person's outside perception results, you must first complete your evaluation of them.",
+    "evaluateCta": "Read & Evaluate This Person",
+    "createOwnLink": "Create Your Own Seenly Profile",
+    "responseCount_one": "{count} Response",
+    "responseCount_other": "{count} Responses"
+  },
+  "quiz": {
+    "quizTitle": "Friend Evaluation Quiz",
+    "privacyNote": "No one is exposed. Individual answers are never shown.",
+    "submittingTitle": "Processing Evaluation...",
+    "submittingDesc": "Calculating perception metrics and matching reading style..."
+  },
+  "result": {
+    "resultTitle": "Perception Reflected",
+    "completedTitle": "Analysis Complete!",
+    "completedDesc": "You have reflected your friend through your eyes. The analytical engine calculated your reading style based on your signals.",
+    "readingStyleLabel": "Your Social Reading Style",
+    "accuracyScore": "Perception Accuracy",
+    "accuracyDesc": "The matching rate between how they see themselves and how you read them.",
+    "accuracyWord": "ACCURACY",
+    "shareWhatsApp": "Share WhatsApp",
+    "saveStory": "Save / Create Story",
+    "startOwnTitle": "What is your social signature?",
+    "startOwnDesc": "Start your own quiz to compare how you see yourself against how friends read you.",
+    "startOwnBtn": "Create Your Own Seenly",
+    "goToDashboardTitle": "See how others read you",
+    "goToDashboardDesc": "You just read a friend. Now go back to your dashboard and discover how others are reading you in return.",
+    "goToDashboardBtn": "Go to My Profile"
+  },
+  "share": {
+    "whatsAppText": "A slice from the Subconscious Archive: My aura through the eyes of my circle took shape as '{cardName}'. What is my reflection in your world? See behind the mirror: {url}",
+    "storyReadyTitle": "Story Ready!",
+    "storyReadyDesc": "Your story image has been downloaded. To add a clickable link:",
+    "step1": "1. Open Instagram and create a new Story",
+    "step2": "2. Add the downloaded image as background",
+    "step3": "3. Tap the sticker icon → \"Link\" sticker",
+    "step4": "4. Paste your Seenly link",
+    "storyCopyLink": "Copy",
+    "storyCopied": "Copied ✓",
+    "storyGotIt": "Got it",
+    "storyTagline": "THE SUBCONSCIOUS ARCHIVE",
+    "storyQuote": "\"How am I reflected in your world?\"",
+    "storyTitle": "Seenly Story",
+    "storyBrand": "S E E N L Y  |  A R C H I V E"
+  }
+}

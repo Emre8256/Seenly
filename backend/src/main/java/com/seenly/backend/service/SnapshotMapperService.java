@@ -80,16 +80,27 @@ public class SnapshotMapperService {
     }
 
     /**
-     * Maps only fields intentionally safe for an unauthenticated public profile.
-     * Anonymous aggregates are absent until the backend anonymity threshold is met.
+     * Fail-closed overload: unauthenticated callers are locked by default with COMPLETE_TEST_REQUIRED.
      */
     public PublicProfileDto toPublicDto(ResultSnapshot snapshot) {
+        return toPublicDto(snapshot, false, "COMPLETE_TEST_REQUIRED");
+    }
+
+    /**
+     * Maps public profile with explicit outside perception authorization and lock reason.
+     * Outside aggregates are only included if outsidePerceptionAllowed is true AND threshold is met.
+     */
+    public PublicProfileDto toPublicDto(ResultSnapshot snapshot, boolean outsidePerceptionAllowed, String lockReason) {
         Seenly seenly = requireSeenly(snapshot);
         int responseCount = seenly.getResponseCount();
         boolean thresholdReached = responseCount >= AppConstants.MIN_RESPONSES_FOR_OUTSIDE;
         int capacity = seenly.getBaseFormCapacity() + seenly.getPurchasedExtraCapacity();
-        boolean acceptingResponses = !seenly.isCapped()
-            && (seenly.getIsPremium() || responseCount < capacity);
+        boolean acceptingResponses = seenly.getIsPremium()
+            || (!seenly.isCapped() && responseCount < capacity);
+
+        // Defense-in-depth: both authorization and response threshold are strictly required
+        boolean allowed = outsidePerceptionAllowed && thresholdReached;
+        String effectiveReason = allowed ? null : (lockReason != null ? lockReason : "COMPLETE_TEST_REQUIRED");
 
         PublicProfileDto dto = PublicProfileDto.builder()
             .publicSlug(seenly.getPublicSlug())
@@ -98,9 +109,11 @@ public class SnapshotMapperService {
             .responseCount(responseCount)
             .acceptingResponses(acceptingResponses)
             .confidenceBand(snapshot.getConfidenceBand())
+            .outsidePerceptionLocked(!allowed)
+            .outsidePerceptionLockReason(effectiveReason)
             .build();
 
-        if (thresholdReached) {
+        if (allowed) {
             dto.setOutsideSignatureId(snapshot.getOutsideSignatureId());
             dto.setOutsideFamilyId(snapshot.getOutsideFamilyId());
             dto.setFriendAverages(calculateFriendAverages(seenly));
@@ -233,12 +246,23 @@ public class SnapshotMapperService {
 
     /** Maps a response session for the authenticated owner's private response history. */
     public ResponseSessionDto toSessionDto(ResponseSession session, Map<String, Integer> selfAnswersMap) {
+        return toSessionDto(session, selfAnswersMap, true);
+    }
+
+    /**
+     * Maps a response session for the owner. If isPremium is false, detailed question signals
+     * and response times are masked to preserve the monetization paywall and respondent privacy.
+     */
+    public ResponseSessionDto toSessionDto(ResponseSession session, Map<String, Integer> selfAnswersMap, boolean isPremium) {
         if (session == null) throw new IllegalArgumentException("Session cannot be null");
 
         ResponseSessionDto dto = new ResponseSessionDto();
         dto.setId(session.getId());
-        dto.setNickname("unknown_person");
-        dto.setCompletedAt(ZonedDateTime.of(session.getCreatedAt(), ZoneId.systemDefault()));
+        String nickname = session.getNickname();
+        dto.setNickname(nickname != null && !nickname.isBlank() ? nickname.trim() : "unknown_person");
+        if (session.getCreatedAt() != null) {
+            dto.setCompletedAt(ZonedDateTime.of(session.getCreatedAt(), ZoneId.systemDefault()));
+        }
 
         Map<String, Integer> signals = new HashMap<>();
         double totalDiff = 0.0;
@@ -254,13 +278,19 @@ public class SnapshotMapperService {
             }
         }
 
-        dto.setSignals(signals);
         double accuracy = count > 0 ? 100.0 * (1.0 - totalDiff / (count * 4.0)) : 0.0;
         dto.setAccuracy(accuracy);
         dto.setReaderType(getReaderStyleForAccuracy(accuracy));
-        dto.setFriendTimeAnalytics(session.getFriendTimeAnalytics() != null
-            ? new HashMap<>(session.getFriendTimeAnalytics())
-            : new HashMap<>());
+
+        if (isPremium) {
+            dto.setSignals(signals);
+            dto.setFriendTimeAnalytics(session.getFriendTimeAnalytics() != null
+                ? new HashMap<>(session.getFriendTimeAnalytics())
+                : new HashMap<>());
+        } else {
+            dto.setSignals(Map.of());
+            dto.setFriendTimeAnalytics(Map.of());
+        }
         return dto;
     }
 

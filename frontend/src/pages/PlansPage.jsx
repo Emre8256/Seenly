@@ -30,8 +30,8 @@ export default function PlansPage() {
           
           {/* Header/Title section */}
           <div className="plans-header">
-            <h1 className="plans-title" dangerouslySetInnerHTML={{ __html: t('ui', 'pricing_section_title_html') }} />
-            <p className="plans-subtitle">{t('ui', 'plans_subtitle')}</p>
+            <h1 className="plans-title" dangerouslySetInnerHTML={{ __html: t('billing.sectionTitleHtml') }} />
+            <p className="plans-subtitle">{t('billing.plansSubtitle')}</p>
           </div>
 
           {/* Pricing Section matching mockup design */}
@@ -42,18 +42,18 @@ export default function PlansPage() {
                 {/* Column 1 */}
                 <div className="pricing-col">
                   <div className="pricing-card">
-                    <h4 className="pricing-card-title">{t('ui', 'pricing_plan_free_name')}</h4>
-                    <div className="pricing-card-price">{t('ui', 'pricing_plan_free_price')}</div>
+                    <h4 className="pricing-card-title">{t('billing.free.name')}</h4>
+                    <div className="pricing-card-price">{t('billing.free.price')}</div>
                     <ul className="pricing-features">
-                      <li><span className="bullet-circle"></span>{t('ui', 'pricing_plan_free_f1')}</li>
-                      <li><span className="bullet-circle"></span>{t('ui', 'pricing_plan_free_f2')}</li>
-                      <li><span className="bullet-circle"></span>{t('ui', 'pricing_plan_free_f3')}</li>
-                      <li><span className="bullet-circle"></span>{t('ui', 'pricing_plan_free_f4')}</li>
-                      <li><span className="bullet-circle"></span>{t('ui', 'pricing_plan_free_f5')}</li>
-                      <li><span className="bullet-circle"></span>{t('ui', 'pricing_plan_free_f6')}</li>
+                      <li><span className="bullet-circle"></span>{t('billing.free.f1')}</li>
+                      <li><span className="bullet-circle"></span>{t('billing.free.f2')}</li>
+                      <li><span className="bullet-circle"></span>{t('billing.free.f3')}</li>
+                      <li><span className="bullet-circle"></span>{t('billing.free.f4')}</li>
+                      <li><span className="bullet-circle"></span>{t('billing.free.f5')}</li>
+                      <li><span className="bullet-circle"></span>{t('billing.free.f6')}</li>
                     </ul>
                     <button onClick={handleSelectPlan} className="btn-pricing btn-dark">
-                      {t('ui', 'pricing_btn_get_started')}
+                      {t('billing.getStarted')}
                     </button>
                   </div>
                 </div>
@@ -61,20 +61,20 @@ export default function PlansPage() {
                 {/* Column 2 */}
                 <div className="pricing-col">
                   <div className="pricing-card premium-card">
-                    <div className="card-badge">{t('ui', 'pricing_badge_popular')}</div>
-                    <h4 className="pricing-card-title">{t('ui', 'pricing_plan_premium_name')}</h4>
-                    <div className="pricing-card-price">{t('ui', 'pricing_plan_premium_price')}</div>
+                    <div className="card-badge">{t('billing.badgePopular')}</div>
+                    <h4 className="pricing-card-title">{t('billing.premium.name')}</h4>
+                    <div className="pricing-card-price">{t('billing.premium.price')}</div>
                     <ul className="pricing-features">
-                      <li><span className="bullet-circle"></span>{t('ui', 'pricing_plan_premium_f1')}</li>
-                      <li><span className="bullet-circle"></span>{t('ui', 'pricing_plan_premium_f2')}</li>
-                      <li><span className="bullet-circle"></span>{t('ui', 'pricing_plan_premium_f3')}</li>
-                      <li><span className="bullet-circle"></span>{t('ui', 'pricing_plan_premium_f4')}</li>
-                      <li><span className="bullet-circle"></span>{t('ui', 'pricing_plan_premium_f5')}</li>
-                      <li><span className="bullet-circle"></span>{t('ui', 'pricing_plan_premium_f6')}</li>
-                      <li><span className="bullet-circle"></span>{t('ui', 'pricing_plan_premium_f7')}</li>
+                      <li><span className="bullet-circle"></span>{t('billing.premium.f1')}</li>
+                      <li><span className="bullet-circle"></span>{t('billing.premium.f2')}</li>
+                      <li><span className="bullet-circle"></span>{t('billing.premium.f3')}</li>
+                      <li><span className="bullet-circle"></span>{t('billing.premium.f4')}</li>
+                      <li><span className="bullet-circle"></span>{t('billing.premium.f5')}</li>
+                      <li><span className="bullet-circle"></span>{t('billing.premium.f6')}</li>
+                      <li><span className="bullet-circle"></span>{t('billing.premium.f7')}</li>
                     </ul>
                     <button onClick={handleSelectPlan} className="btn-pricing btn-accent">
-                      {t('ui', 'pricing_btn_choose_plan')}
+                      {t('billing.choosePlan')}
                     </button>
                   </div>
                 </div>
@@ -82,17 +82,17 @@ export default function PlansPage() {
                 {/* Column 3 */}
                 <div className="pricing-col">
                   <div className="pricing-card">
-                    <h4 className="pricing-card-title">{t('ui', 'pricing_plan_pro_name')}</h4>
-                    <div className="pricing-card-price">{t('ui', 'pricing_plan_pro_price')}</div>
+                    <h4 className="pricing-card-title">{t('billing.pro.name')}</h4>
+                    <div className="pricing-card-price">{t('billing.pro.price')}</div>
                     <ul className="pricing-features">
-                      <li><span className="bullet-circle"></span>{t('ui', 'pricing_plan_pro_f1')}</li>
-                      <li><span className="bullet-circle"></span>{t('ui', 'pricing_plan_pro_f2')}</li>
-                      <li><span className="bullet-circle"></span>{t('ui', 'pricing_plan_pro_f3')}</li>
-                      <li><span className="bullet-circle"></span>{t('ui', 'pricing_plan_pro_f4')}</li>
-                      <li><span className="bullet-circle"></span>{t('ui', 'pricing_plan_pro_f5')}</li>
+                      <li><span className="bullet-circle"></span>{t('billing.pro.f1')}</li>
+                      <li><span className="bullet-circle"></span>{t('billing.pro.f2')}</li>
+                      <li><span className="bullet-circle"></span>{t('billing.pro.f3')}</li>
+                      <li><span className="bullet-circle"></span>{t('billing.pro.f4')}</li>
+                      <li><span className="bullet-circle"></span>{t('billing.pro.f5')}</li>
                     </ul>
                     <button onClick={handleSelectPlan} className="btn-pricing btn-dark">
-                      {t('ui', 'pricing_btn_choose_plan')}
+                      {t('billing.choosePlan')}
                     </button>
                   </div>
                 </div>
@@ -101,8 +101,8 @@ export default function PlansPage() {
 
               {/* Pricing Footer Disclaimer */}
               <div className="pricing-disclaimer" style={{ marginTop: '3.5rem' }}>
-                <p>{t('ui', 'pricing_disclaimer_1')}</p>
-                <p>{t('ui', 'pricing_disclaimer_2')}</p>
+                <p>{t('billing.disclaimer1')}</p>
+                <p>{t('billing.disclaimer2')}</p>
               </div>
             </div>
           </div>

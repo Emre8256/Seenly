@@ -1,14 +1,15 @@
-﻿/**
+/**
  * useSeenlyShare.js
  * Centralized share infrastructure for Seenly.
  * Used by: DashboardPage  &  FriendResultPage
  */
 
 import { useState, useCallback } from 'react';
+import { useLocale } from '../context/LocaleContext';
 
 /* ─── WhatsApp ──────────────────────────────────────────────── */
 
-export function buildWhatsAppLink(cardName, publicSlug) {
+export function buildWhatsAppLink(cardName, publicSlug, t) {
   if (!publicSlug) return '#';
 
   const origin = window.location.origin.startsWith('http')
@@ -17,9 +18,9 @@ export function buildWhatsAppLink(cardName, publicSlug) {
 
   const profileUrl = `${origin}/#/friend/${publicSlug}`;
 
-  const shareText =
-    `Bilinçaltı Arşivi'nden bir kesit: Çevrimin gözünden algılanan auram '${cardName}' olarak şekillendi. ` +
-    `Peki senin dünyanda benim yansımam ne? Aynanın arkasını gör: ${profileUrl}`;
+  const shareText = typeof t === 'function'
+    ? t('participant.share.whatsAppText', { cardName, url: profileUrl })
+    : `Seenly profilimi keşfet ve beni nasıl gördüğünü anonim olarak değerlendir: ${cardName}\n${profileUrl}`;
 
   return `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
 }
@@ -44,10 +45,8 @@ function loadImageAsDataURL(src) {
 
 /* ─── Instagram Story instruction modal ─────────────────────── */
 
-function showInstagramModal(slug, langCode) {
+function showInstagramModal(slug, t) {
   const profileUrl = `${window.location.origin.startsWith('http') ? window.location.origin : 'https://' + window.location.host}/#/friend/${slug}`;
-
-  const isEn = langCode !== 'tr';
 
   const overlay = document.createElement('div');
   Object.assign(overlay.style, {
@@ -75,26 +74,24 @@ function showInstagramModal(slug, langCode) {
   Object.assign(igIcon.style, { marginBottom: '16px' });
 
   const title = document.createElement('h3');
-  title.textContent = isEn ? 'Story Ready!' : 'Story Hazır!';
+  title.textContent = t('participant.share.storyReadyTitle');
   Object.assign(title.style, {
     fontSize: '22px', fontWeight: '700', color: '#0b1b2c',
     margin: '0 0 12px 0', fontFamily: 'Georgia, serif',
   });
 
   const desc = document.createElement('p');
-  desc.textContent = isEn
-    ? 'Your story image has been downloaded. To add a clickable link:'
-    : 'Story görselin indirildi. Tıklanabilir link eklemek için:';
+  desc.textContent = t('participant.share.storyReadyDesc');
   Object.assign(desc.style, {
     fontSize: '14px', color: '#4a3728', margin: '0 0 20px 0',
     lineHeight: '1.5', fontFamily: 'Georgia, serif',
   });
 
   const steps = [
-    isEn ? '1. Open Instagram and create a new Story' : '1. Instagram\'ı aç, yeni Story oluştur',
-    isEn ? '2. Add the downloaded image as background' : '2. İndirilen görseli arka plan yap',
-    isEn ? '3. Tap the sticker icon → "Link" sticker' : '3. Çıkartma simgesine dokun → "Bağlantı"',
-    isEn ? '4. Paste your Seenly link' : '4. Seenly linkini yapıştır',
+    t('participant.share.step1'),
+    t('participant.share.step2'),
+    t('participant.share.step3'),
+    t('participant.share.step4')
   ];
 
   const stepsList = document.createElement('div');
@@ -130,7 +127,7 @@ function showInstagramModal(slug, langCode) {
     fontFamily: 'Georgia, serif',
   });
   const copyBtn = document.createElement('button');
-  copyBtn.textContent = isEn ? 'Copy' : 'Kopyala';
+  copyBtn.textContent = t('participant.share.storyCopyLink');
   Object.assign(copyBtn.style, {
     background: '#0b1b2c', color: '#F9F6F0', border: 'none',
     borderRadius: '7px', padding: '6px 14px', fontSize: '12px',
@@ -139,10 +136,10 @@ function showInstagramModal(slug, langCode) {
   });
   copyBtn.onclick = () => {
     navigator.clipboard.writeText(profileUrl).then(() => {
-      copyBtn.textContent = isEn ? 'Copied ✓' : 'Kopyalandı ✓';
+      copyBtn.textContent = t('participant.share.storyCopied');
       copyBtn.style.background = '#25a244';
       setTimeout(() => {
-        copyBtn.textContent = isEn ? 'Copy' : 'Kopyala';
+        copyBtn.textContent = t('participant.share.storyCopyLink');
         copyBtn.style.background = '#0b1b2c';
       }, 2000);
     });
@@ -152,7 +149,7 @@ function showInstagramModal(slug, langCode) {
 
   // Close button
   const closeBtn = document.createElement('button');
-  closeBtn.textContent = isEn ? 'Got it' : 'Anladım';
+  closeBtn.textContent = t('participant.share.storyGotIt');
   Object.assign(closeBtn.style, {
     background: 'linear-gradient(135deg, #f09433 0%, #dc2743 50%, #bc1888 100%)',
     color: '#fff', border: 'none', borderRadius: '100px',
@@ -181,7 +178,7 @@ async function generateInstagramStoryInternal(
   cardName,
   illustrationSrc,
   publicSlug,
-  langCode,
+  t,
   setGenerating
 ) {
   setGenerating(true);
@@ -190,8 +187,8 @@ async function generateInstagramStoryInternal(
     const html2canvas = (await import('html2canvas')).default;
     const illustrationDataUrl = await loadImageAsDataURL(illustrationSrc);
 
-    const tagline = langCode === 'tr' ? 'BİLİNÇALTI ARŞİVİ' : 'THE SUBCONSCIOUS ARCHIVE';
-    const quote = langCode === 'tr' ? '"Senin dünyanda benim yansımam hangisi?"' : '"How am I reflected in your world?"';
+    const tagline = t('participant.share.storyTagline');
+    const quote = t('participant.share.storyQuote');
     const origin = window.location.origin.startsWith('http')
       ? window.location.origin
       : `https://${window.location.host}`;
@@ -245,7 +242,7 @@ async function generateInstagramStoryInternal(
     });
 
     const brandText = document.createElement('p');
-    brandText.textContent = 'S E E N L Y  |  A R C H I V E';
+    brandText.textContent = t('participant.share.storyBrand');
     Object.assign(brandText.style, {
       fontFamily: 'Georgia, "Times New Roman", serif',
       fontSize: '24px', fontWeight: '600',
@@ -366,7 +363,7 @@ async function generateInstagramStoryInternal(
     document.body.removeChild(wrapper);
 
     canvas.toBlob(async (blob) => {
-      if (!blob) { alert('Görsel oluşturulamadı.'); return; }
+      if (!blob) { alert(t('errors.generic')); return; }
       const fileName = 'seenly-story.png';
       const file = new File([blob], fileName, { type: 'image/png' });
 
@@ -374,9 +371,9 @@ async function generateInstagramStoryInternal(
 
       if (canShare) {
         try {
-          await navigator.share({ files: [file], title: 'Seenly Story', text: cardName });
+          await navigator.share({ files: [file], title: t('participant.share.storyTitle'), text: cardName });
           // Still show modal after sharing so user knows to add link sticker
-          showInstagramModal(publicSlug, langCode);
+          showInstagramModal(publicSlug, t);
           return;
         } catch (_) { /* user cancelled — fall through to download */ }
       }
@@ -388,15 +385,13 @@ async function generateInstagramStoryInternal(
       setTimeout(() => URL.revokeObjectURL(url), 1000);
 
       // Show instruction modal after brief delay
-      setTimeout(() => showInstagramModal(publicSlug, langCode), 600);
+      setTimeout(() => showInstagramModal(publicSlug, t), 600);
 
     }, 'image/png');
 
   } catch (err) {
     console.error('[useSeenlyShare] Story generation failed:', err);
-    alert(err?.message
-      ? `Story oluşturulurken hata: ${err.message}`
-      : 'Story oluşturulamadı. Lütfen tekrar deneyin.');
+    alert(err?.message ? err.message : t('errors.generic'));
   } finally {
     setGenerating(false);
   }
@@ -405,17 +400,23 @@ async function generateInstagramStoryInternal(
 /* ─── Public hook ───────────────────────────────────────────── */
 
 export function useSeenlyShare() {
+  const { t } = useLocale();
   const [isGenerating, setIsGenerating] = useState(false);
 
   const handleInstagramStory = useCallback(
-    (cardName, illustrationSrc, publicSlug, langCode) => {
+    (cardName, illustrationSrc, publicSlug) => {
       generateInstagramStoryInternal(
         cardName, illustrationSrc, publicSlug,
-        langCode || 'tr', setIsGenerating
+        t, setIsGenerating
       );
     },
-    []
+    [t]
   );
 
-  return { buildWhatsAppLink, handleInstagramStory, isGenerating };
+  const boundBuildWhatsAppLink = useCallback(
+    (cardName, publicSlug) => buildWhatsAppLink(cardName, publicSlug, t),
+    [t]
+  );
+
+  return { buildWhatsAppLink: boundBuildWhatsAppLink, handleInstagramStory, isGenerating };
 }

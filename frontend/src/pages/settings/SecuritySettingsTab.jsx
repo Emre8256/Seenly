@@ -6,12 +6,14 @@ import {
   TrendingUp,
   Megaphone
 } from 'lucide-react';
+import { useLocale } from '../../context/LocaleContext';
 
 const SecuritySettingsTab = memo(function SecuritySettingsTab({
-  langCode,
   notifPrefs,
   handleToggleNotif
 }) {
+  const { t } = useLocale();
+
   return (
     <div className="seenly-settings-content seenly-settings-fade-in">
       <div className="seenly-plan-pro seenly-plan-clean">
@@ -25,12 +27,10 @@ const SecuritySettingsTab = memo(function SecuritySettingsTab({
               </div>
               <div className="seenly-notif-subcard-copy">
                 <h3 className="seenly-notif-master-title">
-                  {langCode === 'tr' ? 'E-posta Bildirimleri' : 'Email Notifications'}
+                  {t('settings.security.emailNotifsTitle')}
                 </h3>
                 <p className="seenly-notif-row-desc">
-                  {langCode === 'tr'
-                    ? 'Hesabınız ve gelen analizlerle ilgili tüm e-posta bildirim akışını yönetin.'
-                    : 'Manage all email notifications related to your account and incoming analyses.'}
+                  {t('settings.security.emailNotifsDesc')}
                 </p>
               </div>
             </div>
@@ -41,7 +41,7 @@ const SecuritySettingsTab = memo(function SecuritySettingsTab({
               aria-checked={notifPrefs.masterEmail}
               onClick={() => handleToggleNotif('masterEmail')}
               className={`seenly-toggle-switch ${notifPrefs.masterEmail ? 'is-active' : ''}`}
-              title={notifPrefs.masterEmail ? (langCode === 'tr' ? 'Bildirimleri Kapat' : 'Turn Off') : (langCode === 'tr' ? 'Bildirimleri Aç' : 'Turn On')}
+              title={notifPrefs.masterEmail ? t('settings.security.turnOff') : t('settings.security.turnOn')}
             >
               <span className="seenly-toggle-thumb" />
             </button>
@@ -59,12 +59,10 @@ const SecuritySettingsTab = memo(function SecuritySettingsTab({
                 </div>
                 <div className="seenly-notif-subcard-copy">
                   <h4 className="seenly-notif-row-title">
-                    {langCode === 'tr' ? 'Yeni Değerlendirmeler' : 'New Evaluations'}
+                    {t('settings.security.newEvaluationsTitle')}
                   </h4>
                   <p className="seenly-notif-row-desc">
-                    {langCode === 'tr'
-                      ? 'Biri profilinizi değerlendirdiğinde veya yeni bir yansıma geldiğinde anlık e-posta alın.'
-                      : 'Get an instant email when someone evaluates your profile or adds a reflection.'}
+                    {t('settings.security.newEvaluationsDesc')}
                   </p>
                 </div>
               </div>
@@ -91,12 +89,10 @@ const SecuritySettingsTab = memo(function SecuritySettingsTab({
                 </div>
                 <div className="seenly-notif-subcard-copy">
                   <h4 className="seenly-notif-row-title">
-                    {langCode === 'tr' ? 'Rapor & Kilit Bildirimleri' : 'Report & Milestone Alerts'}
+                    {t('settings.security.reportMilestonesTitle')}
                   </h4>
                   <p className="seenly-notif-row-desc">
-                    {langCode === 'tr'
-                      ? 'Analizleriniz açıldığında veya yeni bir karakter metriği oturduğunda haber verin.'
-                      : 'Get notified when your reports unlock or new trait insights are finalized.'}
+                    {t('settings.security.reportMilestonesDesc')}
                   </p>
                 </div>
               </div>
@@ -105,9 +101,9 @@ const SecuritySettingsTab = memo(function SecuritySettingsTab({
                 type="button"
                 role="switch"
                 disabled={!notifPrefs.masterEmail}
-                aria-checked={notifPrefs.masterEmail && notifPrefs.milestoneReports}
-                onClick={() => handleToggleNotif('milestoneReports')}
-                className={`seenly-toggle-switch ${notifPrefs.masterEmail && notifPrefs.milestoneReports ? 'is-active' : ''}`}
+                aria-checked={notifPrefs.masterEmail && notifPrefs.milestones}
+                onClick={() => handleToggleNotif('milestones')}
+                className={`seenly-toggle-switch ${notifPrefs.masterEmail && notifPrefs.milestones ? 'is-active' : ''}`}
               >
                 <span className="seenly-toggle-thumb" />
               </button>
@@ -123,12 +119,10 @@ const SecuritySettingsTab = memo(function SecuritySettingsTab({
                 </div>
                 <div className="seenly-notif-subcard-copy">
                   <h4 className="seenly-notif-row-title">
-                    {langCode === 'tr' ? 'Haftalık Özet' : 'Weekly Digest'}
+                    {t('settings.security.weeklyDigestTitle')}
                   </h4>
                   <p className="seenly-notif-row-desc">
-                    {langCode === 'tr'
-                      ? 'Profil etkileşimleri, ziyaret trendleri ve özet analiz grafikleri.'
-                      : 'Weekly summary of profile interactions, visit trends, and chart digests.'}
+                    {t('settings.security.weeklyDigestDesc')}
                   </p>
                 </div>
               </div>
@@ -151,16 +145,14 @@ const SecuritySettingsTab = memo(function SecuritySettingsTab({
             <div className={`seenly-notif-row-embedded ${!notifPrefs.masterEmail ? 'is-disabled' : ''}`}>
               <div className="seenly-notif-row-left">
                 <div className="seenly-notif-sub-icon">
-                  <Megaphone size={16} strokeWidth={2.2} />
+                  <Megaphone size={16} strokeWidth={2} />
                 </div>
                 <div className="seenly-notif-subcard-copy">
                   <h4 className="seenly-notif-row-title">
-                    {langCode === 'tr' ? 'Pazarlama & Güncellemeler' : 'Product Updates & News'}
+                    {t('settings.security.productUpdatesTitle')}
                   </h4>
                   <p className="seenly-notif-row-desc">
-                    {langCode === 'tr'
-                      ? 'Yeni özellikler, kampanyalar ve Seenly Plus avantajlarıyla ilgili duyurular.'
-                      : 'Product updates, new features, and Seenly Plus privileges.'}
+                    {t('settings.security.productUpdatesDesc')}
                   </p>
                 </div>
               </div>
@@ -169,16 +161,16 @@ const SecuritySettingsTab = memo(function SecuritySettingsTab({
                 type="button"
                 role="switch"
                 disabled={!notifPrefs.masterEmail}
-                aria-checked={notifPrefs.masterEmail && notifPrefs.marketingUpdates}
-                onClick={() => handleToggleNotif('marketingUpdates')}
-                className={`seenly-toggle-switch ${notifPrefs.masterEmail && notifPrefs.marketingUpdates ? 'is-active' : ''}`}
+                aria-checked={notifPrefs.masterEmail && notifPrefs.productUpdates}
+                onClick={() => handleToggleNotif('productUpdates')}
+                className={`seenly-toggle-switch ${notifPrefs.masterEmail && notifPrefs.productUpdates ? 'is-active' : ''}`}
               >
                 <span className="seenly-toggle-thumb" />
               </button>
             </div>
           </div>
-        </section>
 
+        </section>
       </div>
     </div>
   );

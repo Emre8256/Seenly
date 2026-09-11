@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { useLocale } from '../../context/LocaleContext';
 
 const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
   currentIndex,
@@ -24,8 +25,11 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
   isValidEmail,
   langCode,
   locale,
-  t
+  t: propT
 }) {
+  const { t: contextT } = useLocale();
+  const t = propT || contextT;
+  const tr = t;
   const isConflict = authFlowNotification?.status === 'conflict';
   const hasError = !!emailValidationError || (authFlowNotification?.status === 'error') || !!errorMessage;
 
@@ -118,7 +122,7 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
                 lineHeight: 1.1,
                 whiteSpace: 'nowrap'
               }}>
-                {t('ui', 'auth_mail_title')}
+                {tr('auth.claimTitle')}
               </h3>
 
               {/* Description */}
@@ -131,21 +135,21 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
                 maxWidth: '300px',
                 textAlign: 'center'
               }}>
-                {t('ui', 'auth_mail_desc')}
+                {tr('auth.claimDesc')}
               </p>
 
               {/* Input container */}
               <div className="seenly-wizard-input-container" style={{ width: '100%', margin: '0.2rem 0 0 0' }}>
                 <input
                   type="email"
-                  aria-label={locale === 'tr' ? 'E-posta adresi' : 'Email address'}
+                  aria-label={tr('auth.emailAddressLabel')}
                   enterKeyHint="go"
                   inputMode="email"
                   autoComplete="email"
                   autoCapitalize="none"
                   autoCorrect="off"
                   spellCheck={false}
-                  placeholder={t('ui', 'auth_mail_placeholder')}
+                  placeholder={tr('auth.emailPlaceholder')}
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
@@ -204,7 +208,7 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
                         <line x1="12" y1="16" x2="12.01" y2="16" />
                       </svg>
                       <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#9a3412' }}>
-                        {langCode === 'tr' ? 'Hesap Zaten Mevcut' : 'Account Already Exists'}
+                        {tr('auth.accountExists')}
                       </span>
                     </div>
                     <p style={{
@@ -237,7 +241,7 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
                           transition: 'all 0.2s ease'
                         }}
                       >
-                        <span>{langCode === 'tr' ? 'Giriş Yap' : 'Log In'}</span>
+                        <span>{tr('auth.logIn')}</span>
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                           <polyline points="9 18 15 12 9 6" />
                         </svg>
@@ -283,9 +287,9 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
                 {isEmailSending ? (
                   <span className="spinner-mini"></span>
                 ) : resendTimer > 0 ? (
-                  `${langCode === 'tr' ? 'Tekrar Kod Gönder' : 'Resend Code'} (${formatTimer(resendTimer)})`
+                  tr('auth.resendCodeWithTimer', { time: formatTimer(resendTimer) })
                 ) : (
-                  t('ui', 'auth_mail_btn')
+                  tr('auth.sendCodeBtn')
                 )}
               </button>
             </div>
@@ -336,7 +340,7 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
                 lineHeight: 1.1,
                 whiteSpace: 'nowrap'
               }}>
-                {t('ui', 'auth_otp_title')}
+                {tr('auth.otpTitle')}
               </h3>
 
               {/* Description with email */}
@@ -349,7 +353,7 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
                 maxWidth: '290px',
                 textAlign: 'center'
               }}>
-                {t('ui', 'auth_otp_desc').replace('{email}', email)}
+                {tr('auth.otpDesc', { email })}
               </p>
 
               {/* Compact 4-Digit Container Card */}
@@ -375,7 +379,7 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
                   color: '#64748B',
                   textAlign: 'center'
                 }}>
-                  {locale === 'tr' ? 'DOĞRULAMA KODUNUZ' : 'VERIFICATION CODE'}
+                  {tr('auth.verificationCodeHeader')}
                 </div>
 
                 {/* 4 Input Boxes */}
@@ -397,7 +401,7 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
                       autoCapitalize="characters"
                       autoCorrect="off"
                       spellCheck={false}
-                      aria-label={locale === 'tr' ? `Doğrulama hanesi ${i + 1}` : `Verification digit ${i + 1}`}
+                      aria-label={tr('auth.verificationDigit', { index: i + 1 })}
                       maxLength={1}
                       value={postQuizOtp[i] || ''}
                       onChange={(e) => {
@@ -453,7 +457,7 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
                         <circle cx="12" cy="12" r="10" />
                         <polyline points="12 6 12 12 16 14" />
                       </svg>
-                      <span>{t('ui', 'auth_resend_countdown').replace('{time}', formatTimer(resendTimer))}</span>
+                      <span>{tr('auth.resendCountdown', { time: formatTimer(resendTimer) })}</span>
                     </div>
                   ) : (
                     <button
@@ -482,7 +486,7 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
                             <polyline points="23 4 23 10 17 10" />
                             <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
                           </svg>
-                          <span>{t('ui', 'auth_resend_btn')}</span>
+                          <span>{tr('auth.resendBtn')}</span>
                         </>
                       )}
                     </button>
@@ -550,7 +554,7 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
                 {isVerifying ? (
                   <span className="spinner-mini"></span>
                 ) : (
-                  t('ui', 'auth_otp_btn')
+                  tr('auth.verifyBtn')
                 )}
               </button>
             </div>

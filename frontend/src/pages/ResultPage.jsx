@@ -71,7 +71,7 @@ export default function ResultPage({ onNavigateToQuiz }) {
             color: 'var(--color-text-muted)',
             margin: 0
           }}>
-            {t('ui', 'missing_id_fallback')}...
+            {t('common.loading')}
           </p>
         </div>
       </AppShell>
@@ -85,10 +85,10 @@ export default function ResultPage({ onNavigateToQuiz }) {
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1, padding: '6rem 1.5rem', textAlign: 'center' }}>
           <div className="editorial-card" style={{ maxWidth: '500px', width: '100%', padding: '3rem 2rem' }}>
             <h2 className="editorial-title" style={{ color: 'red', fontSize: '1.75rem', marginBottom: '1.5rem' }}>
-              {langCode === 'tr' ? 'Profil Bulunamadı' : 'Seenly Profile Not Found'}
+              {t('errors.notFoundTitle')}
             </h2>
             <p className="editorial-body" style={{ color: 'var(--color-text-muted)', marginBottom: '2.5rem', fontSize: '0.95rem', lineHeight: 1.5 }}>
-              {langCode === 'tr' ? 'Aradığınız Seenly profili mevcut değil veya silinmiş.' : 'The requested Seenly profile does not exist.'}
+              {t('errors.notFoundDesc')}
             </p>
             <button
               type="button"
@@ -96,7 +96,7 @@ export default function ResultPage({ onNavigateToQuiz }) {
               onClick={() => window.location.hash = '#/'}
               style={{ width: '100%' }}
             >
-              {langCode === 'tr' ? 'Ana Sayfaya Dön' : 'Back to Home'}
+              {t('common.backToHome')}
             </button>
           </div>
         </div>
@@ -122,7 +122,7 @@ export default function ResultPage({ onNavigateToQuiz }) {
             margin: '0 0 1rem 0',
             color: 'var(--color-text-primary)'
           }}>
-            {t('ui', 'invite_friends_title')}
+            {t('quiz.results.inviteFriendsTitle')}
           </h3>
           <p style={{
             fontSize: '0.9rem',
@@ -130,7 +130,7 @@ export default function ResultPage({ onNavigateToQuiz }) {
             color: 'var(--color-text-muted)',
             marginBottom: '1.5rem'
           }}>
-            {t('ui', 'invite_friends_desc')}
+            {t('quiz.results.inviteFriendsDesc')}
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
@@ -157,7 +157,7 @@ export default function ResultPage({ onNavigateToQuiz }) {
               onClick={handleCopyLink}
               style={{ width: '100%' }}
             >
-              {copied ? t('ui', 'copied_alert') : t('ui', 'copy_link_btn')}
+              {copied ? t('common.copied') : t('common.copyLink')}
             </button>
           </div>
         </div>

@@ -56,6 +56,9 @@ public class Seenly {
     @Column(nullable = true)
     private LocalDateTime lastNameChangedAt;
 
+    @Column(nullable = true)
+    private LocalDateTime lastActivityAt;
+
     @Builder.Default
     @Column(nullable = false)
     private int responseCount = 0;
@@ -89,14 +92,38 @@ public class Seenly {
     private List<ResponseSession> responseSessions;
 
     public boolean getIsPremium() {
-        return user != null && Boolean.TRUE.equals(user.getIsPremium());
+        try {
+            return user != null && Boolean.TRUE.equals(user.getIsPremium());
+        } catch (org.hibernate.LazyInitializationException ex) {
+            return false;
+        }
     }
 
     public int getBaseFormCapacity() {
-        return user != null && user.getBaseFormCapacity() != null ? user.getBaseFormCapacity() : 3;
+        try {
+            return user != null && user.getBaseFormCapacity() != null ? user.getBaseFormCapacity() : 3;
+        } catch (org.hibernate.LazyInitializationException ex) {
+            return 3;
+        }
     }
 
     public int getPurchasedExtraCapacity() {
-        return user != null && user.getPurchasedExtraCapacity() != null ? user.getPurchasedExtraCapacity() : 0;
+        try {
+            return user != null && user.getPurchasedExtraCapacity() != null ? user.getPurchasedExtraCapacity() : 0;
+        } catch (org.hibernate.LazyInitializationException ex) {
+            return 0;
+        }
+    }
+
+    public boolean isCapped() {
+        try {
+            if (getIsPremium()) {
+                return false;
+            }
+            int total = getBaseFormCapacity() + getPurchasedExtraCapacity();
+            return responseCount >= total;
+        } catch (org.hibernate.LazyInitializationException ex) {
+            return this.isCapped;
+        }
     }
 }

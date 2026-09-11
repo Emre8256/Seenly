@@ -22,10 +22,8 @@ const DecisionTimesTab = memo(function DecisionTimesTab({
       {responseCount < 3 ? (
         <div className="seenly-dashboard-locked-state w-full box-border" style={{ minHeight: '260px' }}>
           <LockedMask
-            title={langCode === 'tr' ? 'Düşünce Ritimleri Kilitli' : 'Pondering Rhythms Locked'}
-            description={langCode === 'tr'
-              ? 'Arkadaşlarınızın soruları cevaplarken ne kadar süre düşündüklerini analiz edebilmemiz için en az 3 yanıt gelmesi gerekmektedir.'
-              : 'At least 3 responses are required to analyze how long your friends spent pondering the questions.'}
+            title={t('dashboard.decisionTimes.lockedTitle')}
+            description={t('dashboard.decisionTimes.lockedDesc')}
             responseCount={responseCount}
             targetCount={3}
             langCode={langCode}
@@ -56,22 +54,18 @@ const DecisionTimesTab = memo(function DecisionTimesTab({
 
             <div className="flex-1 max-w-xl relative z-10">
               <h3 className="font-serif text-[1.25rem] sm:text-[1.5rem] font-bold text-white tracking-tight leading-snug m-0 drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
-                {langCode === 'tr'
-                  ? 'Düşünce Süreleri'
-                  : 'Decision Times'}
+                {t('dashboard.decisionTimes.rhythmicAnalysisTitle')}
               </h3>
 
               <p className="font-sans text-[0.82rem] sm:text-[0.85rem] text-[#F8FAFC] font-medium leading-relaxed max-w-lg m-0 mt-1 sm:mt-1.5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)] opacity-95">
-                {langCode === 'tr'
-                  ? 'Arkadaşlarınızın karar sürelerini, en çok duraksadıkları soruları ve sessiz ziyaretçileri keşfedin.'
-                  : 'Discover decision times, hesitation points, and silent profile visits.'}
+                {t('dashboard.decisionTimes.lockedDesc')}
               </p>
             </div>
 
             <div className="shrink-0 w-full md:w-auto relative z-10 flex flex-col items-center md:items-end mt-1 md:mt-0">
               <div className="relative inline-block w-full md:w-auto">
                 <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#DFBF6A] via-[#FFF8E7] to-[#DFBF6A] text-[#0B1B2C] text-[8px] font-black uppercase tracking-[0.14em] shadow-[0_2px_8px_rgba(0,0,0,0.35)] z-20 border border-white/75 pointer-events-none whitespace-nowrap">
-                  {langCode === 'tr' ? 'TEK SEFERLİK' : 'ONE-TIME'}
+                  {t('common.oneTime')}
                 </span>
 
                 <button
@@ -79,7 +73,7 @@ const DecisionTimesTab = memo(function DecisionTimesTab({
                   onClick={handleUpgradeToPlus}
                   className="group w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#0B1B2C]/80 hover:bg-[#0B1B2C] text-[#F3DE9A] hover:text-white font-sans font-semibold text-[11.5px] sm:text-[12px] tracking-wider uppercase border border-[#F3DE9A]/35 hover:border-[#F3DE9A]/70 shadow-sm active:scale-[0.98] transition-all cursor-pointer"
                 >
-                  <span>{langCode === 'tr' ? 'Plus ile Kilidi Aç' : 'Unlock with Plus'}</span>
+                  <span>{t('dashboard.decisionTimes.unlockPlus')}</span>
                   <ArrowRight size={13} strokeWidth={2.2} className="text-[#F3DE9A] group-hover:text-white group-hover:translate-x-0.5 transition-all" />
                 </button>
               </div>
@@ -103,13 +97,11 @@ const DecisionTimesTab = memo(function DecisionTimesTab({
 
               <div className="flex-1 max-w-lg pr-6 sm:pr-0">
                 <h4 className="font-serif text-[1.18rem] sm:text-[1.35rem] font-bold text-[#1A3E72] m-0 mb-1">
-                  {langCode === 'tr' ? 'Gizli İncelemeler & Ziyaretçi Dağılımı' : 'Profile Visits & Silent Viewers'}
+                  {t('dashboard.decisionTimes.profileVisitsTitle')}
                 </h4>
 
                 <p className="font-sans text-[0.8rem] sm:text-[0.84rem] text-[#64748B] leading-relaxed m-0">
-                  {langCode === 'tr'
-                    ? 'Profilinizi kaç kişinin açıp incelediğini, kaçının sadece bakıp geçtiğini ve kaçının testi tamamladığını öğrenin.'
-                    : 'Discover how many people opened and viewed your profile, who silently browsed, and how many completed the quiz.'}
+                  {t('dashboard.decisionTimes.profileVisitsDesc')}
                 </p>
               </div>
 
@@ -119,11 +111,11 @@ const DecisionTimesTab = memo(function DecisionTimesTab({
                     --
                   </span>
                   <span className="font-sans text-[11px] sm:text-[12px] font-bold text-[#1A3E72]">
-                    {langCode === 'tr' ? 'Ziyaret' : 'Visits'}
+                    {t('dashboard.decisionTimes.visits')}
                   </span>
                 </div>
                 <span className="font-sans text-[10.5px] sm:text-[11px] text-[#64748B] sm:mt-1 text-center">
-                  %-- {langCode === 'tr' ? 'Tamamlama Oranı' : 'Conversion'}
+                  %-- {t('dashboard.decisionTimes.conversion')}
                 </span>
               </div>
             </div>
@@ -142,13 +134,13 @@ const DecisionTimesTab = memo(function DecisionTimesTab({
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <span className="text-[9.5px] sm:text-[10px] uppercase font-bold tracking-[0.08em] text-[#8C6D37]">
-                      {langCode === 'tr' ? 'BİLİŞSEL DURAKSAMA' : 'LONGEST HESITATION'}
+                      {t('dashboard.decisionTimes.longestHesitation')}
                     </span>
                     <Lock size={12} strokeWidth={2.2} className="text-[#8C6D37]" />
                   </div>
 
                   <h4 className="font-serif text-[1.15rem] sm:text-[1.25rem] font-bold text-[#1A3E72] m-0 mb-1">
-                    {langCode === 'tr' ? 'Kilitli Sinyal' : 'Locked Signal'}
+                    {t('dashboard.decisionTimes.lockedSignal')}
                   </h4>
 
                   <div className="flex items-baseline gap-1.5 my-1.5">
@@ -156,15 +148,13 @@ const DecisionTimesTab = memo(function DecisionTimesTab({
                       --.-s
                     </span>
                     <span className="font-sans text-[10.5px] sm:text-[11px] text-[#64748B]">
-                      {langCode === 'tr' ? 'ortalama düşünme süresi' : 'average pause'}
+                      {t('dashboard.decisionTimes.averagePause')}
                     </span>
                   </div>
                 </div>
 
                 <p className="font-sans text-[0.78rem] sm:text-[0.8rem] text-[#64748B] leading-relaxed m-0 mt-3 pt-2.5 border-t border-[#EFE8DC]">
-                  {langCode === 'tr'
-                    ? 'Arkadaşlarınızın sizi değerlendirirken en çok duraksadığı soru.'
-                    : 'The trait where your circle paused the longest before answering.'}
+                  {t('dashboard.decisionTimes.hesitationCardDesc')}
                 </p>
               </div>
 
@@ -180,13 +170,13 @@ const DecisionTimesTab = memo(function DecisionTimesTab({
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <span className="text-[9.5px] sm:text-[10px] uppercase font-bold tracking-[0.08em] text-[#8C6D37]">
-                      {langCode === 'tr' ? 'REFLEKS KARAR' : 'INSTANT CONVICTION'}
+                      {t('dashboard.decisionTimes.instantConviction')}
                     </span>
                     <Lock size={12} strokeWidth={2.2} className="text-[#8C6D37]" />
                   </div>
 
                   <h4 className="font-serif text-[1.15rem] sm:text-[1.25rem] font-bold text-[#1A3E72] m-0 mb-1">
-                    {langCode === 'tr' ? 'Kilitli Sinyal' : 'Locked Signal'}
+                    {t('dashboard.decisionTimes.lockedSignal')}
                   </h4>
 
                   <div className="flex items-baseline gap-1.5 my-1.5">
@@ -194,15 +184,13 @@ const DecisionTimesTab = memo(function DecisionTimesTab({
                       --.-s
                     </span>
                     <span className="font-sans text-[10.5px] sm:text-[11px] text-[#64748B]">
-                      {langCode === 'tr' ? 'ortalama karar hızı' : 'instant speed'}
+                      {t('dashboard.decisionTimes.instantSpeed')}
                     </span>
                   </div>
                 </div>
 
                 <p className="font-sans text-[0.78rem] sm:text-[0.8rem] text-[#64748B] leading-relaxed m-0 mt-3 pt-2.5 border-t border-[#EFE8DC]">
-                  {langCode === 'tr'
-                    ? 'Arkadaşlarınızın sizi değerlendirirken üzerine en az düşündüğü ve doğrudan işaretlediği soru.'
-                    : 'The question your friends spent the least time reflecting on.'}
+                  {t('dashboard.decisionTimes.convictionCardDesc')}
                 </p>
               </div>
             </div>
@@ -222,19 +210,18 @@ const DecisionTimesTab = memo(function DecisionTimesTab({
           >
             <div className="flex-1 max-w-lg">
               <h4 className="font-serif text-[1.18rem] sm:text-[1.35rem] font-bold text-[#1A3E72] m-0 mb-1">
-                {langCode === 'tr' ? 'Gizli İncelemeler & Ziyaretçi Dağılımı' : 'Profile Visits & Silent Viewers'}
+                {t('dashboard.decisionTimes.profileVisitsTitle')}
               </h4>
 
               <p className="font-sans text-[0.8rem] sm:text-[0.84rem] text-[#4A5568] leading-relaxed m-0 mb-2.5 sm:mb-3">
-                {totalProfileClicks === 0 ? (
-                  langCode === 'tr'
-                    ? 'Profil linkiniz henüz ziyaret almadı. Linkinizi paylaştığınızda sizi inceleyenlerin ve analizi çözenlerin oranı burada gösterilecektir.'
-                    : 'Your profile has not received visits yet. Visitor breakdown will be analyzed once shared.'
-                ) : (
-                  langCode === 'tr'
-                    ? `Profil linkinizi toplam ${totalProfileClicks} kişi açtı. Bunların ${Math.max(0, totalProfileClicks - totalResponders)} tanesi sadece profilinize bakıp geçerken, ${totalResponders} kişi analizi tamamladı.`
-                    : `${totalProfileClicks} people opened your profile. ${Math.max(0, totalProfileClicks - totalResponders)} silently browsed without answering, and ${totalResponders} completed the quiz.`
-                )}
+                {totalProfileClicks === 0
+                  ? t('dashboard.decisionTimes.noVisitsYet')
+                  : t('dashboard.decisionTimes.visitsBreakdown', {
+                      total: totalProfileClicks,
+                      silent: Math.max(0, totalProfileClicks - totalResponders),
+                      responders: totalResponders
+                    })
+                }
               </p>
 
               {/* Micro Status Badges */}
@@ -242,11 +229,11 @@ const DecisionTimesTab = memo(function DecisionTimesTab({
                 <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                   <span className="inline-flex items-center gap-1.5 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-bold bg-[#1A3E72]/[0.07] text-[#1A3E72] border border-[#1A3E72]/15">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#1A3E72]" />
-                    <span>{totalResponders} {langCode === 'tr' ? 'Testi Tamamlayan' : 'Completed'}</span>
+                    <span>{t('dashboard.decisionTimes.completedBadge', { count: totalResponders })}</span>
                   </span>
                   <span className="inline-flex items-center gap-1.5 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-bold bg-[#8C6D37]/[0.08] text-[#8C6D37] border border-[#8C6D37]/20">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#8C6D37]" />
-                    <span>{Math.max(0, totalProfileClicks - totalResponders)} {langCode === 'tr' ? 'Sessiz İzleyici' : 'Silent Viewers'}</span>
+                    <span>{t('dashboard.decisionTimes.silentViewersBadge', { count: Math.max(0, totalProfileClicks - totalResponders) })}</span>
                   </span>
                 </div>
               )}
@@ -258,11 +245,11 @@ const DecisionTimesTab = memo(function DecisionTimesTab({
                   {totalProfileClicks}
                 </span>
                 <span className="font-sans text-[11px] sm:text-[12px] font-bold text-[#1A3E72]">
-                  {langCode === 'tr' ? 'Ziyaret' : 'Visits'}
+                  {t('dashboard.decisionTimes.visits')}
                 </span>
               </div>
               <span className="inline-flex items-center px-2.5 py-0.5 sm:p-0 rounded-md sm:rounded-none bg-[#8C6D37]/[0.08] sm:bg-transparent text-[10.5px] sm:text-[11px] font-semibold text-[#8C6D37] sm:mt-1.5 text-center">
-                %{ratio} {langCode === 'tr' ? 'Tamamlama' : 'Conversion'}
+                %{ratio} {t('dashboard.decisionTimes.conversion')}
               </span>
             </div>
           </div>
@@ -281,13 +268,13 @@ const DecisionTimesTab = memo(function DecisionTimesTab({
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
                   <span className="text-[9.5px] sm:text-[10px] uppercase font-bold tracking-[0.08em] text-[#8C6D37]">
-                    {langCode === 'tr' ? 'BİLİŞSEL DURAKSAMA' : 'LONGEST HESITATION'}
+                    {t('dashboard.decisionTimes.longestHesitation')}
                   </span>
                   <Timer size={13} strokeWidth={2.2} className="text-[#8C6D37]" />
                 </div>
 
-                <h4 className="font-serif text-[1.18rem] sm:text-[1.3rem] font-bold text-[#1A3E72] m-0 mb-1 truncate" title={slowestSignal ? t('ui', `signal_labels.${slowestSignal}`) : ''}>
-                  {slowestSignal ? t('ui', `signal_labels.${slowestSignal}`) : '-'}
+                <h4 className="font-serif text-[1.18rem] sm:text-[1.3rem] font-bold text-[#1A3E72] m-0 mb-1 truncate" title={slowestSignal ? (t(`common.signals.${slowestSignal}`) || slowestSignal) : ''}>
+                  {slowestSignal ? (t(`common.signals.${slowestSignal}`) || slowestSignal) : '-'}
                 </h4>
 
                 <div className="flex items-baseline gap-1.5 my-1.5">
@@ -295,15 +282,13 @@ const DecisionTimesTab = memo(function DecisionTimesTab({
                     {slowestTimeSec}s
                   </span>
                   <span className="font-sans text-[10.5px] sm:text-[11px] text-[#64748B]">
-                    {langCode === 'tr' ? 'ortalama düşünme süresi' : 'average pause'}
+                    {t('dashboard.decisionTimes.averagePause')}
                   </span>
                 </div>
               </div>
 
               <p className="font-sans text-[0.8rem] sm:text-[0.82rem] text-[#4A5568] leading-relaxed m-0 mt-3 pt-2.5 border-t border-[#EFE8DC]">
-                {langCode === 'tr'
-                  ? 'Arkadaşlarınız bu soruyu yanıtlarken en çok duraksadı. Karakterinizin üzerine en çok düşünülen boyutu.'
-                  : 'Your circle spent the most time reflecting on this question before answering.'}
+                {t('dashboard.decisionTimes.hesitationCardDesc')}
               </p>
             </div>
 
@@ -319,13 +304,13 @@ const DecisionTimesTab = memo(function DecisionTimesTab({
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
                   <span className="text-[9.5px] sm:text-[10px] uppercase font-bold tracking-[0.08em] text-[#8C6D37]">
-                    {langCode === 'tr' ? 'REFLEKS KARAR' : 'INSTANT CONVICTION'}
+                    {t('dashboard.decisionTimes.instantConviction')}
                   </span>
                   <Zap size={13} strokeWidth={2.2} className="text-[#8C6D37]" />
                 </div>
 
-                <h4 className="font-serif text-[1.18rem] sm:text-[1.3rem] font-bold text-[#1A3E72] m-0 mb-1 truncate" title={fastestSignal ? t('ui', `signal_labels.${fastestSignal}`) : ''}>
-                  {fastestSignal ? t('ui', `signal_labels.${fastestSignal}`) : '-'}
+                <h4 className="font-serif text-[1.18rem] sm:text-[1.3rem] font-bold text-[#1A3E72] m-0 mb-1 truncate" title={fastestSignal ? (t(`common.signals.${fastestSignal}`) || fastestSignal) : ''}>
+                  {fastestSignal ? (t(`common.signals.${fastestSignal}`) || fastestSignal) : '-'}
                 </h4>
 
                 <div className="flex items-baseline gap-1.5 my-1.5">
@@ -333,15 +318,13 @@ const DecisionTimesTab = memo(function DecisionTimesTab({
                     {fastestTimeSec}s
                   </span>
                   <span className="font-sans text-[10.5px] sm:text-[11px] text-[#64748B]">
-                    {langCode === 'tr' ? 'ortalama karar süresi' : 'average decision time'}
+                    {t('dashboard.decisionTimes.averageDecisionTime')}
                   </span>
                 </div>
               </div>
 
               <p className="font-sans text-[0.8rem] sm:text-[0.82rem] text-[#4A5568] leading-relaxed m-0 mt-3 pt-2.5 border-t border-[#EFE8DC]">
-                {langCode === 'tr'
-                  ? 'Arkadaşlarınız değerlendirme yaparken bu soru üzerine en az düşündü. Dışarıdan en net ve belirgin algılanan yönünüz.'
-                  : 'Your friends spent the least time reflecting on this question. Your most clearly recognized trait.'}
+                {t('dashboard.decisionTimes.convictionCardDesc')}
               </p>
             </div>
           </div>

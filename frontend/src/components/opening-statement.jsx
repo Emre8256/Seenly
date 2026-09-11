@@ -20,14 +20,14 @@ export function OpeningStatement() {
           </div>
 
           <p className="mt-8 text-balance font-heading text-2xl font-normal leading-[1.42] tracking-tight text-foreground sm:text-[2rem] sm:leading-[1.4]">
-            {t("ui", "landing_opening_quote") || "Kendimizi tanıdığımızı sanırız. Ama bizi tanıyan insanlar, çoğu zaman göremediğimiz bir şeyi taşır: "}
+            {t("home.opening.quote")}
             <span className="italic text-clay">
-              {t("ui", "landing_opening_quote_italic") || "onların gözünden nasıl göründüğümüzü."}
+              {t("home.opening.quoteItalic")}
             </span>
           </p>
 
           <p className="mt-8 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-            {t("ui", "landing_opening_desc") || "Seenly bir test değildir. Seni bir etikete sıkıştırmaz. Bunun yerine, kendi anlatımını yakın çevrenin sessiz gözlemleriyle yan yana koyar — ve aradaki o ince boşlukta kendini görmen için bir alan açar."}
+            {t("home.opening.desc")}
           </p>
         </div>
       </div>

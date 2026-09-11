@@ -2,9 +2,10 @@ import React, { memo } from 'react';
 import { ArrowRight, UsersRound } from 'lucide-react';
 import premiumBg2 from '../../images/backgrounds/premium_bg2.avif';
 import anonimLogo from '../../images/Icons/AnonimLOGO.avif';
+import { useLocale } from '../../context/LocaleContext';
 
 const DashboardResponsesTab = memo(function DashboardResponsesTab({
-  langCode,
+  langCode: propLangCode,
   isPremium,
   handleUpgradeToPlus,
   responseSessions,
@@ -22,6 +23,9 @@ const DashboardResponsesTab = memo(function DashboardResponsesTab({
   historyHasMore,
   loadMoreResponseHistory
 }) {
+  const { t, locale } = useLocale();
+  const tr = (key, vars) => t(key, vars, propLangCode || locale);
+
   return (
     <div className="seenly-dashboard-tab-content full-width-layout scrollable-gap-content seenly-gap-editorial-content" style={{ maxWidth: '840px', width: '100%' }}>
       <div className="flex flex-col gap-4 sm:gap-5 w-full box-border">
@@ -46,31 +50,20 @@ const DashboardResponsesTab = memo(function DashboardResponsesTab({
               }}
             />
 
-            <div className="flex-1 max-w-xl relative z-10">
+            <div className="flex-1 relative z-10 pr-2 sm:pr-4">
               <h3 className="font-serif text-[1.25rem] sm:text-[1.5rem] font-bold text-[#3C2C23] tracking-tight leading-snug m-0 drop-shadow-[0_1px_2px_rgba(255,255,255,0.7)]">
-                {langCode === 'tr'
-                  ? 'Anonim İncelemeler'
-                  : 'Anonymous Reviews'}
+                {tr('dashboard.responses.anonymousReviewsTitle')}
               </h3>
 
-              <p className="font-sans text-[0.82rem] sm:text-[0.85rem] text-[#3C2C23]/90 font-medium leading-relaxed max-w-lg m-0 mt-1 sm:mt-1.5 drop-shadow-[0_1px_1px_rgba(255,255,255,0.6)]">
-                {langCode === 'tr'
-                  ? 'Arkadaşlarınızın sorulara verdiği tüm bireysel yanıtları ve soru bazlı detayları tamamen anonim olarak inceleyin.'
-                  : 'Review all individual friend answers and question-by-question breakdowns completely anonymously.'}
+              <p className="font-sans text-[0.82rem] sm:text-[0.88rem] text-[#3C2C23]/90 font-medium leading-relaxed m-0 mt-1 sm:mt-1.5 drop-shadow-[0_1px_1px_rgba(255,255,255,0.6)]">
+                {tr('dashboard.responses.anonymousReviewsDesc')}
               </p>
             </div>
-            {historyError && <p role="alert" className="text-center text-sm text-red-700">{historyError}</p>}
-            {historyHasMore && (
-              <button type="button" onClick={loadMoreResponseHistory} disabled={historyLoading}
-                className="mx-auto rounded-full border border-[#1A3E72]/20 px-4 py-2 text-sm text-[#1A3E72] disabled:opacity-60">
-                {historyLoading ? (langCode === 'tr' ? 'Yükleniyor…' : 'Loading…') : (langCode === 'tr' ? 'Daha fazla yükle' : 'Load more')}
-              </button>
-            )}
 
             <div className="shrink-0 w-full md:w-auto relative z-10 flex flex-col items-center md:items-end mt-1 md:mt-0">
               <div className="relative inline-block w-full md:w-auto">
                 <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#DFBF6A] via-[#FFF8E7] to-[#DFBF6A] text-[#0B1B2C] text-[8px] font-black uppercase tracking-[0.14em] shadow-[0_2px_8px_rgba(0,0,0,0.25)] z-20 border border-white/75 pointer-events-none whitespace-nowrap">
-                  {langCode === 'tr' ? 'TEK SEFERLİK' : 'ONE-TIME'}
+                  {tr('common.oneTime').toUpperCase()}
                 </span>
 
                 <button
@@ -78,7 +71,7 @@ const DashboardResponsesTab = memo(function DashboardResponsesTab({
                   onClick={handleUpgradeToPlus}
                   className="group w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#16222F] hover:bg-[#0E1721] text-white font-sans font-semibold text-[11.5px] sm:text-[12px] tracking-wider uppercase shadow-[0_4px_16px_rgba(22,34,47,0.2)] active:scale-[0.98] transition-all cursor-pointer border border-white/10"
                 >
-                  <span>{langCode === 'tr' ? 'Plus ile Kilidi Aç' : 'Unlock with Plus'}</span>
+                  <span>{tr('dashboard.responses.unlockWithPlus')}</span>
                   <ArrowRight size={13} strokeWidth={2.2} className="text-white group-hover:translate-x-0.5 transition-all" />
                 </button>
               </div>
@@ -93,12 +86,10 @@ const DashboardResponsesTab = memo(function DashboardResponsesTab({
               <UsersRound size={22} strokeWidth={1.8} />
             </div>
             <h4 className="font-serif text-base sm:text-lg font-bold text-foreground mt-2 mb-2">
-              {langCode === 'tr' ? 'Henüz Analiz Alınmadı' : 'No Analyses Received Yet'}
+              {tr('dashboard.responses.noAnalysesYetTitle')}
             </h4>
             <p className="font-sans text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-md mx-auto m-0">
-              {langCode === 'tr'
-                ? 'Profilinizin linkini yukarıdan kopyalayıp arkadaşlarınıza göndererek ilk yansımalarınızı toplamaya başlayın!'
-                : 'Copy your profile link from above and send it to your friends to start gathering your first reflections!'}
+              {tr('dashboard.responses.noAnalysesYetDesc')}
             </p>
           </div>
         ) : (
@@ -131,7 +122,7 @@ const DashboardResponsesTab = memo(function DashboardResponsesTab({
                       ) : (
                         <img
                           src={anonimLogo}
-                          alt="Anonim"
+                          alt={tr('common.anonymous')}
                           className="w-9 h-9 sm:w-11 sm:h-11 rounded-full object-contain shrink-0 shadow-sm border-[1.5px] border-[rgba(197,160,89,0.45)] ring-1 ring-[rgba(26,62,114,0.08)]"
                         />
                       )}
@@ -146,14 +137,14 @@ const DashboardResponsesTab = memo(function DashboardResponsesTab({
                             ? 'bg-[#1A3E72]/[0.06] text-[#1A3E72] border-[#1A3E72]/18'
                             : 'bg-[#8C6D37]/[0.08] text-[#8C6D37] border-[#8C6D37]/22'
                           }`}>
-                          <span>{langCode === 'tr' ? `%${accuracyScore} Uyum` : `${accuracyScore}% Match`}</span>
+                          <span>{tr('dashboard.responses.matchRate', { accuracy: accuracyScore })}</span>
                         </span>
                       </div>
                     </div>
 
                     {/* Right Side: Timestamp + Hover Arrow */}
                     <div className="flex items-center justify-between sm:justify-end gap-2.5 sm:gap-3 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-[#EFE8DC]">
-                      <span className="font-sans text-[11px] sm:text-[12px] text-[#8C9AA8] font-normal">
+                      <span className="font-sans text-[11px] sm:text-[12px] text-[#7A8B9E] font-medium whitespace-nowrap">
                         {relativeTime}
                       </span>
 
@@ -166,15 +157,29 @@ const DashboardResponsesTab = memo(function DashboardResponsesTab({
               })}
             </div>
 
+            {historyError && <p role="alert" className="text-center text-sm text-red-700 m-0 py-1">{historyError}</p>}
+            {historyHasMore && (
+              <div className="flex justify-center pt-1">
+                <button
+                  type="button"
+                  onClick={loadMoreResponseHistory}
+                  disabled={historyLoading}
+                  className="rounded-full border border-[#1A3E72]/20 px-4 py-2 text-xs font-semibold text-[#1A3E72] disabled:opacity-60 hover:bg-[#1A3E72]/5 transition-colors"
+                >
+                  {historyLoading ? tr('common.loading') : tr('common.loadMore')}
+                </button>
+              </div>
+            )}
+
             {/* Always Visible Pagination Controls */}
             <div
               className="seenly-response-pagination pt-1"
-              aria-label={langCode === 'tr' ? 'Gelen analiz sayfaları' : 'Received analysis pages'}
+              aria-label={tr('accessibility.receivedAnalysisPages')}
             >
               <button
                 type="button"
                 className="seenly-response-page-btn seenly-response-page-nav"
-                aria-label={langCode === 'tr' ? 'Önceki sayfa' : 'Previous page'}
+                aria-label={tr('accessibility.previousPage')}
                 disabled={safeResponseHistoryPage === 1}
                 onClick={() => setResponseHistoryPage((currentPage) => Math.max(1, currentPage - 1))}
               >
@@ -209,7 +214,7 @@ const DashboardResponsesTab = memo(function DashboardResponsesTab({
               <button
                 type="button"
                 className="seenly-response-page-btn seenly-response-page-nav"
-                aria-label={langCode === 'tr' ? 'Sonraki sayfa' : 'Next page'}
+                aria-label={tr('accessibility.nextPage')}
                 disabled={safeResponseHistoryPage === responseHistoryTotalPages || responseHistoryTotalPages <= 1}
                 onClick={() => setResponseHistoryPage((currentPage) => Math.min(responseHistoryTotalPages, currentPage + 1))}
               >

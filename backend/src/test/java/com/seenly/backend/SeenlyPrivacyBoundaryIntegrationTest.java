@@ -12,6 +12,7 @@ import com.seenly.backend.repository.ResponseSessionRepository;
 import com.seenly.backend.repository.SeenlyRepository;
 import com.seenly.backend.repository.UserRepository;
 import com.seenly.backend.entity.User;
+import com.seenly.backend.service.AbuseSignalService;
 import com.seenly.backend.service.ScoringEngineService;
 import com.seenly.backend.service.TokenHashingService;
 import jakarta.persistence.EntityManager;
@@ -71,6 +72,9 @@ class SeenlyPrivacyBoundaryIntegrationTest {
     @Autowired
     private ScoringEngineService scoringEngineService;
 
+    @Autowired
+    private AbuseSignalService abuseSignalService;
+
     @Test
     void publicProfileExposesOnlyTheIntendedPublicContract() throws Exception {
         ProfileFixture profile = createProfile("Public Person", "owner@example.com");
@@ -111,9 +115,23 @@ class SeenlyPrivacyBoundaryIntegrationTest {
             addParticipantResponse(profile.publicSlug(), i + 2, "fingerprint-" + i, "198.51.100." + (10 + i));
         }
 
+        // Unauthenticated visitor is locked even after threshold
         mockMvc.perform(get("/api/v1/seenly/public/{slug}", profile.publicSlug()))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.responseCount").value(AppConstants.MIN_RESPONSES_FOR_OUTSIDE))
+            .andExpect(jsonPath("$.outsidePerceptionLocked").value(true))
+            .andExpect(jsonPath("$.outsidePerceptionLockReason").value("COMPLETE_TEST_REQUIRED"))
+            .andExpect(jsonPath("$.friendAverages").doesNotExist())
+            .andExpect(jsonPath("$.responseSessions").doesNotExist())
+            .andExpect(jsonPath("$.email").doesNotExist());
+
+        // Verified participant has access to aggregates once threshold is reached
+        mockMvc.perform(get("/api/v1/seenly/public/{slug}", profile.publicSlug())
+                .header("X-Participant-Signal", "fingerprint-0"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.responseCount").value(AppConstants.MIN_RESPONSES_FOR_OUTSIDE))
+            .andExpect(jsonPath("$.outsidePerceptionLocked").value(false))
+            .andExpect(jsonPath("$.outsidePerceptionLockReason").doesNotExist())
             .andExpect(jsonPath("$.friendAverages.samimiyet").exists())
             .andExpect(jsonPath("$.responseSessions").doesNotExist())
             .andExpect(jsonPath("$.email").doesNotExist());
@@ -375,7 +393,7 @@ class SeenlyPrivacyBoundaryIntegrationTest {
         ResponseSession session = ResponseSession.builder()
             .seenly(seenly)
             .nickname("private-nick")
-            .fingerprintHash(fingerprint)
+            .fingerprintHash(abuseSignalService.fingerprintHash(fingerprint))
             .ipAddress(ipAddress)
             .friendTimeAnalytics(Map.of("samimiyet", 900))
             .build();
@@ -390,6 +408,8 @@ class SeenlyPrivacyBoundaryIntegrationTest {
         responseSessionRepository.saveAndFlush(session);
         seenly.setResponseCount(seenly.getResponseCount() + 1);
         seenlyRepository.saveAndFlush(seenly);
+        scoringEngineService.recalculateResultSnapshot(seenly);
+        entityManager.flush();
         entityManager.clear();
         return session;
     }

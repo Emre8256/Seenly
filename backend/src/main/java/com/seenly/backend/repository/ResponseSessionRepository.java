@@ -20,16 +20,37 @@ public interface ResponseSessionRepository extends JpaRepository<ResponseSession
     @Query("""
         select session from ResponseSession session
         where session.seenly.id = :seenlyId
-          and (:before is null
-            or session.createdAt < :before
+        order by session.createdAt desc, session.id desc
+        """)
+    Slice<ResponseSession> findOwnerHistoryInitial(
+        @Param("seenlyId") UUID seenlyId,
+        Pageable pageable);
+
+    @EntityGraph(attributePaths = {"responses", "friendTimeAnalytics"})
+    @Query("""
+        select session from ResponseSession session
+        where session.seenly.id = :seenlyId
+          and (session.createdAt < :before
             or (session.createdAt = :before and session.id < :beforeId))
         order by session.createdAt desc, session.id desc
         """)
-    Slice<ResponseSession> findOwnerHistory(
+    Slice<ResponseSession> findOwnerHistoryWithCursor(
         @Param("seenlyId") UUID seenlyId,
         @Param("before") LocalDateTime before,
         @Param("beforeId") UUID beforeId,
         Pageable pageable);
+
+    default Slice<ResponseSession> findOwnerHistory(
+        UUID seenlyId,
+        LocalDateTime before,
+        UUID beforeId,
+        Pageable pageable) {
+        if (before == null) {
+            return findOwnerHistoryInitial(seenlyId, pageable);
+        } else {
+            return findOwnerHistoryWithCursor(seenlyId, before, beforeId, pageable);
+        }
+    }
 
     interface TimeAverage {
         String getSignalKey();

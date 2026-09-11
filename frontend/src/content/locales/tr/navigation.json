@@ -1,0 +1,27 @@
+{
+  "home": "Ana Sayfa",
+  "dashboard": "Panelim",
+  "settings": "Profil",
+  "packages": "Seenly Plus",
+  "start": "Testi Başlat",
+  "login": "Giriş Yap",
+  "logout": "Çıkış Yap",
+  "howItWorks": "Nasıl Çalışır",
+  "socialIdentities": "Sosyal Kimlikler",
+  "plans": "Planlar",
+  "faq": "SSS",
+  "backHome": "Ana Sayfaya Dön",
+  "goBack": "Geri Dön",
+  "footer": {
+    "quickLinks": "Keşfet",
+    "support": "Destek & Bilgi",
+    "privacy": "Gizlilik Politikası",
+    "privacyPolicy": "Gizlilik Politikası",
+    "terms": "Kullanım Koşulları",
+    "contact": "İletişim",
+    "contactUs": "İletişim",
+    "description": "Seenly, insanların kendilerini ve birbirlerini daha iyi anlamalarına yardımcı olmak için özenle tasarlandı.",
+    "rights": "Seenly. Tüm hakları saklıdır.",
+    "slogan": "Kendini gör"
+  }
+}

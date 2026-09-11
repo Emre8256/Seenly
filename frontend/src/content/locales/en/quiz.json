@@ -1,0 +1,65 @@
+{
+  "onboarding": {
+    "nameTitle": "What should we call you?",
+    "namePlaceholder": "Your name",
+    "languageTitle": "Choose your language",
+    "infoTitle": "Before you begin",
+    "infoBullet1": "Takes about 60 seconds",
+    "infoBullet2": "There are no right or wrong answers",
+    "infoBullet3": "All questions must be answered",
+    "infoCta": "Let's go",
+    "startTest": "Start Test"
+  },
+  "runner": {
+    "chooseAvatarTitle": "Choose Your Avatar",
+    "chooseAvatarSubtitle": "Select the avatar that will represent you on your profile and test cards.",
+    "avatarWomen": "Women (6)",
+    "avatarMen": "Men (6)",
+    "questionCounter": "Question {current} of {total}",
+    "progressAria": "Quiz progress: Question {current} of {total}"
+  },
+  "results": {
+    "resultTitle": "Your Self Reflection",
+    "selfViewTitle": "Self Perception",
+    "awaitingSignalAnalysis": "Awaiting Signal Analysis",
+    "kicker": "YOUR RESULT",
+    "signatureLabel": "Social Signature",
+    "strongestTrait": "Strongest trait",
+    "weakestTrait": "Subtle trait",
+    "motivation": "Motivation",
+    "shareSuite": "SHARE SUITE",
+    "shareYourResult": "Share Your Result",
+    "shareModalSubtitle": "Share your card and link to discover how your circle perceives you.",
+    "downloadStory": "Download story card & share",
+    "instagramStory": "Instagram Story",
+    "sendDirect": "Send direct invite to friends",
+    "copyLink": "Copy Link",
+    "copiedLink": "Link Copied!",
+    "copyProfileLink": "Copy profile link to clipboard",
+    "inviteFriendsTitle": "Invite Friends to Reveal Outside Read",
+    "inviteFriendsDesc": "Send this link to friends. When 3 answer, you unlock your Outside Seenly and The Gap.",
+    "copyFriendLink": "Copy Friend Link",
+    "viewProfileBtn": "View Profile"
+  },
+  "identities": {
+    "title": "Social Identities",
+    "subtitle": "45 unique social signatures born from the combination of 10 social signals. Explore the cards to discover your reflection and the prints you leave behind.",
+    "searchPlaceholder": "Search identities...",
+    "filterAll": "All",
+    "analysisTitle": "Identity Analysis",
+    "ctaDiscover": "Discover This Role in Yourself",
+    "descTemplate": "In social perception, this character {d1} At the same time, this profile {d2} The synergy of these two dominant traits makes you a distinct and highly respected signature in your social circles. Others feel this compelling blend and admire the dual depth you naturally radiate.",
+    "families": {
+      "stratega": "Stratega",
+      "imperia": "Imperia",
+      "aura": "Aura",
+      "porta": "Porta",
+      "gratia": "Gratia"
+    },
+    "familyFilterAria": "Character family",
+    "familyLabel": "{name} Family",
+    "emptyTitle": "No matches yet",
+    "emptyDesc": "Try another name or clear your filters.",
+    "clearFilters": "Clear filters"
+  }
+}

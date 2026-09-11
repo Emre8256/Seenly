@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { useLocale } from '../../context/LocaleContext';
 
 const QuizOnboardingStep = memo(function QuizOnboardingStep({
   currentIndex,
@@ -29,8 +30,11 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
   isValidEmail,
   langCode,
   locale,
-  t
+  t: propT
 }) {
+  const { t: contextT } = useLocale();
+  const t = propT || contextT;
+  const tr = t;
   const isNotFound = authFlowNotification?.status === 'not_found';
   const isConflict = authFlowNotification?.status === 'conflict';
   const hasError = !!emailValidationError || (authFlowNotification?.status === 'error') || !!errorMessage;
@@ -61,8 +65,8 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
 
           <h2 className="seenly-wizard-title" style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-deep-ink)', marginBottom: '0.5rem', fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', textAlign: 'center', width: '100%' }}>
             {isQuickLogin
-              ? t('ui', 'email_entry_quick_login_title')
-              : t('ui', 'email_entry_new_profile_title')}
+              ? tr('auth.loginTitle')
+              : tr('auth.newProfileTitle')}
           </h2>
 
           <p style={{
@@ -77,8 +81,8 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
             padding: '0 0.5rem'
           }}>
             {isQuickLogin
-              ? t('ui', 'email_entry_quick_login_desc')
-              : t('ui', 'email_entry_new_profile_desc')}
+              ? tr('auth.loginDesc')
+              : tr('auth.newProfileDesc')}
           </p>
 
           <div className="seenly-auth-card" style={{
@@ -108,20 +112,20 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
               opacity: 0.6,
               textAlign: 'center'
             }}>
-              {locale === 'tr' ? 'İLETİŞİM KANALINIZ' : 'YOUR CONTACT CHANNEL'}
+              {tr('auth.contactChannel')}
             </div>
 
             <div className="seenly-wizard-input-container" style={{ width: '100%' }}>
               <input
                 type="email"
-                  aria-label={locale === 'tr' ? 'E-posta adresi' : 'Email address'}
-                  enterKeyHint="go"
+                aria-label={tr('auth.emailAddressLabel')}
+                enterKeyHint="go"
                 inputMode="email"
                 autoComplete="email"
                 autoCapitalize="none"
                 autoCorrect="off"
                 spellCheck={false}
-                placeholder={locale === 'tr' ? 'adiniz@ornek.com' : 'you@example.com'}
+                placeholder={tr('auth.emailPlaceholderExample')}
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -178,7 +182,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
                       <line x1="12" y1="16" x2="12.01" y2="16" />
                     </svg>
                     <span style={{ fontSize: '0.82rem', fontWeight: 700 }}>
-                      {langCode === 'tr' ? 'Hesap Bulunamadı' : 'Account Not Found'}
+                      {tr('auth.accountNotFound')}
                     </span>
                   </div>
                   <p style={{
@@ -216,7 +220,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
                       transition: 'all 0.2s ease'
                     }}
                   >
-                    <span>{langCode === 'tr' ? 'Testi Başlat' : 'Start Test'}</span>
+                    <span>{tr('auth.startTest')}</span>
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="9 18 15 12 9 6" />
                     </svg>
@@ -243,10 +247,10 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
             {isEmailSending ? (
               <span className="spinner-mini"></span>
             ) : resendTimer > 0 ? (
-              <span>{`${langCode === 'tr' ? 'Tekrar Kod Gönder' : 'Resend Code'} (${formatTimer(resendTimer)})`}</span>
+              <span>{tr('auth.resendCodeWithTimer', { time: formatTimer(resendTimer) })}</span>
             ) : (
               <>
-                <span>{t('ui', 'wizard_continue_btn')}</span>
+                <span>{tr('auth.sendCodeBtn')}</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="seenly-wizard-arrow-icon">
                   <line x1="4" y1="12" x2="20" y2="12" />
                   <polyline points="13 5 20 12 13 19" />
@@ -286,7 +290,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
           </div>
 
           <h2 className="seenly-wizard-title" style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-deep-ink)', marginBottom: '0.5rem', fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', textAlign: 'center', width: '100%' }}>
-            {t('ui', 'otp_entry_title')}
+            {tr('auth.otpTitle')}
           </h2>
 
           <p style={{
@@ -300,7 +304,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
             maxWidth: '360px',
             padding: '0 0.5rem'
           }}>
-            {t('ui', 'otp_entry_desc').replace('{email}', email)}
+            {tr('auth.otpDesc', { email })}
           </p>
 
           <div className="seenly-auth-card" style={{
@@ -327,7 +331,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
               opacity: 0.6,
               textAlign: 'center'
             }}>
-              {locale === 'tr' ? 'DOĞRULAMA KODUNUZ' : 'VERIFICATION CODE'}
+              {tr('auth.verificationCodeHeader')}
             </div>
 
             <div style={{
@@ -348,7 +352,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
                   autoCapitalize="characters"
                   autoCorrect="off"
                   spellCheck={false}
-                  aria-label={locale === 'tr' ? `Doğrulama hanesi ${i + 1}` : `Verification digit ${i + 1}`}
+                  aria-label={tr('auth.verificationDigit', { index: i + 1 })}
                   maxLength={1}
                   value={verificationCode[i] || ''}
                   onChange={(e) => {
@@ -402,7 +406,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
                     <circle cx="12" cy="12" r="10" />
                     <polyline points="12 6 12 12 16 14" />
                   </svg>
-                  <span>{t('ui', 'auth_resend_countdown').replace('{time}', formatTimer(resendTimer))}</span>
+                  <span>{tr('auth.resendCountdown', { time: formatTimer(resendTimer) })}</span>
                 </div>
               ) : (
                 <button
@@ -431,7 +435,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
                         <polyline points="23 4 23 10 17 10" />
                         <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
                       </svg>
-                      <span>{t('ui', 'auth_resend_btn')}</span>
+                      <span>{tr('auth.resendBtn')}</span>
                     </>
                   )}
                 </button>
@@ -483,7 +487,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
               <span className="spinner-mini"></span>
             ) : (
               <>
-                <span>{t('ui', 'auth_otp_btn')}</span>
+                <span>{tr('auth.verifyBtn')}</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="seenly-wizard-arrow-icon">
                   <line x1="4" y1="12" x2="20" y2="12" />
                   <polyline points="13 5 20 12 13 19" />
@@ -507,18 +511,18 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
               <circle cx="12" cy="7" r="4" />
             </svg>
           </div>
-          <h2 className="seenly-wizard-title" style={{ textAlign: 'center', width: '100%' }}>{t('ui', 'wizard_nickname_title')}</h2>
+          <h2 className="seenly-wizard-title" style={{ textAlign: 'center', width: '100%' }}>{t('quiz.onboarding.nameTitle')}</h2>
           <div className="seenly-wizard-input-container" style={{ width: '100%', maxWidth: '400px', margin: '0 auto 1rem auto' }}>
             <input
               type="text"
               inputMode="text"
-              autoComplete="nickname"
-              aria-label={t('ui', 'wizard_nickname_title')}
+              autoComplete="name"
+              aria-label={t('quiz.onboarding.nameTitle')}
               enterKeyHint="next"
               autoCapitalize="words"
               autoCorrect="off"
               spellCheck={false}
-              placeholder={t('ui', 'wizard_nickname_placeholder')}
+              placeholder={t('quiz.onboarding.namePlaceholder')}
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
               maxLength={15}
@@ -541,7 +545,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
             disabled={!displayName || displayName.trim().length < 2}
             onClick={() => setCurrentIndex(-4)}
           >
-            <span>{t('ui', 'wizard_continue_btn')}</span>
+            <span>{t('common.next')}</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="seenly-wizard-arrow-icon">
               <line x1="4" y1="12" x2="20" y2="12" />
               <polyline points="13 5 20 12 13 19" />
@@ -567,7 +571,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
             </svg>
           </div>
           <h2 className="seenly-wizard-title" style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-deep-ink)', marginBottom: '0.75rem', textAlign: 'center', width: '100%' }}>
-            {t('ui', 'wizard_info_title')}
+            {tr('quiz.onboarding.infoTitle')}
           </h2>
 
           <ul className="seenly-wizard-info-bullets" style={{ width: '100%', maxWidth: '400px', margin: '0 auto 1.5rem auto' }}>
@@ -576,20 +580,20 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
                 <circle cx="12" cy="12" r="10" />
                 <polyline points="12 6 12 12 16 14" />
               </svg>
-              <span>{t('ui', 'wizard_info_bullet1')}</span>
+              <span>{tr('quiz.onboarding.infoBullet1')}</span>
             </li>
             <li>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--color-burnt-coral)', flexShrink: 0 }}>
                 <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" />
               </svg>
-              <span>{t('ui', 'wizard_info_bullet2')}</span>
+              <span>{tr('quiz.onboarding.infoBullet2')}</span>
             </li>
             <li>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--color-burnt-coral)', flexShrink: 0 }}>
                 <polyline points="9 11 12 14 22 4" />
                 <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
               </svg>
-              <span>{t('ui', 'wizard_info_bullet3')}</span>
+              <span>{tr('quiz.onboarding.infoBullet3')}</span>
             </li>
           </ul>
         </div>
@@ -599,7 +603,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
             className="seenly-wizard-primary-btn"
             onClick={() => setCurrentIndex(0)}
           >
-            {t('ui', 'wizard_info_cta')}
+            {tr('quiz.onboarding.infoCta')}
           </button>
         </div>
       </>

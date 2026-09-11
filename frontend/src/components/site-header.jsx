@@ -14,7 +14,7 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
   const [mobileUserMenuOpen, setMobileUserMenuOpen] = useState(false)
   const mobileUserMenuRef = useRef(null)
   const isLoggedIn = Boolean(localStorage.getItem("seenly_owner_token"))
-  const displayName = localStorage.getItem("seenly_display_name") || sessionStorage.getItem("seenly_displayName") || (langCode === 'tr' ? 'Panelim' : 'Dashboard')
+  const displayName = localStorage.getItem("seenly_display_name") || sessionStorage.getItem("seenly_displayName") || t("navigation.dashboard")
   const userAvatar = localStorage.getItem("seenly_avatar") || sessionStorage.getItem("seenly_avatar")
   const avatarSrc = getAvatarSrc(userAvatar)
 
@@ -61,7 +61,7 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
 
   const navItems = [
     {
-      label: isLoggedIn ? (t("ui", "nav_dashboard") || "Panelim") : (t("ui", "nav_start") || "Testi Baslat"),
+      label: isLoggedIn ? t("navigation.dashboard") : t("navigation.start"),
       href: isLoggedIn ? "#/dashboard" : "#",
       onClick: (e) => {
         if (isLoggedIn) return
@@ -78,8 +78,8 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
         }
       },
     },
-    { label: t("ui", "nav_social_identities") || "Sosyal Kimlikler", href: "#/identities" },
-    { label: t("ui", "nav_faq") || "Sorular", href: "#/faq" },
+    { label: t("navigation.socialIdentities"), href: "#/identities" },
+    { label: t("navigation.faq"), href: "#/faq" },
   ].filter(Boolean)
 
   useEffect(() => {
@@ -132,21 +132,21 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
 
   return (
     <header
-      className={`${scrolled
-        ? "border-b border-border/60 bg-background transition-colors duration-300"
+      className={`${(scrolled || open)
+        ? "scrolled menu-open border-b border-border/60 bg-background transition-colors duration-300"
         : "border-b border-transparent bg-transparent"
         }`}
       style={{ position: 'sticky', top: 0, zIndex: 100, width: '100%' }}
     >
       <div className="mx-auto flex h-[72px] max-w-[1180px] items-center justify-between px-5 sm:px-8">
-        <a href="#" onClick={handleLogoClick} className="group flex items-center gap-2.5" aria-label="Seenly ana sayfa">
+        <a href="#" onClick={handleLogoClick} className="group flex items-center gap-2.5" aria-label="Seenly">
           <SeenlyLogo className="h-6 w-6 text-navy transition-transform duration-500 group-hover:rotate-[8deg]" />
           <span className="font-heading text-[1.35rem] font-medium tracking-tight text-foreground">
             Seenly
           </span>
         </a>
 
-        <nav className="hidden items-center gap-9 md:flex" aria-label="Ana menu">
+        <nav className="hidden items-center gap-9 md:flex" aria-label={t("accessibility.openMenu")}>
           {navItems.map((item) => (
             <a
               key={item.label}
@@ -167,7 +167,7 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
                 onClick={() => setUserMenuOpen((v) => !v)}
                 style={{
                   height: '36px',
-                  padding: '0 0.85rem',
+                  padding: '0 0.7rem',
                   borderRadius: '18px',
                   border: '1.5px solid rgba(11, 27, 44, 0.08)',
                   backgroundColor: 'rgba(255, 255, 255, 0.55)',
@@ -187,7 +187,7 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
                   outline: 'none',
                   boxSizing: 'border-box'
                 }}
-                aria-label="Kullanıcı Menüsü"
+                aria-label={displayName || t("accessibility.userMenu")}
                 aria-expanded={userMenuOpen}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = 'rgba(217, 106, 83, 0.35)';
@@ -224,10 +224,6 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                   <circle cx="12" cy="7" r="4" />
                 </svg>
-
-                <span style={{ maxWidth: '105px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {displayName}
-                </span>
 
                 {/* Dropdown Chevron Arrow matching LocaleSwitch */}
                 <svg
@@ -316,7 +312,7 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
                     </svg>
-                    {langCode === 'tr' ? 'Profil' : 'Profile'}
+                    {t('settings.tabs.profile')}
                   </button>
 
                   <button
@@ -356,7 +352,7 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" />
                     </svg>
-                    {langCode === 'tr' ? 'Bildirimler' : 'Notifications'}
+                    {t('settings.tabs.notifications')}
                   </button>
 
                   <button
@@ -376,7 +372,7 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="3" y="3" width="7" height="9" /><rect x="14" y="3" width="7" height="5" /><rect x="14" y="12" width="7" height="9" /><rect x="3" y="16" width="7" height="5" />
                     </svg>
-                    {langCode === 'tr' ? 'Panelim' : 'Dashboard'}
+                    {t('navigation.dashboard')}
                   </button>
 
                   <div style={{ height: '1px', backgroundColor: 'rgba(11, 27, 44, 0.08)', margin: '5px 0' }} />
@@ -393,7 +389,7 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
                       color: 'var(--color-text-muted)'
                     }}
                   >
-                    {langCode === 'tr' ? 'Çıkış Yap' : 'Log Out'}
+                    {t('common.logout')}
                   </button>
                 </div>
               )}
@@ -439,7 +435,7 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
                 e.currentTarget.style.boxShadow = '0 2px 8px rgba(11, 27, 44, 0.01)';
               }}
             >
-              {t("ui", "landing_quick_login") || "Giriş Yap"}
+              {t("home.hero.quickLogin")}
             </button>
           )}
 
@@ -453,7 +449,7 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
                 type="button"
                 onClick={() => setMobileUserMenuOpen((v) => !v)}
                 className="flex h-9 w-9 items-center justify-center rounded-full bg-transparent text-[var(--color-deep-ink)] transition-all hover:text-peach"
-                aria-label="Kullanıcı Menüsü"
+                aria-label={t("accessibility.userMenu")}
                 aria-expanded={mobileUserMenuOpen}
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -532,7 +528,7 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
                       gap: '8px'
                     }}
                   >
-                    {langCode === 'tr' ? 'Profil' : 'Profile'}
+                    {t('settings.tabs.profile')}
                   </button>
 
                   <button
@@ -576,7 +572,7 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
                       gap: '8px'
                     }}
                   >
-                    {langCode === 'tr' ? 'Bildirimler' : 'Notifications'}
+                    {t('settings.tabs.notifications')}
                   </button>
 
                   <button
@@ -598,7 +594,7 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
                       gap: '8px'
                     }}
                   >
-                    {langCode === 'tr' ? 'Panelim' : 'Dashboard'}
+                    {t('navigation.dashboard')}
                   </button>
 
                   <div style={{ height: '1px', backgroundColor: 'rgba(11, 27, 44, 0.08)', margin: '4px 0' }} />
@@ -619,7 +615,7 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
                       cursor: 'pointer'
                     }}
                   >
-                    {langCode === 'tr' ? 'Çıkış Yap' : 'Log Out'}
+                    {t('common.logout')}
                   </button>
                 </div>
               )}
@@ -629,7 +625,7 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
               type="button"
               onClick={onLoginClick}
               className="flex h-9 w-9 items-center justify-center rounded-full bg-transparent text-[var(--color-deep-ink)] transition-all hover:text-peach"
-              aria-label="Giriş Yap"
+              aria-label={t('home.hero.quickLogin')}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
@@ -644,23 +640,29 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-transparent text-[var(--color-deep-ink)] transition-all hover:text-peach"
-            aria-label="Menuyu ac/kapat"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-transparent text-[var(--color-deep-ink)] transition-transform duration-150 active:scale-90 hover:text-peach touch-manipulation select-none cursor-pointer"
+            aria-label={open ? t('accessibility.closeMenu') : t('accessibility.openMenu')}
             aria-expanded={open}
           >
-            <span className="sr-only">Menu</span>
+            <span className="sr-only">{t('accessibility.openMenu')}</span>
             <div className="flex flex-col gap-1.5 items-center">
-              <span className={`h-px w-5 bg-current transition-transform duration-300 ${open ? "translate-y-2 rotate-45" : ""}`} />
-              <span className={`h-px w-5 bg-current transition-opacity duration-300 ${open ? "opacity-0" : ""}`} />
-              <span className={`h-px w-5 bg-current transition-transform duration-300 ${open ? "-translate-y-2 -rotate-45" : ""}`} />
+              <span className={`h-px w-5 bg-current transition-transform duration-150 ${open ? "translate-y-2 rotate-45" : ""}`} />
+              <span className={`h-px w-5 bg-current transition-opacity duration-150 ${open ? "opacity-0" : ""}`} />
+              <span className={`h-px w-5 bg-current transition-transform duration-150 ${open ? "-translate-y-2 -rotate-45" : ""}`} />
             </div>
           </button>
         </div>
       </div>
 
       {open && (
-        <div className="paper-grain border-t border-border/50 bg-background/95 px-5 py-5 md:hidden">
-          <nav className="flex flex-col gap-1" aria-label="Mobil menu">
+        <div
+          className="paper-grain border-t border-border/50 bg-background/95 px-5 py-5 md:hidden touch-manipulation"
+          style={{
+            animation: 'mobileMenuEnter 140ms cubic-bezier(0.16, 1, 0.3, 1) both',
+            willChange: 'transform, opacity'
+          }}
+        >
+          <nav className="flex flex-col gap-1" aria-label={t('accessibility.openMenu')}>
             {navItems.map((item) => (
               <a
                 key={item.label}
@@ -669,7 +671,7 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
                   if (item.onClick) item.onClick(e)
                   setOpen(false)
                 }}
-                className="rounded-md px-2 py-3 text-base text-muted-foreground transition-colors hover:text-foreground"
+                className="rounded-md px-2 py-3 text-base text-muted-foreground transition-colors duration-100 active:bg-foreground/5 hover:text-foreground touch-manipulation select-none"
               >
                 {item.label}
               </a>
@@ -677,6 +679,18 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
           </nav>
         </div>
       )}
+      <style>{`
+        @keyframes mobileMenuEnter {
+          from {
+            opacity: 0;
+            transform: translateY(-6px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </header>
   )
 }

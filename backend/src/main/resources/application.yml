@@ -63,6 +63,17 @@ management:
       application: ${spring.application.name}
 
 app:
+  email:
+    provider: ${EMAIL_PROVIDER:disabled}
+    mail-from: ${AUTH_MAIL_FROM:no-reply@seenly.app}
+    outbox:
+      batch-size: ${EMAIL_OUTBOX_BATCH_SIZE:20}
+      worker-interval-ms: ${EMAIL_OUTBOX_INTERVAL_MS:5000}
+      otp-payload-secret: ${EMAIL_OTP_PAYLOAD_SECRET:seenly-default-secure-otp-payload-key-256bit}
+    lifecycle:
+      inactivity-days: ${EMAIL_INACTIVITY_DAYS:7}
+      cooldown-days: ${EMAIL_COOLDOWN_DAYS:30}
+      check-interval-ms: ${EMAIL_LIFECYCLE_INTERVAL_MS:3600000}
   payment:
     provider: disabled
     max-webhook-bytes: 65536

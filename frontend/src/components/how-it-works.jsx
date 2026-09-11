@@ -9,24 +9,24 @@ export function HowItWorks() {
     {
       index: "I",
       title: "Self",
-      turkish: t("ui", "landing_hiw_m1_turkish") || "Kendi anlatımın",
-      text: t("ui", "landing_hiw_m1_text") || "Kendini şu anda nasıl gördüğünü, kendi düşüncelerini paylaşırsın. Burası senin başlangıç noktan.",
+      subtitle: t("home.experience.m1Title"),
+      text: t("home.experience.m1Text"),
       accent: "text-navy",
       rule: "bg-navy/40",
     },
     {
       index: "II",
       title: "Outside",
-      turkish: t("ui", "landing_hiw_m2_turkish") || "Dışarının yansıması",
-      text: t("ui", "landing_hiw_m2_text") || "Bağlantını paylaştığın insanlar sessizce katkıda bulunur. Seni en iyi tanıyanların gözünden yansıman oluşur.",
+      subtitle: t("home.experience.m2Title"),
+      text: t("home.experience.m2Text"),
       accent: "text-[#b4532a]",
       rule: "bg-[#b4532a]/50",
     },
     {
       index: "III",
       title: "Gap",
-      turkish: t("ui", "landing_hiw_m3_turkish") || "Aradaki boşluk",
-      text: t("ui", "landing_hiw_m3_text") || "Öz algın ile dış algın yan yana gelir. Nerede buluştuğunuzu ve nerede ayrıştığınızı birlikte görürsün.",
+      subtitle: t("home.experience.m3Title"),
+      text: t("home.experience.m3Text"),
       accent: "text-[#6b4c82]",
       rule: "bg-[#6b4c82]/50",
     },
@@ -50,13 +50,13 @@ export function HowItWorks() {
           <div className="lg:sticky lg:top-28 lg:self-start">
             <div>
               <p className="font-mono text-[0.7rem] uppercase tracking-[0.34em] text-clay">
-                {t("ui", "landing_hiw_tag") || "Deneyim"}
+                {t("home.experience.tag")}
               </p>
               <h2 className="mt-5 text-balance font-heading text-3xl font-medium leading-[1.1] tracking-tight text-foreground sm:text-[2.6rem]">
-                {t("ui", "landing_hiw_title") || "Üç hareketten oluşan bir okuma."}
+                {t("home.experience.title")}
               </h2>
               <p className="mt-5 max-w-md text-pretty text-base leading-relaxed text-muted-foreground">
-                {t("ui", "landing_hiw_desc") || "Önce sen kendini anlatırsın. Sonra çevren sessizce katkıda bulunur. Son hareket, ikisinin birbirine değdiği yerdir."}
+                {t("home.experience.desc")}
               </p>
             </div>
 
@@ -68,7 +68,7 @@ export function HowItWorks() {
                   decoding="async"
                   width="800"
                   height="600"
-                  alt="Self, Outside ve Gap adımlarını gösteren üç katmanın suluboya illüstrasyonu"
+                  alt={t("home.experience.illustrationAlt")}
                   className="soft-image-edge aspect-[4/3] w-full object-cover mask-organic-2"
                 />
               </div>
@@ -106,7 +106,7 @@ export function HowItWorks() {
                       {m.title}
                     </h3>
                     <span className="text-sm italic text-muted-foreground">
-                      {m.turkish}
+                      {m.subtitle}
                     </span>
                   </div>
                   <HairLine className={`mt-4 w-16 ${m.rule}`} />

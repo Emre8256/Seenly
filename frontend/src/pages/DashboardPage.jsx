@@ -21,7 +21,7 @@ const SIGNATURE_IMAGES = CARD_IMAGES;
 const RESPONSE_HISTORY_PAGE_SIZE = 5;
 
 export default function DashboardPage({ onNavigateToQuiz }) {
-  const { locale: langCode, t, getObject } = useLocale();
+  const { locale: langCode, t, getObject, formatRelativeTime } = useLocale();
   const [snapshot, setSnapshot] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -37,29 +37,53 @@ export default function DashboardPage({ onNavigateToQuiz }) {
 
   const getRelativeTime = useCallback((isoString) => {
     if (!isoString) return '';
-    const date = new Date(isoString);
-    const now = new Date();
-    const diffMs = now - date;
-    const diffMins = Math.max(1, Math.floor(diffMs / 60000));
+    try {
+      const date = new Date(isoString);
+      if (Number.isNaN(date.getTime())) return '';
 
-    if (diffMins < 60) {
-      return langCode === 'tr'
-        ? `${diffMins} dk önce`
-        : `${diffMins} min${diffMins > 1 ? 's' : ''} ago`;
+      const now = new Date();
+      const diffMs = now.getTime() - date.getTime();
+      const isEn = langCode === 'en';
+
+      if (diffMs < 0) {
+        return isEn ? 'Today' : 'Bugün';
+      }
+
+      const nowDateOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const targetDateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      const dayDiff = Math.round((nowDateOnly.getTime() - targetDateOnly.getTime()) / (1000 * 60 * 60 * 24));
+      const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+
+      // 1. Same calendar day: "Bugün" (or "X saat önce" for wider 2+ hour blocks)
+      if (dayDiff === 0) {
+        if (diffHours < 2) {
+          return isEn ? 'Today' : 'Bugün';
+        }
+        return isEn ? `${diffHours} hours ago` : `${diffHours} saat önce`;
+      }
+
+      // 2. Yesterday: "Dün" / "Yesterday"
+      if (dayDiff === 1) {
+        return isEn ? 'Yesterday' : 'Dün';
+      }
+
+      // 3. Up to 1 week (2 to 7 days): explicit "X gün önce" (never "evvelsi gün")
+      if (dayDiff >= 2 && dayDiff <= 7) {
+        return isEn ? `${dayDiff} days ago` : `${dayDiff} gün önce`;
+      }
+
+      // 4. Older than 1 week: Saatsiz, sadece tarih ("8 Eylül", farklı yıl ise "8 Eylül 2025")
+      const isSameYear = date.getFullYear() === now.getFullYear();
+      const options = {
+        day: 'numeric',
+        month: 'long',
+        ...(isSameYear ? {} : { year: 'numeric' })
+      };
+
+      return new Intl.DateTimeFormat(isEn ? 'en-US' : 'tr-TR', options).format(date);
+    } catch {
+      return '';
     }
-    const diffHours = Math.floor(diffMins / 60);
-    if (diffHours < 24) {
-      return langCode === 'tr'
-        ? `${diffHours} saat önce`
-        : `${diffHours} hr${diffHours > 1 ? 's' : ''} ago`;
-    }
-    const diffDays = Math.floor(diffHours / 24);
-    if (diffDays === 1) {
-      return langCode === 'tr' ? 'Dün' : 'Yesterday';
-    }
-    return langCode === 'tr'
-      ? `${diffDays} gün önce`
-      : `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
   }, [langCode]);
 
   useEffect(() => {
@@ -84,15 +108,13 @@ export default function DashboardPage({ onNavigateToQuiz }) {
           localStorage.setItem('seenly_owner_slug', data.publicSlug);
         }
         setSnapshot(data);
-        if (data?.isPremium) {
-          setHistoryLoading(true);
-          try {
-            setResponseHistory(await getOwnerResponseHistory(token));
-          } catch (historyRequestError) {
-            setHistoryError(historyRequestError.message || 'Response history could not be loaded.');
-          } finally {
-            setHistoryLoading(false);
-          }
+        setHistoryLoading(true);
+        try {
+          setResponseHistory(await getOwnerResponseHistory(token));
+        } catch (historyRequestError) {
+          setHistoryError(historyRequestError.message || 'Response history could not be loaded.');
+        } finally {
+          setHistoryLoading(false);
         }
       } catch (err) {
         if (err.status === 401 || err.status === 403) {
@@ -113,13 +135,34 @@ export default function DashboardPage({ onNavigateToQuiz }) {
   }, []);
 
   useEffect(() => {
+    if (activeTab === 4 && !loading && !error) {
+      const token = localStorage.getItem('seenly_owner_token');
+      if (token) {
+        setHistoryLoading(true);
+        getOwnerResponseHistory(token)
+          .then((data) => {
+            if (data?.items) {
+              setResponseHistory(data);
+            }
+          })
+          .catch((historyRequestError) => {
+            setHistoryError(historyRequestError.message || 'Response history could not be loaded.');
+          })
+          .finally(() => {
+            setHistoryLoading(false);
+          });
+      }
+    }
+  }, [activeTab, loading, error]);
+
+  useEffect(() => {
     const totalPages = Math.max(
       1,
-      Math.ceil((responseHistory.items.length || 0) / RESPONSE_HISTORY_PAGE_SIZE)
+      Math.ceil(((responseHistory?.items?.length) || 0) / RESPONSE_HISTORY_PAGE_SIZE)
     );
 
     setResponseHistoryPage((currentPage) => Math.min(currentPage, totalPages));
-  }, [responseHistory.items.length]);
+  }, [responseHistory?.items?.length]);
 
   const loadMoreResponseHistory = useCallback(async () => {
     if (!responseHistory.hasMore || !responseHistory.nextCursor || historyLoading) return;
@@ -166,7 +209,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
 
   const handleUpgradeToPlus = useCallback(async () => {
     if (snapshot?.isPremium || snapshot?.premium) {
-      alert(langCode === 'tr' ? 'Zaten Seenly Plus planındasınız.' : 'You are already on the Seenly Plus plan.');
+      alert(t('billing.alreadyPlus'));
       return;
     }
 
@@ -175,14 +218,12 @@ export default function DashboardPage({ onNavigateToQuiz }) {
 
     try {
       const checkout = await createPaymentCheckout(token, PAYMENT_PRODUCT_CODES.SEENLY_PLUS);
-      if (!checkout.checkoutUrl) throw new Error('Checkout is unavailable.');
+      if (!checkout.checkoutUrl) throw new Error(t('settings.modal.paymentUnavailable'));
       window.location.assign(checkout.checkoutUrl);
     } catch (err) {
-      alert(langCode === 'tr'
-        ? `Seenly Plus satın alma işlemi başlatılamadı: ${err.message}`
-        : `Seenly Plus purchase could not be started: ${err.message}`);
+      alert(t('billing.purchaseFailed', { error: err.message }));
     }
-  }, [snapshot?.isPremium, snapshot?.premium, langCode]);
+  }, [snapshot?.isPremium, snapshot?.premium, t]);
 
   const getSelfAnswers = useCallback(() => {
     try {
@@ -331,16 +372,16 @@ export default function DashboardPage({ onNavigateToQuiz }) {
     }
 
     const dimensions = [
-      { key: 'samimiyet', label: lang === 'tr' ? 'Samimiyet' : 'Sincerity', color: '#8F7BCC' },
-      { key: 'cekicilik', label: lang === 'tr' ? 'Çekicilik' : 'Charm', color: '#E06553' },
-      { key: 'zeka', label: lang === 'tr' ? 'Zeka' : 'Intellect', color: '#6A53D9' },
-      { key: 'vizyon', label: lang === 'tr' ? 'Vizyon' : 'Vision', color: '#7B9FCC' },
-      { key: 'enerji', label: lang === 'tr' ? 'Enerji' : 'Energy', color: '#D98A53' },
-      { key: 'guvenilirlik', label: lang === 'tr' ? 'Güvenilirlik' : 'Reliability', color: '#7BCCAA' },
-      { key: 'ego', label: lang === 'tr' ? 'Ego' : 'Ego', color: '#CC7BBA' },
-      { key: 'basari', label: lang === 'tr' ? 'Başarı' : 'Success', color: '#53A6D9' },
-      { key: 'comertlik', label: lang === 'tr' ? 'Cömertlik' : 'Generosity', color: '#E5A260' },
-      { key: 'olgunluk', label: lang === 'tr' ? 'Olgunluk' : 'Maturity', color: '#8C9D86' }
+      { key: 'samimiyet', label: t('common.signals.samimiyet'), color: '#8F7BCC' },
+      { key: 'cekicilik', label: t('common.signals.cekicilik'), color: '#E06553' },
+      { key: 'zeka', label: t('common.signals.zeka'), color: '#6A53D9' },
+      { key: 'vizyon', label: t('common.signals.vizyon'), color: '#7B9FCC' },
+      { key: 'enerji', label: t('common.signals.enerji'), color: '#D98A53' },
+      { key: 'guvenilirlik', label: t('common.signals.guvenilirlik'), color: '#7BCCAA' },
+      { key: 'ego', label: t('common.signals.ego'), color: '#CC7BBA' },
+      { key: 'basari', label: t('common.signals.basari'), color: '#53A6D9' },
+      { key: 'comertlik', label: t('common.signals.comertlik'), color: '#E5A260' },
+      { key: 'olgunluk', label: t('common.signals.olgunluk'), color: '#8C9D86' }
     ];
 
     return dimensions.map(d => {
@@ -369,7 +410,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
         percentage: visualPercentage
       };
     });
-  }, [snapshot?.friendAverages, snapshot?.responseSessions, snapshot?.selfAverages, getSelfAnswers]);
+  }, [snapshot?.friendAverages, snapshot?.responseSessions, snapshot?.selfAverages, getSelfAnswers, t, langCode]);
 
   const normalizeScore = useCallback((value) => {
     const numericValue = Number(value);
@@ -394,12 +435,12 @@ export default function DashboardPage({ onNavigateToQuiz }) {
   }, []);
 
   const responseSessions = useMemo(() => {
-    return [...responseHistory.items].sort((firstSession, secondSession) => {
+    return [...(responseHistory?.items || [])].sort((firstSession, secondSession) => {
       const firstDate = new Date(firstSession.completedAt || 0).getTime();
       const secondDate = new Date(secondSession.completedAt || 0).getTime();
       return secondDate - firstDate;
     });
-  }, [responseHistory.items]);
+  }, [responseHistory?.items]);
 
   const getGapEditorialReport = useCallback(() => {
     const selfSignals = get10Signals(langCode, false);
@@ -475,14 +516,14 @@ export default function DashboardPage({ onNavigateToQuiz }) {
       illusionOfSelf,
       deepAlignment
     };
-  }, [get10Signals, langCode, normalizeScore, responseSessions, getSessionCalibratedAccuracy]);
+  }, [get10Signals, langCode, normalizeScore, responseSessions, getSessionCalibratedAccuracy, t]);
 
   if (loading) {
     return (
       <AppShell isDashboard={true} watercolorBackground>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1, padding: '8rem 1.5rem', textAlign: 'center' }}>
           <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', fontStyle: 'italic', color: 'var(--color-text-muted)', margin: 0 }}>
-            {t('ui', 'missing_id_fallback')}...
+            {t('common.loading')}
           </p>
         </div>
       </AppShell>
@@ -492,28 +533,14 @@ export default function DashboardPage({ onNavigateToQuiz }) {
   if (error) {
     const errorCopy = (() => {
       if (error === 'no_token' || error === 'session_expired' || error === 'http_401' || error === 'http_403') {
-        return langCode === 'tr'
-          ? ['Oturumunuz sona erdi', 'Güvenliğiniz için yeniden giriş yapmanız gerekiyor.']
-          : ['Your session has ended', 'Please sign in again to continue securely.'];
+        return [t('errors.sessionExpiredTitle'), t('errors.sessionExpiredDesc')];
       }
-      if (error === 'http_404') return langCode === 'tr'
-        ? ['Profil bulunamadı', 'İstenen Seenly profili mevcut değil veya silinmiş.']
-        : ['Profile not found', 'The requested Seenly profile does not exist or was removed.'];
-      if (error === 'http_409') return langCode === 'tr'
-        ? ['İşlem tamamlanamadı', 'Bilgiler başka bir işlemle çakıştı. Sayfayı yenileyip tekrar deneyin.']
-        : ['Action could not be completed', 'The data conflicted with another action. Refresh and try again.'];
-      if (error === 'http_429') return langCode === 'tr'
-        ? ['Çok fazla istek', 'Kısa bir süre bekleyip tekrar deneyin.']
-        : ['Too many requests', 'Wait a moment and try again.'];
-      if (error === 'http_503') return langCode === 'tr'
-        ? ['Seenly geçici olarak kullanılamıyor', 'Hizmet kısa süre içinde yeniden kullanılabilir.']
-        : ['Seenly is temporarily unavailable', 'The service should be available again shortly.'];
-      if (error === 'http_network') return langCode === 'tr'
-        ? ['Bağlantı kurulamadı', 'İnternet bağlantınızı kontrol edip tekrar deneyin.']
-        : ['Connection problem', 'Check your internet connection and try again.'];
-      return langCode === 'tr'
-        ? ['Beklenmeyen bir sorun oluştu', 'Bilgileriniz yüklenemedi. Lütfen tekrar deneyin.']
-        : ['Something went wrong', 'Your information could not be loaded. Please try again.'];
+      if (error === 'http_404') return [t('errors.notFoundTitle'), t('errors.notFoundDesc')];
+      if (error === 'http_409') return [t('errors.conflictTitle'), t('errors.conflictDesc')];
+      if (error === 'http_429') return [t('errors.rateLimitTitle'), t('errors.rateLimitDesc')];
+      if (error === 'http_503') return [t('errors.serviceUnavailableTitle'), t('errors.serviceUnavailableDesc')];
+      if (error === 'http_network') return [t('errors.networkErrorTitle'), t('errors.networkErrorDesc')];
+      return [t('errors.defaultErrorTitle'), t('errors.defaultErrorDesc')];
     })();
     return (
       <AppShell isDashboard={true} watercolorBackground>
@@ -533,8 +560,8 @@ export default function DashboardPage({ onNavigateToQuiz }) {
               style={{ width: '100%' }}
             >
               {error === 'no_token' || error === 'session_expired'
-                ? (langCode === 'tr' ? 'Girişe dön' : 'Back to sign in')
-                : (langCode === 'tr' ? 'Tekrar dene' : 'Try again')}
+                ? t('errors.backToSignIn')
+                : t('common.tryAgain')}
             </button>
           </div>
         </div>
@@ -561,22 +588,22 @@ export default function DashboardPage({ onNavigateToQuiz }) {
   // Signatures
   const activeSelfSignatureId = calculatePersonalityCard(getSelfScoresMap());
   const selfSignature = getObject('signatures', activeSelfSignatureId);
-  const selfSignatureName = selfSignature ? selfSignature.name : t('ui', 'missing_id_fallback');
+  const selfSignatureName = selfSignature ? selfSignature.name : t('common.unknownSignature');
   const selfSignatureCardLine = selfSignature ? selfSignature.cardLine : "";
 
   const activeOutsideSignatureId = calculatePersonalityCard(snapshot?.friendAverages || {});
   const outsideSignature = getObject('signatures', activeOutsideSignatureId);
-  const outsideSignatureName = outsideSignature ? outsideSignature.name : t('ui', 'missing_id_fallback');
+  const outsideSignatureName = outsideSignature ? outsideSignature.name : t('common.unknownSignature');
   const outsideSignatureCardLine = outsideSignature ? outsideSignature.cardLine : "";
 
   // Rarities
-  const selfRarity = getCardRarityData(activeSelfSignatureId, snapshot?.selfRarity, langCode);
-  const outsideRarity = getCardRarityData(activeOutsideSignatureId, snapshot?.outsideRarity, langCode);
+  const selfRarity = getCardRarityData(activeSelfSignatureId, snapshot?.selfRarity, t);
+  const outsideRarity = getCardRarityData(activeOutsideSignatureId, snapshot?.outsideRarity, t);
 
   const _shareSlug = snapshot?.publicSlug || '';
-  const getDashboardWhatsAppLink = (cardName) => buildWhatsAppLink(cardName, _shareSlug);
+  const getDashboardWhatsAppLink = (cardName) => buildWhatsAppLink(cardName, _shareSlug, t);
   const handleDashboardInstagramStory = (cardName, illustrationSrc) => {
-    handleInstagramStory(cardName, illustrationSrc, _shareSlug, langCode);
+    handleInstagramStory(cardName, illustrationSrc, _shareSlug);
   };
 
   // Rhythm Timing Calculations
@@ -609,7 +636,6 @@ export default function DashboardPage({ onNavigateToQuiz }) {
   const slowestTimeSec = (slowestTimeMs / 1000).toFixed(1);
   const fastestTimeSec = (fastestTimeMs / 1000).toFixed(1);
 
-  const responseHistoryTrans = getObject('ui', 'response_history') || {};
   const responseHistoryTotalPages = Math.max(1, Math.ceil(responseSessions.length / RESPONSE_HISTORY_PAGE_SIZE));
   const safeResponseHistoryPage = Math.min(responseHistoryPage, responseHistoryTotalPages);
   const responseHistoryStartIndex = (safeResponseHistoryPage - 1) * RESPONSE_HISTORY_PAGE_SIZE;
@@ -662,15 +688,15 @@ export default function DashboardPage({ onNavigateToQuiz }) {
     const friendScore = row.friendScore;
     const gap = row.gap;
 
-    const selfKey = selfScore <= 2 ? 'gap_editorial_self_low' : selfScore <= 4 ? 'gap_editorial_self_medium' : 'gap_editorial_self_high';
-    const friendKey = friendScore <= 2 ? 'gap_editorial_friend_low' : friendScore <= 4 ? 'gap_editorial_friend_medium' : 'gap_editorial_friend_high';
-    const contrastKey = gap >= 1.5 ? 'gap_contrast_blind_spot_high' : 'gap_contrast_blind_spot_low';
+    const selfKey = selfScore <= 2 ? 'selfLow' : selfScore <= 4 ? 'selfMedium' : 'selfHigh';
+    const friendKey = friendScore <= 2 ? 'friendLow' : friendScore <= 4 ? 'friendMedium' : 'friendHigh';
+    const contrastKey = gap >= 1.5 ? 'contrastBlindSpotHigh' : 'contrastBlindSpotLow';
 
-    const selfWord = t('ui', selfKey);
-    const friendWord = t('ui', friendKey);
-    const contrastWord = t('ui', contrastKey);
+    const selfWord = t(`dashboard.editorial.${selfKey}`);
+    const friendWord = t(`dashboard.editorial.${friendKey}`);
+    const contrastWord = t(`dashboard.editorial.${contrastKey}`);
 
-    return fillTemplate(t('ui', 'gap_blind_spot_desc'), {
+    return t('dashboard.gap.blindSpotDesc', {
       selfWord,
       friendWord,
       contrastWord,
@@ -684,15 +710,15 @@ export default function DashboardPage({ onNavigateToQuiz }) {
     const friendScore = row.friendScore;
     const gap = row.gap;
 
-    const selfKey = selfScore <= 2 ? 'gap_illusion_self_low' : selfScore <= 4 ? 'gap_illusion_self_medium' : 'gap_illusion_self_high';
-    const friendKey = friendScore <= 2 ? 'gap_illusion_friend_low' : friendScore <= 4 ? 'gap_illusion_friend_medium' : 'gap_illusion_friend_high';
-    const contrastKey = gap >= 1.5 ? 'gap_contrast_illusion_high' : 'gap_contrast_illusion_low';
+    const selfKey = selfScore <= 2 ? 'illusionSelfLow' : selfScore <= 4 ? 'illusionSelfMedium' : 'illusionSelfHigh';
+    const friendKey = friendScore <= 2 ? 'illusionFriendLow' : friendScore <= 4 ? 'illusionFriendMedium' : 'illusionFriendHigh';
+    const contrastKey = gap >= 1.5 ? 'contrastIllusionHigh' : 'contrastIllusionLow';
 
-    const selfWord = t('ui', selfKey);
-    const friendWord = t('ui', friendKey);
-    const contrastWord = t('ui', contrastKey);
+    const selfWord = t(`dashboard.editorial.${selfKey}`);
+    const friendWord = t(`dashboard.editorial.${friendKey}`);
+    const contrastWord = t(`dashboard.editorial.${contrastKey}`);
 
-    return fillTemplate(t('ui', 'gap_illusion_desc'), {
+    return t('dashboard.gap.socialMaskDesc', {
       selfWord,
       friendWord,
       contrastWord,
@@ -703,13 +729,13 @@ export default function DashboardPage({ onNavigateToQuiz }) {
   const getAlignmentDescription = (row) => {
     if (!row) return '';
     const selfScore = row.selfScore;
-    const levelKey = selfScore <= 2 ? 'gap_align_level_low' : selfScore <= 4 ? 'gap_align_level_medium' : 'gap_align_level_high';
-    const matchKey = 'gap_match_alignment';
+    const levelKey = selfScore <= 2 ? 'alignLevelLow' : selfScore <= 4 ? 'alignLevelMedium' : 'alignLevelHigh';
+    const matchKey = 'matchAlignment';
 
-    const levelWord = t('ui', levelKey);
-    const matchWord = t('ui', matchKey);
+    const levelWord = t(`dashboard.editorial.${levelKey}`);
+    const matchWord = t(`dashboard.editorial.${matchKey}`);
 
-    return fillTemplate(t('ui', 'gap_alignment_desc'), {
+    return t('dashboard.gap.alignmentDesc', {
       levelWord,
       matchWord,
       category: row.label
@@ -772,7 +798,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11.5px] sm:text-[12.5px] font-semibold bg-[rgba(26,62,114,0.06)] text-[#1A3E72] border border-[rgba(26,62,114,0.14)] shadow-xs">
                     <UsersRound size={12.5} strokeWidth={2.4} />
                     <span>
-                      {responseCount} {langCode === 'tr' ? 'Yanıt' : (responseCount === 1 ? 'Response' : 'Responses')}
+                      {t('dashboard.stats.responses', { count: responseCount })}
                     </span>
                   </span>
                 </div>
@@ -794,12 +820,12 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                     {copied ? (
                       <>
                         <Check size={14} strokeWidth={2.8} className="text-emerald-400" />
-                        <span className="text-emerald-300">{langCode === 'tr' ? 'Kopyalandı!' : 'Copied!'}</span>
+                        <span className="text-emerald-300">{t('common.copied')}</span>
                       </>
                     ) : (
                       <>
                         <Copy size={14} strokeWidth={2.2} className="text-[#C5A059]" />
-                        <span>{langCode === 'tr' ? 'Linki Kopyala' : 'Copy Link'}</span>
+                        <span>{t('common.copyLink')}</span>
                       </>
                     )}
                   </button>
@@ -812,7 +838,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                     onClick={() => setQrModalOpen(true)}
                     className="inline-flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-2.5 rounded-xl text-[#FDFDF8]/90 hover:text-white hover:bg-white/10 active:scale-[0.98] text-[12px] sm:text-[13px] font-semibold transition-all cursor-pointer shrink-0"
                     style={{ fontFamily: "'Inter', sans-serif" }}
-                    title={langCode === 'tr' ? 'Karekod' : 'QR Code'}
+                    title={t('dashboard.hero.qrCode')}
                   >
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-[#C5A059]">
                       <rect x="3" y="3" width="7" height="7" rx="1.5" />
@@ -821,12 +847,12 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                       <rect x="3" y="14" width="7" height="7" rx="1.5" />
                       <path d="M12 7v1M12 16v1M7 12h1M16 12h1" />
                     </svg>
-                    <span>{langCode === 'tr' ? 'Karekod' : 'QR'}</span>
+                    <span>{t('dashboard.hero.qr')}</span>
                   </button>
                 </div>
 
                 <p className="text-[11px] sm:text-[11.5px] text-[#718096] text-center m-0 font-sans max-w-[280px] sm:max-w-none">
-                  {langCode === 'tr' ? 'Arkadaşlarının seni okuması için bu linki paylaş' : 'Share this link for friends to read your signals'}
+                  {t('dashboard.hero.shareHint')}
                 </p>
               </div>
             </div>
@@ -836,14 +862,13 @@ export default function DashboardPage({ onNavigateToQuiz }) {
           <div className="seenly-dashboard-tabs-wrapper">
             <div className="seenly-dashboard-tabs-capsule">
               {[
-                { id: 0, tr: 'Kendi Algım', en: 'Self Seenly' },
-                { id: 1, tr: 'Dış Algı', en: 'Outside Seenly' },
-                { id: 2, tr: 'Aradaki Fark', en: 'The Gap' },
-                { id: 3, tr: 'Etkileşim', en: 'Engagement' },
-                { id: 4, tr: 'Gelen Analizler', en: 'Received Analytics' }
+                { id: 0, labelKey: 'dashboard.tabs.self' },
+                { id: 1, labelKey: 'dashboard.tabs.outside' },
+                { id: 2, labelKey: 'dashboard.tabs.gap' },
+                { id: 3, labelKey: 'dashboard.tabs.engagement' },
+                { id: 4, labelKey: 'dashboard.tabs.responses' }
               ].map((tab) => {
                 const isActive = activeTab === tab.id;
-                const label = langCode === 'tr' ? tab.tr : tab.en;
                 return (
                   <button
                     key={tab.id}
@@ -851,7 +876,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                     onClick={() => setActiveTab(tab.id)}
                     className={`seenly-tab-pill ${isActive ? 'active' : ''}`}
                   >
-                    {tab.id === 3 ? t('ui', 'engagement_feed_title') : (tab.id === 4 ? (responseHistoryTrans.menu_title || label) : label)}
+                    {t(tab.labelKey)}
                   </button>
                 );
               })}

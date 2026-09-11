@@ -8,18 +8,18 @@ export function Security() {
   const principles = [
     {
       n: "01",
-      title: t("ui", "landing_security_p1_title") || "Mutlak Anonimlik",
-      text: t("ui", "landing_security_p1_text") || "Katılımcı kimlikleri asla sisteme veya size yansıtılmaz. Tüm geri bildirimler tamamen maskelenmiş bir gizlilik katmanından geçerek gelir.",
+      title: t("home.security.p1Title"),
+      text: t("home.security.p1Text"),
     },
     {
       n: "02",
-      title: t("ui", "landing_security_p2_title") || "Tek cevap sonuç oluşturmaz",
-      text: t("ui", "landing_security_p2_text") || "Sonuçlar yalnızca tekrar eden ortak sinyallerden doğar.",
+      title: t("home.security.p2Title"),
+      text: t("home.security.p2Text"),
     },
     {
       n: "03",
-      title: t("ui", "landing_security_p3_title") || "Kontrol sende",
-      text: t("ui", "landing_security_p3_text") || "Ne zaman başlayacağına ve neyi paylaşacağına sen karar verirsin.",
+      title: t("home.security.p3Title"),
+      text: t("home.security.p3Text"),
     },
   ]
 
@@ -36,10 +36,10 @@ export function Security() {
         <div className="grid items-center gap-y-10 gap-x-14 lg:grid-cols-2 lg:gap-20">
           <div className="lg:col-start-2 lg:row-start-1">
             <p className="font-mono text-[0.7rem] uppercase tracking-[0.34em] text-clay">
-              {t("ui", "landing_security_tag") || "Güven"}
+              {t("home.security.tag")}
             </p>
             <h2 className="mt-5 text-balance font-heading text-3xl font-medium leading-[1.1] tracking-tight text-foreground sm:text-[2.6rem]">
-              {t("ui", "landing_security_title") || "Güvenli olacak şekilde tasarlandı."}
+              {t("home.security.title")}
             </h2>
           </div>
 
@@ -59,7 +59,7 @@ export function Security() {
                 decoding="async"
                 width="880"
                 height="700"
-                alt="Bir portrenin anonim siluete dönüştüğü, güvenlik ve anonimliği anlatan suluboya illüstrasyon"
+                alt={t("home.security.illustrationAlt")}
                 className="soft-image-edge aspect-[5/4] w-full object-cover mask-organic-3"
               />
             </div>

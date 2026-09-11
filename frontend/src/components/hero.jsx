@@ -6,8 +6,8 @@ import heroMobileImg from "../images/landing/hero-mobile.avif"
 export function Hero({ onStartClick, onLoginClick }) {
   const { t } = useLocale()
   const isLoggedIn = Boolean(localStorage.getItem("seenly_owner_token"))
-  const startLabel = isLoggedIn ? "Panelime git" : (t("ui", "landing_start_cta") || "Kendi Seenly'ni baslat")
-  const quickLoginLabel = t("ui", "landing_quick_login") || "Hizli Giris"
+  const startLabel = isLoggedIn ? t("navigation.dashboard") : t("home.hero.startCta")
+  const quickLoginLabel = t("home.hero.quickLogin")
 
   const handlePrimaryClick = () => {
     if (isLoggedIn) {
@@ -44,9 +44,9 @@ export function Hero({ onStartClick, onLoginClick }) {
               id="hero-title"
               className="max-w-xl text-balance font-heading text-[2.7rem] font-medium leading-[1.02] tracking-tight text-foreground sm:text-6xl lg:text-[4.3rem]"
             >
-              {t("ui", "landing_hero_title_1") || "Insanlarin seni nasil "}
-              <span className="italic text-clay">{t("ui", "landing_hero_title_italic") || "deneyimledigini"}</span>
-              {t("ui", "landing_hero_title_2") || " kesfet."}
+              {t("home.hero.title1")}
+              <span className="italic text-clay">{t("home.hero.titleItalic")}</span>
+              {t("home.hero.title2")}
             </h1>
 
             <div className="mt-5">
@@ -54,12 +54,12 @@ export function Hero({ onStartClick, onLoginClick }) {
             </div>
 
             <p className="mt-5 max-w-md text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-              {t("ui", "landing_hero_desc") || "Kendini nasil gordugunu, seni taniyan insanlarin seni nasil deneyimledigiyle karsilastir."}
+              {t("home.hero.desc")}
             </p>
 
             {isLoggedIn && (
               <p className="mt-4 max-w-md text-pretty font-heading text-[1.35rem] leading-snug text-clay">
-                Panelin hazir. Sosyal yansimani, gelen degerlendirmeleri ve fark katmanini tek yerde oku.
+                {t("home.hero.loggedInCallout")}
               </p>
             )}
 
@@ -87,7 +87,7 @@ export function Hero({ onStartClick, onLoginClick }) {
 
             {!isLoggedIn && (
               <p className="mt-4 text-[0.7rem] min-[360px]:text-xs text-muted-foreground">
-                {t("ui", "landing_hero_cta_free") || "Ucretsiz basla · Ilk sonuclarini dakikalar icinde gor"}
+                {t("home.hero.ctaFree")}
               </p>
             )}
           </div>
@@ -106,7 +106,7 @@ export function Hero({ onStartClick, onLoginClick }) {
                   <source media="(max-width: 768px)" srcSet={heroMobileImg} />
                   <img
                     src={heroImg}
-                    alt="Seenly profillerini birbirine baglayan suluboya illusturasyon"
+                    alt={t("home.hero.illustrationAlt")}
                     width="768"
                     height="960"
                     loading="eager"

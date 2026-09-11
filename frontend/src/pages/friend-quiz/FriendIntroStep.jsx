@@ -6,6 +6,7 @@ import {
   SocialSignalsPanel,
   LockedMask
 } from '../dashboard/DashboardSharedComponents';
+import { useLocale } from '../../context/LocaleContext';
 
 const FriendIntroStep = memo(function FriendIntroStep({
   slug,
@@ -14,7 +15,7 @@ const FriendIntroStep = memo(function FriendIntroStep({
   isCapped,
   handleStart,
   langCode,
-  t,
+  t: propT,
   outsideSignatureName,
   outsideSignatureCardLine,
   outsideRarity,
@@ -26,6 +27,8 @@ const FriendIntroStep = memo(function FriendIntroStep({
   get10Signals,
   isLoggedIn
 }) {
+  const { t: contextT } = useLocale();
+  const tr = propT || contextT;
   const capitalizeName = (name) => {
     if (!name) return '';
     return name
@@ -40,12 +43,15 @@ const FriendIntroStep = memo(function FriendIntroStep({
   const displayName = capitalizeName(snapshot?.displayName || 'User');
   const avatarSrc = getAvatarSrc(snapshot?.avatar);
   const responseCount = snapshot?.responseCount || 0;
+  const isOutsideLocked = snapshot ? (snapshot.outsidePerceptionLocked ?? (responseCount < 3)) : true;
+  const lockReason = snapshot?.outsidePerceptionLockReason || (responseCount < 3 ? 'INSUFFICIENT_RESPONSES' : 'COMPLETE_TEST_REQUIRED');
+  const canDisplayOutside = !isOutsideLocked && !!snapshot?.outsideSignatureId;
 
   return (
     <div className="seenly-dashboard-page-wrapper">
       <div className="seenly-dashboard-container" style={{ maxWidth: '980px', width: '100%', margin: '0 auto' }}>
         {/* Beautiful Custom Friend Profile Header */}
-        <div className="flex flex-col items-center text-center w-full box-border pb-8 pt-8 sm:pt-10 md:pt-14 px-4 sm:px-6">
+        <div className="flex flex-col items-center text-center w-full box-border pb-8 pt-3 sm:pt-4 md:pt-6 px-4 sm:px-6">
           {/* Profile Avatar with luxury gold border */}
           {avatarSrc ? (
             <div className="mb-4 relative">
@@ -96,7 +102,7 @@ const FriendIntroStep = memo(function FriendIntroStep({
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11.5px] sm:text-[12.5px] font-semibold bg-[rgba(26,62,114,0.06)] text-[#1A3E72] border border-[rgba(26,62,114,0.14)] shadow-xs">
               <UsersRound size={12.5} strokeWidth={2.4} />
               <span>
-                {responseCount} {langCode === 'tr' ? 'Yanıt' : (responseCount === 1 ? 'Response' : 'Responses')}
+                {tr('dashboard.stats.responses', { count: responseCount })}
               </span>
             </span>
           </div>
@@ -110,9 +116,7 @@ const FriendIntroStep = memo(function FriendIntroStep({
 
           {/* Perception Question */}
           <h3 className="font-serif italic text-lg sm:text-xl font-normal text-[#4A5568] leading-normal m-0" style={{ maxWidth: '640px' }}>
-            {langCode === 'tr'
-              ? `İnsanların gözünde nasıl biri?`
-              : `How are they perceived in the eyes of others?`}
+            {tr('participant.intro.question')}
           </h3>
 
           {/* Top evaluation button / capped warning / evaluated feedback */}
@@ -129,46 +133,27 @@ const FriendIntroStep = memo(function FriendIntroStep({
                 </svg>
               </div>
               <h4 className="font-serif text-[1.2rem] sm:text-[1.25rem] text-[#1A3E72] m-0 mb-2 font-bold tracking-tight">
-                {langCode === 'tr' ? 'Değerlendirme Tamamlandı' : 'Evaluation Completed'}
+                {tr('participant.intro.evaluatedTitle')}
               </h4>
               <p className="font-sans text-[0.85rem] sm:text-[0.88rem] text-[#4A5568] leading-relaxed m-0 text-center px-1">
-                {langCode === 'tr'
-                  ? 'Bu kişi için perspektifinizi başarıyla paylaştınız. Katkınız için teşekkür ederiz.'
-                  : 'You have successfully shared your perspective for this person. Thank you for your contribution.'}
+                {tr('participant.intro.evaluatedDesc')}
               </p>
             </div>
           ) : isCapped ? (
-            <div style={{
-              width: '100%',
-              maxWidth: '460px',
-              background: 'linear-gradient(135deg, rgba(11, 27, 44, 0.02) 0%, rgba(11, 27, 44, 0.005) 100%)',
-              border: '1px solid rgba(11, 27, 44, 0.1)',
-              borderRadius: '20px',
-              padding: '1.5rem',
-              textAlign: 'center',
-              boxShadow: '0 8px 24px rgba(0,0,0,0.02)',
-              boxSizing: 'border-box',
-              marginTop: '1.5rem'
+            <div className="flex flex-col items-center justify-center w-full max-w-[420px] mt-6 sm:mt-7 px-6 sm:px-8 py-6 sm:py-7 box-border" style={{
+              background: '#FDFBF7',
+              borderRadius: '24px',
+              border: '1px solid rgba(197, 160, 89, 0.28)',
+              boxShadow: '0 12px 40px rgba(80, 60, 40, 0.05)'
             }}>
-              <h4 style={{
-                fontFamily: 'var(--font-serif)',
-                fontSize: '1.15rem',
-                fontWeight: 900,
-                color: 'var(--color-deep-ink)',
-                margin: '0 0 0.5rem 0'
-              }}>
-                {langCode === 'tr' ? 'Katılımcı Kotası Dolu' : 'Respondent Capacity Full'}
+              <div className="flex items-center justify-center w-[46px] h-[46px] rounded-full mb-3.5" style={{ background: 'rgba(197, 160, 89, 0.12)', border: '1px solid rgba(197, 160, 89, 0.25)' }}>
+                <UsersRound size={22} strokeWidth={2.2} color="#C5A059" />
+              </div>
+              <h4 className="font-serif text-[1.2rem] sm:text-[1.25rem] text-[#1A3E72] m-0 mb-2 font-bold tracking-tight text-center">
+                {tr('participant.intro.cappedTitle')}
               </h4>
-              <p style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: '0.82rem',
-                color: 'var(--color-text-muted)',
-                lineHeight: 1.5,
-                margin: 0
-              }}>
-                {langCode === 'tr'
-                  ? `${displayName} adlı kullanıcının profili maksimum katılımcı limitine ulaşmıştır.`
-                  : `${displayName}'s profile has reached its maximum participant limit.`}
+              <p className="font-sans text-[0.85rem] sm:text-[0.88rem] text-[#4A5568] leading-relaxed m-0 text-center px-1">
+                {tr('participant.intro.cappedDesc', { name: displayName })}
               </p>
             </div>
           ) : (
@@ -182,7 +167,7 @@ const FriendIntroStep = memo(function FriendIntroStep({
                 marginTop: '1.75rem'
               }}
             >
-              <span>{t('ui', 'friend_evaluate_cta')}</span>
+              <span>{tr('participant.intro.evaluateCta')}</span>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
@@ -192,8 +177,8 @@ const FriendIntroStep = memo(function FriendIntroStep({
 
         {/* Dashboard Body (Outside Perception) */}
         <div className="seenly-dashboard-body" style={{ padding: '0 1rem sm:0 1.25rem' }}>
-          <div className={`seenly-dashboard-tab-content ${responseCount < 3 ? 'full-width-layout' : 'seenly-gap-editorial-content'}`} style={{ maxWidth: '980px', margin: '0 auto', width: '100%' }}>
-            {responseCount >= 3 ? (
+          <div className={`seenly-dashboard-tab-content ${!canDisplayOutside ? 'full-width-layout' : 'seenly-gap-editorial-content'}`} style={{ maxWidth: '980px', margin: '0 auto', width: '100%' }}>
+            {canDisplayOutside ? (
               <div className="flex flex-col gap-5 w-full box-border">
                 {/* Horizontal General Statistics Banner (Top 3 Strengths & Weaknesses) */}
                 <CharacterBalanceBanner
@@ -285,72 +270,27 @@ const FriendIntroStep = memo(function FriendIntroStep({
                       </div>
 
                       {/* Bottom Action Bar */}
-                      <div className="flex items-center justify-between gap-2 sm:gap-2.5 w-full mt-auto pt-2 box-border">
+                      <div className="w-full mt-auto pt-2 box-border flex items-center justify-center">
                         <button
                           type="button"
                           onClick={() => {
                             localStorage.setItem('seenly_selected_identity', activeOutsideSignatureId);
                             window.location.hash = '#/identities';
                           }}
-                          className="flex-1 h-[42px] sm:h-[46px] px-3 sm:px-4 rounded-full text-white flex items-center justify-between transition-all duration-200 hover:-translate-y-0.5 cursor-pointer"
+                          className="w-full h-[42px] sm:h-[46px] px-4 sm:px-5 rounded-full text-white flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5 cursor-pointer"
                           style={{
                             background: '#1A3E72',
                             boxShadow: '0 4px 14px rgba(26, 62, 114, 0.22)',
                             fontFamily: "'Inter', sans-serif",
-                            fontSize: '12px',
+                            fontSize: '12.5px',
                             fontWeight: 500,
                             letterSpacing: '0.02em'
                           }}
                         >
-                          <span>{langCode === 'tr' ? 'Detaylı Analizi Gör' : 'View Detailed Analysis'}</span>
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" className="ml-1 flex-shrink-0 opacity-95">
+                          <span>{tr('dashboard.outside.viewDetailed')}</span>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" className="opacity-95">
                             <path d="M5 12h14M12 5l7 7-7 7" />
                           </svg>
-                        </button>
-
-                        {/* Share Button */}
-                        <a
-                          href={getDashboardWhatsAppLink(outsideSignatureName)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="w-[42px] sm:w-[46px] h-[42px] sm:h-[46px] rounded-[14px] sm:rounded-[16px] flex items-center justify-center text-[#1A3E72] transition-all duration-200 flex-shrink-0 hover:bg-[#F4F7FC] hover:border-[rgba(26,62,114,0.35)] hover:shadow-md hover:-translate-y-0.5 cursor-pointer"
-                          style={{
-                            background: '#FFFFFF',
-                            border: '1px solid rgba(26, 62, 114, 0.16)',
-                            boxShadow: '0 4px 14px rgba(26, 62, 114, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04)'
-                          }}
-                          title={langCode === 'tr' ? "Paylaş" : "Share"}
-                        >
-                          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M4 12v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6" />
-                            <polyline points="16 6 12 2 8 6" />
-                            <line x1="12" y1="2" x2="12" y2="15" />
-                          </svg>
-                        </a>
-
-                        {/* Bookmark / Save Button */}
-                        <button
-                          type="button"
-                          onClick={() => handleDashboardInstagramStory(outsideSignatureName, SIGNATURE_IMAGES[activeOutsideSignatureId])}
-                          disabled={isGenerating}
-                          className="w-[42px] sm:w-[46px] h-[42px] sm:h-[46px] rounded-[14px] sm:rounded-[16px] flex items-center justify-center text-[#1A3E72] transition-all duration-200 flex-shrink-0 hover:bg-[#F4F7FC] hover:border-[rgba(26,62,114,0.35)] hover:shadow-md hover:-translate-y-0.5 cursor-pointer"
-                          style={{
-                            background: '#FFFFFF',
-                            border: '1px solid rgba(26, 62, 114, 0.16)',
-                            boxShadow: '0 4px 14px rgba(26, 62, 114, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04)',
-                            opacity: isGenerating ? 0.5 : 1
-                          }}
-                          title={langCode === 'tr' ? "Kaydet / Hikaye Oluştur" : "Save / Create Story"}
-                        >
-                          {isGenerating ? (
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ animation: 'spin 1s linear infinite' }}>
-                              <path d="M21 12a9 9 0 1 1-6.219-8.56" />
-                            </svg>
-                          ) : (
-                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
-                              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
-                            </svg>
-                          )}
                         </button>
                       </div>
                     </div>
@@ -366,15 +306,23 @@ const FriendIntroStep = memo(function FriendIntroStep({
               </div>
             ) : (
               <div className="seenly-dashboard-locked-state" style={{ width: '100%' }}>
-                <LockedMask
-                  title={t('ui', 'locked_section_title')}
-                  description={langCode === 'tr'
-                    ? `Bu kişinin profilinin açılması için en az 3 arkadaşının anketi tamamlaması gerekir.`
-                    : `At least 3 friends must complete the quiz to unlock this profile.`}
-                  responseCount={responseCount}
-                  targetCount={3}
-                  langCode={langCode}
-                />
+                {lockReason === 'COMPLETE_TEST_REQUIRED' ? (
+                  <LockedMask
+                    title={tr('participant.intro.lockedCompleteTestTitle')}
+                    description={tr('participant.intro.lockedCompleteTestDesc')}
+                    showProgress={false}
+                    langCode={langCode}
+                  />
+                ) : (
+                  <LockedMask
+                    title={tr('participant.intro.lockedMaskTitle')}
+                    description={tr('participant.intro.lockedMaskDesc')}
+                    responseCount={responseCount}
+                    targetCount={3}
+                    showProgress={true}
+                    langCode={langCode}
+                  />
+                )}
               </div>
             )}
           </div>
@@ -404,7 +352,7 @@ const FriendIntroStep = memo(function FriendIntroStep({
                 textUnderlineOffset: '4px'
               }}
             >
-              {t('ui', 'friend_create_own_link')}
+              {tr('participant.intro.createOwnLink')}
             </button>
           </div>
         )}

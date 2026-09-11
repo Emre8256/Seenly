@@ -1,0 +1,41 @@
+{
+  "sectionTitleHtml": "Full Seenly ile<br>daha derine in",
+  "plansSubtitle": "Karakterini, ilişkilerini ve sosyal auranı daha derinlemesine keşfetmek için en uygun planı seç.",
+  "alreadyPlus": "Zaten Seenly Plus planındasınız.",
+  "purchaseFailed": "Seenly Plus satın alma işlemi başlatılamadı: {error}",
+  "badgePopular": "EN POPÜLER",
+  "disclaimer1": "Ödeme sistemi henüz aktif değildir. Ücret alınmayacaktır.",
+  "disclaimer2": "Anonimlik korunur. Sahte cevaplar barındırmaz.",
+  "getStarted": "Başla",
+  "choosePlan": "Planı Seç",
+  "free": {
+    "name": "Close Circle",
+    "price": "Ücretsiz",
+    "f1": "10 Sosyal Sinyal",
+    "f2": "10 yanıta kadar",
+    "f3": "İlk sinyaller 3 yanıtta",
+    "f4": "Dış algı analizi hazır",
+    "f5": "Paylaşılabilir link",
+    "f6": "Giriş gerektirmez"
+  },
+  "premium": {
+    "name": "Full Seenly",
+    "price": "$2.99",
+    "f1": "Ücretsiz plandaki her şey",
+    "f2": "Derinleşmiş Fark (Gap) analizi",
+    "f3": "Gizli Sinyal",
+    "f4": "Sosyal Çekim",
+    "f5": "Mors Kodu",
+    "f6": "10 Sinyal Detayı",
+    "f7": "Premium Paylaşım Paketi"
+  },
+  "pro": {
+    "name": "Story Rush",
+    "price": "$14.99",
+    "f1": "Full plandaki her şey",
+    "f2": "Öncelikli oda",
+    "f3": "Hızlı hikaye kartları",
+    "f4": "9 uyumlu premium kart",
+    "f5": "Stilleri dışa aktar"
+  }
+}

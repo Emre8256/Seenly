@@ -241,10 +241,23 @@ export async function getOwnerResponseHistory(ownerToken, cursor = null, limit =
 
 /**
  * Retrieves the public quiz result snapshot using the public slug.
+ * Passes X-Participant-Signal and X-Owner-Token for server-side outside perception access control.
  * Returns the privacy-safe public profile DTO.
  */
 export async function getPublicDashboard(publicSlug) {
-  const response = await fetch(`${BASE_URL}/public/${publicSlug}`);
+  const headers = {};
+  const participantSignal = getBrowserFingerprint();
+  if (participantSignal) {
+    headers['X-Participant-Signal'] = participantSignal;
+  }
+  const ownerToken = localStorage.getItem('seenly_owner_token');
+  if (ownerToken) {
+    headers['X-Owner-Token'] = ownerToken;
+  }
+
+  const response = await fetch(`${BASE_URL}/public/${publicSlug}`, {
+    headers
+  });
 
   if (!response.ok) {
     let errorMsg = 'Error fetching public dashboard';

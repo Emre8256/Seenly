@@ -21,7 +21,9 @@ import SecuritySettingsTab from './settings/SecuritySettingsTab';
 import './DashboardPlanMinimal.css';
 import './settings/SettingsPage.css';
 
-export function SettingsActionModal({ type, langCode, email, onClose, onConfirm }) {
+export function SettingsActionModal({ type, langCode: propLangCode, email, onClose, onConfirm }) {
+  const { locale, t } = useLocale();
+  const tr = (key, vars) => t(key, vars, propLangCode || locale);
   const isEmail = type === 'email';
   const [digits, setDigits] = useState(['', '', '', '']);
   const [errorMessage, setErrorMessage] = useState('');
@@ -83,7 +85,7 @@ export function SettingsActionModal({ type, langCode, email, onClose, onConfirm 
   const handleConfirm = async () => {
     const code = digits.join('');
     if (isEmail && code.length !== 4) {
-      setErrorMessage(langCode === 'tr' ? 'Lütfen 4 haneli kodu eksiksiz girin.' : 'Please enter the complete 4-digit code.');
+      setErrorMessage(tr('settings.modal.incompleteOtpError'));
       return;
     }
 
@@ -92,7 +94,7 @@ export function SettingsActionModal({ type, langCode, email, onClose, onConfirm 
     try {
       await onConfirm(code);
     } catch (error) {
-      setErrorMessage(error.message || (langCode === 'tr' ? 'İşlem doğrulanamadı.' : 'Unable to verify the action.'));
+      setErrorMessage(error.message || tr('settings.modal.verifyFailedError'));
       setIsSubmitting(false);
     }
   };
@@ -100,7 +102,7 @@ export function SettingsActionModal({ type, langCode, email, onClose, onConfirm 
   return (
     <div className="seenly-settings-modal-overlay" onMouseDown={(event) => event.target === event.currentTarget && !isSubmitting && onClose()}>
       <div ref={dialogRef} className="seenly-settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-action-title">
-        <button type="button" className="seenly-settings-modal-close" onClick={onClose} disabled={isSubmitting} aria-label={langCode === 'tr' ? 'Pencereyi kapat' : 'Close dialog'}>
+        <button type="button" className="seenly-settings-modal-close" onClick={onClose} disabled={isSubmitting} aria-label={tr('settings.modal.close')}>
           <X size={18} strokeWidth={2} />
         </button>
 
@@ -109,17 +111,13 @@ export function SettingsActionModal({ type, langCode, email, onClose, onConfirm 
         </div>
 
         <h2 id="settings-action-title" className="seenly-settings-modal-title">
-          {isEmail
-            ? (langCode === 'tr' ? 'E-posta adresini doğrula' : 'Verify your email address')
-            : (langCode === 'tr' ? 'İsim değişikliğini onayla' : 'Confirm name change')}
+          {isEmail ? tr('settings.modal.verifyEmailTitle') : tr('settings.modal.confirmNameTitle')}
         </h2>
 
         <p className="seenly-settings-modal-description">
           {isEmail
-            ? (langCode === 'tr' ? `${email} adresine gönderilen 4 haneli kodu girin.` : `Enter the 4-digit code sent to ${email}.`)
-            : (langCode === 'tr'
-              ? 'Görünen isminizi değiştirdikten sonra 14 gün boyunca tekrar değiştiremezsiniz. Devam etmek istediğinizden emin misiniz?'
-              : 'After changing your display name, you will not be able to change it again for 14 days. Are you sure you want to continue?')}
+            ? tr('settings.modal.verifyEmailDesc', { email })
+            : tr('settings.modal.confirmNameDesc')}
         </p>
 
         {isEmail && (
@@ -137,7 +135,7 @@ export function SettingsActionModal({ type, langCode, email, onClose, onConfirm 
                   onChange={(event) => setDigit(index, event.target.value)}
                   onKeyDown={(event) => handleDigitKeyDown(event, index)}
                   className={errorMessage ? 'has-error' : ''}
-                  aria-label={langCode === 'tr' ? `Doğrulama kodu ${index + 1}. hane` : `Verification code digit ${index + 1}`}
+                  aria-label={tr('settings.modal.otpDigitAria', { index: index + 1 })}
                 />
               ))}
             </div>
@@ -148,14 +146,14 @@ export function SettingsActionModal({ type, langCode, email, onClose, onConfirm 
 
         <div className="seenly-settings-modal-actions">
           <button type="button" className="seenly-settings-modal-secondary" onClick={onClose} disabled={isSubmitting}>
-            {langCode === 'tr' ? 'Vazgeç' : 'Cancel'}
+            {tr('settings.modal.cancel')}
           </button>
           <button type="button" className="seenly-settings-modal-primary" onClick={handleConfirm} disabled={isSubmitting || (isEmail && digits.some((digit) => !digit))}>
             {isSubmitting
-              ? (langCode === 'tr' ? 'İşleniyor...' : 'Processing...')
+              ? tr('settings.modal.processing')
               : isEmail
-                ? (langCode === 'tr' ? 'Doğrula ve Güncelle' : 'Verify and Update')
-                : (langCode === 'tr' ? 'Onayla ve Güncelle' : 'Confirm and Update')}
+                ? tr('settings.modal.verifyAndUpdate')
+                : tr('settings.modal.confirmAndUpdate')}
           </button>
         </div>
       </div>
@@ -308,8 +306,8 @@ export default function SettingsPage() {
   const isPremium = typeof snapshot?.isPremium === 'boolean'
     ? snapshot.isPremium
     : (typeof snapshot?.premium === 'boolean'
-        ? snapshot.premium
-        : (localStorage.getItem('seenly_is_premium') === 'true'));
+      ? snapshot.premium
+      : (localStorage.getItem('seenly_is_premium') === 'true'));
   const responseCount = snapshot?.responseCount || 0;
   const maxResponseLimit = typeof snapshot?.maxResponseLimit === 'number'
     ? snapshot.maxResponseLimit
@@ -367,27 +365,27 @@ export default function SettingsPage() {
       return true;
     } catch (err) {
       console.error('Failed to update name', err);
-      setNameErrorMessage(err.message || (langCode === 'tr' ? 'İsim güncellenirken bir hata oluştu.' : 'Failed to update name.'));
+      setNameErrorMessage(err.message || t('settings.profile.nameUpdateFailed'));
       setNameSaveStatus('idle');
       return false;
     }
-  }, [profileNameInput, langCode, capitalizeName]);
+  }, [profileNameInput, t, capitalizeName]);
 
   const handleSaveDisplayName = useCallback((event) => {
     event?.preventDefault();
     if (isNameChangeLocked) return;
     const trimmed = (profileNameInput ?? '').trim();
     if (trimmed.length < 2) {
-      setNameErrorMessage(langCode === 'tr' ? 'İsminiz en az 2 karakter olmalıdır.' : 'Your name must be at least 2 characters.');
+      setNameErrorMessage(t('settings.profile.nameMinLength'));
       return;
     }
     if (trimmed.length > 15) {
-      setNameErrorMessage(langCode === 'tr' ? 'İsminiz en fazla 15 karakter olabilir.' : 'Your name must be at most 15 characters.');
+      setNameErrorMessage(t('settings.profile.nameMaxLength'));
       return;
     }
     setNameErrorMessage('');
     setSettingsAction('name');
-  }, [isNameChangeLocked, profileNameInput, langCode]);
+  }, [isNameChangeLocked, profileNameInput, t]);
 
   const commitEmail = useCallback(async (targetEmail, verificationGrant) => {
     setEmailErrorMessage('');
@@ -405,21 +403,21 @@ export default function SettingsPage() {
     } catch (err) {
       console.error('Failed to update email', err);
       if (err.status === 409) {
-        setEmailErrorMessage(langCode === 'tr' ? 'Bu e-posta başka bir hesap tarafından kullanılıyor.' : 'This email is already used by another account.');
+        setEmailErrorMessage(t('settings.profile.emailInUse'));
       } else {
-        setEmailErrorMessage(err.message || (langCode === 'tr' ? 'E-posta güncellenirken bir hata oluştu.' : 'Failed to update email.'));
+        setEmailErrorMessage(err.message || t('settings.profile.emailUpdateFailed'));
       }
       setEmailSaveStatus('idle');
       return false;
     }
-  }, [langCode]);
+  }, [t]);
 
   const handleSaveEmail = useCallback(async (event) => {
     event?.preventDefault();
     const trimmed = (emailInput ?? '').trim().toLowerCase();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+$/;
     if (!trimmed || !emailRegex.test(trimmed)) {
-      setEmailErrorMessage(langCode === 'tr' ? 'Lütfen geçerli bir e-posta adresi giriniz.' : 'Please enter a valid email address.');
+      setEmailErrorMessage(t('settings.profile.emailInvalid'));
       return;
     }
 
@@ -432,19 +430,19 @@ export default function SettingsPage() {
       await sendVerificationCode(trimmed, 'EMAIL_CHANGE', token);
     } catch (err) {
       setEmailSaveStatus('idle');
-      setEmailErrorMessage(err.message || (langCode === 'tr' ? 'Doğrulama kodu gönderilemedi.' : 'Unable to send the verification code.'));
+      setEmailErrorMessage(err.message || t('settings.profile.verificationSendFailed'));
       return;
     }
     setEmailSaveStatus('idle');
 
     setSettingsAction('email');
-  }, [emailInput, langCode]);
+  }, [emailInput, t]);
 
   const handleConfirmSettingsAction = useCallback(async (code) => {
     if (settingsAction === 'name') {
       const saved = await commitDisplayName();
       if (saved) setSettingsAction(null);
-      else throw new Error(langCode === 'tr' ? 'İsim güncellenemedi. Lütfen tekrar deneyin.' : 'The name could not be updated. Please try again.');
+      else throw new Error(t('settings.profile.nameUpdateRetry'));
       return;
     }
 
@@ -455,52 +453,47 @@ export default function SettingsPage() {
         const response = await verifyCode(pendingEmail, code, 'EMAIL_CHANGE', token);
         verificationGrant = response.verificationGrant;
       } catch (err) {
-        throw new Error(err.message || (langCode === 'tr' ? 'Doğrulama kodu hatalı veya süresi dolmuş.' : 'The verification code is incorrect or expired.'));
+        throw new Error(err.message || t('settings.profile.otpInvalidOrExpired'));
       }
 
       const saved = await commitEmail(pendingEmail, verificationGrant);
       if (saved) setSettingsAction(null);
-      else throw new Error(langCode === 'tr' ? 'E-posta adresi güncellenemedi. Lütfen tekrar deneyin.' : 'The email address could not be updated. Please try again.');
+      else throw new Error(t('settings.profile.emailUpdateRetry'));
     }
-  }, [settingsAction, commitDisplayName, pendingEmail, commitEmail, langCode]);
+  }, [settingsAction, commitDisplayName, pendingEmail, commitEmail, t]);
 
   const handleUpgradeToPlus = useCallback(async () => {
     const token = localStorage.getItem('seenly_owner_token');
     try {
       setActionLoading(true);
-      if (!token) throw new Error('Owner session is required.');
+      if (!token) throw new Error(t('errors.status_401'));
       const checkout = await createPaymentCheckout(token, PAYMENT_PRODUCT_CODES.SEENLY_PLUS);
-      if (!checkout.checkoutUrl) throw new Error('Checkout is unavailable.');
+      if (!checkout.checkoutUrl) throw new Error(t('settings.modal.paymentUnavailable'));
       window.location.assign(checkout.checkoutUrl);
     } catch (err) {
-      alert(err.message || (langCode === 'tr' ? 'Ödeme şu anda kullanılamıyor.' : 'Payment is currently unavailable.'));
+      alert(err.message || t('settings.modal.paymentUnavailable'));
     } finally {
       setActionLoading(false);
     }
-  }, [langCode]);
+  }, [t]);
 
   const handleBuyPack = useCallback(async (productCode) => {
     const token = localStorage.getItem('seenly_owner_token');
     try {
       setActionLoading(true);
-      if (!token) throw new Error('Owner session is required.');
+      if (!token) throw new Error(t('errors.status_401'));
       const checkout = await createPaymentCheckout(token, productCode);
-      if (!checkout.checkoutUrl) throw new Error('Checkout is unavailable.');
+      if (!checkout.checkoutUrl) throw new Error(t('settings.modal.paymentUnavailable'));
       window.location.assign(checkout.checkoutUrl);
     } catch (err) {
-      alert(err.message || (langCode === 'tr' ? 'Ödeme şu anda kullanılamıyor.' : 'Payment is currently unavailable.'));
+      alert(err.message || t('settings.modal.paymentUnavailable'));
     } finally {
       setActionLoading(false);
     }
-  }, [langCode]);
+  }, [t]);
 
   const handleDeleteAccount = useCallback(async () => {
-    const isTurkish = langCode === 'tr';
-    const confirmDelete = window.confirm(
-      isTurkish
-        ? 'Hesabınızı ve hesabınıza bağlı tüm analiz verilerini silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.'
-        : 'Are you sure you want to delete your account and all associated data? This action cannot be undone.'
-    );
+    const confirmDelete = window.confirm(t('settings.deleteAccount.confirmDialog'));
     if (!confirmDelete) return;
 
     const token = localStorage.getItem('seenly_owner_token');
@@ -513,24 +506,24 @@ export default function SettingsPage() {
         headers: { 'X-Owner-Token': token }
       });
 
-      if (!response.ok) throw new Error('Failed to delete account');
+      if (!response.ok) throw new Error(t('settings.deleteAccount.errorDeleting'));
 
-      alert(isTurkish ? 'Hesabınız başarıyla silindi.' : 'Your account has been successfully deleted.');
+      alert(t('settings.deleteAccount.successAlert'));
       localStorage.removeItem('seenly_owner_token');
       localStorage.removeItem('seenly_display_name');
       localStorage.removeItem('seenly_avatar');
       sessionStorage.clear();
       window.location.hash = '#/';
     } catch (err) {
-      alert(isTurkish ? 'Hesap silinirken bir hata oluştu: ' + err.message : 'Error deleting account: ' + err.message);
+      alert(t('settings.deleteAccount.errorDeleting') + ': ' + err.message);
     }
-  }, [langCode]);
+  }, [t]);
 
   const capacityPackOptions = useMemo(() => [
     {
       amount: 100,
       productCode: PAYMENT_PRODUCT_CODES.CAPACITY_100,
-      label: langCode === 'tr' ? 'MİNİ PAKET' : 'MINI PACK',
+      label: t('settings.subscription.miniPack'),
       price: '$0.99',
       icon: Users,
       theme: 'tier1'
@@ -538,7 +531,7 @@ export default function SettingsPage() {
     {
       amount: 250,
       productCode: PAYMENT_PRODUCT_CODES.CAPACITY_250,
-      label: langCode === 'tr' ? 'STANDART PAKET' : 'STANDARD PACK',
+      label: t('settings.subscription.standardPack'),
       price: '$1.99',
       icon: Compass,
       theme: 'tier2'
@@ -546,12 +539,12 @@ export default function SettingsPage() {
     {
       amount: 500,
       productCode: PAYMENT_PRODUCT_CODES.CAPACITY_500,
-      label: langCode === 'tr' ? 'MAKSİ PAKET' : 'MAXI PACK',
+      label: t('settings.subscription.maxiPack'),
       price: '$3.99',
       icon: Crown,
       theme: 'tier3'
     }
-  ], [langCode]);
+  ], [t]);
 
   const switchTab = useCallback((tab) => {
     setActiveTab(tab);
@@ -570,19 +563,17 @@ export default function SettingsPage() {
               className="seenly-settings-back-btn"
             >
               <ArrowLeft size={16} strokeWidth={2.2} />
-              <span>{langCode === 'tr' ? 'Panele Dön' : 'Back to Dashboard'}</span>
+              <span>{t('navigation.dashboard')}</span>
             </button>
           </div>
 
           {/* Page Header */}
           <div className="seenly-settings-header">
             <h1 className="seenly-settings-title">
-              {langCode === 'tr' ? 'Ayarlar' : 'Settings'}
+              {t('settings.profile.pageTitle')}
             </h1>
             <p className="seenly-settings-subtitle">
-              {langCode === 'tr'
-                ? 'Profilinizi ve Seenly Plus seçeneklerini yönetin.'
-                : 'Manage your profile and Seenly Plus options.'}
+              {t('settings.profile.pageSubtitle')}
             </p>
           </div>
 
@@ -595,7 +586,7 @@ export default function SettingsPage() {
                 className={`seenly-settings-tab-btn ${activeTab === 'profile' ? 'active' : ''}`}
               >
                 <User size={16} strokeWidth={2} />
-                <span>{langCode === 'tr' ? 'Profil' : 'Profile'}</span>
+                <span>{t('settings.tabs.profile')}</span>
               </button>
 
               <button
@@ -613,7 +604,7 @@ export default function SettingsPage() {
                 className={`seenly-settings-tab-btn ${activeTab === 'notifications' ? 'active' : ''}`}
               >
                 <Bell size={16} strokeWidth={2} />
-                <span>{langCode === 'tr' ? 'Bildirimler' : 'Notifications'}</span>
+                <span>{t('settings.tabs.notifications')}</span>
               </button>
             </div>
           </div>
