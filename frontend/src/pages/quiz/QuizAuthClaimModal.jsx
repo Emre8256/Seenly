@@ -35,7 +35,7 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
 
   return (
     <div
-      className="seenly-wizard-body seenly-wizard-result-body"
+      className="tensignal-wizard-body tensignal-wizard-result-body"
       style={{
         position: 'relative',
         display: 'flex',
@@ -52,7 +52,7 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
       }}
     >
       <div
-        className="seenly-wizard-content"
+        className="tensignal-wizard-content"
         style={{
           position: 'relative',
           display: 'flex',
@@ -139,7 +139,7 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
               </p>
 
               {/* Input container */}
-              <div className="seenly-wizard-input-container" style={{ width: '100%', margin: '0.2rem 0 0 0' }}>
+              <div className="tensignal-wizard-input-container" style={{ width: '100%', margin: '0.2rem 0 0 0' }}>
                 <input
                   type="email"
                   aria-label={tr('auth.emailAddressLabel')}
@@ -157,7 +157,7 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
                     if (authFlowNotification?.status) setAuthFlowNotification?.({ message: '', status: '' });
                   }}
                   required
-                  className="seenly-wizard-input"
+                  className="tensignal-wizard-input"
                   style={{
                     width: '100%',
                     height: '48px',
@@ -261,7 +261,7 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
               {/* Submit Button */}
               <button
                 type="button"
-                className="seenly-wizard-primary-btn"
+                className="tensignal-wizard-primary-btn"
                 style={{
                   width: '100%',
                   height: '48px',
@@ -528,7 +528,7 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
               {/* Verify Button */}
               <button
                 type="button"
-                className="seenly-wizard-primary-btn"
+                className="tensignal-wizard-primary-btn"
                 style={{
                   width: '100%',
                   height: '48px',

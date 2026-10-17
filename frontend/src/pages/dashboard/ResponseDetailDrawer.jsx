@@ -12,11 +12,13 @@ import {
 import anonimLogo from '../../images/Icons/AnonimLOGO.avif';
 import { calibrateTraitScore } from '../../utils/psychometrics';
 import { useLocale } from '../../context/LocaleContext';
+import ButtonSpinner from '../../components/ButtonSpinner';
 
 const ResponseDetailDrawer = memo(function ResponseDetailDrawer({
   selectedResponse,
   setSelectedResponse,
   isPremium,
+  isCheckoutLoading,
   langCode: propLangCode,
   handleUpgradeToPlus,
   getObject,
@@ -101,14 +103,25 @@ const ResponseDetailDrawer = memo(function ResponseDetailDrawer({
 
             <button
               type="button"
+              disabled={isCheckoutLoading}
               onClick={() => {
-                setSelectedResponse(null);
+                if (isCheckoutLoading) return;
                 handleUpgradeToPlus();
               }}
               className="w-full py-2.5 sm:py-3.5 px-4 sm:px-5 rounded-full bg-[#16222F] hover:bg-[#0E1721] text-white font-sans text-[13px] sm:text-[14px] font-bold tracking-wide shadow-[0_8px_20px_rgba(22,34,47,0.22)] hover:shadow-[0_12px_28px_rgba(22,34,47,0.32)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 flex items-center justify-center gap-2 border border-[#C5A059]/30"
+              style={isCheckoutLoading ? { opacity: 0.9, cursor: 'wait' } : {}}
             >
-              <span>{tr('dashboard.responses.unlockDetailsWithPlus')}</span>
-              <ArrowRight size={14} strokeWidth={2.4} className="text-[#C5A059]" />
+              {isCheckoutLoading ? (
+                <span className="inline-flex items-center gap-2">
+                  <ButtonSpinner size={15} />
+                  <span>{tr('common.processing')}</span>
+                </span>
+              ) : (
+                <>
+                  <span>{tr('dashboard.responses.unlockDetailsWithPlus')}</span>
+                  <ArrowRight size={14} strokeWidth={2.4} className="text-[#C5A059]" />
+                </>
+              )}
             </button>
           </div>
 

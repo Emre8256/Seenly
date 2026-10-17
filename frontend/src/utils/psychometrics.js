@@ -1,5 +1,5 @@
 /**
- * Psychometric Scoring & Nuance Calibration Engine for Seenly
+ * Psychometric Scoring & Nuance Calibration Engine for 10Signal
  * 
  * Maps discrete 1-5 Likert survey inputs into continuous, organic, realistic
  * percentage scores and provides deterministic micro-variances so traits feel

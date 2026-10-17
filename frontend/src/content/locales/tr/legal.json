@@ -7,14 +7,1069 @@
   },
   "terms": {
     "title": "Kullanım Koşulları",
-    "lastUpdated": "4 Eylül 2026"
+    "lastUpdated": "18 Ekim 2026",
+    "sections": [
+      {
+        "id": "intro",
+        "intro": true,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal'a hoş geldiniz."
+          },
+          {
+            "type": "p",
+            "text": "Bu Kullanım Koşulları (\"Koşullar\"); 10Signal web sitesi, web uygulaması, öz değerlendirme araçları, arkadaş değerlendirme bağlantıları, algoritmik sosyal algı puanlaması, dijital ürünler ve bunlarla bağlantılı tüm hizmetlere (birlikte **\"Hizmet\"**) erişiminizi ve kullanımınızı düzenler."
+          },
+          {
+            "type": "p",
+            "text": "10Signal'ı ziyaret ederek, hesap oluşturarak, kişilik değerlendirmesi tamamlayarak, paylaşılan bir bağlantı üzerinden yanıt vererek veya dijital bir hak satın alarak bu Koşulları ve Gizlilik Politikamızı kabul etmiş sayılırsınız."
+          },
+          {
+            "type": "p",
+            "text": "Bu Koşullarda yer alan hükümlerden herhangi birini kabul etmiyorsanız lütfen Hizmeti kullanmayınız."
+          }
+        ]
+      },
+      {
+        "id": "about",
+        "title": "10Signal Hakkında ve İşletmeci Yapısı",
+        "number": 1,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal, Türkiye'de bulunan iki kişilik bağımsız bir ekip tarafından geliştirilen ve işletilen dijital bir platformdur."
+          },
+          {
+            "type": "p",
+            "text": "10Signal, kurumsal şirketleşme süreci öncesinde bağımsız bir girişim olarak faaliyet göstermektedir. Bu Koşullara, platformun işleyişine veya satın alımlara ilişkin tüm resmi bildirim ve başvurular doğrudan resmi iletişim kanalımıza yapılmalıdır: 10signal.me@gmail.com"
+          },
+          {
+            "type": "p",
+            "text": "10Signal, ileride şirketleşme veya yeniden yapılanma adımları çerçevesinde bu Koşullardan doğan hak ve yükümlülüklerini yürürlükteki mevzuata uygun olarak kurulacak tüzel kişiliğe devretme hakkını saklı tutar."
+          }
+        ]
+      },
+      {
+        "id": "non-clinical-disclaimer",
+        "title": "Bireysel Farkındalık — Tıbbi ve Klinik Olmayan Nitelik",
+        "number": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal tamamen **bireysel farkındalık, öz yansıtma ve sosyal algı dinamiklerini anlama** amacıyla geliştirilmiştir."
+          },
+          {
+            "type": "highlight",
+            "text": "**Önemli Yasal Uyarı:** 10Signal klinik psikoloji, psikiyatri, tıp, insan kaynakları, istihdam veya hukuki danışmanlık hizmeti vermez. Değerlendirme sonuçları, sosyal algı kartları, açık/kör nokta fark analizleri ve üretilen puanlar asla psikolojik bir teşhis, klinik rapor veya hayati kararlara dayanak oluşturacak kesin bir veri olarak değerlendirilemez."
+          },
+          {
+            "type": "p",
+            "text": "Platformda üretilen tüm sonuçlar ve arketip eşleşmeleri; kullanıcının ve arkadaşlarının girdiği yanıtların algoritmik olarak karşılaştırılmasından ibarettir. Bu çıktılar bireyin psikolojik sağlığının, zihinsel yeteneklerinin veya karakter bütünlüğünün nesnel bir ölçümü değildir."
+          },
+          {
+            "type": "p",
+            "text": "Platform üzerinden edindiğiniz bilgiler doğrultusunda alacağınız kişisel kararlar tamamen sizin sorumluluğunuzdadır. 10Signal; üçüncü şahıslar hakkında işe alım, görevden alma, eğitim, kredi değerlendirmesi veya sağlık kararları gibi yüksek etkili kararlar almak amacıyla kullanılamaz."
+          }
+        ]
+      },
+      {
+        "id": "accounts-security",
+        "title": "Kullanıcı Hesapları ve Hesap Güvenliği",
+        "number": 3,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Kişisel kontrol paneline erişmek, değerlendirme geçmişini görüntülemek ve dijital ürün satın almak için bir hesap gereklidir. 10Signal, kayıtlı e-posta adresinize tek kullanımlık doğrulama kodları (OTP) ileten şifresiz giriş altyapısıyla çalışır."
+          },
+          {
+            "type": "p",
+            "text": "Kullanıcı, hesabına bağlı e-posta adresinin kontrolünü sağlamaktan ve oturum açtığı cihazların güvenliğini korumaktan bizzat sorumludur. Hesabınızın yetkisiz kişilerce kullanıldığından şüphelenirseniz derhal 10signal.me@gmail.com adresine başvurmalısınız."
+          },
+          {
+            "type": "p",
+            "text": "Kullanıcılar şu fiilleri gerçekleştirmemeyi açıkça taahhüt eder:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Hileli, sahte veya otomatik hesaplar oluşturmak;",
+              "Bir başka kişinin kimliğine bürünmek veya yanıltıcı profil açmak;",
+              "Yetkisiz olarak bir başka kullanıcının paneline, oturum anahtarına veya kayıtlarına erişmeye çalışmak;",
+              "Oturum bağlantılarını hesap güvenliğini riske atacak şekilde paylaşmak."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "10Signal, bu Koşulları ihlal eden, kötüye kullanım gerçekleştiren veya platform güvenliğini tehdit eden hesapları geçici olarak sınırlandırma veya kalıcı olarak kapatma hakkını saklı tutar."
+          }
+        ]
+      },
+      {
+        "id": "peer-feedback",
+        "title": "Anonim Arkadaş Değerlendirmeleri ve Güvenceler",
+        "number": 4,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal, kullanıcıların benzersiz bağlantılarını (/friend/{slug}) arkadaşlarıyla paylaşarak tarafsız geri bildirim toplamasına olanak tanır. Katılımcılar değerlendirmelerini serbest iradeleriyle sunar."
+          },
+          {
+            "type": "p",
+            "text": "Anonimlik Güvencesi: 10Signal'ın veri mimarisi gereği, arkadaş değerlendirmelerinde oy veren kişinin kimliği, e-posta adresi veya profil bağlantısı profil sahibine gösterilmez. Değerlendirmeler anonim sinyaller ve toplu analizler olarak sunulur."
+          },
+          {
+            "type": "p",
+            "text": "Gerek profil sahipleri gerekse oy veren katılımcılar aşağıdaki eylemlerden kaçınmakla yükümlüdür:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Taciz, tehdit, hakaret, nefret söylemi veya ayrımcılık içeren ifadeler girmek;",
+              "Sonuçları kasıtlı olarak çarpıtmak amacıyla organize veya sahte değerlendirmeler göndermek;",
+              "Otomatik botlar, script'ler veya yazılımlar vasıtasıyla yapay oy üretmek;",
+              "Mükerrer oy engelleme veya hız sınırlama kontrollerini teknik yollarla aşmaya çalışmak."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "10Signal, oy verenlerin kimliğini ifşa etmeksizin mükerrer ve hileli katılımları engellemek amacıyla cihaz ve ağ sinyallerinden tuzlanmış tek yönlü kriptografik özetler (hash) üreten teknik koruma mekanizmaları kullanır."
+          }
+        ]
+      },
+      {
+        "id": "acceptable-use",
+        "title": "Kabul Edilebilir Kullanım ve Yasaklanan Fiiller",
+        "number": 5,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal'ı yalnızca hukuka uygun, meşru ve kişisel amaçlarla kullanmayı kabul edersiniz."
+          },
+          {
+            "type": "p",
+            "text": "Aşağıdaki eylemler kesinlikle yasaktır:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Hizmetin veya sunucu altyapısının çalışmasını aksatmak, aşırı yük bindirmek veya güvenlik açıklarını taramak;",
+              "10Signal'ın kaynak kodlarını, puanlama algoritmalarını veya veri modellerini tersine mühendislikle çözmeye çalışmak;",
+              "Platformdaki metinleri, arketip çizimlerini veya verileri otomatik yöntemlerle (scraping, crawling) toplamak;",
+              "10Signal içeriklerini izinsiz kopyalayarak benzer veya rakip bir ticari ürün üretmek;",
+              "Kota, hız ve ödeme denetim mekanizmalarını teknik hilelerle atlatmaya çalışmak."
+            ]
+          }
+        ]
+      },
+      {
+        "id": "digital-products",
+        "title": "Dijital Ürünler ve Satın Alma Esasları",
+        "number": 6,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal deneyiminizi geliştirmek için isteğe bağlı dijital ürünler sunar:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "10Signal Plus: Hesabınıza süresiz premium statüsü kazandıran; sınırsız yanıt toplama, derin sinyal analitiği, algı farkı matrisi ve genişletilmiş arketip kartlarını açan tek seferlik bir dijital haktır;",
+              "Yanıt Kapasitesi Paketleri: Profilinizin arkadaş değerlendirmesi toplama kotasını artıran bağımsız ek haklardır (+50, +150 veya +300 yanıt kotası)."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Dijital ürünlerimiz **tek seferlik satın alımlardır**. 10Signal'da tekrarlayan aylık veya yıllık abonelik ücreti bulunmaz. Fiyatlar ödeme öncesinde vergiler dâhil olarak gösterilir."
+          },
+          {
+            "type": "p",
+            "text": "Anında İfa: Dijital ürünler, ödemenin onaylanmasıyla birlikte kullanıcının hesabına elektronik ortamda derhal tanımlanır ve anında kullanıma açılır."
+          }
+        ]
+      },
+      {
+        "id": "payment-processing",
+        "title": "Yetkili Satıcı Olarak Lemon Squeezy",
+        "number": 7,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal üzerindeki tüm dijital ürün satışları, küresel Yetkili Satıcı (Merchant of Record - MoR) olan Lemon Squeezy, LLC (ABD) tarafından yürütülmektedir."
+          },
+          {
+            "type": "p",
+            "text": "Bir satın alma işlemi başlattığınızda satış sözleşmesi doğrudan yasal satıcı konumundaki Lemon Squeezy ile kurulur. Sipariş tahsilatı, faturalandırma, satış vergilerinin (KDV vb.) hesaplanıp ilgili kamu otoritelerine ödenmesi Lemon Squeezy'nin Kullanım Koşulları ve Gizlilik Politikası kapsamında yürütülür."
+          },
+          {
+            "type": "p",
+            "text": "10Signal kredi kartı numaranızı, son kullanma tarihinizi veya güvenlik kodunuzu asla görmez, işlemez ve veritabanında saklamaz. Sistemimize yalnızca satın alınan ürün kodu, işlem referansı ve zaman bilgisi iletilir."
+          }
+        ]
+      },
+      {
+        "id": "refund-policy",
+        "title": "İadesiz Dijital Ürün Politikası ve Yasal Haklar",
+        "number": 8,
+        "blocks": [
+          {
+            "type": "highlight",
+            "text": "10Signal'da Plus erişimi ve Yanıt Kapasitesi Paketleri dâhil dijital ürünler için isteğe bağlı iade sunulmaz. Satın alma sonrasında fikir değiştirilmesi, satın alınan özelliklerin kullanılmaması veya kapasitenin tüketilmemesi tek başına gönüllü iade hakkı doğurmaz. Bu politika, yürürlükteki mevzuatın tüketicilere tanıdığı ve sözleşmeyle sınırlandırılamayan cayma, iade ve diğer yasal hakları ortadan kaldırmaz."
+          },
+          {
+            "type": "h3",
+            "text": "A. İade Kapsamına Girmeyen Durumlar"
+          },
+          {
+            "type": "p",
+            "text": "Dijital hakların anında teslim edilmesi ve sistemde anında aktifleşmesi sebebiyle, aşağıdaki hallerde isteğe bağlı iade talepleri karşılanmaz:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Satın alınan yanıt kapasitesinin kullanılmaması veya arkadaşlardan oy toplanmamış olması;",
+              "Arkadaşlardan gelen değerlendirmelerin, arketip çıktılarının veya puanların beğenilmemesi;",
+              "Kullanıcının satın alma sonrasında hesabını kendi isteğiyle silmesi veya kullanmayı bırakması;",
+              "Kullanım Koşullarının ihlali nedeniyle hesabın askıya alınması veya kapatılması."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Eski 14 Günlük İade Taahhüdünün Kaldırılması: Geçmiş sürümlerde yer alan kullanılmamış paketlere yönelik 14 günlük ihtiyari iade taahhüdü yeni satın alımlar bakımından yürürlükten kaldırılmıştır. Bu tarihten önce tamamlanmış işlemler kendi tarihlerindeki koşullara tabidir."
+          },
+          {
+            "type": "h3",
+            "text": "B. Mükerrer Tahsilat ve Teknik Hatalar"
+          },
+          {
+            "type": "p",
+            "text": "Ağ hatası veya sistemsel bir aksaklık sebebiyle aynı sipariş için mükerrer tahsilat yapılması ya da ödeme tahsil edildiği halde teknik arıza nedeniyle dijital ürünün hesaba tanımlanamaması durumunda, durum derhal incelenir. Doğrulanan mükerrer ödemeler orijinal ödeme yöntemine iade edilir veya eksik hak hesaba tanımlanır."
+          },
+          {
+            "type": "h3",
+            "text": "C. Ters İbraz (Chargeback) ve Hakların Geri Alınması"
+          },
+          {
+            "type": "p",
+            "text": "Lemon Squeezy veya ilgili banka kanalıyla bir harcama itirazı (chargeback) ya da zorunlu iade gerçekleşmesi halinde, 10Signal ilgili ürün kapsamında tanımlanan Plus statüsünü veya ek yanıt kapasitesini hesaptan derhal geri alma yetkisine sahiptir."
+          }
+        ]
+      },
+      {
+        "id": "withdrawal-disclosure",
+        "title": "Mesafeli Sözleşmeler ve Cayma Hakkı Bilgilendirmesi",
+        "number": 9,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Tüketici mevzuatı uyarınca mesafeli sözleşmelerde kural olarak cayma hakkı bulunmakla birlikte, kanun koyucu anında teslim edilen dijital ürünler için özel istisnalar öngörmüştür."
+          },
+          {
+            "type": "h3",
+            "text": "Türkiye Tüketici Mevzuatı (6502 Sayılı Kanun)"
+          },
+          {
+            "type": "p",
+            "text": "Mesafeli Sözleşmeler Yönetmeliği'nin 15. maddesinin 1. fıkrasının (ğ) bendi uyarınca, elektronik ortamda anında ifa edilen hizmetler veya tüketiciye anında teslim edilen gayrimaddi mallara ilişkin sözleşmelerde tüketici kural olarak cayma hakkını kullanamaz. Bu yasal istisnanın uygulanabilmesi mevzuat uyarınca ön bilgilendirmenin yapılmış olması şartına bağlıdır."
+          },
+          {
+            "type": "h3",
+            "text": "Avrupa Birliği / AEA Tüketicileri"
+          },
+          {
+            "type": "p",
+            "text": "AB Tüketici Hakları Direktifi (2011/83/EU) Madde 16(m) uyarınca, gayrimaddi ortamda sunulan dijital içeriğin ifasına tüketicinin açık ön onayı ve cayma hakkını kaybedeceğini kabul etmesiyle başlandığında cayma hakkı sona erer. 10Signal, mevzuatın aradığı bildirim ve onay koşullarının yerine getirilmediği hallerde tüketicilerin yasal haklarının ortadan kalktığını iddia etmez."
+          }
+        ]
+      },
+      {
+        "id": "account-deletion-rights",
+        "title": "Hesap Silme ve Satın Alınan Dijital Hakların Durumu",
+        "number": 10,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Dilediğiniz an Ayarlar menüsünden \"Hesabımı Sil\" butonuna basarak veya 10signal.me@gmail.com adresine yazarak hesabınızı silebilirsiniz."
+          },
+          {
+            "type": "p",
+            "text": "Hesap silme işlemi veritabanında kalıcı bir zincirleme silme (cascade delete) başlatır: kullanıcı profiliniz, değerlendirme yanıtlarınız ve hesap bakiyeniz veritabanından tamamen silinir."
+          },
+          {
+            "type": "p",
+            "text": "Hesabın kullanıcı tarafından silinmesi işlemi; daha önce satın alınmış olan Plus erişimi veya tüketilmemiş yanıt kapasiteleri için otomatik bir para iadesi DOĞURMAZ. Satın alınan dijital haklar doğrudan ilgili hesaba bağlı olduğundan, hesap silindiğinde bu haklar da kalıcı olarak sona erer."
+          },
+          {
+            "type": "p",
+            "text": "Gelecekte aynı e-posta adresiyle yeniden kayıt olmanız durumunda sistem bunu tamamen bağımsız yeni bir hesap olarak kabul eder; silinen eski hesaptaki satın alımlar veya kapasite hakları yeni hesaba aktarılamaz."
+          }
+        ]
+      },
+      {
+        "id": "intellectual-property",
+        "title": "Fikrî Mülkiyet Hakları",
+        "number": 11,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal platformu, yazılım kodları, algoritmaları, arayüz tasarımları, arketip çizimleri, soru setleri, logoları ve marka unsurları 10Signal'a aittir ve fikrî mülkiyet mevzuatıyla korunmaktadır."
+          },
+          {
+            "type": "p",
+            "text": "Bu Koşullara uygun davranmanız kaydıyla, platformu yalnızca kişisel ve ticari olmayan öz farkındalık amacıyla kullanmanız için size sınırlı, münhasır olmayan ve devredilemez bir kullanım hakkı tanınır."
+          },
+          {
+            "type": "p",
+            "text": "Platforma girdiğiniz kendi içerikleriniz üzerindeki haklarınız saklıdır. Ancak değerlendirmelerin hesaplanabilmesi için 10Signal'a bu içerikleri yalnızca hizmetin sunulması amacıyla işleme yetkisi vermiş olursunuz."
+          }
+        ]
+      },
+      {
+        "id": "availability-liability",
+        "title": "Hizmetin Sunumu ve Sorumluluğun Sınırlandırılması",
+        "number": 12,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal \"olduğu gibi\" ve \"mevcut olduğu şekilde\" sunulmaktadır. Hizmetin kesintisiz veya hatasız çalışacağına dair mutlak bir garanti verilmez."
+          },
+          {
+            "type": "p",
+            "text": "Bakım çalışmaları, teknik güncellemeler veya üçüncü taraf sunucu arızaları nedeniyle platforma erişimde geçici kesintiler yaşanabilir."
+          },
+          {
+            "type": "p",
+            "text": "Yürürlükteki hukukun izin verdiği azami ölçüde, 10Signal ve geliştiricileri; platformun kullanımından kaynaklanabilecek dolaylı, arızi veya manevi zararlardan sorumlu tutulamaz."
+          },
+          {
+            "type": "p",
+            "text": "Kasıt, ağır kusur veya mevzuatın emredici olarak veri sorumlusuna/sağlayıcıya yüklediği tüketici hakları bu sorumluluk sınırlamasının dışındadır."
+          }
+        ]
+      },
+      {
+        "id": "age-eligibility",
+        "title": "Yaş Sınırı ve Reşit Olmayanların Korunması",
+        "number": 13,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal, **16 yaş ve üzerindeki** (veya ülkenizdeki yasal dijital rıza yaşındaki) bireylerin kullanımına yöneliktir."
+          },
+          {
+            "type": "p",
+            "text": "16 yaşın altındaki bireyler hesap açamaz, ücretli ürün satın alamaz ve arkadaş değerlendirmesi gönderemez. 16 yaşın altında bir çocuğun sisteme veri girdiğinin tespit edilmesi halinde ilgili kayıtlar derhal sistemden silinir."
+          }
+        ]
+      },
+      {
+        "id": "dispute-resolution",
+        "title": "Uyuşmazlıkların Çözümü ve Tüketici Başvuruları",
+        "number": 14,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Hizmete ilişkin her türlü memnuniyetsizlik veya uyuşmazlıkta öncelikle 10signal.me@gmail.com adresinden bizimle iletişime geçilerek dostane bir çözüm aranması önerilir."
+          },
+          {
+            "type": "p",
+            "text": "Bu Koşullar hem Türkçe hem İngilizce olarak yayınlanmıştır; iki dilli metin aynı ticari ilkeleri ve yasal dengeleri ifade eder."
+          },
+          {
+            "type": "h3",
+            "text": "Türkiye'deki Tüketici Başvuruları"
+          },
+          {
+            "type": "p",
+            "text": "Türkiye'de mukim tüketiciler; mesafeli sözleşmeden doğan uyuşmazlıklarda, Ticaret Bakanlığı'nca her yıl belirlenen parasal sınırlar dâhilinde tüketicinin yerleşim yerindeki veya tüketici işleminin yapıldığı yerdeki **Tüketici Hakem Heyetleri** ile **Tüketici Mahkemelerine** başvurma hakkına sahiptir."
+          },
+          {
+            "type": "h3",
+            "text": "Uluslararası Tüketiciler"
+          },
+          {
+            "type": "p",
+            "text": "Türkiye dışındaki tüketicilerin, ikamet ettikleri ülkenin emredici tüketici koruma kanunlarından doğan yasal başvuru hakları saklıdır."
+          }
+        ]
+      },
+      {
+        "id": "amendments",
+        "title": "Koşullardaki Değişiklikler ve Yürürlük",
+        "number": 15,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Hizmet özelliklerindeki yenilikler, ödeme altyapısındaki değişiklikler veya kanuni düzenlemeler doğrultusunda bu Kullanım Koşulları güncellenebilir."
+          },
+          {
+            "type": "p",
+            "text": "Metnin üst kısmında yer alan \"Son güncelleme\" tarihi belgenin yürürlük tarihini ifade eder. Tüketici haklarını esaslı biçimde etkileyen değişikliklerde önceden bildirim sağlanacaktır."
+          }
+        ]
+      },
+      {
+        "id": "contact",
+        "title": "İletişim ve Müşteri Destek Kanalları",
+        "number": 16,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Bu Kullanım Koşulları, dijital ürünler veya platform deneyimiyle ilgili her türlü soru, öneri ve taleplerinizi doğrudan kurucu ekibimize iletebilirsiniz:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Resmi Destek ve Başvuru E-posta Adresi: 10signal.me@gmail.com",
+              "Yanıt Taahhüdü: İlettiğiniz tüm geçerli başvurular en geç otuz (30) takvim günü içinde incelenerek yanıtlanır."
+            ]
+          }
+        ]
+      }
+    ]
   },
   "privacy": {
     "title": "Gizlilik Politikası",
-    "lastUpdated": "4 Eylül 2026"
+    "lastUpdated": "18 Ekim 2026",
+    "sections": [
+      {
+        "id": "data-controller",
+        "title": "Veri Sorumlusu ve Hizmet Yapısı",
+        "number": 1,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal, Türkiye'de bulunan iki kişilik bağımsız bir ekip tarafından geliştirilen ve işletilen dijital bir platformdur."
+          },
+          {
+            "type": "p",
+            "text": "6698 sayılı Kişisel Verilerin Korunması Kanunu (\"KVKK\"), Avrupa Birliği Genel Veri Koruma Tüzüğü (\"GDPR\") ve ilgili diğer veri koruma mevzuatları kapsamında 10Signal, platform üzerinden doğrudan toplanan kişisel veriler bakımından veri sorumlusu sıfatıyla hareket etmektedir."
+          },
+          {
+            "type": "p",
+            "text": "Bu Gizlilik Politikası, KVKK'nın 10. maddesi uyarınca veri sorumlusunun aydınlatma yükümlülüğünü yerine getirmek üzere hazırlanmış genel aydınlatma metnidir. Aynı zamanda uluslararası kullanıcılarımız için GDPR Madde 13 ve 14 kapsamındaki yasal bilgilendirme koşullarını sağlar."
+          },
+          {
+            "type": "p",
+            "text": "Kişisel verilerinizin işlenmesine, yasal haklarınıza veya bu metne ilişkin her türlü soru ve başvurunuzu doğrudan resmi iletişim kanalımıza iletebilirsiniz: 10signal.me@gmail.com"
+          },
+          {
+            "type": "highlight",
+            "text": "**Temel Gizlilik İlkemiz:** 10Signal yalnızca bireysel ve sosyal farkındalık amacıyla kurulmuştur. Kişisel verilerinizi, kendinize dair yanıtlarınızı veya arkadaşlarınızın değerlendirmelerini asla veri simsarlarına, reklam ağlarına veya üçüncü taraf pazarlamacılara satmayız, kiralamayız veya bu amaçlarla paylaşmayız."
+          }
+        ]
+      },
+      {
+        "id": "categories-of-data",
+        "title": "İşlenen Kişisel Veri Kategorileri",
+        "number": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal'ı kullanırken yalnızca hizmetin gerektirdiği, sistem güvenliğini sağlayan ve yasal zorunluluklara uygun olan sınırlı kişisel verileri işleriz."
+          },
+          {
+            "type": "h3",
+            "text": "A. Hesap ve Profil Bilgileri"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Kullanıcı kimlik numarası (UUID);",
+              "Sizin belirlediğiniz kullanıcı adı veya görünen ad (display name);",
+              "E-posta adresiniz (şifresiz tek kullanımlık giriş kodları [OTP], güvenlik bildirimleri, satın alma makbuzları ve destek yazışmaları için kullanılır);",
+              "Seçtiğiniz profil görseli / avatar kimliği;",
+              "Hesap paket türünüz (Standart veya 10Signal Plus) ve yanıt kapasitesi kotanız;",
+              "Tercih ettiğiniz arayüz dili (Türkçe veya İngilizce);",
+              "Hesap oluşturma, görünen ad güncelleme ve son etkinlik zaman kayıtları."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "B. Öz Değerlendirme (Kişilik) Verileri"
+          },
+          {
+            "type": "list",
+            "items": [
+              "10 temel sosyal algı boyutu kapsamında (Samimiyet, Çekicilik, Zeka, Vizyon, Enerji, Güvenilirlik, Ego, Başarı, Cömertlik, Olgunluk) kendi isteğinizle yanıtladığınız 1-5 arası puanlama cevapları;",
+              "Bu yanıtlardan matematiksel olarak üretilen ortalama skorlar, arketip kartı sınıflandırmaları, algı farkı göstergeleri ve güven aralığı durumları."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "C. Katılımcı (Arkadaş) Değerlendirme Verileri"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Paylaştığınız profil bağlantısı (/friend/{slug}) üzerinden arkadaşlarınızın hakkınızda verdiği 1-5 arası puanlar;",
+              "Katılımcının kendi rızasıyla yazdığı isteğe bağlı rumuz veya takma ad (katılımcı bu alanı dilerse tamamen boş bırakabilir);",
+              "Soruları yanıtlarken geçen süre metrikleri (milisaniye cinsinden yanıt analitiği);",
+              "Önemli Hatırlatma: Sizi değerlendiren arkadaşlarınızdan hiçbir zaman e-posta adresi, gerçek ad-soyad, telefon numarası veya hesap şifresi talep edilmez."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "D. Teknik Tanımlayıcılar, Ağ ve Güvenlik Verileri"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Kriptografik ağ özeti (IP hash): Sunucumuza bir istek ulaştığında, istemcinin IP adresi yalnızca sunucu belleğinde okunur ve tek yönlü SHA-256 algoritmasıyla anında hash'lenir (network:v1:[IP]). Ham IP adresiniz veritabanı tablolarına ASLA kaydedilmez;",
+              "Cihaz parmak izi özeti (fingerprint hash): Bir kişinin aynı profile mükerrer veya hileli katılımını önlemek amacıyla tarayıcı sinyali SHA-256 ile hash'lenerek saklanır;",
+              "Hız sınırlama (rate limit) sayaçları, istek zaman damgaları ve güvenlik denetim kayıtları."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "E. Ödeme ve Sipariş Kayıtları"
+          },
+          {
+            "type": "p",
+            "text": "Ücretli paket satın alımları doğrudan yetkili bağımsız ödeme ortağımız Lemon Squeezy, LLC tarafından yürütülür. Kredi kartı numaranız, son kullanma tarihiniz veya güvenlik kodunuz (CVV/CVC) 10Signal sunucularına kesinlikle ulaşmaz ve tarafımızca saklanmaz. Sistemimizde yalnızca işlem ID'si, sepet ID'si, ürün kodu, adet, tutar, para birimi, ödeme durumu ve yetki tanımlama zamanı gibi sipariş doğrulama verileri tutulur."
+          },
+          {
+            "type": "h3",
+            "text": "F. İletişim ve Doğrulama Kayıtları"
+          },
+          {
+            "type": "list",
+            "items": [
+              "10signal.me@gmail.com adresine ilettiğiniz destek, geri bildirim veya hak talebi yazışmaları;",
+              "E-posta doğrulama sürecinde üretilen şifrelenmiş geçici OTP kodları ve kısa süreli (10-30 dakika geçerli) oturum yetkileri."
+            ]
+          }
+        ]
+      },
+      {
+        "id": "purposes-legal-bases",
+        "title": "Kişisel Veri İşleme Amaçları ve Hukuki Sebepleri",
+        "number": 3,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Kişisel verileriniz KVKK'nın 5. maddesinde ve GDPR Madde 6'da belirtilen hukuki sebeplere dayanılarak işlenmektedir. Mevzuata uygun olarak açık rıza, rutin hizmet işlemlerinin tamamı için genel bir kalkan olarak kullanılmamakta; her işlem kendi meşru hukuki şartına dayandırılmaktadır."
+          },
+          {
+            "type": "h3",
+            "text": "A. Hesap Oluşturma, Giriş Yapma ve Profil Yönetimi"
+          },
+          {
+            "type": "list",
+            "items": [
+              "KVKK Hukuki Sebebi: Madde 5(2)(c) — Bir sözleşmenin kurulması veya ifasıyla doğrudan doğruya ilgili olması kaydıyla, sözleşmenin taraflarına ait kişisel verilerin işlenmesinin gerekli olması (10Signal Kullanım Koşulları).",
+              "GDPR Hukuki Sebebi: Article 6(1)(b) — Sözleşmenin ifası."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "B. Kişilik Sonuçlarının Hesaplanması ve Gösterimi"
+          },
+          {
+            "type": "list",
+            "items": [
+              "KVKK Hukuki Sebebi: Madde 5(2)(c) (Sözleşmenin ifası ve talep ettiğiniz analizin üretilmesi) ile Madde 5(1) (Testi kendi isteğinizle çözerek yanıtlarınızı sisteme girmeniz kapsamında Açık Rıza).",
+              "GDPR Hukuki Sebebi: Article 6(1)(b) ve Article 6(1)(a)."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "C. Mükerrer Oyları Önleme, Bot Koruması ve Sistem Güvenliği"
+          },
+          {
+            "type": "list",
+            "items": [
+              "KVKK Hukuki Sebebi: Madde 5(2)(f) — İlgili kişinin temel hak ve özgürlüklerine zarar vermemek kaydıyla, veri sorumlusunun meşru menfaatleri için veri işlenmesinin zorunlu olması (arkadaş değerlendirmelerinin manipüle edilmesini, spam girişimlerini ve hizmet aksatma saldırılarını önleme).",
+              "GDPR Hukuki Sebebi: Article 6(1)(f) — Meşru menfaat."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "D. Giriş Kodları (OTP), Güvenlik Uyarıları ve İşlemsel Bildirimler"
+          },
+          {
+            "type": "list",
+            "items": [
+              "KVKK Hukuki Sebebi: Madde 5(2)(c) (Sözleşmenin ifası) ve Madde 5(2)(ç) (Veri sorumlusunun hukuki yükümlülüğünü yerine getirebilmesi için zorunlu olması).",
+              "GDPR Hukuki Sebebi: Article 6(1)(b) ve Article 6(1)(c)."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "E. Ödeme Teyidi, Muhasebe ve Yasal Kayıt Yükümlülükleri"
+          },
+          {
+            "type": "list",
+            "items": [
+              "KVKK Hukuki Sebebi: Madde 5(2)(c) (Satın alınan dijital ürünün teslimi) ve Madde 5(2)(a)/(ç) (Vergi, ticaret ve mali mevzuat hükümlerinin gerektirdiği yasal saklama yükümlülükleri).",
+              "GDPR Hukuki Sebebi: Article 6(1)(b) ve Article 6(1)(c)."
+            ]
+          }
+        ]
+      },
+      {
+        "id": "psychometrics-profiling",
+        "title": "Değerlendirme Sistemi, Psikometrik Boyut ve Otomatik Karar Sınırları",
+        "number": 4,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal, verdiğiniz cevaplar ile arkadaşlarınızın değerlendirmelerini bir araya getirerek matematiksel ortalamalar, algı farkı haritaları ve sosyal arketip kartları üretir."
+          },
+          {
+            "type": "highlight",
+            "text": "**Klinik Tanı veya Tıbbi Hizmet Değildir:** 10Signal testleri, arketip kartları ve radar grafikleri yalnızca bireysel içgörü, iletişim farkındalığı ve eğlence amaçlıdır. 10Signal bir sağlık kuruluşu, psikiyatrik teşhis merkezi veya psikolojik danışmanlık servisi DEĞİLDİR. Platformumuzda sunulan hiçbir sonuç tıbbi rapor, psikiyatrik teşhis, klinik değerlendirme veya tedavi önerisi niteliği taşımaz."
+          },
+          {
+            "type": "h3",
+            "text": "Yüksek Etkili Otomatik Karar veya Profilleme Yoktur"
+          },
+          {
+            "type": "p",
+            "text": "10Signal, kullanıcılar hakkında KVKK m. 11(1)(g) veya GDPR Madde 22 anlamında hukuki sonuç doğuran ya da kişiyi benzer şekilde önemli ölçüde etkileyen otomatik kararlar almaz. Algoritmalarımız yalnızca kullanıcıya dönük arketip görselleri oluşturur; kredi skorlaması, işe alım uygunluğu, sigorta primleri, yargısal değerlendirmeler veya davranışsal kısıtlamalar için kesinlikle kullanılmaz."
+          },
+          {
+            "type": "h3",
+            "text": "Özel Nitelikli Kişisel Veri İşlenmez"
+          },
+          {
+            "type": "p",
+            "text": "KVKK Madde 6 ve GDPR Madde 9 kapsamında korunan ırk, etnik köken, siyasi düşünce, felsefi inanç, din, mezhep veya diğer inançlar, kılık ve kıyafet, dernek, vakıf ya da sendika üyeliği, sağlık, cinsel hayat, ceza mahkûmiyeti ve güvenlik tedbirleriyle ilgili veriler ile biyometrik ve genetik veriler 10Signal tarafından işlenmez. Kullanıcıların ve katılımcıların rumuz veya yazışma alanlarına özel nitelikli kişisel veri girmemesi gerekir."
+          }
+        ]
+      },
+      {
+        "id": "anonymous-participation",
+        "title": "Arkadaş Değerlendirmeleri ve Anonimlik Güvencesi",
+        "number": 5,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Arkadaşlarınızın sizi dışarıdan nasıl deneyimlediğini görmek 10Signal'ın ana özelliğidir. Katılımcıların gizliliğini korumak için katı teknik sınırlar uygulanır."
+          },
+          {
+            "type": "list",
+            "items": [
+              "Hesap Açma Şartı Yoktur: Arkadaşlarınız değerlendirme bağlantısına (/friend/{slug}) tıkladığında hesap oluşturmak, giriş yapmak veya e-posta/telefon vermek zorunda değildir.",
+              "İsteğe Bağlı Rumuz: Katılımcı isterse eğlenceli bir takma ad yazabilir veya bu alanı tamamen boş bırakarak isimsiz kalabilir.",
+              "Minimum Üç (3) Yanıt Eşiği: Profil sahibinin tek bir kişinin verdiği puanları görerek kim olduğunu tahmin etmesini veya baskı oluşturmasını önlemek amacıyla; dış algı ortalamaları ve arkadaş sonuçları profilinizde en az 3 farklı kişi testi tamamlayana kadar kilitli tutulur. Üç yanıt tamamlanmadan önce profil sahibine hiçbir arkadaş ortalaması gösterilmez.",
+              "Ağ ve Cihaz Verilerinin Ayrıştırılması: Profil sahibi detaylı değerlendirme kartlarını incelese bile, katılımcıların IP özetleri veya cihaz parmak izleri profil sahibine asla gösterilmez ve API yanıtlarından filtrelenir.",
+              "Anonimlik Taahhüdü: 10Signal, profil sahibinin bireysel talebi üzerine anonim katılımcıların kimliğini araştırmaz veya profil sahibine açıklamaz. Yasal mercilerin usulüne uygun bağlayıcı kararları saklıdır."
+            ]
+          }
+        ]
+      },
+      {
+        "id": "technical-identifiers",
+        "title": "Teknik Tanımlayıcılar, Hash Yöntemi ve Mükerrer Oy Engelleme",
+        "number": 6,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Sistemimizi manipülasyondan, bot saldırılarından ve mükerrer oylardan korurken gizliliğinizi ihlal etmemek adına ham kimlikler yerine tek yönlü kriptografik özetler (hash) kullanırız."
+          },
+          {
+            "type": "h3",
+            "text": "A. IP Adresi Saklama Politikası"
+          },
+          {
+            "type": "p",
+            "text": "Sunucumuza gelen HTTP isteklerinde istemcinin IP adresi yalnızca sunucunun geçici belleğinde okunur ve özel bir güvenlik tuzuyla birleştirilerek SHA-256 algoritmasıyla geri döndürülemez bir özete dönüştürülür (network:v1:[IP]). Ham IP adresiniz veritabanı tablolarına ASLA kaydedilmez."
+          },
+          {
+            "type": "h3",
+            "text": "B. Tarayıcı Cihaz Parmak İzi (Fingerprint)"
+          },
+          {
+            "type": "p",
+            "text": "Bir katılımcı testi gönderdiğinde, tarayıcısının ürettiği teknik sinyal sunucumuzda anında SHA-256 ile hash'lenir (fingerprint:v1:[signal]). Bu özet yalnızca aynı cihazdan tek bir profile mükerrer yanıt gönderilmesini engellemek için kullanılır; internetteki diğer sitelerde kullanıcı takibi yapmak için kesinlikle kullanılamaz."
+          },
+          {
+            "type": "h3",
+            "text": "C. Hız Sınırlamaları ve Otomatik Veri Temizliği"
+          },
+          {
+            "type": "p",
+            "text": "Sistemdeki hız sınırları doğrudan veritabanındaki sayaç tablolarında tutulur. Otomatik çalışan arka plan temizleme mekanizmamız, süresi dolmuş sayaç kayıtlarını, süresi geçmiş giriş kodlarını (OTP) ve geçici yetkileri her saat başı düzenli olarak tarayarak 24 saatlik güvenlik marjı sonrasında kalıcı olarak imha eder."
+          }
+        ]
+      },
+      {
+        "id": "cookies-browser-storage",
+        "title": "Çerezler ve Tarayıcı Depolama Alanları",
+        "number": 7,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal, kullanıcıları internette takip eden reklam çerezleri, pazarlama pikselleri veya üçüncü taraf izleyiciler KULLANMAZ. Yalnızca platformun düzgün çalışması için zorunlu olan tarayıcı depolama alanları kullanılır."
+          },
+          {
+            "type": "h3",
+            "text": "A. Yerel Depolama (localStorage)"
+          },
+          {
+            "type": "list",
+            "items": [
+              "tensignal_owner_token / seenly_owner_token: Profilinize giriş yaptığınızda oturumunuzun korunmasını ve kontrol panelinize güvenle erişmenizi sağlayan oturum anahtarıdır;",
+              "tensignal_locale, tensignal_account_locale, tensignal_locale_manual: Tercih ettiğiniz arayüz dilini (Türkçe/İngilizce) hatırlamak için kullanılır;",
+              "tensignal_display_name, tensignal_avatar, tensignal_owner_slug, tensignal_is_premium: Arayüzün her açılışta hızlı ve akıcı yüklenmesi için tutulan önbellek bilgileridir;",
+              "tensignal_participant_signal: Bir arkadaşınızın profilinde testi daha önce çözüp çözmediğinizi tespit eden geçici istemci sinyalidir."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "B. Oturum Depolaması (sessionStorage)"
+          },
+          {
+            "type": "list",
+            "items": [
+              "tensignal_answers, tensignal_currentIndex: Testi çözerken sayfa kazara yenilenirse yanıtlarınızın kaybolmaması için tarayıcınızın o sekmesinde geçici olarak tutulur;",
+              "tensignal_registration_grant: E-posta doğrulama akışı sırasında kullanılan kısa ömürlü güvenlik belirtecidir;",
+              "Kalıcılık: Tarayıcı sekmesi kapatıldığında veya test başarıyla tamamlandığında oturum depolaması tarayıcınız tarafından anında temizlenir."
+            ]
+          }
+        ]
+      },
+      {
+        "id": "third-party-service-providers",
+        "title": "Üçüncü Taraf Hizmet Sağlayıcılar",
+        "number": 8,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal'ın güvenli, kesintisiz ve hızlı çalışması amacıyla alanında uzman sınırlı sayıda üçüncü taraf hizmet sağlayıcı ile çalışmaktayız:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Brevo (Sendinblue SAS - Fransa / AB): Tek kullanımlık şifresiz giriş kodları (OTP), hesap güvenlik uyarıları, hesap silme teyitleri ve yaşam döngüsü bildirimlerini ileten işlemsel e-posta altyapımızdır. E-posta adresi ve mesaj içeriği Brevo'nun Avrupa Birliği (Fransa ve Almanya) sınırları içindeki veri merkezlerinde işlenir.",
+              "Lemon Squeezy, LLC (ABD): 10Signal Plus ve Yanıt Kapasitesi Paketleri gibi dijital ürünlerin satışında Merchant of Record (Yetkili Satıcı) olarak hizmet verir. Ödeme kartı bilgileri, fatura adresi, vergi hesaplamaları ve dolandırıcılık önleme süreçleri doğrudan Lemon Squeezy'nin kendi güvenli sayfalarında yürütülür. Bize yalnızca sipariş referansı ve işlem durumu iletilir.",
+              "Bulut Sunucu ve PostgreSQL Veritabanı Altyapısı: Uygulama kodlarımızı, şifrelenmiş veritabanı kayıtlarımızı ve anonim test puanlarını barındıran sunucu altyapısıdır.",
+              "Google Fonts (Google LLC): Sayfa tasarımlarındaki yazı tiplerinin tarayıcınıza hızlı aktarılmasını sağlayan içerik dağıtım ağıdır (CDN)."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Çalıştığımız alt işlemciler, kendilerine aktarılan verileri kendi bağımsız pazarlama veya reklam faaliyetleri için kullanamaz; yalnızca 10Signal'a sundukları teknik hizmet sınırları içinde işleyebilirler."
+          }
+        ]
+      },
+      {
+        "id": "international-transfers",
+        "title": "Yurt Dışına Veri Aktarımı (KVKK m. 9 ve GDPR)",
+        "number": 9,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal internet üzerinden küresel düzeyde erişilebilen bir platformdur ve teknik altyapısında uluslararası hizmet sağlayıcılardan yararlanmaktadır. Bu nedenle platformu kullandığınızda kişisel verileriniz Türkiye dışındaki sunucularda işlenebilmektedir."
+          },
+          {
+            "type": "h3",
+            "text": "Yurt Dışında Veri İşleyen Hizmet Sağlayıcılar"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Brevo (Sendinblue SAS - Fransa / AB): İşlemsel e-posta altyapımızdır. Tek kullanımlık şifresiz giriş kodları (OTP), hesap güvenlik uyarıları, hesap silme teyitleri ve bildirimler kapsamında e-posta adresiniz ve ileti içerikleri Brevo'nun Avrupa Birliği (Fransa ve Almanya) sınırları içindeki veri merkezlerine aktarılmaktadır.",
+              "Lemon Squeezy, LLC (ABD): 10Signal Plus ve Yanıt Kapasitesi Paketleri gibi dijital ürünlerin satışında Merchant of Record (Yetkili Satıcı) olarak hizmet verir. Satın alma işlemi başlattığınızda sipariş, fatura ve ödeme süreçleri Lemon Squeezy'nin Amerika Birleşik Devletleri'ndeki güvenli sunucuları üzerinde yürütülmektedir."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "Avrupa Birliği (GDPR) Kapsamındaki Durum"
+          },
+          {
+            "type": "p",
+            "text": "Avrupa Ekonomik Alanı'nda ikamet eden kullanıcılar bakımından; Brevo bünyesindeki işlemler doğrudan Avrupa Birliği sınırları içerisinde gerçekleştirilmektedir. Lemon Squeezy (ABD) ile yürütülen ödeme akışları ise ticari satın alma sözleşmesinin kurulması ve ifası (GDPR Madde 49(1)(b)) ve ilgili veri işleme şartları çerçevesinde yürütülmektedir."
+          },
+          {
+            "type": "h3",
+            "text": "Türkiye (KVKK Madde 9) Kapsamındaki Mevcut Durum"
+          },
+          {
+            "type": "p",
+            "text": "6698 sayılı Kanun'un 2024 yılında yürürlüğe giren güncel 9. maddesi uyarınca, Türkiye'den yurt dışına düzenli ve sürekli kişisel veri aktarımı; Kişisel Verileri Koruma Kurulu'nun ilgili ülke hakkında vereceği yeterlilik kararına (m. 9(1)) veya taraflarca akdedilip Kurum'a bildirilen Standart Sözleşmelere ya da Kurul onaylı taahhütnamelere (m. 9(4)) dayanmalıdır. Kanun'un 9. maddesinin 6. fıkrasında yer alan istisnalar ise yalnızca arızi (tek seferlik ve süreklilik arz etmeyen) aktarımlar için geçerlidir."
+          },
+          {
+            "type": "p",
+            "text": "10Signal, iki kişilik bağımsız bir girişim olarak yürütülen mevcut operasyonunda; aktarım yapılan ülkeler bakımından Kurul tarafından verilmiş bir yeterlilik kararına, Kurum'a bildirimi yapılmış bir Standart Sözleşmeye veya onaylanmış bir taahhütnameye henüz sahip değildir. Kullanıcılarımız, platformu kullandıklarında e-posta ve ödeme işlemlerinin yukarıda belirtilen yurt dışı hizmet sağlayıcılar üzerinden teknik olarak gerçekleştiğini bilerek hareket etmektedir. Kullanıcılarımız diledikleri an hesaplarını silerek bu teknik süreçleri sonlandırabilir."
+          }
+        ]
+      },
+      {
+        "id": "retention-and-deletion",
+        "title": "Saklama, Hesap Silme ve İmha Süreçleri",
+        "number": 10,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Kişisel verilerinizi yalnızca hizmetin sunulması, hesap güvenliğinin sağlanması, mükerrer katılımın engellenmesi ve yasal saklama sürelerinin gerektirdiği müddetçe saklarız."
+          },
+          {
+            "type": "h3",
+            "text": "A. Aktif Hesap Verileri"
+          },
+          {
+            "type": "p",
+            "text": "Profil bilgileriniz, öz değerlendirme cevaplarınız ve arkadaşlarınızdan gelen değerlendirme kayıtları hesabınız aktif kaldığı sürece sistemde muhafaza edilir."
+          },
+          {
+            "type": "h3",
+            "text": "B. Hesap Silme ve Otomatik İmha Akışı"
+          },
+          {
+            "type": "p",
+            "text": "Dilediğiniz an Ayarlar menüsünden \"Hesabımı Sil\" butonuna basarak veya 10signal.me@gmail.com adresine yazarak hesabınızı silebilirsiniz. Hesap silme işlemi tetiklendiğinde (/api/billing/delete-account):"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Veritabanından Anında Silme: Kullanıcı hesabınız, tüm 10Signal profilleriniz, kendi test cevaplarınız, algoritmik sonuçlarınız, arkadaş değerlendirme oturumları ve yanıt süreleri veritabanından derhal ve kalıcı olarak silinir (cascade delete);",
+              "E-posta Kuyruğunun İşlenmesi ve Maskeleme: Hesabın silindiğini bildiren son teyit e-postası gönderilmek üzere sisteme alınır. Bu bildirim arka planda çalışan e-posta kuyruk servisi tarafından Brevo'ya iletildiği anda (veya en fazla 24 saatlik süre sonunda), giden kutusundaki alıcı adresi 'purged@deleted.tensignal.app' olarak değiştirilir ve mesaj içeriği boş bir JSON ({}) ile kalıcı olarak maskelenir;",
+              "Oturumların İptali: Tüm aktif oturum anahtarlarınız ve tarayıcı yetkileriniz anında geçersiz kılınır."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "C. Kısa Ömürlü Güvenlik Verileri ve Yasal Kayıtlar"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Giriş Kodları (OTP): 10 ile 30 dakika arasında kendiliğinden geçersiz hale gelir ve saatlik otomatik temizleme servisimizce silinir;",
+              "Hız Sınırı Kayıtları: Tanımlı süreleri dolduğunda otomatik temizlik mekanizmasıyla 24 saat içinde veritabanından atılır;",
+              "Ticari ve Mali İşlem Kayıtları: Satın alma işlemlerine ilişkin sipariş referansı ve tutar kayıtları; Türk Ticaret Kanunu, Vergi Usul Kanunu ve ilgili tüketici mevzuatının zorunlu kıldığı yasal zamanaşımı süreleri boyunca saklanabilir."
+            ]
+          }
+        ]
+      },
+      {
+        "id": "security-measures",
+        "title": "Teknik ve İdari Güvenlik Önlemleri",
+        "number": 11,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal, kişisel verilerinizin yetkisiz erişime, kaybolmaya, değiştirilmeye veya ifşa edilmeye karşı korunması amacıyla modern teknik ve idari güvenlik önlemleri almaktadır."
+          },
+          {
+            "type": "list",
+            "items": [
+              "Aktarım Güvenliği: Tarayıcınız ile sunucularımız arasındaki tüm iletişim güncel TLS (Transport Layer Security 1.2 ve 1.3) şifrelemesi ve zorunlu HTTPS protokolü ile korunur;",
+              "Kriptografik Token Saklama: Oturum açma token'ları veritabanında asla açık metin olarak tutulmaz; tek yönlü SHA-256 kriptografik özeti saklanır;",
+              "Tasarım İtibarıyla Anonimleştirme: IP adresleri ve cihaz sinyalleri veritabanına yazılmadan önce tuzlanarak hash'lenir;",
+              "Kuyruk İçi Şifreleme: E-posta outbox kuyruğunda bekleyen hassas OTP içerikleri veritabanında AES-256-GCM ile şifrelenmiş olarak tutulur;",
+              "Veritabanı Hız Sınırlaması: Otomatik saldırılara, şifre denemelerine ve servis engelleme girişimlerine karşı veritabanı seviyesinde katı hız sınırlamaları uygulanır;",
+              "Başlık Bazlı Kimlik Doğrulama: Özel kontrol paneli uç noktaları yalnızca geçerli X-Owner-Token başlığı ile çalışır; URL parametresiyle token sızmasına izin verilmez."
+            ]
+          }
+        ]
+      },
+      {
+        "id": "data-subject-rights",
+        "title": "İlgili Kişinin Hakları (KVKK m. 11 ve GDPR)",
+        "number": 12,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Kişisel verileriniz üzerindeki yasal haklarınıza saygı duyuyor ve bu hakları kolayca kullanabilmenizi sağlıyoruz."
+          },
+          {
+            "type": "h3",
+            "text": "KVKK Madde 11 Kapsamındaki Haklarınız"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Kişisel verilerinizin işlenip işlenmediğini öğrenme;",
+              "Kişisel verileriniz işlenmişse buna ilişkin bilgi talep etme;",
+              "Kişisel verilerin işlenme amacını ve bunların amacına uygun kullanılıp kullanılmadığını öğrenme;",
+              "Yurt içinde veya yurt dışında kişisel verilerin aktarıldığı üçüncü kişileri bilme;",
+              "Kişisel verilerin eksik veya yanlış işlenmiş olması hâlinde bunların düzeltilmesini isteme;",
+              "KVKK Madde 7'de öngörülen şartlar çerçevesinde kişisel verilerin silinmesini veya yok edilmesini isteme;",
+              "Düzeltme, silme ve yok edilme işlemlerinin verilerin aktarıldığı üçüncü kişilere bildirilmesini isteme;",
+              "İşlenen verilerin münhasıran otomatik sistemler vasıtasıyla analiz edilmesi suretiyle aleyhinize bir sonucun ortaya çıkmasına itiraz etme;",
+              "Kişisel verilerin kanuna aykırı olarak işlenmesi sebebiyle zarara uğramanız hâlinde zararın giderilmesini talep etme."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "Avrupa Birliği Kullanıcıları İçin GDPR Hakları"
+          },
+          {
+            "type": "p",
+            "text": "Avrupa Ekonomik Alanı'nda ikamet eden kullanıcılarımız; verilerine erişme (m. 15), düzeltme (m. 16), silinmesini isteme / unutulma hakkı (m. 17), işlemeyi kısıtlama (m. 18), veri taşınabilirliği (m. 20), işlemeye itiraz etme (m. 21) ve kendi ülkelerindeki veri koruma denetim otoritesine şikâyette bulunma haklarına sahiptir."
+          },
+          {
+            "type": "h3",
+            "text": "Başvuru Yöntemi ve Süresi"
+          },
+          {
+            "type": "p",
+            "text": "Tüm hak taleplerinizi doğrudan resmi iletişim e-posta adresimize iletebilirsiniz: 10signal.me@gmail.com"
+          },
+          {
+            "type": "p",
+            "text": "Gizliliğinizi ve veri güvenliğinizi korumak adına, başvurunuzu işleme almadan önce ilgili hesabın veya e-posta adresinin kontrolünün sizde olduğunu teyit etmemiz istenebilir. Usulüne uygun başvurularınız en kısa sürede ve en geç otuz (30) gün içinde ücretsiz olarak sonuçlandırılacaktır."
+          }
+        ]
+      },
+      {
+        "id": "childrens-privacy",
+        "title": "Çocukların Gizliliği ve Yaş Sınırı",
+        "number": 13,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal, 16 yaşın altındaki bireylerin (veya ülkenizdeki yasal dijital rıza yaşının altındakilerin) kullanımına yönelik değildir."
+          },
+          {
+            "type": "p",
+            "text": "16 yaşından küçüklerin kişisel verilerini bilerek toplamayız ve işlemeyiz. Eğer bir ebeveyn veya yasal vasi olarak 16 yaşından küçük bir çocuğun bize kişisel veri ilettiğini fark ederseniz, lütfen derhal 10signal.me@gmail.com adresinden bizimle iletişime geçiniz. İlgili kayıtlar ve profil ivedilikle sistemden kalıcı olarak silinecektir."
+          }
+        ]
+      },
+      {
+        "id": "notification-preferences",
+        "title": "Bildirim Tercihleri ve İletişim Ayarları",
+        "number": 14,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal'da zorunlu sistem e-postaları ile isteğe bağlı bilgilendirme e-postaları kesin çizgilerle birbirinden ayrılmıştır:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Zorunlu İşlemsel İletiler: Şifresiz giriş kodları (OTP), hesap güvenlik uyarıları, sipariş onayları ve hesap silme teyitleri hizmetin sunulabilmesi için teknik olarak zorunludur ve kapatılamaz;",
+              "İsteğe Bağlı Bildirimler: Profil Ayarları sekmesinden dilediğiniz an şu bildirimleri kapatabilir veya yeniden açabilirsiniz: (1) profilinize yeni bir arkadaş değerlendirmesi geldiğinde e-posta bildirimi alma, (2) inaktivite hatırlatma e-postaları, (3) sosyal algı kartınız değiştiğinde bilgilendirilme, (4) yanıt kapasitesi kota uyarıları."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Ayarlar menüsünden bir bildirim kategorisini kapattığınız anda, bildirim planlayıcımız o kategoriye ait e-posta üretimini ve gönderimini derhal durdurur."
+          }
+        ]
+      },
+      {
+        "id": "policy-amendments",
+        "title": "Gizlilik Politikasındaki Değişiklikler",
+        "number": 15,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal'a yeni özellikler eklendikçe, altyapı sağlayıcılarımız güncellendikçe veya veri koruma mevzuatında değişiklik oldukça bu Gizlilik Politikası güncellenebilir."
+          },
+          {
+            "type": "p",
+            "text": "Politika metninin en üstünde yer alan \"Son güncelleme\" tarihi, metnin yürürlük tarihini gösterir. Kullanıcı haklarını esaslı biçimde etkileyen önemli değişikliklerde web arayüzü veya e-posta yoluyla önceden açık bildirim sağlanacaktır."
+          }
+        ]
+      },
+      {
+        "id": "contact-inquiries",
+        "title": "İletişim ve Başvuru",
+        "number": 16,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Bu Gizlilik Politikası, kişisel verileriniz veya veri işleme uygulamalarımız hakkındaki her türlü soru, görüş ve talebiniz için kurucu ekibimize ulaşabilirsiniz:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Resmi Destek ve Gizlilik E-posta Adresi: 10signal.me@gmail.com",
+              "Yanıt Taahhüdü: İlettiğiniz tüm geçerli başvurular en geç otuz (30) takvim günü içinde incelenerek yanıtlanır."
+            ]
+          }
+        ]
+      }
+    ]
   },
   "refund": {
     "title": "İade Politikası",
-    "lastUpdated": "Eylül 2026"
+    "lastUpdated": "18 Ekim 2026",
+    "sections": [
+      {
+        "id": "digital-goods",
+        "number": 1,
+        "title": "Dijital Ürünler ve Anında İfa",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal üzerinden sunulan tüm ücretli ürünler—10Signal Plus ve Yanıt Kapasitesi Paketleri (+50, +150, +300 yanıt kotası)—fiziki teslimat gerektirmeyen, ödemenin onaylanmasıyla birlikte elektronik ortamda anında kullanıma açılan dijital haklardır."
+          }
+        ]
+      },
+      {
+        "id": "no-voluntary-refunds",
+        "number": 2,
+        "title": "Gönüllü İade Sunulmaması Esası",
+        "blocks": [
+          {
+            "type": "highlight",
+            "text": "10Signal'da Plus erişimi ve Yanıt Kapasitesi Paketleri dâhil dijital ürünler için isteğe bağlı iade sunulmaz. Satın alma sonrasında fikir değiştirilmesi, satın alınan özelliklerin kullanılmaması veya kapasitenin tüketilmemesi tek başına gönüllü iade hakkı doğurmaz. Bu politika, yürürlükteki mevzuatın tüketicilere tanıdığı ve sözleşmeyle sınırlandırılamayan cayma, iade ve diğer yasal hakları ortadan kaldırmaz."
+          },
+          {
+            "type": "p",
+            "text": "Dijital kapasitenin anında tanımlanması sebebiyle, aşağıdaki gerekçelerle gönüllü iade talebinde bulunulamaz:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Satın alınan kapasite kotasının kullanılmamış veya kısmen kullanılmış olması;",
+              "Arkadaşlardan toplanan değerlendirmelerin, arketip sonuçlarının veya algı kartlarının beğenilmemesi;",
+              "Satın alma sonrasında kullanıcının hesabını kendi isteğiyle silmesi veya kullanmayı bırakması;",
+              "Kullanım Koşulları ihlalleri sebebiyle hesabın sınırlandırılması veya kapatılması."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Eski 14 Günlük Taahhüdün Kaldırılması: Geçmiş metinlerde yer alan kullanılmamış paketlere yönelik 14 günlük ihtiyari iade vaadi yeni satın alımlar için geçerli değildir ve kaldırılmıştır. Önceki tarihlerde tamamlanan işlemler o tarihteki kurallara tabidir."
+          }
+        ]
+      },
+      {
+        "id": "billing-errors",
+        "number": 3,
+        "title": "Mükerrer Tahsilat ve Teknik Hatalar",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Ödeme esnasında sistemsel bir hata, zaman aşımı veya ağ kopması sebebiyle tek bir sipariş için mükerrer tahsilat yapılması durumunda, doğrulanan mükerrer işlem derhal orijinal ödeme yöntemine iade edilir."
+          },
+          {
+            "type": "p",
+            "text": "Lemon Squeezy tarafından ödeme tahsil edildiği halde teknik bir arıza nedeniyle dijital hakların 10Signal hesabına yansımaması durumunda, gerekli kontroller yapılarak satın alınan hak hesaba manuel olarak tanımlanır."
+          }
+        ]
+      },
+      {
+        "id": "statutory-consumer-rights",
+        "number": 4,
+        "title": "Tüketicinin Vazgeçilemeyen Yasal Hakları",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Bu İade Politikası; 6502 sayılı Tüketicinin Korunması Hakkında Kanun, Mesafeli Sözleşmeler Yönetmeliği veya AB Tüketici Hakları Direktifi (2011/83/EU) kapsamında tüketicilere tanınan ve sözleşmeyle kaldırılamayan yasal cayma, ayıplı hizmet veya diğer zorunlu başvuru haklarını ortadan kaldırmaz veya sınırlamaz."
+          }
+        ]
+      },
+      {
+        "id": "contact-billing",
+        "number": 5,
+        "title": "Fatura ve Ödeme İletişimi",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Mükerrer tahsilat veya faturalandırma ile ilgili her türlü inceleme talebinizi, hesabınıza kayıtlı e-posta adresinden sipariş referansı (Order ID) ile birlikte iletebilirsiniz: 10signal.me@gmail.com"
+          }
+        ]
+      }
+    ]
+  },
+  "untranslatedDoc": {
+    "title": "Çevrilmemiş Belge",
+    "lastUpdated": "Ekim 2026"
   }
 }

@@ -16,7 +16,7 @@ const OutsidePerceptionTab = memo(function OutsidePerceptionTab({
   get10Signals
 }) {
   return (
-    <div className={`seenly-dashboard-tab-content ${responseCount < 3 ? 'full-width-layout' : 'seenly-gap-editorial-content'}`} style={{ maxWidth: '980px', margin: '0 auto', width: '100%' }}>
+    <div className={`tensignal-dashboard-tab-content ${responseCount < 3 ? 'full-width-layout' : 'tensignal-gap-editorial-content'}`} style={{ maxWidth: '980px', margin: '0 auto', width: '100%' }}>
       {responseCount >= 3 ? (
         <div className="flex flex-col gap-5 w-full box-border">
           {/* Horizontal General Statistics Banner */}
@@ -26,11 +26,11 @@ const OutsidePerceptionTab = memo(function OutsidePerceptionTab({
           />
 
           {/* Main Flow: Left Archetype Card + Right 10 Social Signals */}
-          <div className="seenly-outside-flow flex flex-col md:flex-row items-stretch justify-center w-full gap-5">
+          <div className="tensignal-outside-flow flex flex-col md:flex-row items-stretch justify-center w-full gap-5">
             {/* Left Column: Glass Card */}
-            <div className="seenly-outside-summary-wrap flex flex-col items-center z-10 w-full md:w-[340px] lg:w-[350px] flex-shrink-0">
+            <div className="tensignal-outside-summary-wrap flex flex-col items-center z-10 w-full md:w-[340px] lg:w-[350px] flex-shrink-0">
               <div
-                className="seenly-dashboard-premium-card seenly-outside-summary-card p-4 sm:p-6 flex flex-col items-center justify-between text-center relative rounded-[24px] sm:rounded-[32px] w-full h-full box-border"
+                className="tensignal-dashboard-premium-card tensignal-outside-summary-card p-4 sm:p-6 flex flex-col items-center justify-between text-center relative rounded-[24px] sm:rounded-[32px] w-full h-full box-border"
                 style={{
                   background: '#FDFBF4',
                   backgroundColor: '#FDFBF4',
@@ -116,10 +116,10 @@ const OutsidePerceptionTab = memo(function OutsidePerceptionTab({
                   <button
                     type="button"
                     onClick={() => {
-                      localStorage.setItem('seenly_selected_identity', activeOutsideSignatureId);
+                      localStorage.setItem('tensignal_selected_identity', activeOutsideSignatureId);
                       window.location.hash = '#/identities';
                     }}
-                    className="flex-1 h-[42px] sm:h-[46px] px-3 sm:px-4 rounded-full text-white flex items-center justify-between transition-all duration-200 hover:-translate-y-0.5 cursor-pointer"
+                    className="flex-1 h-[42px] sm:h-[46px] px-3 sm:px-4 rounded-[14px] sm:rounded-[16px] text-white flex items-center justify-between transition-all duration-200 hover:-translate-y-0.5 cursor-pointer"
                     style={{
                       background: '#1A3E72',
                       boxShadow: '0 4px 14px rgba(26, 62, 114, 0.22)',
@@ -167,7 +167,7 @@ const OutsidePerceptionTab = memo(function OutsidePerceptionTab({
           </div>
         </div>
       ) : (
-        <div className="seenly-dashboard-locked-state" style={{ width: '100%' }}>
+        <div className="tensignal-dashboard-locked-state" style={{ width: '100%' }}>
           <LockedMask
             title={t('dashboard.lockedSectionTitle')}
             description={t('dashboard.lockedSectionOutsideDesc')}

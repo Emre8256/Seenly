@@ -1,7 +1,8 @@
-import React, { createContext, useState, useContext, useEffect, useCallback, useMemo } from 'react';
+import React, { createContext, useState, useContext, useEffect, useCallback, useMemo, useRef } from 'react';
 import { locales, DEFAULT_LOCALE, CANONICAL_LOCALE, getSupportedLocales, resolveSupportedLocale } from '../content/locales/registry';
 import trCore from '../content/locales/tr/core';
 import enCore from '../content/locales/en/core';
+import { updateOwnerLocale } from '../services/api';
 
 const LocaleContext = createContext(null);
 
@@ -13,21 +14,142 @@ const resourceCache = {
 
 export { DEFAULT_LOCALE, CANONICAL_LOCALE };
 
+/**
+ * Detect primary preferred browser language.
+ * Only if the primary language is Turkish (e.g. 'tr', 'tr-TR', 'tr-CY') returns 'tr'.
+ * All other languages (en, de, fr, es, etc.) or invalid/empty return 'en'.
+ */
+export function detectBrowserPrimaryLocale(nav = (typeof navigator !== 'undefined' ? navigator : null)) {
+  if (!nav) return CANONICAL_LOCALE;
+  let primary = '';
+  if (Array.isArray(nav.languages) && nav.languages.length > 0) {
+    primary = nav.languages[0];
+  } else if (typeof nav.language === 'string') {
+    primary = nav.language;
+  }
+  if (!primary || typeof primary !== 'string') return CANONICAL_LOCALE;
+  const clean = primary.toLowerCase().trim();
+  if (clean === 'tr' || clean.startsWith('tr-') || clean.startsWith('tr_')) {
+    return 'tr';
+  }
+  return CANONICAL_LOCALE;
+}
+
+/**
+ * Resolves initial locale based on deterministic priority:
+ * 1. Logged-in account preferredLocale (if authenticated in browser)
+ * 2. Explicit manual user preference saved in browser
+ * 3. Primary browser language detection
+ * 4. Fallback 'en'
+ */
+export function resolveInitialLocale(defaultLocale = DEFAULT_LOCALE) {
+  if (typeof window === 'undefined' || !window.localStorage) {
+    return defaultLocale && locales[defaultLocale] ? defaultLocale : CANONICAL_LOCALE;
+  }
+  try {
+    // 1. Account backend preferredLocale (source of truth for authenticated account)
+    const accountLocale = localStorage.getItem('tensignal_account_locale');
+    if (accountLocale && locales[accountLocale]) {
+      return accountLocale;
+    }
+
+    // 2. Explicit manual choice saved previously by user
+    const isManual = localStorage.getItem('tensignal_locale_manual') === 'true';
+    const saved = localStorage.getItem('tensignal_locale') || localStorage.getItem('seenly_locale');
+    if (isManual && saved && locales[saved]) {
+      return saved;
+    }
+
+    // Existing user migration compatibility: if saved exists from legacy session without manual marker
+    if (saved && locales[saved] && localStorage.getItem('tensignal_locale_manual') === null) {
+      return saved;
+    }
+
+    // Explicit prop override passed to Provider (e.g. in tests)
+    if (defaultLocale && defaultLocale !== DEFAULT_LOCALE && locales[defaultLocale]) {
+      return defaultLocale;
+    }
+
+    // 3. First visit: browser primary language detection
+    return detectBrowserPrimaryLocale();
+  } catch {
+    return CANONICAL_LOCALE;
+  }
+}
+
 export function LocaleProvider({ children, defaultLocale = DEFAULT_LOCALE }) {
-  const [locale, setLocaleState] = useState(() => {
-    const saved = localStorage.getItem('seenly_locale');
-    if (saved && locales[saved]) return saved;
-    if (defaultLocale && locales[defaultLocale]) return defaultLocale;
-    return DEFAULT_LOCALE;
-  });
+  const [locale, setLocaleState] = useState(() => resolveInitialLocale(defaultLocale));
+  const localeUpdateSeqRef = useRef(0);
 
   const [coreResources, setCoreResources] = useState(() => resourceCache.core);
   const [extendedResources, setExtendedResources] = useState(() => resourceCache.extended);
 
-  // Change locale
+  // Manual locale change
   const setLocale = useCallback((newLocale) => {
     const resolved = resolveSupportedLocale(newLocale);
     setLocaleState(resolved);
+
+    try {
+      localStorage.setItem('tensignal_locale_manual', 'true');
+      localStorage.setItem('tensignal_locale', resolved);
+      localStorage.setItem('seenly_locale', resolved);
+    } catch (e) {
+      // Ignore quota errors
+    }
+
+    const ownerToken = localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token');
+    if (ownerToken) {
+      const seq = ++localeUpdateSeqRef.current;
+      try {
+        localStorage.setItem('tensignal_account_locale', resolved);
+      } catch (e) {}
+
+      updateOwnerLocale(ownerToken, resolved).catch((err) => {
+        if (seq === localeUpdateSeqRef.current) {
+          console.warn('[i18n] Failed to sync preferredLocale to backend:', err);
+        }
+      });
+    }
+  }, []);
+
+  // Synchronize account preference on login or dashboard load
+  const syncAccountLocale = useCallback((backendPreferredLocale) => {
+    const ownerToken = localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token');
+
+    if (backendPreferredLocale && locales[backendPreferredLocale]) {
+      // Account preferredLocale in DB takes precedence
+      try {
+        localStorage.setItem('tensignal_account_locale', backendPreferredLocale);
+        localStorage.setItem('tensignal_locale_manual', 'true');
+        localStorage.setItem('tensignal_locale', backendPreferredLocale);
+        localStorage.setItem('seenly_locale', backendPreferredLocale);
+      } catch (e) {}
+      setLocaleState(backendPreferredLocale);
+    } else if (!backendPreferredLocale && ownerToken) {
+      // Account has no preferredLocale yet in DB (null). Initialize DB with active locale
+      const activeLocale = localStorage.getItem('tensignal_locale') || locale || DEFAULT_LOCALE;
+      const resolved = resolveSupportedLocale(activeLocale);
+      try {
+        localStorage.setItem('tensignal_account_locale', resolved);
+      } catch (e) {}
+      updateOwnerLocale(ownerToken, resolved).catch((e) => {
+        console.warn('[i18n] Failed to initialize backend preferredLocale:', e);
+      });
+    }
+  }, [locale]);
+
+  // Reset account locale on logout to prevent preference leaking to subsequent users
+  const resetAccountLocale = useCallback(() => {
+    try {
+      localStorage.removeItem('tensignal_account_locale');
+      localStorage.removeItem('tensignal_locale_manual');
+    } catch (e) {}
+    const cleanLocale = detectBrowserPrimaryLocale();
+    setLocaleState(cleanLocale);
+    try {
+      localStorage.setItem('tensignal_locale', cleanLocale);
+      localStorage.setItem('seenly_locale', cleanLocale);
+    } catch (e) {}
   }, []);
 
   /**
@@ -160,6 +282,7 @@ export function LocaleProvider({ children, defaultLocale = DEFAULT_LOCALE }) {
   useEffect(() => {
     document.documentElement.lang = locale;
     document.documentElement.dir = locales[locale]?.direction || 'ltr';
+    localStorage.setItem('tensignal_locale', locale);
     localStorage.setItem('seenly_locale', locale);
     const title = t('common.metaTitle');
     if (title && title !== 'common.metaTitle') {
@@ -353,6 +476,8 @@ export function LocaleProvider({ children, defaultLocale = DEFAULT_LOCALE }) {
   const contextValue = useMemo(() => ({
     locale,
     setLocale,
+    syncAccountLocale,
+    resetAccountLocale,
     t,
     getObject,
     supportedLocales: getSupportedLocales(),
@@ -366,6 +491,8 @@ export function LocaleProvider({ children, defaultLocale = DEFAULT_LOCALE }) {
   }), [
     locale,
     setLocale,
+    syncAccountLocale,
+    resetAccountLocale,
     t,
     getObject,
     extendedResources,
@@ -388,6 +515,8 @@ export function LocaleProvider({ children, defaultLocale = DEFAULT_LOCALE }) {
 const defaultFallbackContext = {
   locale: DEFAULT_LOCALE,
   setLocale: () => {},
+  syncAccountLocale: () => {},
+  resetAccountLocale: () => {},
   t: (keyOrCategory, varsOrKey, varsOrOverrideLocale, overrideLocaleArg) => {
     let key = keyOrCategory;
     let variables = varsOrKey;

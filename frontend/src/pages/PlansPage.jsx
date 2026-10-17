@@ -6,7 +6,7 @@ export default function PlansPage() {
   const { t } = useLocale();
 
   const handleSelectPlan = () => {
-    sessionStorage.setItem('seenly_currentIndex', '-2');
+    sessionStorage.setItem('tensignal_currentIndex', '-2');
     window.location.hash = '#/';
   };
 

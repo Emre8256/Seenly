@@ -2,6 +2,7 @@ import React, { memo, useCallback, useMemo, useState } from 'react';
 import { useLocale } from '../context/LocaleContext';
 import AppShell from '../components/AppShell';
 import faqIllustration from '../images/illustrations/faq_contact_illustration.avif';
+import { SUPPORT_EMAIL, SUPPORT_MAILTO } from '../constants/contact';
 
 const FaqAccordionItem = memo(function FaqAccordionItem({ item, isOpen, onToggle }) {
   return (
@@ -64,16 +65,20 @@ export default function FaqPage() {
   }, []);
 
   const handleStartQuiz = () => {
+    sessionStorage.setItem('tensignal_currentIndex', '-2');
     sessionStorage.setItem('seenly_currentIndex', '-2');
+    sessionStorage.setItem('tensignal_isQuickLogin', 'false');
     sessionStorage.setItem('seenly_isQuickLogin', 'false');
-    window.dispatchEvent(new CustomEvent('seenly_trigger_start_quiz'));
+    window.dispatchEvent(new CustomEvent('tensignal_trigger_start_quiz'));
     window.location.hash = '#/';
   };
 
   const handleLoginClick = () => {
+    sessionStorage.setItem('tensignal_currentIndex', '-5');
     sessionStorage.setItem('seenly_currentIndex', '-5');
+    sessionStorage.setItem('tensignal_isQuickLogin', 'true');
     sessionStorage.setItem('seenly_isQuickLogin', 'true');
-    window.dispatchEvent(new CustomEvent('seenly_trigger_login'));
+    window.dispatchEvent(new CustomEvent('tensignal_trigger_login'));
     window.location.hash = '#/';
   };
 
@@ -138,7 +143,7 @@ export default function FaqPage() {
                 <div className="w-full flex flex-row flex-wrap items-center justify-between sm:justify-start gap-4 sm:gap-6 mt-4 sm:mt-6">
 
                   {/* Email Action */}
-                  <a href="mailto:hello@seenly.co" className="flex items-center gap-3.5 hover:opacity-85 transition-opacity text-decoration-none group">
+                  <a href={SUPPORT_MAILTO} className="flex items-center gap-3.5 hover:opacity-85 transition-opacity text-decoration-none group">
                     <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#f4eedb] border border-foreground/20 flex items-center justify-center text-foreground group-hover:scale-105 group-hover:border-foreground/40 transition-all duration-300 shadow-sm shrink-0">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="sm:w-5 sm:h-5">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
@@ -149,7 +154,7 @@ export default function FaqPage() {
                       <span className="text-[8.5px] sm:text-[9px] text-muted-foreground font-mono uppercase tracking-[0.16em] font-bold">
                         {t('common.faq.contactEmailTitle')}
                       </span>
-                      <span className="text-[0.9rem] sm:text-base font-bold text-foreground">hello@seenly.co</span>
+                      <span className="text-[0.9rem] sm:text-base font-bold text-foreground">{SUPPORT_EMAIL}</span>
                     </div>
                   </a>
 
@@ -158,7 +163,7 @@ export default function FaqPage() {
 
                   <div className="flex items-center gap-3 sm:gap-6">
                     {/* Instagram Action */}
-                    <a href="https://instagram.com/seenly.co" target="_blank" rel="noopener noreferrer" className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#f4eedb] border border-foreground/20 flex items-center justify-center text-foreground hover:scale-105 hover:border-foreground/40 transition-all duration-300 shadow-sm shrink-0" aria-label={t("accessibility.instagram")}>
+                    <a href="https://instagram.com/tensignal" target="_blank" rel="noopener noreferrer" className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#f4eedb] border border-foreground/20 flex items-center justify-center text-foreground hover:scale-105 hover:border-foreground/40 transition-all duration-300 shadow-sm shrink-0" aria-label={t("accessibility.instagram")}>
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="sm:w-5 sm:h-5">
                         <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                         <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
@@ -170,7 +175,7 @@ export default function FaqPage() {
                     <div className="hidden sm:block h-8 w-px bg-black/10" />
 
                     {/* TikTok Action */}
-                    <a href="https://tiktok.com/@seenly.co" target="_blank" rel="noopener noreferrer" className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#f4eedb] border border-foreground/20 flex items-center justify-center text-foreground hover:scale-105 hover:border-foreground/40 transition-all duration-300 shadow-sm shrink-0" aria-label={t("accessibility.tiktok")}>
+                    <a href="https://tiktok.com/@tensignal" target="_blank" rel="noopener noreferrer" className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#f4eedb] border border-foreground/20 flex items-center justify-center text-foreground hover:scale-105 hover:border-foreground/40 transition-all duration-300 shadow-sm shrink-0" aria-label={t("accessibility.tiktok")}>
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="sm:w-5 sm:h-5">
                         <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
                       </svg>

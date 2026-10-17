@@ -1,23 +1,23 @@
 {
   "FIRST_SHARE_REMINDER": {
-    "subject": "Your Seenly profile is waiting for its first responses",
+    "subject": "Your 10Signal profile is waiting for its first responses",
     "preheader": "Share your profile link with friends to begin your analysis.",
     "title": "Your Profile is Ready, Time to Share",
-    "body": "You created your Seenly profile, but have not received enough evaluations yet. Share your link to discover what your friends genuinely think of you.",
+    "body": "You created your 10Signal profile, but have not received enough evaluations yet. Share your link to discover what your friends genuinely think of you.",
     "ctaText": "Share My Profile",
     "ctaUrl": "{{shareUrl}}",
-    "footer": "This email was sent regarding your Seenly account.",
-    "plainText": "Hello,\n\nYour Seenly profile is ready! Share your link to discover honest feedback from your friends:\n{{shareUrl}}\n\nThe Seenly Team"
+    "footer": "This email was sent regarding your 10Signal account.",
+    "plainText": "Hello,\n\nYour 10Signal profile is ready! Share your link to discover honest feedback from your friends:\n{{shareUrl}}\n\n10Signal Team"
   },
   "NEW_EVALUATION": {
-    "subject": "{{count}} new evaluations received on Seenly",
+    "subject": "{{count}} new evaluations received on 10Signal",
     "preheader": "Your friends have answered your questions.",
     "title": "New Evaluations Recorded",
-    "body": "{{count}} new anonymous evaluations have been submitted for your Seenly profile. Visit your dashboard to explore the updated insights.",
+    "body": "{{count}} new anonymous evaluations have been submitted for your 10Signal profile. Visit your dashboard to explore the updated insights.",
     "ctaText": "View Results",
     "ctaUrl": "{{dashboardUrl}}",
     "footer": "You are receiving this because evaluation notifications are enabled.",
-    "plainText": "Hello,\n\n{{count}} new anonymous evaluations were received for your Seenly profile!\nCheck your results at:\n{{dashboardUrl}}\n\nThe Seenly Team"
+    "plainText": "Hello,\n\n{{count}} new anonymous evaluations were received for your 10Signal profile!\nCheck your results at:\n{{dashboardUrl}}\n\n10Signal Team"
   },
   "REPORT_UNLOCKED": {
     "subject": "Congratulations! Your Outside Report is Unlocked",
@@ -26,108 +26,108 @@
     "body": "Great news! 3 friends have evaluated your profile. Your outside perception analysis and gap pattern are now unlocked.",
     "ctaText": "Explore Report",
     "ctaUrl": "{{dashboardUrl}}",
-    "footer": "Seenly Report Notification",
-    "plainText": "Hello,\n\nGreat news! 3 friends have evaluated your profile and your outside report is now unlocked.\nExplore your report at:\n{{dashboardUrl}}\n\nThe Seenly Team"
+    "footer": "10Signal Report Notification",
+    "plainText": "Hello,\n\nGreat news! 3 friends have evaluated your profile and your outside report is now unlocked.\nExplore your report at:\n{{dashboardUrl}}\n\n10Signal Team"
   },
   "INACTIVITY_REMINDER": {
-    "subject": "Catch up on your Seenly profile",
+    "subject": "Catch up on your 10Signal profile",
     "preheader": "Keep your profile active and collect fresh perspectives.",
     "title": "We Miss You",
     "body": "It has been a while since your profile had recent activity. Share your link again to gather up-to-date perspectives from your network.",
     "ctaText": "Open Dashboard",
     "ctaUrl": "{{dashboardUrl}}",
     "footer": "You can change your notification preferences anytime.",
-    "plainText": "Hello,\n\nIt has been a while since your profile had recent activity. Share your link again to gather up-to-date perspectives:\n{{dashboardUrl}}\n\nThe Seenly Team"
+    "plainText": "Hello,\n\nIt has been a while since your profile had recent activity. Share your link again to gather up-to-date perspectives:\n{{dashboardUrl}}\n\n10Signal Team"
   },
   "CAPACITY_80_PERCENT": {
     "subject": "You've reached 80% of your response capacity",
     "preheader": "You are approaching your response limit.",
     "title": "Capacity Notice (80%)",
-    "body": "Your Seenly profile has reached 80% of its response capacity ({{currentResponses}}/{{maxCapacity}}). Expand your capacity to avoid missing further feedback.",
+    "body": "Your 10Signal profile has reached 80% of its response capacity ({{currentResponses}}/{{maxCapacity}}). Expand your capacity to avoid missing further feedback.",
     "ctaText": "Increase Capacity",
     "ctaUrl": "{{upgradeUrl}}",
-    "footer": "Seenly Capacity Alert",
-    "plainText": "Hello,\n\nYour Seenly profile reached 80% capacity ({{currentResponses}}/{{maxCapacity}}).\nExpand capacity at:\n{{upgradeUrl}}\n\nThe Seenly Team"
+    "footer": "10Signal Capacity Alert",
+    "plainText": "Hello,\n\nYour 10Signal profile reached 80% capacity ({{currentResponses}}/{{maxCapacity}}).\nExpand capacity at:\n{{upgradeUrl}}\n\n10Signal Team"
   },
   "CAPACITY_FULL": {
     "subject": "Your response capacity is full",
     "preheader": "Your profile is no longer accepting new responses.",
     "title": "Capacity Limit Reached",
-    "body": "Your Seenly profile has reached its maximum response capacity ({{maxCapacity}} responses). Upgrade your profile to continue receiving responses from friends.",
+    "body": "Your 10Signal profile has reached its maximum response capacity ({{maxCapacity}} responses). Upgrade your profile to continue receiving responses from friends.",
     "ctaText": "Upgrade Now",
     "ctaUrl": "{{upgradeUrl}}",
-    "footer": "Seenly Capacity Alert",
-    "plainText": "Hello,\n\nYour Seenly profile reached its maximum response limit. Upgrade to continue receiving responses:\n{{upgradeUrl}}\n\nThe Seenly Team"
+    "footer": "10Signal Capacity Alert",
+    "plainText": "Hello,\n\nYour 10Signal profile reached its maximum response limit. Upgrade to continue receiving responses:\n{{upgradeUrl}}\n\n10Signal Team"
   },
   "PLUS_WELCOME": {
-    "subject": "Welcome to Seenly Plus!",
+    "subject": "Welcome to 10Signal Plus!",
     "preheader": "Your one-time purchase is confirmed.",
     "title": "Plus Features Activated",
-    "body": "Your Seenly Plus one-time purchase has been completed successfully. Enjoy unlimited response capacity and comprehensive analytical dimensions.",
+    "body": "Your 10Signal Plus one-time purchase has been completed successfully. Enjoy unlimited response capacity and comprehensive analytical dimensions.",
     "ctaText": "Go to Dashboard",
     "ctaUrl": "{{dashboardUrl}}",
-    "footer": "Seenly Plus — One-Time Purchase",
-    "plainText": "Hello,\n\nYour Seenly Plus one-time purchase has been confirmed and activated on your account.\nAccess your dashboard at:\n{{dashboardUrl}}\n\nThe Seenly Team"
+    "footer": "10Signal Plus — One-Time Purchase",
+    "plainText": "Hello,\n\nYour 10Signal Plus one-time purchase has been confirmed and activated on your account.\nAccess your dashboard at:\n{{dashboardUrl}}\n\n10Signal Team"
   },
   "PURCHASE_RECEIPT": {
-    "subject": "Seenly Purchase Receipt (#{{reference}})",
+    "subject": "10Signal Purchase Receipt (#{{reference}})",
     "preheader": "Your payment was successfully processed.",
     "title": "Payment Confirmation",
     "body": "Your payment was processed successfully. Product: {{product}}, Amount: {{amount}} {{currency}}, Reference: {{reference}}, Date: {{timestamp}}.",
     "ctaText": "View Receipt",
     "ctaUrl": "{{dashboardUrl}}",
     "footer": "This email serves as an official transaction record.",
-    "plainText": "Hello,\n\nYour payment has been received successfully.\nProduct: {{product}}\nAmount: {{amount}} {{currency}}\nReference: {{reference}}\nDate: {{timestamp}}\n\nThe Seenly Team"
+    "plainText": "Hello,\n\nYour payment has been received successfully.\nProduct: {{product}}\nAmount: {{amount}} {{currency}}\nReference: {{reference}}\nDate: {{timestamp}}\n\n10Signal Team"
   },
   "EMAIL_CHANGED": {
-    "subject": "Your Seenly account email was updated",
+    "subject": "Your 10Signal account email was updated",
     "preheader": "Security notice regarding email change.",
     "title": "Email Address Changed",
-    "body": "The email address associated with your Seenly account has been changed. If you did not authorize this change, please contact our support team immediately.",
+    "body": "The email address associated with your 10Signal account has been changed. If you did not authorize this change, please contact our support team immediately.",
     "ctaText": "Security Settings",
     "ctaUrl": "{{securityUrl}}",
-    "footer": "Seenly Security Notice",
-    "plainText": "Hello,\n\nThe email address associated with your Seenly account was changed. If you did not make this change, please contact us immediately:\n{{securityUrl}}\n\nThe Seenly Team"
+    "footer": "10Signal Security Notice",
+    "plainText": "Hello,\n\nThe email address associated with your 10Signal account was changed. If you did not make this change, please contact us immediately:\n{{securityUrl}}\n\n10Signal Team"
   },
   "ACCOUNT_DELETED": {
-    "subject": "Your Seenly account has been deleted",
+    "subject": "Your 10Signal account has been deleted",
     "preheader": "Account deletion finalized.",
     "title": "Account Successfully Deleted",
-    "body": "Your Seenly account and associated profile data have been permanently deleted per your request. Thank you for using Seenly.",
-    "ctaText": "Seenly Home",
+    "body": "Your 10Signal account and associated profile data have been permanently deleted per your request. Thank you for using 10Signal.",
+    "ctaText": "10Signal Home",
     "ctaUrl": "{{homeUrl}}",
-    "footer": "Seenly Account Notice",
-    "plainText": "Hello,\n\nYour Seenly account and data have been permanently removed.\n\nThe Seenly Team"
+    "footer": "10Signal Account Notice",
+    "plainText": "Hello,\n\nYour 10Signal account and data have been permanently removed.\n\n10Signal Team"
   },
   "LOGIN_VERIFICATION": {
-    "subject": "Your Seenly login verification code: {{code}}",
+    "subject": "Your 10Signal login verification code: {{code}}",
     "preheader": "Your code is valid for a short time.",
     "title": "Login Verification Code",
-    "body": "Your verification code to sign in to your Seenly account is: <strong>{{code}}</strong>. This code is single-use and will expire shortly. Do not share it with anyone.",
+    "body": "Your verification code to sign in to your 10Signal account is: <strong>{{code}}</strong>. This code is single-use and will expire shortly. Do not share it with anyone.",
     "ctaText": "Sign In",
     "ctaUrl": "{{loginUrl}}",
     "footer": "If you did not request this, you can safely ignore this email.",
-    "plainText": "Hello,\n\nYour Seenly login verification code is: {{code}}\nThis code expires shortly and can only be used once. Do not share it.\n\nThe Seenly Team"
+    "plainText": "Hello,\n\nYour 10Signal login verification code is: {{code}}\nThis code expires shortly and can only be used once. Do not share it.\n\n10Signal Team"
   },
   "REGISTRATION_VERIFICATION": {
-    "subject": "Your Seenly registration code: {{code}}",
+    "subject": "Your 10Signal registration code: {{code}}",
     "preheader": "Complete your registration.",
     "title": "Registration Verification Code",
-    "body": "Your verification code to register your Seenly profile is: <strong>{{code}}</strong>. This code is single-use and will expire shortly.",
+    "body": "Your verification code to register your 10Signal profile is: <strong>{{code}}</strong>. This code is single-use and will expire shortly.",
     "ctaText": "Complete Registration",
     "ctaUrl": "{{registerUrl}}",
     "footer": "If you did not request this, you can safely ignore this email.",
-    "plainText": "Hello,\n\nYour Seenly registration code is: {{code}}\nThis code expires shortly and can only be used once.\n\nThe Seenly Team"
+    "plainText": "Hello,\n\nYour 10Signal registration code is: {{code}}\nThis code expires shortly and can only be used once.\n\n10Signal Team"
   },
   "EMAIL_CHANGE_VERIFICATION": {
-    "subject": "Your Seenly email change verification code: {{code}}",
+    "subject": "Your 10Signal email change verification code: {{code}}",
     "preheader": "Confirm your new email address.",
     "title": "Email Change Verification",
-    "body": "Your verification code to update your Seenly account email is: <strong>{{code}}</strong>. This code is valid for a short time.",
+    "body": "Your verification code to update your 10Signal account email is: <strong>{{code}}</strong>. This code is valid for a short time.",
     "ctaText": "Confirm Email",
     "ctaUrl": "{{securityUrl}}",
     "footer": "If you did not initiate this change, please ignore this email.",
-    "plainText": "Hello,\n\nYour Seenly email change verification code is: {{code}}\nThis code expires shortly.\n\nThe Seenly Team"
+    "plainText": "Hello,\n\nYour 10Signal email change verification code is: {{code}}\nThis code expires shortly.\n\n10Signal Team"
   },
   "SOCIAL_CARD_CHANGED": {
     "subject": "Your Social Identity Card Has Evolved!",
@@ -136,7 +136,7 @@
     "body": "Following new responses from your friends, your outside archetype and social card have updated. View and share your new card!",
     "ctaText": "View Social Card",
     "ctaUrl": "{{dashboardUrl}}",
-    "footer": "Seenly Social Card Alert",
-    "plainText": "Hello,\n\nYour social identity card has evolved based on new responses!\nCheck your updated card at:\n{{dashboardUrl}}\n\nThe Seenly Team"
+    "footer": "10Signal Social Card Alert",
+    "plainText": "Hello,\n\nYour social identity card has evolved based on new responses!\nCheck your updated card at:\n{{dashboardUrl}}\n\n10Signal Team"
   }
 }

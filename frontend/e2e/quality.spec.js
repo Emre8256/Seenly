@@ -8,9 +8,9 @@ const publicProfile = {
 
 test.beforeEach(async ({ page }) => {
   await page.route('**/api/v1/rarity/**', route => route.fulfill({ json: [] }));
-  await page.route('**/api/v1/seenly/public/PUBLIC01', route => route.fulfill({ json: publicProfile }));
-  await page.route('**/api/v1/seenly/profile/PUBLIC01/increment-click', route => route.fulfill({ json: { status: 'success' } }));
-  await page.route('**/api/v1/seenly/friend/PUBLIC01/check-eligibility', route => route.fulfill({ json: { eligible: true } }));
+  await page.route('**/api/v1/tensignal/public/PUBLIC01', route => route.fulfill({ json: publicProfile }));
+  await page.route('**/api/v1/tensignal/profile/PUBLIC01/increment-click', route => route.fulfill({ json: { status: 'success' } }));
+  await page.route('**/api/v1/tensignal/friend/PUBLIC01/check-eligibility', route => route.fulfill({ json: { eligible: true } }));
 });
 
 test('invalid and direct public routes render without a blank screen', async ({ page }) => {
@@ -35,7 +35,7 @@ test('small mobile public flow has no horizontal overflow', async ({ page }, tes
 });
 
 test('429 participant errors remain controlled', async ({ page }) => {
-  await page.route('**/api/v1/seenly/friend/PUBLIC01/check-eligibility', route =>
+  await page.route('**/api/v1/tensignal/friend/PUBLIC01/check-eligibility', route =>
     route.fulfill({ status: 429, json: { message: 'Çok fazla deneme. Lütfen daha sonra tekrar deneyin.' } }));
   await page.goto('/#/friend/PUBLIC01');
   await expect(page.locator('body')).not.toContainText('[object Object]');
@@ -49,7 +49,7 @@ for (const scenario of [
   test(`dashboard ${scenario.name} has a controlled retry state`, async ({ page, browserName }) => {
     test.skip(browserName !== 'chromium', 'infrastructure matrix runs once');
     await page.addInitScript(() => localStorage.setItem('seenly_owner_token', 'test-owner-token'));
-    await page.route('**/api/v1/seenly/owner', scenario.action);
+    await page.route('**/api/v1/tensignal/owner', scenario.action);
     await page.goto('/#/dashboard');
     await expect(page.getByRole('heading', { name: scenario.heading })).toBeVisible();
     await expect(page.getByRole('button', { name: /tekrar dene/i })).toBeVisible();
@@ -62,7 +62,7 @@ test('delayed dashboard request keeps a bounded loading state', async ({ page, b
   await page.addInitScript(() => localStorage.setItem('seenly_owner_token', 'test-owner-token'));
   let release;
   const gate = new Promise(resolve => { release = resolve; });
-  await page.route('**/api/v1/seenly/owner', async route => {
+  await page.route('**/api/v1/tensignal/owner', async route => {
     await gate;
     await route.fulfill({ status: 503, json: { message: 'unavailable' } });
   });

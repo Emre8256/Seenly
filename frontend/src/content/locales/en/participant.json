@@ -14,7 +14,7 @@
     "lockedCompleteTestTitle": "Complete Quiz to View Outside Perception",
     "lockedCompleteTestDesc": "To view this person's outside perception results, you must first complete your evaluation of them.",
     "evaluateCta": "Read & Evaluate This Person",
-    "createOwnLink": "Create Your Own Seenly Profile",
+    "createOwnLink": "Create Your Own 10Signal Profile",
     "responseCount_one": "{count} Response",
     "responseCount_other": "{count} Responses"
   },
@@ -36,7 +36,7 @@
     "saveStory": "Save / Create Story",
     "startOwnTitle": "What is your social signature?",
     "startOwnDesc": "Start your own quiz to compare how you see yourself against how friends read you.",
-    "startOwnBtn": "Create Your Own Seenly",
+    "startOwnBtn": "Create Your Own 10Signal",
     "goToDashboardTitle": "See how others read you",
     "goToDashboardDesc": "You just read a friend. Now go back to your dashboard and discover how others are reading you in return.",
     "goToDashboardBtn": "Go to My Profile"
@@ -48,13 +48,13 @@
     "step1": "1. Open Instagram and create a new Story",
     "step2": "2. Add the downloaded image as background",
     "step3": "3. Tap the sticker icon → \"Link\" sticker",
-    "step4": "4. Paste your Seenly link",
+    "step4": "4. Paste your 10Signal link",
     "storyCopyLink": "Copy",
     "storyCopied": "Copied ✓",
     "storyGotIt": "Got it",
     "storyTagline": "THE SUBCONSCIOUS ARCHIVE",
     "storyQuote": "\"How am I reflected in your world?\"",
-    "storyTitle": "Seenly Story",
+    "storyTitle": "10Signal Story",
     "storyBrand": "S E E N L Y  |  A R C H I V E"
   }
 }

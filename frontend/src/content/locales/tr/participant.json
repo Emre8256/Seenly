@@ -14,7 +14,7 @@
     "lockedCompleteTestTitle": "Dış Algıyı Görmek İçin Testi Tamamla",
     "lockedCompleteTestDesc": "Bu kişinin dış algı analizini görebilmek için önce kendi değerlendirmeni tamamlamalısın.",
     "evaluateCta": "Bu Kişiyi Sen De Değerlendir",
-    "createOwnLink": "Kendi Seenly Profilini Oluştur",
+    "createOwnLink": "Kendi 10Signal Profilini Oluştur",
     "responseCount_one": "{count} Yanıt",
     "responseCount_other": "{count} Yanıt"
   },
@@ -27,7 +27,7 @@
   "result": {
     "resultTitle": "Algı Aynaya Yansıdı",
     "completedTitle": "Algı Analizini Tamamladınız!",
-    "completedDesc": "Arkadaşınızı kendi gözünüzden yansıttınız. Verdiğiniz cevaplar ve sosyal sinyaller doğrultusunda Seenly analitik motoru okuma tarzınızı hesapladı.",
+    "completedDesc": "Arkadaşınızı kendi gözünüzden yansıttınız. Verdiğiniz cevaplar ve sosyal sinyaller doğrultusunda 10Signal analitik motoru okuma tarzınızı hesapladı.",
     "readingStyleLabel": "Sosyal Okuma Stilin",
     "accuracyScore": "Algı Uyumunuz",
     "accuracyDesc": "Onun kendini değerlendirmesi ile senin onu okuma biçimin arasındaki eşleşme oranı.",
@@ -36,7 +36,7 @@
     "saveStory": "Kaydet / Hikaye Oluştur",
     "startOwnTitle": "Senin sosyal imzan ne?",
     "startOwnDesc": "Kendini nasıl gördüğünle arkadaşlarının seni nasıl okuduğu arasındaki farkı görmek için kendi testini başlat.",
-    "startOwnBtn": "Kendi Seenly'ini Oluştur",
+    "startOwnBtn": "Kendi 10Signal'ını Oluştur",
     "goToDashboardTitle": "Kendi profilinde neler değişti?",
     "goToDashboardDesc": "Arkadaşını okudun. Şimdi başkalarının seni nasıl okuduğunu gör — kendi dashboard'una dön ve dış algını incele.",
     "goToDashboardBtn": "Profilime Git"
@@ -48,13 +48,13 @@
     "step1": "1. Instagram'ı aç, yeni Story oluştur",
     "step2": "2. İndirilen görseli arka plan yap",
     "step3": "3. Çıkartma simgesine dokun → \"Bağlantı\"",
-    "step4": "4. Seenly linkini yapıştır",
+    "step4": "4. 10Signal linkini yapıştır",
     "storyCopyLink": "Kopyala",
     "storyCopied": "Kopyalandı ✓",
     "storyGotIt": "Anladım",
     "storyTagline": "BİLİNÇALTI ARŞİVİ",
     "storyQuote": "\"Senin dünyanda benim yansımam hangisi?\"",
-    "storyTitle": "Seenly Hikaye",
+    "storyTitle": "10Signal Hikaye",
     "storyBrand": "S E E N L Y  |  A R Ş İ V"
   }
 }

@@ -1,4 +1,4 @@
-# Seenly — Kapsamlı Proje ve Mimari Dokümantasyonu
+# 10Signal — Kapsamlı Proje ve Mimari Dokümantasyonu
 
 > **Versiyon:** 2.4 (Son Güncelleme: Eylül 2026)  
 > **Kapsam:** Uçtan Uca Sistem Mimarisi, Ürün Mantığı, Algoritmalar, Frontend & Backend Kod Haritası, Güvenlik, Psikometri ve Devralma Kılavuzu.
@@ -7,7 +7,7 @@
 
 ## 1. Giriş ve Ürün Vizyonu
 
-**Seenly**, bireylerin kendilerini nasıl algıladıkları (*Self View*) ile çevrelerindeki insanların (arkadaşlar, iş arkadaşları, sosyal çevre) onları nasıl deneyimlediklerini (*Outside View*) karşılaştıran iki katmanlı bir sosyal algı ve kişilik analizi platformudur.
+**10Signal**, bireylerin kendilerini nasıl algıladıkları (*Self View*) ile çevrelerindeki insanların (arkadaşlar, iş arkadaşları, sosyal çevre) onları nasıl deneyimlediklerini (*Outside View*) karşılaştıran iki katmanlı bir sosyal algı ve kişilik analizi platformudur.
 
 ### Temel Değer Önerisi
 1. **İkili Algı Karşılaştırması (*The Mirror Effect*):** Kullanıcı önce 10 temel sosyal sinyal üzerinden kendini puanlar (*Self Snapshot*). Ardından ürettiği özel davet bağlantısıyla arkadaşlarından anonim değerlendirmeler toplar (*Outside Snapshot*).
@@ -60,15 +60,15 @@ Seenly/
 │   ├── pom.xml
 │   └── src/
 │       └── main/
-│           ├── java/com/seenly/backend/
+│           ├── java/com/tensignal/backend/
 │           │   ├── BackendApplication.java
 │           │   ├── controller/
-│           │   │   ├── SeenlyController.java          # Ana Seenly API & Profil & Friend akışları
+│           │   │   ├── TenSignalController.java          # Ana 10Signal API & Profil & Friend akışları
 │           │   │   ├── BillingController.java         # Plus abonelik, kapasite paketi, hesap silme
 │           │   │   └── CardRarityController.java      # Dinamik kart nadirlik motoru API'si
 │           │   ├── dto/
-│           │   │   ├── CreateSeenlyRequest.java
-│           │   │   ├── CreateSeenlyResponse.java
+│           │   │   ├── CreateTenSignalRequest.java
+│           │   │   ├── CreateTenSignalResponse.java
 │           │   │   ├── EmailAuthRequest.java
 │           │   │   ├── FriendResponseInput.java
 │           │   │   ├── ResponseSessionDto.java
@@ -81,7 +81,7 @@ Seenly/
 │           │   │   └── EligibilityCheckRequest.java
 │           │   ├── entity/
 │           │   │   ├── User.java                      # Kullanıcı hesabı, kota ve Plus durumu
-│           │   │   ├── Seenly.java                    # Ana Seenly profili, token hash, slug, sayaçlar
+│           │   │   ├── TenSignal.java                    # Ana 10Signal profili, token hash, slug, sayaçlar
 │           │   │   ├── SelfAnswer.java                # Kullanıcının 10 adet öz değerlendirme yanıtı
 │           │   │   ├── ResponseSession.java           # Arkadaş değerlendirme oturumu, IP, fingerprint
 │           │   │   ├── FriendResponse.java            # Arkadaşın 10 soruya verdiği yanıtlar
@@ -95,7 +95,7 @@ Seenly/
 │           │   │   ├── ResourceNotFoundException.java
 │           │   │   └── FreeCapReachedException.java
 │           │   ├── repository/
-│           │   │   ├── SeenlyRepository.java
+│           │   │   ├── TenSignalRepository.java
 │           │   │   ├── UserRepository.java
 │           │   │   ├── SelfAnswerRepository.java
 │           │   │   ├── FriendResponseRepository.java
@@ -104,7 +104,7 @@ Seenly/
 │           │   │   ├── ReaderProfileRepository.java
 │           │   │   └── ReaderXpTransactionRepository.java
 │           │   └── service/
-│           │       ├── SeenlyService.java             # Profil CRUD, dashboard veri üretimi
+│           │       ├── TenSignalService.java             # Profil CRUD, dashboard veri üretimi
 │           │       ├── ScoringEngineService.java      # 10 Sinyal, 45 Kimlik, 4 Aile, 8 Gap hesabı
 │           │       ├── FriendResponseService.java     # Arkadaş yanıtı işleme, kota & lock yönetimi
 │           │       ├── AuthService.java               # OTP oluşturma, doğrulama, e-posta girişi
@@ -128,7 +128,7 @@ Seenly/
         ├── context/
         │   └── LocaleContext.jsx                      # TR/EN Dil Sağlayıcı (i18n)
         ├── hooks/
-        │   └── useSeenlyShare.js                      # WhatsApp & Instagram Story canvas üretici
+        │   └── useTenSignalShare.js                      # WhatsApp & Instagram Story canvas üretici
         ├── utils/
         │   ├── psychometrics.js                       # Kalibre edilmiş trait, alignment ve accuracy
         │   └── rarityEngine.js                        # İstemci tarafı nadirlik hesaplama ve etiketleme
@@ -188,7 +188,7 @@ Seenly/
 
 ## 4. Temel Psikometri ve Algoritma Motoru
 
-Seenly'nin arkasındaki matematiksel motor **10 Sosyal Sinyal**, **4 Sosyal Aile**, **45 Sosyal Kimlik**, **8 Gap Modeli** ve **5 Okuyucu Tipi** üzerine kuruludur.
+10Signal'ın arkasındaki matematiksel motor **10 Sosyal Sinyal**, **4 Sosyal Aile**, **45 Sosyal Kimlik**, **8 Gap Modeli** ve **5 Okuyucu Tipi** üzerine kuruludur.
 
 ### 4.1 On Sosyal Sinyal (*Core Social Lenses*)
 
@@ -284,10 +284,10 @@ $$\text{Accuracy \%} = 100 \times \left(1 - \frac{\text{Total Diff}}{10 \times 4
 
 Tüm API uçları standart JSON yanıtları üretir.
 
-### 5.1 Profil ve Quiz API'leri (`/api/v1/seenly`)
+### 5.1 Profil ve Quiz API'leri (`/api/v1/tensignal`)
 
 #### 1. Profil Oluşturma
-- **Endpoint:** `POST /api/v1/seenly/create`
+- **Endpoint:** `POST /api/v1/tensignal/create`
 - **Request Body:**
   ```json
   {
@@ -309,31 +309,31 @@ Tüm API uçları standart JSON yanıtları üretir.
   ```
 
 #### 2. E-posta Doğrulama Kodu Gönderme
-- **Endpoint:** `POST /api/v1/seenly/auth/send-code?isLogin=false`
+- **Endpoint:** `POST /api/v1/tensignal/auth/send-code?isLogin=false`
 - **Body:** `{ "email": "emre@example.com" }`
 - **Response:** `{ "status": "code_sent", "email": "emre@example.com" }`
 
 #### 3. E-posta Girişi (Hızlı Giriş)
-- **Endpoint:** `POST /api/v1/seenly/auth/login-email`
+- **Endpoint:** `POST /api/v1/tensignal/auth/login-email`
 - **Body:** `{ "email": "emre@example.com", "code": "1234" }`
 - **Response:** `{ "ownerToken": "new_raw_token", "publicSlug": "vX8kL2m9" }`
 
 #### 4. Sahip Paneli Verisi Çekme
-- **Endpoint:** `GET /api/v1/seenly/owner/{ownerToken}`
+- **Endpoint:** `GET /api/v1/tensignal/owner/{ownerToken}`
 - **Response:** `ResultSnapshotDto` (Tüm yanıtlar, süre analitikleri ve gap detayları açık).
 
 #### 5. Public Profil Verisi Çekme (Arkadaş Görünümü)
-- **Endpoint:** `GET /api/v1/seenly/public/{publicSlug}`
+- **Endpoint:** `GET /api/v1/tensignal/public/{publicSlug}`
 - **Response:** `ResultSnapshotDto` (Yanıt sayısı < 3 ise dış algı alanları `null` maskelenir).
 
 #### 6. Arkadaş Değerlendirme Uygunluk Kontrolü
-- **Endpoint:** `POST /api/v1/seenly/friend/{publicSlug}/check-eligibility`
+- **Endpoint:** `POST /api/v1/tensignal/friend/{publicSlug}/check-eligibility`
 - **Headers:** `X-Owner-Token: optional`
 - **Body:** `{ "fingerprintHash": "fp_hash_123" }`
 - **Response:** `{ "eligible": true }` (Owner ise veya daha önce çözüldüyse 403/409 döner).
 
 #### 7. Arkadaş Yanıtlarını Kaydetme
-- **Endpoint:** `POST /api/v1/seenly/friend/{publicSlug}/respond`
+- **Endpoint:** `POST /api/v1/tensignal/friend/{publicSlug}/respond`
 - **Headers:** `X-Owner-Token: optional`
 - **Body:**
   ```json
@@ -361,9 +361,9 @@ Tüm API uçları standart JSON yanıtları üretir.
   ```
 
 #### 8. Profil Ayarları Güncelleme
-- `PUT /api/v1/seenly/owner/display-name` (Body: `{ "displayName": "YeniAd" }` — 14 gün cooldown kuralı içerir).
-- `PUT /api/v1/seenly/owner/email` (Body: `{ "email": "yeni@example.com" }`).
-- `PUT /api/v1/seenly/owner/avatar` (Body: `{ "avatar": "erkek3" }`).
+- `PUT /api/v1/tensignal/owner/display-name` (Body: `{ "displayName": "YeniAd" }` — 14 gün cooldown kuralı içerir).
+- `PUT /api/v1/tensignal/owner/email` (Body: `{ "email": "yeni@example.com" }`).
+- `PUT /api/v1/tensignal/owner/avatar` (Body: `{ "avatar": "erkek3" }`).
 
 ---
 
@@ -425,9 +425,9 @@ Frontend, Vite ile derlenen SPA yapısındadır. Sayfalar hash bazlı yönlendir
 3. **Self-Evaluation Önleme:**
    - Bir profil sahibi kendi arkadaş bağlantısını çözmeye çalıştığında `X-Owner-Token` kontrolüyle istek anında reddedilir.
 4. **Duplicate & Spam Filtresi:**
-   - `IP Address + Browser Fingerprint` kombinasyonu her Seenly profili için tekil olarak kaydedilir; mükerrer yanıtlar engellenir.
+   - `IP Address + Browser Fingerprint` kombinasyonu her 10Signal profili için tekil olarak kaydedilir; mükerrer yanıtlar engellenir.
 5. **Eşzamanlı Kota Yarışı Önleme (Concurrency Safe):**
-   - `Seenly` entity'sinde JPA `@Version` ile Optimistic Locking uygulanmıştır. Aynı anda gelen onlarca yanıtta kota aşımı engellenir.
+   - `TenSignal` entity'sinde JPA `@Version` ile Optimistic Locking uygulanmıştır. Aynı anda gelen onlarca yanıtta kota aşımı engellenir.
 
 ---
 
@@ -474,9 +474,9 @@ mvn clean package -DskipTests
 ## 9. Gelecek Geliştirme Notları & Yol Haritası
 
 - **Gerçek Ödeme Sağlayıcı Entegrasyonu:** `BillingController` mock servislerinin Stripe / Iyzico webhook altyapısına bağlanması.
-- **E-posta Servis Sağlayıcısı:** Mock OTP akışının AWS SES / SendGrid / Resend API ile canlı e-posta gönderimine bağlanması.
+- **E-posta Servis Sağlayıcısı:** Brevo Transactional Email REST API ile canlı e-posta gönderimi entegre edilmiştir (10Signal <mail@10signal.me>).
 - **Veritabanı Migration:** Flyway kalıcı tüm ortamlarda tek şema yönetim yoludur; yeni şema değişiklikleri `backend/src/main/resources/db/migration` altında migration olarak eklenmelidir.
 - **Push Bildirimleri:** Arkadaş testi tamamlandığında sahibe web-push veya e-posta anlık bildirimi gönderilmesi.
 
 ---
-*Seenly mimari ve kodlama dokümantasyonu projenin en güncel durumunu yansıtmaktadır.*
+*10Signal mimari ve kodlama dokümantasyonu projenin en güncel durumunu yansıtmaktadır.*

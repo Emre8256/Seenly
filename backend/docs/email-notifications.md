@@ -1,6 +1,6 @@
-# Seenly Email Notification Architecture & Production Guide
+# 10Signal Email Notification Architecture & Production Guide
 
-This document outlines the architecture, transactional outbox mechanism, provider abstraction, security model, and production deployment configuration for Seenly's email notification system.
+This document outlines the architecture, transactional outbox mechanism, provider abstraction, security model, and production deployment configuration for 10Signal's email notification system.
 
 ---
 
@@ -49,21 +49,42 @@ To ensure high availability, zero latency penalty on HTTP request threads, and s
 
 ---
 
-## 2. Provider Switching & Zero-Credentials Boot
+## 2. Provider Switching & Configuration
 
-The application defaults to `disabled` mode:
+The application supports Brevo as the primary transactional email provider:
 ```properties
+# Production:
+EMAIL_PROVIDER=brevo
+BREVO_API_KEY=xkeysib-your_api_key_here
+BREVO_SENDER_EMAIL=mail@10signal.me
+BREVO_SENDER_NAME=10Signal
+BREVO_REPLY_TO=10signal.me@gmail.com
+
+# Development / CI default:
 EMAIL_PROVIDER=disabled
 ```
 
+### In Brevo Mode (Production Default):
+- Activated by setting `EMAIL_PROVIDER=brevo` (or leaving default).
+- Uses Brevo Transactional Email REST API (`POST https://api.brevo.com/v3/smtp/email`).
+- Requires `BREVO_API_KEY` with Transactional Email permissions.
+- Central sender: `10Signal <mail@10signal.me>`.
+- Central reply-to: `10signal.me@gmail.com`.
+- Passes email headers (`X-Entity-Ref-ID`, `X-Notification-Type`) and tags.
+- Errors are classified into:
+  - **Retryable** (transient network errors, rate limit `429`, server errors `5xx`): scheduled for retry with exponential backoff.
+  - **Permanent / Terminal** (`4xx` client errors, e.g., invalid auth, bad payload): immediately marked as `FAILED` to prevent futile retries.
+- Brevo API key, raw OTPs, and HTML bodies are strictly redacted and never logged.
+- If `EMAIL_PROVIDER=brevo` is configured in production without a valid `BREVO_API_KEY`, startup fails fast.
+
 ### In Disabled Mode:
 - Zero live network calls or socket connections are initiated.
-- No live SMTP credentials, server hostnames, or authentication keys are required.
-- The application boots cleanly in dev, CI, test, and production environments.
+- No live credentials or API keys are required.
+- The application boots cleanly in dev, CI, and test environments.
 - Outbox workers safely process items, transition records to `SENT`, and emit `email.provider.disabled` metrics and `EMAIL_PROVIDER_DISABLED` audit events without errors.
 
 ### In SMTP Mode:
-- Activated simply by setting `EMAIL_PROVIDER=smtp`.
+- Activated by setting `EMAIL_PROVIDER=smtp`.
 - Reads SMTP connection details from standard environment variables.
 - Assembles standard MIME Multipart (`text/plain` + `text/html`) messages with UTF-8 character encoding.
 - Protects against SMTP CRLF header injection on `to`, `subject`, and `replyTo`.
@@ -152,28 +173,28 @@ Templates are defined in locale-specific JSON files:
 
 | Type | Category | Idempotency Key Format | Lifecycle / Rule |
 | :--- | :--- | :--- | :--- |
-| `FIRST_SHARE_REMINDER` | Reminders | `first-share-reminder:{seenlyId}` | Scheduled +24h after profile creation. Cancelled if `responseCount >= 3`. |
-| `NEW_EVALUATION` | Evaluations | `new-evaluation:{seenlyId}:{10mBucket}` | 10-minute debounce window. Multiple responses aggregate into a single email. |
-| `REPORT_UNLOCKED` | Reminders | `report-unlocked:{seenlyId}` | Triggered on exact `2 -> 3` response count transition. Exactly once. |
-| `INACTIVITY_REMINDER` | Reminders | `inactivity-reminder:{seenlyId}:{cycle}` | Triggered after 7 days without activity. Enforces minimum 30-day cooldown. |
-| `CAPACITY_80_PERCENT` | Capacity Alerts | `capacity-80:{seenlyId}:{capacityVersion}` | Triggered on threshold crossing `prev < 80% && next >= 80%`. |
-| `CAPACITY_FULL` | Capacity Alerts | `capacity-full:{seenlyId}:{capacityVersion}` | Triggered when capacity is reached. Never spammed on re-attempts. |
+| `FIRST_SHARE_REMINDER` | Reminders | `first-share-reminder:{tenSignalId}` | Scheduled +24h after profile creation. Cancelled if `responseCount >= 3`. |
+| `NEW_EVALUATION` | Evaluations | `new-evaluation:{tenSignalId}:{10mBucket}` | 10-minute debounce window. Multiple responses aggregate into a single email. |
+| `REPORT_UNLOCKED` | Reminders | `report-unlocked:{tenSignalId}` | Triggered on exact `2 -> 3` response count transition. Exactly once. |
+| `INACTIVITY_REMINDER` | Reminders | `inactivity-reminder:{tenSignalId}:{cycle}` | Triggered after 7 days without activity. Enforces minimum 30-day cooldown. |
+| `CAPACITY_80_PERCENT` | Capacity Alerts | `capacity-80:{tenSignalId}:{capacityVersion}` | Triggered on threshold crossing `prev < 80% && next >= 80%`. |
+| `CAPACITY_FULL` | Capacity Alerts | `capacity-full:{tenSignalId}:{capacityVersion}` | Triggered when capacity is reached. Never spammed on re-attempts. |
 | `PLUS_WELCOME` | Transactional | `plus-welcome:{txId}` | Triggered upon verified PLUS grant. Strictly uses "one-time purchase" terminology (never "subscription"). |
 | `PURCHASE_RECEIPT` | Transactional | `purchase-receipt:{txId}` | Official receipt containing product, amount, currency, reference. Zero card numbers or secrets. |
-| `EMAIL_CHANGED` | Transactional | `email-changed:{seenlyId}:{oldEmailHash}:{epoch}` | Sent to the **old** email address immediately after verified email change. |
+| `EMAIL_CHANGED` | Transactional | `email-changed:{tenSignalId}:{oldEmailHash}:{epoch}` | Sent to the **old** email address immediately after verified email change. |
 | `ACCOUNT_DELETED` | Transactional | `account-deleted:{userId}:{epoch}` | Enqueued before user deletion. Recipient is purged after send. |
 | `LOGIN_VERIFICATION` | Transactional | `otp-login:{hash}:{epoch}` | Short-lived encrypted OTP. |
 | `REGISTRATION_VERIFICATION` | Transactional | `otp-register:{hash}:{epoch}` | Short-lived encrypted OTP. |
 | `EMAIL_CHANGE_VERIFICATION` | Transactional | `otp-email-change:{hash}:{epoch}` | Short-lived encrypted OTP. |
-| `SOCIAL_CARD_CHANGED` | Card Changes | `social-card-changed:{seenlyId}:{outsideSig}` | Triggered on authoritative outside archetype state transition in `ScoringEngineService`. |
+| `SOCIAL_CARD_CHANGED` | Card Changes | `social-card-changed:{tenSignalId}:{outsideSig}` | Triggered on authoritative outside archetype state transition in `ScoringEngineService`. |
 
 ---
 
 ## 8. User Notification Preferences
 
 Owners can control non-transactional notification categories via:
-- `GET /api/v1/seenly/owner/notification-preferences`
-- `PUT /api/v1/seenly/owner/notification-preferences`
+- `GET /api/v1/tensignal/owner/notification-preferences`
+- `PUT /api/v1/tensignal/owner/notification-preferences`
 
 Supported toggles:
 - `evaluations`: Controls `NEW_EVALUATION`.
@@ -191,7 +212,7 @@ When an account is deleted:
 1. An `ACCOUNT_DELETED` notification is enqueued with a short 24-hour expiration window.
 2. Email delivery failure does not roll back account deletion.
 3. Upon successful email delivery by the worker:
-   - Plaintext `recipient` is replaced with `purged@deleted.seenly.app`.
+   - Plaintext `recipient` is replaced with `purged@deleted.tensignal.app`.
    - `payload_json` is cleared to `{}`.
    - `recipient_hash` is retained for idempotency and security deduplication without PII.
 
@@ -199,25 +220,33 @@ When an account is deleted:
 
 ## 10. Production Configuration & Provider Setup
 
-When ready to switch to a live SMTP provider (e.g. Mailgun, Postmark, AWS SES, Resend), set the following environment variables. **NO CODE CHANGES ARE REQUIRED**:
+To run in production with Brevo as the official email provider:
 
 ```bash
-# 1. Enable SMTP Provider
-EMAIL_PROVIDER=smtp
+# 1. Enable Brevo Provider
+EMAIL_PROVIDER=brevo
 
-# 2. Sender Address
-AUTH_MAIL_FROM=Seenly <no-reply@seenly.app>
+# 2. Brevo API Key
+BREVO_API_KEY=xkeysib-your_brevo_api_key
 
-# 3. SMTP Server Connection
-SMTP_HOST=smtp.mailgun.org
-SMTP_PORT=587
-SMTP_USERNAME=postmaster@seenly.app
-SMTP_PASSWORD=your_secure_smtp_api_key_or_password
-SMTP_AUTH=true
-SMTP_STARTTLS=true
+# 3. Sender & Reply-To Addresses
+BREVO_SENDER_EMAIL=mail@10signal.me
+BREVO_SENDER_NAME=10Signal
+BREVO_REPLY_TO=10signal.me@gmail.com
 
-# 4. Outbox Worker Tuning (Optional Defaults)
+# 4. Outbox Worker Tuning
 EMAIL_OUTBOX_BATCH_SIZE=20
 EMAIL_OUTBOX_INTERVAL_MS=5000
 EMAIL_OTP_PAYLOAD_SECRET=your_256bit_production_secret_key
+```
+
+---
+
+## 11. Safe Live Smoke Testing
+
+To test real email delivery to a single designated recipient without touching the outbox database or broadcasting to real users:
+
+```powershell
+# Via Maven test runner:
+mvn test -Dtest=BrevoSmokeTestRunner -Dsmoke.recipient=your-email@example.com
 ```

@@ -43,8 +43,8 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
   if (currentIndex === -5) {
     return (
       <>
-        <div className="seenly-wizard-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', flex: 1 }}>
-          <div className="seenly-wizard-circle-icon seenly-auth-step-icon" style={{
+        <div className="tensignal-wizard-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', flex: 1 }}>
+          <div className="tensignal-wizard-circle-icon tensignal-auth-step-icon" style={{
             width: '72px',
             height: '72px',
             borderRadius: '50%',
@@ -63,7 +63,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
             </svg>
           </div>
 
-          <h2 className="seenly-wizard-title" style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-deep-ink)', marginBottom: '0.5rem', fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', textAlign: 'center', width: '100%' }}>
+          <h2 className="tensignal-wizard-title" style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-deep-ink)', marginBottom: '0.5rem', fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', textAlign: 'center', width: '100%' }}>
             {isQuickLogin
               ? tr('auth.loginTitle')
               : tr('auth.newProfileTitle')}
@@ -85,7 +85,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
               : tr('auth.newProfileDesc')}
           </p>
 
-          <div className="seenly-auth-card" style={{
+          <div className="tensignal-auth-card" style={{
             width: '100%',
             maxWidth: '400px',
             background: '#ffffff',
@@ -115,7 +115,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
               {tr('auth.contactChannel')}
             </div>
 
-            <div className="seenly-wizard-input-container" style={{ width: '100%' }}>
+            <div className="tensignal-wizard-input-container" style={{ width: '100%' }}>
               <input
                 type="email"
                 aria-label={tr('auth.emailAddressLabel')}
@@ -134,7 +134,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
                   if (setErrorMessage) setErrorMessage('');
                 }}
                 required
-                className="seenly-wizard-input"
+                className="tensignal-wizard-input"
                 style={{
                   borderColor: isNotFound
                     ? 'rgba(197, 160, 89, 0.75)'
@@ -237,10 +237,10 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
             </div>
           </div>
         </div>
-        <div className="seenly-wizard-footer-action">
+        <div className="tensignal-wizard-footer-action">
           <button
             type="button"
-            className="seenly-wizard-primary-btn"
+            className="tensignal-wizard-primary-btn"
             disabled={isEmailSending || !isValidEmail(email) || resendTimer > 0}
             onClick={handleSendCode}
           >
@@ -251,7 +251,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
             ) : (
               <>
                 <span>{tr('auth.sendCodeBtn')}</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="seenly-wizard-arrow-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="tensignal-wizard-arrow-icon">
                   <line x1="4" y1="12" x2="20" y2="12" />
                   <polyline points="13 5 20 12 13 19" />
                 </svg>
@@ -269,8 +269,8 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
 
     return (
       <>
-        <div className="seenly-wizard-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', flex: 1 }}>
-          <div className="seenly-wizard-circle-icon seenly-auth-step-icon" style={{
+        <div className="tensignal-wizard-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', flex: 1 }}>
+          <div className="tensignal-wizard-circle-icon tensignal-auth-step-icon" style={{
             width: '72px',
             height: '72px',
             borderRadius: '50%',
@@ -289,7 +289,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
             </svg>
           </div>
 
-          <h2 className="seenly-wizard-title" style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-deep-ink)', marginBottom: '0.5rem', fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', textAlign: 'center', width: '100%' }}>
+          <h2 className="tensignal-wizard-title" style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-deep-ink)', marginBottom: '0.5rem', fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', textAlign: 'center', width: '100%' }}>
             {tr('auth.otpTitle')}
           </h2>
 
@@ -307,7 +307,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
             {tr('auth.otpDesc', { email })}
           </p>
 
-          <div className="seenly-auth-card" style={{
+          <div className="tensignal-auth-card" style={{
             width: '100%',
             maxWidth: '400px',
             background: '#ffffff',
@@ -476,10 +476,10 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
             )}
           </div>
         </div>
-        <div className="seenly-wizard-footer-action">
+        <div className="tensignal-wizard-footer-action">
           <button
             type="button"
-            className="seenly-wizard-primary-btn"
+            className="tensignal-wizard-primary-btn"
             disabled={isVerifying || verificationCode.some(c => !c)}
             onClick={handleVerifyCode}
           >
@@ -488,7 +488,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
             ) : (
               <>
                 <span>{tr('auth.verifyBtn')}</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="seenly-wizard-arrow-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="tensignal-wizard-arrow-icon">
                   <line x1="4" y1="12" x2="20" y2="12" />
                   <polyline points="13 5 20 12 13 19" />
                 </svg>
@@ -504,15 +504,15 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
   if (currentIndex === -2) {
     return (
       <>
-        <div className="seenly-wizard-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-          <div className="seenly-wizard-circle-icon icon-peach">
+        <div className="tensignal-wizard-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+          <div className="tensignal-wizard-circle-icon icon-peach">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
               <circle cx="12" cy="7" r="4" />
             </svg>
           </div>
-          <h2 className="seenly-wizard-title" style={{ textAlign: 'center', width: '100%' }}>{t('quiz.onboarding.nameTitle')}</h2>
-          <div className="seenly-wizard-input-container" style={{ width: '100%', maxWidth: '400px', margin: '0 auto 1rem auto' }}>
+          <h2 className="tensignal-wizard-title" style={{ textAlign: 'center', width: '100%' }}>{t('quiz.onboarding.nameTitle')}</h2>
+          <div className="tensignal-wizard-input-container" style={{ width: '100%', maxWidth: '400px', margin: '0 auto 1rem auto' }}>
             <input
               type="text"
               inputMode="text"
@@ -527,7 +527,7 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
               onChange={(e) => setDisplayName(e.target.value)}
               maxLength={15}
               required
-              className="seenly-wizard-input"
+              className="tensignal-wizard-input"
               style={{ fontSize: '1.05rem' }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && displayName.trim().length >= 2) {
@@ -538,15 +538,15 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
             />
           </div>
         </div>
-        <div className="seenly-wizard-footer-action">
+        <div className="tensignal-wizard-footer-action">
           <button
             type="button"
-            className="seenly-wizard-primary-btn"
+            className="tensignal-wizard-primary-btn"
             disabled={!displayName || displayName.trim().length < 2}
             onClick={() => setCurrentIndex(-4)}
           >
             <span>{t('common.next')}</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="seenly-wizard-arrow-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="tensignal-wizard-arrow-icon">
               <line x1="4" y1="12" x2="20" y2="12" />
               <polyline points="13 5 20 12 13 19" />
             </svg>
@@ -560,8 +560,8 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
   if (currentIndex === -4) {
     return (
       <>
-        <div className="seenly-wizard-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', padding: '0.5rem 0' }}>
-          <div className="seenly-wizard-circle-icon icon-purple">
+        <div className="tensignal-wizard-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', padding: '0.5rem 0' }}>
+          <div className="tensignal-wizard-circle-icon icon-purple">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
               <polyline points="14 2 14 8 20 8" />
@@ -570,11 +570,11 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
               <polyline points="10 9 9 9 8 9" />
             </svg>
           </div>
-          <h2 className="seenly-wizard-title" style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-deep-ink)', marginBottom: '0.75rem', textAlign: 'center', width: '100%' }}>
+          <h2 className="tensignal-wizard-title" style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-deep-ink)', marginBottom: '0.75rem', textAlign: 'center', width: '100%' }}>
             {tr('quiz.onboarding.infoTitle')}
           </h2>
 
-          <ul className="seenly-wizard-info-bullets" style={{ width: '100%', maxWidth: '400px', margin: '0 auto 1.5rem auto' }}>
+          <ul className="tensignal-wizard-info-bullets" style={{ width: '100%', maxWidth: '400px', margin: '0 auto 1.5rem auto' }}>
             <li>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--color-burnt-coral)', flexShrink: 0 }}>
                 <circle cx="12" cy="12" r="10" />
@@ -597,10 +597,10 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
             </li>
           </ul>
         </div>
-        <div className="seenly-wizard-footer-action">
+        <div className="tensignal-wizard-footer-action">
           <button
             type="button"
-            className="seenly-wizard-primary-btn"
+            className="tensignal-wizard-primary-btn"
             onClick={() => setCurrentIndex(0)}
           >
             {tr('quiz.onboarding.infoCta')}

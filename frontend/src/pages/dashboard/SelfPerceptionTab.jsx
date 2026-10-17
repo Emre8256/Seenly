@@ -18,7 +18,7 @@ const SelfPerceptionTab = memo(function SelfPerceptionTab({
   const signals = get10Signals(langCode, false);
 
   return (
-    <div className="seenly-dashboard-tab-content full-width-layout scrollable-gap-content seenly-gap-editorial-content" style={{ maxWidth: '980px', margin: '0 auto', width: '100%' }}>
+    <div className="tensignal-dashboard-tab-content full-width-layout scrollable-gap-content tensignal-gap-editorial-content" style={{ maxWidth: '980px', margin: '0 auto', width: '100%' }}>
       <div className="flex flex-col gap-5 w-full box-border">
         {/* Horizontal General Statistics Banner */}
         <CharacterBalanceBanner
@@ -27,11 +27,11 @@ const SelfPerceptionTab = memo(function SelfPerceptionTab({
         />
 
         {/* Main Flow: Left Archetype Card + Right 10 Social Signals */}
-        <div className="seenly-signal-flow flex flex-col md:flex-row items-stretch justify-center w-full gap-5">
+        <div className="tensignal-signal-flow flex flex-col md:flex-row items-stretch justify-center w-full gap-5">
           {/* Left Column: Glass Card */}
-          <div className="seenly-signal-summary-wrap flex flex-col items-center z-10 w-full md:w-[340px] lg:w-[350px] flex-shrink-0">
+          <div className="tensignal-signal-summary-wrap flex flex-col items-center z-10 w-full md:w-[340px] lg:w-[350px] flex-shrink-0">
             <div
-              className="seenly-dashboard-premium-card seenly-signal-summary-card p-4 sm:p-6 flex flex-col items-center justify-between text-center relative rounded-[24px] sm:rounded-[32px] w-full h-full box-border"
+              className="tensignal-dashboard-premium-card tensignal-signal-summary-card p-4 sm:p-6 flex flex-col items-center justify-between text-center relative rounded-[24px] sm:rounded-[32px] w-full h-full box-border"
               style={{
                 background: '#FDFBF4',
                 backgroundColor: '#FDFBF4',
@@ -117,10 +117,10 @@ const SelfPerceptionTab = memo(function SelfPerceptionTab({
                 <button
                   type="button"
                   onClick={() => {
-                    localStorage.setItem('seenly_selected_identity', activeSelfSignatureId);
+                    localStorage.setItem('tensignal_selected_identity', activeSelfSignatureId);
                     window.location.hash = '#/identities';
                   }}
-                  className="flex-1 h-[42px] sm:h-[46px] px-3 sm:px-4 rounded-full text-white flex items-center justify-between transition-all duration-200 hover:-translate-y-0.5 cursor-pointer"
+                  className="flex-1 h-[42px] sm:h-[46px] px-3 sm:px-4 rounded-[14px] sm:rounded-[16px] text-white flex items-center justify-between transition-all duration-200 hover:-translate-y-0.5 cursor-pointer"
                   style={{
                     background: '#1A3E72',
                     boxShadow: '0 4px 14px rgba(26, 62, 114, 0.22)',

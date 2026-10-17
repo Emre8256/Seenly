@@ -1,9 +1,9 @@
 {
   "title": "Your Social Reflection",
   "signalsFormingTitle": "Signals Forming",
-  "signalsFormingDesc": "Your profile is live. Share the link for friends to read you. Outside Seenly and The Gap unlock at 3 responses.",
+  "signalsFormingDesc": "Your profile is live. Share the link for friends to read you. Outside 10Signal and The Gap unlock at 3 responses.",
   "lockedSectionTitle": "Observation Awaiting",
-  "lockedSectionOutsideDesc": "Requires 3 friend responses to unlock your Outside Seenly analysis.",
+  "lockedSectionOutsideDesc": "Requires 3 friend responses to unlock your Outside 10Signal analysis.",
   "lockedSectionGapDesc": "Requires 3 friend responses to reveal the alignment gap (The Gap) between self and outer perceptions.",
   "inspectProfile": "Inspect Profile",
   "tabs": {
@@ -85,7 +85,7 @@
   },
   "decisionTimes": {
     "lockedTitle": "Pondering Rhythms Locked",
-    "lockedDesc": "Discover which questions your friends hesitated on the most, profile visits, and cognitive decision times with Seenly Plus.",
+    "lockedDesc": "Discover which questions your friends hesitated on the most, profile visits, and cognitive decision times with 10Signal Plus.",
     "unlockPlus": "Unlock with Plus",
     "profileVisitsTitle": "Profile Visits & Silent Viewers",
     "profileVisitsDesc": "Analyzes the response rate and the initial impression left on people who visited your link.",

@@ -1,9 +1,9 @@
-# Seenly production observability
+# 10Signal production observability
 
 ## Log format and request correlation
 
 The `prod` profile writes one JSON object per line to standard output. Log records contain the timestamp, level,
-logger, message, `service=seenly-backend`, and the active MDC fields. The request-completion event is
+logger, message, `service=tensignal-backend`, and the active MDC fields. The request-completion event is
 `http_request_completed` and includes `requestId`, `httpMethod`, normalized `httpPath`, `httpStatus`, and
 `durationMs`. Query strings and global request/response bodies are deliberately excluded.
 
@@ -15,7 +15,7 @@ monitoring events; it must never be replaced by an owner token or user identifie
 
 ## Audit event catalog
 
-Audit logs use logger `seenly.audit`, message `security_audit_event`, `auditEvent`, `auditOutcome`, and a small
+Audit logs use logger `tensignal.audit`, message `security_audit_event`, `auditEvent`, `auditOutcome`, and a small
 allowlist of categorical fields. Events cover OTP request/verification, authentication, invalid owner sessions,
 expiry/revocation/logout, account creation/email change/deletion, rate limiting, participant acceptance/rejection,
 duplicate responses, checkout creation, verified/rejected/duplicate payment events, entitlement grants, refunds,
@@ -33,23 +33,23 @@ Application counters:
 
 | Metric | Bounded labels |
 | --- | --- |
-| `seenly.auth.otp.requests` | `purpose` |
-| `seenly.auth.otp.verifications` | `purpose`, `outcome` |
-| `seenly.auth.logins` | `outcome` |
-| `seenly.participant.submissions` | `outcome` |
-| `seenly.security.rate_limits` | `policy` (allowlisted; otherwise `OTHER`) |
-| `seenly.payment.checkouts` | `outcome` |
-| `seenly.payment.webhooks` | `event_type`, `outcome` |
-| `seenly.payment.entitlements` | `type`, `outcome` |
-| `seenly.resilience.failures` | `type` (bounded failure category) |
-| `seenly.cleanup.runs` | `type`, `outcome` |
+| `tensignal.auth.otp.requests` | `purpose` |
+| `tensignal.auth.otp.verifications` | `purpose`, `outcome` |
+| `tensignal.auth.logins` | `outcome` |
+| `tensignal.participant.submissions` | `outcome` |
+| `tensignal.security.rate_limits` | `policy` (allowlisted; otherwise `OTHER`) |
+| `tensignal.payment.checkouts` | `outcome` |
+| `tensignal.payment.webhooks` | `event_type`, `outcome` |
+| `tensignal.payment.entitlements` | `type`, `outcome` |
+| `tensignal.resilience.failures` | `type` (bounded failure category) |
+| `tensignal.cleanup.runs` | `type`, `outcome` |
 
 Spring Boot supplies `http.server.requests` (count, duration, normalized route, status/outcome), JVM memory,
 CPU, thread, process, and Hikari connection-pool metrics. Derive HTTP request count, latency, 4xx, and 5xx rates
 from `http.server.requests`. Never add email, slug, UUID, IP, fingerprint, token, or transaction reference labels.
 
 Readiness includes application readiness state and database health. Liveness intentionally excludes external
-providers. A disabled or unavailable optional payment provider does not make basic Seenly traffic unhealthy.
+providers. A disabled or unavailable optional payment provider does not make basic 10Signal traffic unhealthy.
 SMTP failure affects account authentication but not existing public/participant traffic, so it is monitored with
 OTP delivery failures and alerts rather than placed in the global readiness group. Health details remain hidden.
 
@@ -99,7 +99,7 @@ authentication failures do not emit ERROR stack traces.
 
 1. Start from the client-visible `X-Request-ID` and locate `http_request_completed`.
 2. Check normalized route, status, duration, readiness, DB/Hikari, JVM, and the relevant bounded application metric.
-3. Review nearby `seenly.audit` events without attempting to identify an anonymous participant.
+3. Review nearby `tensignal.audit` events without attempting to identify an anonymous participant.
 4. For payment incidents, compare categorical event/outcome metrics with the provider console using provider-side
    references; never paste signatures or payloads into logs or tickets.
 5. If extra diagnostics are required, add a narrow temporary safe metric or categorical audit field. Do not enable

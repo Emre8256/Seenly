@@ -48,8 +48,8 @@ const FriendIntroStep = memo(function FriendIntroStep({
   const canDisplayOutside = !isOutsideLocked && !!snapshot?.outsideSignatureId;
 
   return (
-    <div className="seenly-dashboard-page-wrapper">
-      <div className="seenly-dashboard-container" style={{ maxWidth: '980px', width: '100%', margin: '0 auto' }}>
+    <div className="tensignal-dashboard-page-wrapper">
+      <div className="tensignal-dashboard-container" style={{ maxWidth: '980px', width: '100%', margin: '0 auto' }}>
         {/* Beautiful Custom Friend Profile Header */}
         <div className="flex flex-col items-center text-center w-full box-border pb-8 pt-3 sm:pt-4 md:pt-6 px-4 sm:px-6">
           {/* Profile Avatar with luxury gold border */}
@@ -58,7 +58,7 @@ const FriendIntroStep = memo(function FriendIntroStep({
               <img
                 src={avatarSrc}
                 alt={displayName}
-                className="seenly-friend-intro-avatar"
+                className="tensignal-friend-intro-avatar"
                 style={{
                   width: 'clamp(88px, 14vw, 114px)',
                   height: 'clamp(88px, 14vw, 114px)',
@@ -176,8 +176,8 @@ const FriendIntroStep = memo(function FriendIntroStep({
         </div>
 
         {/* Dashboard Body (Outside Perception) */}
-        <div className="seenly-dashboard-body" style={{ padding: '0 1rem sm:0 1.25rem' }}>
-          <div className={`seenly-dashboard-tab-content ${!canDisplayOutside ? 'full-width-layout' : 'seenly-gap-editorial-content'}`} style={{ maxWidth: '980px', margin: '0 auto', width: '100%' }}>
+        <div className="tensignal-dashboard-body" style={{ padding: '0 1rem sm:0 1.25rem' }}>
+          <div className={`tensignal-dashboard-tab-content ${!canDisplayOutside ? 'full-width-layout' : 'tensignal-gap-editorial-content'}`} style={{ maxWidth: '980px', margin: '0 auto', width: '100%' }}>
             {canDisplayOutside ? (
               <div className="flex flex-col gap-5 w-full box-border">
                 {/* Horizontal General Statistics Banner (Top 3 Strengths & Weaknesses) */}
@@ -187,10 +187,10 @@ const FriendIntroStep = memo(function FriendIntroStep({
                 />
 
                 {/* Main Flow: Left Archetype Card + Right 10 Social Signals */}
-                <div className="seenly-outside-flow flex flex-col md:flex-row items-stretch justify-center w-full gap-5">
+                <div className="tensignal-outside-flow flex flex-col md:flex-row items-stretch justify-center w-full gap-5">
                   {/* Left Column: Archetype Glass Card */}
-                  <div className="seenly-outside-summary-wrap flex flex-col items-center z-10 w-full md:w-[340px] lg:w-[350px] flex-shrink-0">
-                    <div className="seenly-dashboard-premium-card seenly-outside-summary-card p-4 sm:p-6 flex flex-col items-center justify-between text-center relative rounded-[24px] sm:rounded-[32px] w-full h-full box-border" style={{
+                  <div className="tensignal-outside-summary-wrap flex flex-col items-center z-10 w-full md:w-[340px] lg:w-[350px] flex-shrink-0">
+                    <div className="tensignal-dashboard-premium-card tensignal-outside-summary-card p-4 sm:p-6 flex flex-col items-center justify-between text-center relative rounded-[24px] sm:rounded-[32px] w-full h-full box-border" style={{
                       background: '#FDFBF4',
                       backgroundColor: '#FDFBF4',
                       border: '1px solid rgba(197, 160, 89, 0.25)',
@@ -274,10 +274,10 @@ const FriendIntroStep = memo(function FriendIntroStep({
                         <button
                           type="button"
                           onClick={() => {
-                            localStorage.setItem('seenly_selected_identity', activeOutsideSignatureId);
+                            localStorage.setItem('tensignal_selected_identity', activeOutsideSignatureId);
                             window.location.hash = '#/identities';
                           }}
-                          className="w-full h-[42px] sm:h-[46px] px-4 sm:px-5 rounded-full text-white flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5 cursor-pointer"
+                          className="w-full h-[42px] sm:h-[46px] px-4 sm:px-5 rounded-[14px] sm:rounded-[16px] text-white flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5 cursor-pointer"
                           style={{
                             background: '#1A3E72',
                             boxShadow: '0 4px 14px rgba(26, 62, 114, 0.22)',
@@ -305,7 +305,7 @@ const FriendIntroStep = memo(function FriendIntroStep({
                 </div>
               </div>
             ) : (
-              <div className="seenly-dashboard-locked-state" style={{ width: '100%' }}>
+              <div className="tensignal-dashboard-locked-state" style={{ width: '100%' }}>
                 {lockReason === 'COMPLETE_TEST_REQUIRED' ? (
                   <LockedMask
                     title={tr('participant.intro.lockedCompleteTestTitle')}

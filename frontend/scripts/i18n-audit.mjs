@@ -44,8 +44,9 @@ const findings = {
 
 // Known technical allowlists
 const ALLOWED_BRAND_NAMES = new Set([
-  'Seenly',
-  'Seenly Plus',
+  '10Signal',
+  '10Signal Plus',
+  'Signal Plus',
   'Instagram',
   'TikTok',
   'X',
@@ -153,7 +154,7 @@ for (const filePath of files) {
           if (!relPath.startsWith('context/LocaleContext') && !relPath.startsWith('content/locales/')) {
             // Check if it is a CSS class or technical token
             const val = cons.value || alt.value;
-            if (val.startsWith('#') || val.startsWith('seenly-') || val.startsWith('lang-') || val.includes('active')) {
+            if (val.startsWith('#') || val.startsWith('tensignal-') || val.startsWith('lang-') || val.includes('active')) {
               findings.allowedTechnicalLiterals.push({
                 file: relPath,
                 line: path.node.loc?.start.line || 0,
@@ -275,7 +276,7 @@ const totalSuspicious =
   findings.suspiciousJsxText.length;
 
 console.log('================================================================');
-console.log('            SEENLY AST-BASED HARDCODED-STRING AUDIT             ');
+console.log('            10SIGNAL AST-BASED HARDCODED-STRING AUDIT             ');
 console.log('================================================================');
 console.log(`Source files analyzed: ${files.length}`);
 console.log('----------------------------------------------------------------');

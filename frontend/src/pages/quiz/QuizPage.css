@@ -1,7 +1,7 @@
 /* QuizPage Custom & Modular Styles */
 
 /* Authentication owns one scroll area inside the actual visible viewport. */
-.seenly-wizard-wrapper.seenly-auth-viewport {
+.tensignal-wizard-wrapper.tensignal-auth-viewport {
   position: fixed;
   inset: var(--auth-top, 0px) 0 auto;
   width: 100%;
@@ -10,26 +10,26 @@
   padding: 20px !important;
 }
 
-.seenly-auth-viewport .seenly-wizard-container {
+.tensignal-auth-viewport .tensignal-wizard-container {
   width: min(100%, 520px);
   height: min(660px, 100%);
   min-height: 0;
   max-height: 100%;
 }
 
-.seenly-auth-viewport .seenly-wizard-header {
+.tensignal-auth-viewport .tensignal-wizard-header {
   padding: 12px 16px 8px !important;
   min-height: 64px !important;
 }
 
-.seenly-auth-viewport .seenly-wizard-back-btn,
-.seenly-auth-viewport .lang-dropdown-trigger {
+.tensignal-auth-viewport .tensignal-wizard-back-btn,
+.tensignal-auth-viewport .lang-dropdown-trigger {
   min-width: 44px;
   min-height: 44px !important;
   height: 44px !important;
 }
 
-.seenly-auth-viewport .seenly-wizard-body {
+.tensignal-auth-viewport .tensignal-wizard-body {
   flex: 1 1 0;
   height: auto !important;
   min-height: 0;
@@ -41,7 +41,7 @@
   scroll-padding-block: 16px;
 }
 
-.seenly-auth-viewport .seenly-wizard-content {
+.tensignal-auth-viewport .tensignal-wizard-content {
   flex: 0 0 auto !important;
   width: 100%;
   max-width: 400px !important;
@@ -50,7 +50,7 @@
   overflow-wrap: anywhere;
 }
 
-.seenly-auth-viewport .seenly-wizard-footer-action {
+.tensignal-auth-viewport .tensignal-wizard-footer-action {
   position: static;
   width: 100%;
   max-width: 400px;
@@ -59,58 +59,58 @@
   padding: 0 !important;
 }
 
-.seenly-auth-viewport .seenly-wizard-primary-btn {
+.tensignal-auth-viewport .tensignal-wizard-primary-btn {
   min-height: 48px !important;
   height: auto;
   white-space: normal;
   padding: 12px 20px;
 }
 
-.seenly-auth-viewport input {
+.tensignal-auth-viewport input {
   min-width: 0;
   min-height: 48px !important;
   font-size: max(16px, 1em) !important;
   scroll-margin-block: 16px;
 }
 
-.seenly-auth-viewport button:focus-visible {
+.tensignal-auth-viewport button:focus-visible {
   outline: 2px solid var(--color-deep-ink);
   outline-offset: 3px;
 }
 
-.seenly-auth-viewport[data-compact='true'] .seenly-wizard-circle-icon {
+.tensignal-auth-viewport[data-compact='true'] .tensignal-wizard-circle-icon {
   display: none !important;
 }
 
-.seenly-auth-viewport[data-compact='true'] .seenly-wizard-content {
+.tensignal-auth-viewport[data-compact='true'] .tensignal-wizard-content {
   margin: 0 !important;
   gap: 8px !important;
 }
 
-.seenly-auth-viewport[data-compact='true'] .seenly-wizard-content > p {
+.tensignal-auth-viewport[data-compact='true'] .tensignal-wizard-content > p {
   margin-bottom: 8px !important;
 }
 
-.seenly-auth-viewport[data-compact='true'] .seenly-wizard-body {
+.tensignal-auth-viewport[data-compact='true'] .tensignal-wizard-body {
   gap: 16px;
   padding-top: 8px !important;
 }
 
 @media (max-width: 640px) {
-  .seenly-wizard-wrapper.seenly-auth-viewport {
+  .tensignal-wizard-wrapper.tensignal-auth-viewport {
     padding: 0 !important;
   }
-  .seenly-auth-viewport .seenly-wizard-container {
+  .tensignal-auth-viewport .tensignal-wizard-container {
     width: 100%;
     height: 100%;
     border-radius: 0;
   }
-  .seenly-auth-viewport .seenly-wizard-header {
+  .tensignal-auth-viewport .tensignal-wizard-header {
     padding-top: max(8px, env(safe-area-inset-top)) !important;
     padding-left: max(16px, env(safe-area-inset-left)) !important;
     padding-right: max(16px, env(safe-area-inset-right)) !important;
   }
-  .seenly-auth-viewport .seenly-wizard-body {
+  .tensignal-auth-viewport .tensignal-wizard-body {
     padding-left: max(16px, env(safe-area-inset-left)) !important;
     padding-right: max(16px, env(safe-area-inset-right)) !important;
   }
@@ -121,7 +121,7 @@
   100% { left: 100%; }
 }
 
-.seenly-result-wizard-container {
+.tensignal-result-wizard-container {
   width: 100vw !important;
   height: 100dvh !important;
   max-width: 100vw !important;
@@ -136,7 +136,7 @@
 }
 
 @media (min-width: 768px) {
-  .seenly-result-wizard-container {
+  .tensignal-result-wizard-container {
     width: 100% !important;
     max-width: 440px !important;
     height: min(720px, calc(100dvh - 36px)) !important;
@@ -173,7 +173,7 @@
 }
 
 /* Avatar Selection Styles */
-.seenly-onboarding-avatar-filters {
+.tensignal-onboarding-avatar-filters {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -181,7 +181,7 @@
   margin-bottom: 0.75rem;
 }
 
-.seenly-onboarding-filter-pill {
+.tensignal-onboarding-filter-pill {
   padding: 4px 12px;
   border-radius: 999px;
   border: 1px solid rgba(197, 160, 89, 0.35);
@@ -194,20 +194,20 @@
   transition: all 0.2s ease;
 }
 
-.seenly-onboarding-filter-pill:hover {
+.tensignal-onboarding-filter-pill:hover {
   color: #0B1B2C;
   border-color: rgba(197, 160, 89, 0.65);
   background: #F4EEDF;
 }
 
-.seenly-onboarding-filter-pill.active {
+.tensignal-onboarding-filter-pill.active {
   background: #0B1B2C;
   color: #FFFFFF;
   border-color: #0B1B2C;
   box-shadow: 0 2px 8px rgba(11, 27, 44, 0.18);
 }
 
-.seenly-onboarding-avatar-grid {
+.tensignal-onboarding-avatar-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
@@ -220,18 +220,18 @@
   box-sizing: border-box;
 }
 
-.seenly-onboarding-avatar-grid::-webkit-scrollbar {
+.tensignal-onboarding-avatar-grid::-webkit-scrollbar {
   width: 4px;
 }
-.seenly-onboarding-avatar-grid::-webkit-scrollbar-track {
+.tensignal-onboarding-avatar-grid::-webkit-scrollbar-track {
   background: transparent;
 }
-.seenly-onboarding-avatar-grid::-webkit-scrollbar-thumb {
+.tensignal-onboarding-avatar-grid::-webkit-scrollbar-thumb {
   background: rgba(197, 160, 89, 0.35);
   border-radius: 4px;
 }
 
-.seenly-onboarding-avatar-item {
+.tensignal-onboarding-avatar-item {
   padding: 0;
   border: none;
   background: transparent;
@@ -243,15 +243,15 @@
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.seenly-onboarding-avatar-item:hover {
+.tensignal-onboarding-avatar-item:hover {
   transform: translateY(-2px) scale(1.06);
 }
 
-.seenly-onboarding-avatar-item.is-selected {
+.tensignal-onboarding-avatar-item.is-selected {
   transform: scale(1.06);
 }
 
-.seenly-onboarding-avatar-circle {
+.tensignal-onboarding-avatar-circle {
   position: relative;
   width: 62px;
   height: 62px;
@@ -263,18 +263,18 @@
   background: #FDFBF4;
 }
 
-.seenly-onboarding-avatar-item:hover .seenly-onboarding-avatar-circle {
+.tensignal-onboarding-avatar-item:hover .tensignal-onboarding-avatar-circle {
   border-color: rgba(197, 160, 89, 0.65);
   box-shadow: 0 4px 12px rgba(197, 160, 89, 0.22);
 }
 
-.seenly-onboarding-avatar-item.is-selected .seenly-onboarding-avatar-circle {
+.tensignal-onboarding-avatar-item.is-selected .tensignal-onboarding-avatar-circle {
   border-color: #C5A059;
   border-width: 2.5px;
   box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.25), 0 6px 16px rgba(80, 60, 40, 0.18);
 }
 
-.seenly-onboarding-avatar-img {
+.tensignal-onboarding-avatar-img {
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -282,7 +282,7 @@
   display: block;
 }
 
-.seenly-onboarding-avatar-check {
+.tensignal-onboarding-avatar-check {
   position: absolute;
   bottom: -2px;
   right: -2px;
@@ -299,12 +299,12 @@
 }
 
 @media (max-width: 380px) {
-  .seenly-onboarding-avatar-grid {
+  .tensignal-onboarding-avatar-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
     max-height: 240px;
   }
-  .seenly-onboarding-avatar-circle {
+  .tensignal-onboarding-avatar-circle {
     width: 56px;
     height: 56px;
   }

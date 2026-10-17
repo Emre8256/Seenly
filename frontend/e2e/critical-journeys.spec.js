@@ -12,7 +12,7 @@ async function installTestMailboxApi(page) {
   const mailbox = new Map();
   const sessions = new Set();
   await page.route('**/api/v1/rarity/**', route => route.fulfill({ json: [] }));
-  await page.route('**/api/v1/seenly/**', async route => {
+  await page.route('**/api/v1/tensignal/**', async route => {
     const request = route.request();
     const url = new URL(request.url());
     const path = url.pathname;
@@ -70,19 +70,19 @@ test('full registration uses a test-only mailbox and reaches the owner dashboard
   test.skip(testInfo.project.name !== 'chromium', 'full mutation journey runs once; auth smoke runs cross-browser separately');
   await installTestMailboxApi(page);
   await page.goto('/#/');
-  await page.getByRole('button', { name: /Seenly.*Başlat/i }).first().click();
+  await page.getByRole('button', { name: /10Signal.*Başlat/i }).first().click();
   await page.locator('input[autocomplete="name"]').fill('E2E Ada');
-  await page.locator('.seenly-wizard-primary-btn').click();
-  await page.locator('.seenly-wizard-primary-btn').click();
+  await page.locator('.tensignal-wizard-primary-btn').click();
+  await page.locator('.tensignal-wizard-primary-btn').click();
   for (let question = 0; question < 10; question++) {
-    await page.locator('.seenly-wizard-list-btn').nth(2).click();
-    await page.locator('.seenly-wizard-primary-btn').click();
+    await page.locator('.tensignal-wizard-list-btn').nth(2).click();
+    await page.locator('.tensignal-wizard-primary-btn').click();
   }
-  await page.locator('.seenly-wizard-primary-btn').click();
+  await page.locator('.tensignal-wizard-primary-btn').click();
   await page.locator('input[inputmode="email"]').fill('e2e-ada@example.test');
-  await page.locator('.seenly-wizard-primary-btn').click();
+  await page.locator('.tensignal-wizard-primary-btn').click();
   await enterFourDigitCode(page, '7421');
-  await page.locator('.seenly-wizard-primary-btn').click();
+  await page.locator('.tensignal-wizard-primary-btn').click();
   await expect(page.getByRole('button', { name: /Profili Gör/i })).toBeVisible();
   await page.getByRole('button', { name: /Profili Gör/i }).click();
   await expect(page).toHaveURL(/#\/dashboard$/);
@@ -95,17 +95,17 @@ test('login rejects an invalid OTP, accepts mailbox OTP, persists, and logout re
   await page.goto('/#/');
   await page.getByRole('button', { name: /Giriş Yap/i }).first().click();
   await page.locator('input[inputmode="email"]').fill('e2e-ada@example.test');
-  await page.locator('.seenly-wizard-primary-btn').click();
+  await page.locator('.tensignal-wizard-primary-btn').click();
   await enterFourDigitCode(page, '0000');
-  await page.locator('.seenly-wizard-primary-btn').click();
+  await page.locator('.tensignal-wizard-primary-btn').click();
   await expect(page.getByText(/hatalı veya süresi dolmuş/i)).toBeVisible();
   await enterFourDigitCode(page, '7421');
-  await page.locator('.seenly-wizard-primary-btn').click();
+  await page.locator('.tensignal-wizard-primary-btn').click();
   await expect(page).toHaveURL(/#\/dashboard$/);
   await page.reload();
   await expect.poll(() => page.evaluate(() => localStorage.getItem('seenly_owner_token'))).toBe('test-owner-token');
   await page.locator('button[aria-expanded]').first().click();
-  await page.locator('.seenly-user-menu-panel button').last().click();
+  await page.locator('.tensignal-user-menu-panel button').last().click();
   await expect.poll(() => page.evaluate(() => localStorage.getItem('seenly_owner_token'))).toBeNull();
   expect(api.sessions.has('test-owner-token')).toBe(false);
   await page.goto('/#/dashboard');
@@ -117,7 +117,7 @@ test('registration cannot create an account without a verification grant', async
   test.skip(testInfo.project.name !== 'chromium', 'mutation contract runs once');
   await installTestMailboxApi(page);
   await page.goto('/#/');
-  const status = await page.evaluate(async () => (await fetch('/api/v1/seenly/create', {
+  const status = await page.evaluate(async () => (await fetch('/api/v1/tensignal/create', {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ displayName: 'No Grant', email: 'no-grant@example.test', selfAnswers: [], registrationGrant: null })
   })).status);
@@ -128,14 +128,14 @@ test('participant completes all questions and a duplicate attempt is controlled'
   test.skip(testInfo.project.name !== 'chromium', 'full participant mutation runs once; public smoke runs cross-browser');
   let submitted = false;
   await page.route('**/api/v1/rarity/**', route => route.fulfill({ json: [] }));
-  await page.route('**/api/v1/seenly/profile/PUBLIC01/increment-click', route => route.fulfill({ json: {} }));
-  await page.route('**/api/v1/seenly/public/PUBLIC01', route => route.fulfill({ json: {
+  await page.route('**/api/v1/tensignal/profile/PUBLIC01/increment-click', route => route.fulfill({ json: {} }));
+  await page.route('**/api/v1/tensignal/public/PUBLIC01', route => route.fulfill({ json: {
     displayName: 'Ada', publicSlug: 'PUBLIC01', avatar: 'kadin1', responseCount: 0,
     acceptingResponses: true, confidenceBand: 'LOW', friendAverages: null
   } }));
-  await page.route('**/api/v1/seenly/friend/PUBLIC01/check-eligibility', route =>
+  await page.route('**/api/v1/tensignal/friend/PUBLIC01/check-eligibility', route =>
     route.fulfill(submitted ? { status: 409, json: { message: 'Already evaluated' } } : { json: { eligible: true } }));
-  await page.route('**/api/v1/seenly/friend/PUBLIC01/respond', async route => {
+  await page.route('**/api/v1/tensignal/friend/PUBLIC01/respond', async route => {
     if (submitted) return route.fulfill({ status: 409, json: { message: 'Already evaluated' } });
     const body = route.request().postDataJSON();
     expect(body.friendResponses).toHaveLength(10);
@@ -146,8 +146,8 @@ test('participant completes all questions and a duplicate attempt is controlled'
   await page.goto('/#/friend/PUBLIC01');
   await page.getByRole('button', { name: /Bu Kişiyi Sen De Değerlendir/i }).click();
   for (let question = 0; question < 10; question++) {
-    await page.locator('.seenly-wizard-list-btn').nth(2).click();
-    await page.locator('.seenly-wizard-primary-btn').click();
+    await page.locator('.tensignal-wizard-list-btn').nth(2).click();
+    await page.locator('.tensignal-wizard-primary-btn').click();
   }
   await expect(page).toHaveURL(/#\/friend\/PUBLIC01\/result$/);
   await expect(page.locator('main')).toBeVisible();
@@ -159,22 +159,22 @@ test('participant completes all questions and a duplicate attempt is controlled'
 async function installOwnerSettingsApi(page) {
   let profile = { ...ownerSnapshot };
   let deleted = false;
-  await page.route('**/api/v1/seenly/owner', route => deleted
+  await page.route('**/api/v1/tensignal/owner', route => deleted
     ? route.fulfill({ status: 401, json: { message: 'revoked' } })
     : route.fulfill({ json: profile }));
-  await page.route('**/api/v1/seenly/owner/display-name', async route => {
+  await page.route('**/api/v1/tensignal/owner/display-name', async route => {
     profile = { ...profile, displayName: route.request().postDataJSON().displayName, nameChangeDaysRemaining: 14 };
     await route.fulfill({ json: profile });
   });
-  await page.route('**/api/v1/seenly/owner/avatar', async route => {
+  await page.route('**/api/v1/tensignal/owner/avatar', async route => {
     profile = { ...profile, avatar: route.request().postDataJSON().avatar };
     await route.fulfill({ json: profile });
   });
-  await page.route('**/api/v1/seenly/auth/send-code', route => route.fulfill({ json: { status: 'sent' } }));
-  await page.route('**/api/v1/seenly/auth/verify-code', async route => route.request().postDataJSON().code === '7421'
+  await page.route('**/api/v1/tensignal/auth/send-code', route => route.fulfill({ json: { status: 'sent' } }));
+  await page.route('**/api/v1/tensignal/auth/verify-code', async route => route.request().postDataJSON().code === '7421'
     ? route.fulfill({ json: { verificationGrant: 'email-change-grant' } })
     : route.fulfill({ status: 400, json: { message: 'Invalid code' } }));
-  await page.route('**/api/v1/seenly/owner/email', async route => {
+  await page.route('**/api/v1/tensignal/owner/email', async route => {
     const body = route.request().postDataJSON();
     if (body.verificationGrant !== 'email-change-grant') return route.fulfill({ status: 403, json: { message: 'Verification required' } });
     profile = { ...profile, email: body.email };
@@ -189,25 +189,25 @@ test('settings updates name, avatar and verified email without showing false suc
   const state = await installOwnerSettingsApi(page);
   await page.addInitScript(() => localStorage.setItem('seenly_owner_token', 'test-owner-token'));
   await page.goto('/#/settings');
-  await page.locator('#seenly-display-name-input').fill('E2E Deniz');
-  await page.locator('form').filter({ has: page.locator('#seenly-display-name-input') }).locator('button[type="submit"]').click();
-  await page.locator('.seenly-settings-modal-primary').click();
+  await page.locator('#tensignal-display-name-input').fill('E2E Deniz');
+  await page.locator('form').filter({ has: page.locator('#tensignal-display-name-input') }).locator('button[type="submit"]').click();
+  await page.locator('.tensignal-settings-modal-primary').click();
   await expect.poll(() => state.profile.displayName).toBe('E2e Deniz');
 
-  await page.locator('.seenly-avatar-toggle-btn').click();
-  await page.locator('.seenly-avatar-item-btn').nth(1).click();
+  await page.locator('.tensignal-avatar-toggle-btn').click();
+  await page.locator('.tensignal-avatar-item-btn').nth(1).click();
   await expect.poll(() => state.profile.avatar).not.toBe('kadin1');
 
-  await page.locator('#seenly-email-input').fill('invalid-email');
-  await page.locator('form').filter({ has: page.locator('#seenly-email-input') }).locator('button[type="submit"]').click();
-  expect(await page.locator('#seenly-email-input').evaluate(input => input.validity.valid)).toBe(false);
+  await page.locator('#tensignal-email-input').fill('invalid-email');
+  await page.locator('form').filter({ has: page.locator('#tensignal-email-input') }).locator('button[type="submit"]').click();
+  expect(await page.locator('#tensignal-email-input').evaluate(input => input.validity.valid)).toBe(false);
   expect(state.profile.email).toBe('e2e-ada@example.test');
 
-  await page.locator('#seenly-email-input').fill('changed@example.test');
-  await page.locator('form').filter({ has: page.locator('#seenly-email-input') }).locator('button[type="submit"]').click();
-  const digits = page.locator('.seenly-settings-otp input');
+  await page.locator('#tensignal-email-input').fill('changed@example.test');
+  await page.locator('form').filter({ has: page.locator('#tensignal-email-input') }).locator('button[type="submit"]').click();
+  const digits = page.locator('.tensignal-settings-otp input');
   for (let i = 0; i < 4; i++) await digits.nth(i).fill('7421'[i]);
-  await page.locator('.seenly-settings-modal-primary').click();
+  await page.locator('.tensignal-settings-modal-primary').click();
   await expect.poll(() => state.profile.email).toBe('changed@example.test');
 });
 
@@ -217,7 +217,7 @@ test('account deletion clears the session and the deleted dashboard cannot reope
   await page.addInitScript(() => localStorage.setItem('seenly_owner_token', 'delete-owner-token'));
   page.on('dialog', dialog => dialog.accept());
   await page.goto('/#/settings');
-  await page.locator('.seenly-danger-outline-btn').click();
+  await page.locator('.tensignal-danger-outline-btn').click();
   await expect.poll(() => state.deleted).toBe(true);
   await expect.poll(() => page.evaluate(() => localStorage.getItem('seenly_owner_token'))).toBeNull();
   await page.goto('/#/dashboard');
@@ -233,7 +233,7 @@ test('provider-disabled checkout communicates failure and never grants client en
   let alertText = '';
   page.on('dialog', async dialog => { alertText = dialog.message(); await dialog.accept(); });
   await page.goto('/#/settings?tab=plans');
-  await page.locator('.seenly-plus-cta-btn').click();
+  await page.locator('.tensignal-plus-cta-btn').click();
   await expect.poll(() => alertText).toContain('temporarily unavailable');
   expect(await page.evaluate(() => ({ plus: localStorage.getItem('seenly_is_premium'), limit: localStorage.getItem('seenly_test_limit') })))
     .toEqual({ plus: null, limit: null });

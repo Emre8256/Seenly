@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { useSeenlyShare, buildWhatsAppLink } from '../../hooks/useSeenlyShare';
+import { useTenSignalShare, buildWhatsAppLink } from '../../hooks/useTenSignalShare';
 import { useLocale } from '../../context/LocaleContext';
 
 const QuizSelfResultCard = memo(function QuizSelfResultCard({
@@ -18,10 +18,10 @@ const QuizSelfResultCard = memo(function QuizSelfResultCard({
   const tr = propT || contextT;
   const [showShareModal, setShowShareModal] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
-  const { handleInstagramStory, isGenerating: isStoryGenerating } = useSeenlyShare();
+  const { handleInstagramStory, isGenerating: isStoryGenerating } = useTenSignalShare();
 
   return (
-    <div className="seenly-wizard-body seenly-wizard-result-body" style={{
+    <div className="tensignal-wizard-body tensignal-wizard-result-body" style={{
       position: 'relative',
       display: 'flex',
       flexDirection: 'column',
@@ -36,7 +36,7 @@ const QuizSelfResultCard = memo(function QuizSelfResultCard({
       boxSizing: 'border-box'
     }}>
       <div
-        className="seenly-wizard-content"
+        className="tensignal-wizard-content"
         style={{
           position: 'relative',
           display: 'flex',
@@ -150,7 +150,7 @@ const QuizSelfResultCard = memo(function QuizSelfResultCard({
       </div>
 
       {/* Bottom Actions Area */}
-      <div className="seenly-wizard-footer-action" style={{
+      <div className="tensignal-wizard-footer-action" style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -167,7 +167,7 @@ const QuizSelfResultCard = memo(function QuizSelfResultCard({
         {/* Primary Button: Profilimi Gör */}
         <button
           type="button"
-          className="seenly-wizard-primary-btn"
+          className="tensignal-wizard-primary-btn"
           style={{
             width: '100%',
             height: '48px',
@@ -187,7 +187,7 @@ const QuizSelfResultCard = memo(function QuizSelfResultCard({
             boxSizing: 'border-box'
           }}
           onClick={() => {
-            const token = quizResult?.ownerToken || localStorage.getItem('seenly_owner_token');
+            const token = quizResult?.ownerToken || localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token');
             if (onComplete) onComplete(token);
           }}
         >

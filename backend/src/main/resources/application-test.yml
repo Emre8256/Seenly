@@ -22,8 +22,12 @@ spring:
       mail.smtp.starttls.enable: false
 
 app:
+  email:
+    provider: disabled
+  payment:
+    provider: disabled
   auth:
-    mail-from: no-reply@seenly.test
+    mail-from: no-reply@tensignal.test
   security:
     allowed-origins:
       - http://localhost:3000

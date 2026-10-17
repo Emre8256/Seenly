@@ -1,21 +1,27 @@
+import { migrateStorage } from '../utils/storageMigration';
+
 // BASE_URL matches the backend Spring Boot REST context.
 // Fallback allows customization via environment variables (e.g. for production or staging build)
 const API_PREFIX = (import.meta.env && import.meta.env.VITE_API_URL) || '';
-const BASE_URL = `${API_PREFIX}/api/v1/seenly`;
+const BASE_URL = `${API_PREFIX}/api/v1/tensignal`;
 
 /**
- * Submits the owner's name, email and answers to create a Seenly profile.
+ * Submits the owner's name, email and answers to create a 10Signal profile.
  * Returns { ownerToken, publicSlug, resultSnapshot }.
  */
-export async function createSeenly(displayName, email, selfAnswers, registrationGrant) {
+export async function createTenSignal(displayName, email, selfAnswers, registrationGrant, locale = null) {
+  const payload = { displayName, email, selfAnswers, registrationGrant };
+  if (locale) {
+    payload.locale = locale;
+  }
   const response = await fetch(`${BASE_URL}/create`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ displayName, email, selfAnswers, registrationGrant })
+    body: JSON.stringify(payload)
   });
 
   if (!response.ok) {
-    let errorMsg = 'Error creating Seenly profile';
+    let errorMsg = 'Error creating 10Signal profile';
     let errData = null;
     try {
       errData = await response.json();
@@ -33,7 +39,7 @@ export async function createSeenly(displayName, email, selfAnswers, registration
 
 /**
  * Updates the owner's display name.
- * PUT /api/v1/seenly/owner/display-name
+ * PUT /api/v1/tensignal/owner/display-name
  */
 export async function updateDisplayName(ownerToken, newDisplayName) {
   const response = await fetch(`${BASE_URL}/owner/display-name`, {
@@ -65,7 +71,7 @@ export async function updateDisplayName(ownerToken, newDisplayName) {
 
 /**
  * Updates the owner's email address.
- * PUT /api/v1/seenly/owner/email
+ * PUT /api/v1/tensignal/owner/email
  */
 export async function updateEmail(ownerToken, newEmail, verificationGrant) {
   const response = await fetch(`${BASE_URL}/owner/email`, {
@@ -97,7 +103,7 @@ export async function updateEmail(ownerToken, newEmail, verificationGrant) {
 
 /**
  * Updates the owner's chosen avatar.
- * PUT /api/v1/seenly/owner/avatar
+ * PUT /api/v1/tensignal/owner/avatar
  */
 export async function updateAvatar(ownerToken, avatar) {
   const response = await fetch(`${BASE_URL}/owner/avatar`, {
@@ -128,15 +134,51 @@ export async function updateAvatar(ownerToken, avatar) {
 }
 
 /**
+ * Updates the owner's preferred language.
+ * PUT /api/v1/tensignal/owner/locale
+ */
+export async function updateOwnerLocale(ownerToken, locale) {
+  const response = await fetch(`${BASE_URL}/owner/locale`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Owner-Token': ownerToken
+    },
+    body: JSON.stringify({ locale })
+  });
+
+  if (!response.ok) {
+    let errorMsg = 'Error updating locale';
+    let errData = null;
+    try {
+      errData = await response.json();
+      errorMsg = errData.message || errorMsg;
+    } catch (e) {
+      // JSON parsing failed
+    }
+    const err = new Error(errorMsg);
+    err.status = response.status;
+    err.data = errData;
+    throw err;
+  }
+
+  return response.json();
+}
+
+/**
  * Requests a verification code to be sent to the user's email.
  */
-export async function sendVerificationCode(email, purpose, ownerToken = null) {
+export async function sendVerificationCode(email, purpose, ownerToken = null, locale = null) {
   const headers = { 'Content-Type': 'application/json' };
   if (ownerToken) headers['X-Owner-Token'] = ownerToken;
+  const payload = { email, purpose };
+  if (locale) {
+    payload.locale = locale;
+  }
   const response = await fetch(`${BASE_URL}/auth/send-code`, {
     method: 'POST',
     headers,
-    body: JSON.stringify({ email, purpose })
+    body: JSON.stringify(payload)
   });
 
   if (!response.ok) {
@@ -199,6 +241,26 @@ export async function verifyCode(email, code, purpose, ownerToken = null) {
 }
 
 /**
+ * Checks the delivery status of an OTP email (PENDING, DELIVERED, FAILED).
+ */
+export async function getOtpDeliveryStatus(email, purpose, ownerToken = null) {
+  try {
+    const headers = {};
+    if (ownerToken) headers['X-Owner-Token'] = ownerToken;
+    const params = new URLSearchParams({ email, purpose });
+    const response = await fetch(`${BASE_URL}/auth/otp-delivery-status?${params}`, {
+      headers
+    });
+    if (!response.ok) {
+      return { deliveryStatus: 'UNKNOWN' };
+    }
+    return response.json();
+  } catch {
+    return { deliveryStatus: 'UNKNOWN' };
+  }
+}
+
+/**
  * Retrieves the owner's quiz result snapshot using their private token.
  * Returns the authenticated owner dashboard DTO.
  */
@@ -250,7 +312,7 @@ export async function getPublicDashboard(publicSlug) {
   if (participantSignal) {
     headers['X-Participant-Signal'] = participantSignal;
   }
-  const ownerToken = localStorage.getItem('seenly_owner_token');
+  const ownerToken = localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token');
   if (ownerToken) {
     headers['X-Owner-Token'] = ownerToken;
   }
@@ -279,8 +341,9 @@ export async function getPublicDashboard(publicSlug) {
  * weak abuse signal and applies independent transactional/rate-limit controls.
  */
 export function getBrowserFingerprint() {
-  const storageKey = 'seenly_participant_signal';
-  let signal = localStorage.getItem(storageKey);
+  const newKey = 'tensignal_participant_signal';
+  const oldKey = 'seenly_participant_signal';
+  let signal = localStorage.getItem(newKey) || localStorage.getItem(oldKey);
   if (!signal) {
     if (globalThis.crypto?.randomUUID) {
       signal = globalThis.crypto.randomUUID();
@@ -289,18 +352,20 @@ export function getBrowserFingerprint() {
       globalThis.crypto.getRandomValues(bytes);
       signal = Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('');
     }
-    localStorage.setItem(storageKey, signal);
+    localStorage.setItem(newKey, signal);
+  } else if (!localStorage.getItem(newKey)) {
+    localStorage.setItem(newKey, signal);
   }
   return signal;
 }
 
 /**
  * Checks if a user is eligible to evaluate a profile (Spam and Self-Evaluation checks).
- * POST /api/v1/seenly/friend/{publicSlug}/check-eligibility
+ * POST /api/v1/tensignal/friend/{publicSlug}/check-eligibility
  */
 export async function checkEligibility(publicSlug, fingerprintHash) {
   const headers = { 'Content-Type': 'application/json' };
-  const ownerToken = localStorage.getItem('seenly_owner_token');
+  const ownerToken = localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token');
   if (ownerToken) {
     headers['X-Owner-Token'] = ownerToken;
   }
@@ -325,12 +390,12 @@ export async function checkEligibility(publicSlug, fingerprintHash) {
 }
 
 /**
- * Submits friend's response session to the backend seenly API.
- * POST /api/v1/seenly/friend/{publicSlug}/respond
+ * Submits friend's response session to the backend tensignal API.
+ * POST /api/v1/tensignal/friend/{publicSlug}/respond
  */
 export async function submitFriendResponse(publicSlug, nickname, fingerprintHash, friendResponses, friendTimeAnalytics) {
   const headers = { 'Content-Type': 'application/json' };
-  const ownerToken = localStorage.getItem('seenly_owner_token');
+  const ownerToken = localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token');
   if (ownerToken) {
     headers['X-Owner-Token'] = ownerToken;
   }
@@ -401,7 +466,7 @@ export async function logoutOwner(ownerToken) {
 
 /**
  * Silently increments the click/visit count for the public profile link.
- * POST /api/v1/seenly/profile/{publicSlug}/increment-click
+ * POST /api/v1/tensignal/profile/{publicSlug}/increment-click
  */
 export async function incrementProfileClick(publicSlug) {
   try {
@@ -414,11 +479,30 @@ export async function incrementProfileClick(publicSlug) {
 }
 
 export const PAYMENT_PRODUCT_CODES = Object.freeze({
+  TEN_SIGNAL_PLUS: 'seenly_plus_v1',
   SEENLY_PLUS: 'seenly_plus_v1',
+  CAPACITY_50: 'response_capacity_50_v2',
+  CAPACITY_150: 'response_capacity_150_v2',
+  CAPACITY_300: 'response_capacity_300_v2',
+  // Backward compatibility aliases for historical transactions
   CAPACITY_100: 'response_capacity_100_v1',
   CAPACITY_250: 'response_capacity_250_v1',
   CAPACITY_500: 'response_capacity_500_v1'
 });
+
+/** Fetches available payment products with regionally resolved currency & formatted prices */
+export async function getPaymentProducts(currency) {
+  const apiPrefix = (import.meta.env && import.meta.env.VITE_API_URL) || '';
+  const headers = {};
+  if (currency) {
+    headers['X-Currency'] = currency;
+  }
+  const response = await fetch(`${apiPrefix}/api/billing/products`, { headers });
+  if (!response.ok) {
+    throw new Error('Failed to fetch payment products');
+  }
+  return response.json();
+}
 
 /** Creates checkout for a server-owned product. Entitlement is granted only
  * after a verified provider webhook. */
@@ -497,4 +581,61 @@ export async function fetchAllCardRarities(lang = 'tr') {
   } catch (e) {
     return null;
   }
+}
+
+/**
+ * Fetches the owner's email notification preferences from backend.
+ * GET /api/v1/tensignal/owner/notification-preferences
+ */
+export async function getNotificationPreferences(ownerToken) {
+  const response = await fetch(`${BASE_URL}/owner/notification-preferences`, {
+    headers: {
+      'X-Owner-Token': ownerToken,
+    },
+  });
+
+  if (!response.ok) {
+    let errorMsg = 'Error fetching notification preferences';
+    try {
+      const err = await response.json();
+      errorMsg = err.message || errorMsg;
+    } catch (e) {
+      // JSON parsing failed
+    }
+    const error = new Error(errorMsg);
+    error.status = response.status;
+    throw error;
+  }
+
+  return response.json();
+}
+
+/**
+ * Updates the owner's email notification preferences in backend.
+ * PUT /api/v1/tensignal/owner/notification-preferences
+ */
+export async function updateNotificationPreferences(ownerToken, preferences) {
+  const response = await fetch(`${BASE_URL}/owner/notification-preferences`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Owner-Token': ownerToken,
+    },
+    body: JSON.stringify(preferences),
+  });
+
+  if (!response.ok) {
+    let errorMsg = 'Error updating notification preferences';
+    try {
+      const err = await response.json();
+      errorMsg = err.message || errorMsg;
+    } catch (e) {
+      // JSON parsing failed
+    }
+    const error = new Error(errorMsg);
+    error.status = response.status;
+    throw error;
+  }
+
+  return response.json();
 }

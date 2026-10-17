@@ -1,4 +1,4 @@
-# Seenly production resilience and disaster recovery
+# 10Signal production resilience and disaster recovery
 
 ## Runtime failure policy
 
@@ -80,6 +80,6 @@ this drill completes on a regular schedule and its recovery time/data-loss objec
 
 ## Failure signals
 
-Alert on DB readiness/Hikari acquisition failures, `seenly.resilience.failures` by bounded `type`, cleanup failures,
+Alert on DB readiness/Hikari acquisition failures, `tensignal.resilience.failures` by bounded `type`, cleanup failures,
 SMTP delivery failures, provider failures, webhook retry accumulation, and concurrency conflicts. Correlate with
 request IDs; none of these signals may contain email, IP, token, answers, signature, payload, or provider secret.

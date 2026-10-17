@@ -114,7 +114,7 @@ for (const file of enFiles) {
 }
 
 console.log('================================================================');
-console.log('                 SEENLY i18n VALIDATION REPORT                  ');
+console.log('                 10SIGNAL i18n VALIDATION REPORT                  ');
 console.log('================================================================');
 
 if (legalAudit) {

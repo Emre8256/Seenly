@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { createSeenly, getOwnerDashboard, getOwnerResponseHistory, sendVerificationCode } from '../services/api';
+import { createTenSignal, getOwnerDashboard, getOwnerResponseHistory, sendVerificationCode } from '../services/api';
 
 describe('API contract errors', () => {
   beforeEach(() => { global.fetch = vi.fn(); });
@@ -11,7 +11,7 @@ describe('API contract errors', () => {
 
   it('does not report a failed registration as success', async () => {
     fetch.mockResolvedValue(new Response(JSON.stringify({ message: 'Verification required' }), { status: 403 }));
-    await expect(createSeenly('Ada', 'ada@example.test', [], null)).rejects.toMatchObject({ status: 403 });
+    await expect(createTenSignal('Ada', 'ada@example.test', [], null)).rejects.toMatchObject({ status: 403 });
   });
 
   it('encodes and bounds owner history requests', async () => {

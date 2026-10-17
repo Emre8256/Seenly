@@ -1,21 +1,21 @@
 {
-  "metaTitle": "Seenly — İnsanların seni nasıl deneyimlediğini keşfet.",
-  "metaDescription": "Kendini nasıl gördüğün ile seni tanıyanların seni nasıl deneyimlediğini karşılaştır. Seenly, öz-algın ile dış algı arasındaki ortak sinyalleri ve farkları görünür kılar.",
+  "metaTitle": "10Signal — İnsanların seni nasıl deneyimlediğini keşfet.",
+  "metaDescription": "Kendini nasıl gördüğün ile seni tanıyanların seni nasıl deneyimlediğini karşılaştır. 10Signal, öz-algın ile dış algı arasındaki ortak sinyalleri ve farkları görünür kılar.",
   "hero": {
     "tag": "Sosyal öz-farkındalık deneyimi",
     "title1": "İnsanların seni nasıl ",
     "titleItalic": "deneyimlediğini",
     "title2": " gör.",
-    "desc": "Kendini nasıl gördüğünle seni tanıyan insanların seni nasıl deneyimlediğini karşılaştır. Seenly, öz-algın ile dış algın arasındaki ortak sinyalleri ve farkları görünür kılar.",
+    "desc": "Kendini nasıl gördüğünle seni tanıyan insanların seni nasıl deneyimlediğini karşılaştır. 10Signal, öz-algın ile dış algın arasındaki ortak sinyalleri ve farkları görünür kılar.",
     "ctaFree": "Ücretsiz başla · İlk sonuçlarını birkaç dakikada gör",
-    "startCta": "Seenly'ini Başlat",
+    "startCta": "10Signal'ını Başlat",
     "quickLogin": "Giriş Yap",
     "caption": "Aynı masa, farklı bakışlar",
     "badge": "10 SOSYAL SİNYAL. GERÇEK CEVAPLAR.",
     "anonymousNoSignup": "Anonim. Kayıt gerekmez.",
     "socialProof": "1.500'den fazla kişi yanıtladı",
     "loggedInCallout": "Panelin hazır. Sosyal yansımanı, gelen değerlendirmeleri ve fark katmanını tek yerde oku.",
-    "illustrationAlt": "Seenly profillerini birbirine bağlayan suluboya illüstrasyon"
+    "illustrationAlt": "10Signal profillerini birbirine bağlayan suluboya illüstrasyon"
   },
   "stats": {
     "stat1Val": "1.2K+",
@@ -32,7 +32,7 @@
     "tag": "Açılış",
     "quote": "Kendimizi tanıdığımızı düşünürüz. Ama bizi tanıyan insanlar çoğu zaman göremediğimiz bir şeyi taşır: ",
     "quoteItalic": "onların gözünden nasıl göründüğümüzü.",
-    "desc": "Seenly bir test değil. Seni bir kalıba sokmaz. Kendi anlatını yakın çevrenin sessiz gözlemleriyle yan yana koyar — ve o ince aralıkta kendini görmen için bir alan açar."
+    "desc": "10Signal bir test değil. Seni bir kalıba sokmaz. Kendi anlatını yakın çevrenin sessiz gözlemleriyle yan yana koyar — ve o ince aralıkta kendini görmen için bir alan açar."
   },
   "experience": {
     "tag": "Deneyim",
@@ -48,24 +48,24 @@
   },
   "contexts": {
     "tag": "Bağlamlar",
-    "title": "Seenly yalnızca bir test değil.",
+    "title": "10Signal yalnızca bir test değil.",
     "desc": "İnsanların seni nasıl deneyimlediğini hayatının farklı sahnelerinde keşfedebilirsin.",
     "c1Plate": "Dijital Yansıma",
     "c1Title": "Sosyal profilinde",
-    "c1Text": "Seenly linkini profiline ekle. Kendini nasıl anlattığını ve nasıl deneyimlendiğini insanlar görsün.",
+    "c1Text": "10Signal linkini profiline ekle. Kendini nasıl anlattığını ve nasıl deneyimlendiğini insanlar görsün.",
     "c2Plate": "Sosyal Dinamik",
     "c2Title": "Arkadaş grubunda",
     "c2Text": "Yakın çevrenden geri bildirim al, aranızdaki bağı oluşturan ortak sinyalleri keşfet.",
     "c3Plate": "İlk İzlenim",
     "c3Title": "Yeni tanışmalarda",
     "c3Text": "İlk izlenimlerinle kendini nasıl gördüğün arasındaki ilişkiyi incele.",
-    "c1Alt": "İki kişinin telefonlarında Seenly kartlarını paylaştığı suluboya illüstrasyon",
-    "c2Alt": "Grup içinde arkadaşların Seenly okumalarını tartıştığı suluboya illüstrasyon",
+    "c1Alt": "İki kişinin telefonlarında 10Signal kartlarını paylaştığı suluboya illüstrasyon",
+    "c2Alt": "Grup içinde arkadaşların 10Signal okumalarını tartıştığı suluboya illüstrasyon",
     "c3Alt": "İki kişinin ilk karşılaşma anını tasvir eden suluboya illüstrasyon"
   },
   "howItWorks": {
     "tag": "NASIL ÇALIŞIR",
-    "title": "3 Adımda Seenly",
+    "title": "3 Adımda 10Signal",
     "desc": "Kendi öz algınızı ve dış gözlemleri 3 basit adımda bir araya getirin:",
     "s1Title": "01 / Özünü Tanımla",
     "s1Text": "Kısa bir öz değerlendirme yaparak kendi anlatını oluştur ve dijital Self kartını al.",
@@ -73,12 +73,12 @@
     "s2Text": "Sana özel linki sosyal medyada veya arkadaşlarınla paylaşarak anonim geri bildirimler topla.",
     "s3Title": "03 / Canlı Sonuçları İzle",
     "s3Text": "Cevaplar geldikçe panelinin canlı güncellenmesini izle, nerede buluşup ayrıştığını gör.",
-    "illustrationAlt": "Öz algı ve dış algının suluboya katmanlarla iç içe geçtiği örnek Seenly sonucu"
+    "illustrationAlt": "Öz algı ve dış algının suluboya katmanlarla iç içe geçtiği örnek 10Signal sonucu"
   },
   "layers": {
     "tag": "Katmanlar",
     "title": "Sonuçlar dört katmandan oluşur.",
-    "desc": "Her katman, Seenly'nin ölçtüğü açıklanabilir bir boyuta dayanır. Birlikte, kendini nasıl gördüğünü ve insanların seni nasıl deneyimlediğini anlatırlar.",
+    "desc": "Her katman, 10Signal'ın ölçtüğü açıklanabilir bir boyuta dayanır. Birlikte, kendini nasıl gördüğünü ve insanların seni nasıl deneyimlediğini anlatırlar.",
     "l1Desc": "Şu an kendini nasıl tarif ettiğini gösteren öz-algı katmanı.",
     "l2Desc": "Seni tanıyan insanlardaki tekrarlayan ortak sinyallerin özeti.",
     "l3Desc": "Öz-algın ile dış algın arasındaki ortak ve ayrışan yönler.",
@@ -88,7 +88,7 @@
     "tag": "Koleksiyon",
     "cardHeader": "Sosyal Kimlik",
     "title": "Her sonucun kendine ait bir dili vardır.",
-    "desc": "Seenly sonuçları sadece bir tanımdan ibaret değildir; paylaşılabilir bir kimlik ve keşfedilecek bir koleksiyon parçası sunar.",
+    "desc": "10Signal sonuçları sadece bir tanımdan ibaret değildir; paylaşılabilir bir kimlik ve keşfedilecek bir koleksiyon parçası sunar.",
     "viewAll": "Tüm Sosyal Kimlikleri Keşfet",
     "c1": "Dürüst İdealist",
     "c2": "Huzur Deposu",
@@ -96,7 +96,7 @@
     "c4": "Asil Dayanak",
     "c5": "Usta Stratejist",
     "c6": "Neşeli Çıpa",
-    "illustrationAlt": "Altın çerçeveli koleksiyon kartları halinde sunulan Seenly kodlarının suluboya illüstrasyonu"
+    "illustrationAlt": "Altın çerçeveli koleksiyon kartları halinde sunulan 10Signal kodlarının suluboya illüstrasyonu"
   },
   "security": {
     "tag": "Güven",
@@ -111,8 +111,8 @@
   },
   "finalCta": {
     "title": "Kendini nasıl gördüğünle insanların seni nasıl deneyimlediğini karşılaştır.",
-    "desc": "Seenly deneyimine başla ve seni tanıyan insanların gördüğü ortak sinyalleri keşfet.",
-    "startCta": "Kendi Seenly'ni başlat"
+    "desc": "10Signal deneyimine başla ve seni tanıyan insanların gördüğü ortak sinyalleri keşfet.",
+    "startCta": "Kendi 10Signal'ni başlat"
   },
   "pricing": {
     "tag": "Teklif",
@@ -124,19 +124,19 @@
     "freeDesc": "Profilini oluştur ve temel algı analizine ücretsiz eriş.",
     "freeF1Title": "Öz Değerlendirme & Self Kartı",
     "freeF1Desc": "10 hızlı sinyalle başlangıç profilin",
-    "freeF2Title": "Maksimum 100 Katılımcı Kapasitesi",
-    "freeF2Desc": "100 arkadaş yanıtına kadar ücretsiz kota",
+    "freeF2Title": "20 Değerlendirme Kapasitesi",
+    "freeF2Desc": "20 arkadaş değerlendirmesine kadar ücretsiz kota",
     "freeF3Title": "Temel Fark (Gap) Analizi",
     "freeF3Desc": "Öz algı ile dış algı kesişimi",
     "freeF4Title": "Temel Sonuçlar & Güvenli Paylaşım",
     "freeF4Desc": "Anonim profil bağlantınla kolay paylaşım",
-    "plusName": "Seenly Plus",
-    "plusPrice": "$2.99",
+    "plusName": "10Signal Plus",
+    "plusPrice": "$3.99",
     "plusPeriod": "tek seferlik",
     "plusBadge": "Abonelik Yok",
     "plusDesc": "Tüm analizlerin kilidini ve sınırsız katılımcı kotasını tek seferde açın.",
     "plusF1Title": "Sınırsız Katılımcı Kotası",
-    "plusF1Desc": "100 yanıt limitine takılmadan sınırsız yanıt toplayın",
+    "plusF1Desc": "20 değerlendirme limitine takılmadan sınırsız yanıt toplayın",
     "plusF2Title": "Gelen Analiz Detayları",
     "plusF2Desc": "10 karakter sinyali ve puan dökümünü görün",
     "plusF3Title": "Soruda Geçirilen Zaman",

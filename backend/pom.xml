@@ -8,11 +8,11 @@
         <version>3.2.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.seenly</groupId>
+    <groupId>com.tensignal</groupId>
     <artifactId>backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>backend</name>
-    <description>Seenly Social Perception Backend Service</description>
+    <description>10Signal Social Perception Backend Service</description>
     
     <properties>
         <java.version>17</java.version>

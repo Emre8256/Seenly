@@ -1,10 +1,10 @@
 /* Plan tab: restrained billing/settings layout. */
-.seenly-dashboard-tab-content.seenly-plan-clean-tab {
+.tensignal-dashboard-tab-content.tensignal-plan-clean-tab {
   width: min(920px, 100%) !important;
   max-width: 920px !important;
 }
 
-.seenly-plan-clean {
+.tensignal-plan-clean {
   --plan-ink: var(--color-deep-ink, #0b1b2c);
   --plan-ink-soft: #465362;
   --plan-muted: var(--color-text-muted, #7a746a);
@@ -22,11 +22,11 @@
   color: var(--plan-ink);
 }
 
-.seenly-plan-clean svg {
+.tensignal-plan-clean svg {
   transform: none !important;
 }
 
-.seenly-plan-clean .seenly-plan-pro-hero {
+.tensignal-plan-clean .tensignal-plan-pro-hero {
   max-width: 650px;
   margin: 0;
   padding: 0.15rem 0 0.15rem 1rem;
@@ -34,8 +34,8 @@
   text-align: left;
 }
 
-.seenly-plan-clean .seenly-plan-pro-eyebrow,
-.seenly-plan-clean .seenly-plan-pro-kicker {
+.tensignal-plan-clean .tensignal-plan-pro-eyebrow,
+.tensignal-plan-clean .tensignal-plan-pro-kicker {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -48,7 +48,7 @@
   text-transform: uppercase;
 }
 
-.seenly-plan-clean .seenly-plan-pro-hero h3 {
+.tensignal-plan-clean .tensignal-plan-pro-hero h3 {
   max-width: none;
   margin: 0.45rem 0 0;
   color: var(--plan-ink);
@@ -60,7 +60,7 @@
   text-wrap: initial;
 }
 
-.seenly-plan-clean .seenly-plan-pro-hero p {
+.tensignal-plan-clean .tensignal-plan-pro-hero p {
   max-width: 620px;
   margin: 0.6rem 0 0;
   color: var(--plan-muted);
@@ -70,7 +70,7 @@
   text-wrap: initial;
 }
 
-.seenly-plan-clean .seenly-plan-pro-current {
+.tensignal-plan-clean .tensignal-plan-pro-current {
   display: grid;
   grid-template-columns: minmax(160px, 0.85fr) minmax(240px, 1.2fr) auto;
   align-items: center;
@@ -82,7 +82,7 @@
   box-shadow: 0 7px 22px rgba(11, 27, 44, 0.045);
 }
 
-.seenly-plan-clean .seenly-plan-pro-current-icon {
+.tensignal-plan-clean .tensignal-plan-pro-current-icon {
   width: 38px;
   height: 38px;
   flex: 0 0 38px;
@@ -95,22 +95,22 @@
   box-shadow: 0 5px 13px rgba(11, 27, 44, 0.13);
 }
 
-.seenly-plan-clean .seenly-plan-pro-current-identity {
+.tensignal-plan-clean .tensignal-plan-pro-current-identity {
   min-width: 0;
   display: flex;
   align-items: center;
   gap: 0.72rem;
 }
 
-.seenly-plan-clean .seenly-plan-pro-current-copy {
+.tensignal-plan-clean .tensignal-plan-pro-current-copy {
   min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 0.18rem;
 }
 
-.seenly-plan-clean .seenly-plan-pro-current-copy span,
-.seenly-plan-clean .seenly-plan-pro-usage-label span {
+.tensignal-plan-clean .tensignal-plan-pro-current-copy span,
+.tensignal-plan-clean .tensignal-plan-pro-usage-label span {
   color: var(--plan-muted);
   font-family: var(--font-sans);
   font-size: 0.61rem;
@@ -120,20 +120,20 @@
   text-transform: uppercase;
 }
 
-.seenly-plan-clean .seenly-plan-pro-current-copy strong {
+.tensignal-plan-clean .tensignal-plan-pro-current-copy strong {
   color: var(--plan-ink);
   font-family: var(--font-heading);
   font-size: 1.08rem;
   font-weight: 600;
 }
 
-.seenly-plan-clean .seenly-plan-pro-usage {
+.tensignal-plan-clean .tensignal-plan-pro-usage {
   min-width: 0;
   padding-left: 1.25rem;
   border-left: 1px solid var(--plan-line);
 }
 
-.seenly-plan-clean .seenly-plan-pro-usage-label {
+.tensignal-plan-clean .tensignal-plan-pro-usage-label {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -141,7 +141,7 @@
   margin-bottom: 0.45rem;
 }
 
-.seenly-plan-clean .seenly-plan-pro-usage-label strong {
+.tensignal-plan-clean .tensignal-plan-pro-usage-label strong {
   color: var(--plan-ink);
   font-family: var(--font-sans);
   font-size: 0.76rem;
@@ -149,7 +149,7 @@
   white-space: nowrap;
 }
 
-.seenly-plan-clean .seenly-plan-pro-usage-track {
+.tensignal-plan-clean .tensignal-plan-pro-usage-track {
   width: 100%;
   height: 5px;
   overflow: hidden;
@@ -157,7 +157,7 @@
   background: #e7e1d7;
 }
 
-.seenly-plan-clean .seenly-plan-pro-usage-track > span {
+.tensignal-plan-clean .tensignal-plan-pro-usage-track > span {
   display: block;
   height: 100%;
   border-radius: inherit;
@@ -165,11 +165,11 @@
   transition: width 0.25s ease;
 }
 
-.seenly-plan-clean .seenly-plan-pro-usage-track.is-unlimited > span {
+.tensignal-plan-clean .tensignal-plan-pro-usage-track.is-unlimited > span {
   background: var(--plan-success);
 }
 
-.seenly-plan-clean .seenly-plan-pro-status {
+.tensignal-plan-clean .tensignal-plan-pro-status {
   display: inline-flex;
   align-items: center;
   justify-self: end;
@@ -184,7 +184,7 @@
   letter-spacing: 0;
 }
 
-.seenly-plan-clean .seenly-plan-pro-status > span {
+.tensignal-plan-clean .tensignal-plan-pro-status > span {
   width: 5px;
   height: 5px;
   border-radius: 50%;
@@ -192,13 +192,13 @@
   box-shadow: none;
 }
 
-.seenly-plan-clean .seenly-plan-pro-plans,
-.seenly-plan-clean .seenly-plan-pro-packs {
+.tensignal-plan-clean .tensignal-plan-pro-plans,
+.tensignal-plan-clean .tensignal-plan-pro-packs {
   min-width: 0;
 }
 
-.seenly-plan-clean .seenly-plan-pro-section-head,
-.seenly-plan-clean .seenly-plan-pro-packs-head {
+.tensignal-plan-clean .tensignal-plan-pro-section-head,
+.tensignal-plan-clean .tensignal-plan-pro-packs-head {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -206,8 +206,8 @@
   margin-bottom: 0.85rem;
 }
 
-.seenly-plan-clean .seenly-plan-pro-section-head h4,
-.seenly-plan-clean .seenly-plan-pro-packs-head h4 {
+.tensignal-plan-clean .tensignal-plan-pro-section-head h4,
+.tensignal-plan-clean .tensignal-plan-pro-packs-head h4 {
   margin-top: 0.25rem;
   color: var(--plan-ink);
   font-family: var(--font-heading);
@@ -215,8 +215,8 @@
   font-weight: 570;
 }
 
-.seenly-plan-clean .seenly-plan-pro-section-head p,
-.seenly-plan-clean .seenly-plan-pro-packs-head p {
+.tensignal-plan-clean .tensignal-plan-pro-section-head p,
+.tensignal-plan-clean .tensignal-plan-pro-packs-head p {
   max-width: 360px;
   margin-bottom: 0;
   color: var(--plan-muted);
@@ -226,7 +226,7 @@
   text-align: right;
 }
 
-.seenly-plan-clean .seenly-plan-pro-grid {
+.tensignal-plan-clean .tensignal-plan-pro-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: stretch;
@@ -237,10 +237,10 @@
   background: transparent;
 }
 
-.seenly-plan-clean .seenly-plan-pro-card,
-.seenly-plan-clean .seenly-plan-pro-card-base.is-current,
-.seenly-plan-clean .seenly-plan-pro-card-plus,
-.seenly-plan-clean .seenly-plan-pro-card-plus.is-current {
+.tensignal-plan-clean .tensignal-plan-pro-card,
+.tensignal-plan-clean .tensignal-plan-pro-card-base.is-current,
+.tensignal-plan-clean .tensignal-plan-pro-card-plus,
+.tensignal-plan-clean .tensignal-plan-pro-card-plus.is-current {
   min-width: 0;
   min-height: 0;
   display: flex;
@@ -253,19 +253,19 @@
   overflow: hidden;
 }
 
-.seenly-plan-clean .seenly-plan-pro-card-base.is-current {
+.tensignal-plan-clean .tensignal-plan-pro-card-base.is-current {
   border-color: rgba(63, 114, 88, 0.24);
   background: linear-gradient(145deg, rgba(255, 253, 248, 0.98), rgba(245, 249, 246, 0.82));
 }
 
-.seenly-plan-clean .seenly-plan-pro-card-plus,
-.seenly-plan-clean .seenly-plan-pro-card-plus.is-current {
+.tensignal-plan-clean .tensignal-plan-pro-card-plus,
+.tensignal-plan-clean .tensignal-plan-pro-card-plus.is-current {
   border-color: rgba(167, 125, 54, 0.34);
   background: linear-gradient(145deg, #fffefb 0%, #f7f0e5 100%);
   box-shadow: inset 0 2px 0 rgba(167, 125, 54, 0.52), 0 10px 26px rgba(11, 27, 44, 0.055);
 }
 
-.seenly-plan-clean .seenly-plan-pro-card-topline {
+.tensignal-plan-clean .tensignal-plan-pro-card-topline {
   display: flex;
   min-height: 25px;
   flex-flow: row wrap;
@@ -274,8 +274,8 @@
   gap: 0.55rem;
 }
 
-.seenly-plan-clean .seenly-plan-pro-badge,
-.seenly-plan-clean .seenly-plan-pro-card-plus .seenly-plan-pro-badge {
+.tensignal-plan-clean .tensignal-plan-pro-badge,
+.tensignal-plan-clean .tensignal-plan-pro-card-plus .tensignal-plan-pro-badge {
   flex: 0 0 auto;
   padding: 0.28rem 0.48rem;
   border: 1px solid rgba(20, 40, 61, 0.12);
@@ -291,17 +291,17 @@
   text-transform: uppercase;
 }
 
-.seenly-plan-clean .seenly-plan-pro-card-plus .seenly-plan-pro-badge {
+.tensignal-plan-clean .tensignal-plan-pro-card-plus .tensignal-plan-pro-badge {
   border-color: var(--plan-ink);
   background: var(--plan-ink);
   color: #fffdf8;
 }
 
-.seenly-plan-clean .seenly-plan-pro-card-plus .seenly-plan-pro-kicker {
+.tensignal-plan-clean .tensignal-plan-pro-card-plus .tensignal-plan-pro-kicker {
   color: var(--plan-gold);
 }
 
-.seenly-plan-clean .seenly-plan-pro-kicker {
+.tensignal-plan-clean .tensignal-plan-pro-kicker {
   color: var(--plan-muted);
   font-family: var(--font-sans);
   font-size: 0.64rem;
@@ -309,8 +309,8 @@
   letter-spacing: 0.07em;
 }
 
-.seenly-plan-clean .seenly-plan-pro-title,
-.seenly-plan-clean .seenly-plan-pro-card-plus .seenly-plan-pro-title {
+.tensignal-plan-clean .tensignal-plan-pro-title,
+.tensignal-plan-clean .tensignal-plan-pro-card-plus .tensignal-plan-pro-title {
   margin-top: 0.75rem;
   color: var(--plan-ink);
   font-family: var(--font-heading);
@@ -320,7 +320,7 @@
   line-height: 1.08;
 }
 
-.seenly-plan-clean .seenly-plan-pro-price {
+.tensignal-plan-clean .tensignal-plan-pro-price {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
@@ -329,8 +329,8 @@
   gap: 0.5rem;
 }
 
-.seenly-plan-clean .seenly-plan-pro-price strong,
-.seenly-plan-clean .seenly-plan-pro-card-plus .seenly-plan-pro-price strong {
+.tensignal-plan-clean .tensignal-plan-pro-price strong,
+.tensignal-plan-clean .tensignal-plan-pro-card-plus .tensignal-plan-pro-price strong {
   color: var(--plan-ink);
   font-family: var(--font-heading);
   font-size: clamp(1.45rem, 3vw, 1.75rem);
@@ -338,19 +338,19 @@
   letter-spacing: -0.02em;
 }
 
-.seenly-plan-clean .seenly-plan-pro-price small,
-.seenly-plan-clean .seenly-plan-pro-card-plus .seenly-plan-pro-price small {
+.tensignal-plan-clean .tensignal-plan-pro-price small,
+.tensignal-plan-clean .tensignal-plan-pro-card-plus .tensignal-plan-pro-price small {
   color: var(--plan-muted);
   font-family: var(--font-sans);
   font-size: 0.72rem;
   font-weight: 600;
 }
 
-.seenly-plan-clean .seenly-plan-pro-rule {
+.tensignal-plan-clean .tensignal-plan-pro-rule {
   display: none;
 }
 
-.seenly-plan-clean .seenly-plan-pro-features {
+.tensignal-plan-clean .tensignal-plan-pro-features {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -361,8 +361,8 @@
   list-style: none;
 }
 
-.seenly-plan-clean .seenly-plan-pro-features li,
-.seenly-plan-clean .seenly-plan-pro-card-plus .seenly-plan-pro-features li {
+.tensignal-plan-clean .tensignal-plan-pro-features li,
+.tensignal-plan-clean .tensignal-plan-pro-card-plus .tensignal-plan-pro-features li {
   display: flex;
   align-items: center;
   min-height: 0;
@@ -376,8 +376,8 @@
   line-height: 1.4;
 }
 
-.seenly-plan-clean .seenly-plan-pro-check,
-.seenly-plan-clean .seenly-plan-pro-card-plus .seenly-plan-pro-check {
+.tensignal-plan-clean .tensignal-plan-pro-check,
+.tensignal-plan-clean .tensignal-plan-pro-card-plus .tensignal-plan-pro-check {
   display: grid;
   place-items: center;
   width: 17px;
@@ -391,12 +391,12 @@
   color: var(--plan-success);
 }
 
-.seenly-plan-clean .seenly-plan-pro-check svg {
+.tensignal-plan-clean .tensignal-plan-pro-check svg {
   width: 9px;
   height: 9px;
 }
 
-.seenly-plan-clean .seenly-plan-pro-button {
+.tensignal-plan-clean .tensignal-plan-pro-button {
   width: 100%;
   min-height: 43px;
   display: inline-flex;
@@ -416,8 +416,8 @@
   transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
-.seenly-plan-clean .seenly-plan-pro-button .arrow,
-.seenly-plan-clean .seenly-plan-pro-pack-button .arrow {
+.tensignal-plan-clean .tensignal-plan-pro-button .arrow,
+.tensignal-plan-clean .tensignal-plan-pro-pack-button .arrow {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -425,48 +425,48 @@
   transition: transform 0.18s ease;
 }
 
-.seenly-plan-clean .seenly-plan-pro-button-secondary {
+.tensignal-plan-clean .tensignal-plan-pro-button-secondary {
   border-color: var(--plan-line-strong);
   background: var(--plan-paper-soft);
   color: var(--plan-muted);
 }
 
-.seenly-plan-clean .seenly-plan-pro-button-primary {
+.tensignal-plan-clean .tensignal-plan-pro-button-primary {
   border-color: var(--plan-ink);
   background: var(--plan-ink);
   color: #fffdf8;
   box-shadow: 0 7px 16px rgba(11, 27, 44, 0.13);
 }
 
-.seenly-plan-clean .seenly-plan-pro-button-primary:hover:not(:disabled) {
+.tensignal-plan-clean .tensignal-plan-pro-button-primary:hover:not(:disabled) {
   transform: none;
   background: #20384f;
   box-shadow: 0 9px 19px rgba(11, 27, 44, 0.16);
 }
 
-.seenly-plan-clean .seenly-plan-pro-button-primary:hover:not(:disabled) .arrow,
-.seenly-plan-clean .seenly-plan-pro-pack-button:hover:not(:disabled) .arrow {
+.tensignal-plan-clean .tensignal-plan-pro-button-primary:hover:not(:disabled) .arrow,
+.tensignal-plan-clean .tensignal-plan-pro-pack-button:hover:not(:disabled) .arrow {
   transform: translateX(2px);
 }
 
-.seenly-plan-clean .seenly-plan-pro-card-plus .seenly-plan-pro-button-primary:disabled {
+.tensignal-plan-clean .tensignal-plan-pro-card-plus .tensignal-plan-pro-button-primary:disabled {
   border-color: rgba(20, 40, 61, 0.12);
   background: rgba(20, 40, 61, 0.06);
   color: var(--plan-muted);
 }
 
-.seenly-plan-clean .seenly-plan-pro-packs {
+.tensignal-plan-clean .tensignal-plan-pro-packs {
   padding: 0;
   border: 0;
   border-radius: 0;
   background: transparent;
 }
 
-.seenly-plan-clean .seenly-plan-pro-packs-head {
+.tensignal-plan-clean .tensignal-plan-pro-packs-head {
   margin-bottom: 0.85rem;
 }
 
-.seenly-plan-clean .seenly-plan-pro-pack-grid {
+.tensignal-plan-clean .tensignal-plan-pro-pack-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.75rem;
@@ -476,8 +476,8 @@
   background: transparent;
 }
 
-.seenly-plan-clean .seenly-plan-pro-pack,
-.seenly-plan-clean .seenly-plan-pro-pack.is-featured {
+.tensignal-plan-clean .tensignal-plan-pro-pack,
+.tensignal-plan-clean .tensignal-plan-pro-pack.is-featured {
   min-height: 218px;
   display: flex;
   flex-direction: column;
@@ -493,38 +493,38 @@
   transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
 }
 
-.seenly-plan-clean .seenly-plan-pro-pack.is-featured {
+.tensignal-plan-clean .tensignal-plan-pro-pack.is-featured {
   border-color: rgba(167, 125, 54, 0.3);
   background: linear-gradient(150deg, rgba(255, 253, 248, 0.98), rgba(247, 240, 229, 0.74));
   box-shadow: inset 0 2px 0 rgba(167, 125, 54, 0.34), 0 7px 20px rgba(11, 27, 44, 0.045);
 }
 
-.seenly-plan-clean .seenly-plan-pro-pack:not(.is-muted):hover {
+.tensignal-plan-clean .tensignal-plan-pro-pack:not(.is-muted):hover {
   transform: translateY(-2px);
   border-color: rgba(11, 27, 44, 0.22);
   background-color: rgba(255, 253, 248, 0.98);
   box-shadow: 0 10px 23px rgba(11, 27, 44, 0.065);
 }
 
-.seenly-plan-clean .seenly-plan-pro-pack.is-muted {
+.tensignal-plan-clean .tensignal-plan-pro-pack.is-muted {
   opacity: 0.58;
 }
 
-.seenly-plan-clean .seenly-plan-pro-pack-topline,
-.seenly-plan-clean .seenly-plan-pro-pack-capacity,
-.seenly-plan-clean .seenly-plan-pro-pack-price,
-.seenly-plan-clean .seenly-plan-pro-pack-button {
+.tensignal-plan-clean .tensignal-plan-pro-pack-topline,
+.tensignal-plan-clean .tensignal-plan-pro-pack-capacity,
+.tensignal-plan-clean .tensignal-plan-pro-pack-price,
+.tensignal-plan-clean .tensignal-plan-pro-pack-button {
   grid-area: auto;
 }
 
-.seenly-plan-clean .seenly-plan-pro-pack-topline {
+.tensignal-plan-clean .tensignal-plan-pro-pack-topline {
   min-width: 0;
   display: flex;
   align-items: center;
   gap: 0.62rem;
 }
 
-.seenly-plan-clean .seenly-plan-pro-pack-icon {
+.tensignal-plan-clean .tensignal-plan-pro-pack-icon {
   width: 32px;
   height: 32px;
   flex: 0 0 32px;
@@ -536,13 +536,13 @@
   color: var(--plan-ink);
 }
 
-.seenly-plan-clean .seenly-plan-pro-pack.is-featured .seenly-plan-pro-pack-icon {
+.tensignal-plan-clean .tensignal-plan-pro-pack.is-featured .tensignal-plan-pro-pack-icon {
   border-color: rgba(167, 125, 54, 0.18);
   background: rgba(167, 125, 54, 0.1);
   color: var(--plan-gold);
 }
 
-.seenly-plan-clean .seenly-plan-pro-pack-label {
+.tensignal-plan-clean .tensignal-plan-pro-pack-label {
   min-width: 0;
   color: var(--plan-ink);
   font-family: var(--font-sans);
@@ -553,7 +553,7 @@
   text-transform: none;
 }
 
-.seenly-plan-clean .seenly-plan-pro-pack-capacity {
+.tensignal-plan-clean .tensignal-plan-pro-pack-capacity {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
@@ -561,14 +561,14 @@
   gap: 0.35rem;
 }
 
-.seenly-plan-clean .seenly-plan-pro-pack-capacity strong {
+.tensignal-plan-clean .tensignal-plan-pro-pack-capacity strong {
   font-family: var(--font-heading);
   font-size: 1.52rem;
   font-weight: 610;
   letter-spacing: -0.025em;
 }
 
-.seenly-plan-clean .seenly-plan-pro-pack-capacity h5 {
+.tensignal-plan-clean .tensignal-plan-pro-pack-capacity h5 {
   margin: 0;
   color: var(--plan-muted);
   font-family: var(--font-sans);
@@ -576,7 +576,7 @@
   letter-spacing: 0.04em;
 }
 
-.seenly-plan-clean .seenly-plan-pro-pack-price {
+.tensignal-plan-clean .tensignal-plan-pro-pack-price {
   margin: 0.65rem 0 1rem;
   font-family: var(--font-sans);
   font-size: 0.95rem;
@@ -585,7 +585,7 @@
   white-space: nowrap;
 }
 
-.seenly-plan-clean .seenly-plan-pro-pack-button {
+.tensignal-plan-clean .tensignal-plan-pro-pack-button {
   width: 100%;
   min-height: 38px;
   display: inline-flex;
@@ -607,23 +607,23 @@
   transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 
-.seenly-plan-clean .seenly-plan-pro-button:disabled,
-.seenly-plan-clean .seenly-plan-pro-pack-button:disabled {
+.tensignal-plan-clean .tensignal-plan-pro-button:disabled,
+.tensignal-plan-clean .tensignal-plan-pro-pack-button:disabled {
   cursor: default;
 }
 
-.seenly-plan-clean .seenly-plan-pro-pack-button:disabled {
+.tensignal-plan-clean .tensignal-plan-pro-pack-button:disabled {
   background: var(--plan-paper-soft);
   color: var(--plan-muted);
 }
 
-.seenly-plan-clean .seenly-plan-pro-button:focus-visible,
-.seenly-plan-clean .seenly-plan-pro-pack-button:focus-visible {
+.tensignal-plan-clean .tensignal-plan-pro-button:focus-visible,
+.tensignal-plan-clean .tensignal-plan-pro-pack-button:focus-visible {
   outline: 3px solid rgba(167, 125, 54, 0.24);
   outline-offset: 2px;
 }
 
-.seenly-plan-clean .seenly-plan-pro-pack-button:hover:not(:disabled) {
+.tensignal-plan-clean .tensignal-plan-pro-pack-button:hover:not(:disabled) {
   transform: none;
   border-color: var(--plan-ink);
   background: var(--plan-ink);
@@ -631,32 +631,32 @@
 }
 
 @media (max-width: 760px) {
-  .seenly-plan-clean .seenly-plan-pro-current {
+  .tensignal-plan-clean .tensignal-plan-pro-current {
     grid-template-columns: minmax(0, 1fr) auto;
   }
 
-  .seenly-plan-clean .seenly-plan-pro-usage {
+  .tensignal-plan-clean .tensignal-plan-pro-usage {
     grid-column: 1 / -1;
     padding: 0.8rem 0 0;
     border-top: 1px solid var(--plan-line);
     border-left: 0;
   }
 
-  .seenly-plan-clean .seenly-plan-pro-grid {
+  .tensignal-plan-clean .tensignal-plan-pro-grid {
     grid-template-columns: 1fr;
   }
 
-  .seenly-plan-clean .seenly-plan-pro-card-plus,
-  .seenly-plan-clean .seenly-plan-pro-card-plus.is-current {
+  .tensignal-plan-clean .tensignal-plan-pro-card-plus,
+  .tensignal-plan-clean .tensignal-plan-pro-card-plus.is-current {
     border: 1px solid rgba(167, 125, 54, 0.34);
   }
 
-  .seenly-plan-clean .seenly-plan-pro-pack-grid {
+  .tensignal-plan-clean .tensignal-plan-pro-pack-grid {
     grid-template-columns: 1fr;
   }
 
-  .seenly-plan-clean .seenly-plan-pro-pack,
-  .seenly-plan-clean .seenly-plan-pro-pack.is-featured {
+  .tensignal-plan-clean .tensignal-plan-pro-pack,
+  .tensignal-plan-clean .tensignal-plan-pro-pack.is-featured {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas:
@@ -667,22 +667,22 @@
     gap: 0.25rem 0.8rem;
   }
 
-  .seenly-plan-clean .seenly-plan-pro-pack-topline {
+  .tensignal-plan-clean .tensignal-plan-pro-pack-topline {
     grid-area: label;
   }
 
-  .seenly-plan-clean .seenly-plan-pro-pack-capacity {
+  .tensignal-plan-clean .tensignal-plan-pro-pack-capacity {
     grid-area: capacity;
     margin-top: 0.25rem;
   }
 
-  .seenly-plan-clean .seenly-plan-pro-pack-price {
+  .tensignal-plan-clean .tensignal-plan-pro-pack-price {
     grid-area: price;
     margin: 0;
     text-align: right;
   }
 
-  .seenly-plan-clean .seenly-plan-pro-pack-button {
+  .tensignal-plan-clean .tensignal-plan-pro-pack-button {
     grid-area: button;
     width: 100%;
     margin-top: 0.65rem;
@@ -690,57 +690,57 @@
 }
 
 @media (max-width: 560px) {
-  .seenly-plan-clean {
+  .tensignal-plan-clean {
     gap: 1.75rem;
   }
 
-  .seenly-plan-clean .seenly-plan-pro-section-head,
-  .seenly-plan-clean .seenly-plan-pro-packs-head {
+  .tensignal-plan-clean .tensignal-plan-pro-section-head,
+  .tensignal-plan-clean .tensignal-plan-pro-packs-head {
     align-items: flex-start;
     flex-direction: column;
     gap: 0.35rem;
   }
 
-  .seenly-plan-clean .seenly-plan-pro-section-head p,
-  .seenly-plan-clean .seenly-plan-pro-packs-head p {
+  .tensignal-plan-clean .tensignal-plan-pro-section-head p,
+  .tensignal-plan-clean .tensignal-plan-pro-packs-head p {
     max-width: none;
     text-align: left;
   }
 
-  .seenly-plan-clean .seenly-plan-pro-card,
-  .seenly-plan-clean .seenly-plan-pro-card-base.is-current,
-  .seenly-plan-clean .seenly-plan-pro-card-plus,
-  .seenly-plan-clean .seenly-plan-pro-card-plus.is-current {
+  .tensignal-plan-clean .tensignal-plan-pro-card,
+  .tensignal-plan-clean .tensignal-plan-pro-card-base.is-current,
+  .tensignal-plan-clean .tensignal-plan-pro-card-plus,
+  .tensignal-plan-clean .tensignal-plan-pro-card-plus.is-current {
     padding: 1.1rem;
   }
 }
 
 @media (max-width: 390px) {
-  .seenly-plan-clean .seenly-plan-pro-current {
+  .tensignal-plan-clean .tensignal-plan-pro-current {
     grid-template-columns: 1fr;
   }
 
-  .seenly-plan-clean .seenly-plan-pro-status {
+  .tensignal-plan-clean .tensignal-plan-pro-status {
     grid-row: auto;
     justify-self: start;
   }
 
-  .seenly-plan-clean .seenly-plan-pro-usage {
+  .tensignal-plan-clean .tensignal-plan-pro-usage {
     grid-column: 1;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .seenly-plan-clean *,
-  .seenly-plan-clean *::before,
-  .seenly-plan-clean *::after {
+  .tensignal-plan-clean *,
+  .tensignal-plan-clean *::before,
+  .tensignal-plan-clean *::after {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
 }
 
 /* Profile Name & Identity Card */
-.seenly-plan-clean .seenly-profile-identity-card {
+.tensignal-plan-clean .tensignal-profile-identity-card {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -751,7 +751,7 @@
   box-shadow: 0 7px 24px rgba(11, 27, 44, 0.04);
 }
 
-.seenly-plan-clean .seenly-profile-identity-top {
+.tensignal-plan-clean .tensignal-profile-identity-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -759,13 +759,13 @@
   gap: 0.75rem;
 }
 
-.seenly-plan-clean .seenly-profile-identity-info {
+.tensignal-plan-clean .tensignal-profile-identity-info {
   display: flex;
   align-items: center;
   gap: 0.85rem;
 }
 
-.seenly-plan-clean .seenly-profile-identity-avatar {
+.tensignal-plan-clean .tensignal-profile-identity-avatar {
   width: 44px;
   height: 44px;
   flex: 0 0 44px;
@@ -781,13 +781,13 @@
   font-weight: 700;
 }
 
-.seenly-plan-clean .seenly-profile-identity-details {
+.tensignal-plan-clean .tensignal-profile-identity-details {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
 }
 
-.seenly-plan-clean .seenly-profile-identity-details span {
+.tensignal-plan-clean .tensignal-profile-identity-details span {
   color: var(--plan-gold);
   font-family: var(--font-mono);
   font-size: 0.62rem;
@@ -796,7 +796,7 @@
   text-transform: uppercase;
 }
 
-.seenly-plan-clean .seenly-profile-identity-details strong {
+.tensignal-plan-clean .tensignal-profile-identity-details strong {
   color: var(--plan-ink);
   font-family: var(--font-heading);
   font-size: 1.25rem;
@@ -804,7 +804,7 @@
   letter-spacing: -0.02em;
 }
 
-.seenly-plan-clean .seenly-profile-identity-subtext {
+.tensignal-plan-clean .tensignal-profile-identity-subtext {
   margin: 0;
   color: var(--plan-muted);
   font-family: var(--font-sans);
@@ -812,7 +812,7 @@
   line-height: 1.35;
 }
 
-.seenly-plan-clean .seenly-profile-plus-active-card {
+.tensignal-plan-clean .tensignal-profile-plus-active-card {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -823,13 +823,13 @@
   box-shadow: 0 8px 24px rgba(167, 125, 54, 0.06);
 }
 
-.seenly-plan-clean .seenly-profile-plus-active-header {
+.tensignal-plan-clean .tensignal-profile-plus-active-header {
   display: flex;
   align-items: center;
   gap: 0.9rem;
 }
 
-.seenly-plan-clean .seenly-profile-plus-active-icon {
+.tensignal-plan-clean .tensignal-profile-plus-active-icon {
   width: 44px;
   height: 44px;
   flex: 0 0 44px;
@@ -841,7 +841,7 @@
   color: var(--plan-gold);
 }
 
-.seenly-plan-clean .seenly-profile-plus-active-title {
+.tensignal-plan-clean .tensignal-profile-plus-active-title {
   margin: 0;
   font-family: var(--font-heading);
   font-size: 1.15rem;
@@ -850,7 +850,7 @@
   letter-spacing: -0.02em;
 }
 
-.seenly-plan-clean .seenly-profile-plus-active-desc {
+.tensignal-plan-clean .tensignal-profile-plus-active-desc {
   margin: 0.15rem 0 0;
   color: var(--plan-muted);
   font-family: var(--font-sans);
@@ -858,7 +858,7 @@
   line-height: 1.35;
 }
 
-.seenly-plan-clean .seenly-profile-plus-feature-grid {
+.tensignal-plan-clean .tensignal-profile-plus-feature-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 0.65rem 1.25rem;
@@ -867,7 +867,7 @@
   border-top: 1px solid var(--plan-line);
 }
 
-.seenly-plan-clean .seenly-profile-name-form {
+.tensignal-plan-clean .tensignal-profile-name-form {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -875,20 +875,20 @@
   border-top: 1px solid var(--plan-line);
 }
 
-.seenly-plan-clean .seenly-profile-input-group {
+.tensignal-plan-clean .tensignal-profile-input-group {
   display: flex;
   align-items: center;
   gap: 0.65rem;
   width: 100%;
 }
 
-.seenly-plan-clean .seenly-profile-input-wrapper {
+.tensignal-plan-clean .tensignal-profile-input-wrapper {
   position: relative;
   flex: 1;
   min-width: 0;
 }
 
-.seenly-plan-clean .seenly-profile-input {
+.tensignal-plan-clean .tensignal-profile-input {
   width: 100%;
   padding: 0.75rem 3.4rem 0.75rem 1rem;
   border: 1.5px solid var(--plan-line-strong);
@@ -903,12 +903,12 @@
   box-sizing: border-box;
 }
 
-.seenly-plan-clean .seenly-profile-input:focus {
+.tensignal-plan-clean .tensignal-profile-input:focus {
   border-color: var(--plan-gold);
   box-shadow: 0 0 0 3px rgba(167, 125, 54, 0.15);
 }
 
-.seenly-plan-clean .seenly-profile-input-counter {
+.tensignal-plan-clean .tensignal-profile-input-counter {
   position: absolute;
   right: 0.85rem;
   top: 50%;
@@ -920,7 +920,7 @@
   pointer-events: none;
 }
 
-.seenly-plan-clean .seenly-profile-save-btn {
+.tensignal-plan-clean .tensignal-profile-save-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -939,45 +939,45 @@
   transition: all 0.2s ease;
 }
 
-.seenly-plan-clean .seenly-profile-save-btn:hover:not(:disabled) {
+.tensignal-plan-clean .tensignal-profile-save-btn:hover:not(:disabled) {
   transform: translateY(-1px);
   box-shadow: 0 4px 14px rgba(11, 27, 44, 0.16);
 }
 
-.seenly-plan-clean .seenly-profile-save-btn:active:not(:disabled) {
+.tensignal-plan-clean .tensignal-profile-save-btn:active:not(:disabled) {
   transform: translateY(0);
 }
 
-.seenly-plan-clean .seenly-profile-save-btn:disabled {
+.tensignal-plan-clean .tensignal-profile-save-btn:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
 
-.seenly-plan-clean .seenly-profile-save-btn.is-saved {
+.tensignal-plan-clean .tensignal-profile-save-btn.is-saved {
   background: var(--plan-success);
 }
 
-.seenly-plan-clean .seenly-profile-feedback {
+.tensignal-plan-clean .tensignal-profile-feedback {
   font-family: var(--font-sans);
   font-size: 0.78rem;
   font-weight: 600;
   margin-top: -0.2rem;
 }
 
-.seenly-plan-clean .seenly-profile-feedback.is-error {
+.tensignal-plan-clean .tensignal-profile-feedback.is-error {
   color: #dc2626;
 }
 
-.seenly-plan-clean .seenly-profile-feedback.is-success {
+.tensignal-plan-clean .tensignal-profile-feedback.is-success {
   color: var(--plan-success);
 }
 
 @media (max-width: 560px) {
-  .seenly-plan-clean .seenly-profile-input-group {
+  .tensignal-plan-clean .tensignal-profile-input-group {
     flex-direction: column;
     align-items: stretch;
   }
-  .seenly-plan-clean .seenly-profile-save-btn {
+  .tensignal-plan-clean .tensignal-profile-save-btn {
     width: 100%;
   }
 }

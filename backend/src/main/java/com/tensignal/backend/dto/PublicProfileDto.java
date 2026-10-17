@@ -1,0 +1,35 @@
+package com.tensignal.backend.dto;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.Map;
+
+/**
+ * Deliberately minimal representation of a TenSignal profile safe for public links.
+ */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class PublicProfileDto {
+    private String publicSlug;
+    private String displayName;
+    private String avatar;
+    private int responseCount;
+    private boolean acceptingResponses;
+    @com.fasterxml.jackson.annotation.JsonProperty("outsidePerceptionLocked")
+    private boolean outsidePerceptionLocked;
+    @com.fasterxml.jackson.annotation.JsonProperty("outsidePerceptionLockReason")
+    private String outsidePerceptionLockReason;
+    private String outsideSignatureId;
+    private String outsideFamilyId;
+    private String confidenceBand;
+    private Map<String, Double> friendAverages;
+}

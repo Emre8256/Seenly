@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useLocale } from '../context/LocaleContext';
 import LandingPage from '../components/LandingPage';
-import { createSeenly, sendVerificationCode, verifyCode, loginWithEmail, updateAvatar } from '../services/api';
+import { createTenSignal, sendVerificationCode, verifyCode, loginWithEmail, updateAvatar } from '../services/api';
 import { AVATARS } from '../images/avatars';
 import { CARD_IMAGES } from '../images/cardImages';
 import { getCardRarityData } from '../utils/rarityEngine';
@@ -33,7 +33,7 @@ const calculatePersonalityCard = (answersOrScores) => {
   let data = answersOrScores;
   if (!data || Object.keys(data).length === 0) {
     try {
-      data = JSON.parse(sessionStorage.getItem('seenly_answers') || '{}');
+      data = JSON.parse((sessionStorage.getItem('tensignal_answers') || sessionStorage.getItem('seenly_answers')) || '{}');
     } catch (e) {
       data = {};
     }
@@ -121,7 +121,7 @@ const calculatePersonalityCard = (answersOrScores) => {
 };
 
 export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
-  const { locale, setLocale, t, getObject } = useLocale();
+  const { locale, setLocale, t, getObject, syncAccountLocale } = useLocale();
   const langCode = locale;
   const [langOpen, setLangOpen] = useState(false);
   const langRef = useRef(null);
@@ -144,11 +144,11 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
 
   // Session Storage State Restoration
   const [displayName, setDisplayName] = useState(() => {
-    return sessionStorage.getItem('seenly_displayName') || '';
+    return (sessionStorage.getItem('tensignal_displayName') || sessionStorage.getItem('seenly_displayName')) || '';
   });
 
   const [email, setEmail] = useState(() => {
-    return sessionStorage.getItem('seenly_email') || '';
+    return (sessionStorage.getItem('tensignal_email') || sessionStorage.getItem('seenly_email')) || '';
   });
 
   const isValidEmail = useCallback((emailStr) => {
@@ -182,7 +182,7 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
   const [verificationCode, setVerificationCode] = useState(Array(4).fill(''));
   const [isEmailSending, setIsEmailSending] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
-  const [registrationGrant, setRegistrationGrant] = useState(() => sessionStorage.getItem('seenly_registration_grant') || '');
+  const [registrationGrant, setRegistrationGrant] = useState(() => (sessionStorage.getItem('tensignal_registration_grant') || sessionStorage.getItem('seenly_registration_grant')) || '');
   const inputRefs = useRef([]);
 
   // Post-quiz verification flow state
@@ -192,14 +192,14 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
 
   const [answers, setAnswers] = useState(() => {
     try {
-      return JSON.parse(sessionStorage.getItem('seenly_answers')) || {};
+      return JSON.parse((sessionStorage.getItem('tensignal_answers') || sessionStorage.getItem('seenly_answers'))) || {};
     } catch (e) {
       return {};
     }
   });
 
   const [currentIndex, setCurrentIndex] = useState(() => {
-    return Number(sessionStorage.getItem('seenly_currentIndex') || -1);
+    return Number((sessionStorage.getItem('tensignal_currentIndex') || sessionStorage.getItem('seenly_currentIndex')) || -1);
   });
   const isAuthStep = [-2, -4, -5, -6, -10, -11].includes(currentIndex);
   const authViewportRef = useAuthViewport(isAuthStep);
@@ -209,10 +209,10 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
   }, [currentIndex, onLandingVisibilityChange]);
 
   const [selectedAvatar, setSelectedAvatar] = useState(() => {
-    return sessionStorage.getItem('seenly_avatar') || localStorage.getItem('seenly_avatar') || 'kadin1';
+    return (sessionStorage.getItem('tensignal_avatar') || sessionStorage.getItem('seenly_avatar')) || (localStorage.getItem('tensignal_avatar') || localStorage.getItem('seenly_avatar')) || 'kadin1';
   });
   const [avatarFilter, setAvatarFilter] = useState(() => {
-    const saved = sessionStorage.getItem('seenly_avatar') || localStorage.getItem('seenly_avatar');
+    const saved = (sessionStorage.getItem('tensignal_avatar') || sessionStorage.getItem('seenly_avatar')) || (localStorage.getItem('tensignal_avatar') || localStorage.getItem('seenly_avatar'));
     if (saved && saved.startsWith('erkek')) return 'erkek';
     return 'kadin';
   });
@@ -225,7 +225,7 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
   const [quizResult, setQuizResult] = useState(null);
 
   const [isQuickLogin, setIsQuickLogin] = useState(() => {
-    return sessionStorage.getItem('seenly_isQuickLogin') === 'true';
+    return (sessionStorage.getItem('tensignal_isQuickLogin') || sessionStorage.getItem('seenly_isQuickLogin')) === 'true';
   });
 
   const resetOnboardingState = useCallback(() => {
@@ -236,7 +236,7 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
     setAvatarFilter('all');
     setVerificationCode(Array(4).fill(''));
     setRegistrationGrant('');
-    sessionStorage.removeItem('seenly_registration_grant');
+    sessionStorage.removeItem('tensignal_registration_grant'); sessionStorage.removeItem('seenly_registration_grant');
     setPostQuizOtp(Array(4).fill(''));
     setAuthFlowNotification({ message: '', status: '' });
     setEmailValidationError('');
@@ -244,18 +244,18 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
     setResendTimer(0);
     setIsQuickLogin(false);
 
-    sessionStorage.removeItem('seenly_displayName');
-    sessionStorage.removeItem('seenly_email');
-    sessionStorage.removeItem('seenly_answers');
-    sessionStorage.removeItem('seenly_avatar');
-    sessionStorage.removeItem('seenly_currentIndex');
-    sessionStorage.removeItem('seenly_isQuickLogin');
-    localStorage.removeItem('seenly_is_premium');
-    localStorage.removeItem('seenly_test_limit');
+    sessionStorage.removeItem('tensignal_displayName'); sessionStorage.removeItem('seenly_displayName');
+    sessionStorage.removeItem('tensignal_email'); sessionStorage.removeItem('seenly_email');
+    sessionStorage.removeItem('tensignal_answers'); sessionStorage.removeItem('seenly_answers');
+    sessionStorage.removeItem('tensignal_avatar'); sessionStorage.removeItem('seenly_avatar');
+    sessionStorage.removeItem('tensignal_currentIndex'); sessionStorage.removeItem('seenly_currentIndex');
+    sessionStorage.removeItem('tensignal_isQuickLogin'); sessionStorage.removeItem('seenly_isQuickLogin');
+    localStorage.removeItem('tensignal_is_premium'); localStorage.removeItem('seenly_is_premium');
+    localStorage.removeItem('tensignal_test_limit'); localStorage.removeItem('seenly_test_limit');
   }, []);
 
   useEffect(() => {
-    sessionStorage.setItem('seenly_isQuickLogin', isQuickLogin ? 'true' : 'false');
+    sessionStorage.setItem('tensignal_isQuickLogin', isQuickLogin ? 'true' : 'false'); sessionStorage.setItem('seenly_isQuickLogin', isQuickLogin ? 'true' : 'false');
   }, [isQuickLogin]);
 
   useEffect(() => {
@@ -269,11 +269,15 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
       setIsQuickLogin(false);
       setCurrentIndex(-2);
     };
-    window.addEventListener('seenly_trigger_login', handleTriggerLogin);
-    window.addEventListener('seenly_trigger_start_quiz', handleTriggerStartQuiz);
+    window.addEventListener('tensignal_trigger_login', handleTriggerLogin);
+    window.addEventListener('tensignal_trigger_login', handleTriggerLogin);
+    window.addEventListener('tensignal_trigger_start_quiz', handleTriggerStartQuiz);
+    window.addEventListener('tensignal_trigger_start_quiz', handleTriggerStartQuiz);
     return () => {
-      window.removeEventListener('seenly_trigger_login', handleTriggerLogin);
-      window.removeEventListener('seenly_trigger_start_quiz', handleTriggerStartQuiz);
+      window.removeEventListener('tensignal_trigger_login', handleTriggerLogin);
+      window.removeEventListener('tensignal_trigger_login', handleTriggerLogin);
+      window.removeEventListener('tensignal_trigger_start_quiz', handleTriggerStartQuiz);
+      window.removeEventListener('tensignal_trigger_start_quiz', handleTriggerStartQuiz);
     };
   }, [resetOnboardingState]);
 
@@ -300,19 +304,19 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
   }, []);
 
   useEffect(() => {
-    sessionStorage.setItem('seenly_displayName', displayName);
+    sessionStorage.setItem('tensignal_displayName', displayName); sessionStorage.setItem('seenly_displayName', displayName);
   }, [displayName]);
 
   useEffect(() => {
-    sessionStorage.setItem('seenly_email', email);
+    sessionStorage.setItem('tensignal_email', email); sessionStorage.setItem('seenly_email', email);
   }, [email]);
 
   useEffect(() => {
-    sessionStorage.setItem('seenly_answers', JSON.stringify(answers));
+    sessionStorage.setItem('tensignal_answers', JSON.stringify(answers));
   }, [answers]);
 
   useEffect(() => {
-    sessionStorage.setItem('seenly_currentIndex', currentIndex.toString());
+    sessionStorage.setItem('tensignal_currentIndex', currentIndex.toString());
   }, [currentIndex]);
 
   useEffect(() => {
@@ -367,18 +371,21 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
     }));
 
     try {
-      const response = await createSeenly(displayName, email.trim(), selfAnswersPayload, grantOverride || registrationGrant);
-
-      localStorage.setItem('seenly_owner_token', response.ownerToken);
-      if (response.publicSlug) {
-        localStorage.setItem('seenly_owner_slug', response.publicSlug);
+      const response = await createTenSignal(displayName, email.trim(), selfAnswersPayload, grantOverride || registrationGrant, langCode);
+      if (syncAccountLocale) {
+        syncAccountLocale(langCode);
       }
 
-      localStorage.removeItem('seenly_is_premium');
-      localStorage.removeItem('seenly_test_limit');
+      localStorage.setItem('tensignal_owner_token', response.ownerToken); localStorage.setItem('seenly_owner_token', response.ownerToken);
+      if (response.publicSlug) {
+        localStorage.setItem('tensignal_owner_slug', response.publicSlug); localStorage.setItem('seenly_owner_slug', response.publicSlug);
+      }
 
-      const avatarToSave = selectedAvatar || sessionStorage.getItem('seenly_avatar') || 'kadin1';
-      localStorage.setItem('seenly_avatar', avatarToSave);
+      localStorage.removeItem('tensignal_is_premium'); localStorage.removeItem('seenly_is_premium');
+      localStorage.removeItem('tensignal_test_limit'); localStorage.removeItem('seenly_test_limit');
+
+      const avatarToSave = selectedAvatar || (sessionStorage.getItem('tensignal_avatar') || sessionStorage.getItem('seenly_avatar')) || 'kadin1';
+      localStorage.setItem('tensignal_avatar', avatarToSave); localStorage.setItem('seenly_avatar', avatarToSave);
       if (response.ownerToken) {
         try {
           await updateAvatar(response.ownerToken, avatarToSave);
@@ -387,13 +394,13 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
         }
       }
 
-      sessionStorage.removeItem('seenly_displayName');
-      sessionStorage.removeItem('seenly_email');
-      sessionStorage.removeItem('seenly_answers');
-      sessionStorage.removeItem('seenly_avatar');
-      sessionStorage.removeItem('seenly_currentIndex');
-      sessionStorage.removeItem('seenly_selectedLang');
-      sessionStorage.removeItem('seenly_registration_grant');
+      sessionStorage.removeItem('tensignal_displayName'); sessionStorage.removeItem('seenly_displayName');
+      sessionStorage.removeItem('tensignal_email'); sessionStorage.removeItem('seenly_email');
+      sessionStorage.removeItem('tensignal_answers'); sessionStorage.removeItem('seenly_answers');
+      sessionStorage.removeItem('tensignal_avatar'); sessionStorage.removeItem('seenly_avatar');
+      sessionStorage.removeItem('tensignal_currentIndex'); sessionStorage.removeItem('seenly_currentIndex');
+      sessionStorage.removeItem('tensignal_selectedLang'); sessionStorage.removeItem('seenly_selectedLang');
+      sessionStorage.removeItem('tensignal_registration_grant'); sessionStorage.removeItem('seenly_registration_grant');
 
       setQuizResult(response);
       if (!bypassFullscreen) {
@@ -420,7 +427,7 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
     setErrorMessage('');
     setAuthFlowNotification({ message: '', status: '' });
     try {
-      await sendVerificationCode(trimmedEmail, isQuickLogin ? 'LOGIN' : 'REGISTER');
+      await sendVerificationCode(trimmedEmail, isQuickLogin ? 'LOGIN' : 'REGISTER', null, langCode);
       setEmail(trimmedEmail);
       setVerificationCode(Array(4).fill(''));
       setResendTimer(60);
@@ -488,16 +495,19 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
     try {
       if (isQuickLogin) {
         const response = await loginWithEmail(email, fullCode);
-        localStorage.setItem('seenly_owner_token', response.ownerToken);
+        if (syncAccountLocale) {
+          syncAccountLocale(response?.preferredLocale);
+        }
+        localStorage.setItem('tensignal_owner_token', response.ownerToken); localStorage.setItem('seenly_owner_token', response.ownerToken);
         if (response.publicSlug) {
-          localStorage.setItem('seenly_owner_slug', response.publicSlug);
+          localStorage.setItem('tensignal_owner_slug', response.publicSlug); localStorage.setItem('seenly_owner_slug', response.publicSlug);
         }
 
-        sessionStorage.removeItem('seenly_displayName');
-        sessionStorage.removeItem('seenly_email');
-        sessionStorage.removeItem('seenly_answers');
-        sessionStorage.removeItem('seenly_currentIndex');
-        sessionStorage.removeItem('seenly_selectedLang');
+        sessionStorage.removeItem('tensignal_displayName'); sessionStorage.removeItem('seenly_displayName');
+        sessionStorage.removeItem('tensignal_email'); sessionStorage.removeItem('seenly_email');
+        sessionStorage.removeItem('tensignal_answers'); sessionStorage.removeItem('seenly_answers');
+        sessionStorage.removeItem('tensignal_currentIndex'); sessionStorage.removeItem('seenly_currentIndex');
+        sessionStorage.removeItem('tensignal_selectedLang'); sessionStorage.removeItem('seenly_selectedLang');
 
         if (onComplete) {
           onComplete(response.ownerToken);
@@ -505,7 +515,7 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
       } else {
         const response = await verifyCode(email, fullCode, 'REGISTER');
         setRegistrationGrant(response.verificationGrant);
-        sessionStorage.setItem('seenly_registration_grant', response.verificationGrant);
+        sessionStorage.setItem('tensignal_registration_grant', response.verificationGrant); sessionStorage.setItem('seenly_registration_grant', response.verificationGrant);
         setCurrentIndex(-2);
       }
     } catch (err) {
@@ -562,7 +572,7 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
     setErrorMessage('');
     setAuthFlowNotification({ message: '', status: '' });
     try {
-      await sendVerificationCode(trimmedEmail, 'REGISTER');
+      await sendVerificationCode(trimmedEmail, 'REGISTER', null, langCode);
       setEmail(trimmedEmail);
       setPostQuizOtp(Array(4).fill(''));
       setResendTimer(60);
@@ -601,7 +611,7 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
     try {
       const response = await verifyCode(email, fullCode, 'REGISTER');
       setRegistrationGrant(response.verificationGrant);
-      sessionStorage.setItem('seenly_registration_grant', response.verificationGrant);
+      sessionStorage.setItem('tensignal_registration_grant', response.verificationGrant); sessionStorage.setItem('seenly_registration_grant', response.verificationGrant);
       setAuthFlowNotification({
         message: t('auth.verificationSuccess'),
         status: 'success'
@@ -658,9 +668,9 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
 
   if (isSubmitting) {
     return (
-      <div className="seenly-wizard-wrapper">
-        <div className="seenly-wizard-container">
-          <div className="seenly-wizard-body" style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+      <div className="tensignal-wizard-wrapper">
+        <div className="tensignal-wizard-container">
+          <div className="tensignal-wizard-body" style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
             <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '2rem', fontWeight: '400', marginBottom: '1.5rem', color: 'var(--color-deep-ink)' }}>
               {t('quiz.results.awaitingSignalAnalysis')}
             </h2>
@@ -696,15 +706,15 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
     const signatureName = signature ? signature.name : t('quiz.results.awaitingSignalAnalysis');
     const signatureCardLine = signature ? signature.cardLine : "";
     const signatureImage = SIGNATURE_IMAGES[signatureId];
-    const publicSlug = quizResult?.publicSlug || localStorage.getItem('seenly_owner_slug') || '';
+    const publicSlug = quizResult?.publicSlug || (localStorage.getItem('tensignal_owner_slug') || localStorage.getItem('seenly_owner_slug')) || '';
     const cardRarity = getCardRarityData(signatureId, quizResult?.resultSnapshot?.selfRarity, t);
 
     return (
-      <div ref={authViewportRef} className={`seenly-wizard-wrapper ${isAuthStep ? 'seenly-auth-viewport' : ''}`} style={{ padding: 0 }}>
-        <div className={`seenly-wizard-container ${!isPostQuizFlow ? 'seenly-result-wizard-container' : ''}`}>
+      <div ref={authViewportRef} className={`tensignal-wizard-wrapper ${isAuthStep ? 'tensignal-auth-viewport' : ''}`} style={{ padding: 0 }}>
+        <div className={`tensignal-wizard-container ${!isPostQuizFlow ? 'tensignal-result-wizard-container' : ''}`}>
           {/* Wizard Header */}
           <header
-            className="seenly-wizard-header"
+            className="tensignal-wizard-header"
             style={!isPostQuizFlow ? {
               display: 'flex',
               justifyContent: 'space-between',
@@ -719,7 +729,7 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
               <>
                 <button
                   type="button"
-                  className="seenly-wizard-back-btn"
+                  className="tensignal-wizard-back-btn"
                   onClick={() => {
                     if (currentIndex === -10) {
                       setCurrentIndex(-9);
@@ -739,9 +749,9 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
                     <polyline points="12 19 5 12 12 5" />
                   </svg>
                 </button>
-                <div className="seenly-wizard-progress-track">
+                <div className="tensignal-wizard-progress-track">
                   <div
-                    className="seenly-wizard-progress-bar"
+                    className="tensignal-wizard-progress-bar"
                     style={{ width: `${progressPercentage}%` }}
                   ></div>
                 </div>
@@ -831,13 +841,13 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
   }
 
   return (
-    <div ref={authViewportRef} className={`seenly-wizard-wrapper ${isAuthStep ? 'seenly-auth-viewport' : ''}`}>
-      <div className="seenly-wizard-container">
+    <div ref={authViewportRef} className={`tensignal-wizard-wrapper ${isAuthStep ? 'tensignal-auth-viewport' : ''}`}>
+      <div className="tensignal-wizard-container">
         {/* Wizard Header */}
-        <header className="seenly-wizard-header">
+        <header className="tensignal-wizard-header">
           <button
             type="button"
-            className="seenly-wizard-back-btn"
+            className="tensignal-wizard-back-btn"
             onClick={handleGoBack}
             aria-label={t('common.back')}
             title={t('common.back')}
@@ -851,9 +861,9 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
             <div style={{ flex: 1 }} />
           )}
           {!(currentIndex === -5 || currentIndex === -6) && (
-            <div className="seenly-wizard-progress-track">
+            <div className="tensignal-wizard-progress-track">
               <div
-                className="seenly-wizard-progress-bar"
+                className="tensignal-wizard-progress-bar"
                 style={{ width: `${progressPercentage}%` }}
               ></div>
             </div>
@@ -862,7 +872,7 @@ export default function QuizPage({ onComplete, onLandingVisibilityChange }) {
         </header>
 
         {/* Wizard Body */}
-        <div className="seenly-wizard-body">
+        <div className="tensignal-wizard-body">
           {/* Onboarding Steps (-5, -6, -2, -4) */}
           {(currentIndex === -5 || currentIndex === -6 || currentIndex === -2 || currentIndex === -4) && (
             <QuizOnboardingStep

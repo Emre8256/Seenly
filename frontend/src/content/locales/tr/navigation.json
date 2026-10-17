@@ -2,7 +2,7 @@
   "home": "Ana Sayfa",
   "dashboard": "Panelim",
   "settings": "Profil",
-  "packages": "Seenly Plus",
+  "packages": "10Signal Plus",
   "start": "Testi Başlat",
   "login": "Giriş Yap",
   "logout": "Çıkış Yap",
@@ -20,8 +20,8 @@
     "terms": "Kullanım Koşulları",
     "contact": "İletişim",
     "contactUs": "İletişim",
-    "description": "Seenly, insanların kendilerini ve birbirlerini daha iyi anlamalarına yardımcı olmak için özenle tasarlandı.",
-    "rights": "Seenly. Tüm hakları saklıdır.",
+    "description": "10Signal, insanların kendilerini ve birbirlerini daha iyi anlamalarına yardımcı olmak için özenle tasarlandı.",
+    "rights": "10Signal. Tüm hakları saklıdır.",
     "slogan": "Kendini gör"
   }
 }

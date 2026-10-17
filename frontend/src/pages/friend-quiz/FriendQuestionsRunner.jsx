@@ -13,11 +13,11 @@ const FriendQuestionsRunner = memo(function FriendQuestionsRunner({
 
   return (
     <>
-      <div className="seenly-wizard-content">
-        <h2 className="seenly-wizard-title question-text">
+      <div className="tensignal-wizard-content">
+        <h2 className="tensignal-wizard-title question-text">
           {t(`questions.${questionId}`)}
         </h2>
-        <div className="seenly-wizard-list-container">
+        <div className="tensignal-wizard-list-container">
           {[
             { value: 1, label: t('common.agreement_strongly_disagree') },
             { value: 2, label: t('common.agreement_disagree') },
@@ -30,20 +30,20 @@ const FriendQuestionsRunner = memo(function FriendQuestionsRunner({
               <button
                 key={opt.value}
                 type="button"
-                className={`seenly-wizard-list-btn ${isActive ? 'active' : ''}`}
+                className={`tensignal-wizard-list-btn ${isActive ? 'active' : ''}`}
                 onClick={() => handleSelectOption(opt.value)}
               >
                 <span>{opt.label}</span>
-                {isActive && <span className="seenly-wizard-checkmark">✓</span>}
+                {isActive && <span className="tensignal-wizard-checkmark">✓</span>}
               </button>
             );
           })}
         </div>
       </div>
-      <div className="seenly-wizard-footer-action">
+      <div className="tensignal-wizard-footer-action">
         <button
           type="button"
-          className="seenly-wizard-primary-btn"
+          className="tensignal-wizard-primary-btn"
           disabled={selectedValue === undefined}
           onClick={handleNext}
         >

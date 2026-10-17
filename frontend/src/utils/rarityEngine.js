@@ -1,5 +1,5 @@
 /**
- * Dynamic Card Rarity Tier System for Seenly
+ * Dynamic Card Rarity Tier System for 10Signal
  * 4 Tiers (Pure typography and curated color focused):
  * 1. Yaygın (Common): Bottom 0% - 60% of distribution (Most frequent / Baseline)
  * 2. Seçkin (Elite): Top 60% - 85% of distribution (Above average / Distinct)

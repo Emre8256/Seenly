@@ -40,7 +40,7 @@ const FriendResultPreview = memo(function FriendResultPreview({
         {/* Luxury Reader Card (Left Column on Desktop, Centered on Mobile) */}
         <div className="flex flex-col items-center w-full max-w-[300px] md:max-w-none flex-shrink-0 animate-scale-in">
           <div
-            className="seenly-dashboard-premium-card p-4 sm:p-5 flex flex-col items-center justify-between text-center relative rounded-[26px] sm:rounded-[30px] w-full box-border"
+            className="tensignal-dashboard-premium-card p-4 sm:p-5 flex flex-col items-center justify-between text-center relative rounded-[26px] sm:rounded-[30px] w-full box-border"
             style={{
               background: '#FDFBF4',
               border: '1px solid rgba(197, 160, 89, 0.28)',

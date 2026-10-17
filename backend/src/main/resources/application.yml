@@ -21,7 +21,7 @@ spring:
   profiles:
     active: dev
   application:
-    name: seenly-backend
+    name: tensignal-backend
   lifecycle:
     timeout-per-shutdown-phase: 20s
   jpa:
@@ -64,8 +64,16 @@ management:
 
 app:
   email:
-    provider: ${EMAIL_PROVIDER:disabled}
-    mail-from: ${AUTH_MAIL_FROM:no-reply@seenly.app}
+    provider: ${EMAIL_PROVIDER:brevo}
+    mail-from: ${AUTH_MAIL_FROM:mail@10signal.me}
+    brevo:
+      api-key: ${BREVO_API_KEY:}
+      sender-email: ${BREVO_SENDER_EMAIL:mail@10signal.me}
+      sender-name: ${BREVO_SENDER_NAME:10Signal}
+      reply-to: ${BREVO_REPLY_TO:10signal.me@gmail.com}
+      api-url: ${BREVO_API_URL:https://api.brevo.com/v3/smtp/email}
+      connect-timeout-ms: ${BREVO_CONNECT_TIMEOUT_MS:5000}
+      read-timeout-ms: ${BREVO_READ_TIMEOUT_MS:10000}
     outbox:
       batch-size: ${EMAIL_OUTBOX_BATCH_SIZE:20}
       worker-interval-ms: ${EMAIL_OUTBOX_INTERVAL_MS:5000}
@@ -75,8 +83,18 @@ app:
       cooldown-days: ${EMAIL_COOLDOWN_DAYS:30}
       check-interval-ms: ${EMAIL_LIFECYCLE_INTERVAL_MS:3600000}
   payment:
-    provider: disabled
+    provider: ${PAYMENT_PROVIDER:disabled}
     max-webhook-bytes: 65536
+    lemonsqueezy:
+      api-key: ${LEMON_SQUEEZY_API_KEY:}
+      webhook-secret: ${LEMON_SQUEEZY_WEBHOOK_SECRET:}
+      plus-checkout-url: ${LEMON_SQUEEZY_PLUS_CHECKOUT_URL:https://seenly.lemonsqueezy.com/checkout/buy/c31e5d1b-a28d-46b1-99e1-6ec637c927da}
+      capacity50-checkout-url: ${LEMON_SQUEEZY_CAPACITY_50_CHECKOUT_URL:${LEMON_SQUEEZY_CAPACITY_100_CHECKOUT_URL:https://seenly.lemonsqueezy.com/checkout/buy/9e4aa985-a2dc-46da-a20a-246bc2d9e83c}}
+      capacity150-checkout-url: ${LEMON_SQUEEZY_CAPACITY_150_CHECKOUT_URL:${LEMON_SQUEEZY_CAPACITY_250_CHECKOUT_URL:https://seenly.lemonsqueezy.com/checkout/buy/90f059cc-bd69-487a-9acf-f4f2f5d6c42b}}
+      capacity300-checkout-url: ${LEMON_SQUEEZY_CAPACITY_300_CHECKOUT_URL:${LEMON_SQUEEZY_CAPACITY_500_CHECKOUT_URL:https://seenly.lemonsqueezy.com/checkout/buy/06107728-bcbb-42fa-b72e-3d7120db82ba}}
+      capacity100-checkout-url: ${LEMON_SQUEEZY_CAPACITY_100_CHECKOUT_URL:https://seenly.lemonsqueezy.com/checkout/buy/9e4aa985-a2dc-46da-a20a-246bc2d9e83c}
+      capacity250-checkout-url: ${LEMON_SQUEEZY_CAPACITY_250_CHECKOUT_URL:https://seenly.lemonsqueezy.com/checkout/buy/90f059cc-bd69-487a-9acf-f4f2f5d6c42b}
+      capacity500-checkout-url: ${LEMON_SQUEEZY_CAPACITY_500_CHECKOUT_URL:https://seenly.lemonsqueezy.com/checkout/buy/06107728-bcbb-42fa-b72e-3d7120db82ba}
   auth:
     otp-ttl: ${AUTH_OTP_TTL:PT10M}
     otp-resend-cooldown: ${AUTH_OTP_RESEND_COOLDOWN:PT1M}
@@ -93,6 +111,7 @@ app:
     submission-per-network: ${RATE_SUBMISSION_NETWORK:30}
     clicks: ${RATE_PROFILE_CLICKS:30}
     owner-mutations: ${RATE_OWNER_MUTATIONS:10}
+    owner-preferences: ${RATE_OWNER_PREFERENCES:60}
     public-reads: ${RATE_PUBLIC_READS:120}
   security:
     allowed-origins: []

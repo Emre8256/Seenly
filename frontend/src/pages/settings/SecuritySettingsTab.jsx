@@ -2,9 +2,9 @@ import React, { memo } from 'react';
 import {
   Mail,
   Zap,
-  Award,
-  TrendingUp,
-  Megaphone
+  Bell,
+  Sparkles,
+  Gauge
 } from 'lucide-react';
 import { useLocale } from '../../context/LocaleContext';
 
@@ -15,21 +15,21 @@ const SecuritySettingsTab = memo(function SecuritySettingsTab({
   const { t } = useLocale();
 
   return (
-    <div className="seenly-settings-content seenly-settings-fade-in">
-      <div className="seenly-plan-pro seenly-plan-clean">
+    <div className="tensignal-settings-content tensignal-settings-fade-in">
+      <div className="tensignal-plan-pro tensignal-plan-clean">
 
-        <section className="seenly-profile-card seenly-form-card">
+        <section className="tensignal-profile-card tensignal-form-card">
           {/* 1. Master Email Switch Row */}
-          <div className="seenly-notif-row-embedded">
-            <div className="seenly-notif-row-left">
-              <div className="seenly-card-head-icon seenly-notif-master-icon">
+          <div className="tensignal-notif-row-embedded">
+            <div className="tensignal-notif-row-left">
+              <div className="tensignal-card-head-icon tensignal-notif-master-icon">
                 <Mail size={20} strokeWidth={2} />
               </div>
-              <div className="seenly-notif-subcard-copy">
-                <h3 className="seenly-notif-master-title">
+              <div className="tensignal-notif-subcard-copy">
+                <h3 className="tensignal-notif-master-title">
                   {t('settings.security.emailNotifsTitle')}
                 </h3>
-                <p className="seenly-notif-row-desc">
+                <p className="tensignal-notif-row-desc">
                   {t('settings.security.emailNotifsDesc')}
                 </p>
               </div>
@@ -38,30 +38,31 @@ const SecuritySettingsTab = memo(function SecuritySettingsTab({
             <button
               type="button"
               role="switch"
+              id="notif-switch-master"
               aria-checked={notifPrefs.masterEmail}
               onClick={() => handleToggleNotif('masterEmail')}
-              className={`seenly-toggle-switch ${notifPrefs.masterEmail ? 'is-active' : ''}`}
+              className={`tensignal-toggle-switch ${notifPrefs.masterEmail ? 'is-active' : ''}`}
               title={notifPrefs.masterEmail ? t('settings.security.turnOff') : t('settings.security.turnOn')}
             >
-              <span className="seenly-toggle-thumb" />
+              <span className="tensignal-toggle-thumb" />
             </button>
           </div>
 
-          <div className="seenly-profile-divider" style={{ margin: '0.25rem 0' }} />
+          <div className="tensignal-profile-divider" style={{ margin: '0.25rem 0' }} />
 
           {/* 2. Subcategory Switches */}
-          <div className="seenly-notif-embedded-list">
-            {/* Item 1: Yeni Değerlendirmeler */}
-            <div className={`seenly-notif-row-embedded ${!notifPrefs.masterEmail ? 'is-disabled' : ''}`}>
-              <div className="seenly-notif-row-left">
-                <div className="seenly-notif-sub-icon">
+          <div className="tensignal-notif-embedded-list">
+            {/* Item 1: Yeni Değerlendirmeler (NEW_EVALUATION) */}
+            <div className={`tensignal-notif-row-embedded ${!notifPrefs.masterEmail ? 'is-disabled' : ''}`}>
+              <div className="tensignal-notif-row-left">
+                <div className="tensignal-notif-sub-icon">
                   <Zap size={16} strokeWidth={2.2} />
                 </div>
-                <div className="seenly-notif-subcard-copy">
-                  <h4 className="seenly-notif-row-title">
+                <div className="tensignal-notif-subcard-copy">
+                  <h4 className="tensignal-notif-row-title">
                     {t('settings.security.newEvaluationsTitle')}
                   </h4>
-                  <p className="seenly-notif-row-desc">
+                  <p className="tensignal-notif-row-desc">
                     {t('settings.security.newEvaluationsDesc')}
                   </p>
                 </div>
@@ -70,29 +71,30 @@ const SecuritySettingsTab = memo(function SecuritySettingsTab({
               <button
                 type="button"
                 role="switch"
+                id="notif-switch-evaluations"
                 disabled={!notifPrefs.masterEmail}
-                aria-checked={notifPrefs.masterEmail && notifPrefs.newReflections}
-                onClick={() => handleToggleNotif('newReflections')}
-                className={`seenly-toggle-switch ${notifPrefs.masterEmail && notifPrefs.newReflections ? 'is-active' : ''}`}
+                aria-checked={notifPrefs.evaluations}
+                onClick={() => handleToggleNotif('evaluations')}
+                className={`tensignal-toggle-switch ${notifPrefs.evaluations ? 'is-active' : ''}`}
               >
-                <span className="seenly-toggle-thumb" />
+                <span className="tensignal-toggle-thumb" />
               </button>
             </div>
 
-            <div className="seenly-profile-divider" style={{ margin: '0.25rem 0' }} />
+            <div className="tensignal-profile-divider" style={{ margin: '0.25rem 0' }} />
 
-            {/* Item 2: Rapor & Kilit Bildirimleri */}
-            <div className={`seenly-notif-row-embedded ${!notifPrefs.masterEmail ? 'is-disabled' : ''}`}>
-              <div className="seenly-notif-row-left">
-                <div className="seenly-notif-sub-icon">
-                  <Award size={16} strokeWidth={2.2} />
+            {/* Item 2: Kilometre Taşları ve Hatırlatmalar (REPORT_UNLOCKED, FIRST_SHARE_REMINDER, INACTIVITY_REMINDER) */}
+            <div className={`tensignal-notif-row-embedded ${!notifPrefs.masterEmail ? 'is-disabled' : ''}`}>
+              <div className="tensignal-notif-row-left">
+                <div className="tensignal-notif-sub-icon">
+                  <Bell size={16} strokeWidth={2.2} />
                 </div>
-                <div className="seenly-notif-subcard-copy">
-                  <h4 className="seenly-notif-row-title">
-                    {t('settings.security.reportMilestonesTitle')}
+                <div className="tensignal-notif-subcard-copy">
+                  <h4 className="tensignal-notif-row-title">
+                    {t('settings.security.remindersTitle')}
                   </h4>
-                  <p className="seenly-notif-row-desc">
-                    {t('settings.security.reportMilestonesDesc')}
+                  <p className="tensignal-notif-row-desc">
+                    {t('settings.security.remindersDesc')}
                   </p>
                 </div>
               </div>
@@ -100,29 +102,30 @@ const SecuritySettingsTab = memo(function SecuritySettingsTab({
               <button
                 type="button"
                 role="switch"
+                id="notif-switch-reminders"
                 disabled={!notifPrefs.masterEmail}
-                aria-checked={notifPrefs.masterEmail && notifPrefs.milestones}
-                onClick={() => handleToggleNotif('milestones')}
-                className={`seenly-toggle-switch ${notifPrefs.masterEmail && notifPrefs.milestones ? 'is-active' : ''}`}
+                aria-checked={notifPrefs.reminders}
+                onClick={() => handleToggleNotif('reminders')}
+                className={`tensignal-toggle-switch ${notifPrefs.reminders ? 'is-active' : ''}`}
               >
-                <span className="seenly-toggle-thumb" />
+                <span className="tensignal-toggle-thumb" />
               </button>
             </div>
 
-            <div className="seenly-profile-divider" style={{ margin: '0.25rem 0' }} />
+            <div className="tensignal-profile-divider" style={{ margin: '0.25rem 0' }} />
 
-            {/* Item 3: Haftalık Özet */}
-            <div className={`seenly-notif-row-embedded ${!notifPrefs.masterEmail ? 'is-disabled' : ''}`}>
-              <div className="seenly-notif-row-left">
-                <div className="seenly-notif-sub-icon">
-                  <TrendingUp size={16} strokeWidth={2.2} />
+            {/* Item 3: Kimlik ve Kart Güncellemeleri (SOCIAL_CARD_CHANGED) */}
+            <div className={`tensignal-notif-row-embedded ${!notifPrefs.masterEmail ? 'is-disabled' : ''}`}>
+              <div className="tensignal-notif-row-left">
+                <div className="tensignal-notif-sub-icon">
+                  <Sparkles size={16} strokeWidth={2.2} />
                 </div>
-                <div className="seenly-notif-subcard-copy">
-                  <h4 className="seenly-notif-row-title">
-                    {t('settings.security.weeklyDigestTitle')}
+                <div className="tensignal-notif-subcard-copy">
+                  <h4 className="tensignal-notif-row-title">
+                    {t('settings.security.cardChangesTitle')}
                   </h4>
-                  <p className="seenly-notif-row-desc">
-                    {t('settings.security.weeklyDigestDesc')}
+                  <p className="tensignal-notif-row-desc">
+                    {t('settings.security.cardChangesDesc')}
                   </p>
                 </div>
               </div>
@@ -130,29 +133,30 @@ const SecuritySettingsTab = memo(function SecuritySettingsTab({
               <button
                 type="button"
                 role="switch"
+                id="notif-switch-card-changes"
                 disabled={!notifPrefs.masterEmail}
-                aria-checked={notifPrefs.masterEmail && notifPrefs.weeklyDigest}
-                onClick={() => handleToggleNotif('weeklyDigest')}
-                className={`seenly-toggle-switch ${notifPrefs.masterEmail && notifPrefs.weeklyDigest ? 'is-active' : ''}`}
+                aria-checked={notifPrefs.cardChanges}
+                onClick={() => handleToggleNotif('cardChanges')}
+                className={`tensignal-toggle-switch ${notifPrefs.cardChanges ? 'is-active' : ''}`}
               >
-                <span className="seenly-toggle-thumb" />
+                <span className="tensignal-toggle-thumb" />
               </button>
             </div>
 
-            <div className="seenly-profile-divider" style={{ margin: '0.25rem 0' }} />
+            <div className="tensignal-profile-divider" style={{ margin: '0.25rem 0' }} />
 
-            {/* Item 4: Pazarlama & Güncellemeler */}
-            <div className={`seenly-notif-row-embedded ${!notifPrefs.masterEmail ? 'is-disabled' : ''}`}>
-              <div className="seenly-notif-row-left">
-                <div className="seenly-notif-sub-icon">
-                  <Megaphone size={16} strokeWidth={2} />
+            {/* Item 4: Kapasite ve Kota Uyarıları (CAPACITY_80_PERCENT, CAPACITY_FULL) */}
+            <div className={`tensignal-notif-row-embedded ${!notifPrefs.masterEmail ? 'is-disabled' : ''}`}>
+              <div className="tensignal-notif-row-left">
+                <div className="tensignal-notif-sub-icon">
+                  <Gauge size={16} strokeWidth={2.2} />
                 </div>
-                <div className="seenly-notif-subcard-copy">
-                  <h4 className="seenly-notif-row-title">
-                    {t('settings.security.productUpdatesTitle')}
+                <div className="tensignal-notif-subcard-copy">
+                  <h4 className="tensignal-notif-row-title">
+                    {t('settings.security.capacityAlertsTitle')}
                   </h4>
-                  <p className="seenly-notif-row-desc">
-                    {t('settings.security.productUpdatesDesc')}
+                  <p className="tensignal-notif-row-desc">
+                    {t('settings.security.capacityAlertsDesc')}
                   </p>
                 </div>
               </div>
@@ -160,12 +164,13 @@ const SecuritySettingsTab = memo(function SecuritySettingsTab({
               <button
                 type="button"
                 role="switch"
+                id="notif-switch-capacity-alerts"
                 disabled={!notifPrefs.masterEmail}
-                aria-checked={notifPrefs.masterEmail && notifPrefs.productUpdates}
-                onClick={() => handleToggleNotif('productUpdates')}
-                className={`seenly-toggle-switch ${notifPrefs.masterEmail && notifPrefs.productUpdates ? 'is-active' : ''}`}
+                aria-checked={notifPrefs.capacityAlerts}
+                onClick={() => handleToggleNotif('capacityAlerts')}
+                className={`tensignal-toggle-switch ${notifPrefs.capacityAlerts ? 'is-active' : ''}`}
               >
-                <span className="seenly-toggle-thumb" />
+                <span className="tensignal-toggle-thumb" />
               </button>
             </div>
           </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useLocale } from '../context/LocaleContext';
 import AppShell from '../components/AppShell';
-import { useSeenlyShare, buildWhatsAppLink } from '../hooks/useSeenlyShare';
+import { useTenSignalShare, buildWhatsAppLink } from '../hooks/useTenSignalShare';
 import { calibrateAccuracyScore } from '../utils/psychometrics';
 
 import dengeliGozlemci from '../images/readers/Dengeli Gözlemci.avif';
@@ -24,7 +24,7 @@ const READER_CARD_IMAGES = {
 export default function FriendResultPage({ slug, onNavigateToQuiz }) {
   const { locale: langCode, t, getObject } = useLocale();
   const [result, setResult] = useState(null);
-  const { handleInstagramStory, isGenerating } = useSeenlyShare();
+  const { handleInstagramStory, isGenerating } = useTenSignalShare();
 
   const _slug = slug || result?.publicSlug || '';
 
@@ -37,7 +37,7 @@ export default function FriendResultPage({ slug, onNavigateToQuiz }) {
 
   useEffect(() => {
     try {
-      const saved = sessionStorage.getItem('seenly_friend_result');
+      const saved = sessionStorage.getItem('tensignal_friend_result');
       if (saved) {
         setResult(JSON.parse(saved));
       }
@@ -46,9 +46,10 @@ export default function FriendResultPage({ slug, onNavigateToQuiz }) {
     }
   }, []);
 
-  const isLoggedIn = !!(localStorage.getItem('seenly_owner_token'));
+  const isLoggedIn = !!(localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token'));
 
   const handleStartOwn = useCallback(() => {
+    sessionStorage.removeItem('tensignal_friend_result');
     sessionStorage.removeItem('seenly_friend_result');
     if (onNavigateToQuiz) {
       onNavigateToQuiz();
@@ -80,7 +81,7 @@ export default function FriendResultPage({ slug, onNavigateToQuiz }) {
 
   return (
     <AppShell isDashboard={true} watercolorBackground footerMode="simple">
-      <div className="seenly-dashboard-page-wrapper py-6 sm:py-10">
+      <div className="tensignal-dashboard-page-wrapper py-6 sm:py-10">
         <FriendResultPreview
           styleId={styleId}
           styleObj={styleObj}

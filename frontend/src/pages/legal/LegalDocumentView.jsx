@@ -9,7 +9,7 @@ export function renderTextWithFormatting(text) {
   return parts.map((part, index) => {
     if (/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/.test(part)) {
       return (
-        <a key={index} href={`mailto:${part}`} className="seenly-legal-link">
+        <a key={index} href={`mailto:${part}`} className="tensignal-legal-link">
           {part}
         </a>
       );
@@ -27,7 +27,7 @@ export function renderLegalBlock(block, blockIndex) {
     return (
       <p
         key={blockIndex}
-        className="seenly-legal-text"
+        className="tensignal-legal-text"
         style={block.style === 'italic' ? { fontStyle: 'italic', color: '#64748B' } : undefined}
       >
         {renderTextWithFormatting(block.text)}
@@ -36,15 +36,15 @@ export function renderLegalBlock(block, blockIndex) {
   }
   if (block.type === 'h3') {
     return (
-      <h3 key={blockIndex} className="seenly-legal-subtitle">
+      <h3 key={blockIndex} className="tensignal-legal-subtitle">
         {block.text}
       </h3>
     );
   }
   if (block.type === 'highlight') {
     return (
-      <div key={blockIndex} className="seenly-legal-highlight-box is-success">
-        <p className="seenly-legal-highlight-text">
+      <div key={blockIndex} className="tensignal-legal-highlight-box is-success">
+        <p className="tensignal-legal-highlight-text">
           {renderTextWithFormatting(block.text)}
         </p>
       </div>
@@ -52,7 +52,7 @@ export function renderLegalBlock(block, blockIndex) {
   }
   if (block.type === 'list') {
     return (
-      <ul key={blockIndex} className="seenly-legal-list">
+      <ul key={blockIndex} className="tensignal-legal-list">
         {block.items.map((item, itemIdx) => (
           <li key={itemIdx}>{renderTextWithFormatting(item)}</li>
         ))}
@@ -77,11 +77,11 @@ export default function LegalDocumentView({ docKey, fullWidth = false }) {
 
   return (
     <AppShell isDashboard={false} fullWidth={fullWidth}>
-      <div className="seenly-legal-container">
+      <div className="tensignal-legal-container">
         <button
           type="button"
           onClick={handleBack}
-          className="seenly-legal-back-btn"
+          className="tensignal-legal-back-btn"
           aria-label={t('accessibility.goBack')}
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -91,17 +91,17 @@ export default function LegalDocumentView({ docKey, fullWidth = false }) {
           <span>{t('legal.chrome.backHome')}</span>
         </button>
 
-        <article className="seenly-legal-card seenly-privacy-card">
-          <header className="seenly-legal-header">
-            <h1 className="seenly-legal-title">{t(`legal.${docKey}.title`)}</h1>
-            <p className="seenly-legal-meta">
+        <article className="tensignal-legal-card tensignal-privacy-card">
+          <header className="tensignal-legal-header">
+            <h1 className="tensignal-legal-title">{t(`legal.${docKey}.title`)}</h1>
+            <p className="tensignal-legal-meta">
               {t('legal.chrome.lastUpdated', { date: t(`legal.${docKey}.lastUpdated`) })}
             </p>
           </header>
 
           {doc?.isFallbackBody && (
             <div
-              className="seenly-legal-fallback-notice"
+              className="tensignal-legal-fallback-notice"
               style={{
                 padding: '0.75rem 1rem',
                 marginBottom: '1.5rem',
@@ -121,11 +121,11 @@ export default function LegalDocumentView({ docKey, fullWidth = false }) {
             <section
               key={section.id || sIdx}
               id={section.id}
-              className={`seenly-legal-section${section.intro ? ' seenly-legal-intro' : ''}`}
+              className={`tensignal-legal-section${section.intro ? ' tensignal-legal-intro' : ''}`}
             >
               {section.title && (
-                <h2 className="seenly-legal-section-title">
-                  {section.number && <span className="seenly-legal-section-number">{section.number}</span>}
+                <h2 className="tensignal-legal-section-title">
+                  {section.number && <span className="tensignal-legal-section-number">{section.number}</span>}
                   <span>{section.title}</span>
                 </h2>
               )}

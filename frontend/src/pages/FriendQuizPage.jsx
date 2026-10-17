@@ -47,7 +47,7 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
   // Load or initialize state from sessionStorage
   const [state, setState] = useState(() => {
     try {
-      const saved = sessionStorage.getItem('seenly_friend_state');
+      const saved = sessionStorage.getItem('tensignal_friend_state') || sessionStorage.getItem('seenly_friend_state');
       if (saved) {
         const parsed = JSON.parse(saved);
         if (typeof parsed === 'object' && parsed !== null) {
@@ -81,7 +81,7 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
   }, [state.currentIndex]);
 
   useEffect(() => {
-    sessionStorage.setItem('seenly_friend_state', JSON.stringify(state));
+    sessionStorage.setItem('tensignal_friend_state', JSON.stringify(state));
   }, [state]);
 
   const handleSelectOption = useCallback((value) => {
@@ -112,17 +112,19 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
       );
 
       try {
-        const evaluatedStr = localStorage.getItem('seenly_evaluated_slugs');
+        const evaluatedStr = localStorage.getItem('tensignal_evaluated_slugs') || localStorage.getItem('seenly_evaluated_slugs');
         let evaluatedSlugs = [];
         if (evaluatedStr) evaluatedSlugs = JSON.parse(evaluatedStr);
         if (!evaluatedSlugs.includes(slug)) {
           evaluatedSlugs.push(slug);
+          localStorage.setItem('tensignal_evaluated_slugs', JSON.stringify(evaluatedSlugs));
           localStorage.setItem('seenly_evaluated_slugs', JSON.stringify(evaluatedSlugs));
         }
       } catch (e) { /* ignore */ }
 
+      sessionStorage.setItem('tensignal_friend_result', JSON.stringify(result));
       sessionStorage.setItem('seenly_friend_result', JSON.stringify(result));
-      sessionStorage.removeItem('seenly_friend_state');
+      sessionStorage.removeItem('tensignal_friend_state'); sessionStorage.removeItem('seenly_friend_state');
 
       if (onComplete) {
         onComplete(result);
@@ -181,9 +183,9 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
 
   if (isSubmitting) {
     return (
-      <div className="seenly-wizard-wrapper">
-        <div className="seenly-wizard-container">
-          <div className="seenly-wizard-body" style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+      <div className="tensignal-wizard-wrapper">
+        <div className="tensignal-wizard-container">
+          <div className="tensignal-wizard-body" style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
             <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '2rem', fontWeight: '400', marginBottom: '1.5rem', color: 'var(--color-deep-ink)' }}>
               {t('participant.quiz.submittingTitle')}
             </h2>
@@ -212,13 +214,13 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
   }
 
   return (
-    <div className="seenly-wizard-wrapper">
-      <div className="seenly-wizard-container">
+    <div className="tensignal-wizard-wrapper">
+      <div className="tensignal-wizard-container">
         {/* Wizard Header */}
-        <header className="seenly-wizard-header">
+        <header className="tensignal-wizard-header">
           <button
             type="button"
-            className="seenly-wizard-back-btn"
+            className="tensignal-wizard-back-btn"
             onClick={handleGoBack}
             aria-label={t('accessibility.goBack')}
           >
@@ -227,13 +229,13 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
               <polyline points="12 19 5 12 12 5" />
             </svg>
           </button>
-          <div className="seenly-wizard-progress-track">
+          <div className="tensignal-wizard-progress-track">
             <div
-              className="seenly-wizard-progress-bar"
+              className="tensignal-wizard-progress-bar"
               style={{ width: `${progressPercentage}%` }}
             ></div>
           </div>
-          <div className="seenly-wizard-step-lang" ref={langRef}>
+          <div className="tensignal-wizard-step-lang" ref={langRef}>
             <button
               type="button"
               className="lang-dropdown-trigger"
@@ -282,7 +284,7 @@ export default function FriendQuizPage({ slug, nickname: initialNickname, onComp
         )}
 
         {/* Wizard Body */}
-        <div className="seenly-wizard-body">
+        <div className="tensignal-wizard-body">
           <FriendQuestionsRunner
             currentIndex={state.currentIndex}
             friendQuestionIds={FRIEND_QUESTION_IDS}

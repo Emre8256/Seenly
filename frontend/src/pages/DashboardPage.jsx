@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { UsersRound, Copy, Check } from 'lucide-react';
-import { useSeenlyShare, buildWhatsAppLink } from '../hooks/useSeenlyShare';
+import { useTenSignalShare, buildWhatsAppLink } from '../hooks/useTenSignalShare';
 import { useLocale } from '../context/LocaleContext';
 import AppShell from '../components/AppShell';
 import { getOwnerDashboard, getOwnerResponseHistory, createPaymentCheckout, PAYMENT_PRODUCT_CODES } from '../services/api';
@@ -21,13 +21,13 @@ const SIGNATURE_IMAGES = CARD_IMAGES;
 const RESPONSE_HISTORY_PAGE_SIZE = 5;
 
 export default function DashboardPage({ onNavigateToQuiz }) {
-  const { locale: langCode, t, getObject, formatRelativeTime } = useLocale();
+  const { locale: langCode, t, getObject, formatRelativeTime, syncAccountLocale } = useLocale();
   const [snapshot, setSnapshot] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState(0); // 0: Self, 1: Outside, 2: Gap, 3: DecisionTimes/Engagement, 4: Responses
-  const { handleInstagramStory, isGenerating } = useSeenlyShare();
+  const { handleInstagramStory, isGenerating } = useTenSignalShare();
   const [selectedResponse, setSelectedResponse] = useState(null);
   const [responseHistoryPage, setResponseHistoryPage] = useState(1);
   const [qrModalOpen, setQrModalOpen] = useState(false);
@@ -87,7 +87,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
   }, [langCode]);
 
   useEffect(() => {
-    const token = localStorage.getItem('seenly_owner_token');
+    const token = (localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token'));
 
     if (!token) {
       setError('no_token');
@@ -99,13 +99,16 @@ export default function DashboardPage({ onNavigateToQuiz }) {
       try {
         const data = await getOwnerDashboard(token);
         if (data?.displayName) {
-          localStorage.setItem('seenly_display_name', data.displayName);
+          localStorage.setItem('tensignal_display_name', data.displayName); localStorage.setItem('seenly_display_name', data.displayName);
         }
         if (data?.avatar) {
-          localStorage.setItem('seenly_avatar', data.avatar);
+          localStorage.setItem('tensignal_avatar', data.avatar); localStorage.setItem('seenly_avatar', data.avatar);
         }
         if (data?.publicSlug) {
-          localStorage.setItem('seenly_owner_slug', data.publicSlug);
+          localStorage.setItem('tensignal_owner_slug', data.publicSlug); localStorage.setItem('seenly_owner_slug', data.publicSlug);
+        }
+        if (data?.preferredLocale && syncAccountLocale) {
+          syncAccountLocale(data.preferredLocale);
         }
         setSnapshot(data);
         setHistoryLoading(true);
@@ -118,9 +121,9 @@ export default function DashboardPage({ onNavigateToQuiz }) {
         }
       } catch (err) {
         if (err.status === 401 || err.status === 403) {
-          localStorage.removeItem('seenly_owner_token');
-          localStorage.removeItem('seenly_display_name');
-          localStorage.removeItem('seenly_owner_slug');
+          localStorage.removeItem('tensignal_owner_token'); localStorage.removeItem('seenly_owner_token');
+          localStorage.removeItem('tensignal_display_name'); localStorage.removeItem('seenly_display_name');
+          localStorage.removeItem('tensignal_owner_slug'); localStorage.removeItem('seenly_owner_slug');
           sessionStorage.clear();
           setError('session_expired');
         } else {
@@ -136,7 +139,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
 
   useEffect(() => {
     if (activeTab === 4 && !loading && !error) {
-      const token = localStorage.getItem('seenly_owner_token');
+      const token = (localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token'));
       if (token) {
         setHistoryLoading(true);
         getOwnerResponseHistory(token)
@@ -166,7 +169,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
 
   const loadMoreResponseHistory = useCallback(async () => {
     if (!responseHistory.hasMore || !responseHistory.nextCursor || historyLoading) return;
-    const token = localStorage.getItem('seenly_owner_token');
+    const token = (localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token'));
     if (!token) return;
     setHistoryLoading(true);
     setHistoryError('');
@@ -206,28 +209,45 @@ export default function DashboardPage({ onNavigateToQuiz }) {
       })
       .catch(() => { });
   }, [snapshot]);
+  const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
+
+  // Clear checkout loading state when returning to page (e.g. via browser back button / bfcache pageshow)
+  useEffect(() => {
+    const handlePageShow = () => {
+      setIsCheckoutLoading(false);
+    };
+    window.addEventListener('pageshow', handlePageShow);
+    window.addEventListener('popstate', handlePageShow);
+    return () => {
+      window.removeEventListener('pageshow', handlePageShow);
+      window.removeEventListener('popstate', handlePageShow);
+    };
+  }, []);
 
   const handleUpgradeToPlus = useCallback(async () => {
+    if (isCheckoutLoading) return;
     if (snapshot?.isPremium || snapshot?.premium) {
       alert(t('billing.alreadyPlus'));
       return;
     }
 
-    const token = localStorage.getItem('seenly_owner_token');
+    const token = (localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token'));
     if (!token) return;
 
+    setIsCheckoutLoading(true);
     try {
-      const checkout = await createPaymentCheckout(token, PAYMENT_PRODUCT_CODES.SEENLY_PLUS);
-      if (!checkout.checkoutUrl) throw new Error(t('settings.modal.paymentUnavailable'));
+      const checkout = await createPaymentCheckout(token, PAYMENT_PRODUCT_CODES.TEN_SIGNAL_PLUS);
+      if (!checkout?.checkoutUrl) throw new Error(t('settings.modal.paymentUnavailable'));
       window.location.assign(checkout.checkoutUrl);
     } catch (err) {
+      setIsCheckoutLoading(false);
       alert(t('billing.purchaseFailed', { error: err.message }));
     }
-  }, [snapshot?.isPremium, snapshot?.premium, t]);
+  }, [isCheckoutLoading, snapshot?.isPremium, snapshot?.premium, t]);
 
   const getSelfAnswers = useCallback(() => {
     try {
-      return JSON.parse(sessionStorage.getItem('seenly_answers')) || {};
+      return JSON.parse((sessionStorage.getItem('tensignal_answers') || sessionStorage.getItem('seenly_answers'))) || {};
     } catch (e) {
       return {};
     }
@@ -308,7 +328,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
     const getPercentage = (key) => {
       const val = scores[key];
       if (val === undefined || val === null) {
-        const answers = JSON.parse(sessionStorage.getItem('seenly_answers') || '{}');
+        const answers = JSON.parse((sessionStorage.getItem('tensignal_answers') || sessionStorage.getItem('seenly_answers')) || '{}');
         const selfKey = `classic_self_${key}_01`;
         if (answers[selfKey] !== undefined) {
           const num = Number(answers[selfKey]);
@@ -580,8 +600,8 @@ export default function DashboardPage({ onNavigateToQuiz }) {
       .join(' ');
   };
 
-  const displayName = capitalizeName(snapshot?.displayName || sessionStorage.getItem('seenly_displayName') || 'User');
-  const avatarSrc = getAvatarSrc(snapshot?.avatar || localStorage.getItem('seenly_avatar'));
+  const displayName = capitalizeName(snapshot?.displayName || (sessionStorage.getItem('tensignal_displayName') || sessionStorage.getItem('seenly_displayName')) || 'User');
+  const avatarSrc = getAvatarSrc(snapshot?.avatar || (localStorage.getItem('tensignal_avatar') || localStorage.getItem('seenly_avatar')));
   const responseCount = snapshot?.responseCount || 0;
   const isPremium = snapshot?.isPremium || snapshot?.premium || false;
 
@@ -749,11 +769,11 @@ export default function DashboardPage({ onNavigateToQuiz }) {
 
   return (
     <AppShell isDashboard={true} userName={displayName} watercolorBackground>
-      <div className="seenly-dashboard-page-wrapper">
-        <div className="seenly-dashboard-container">
+      <div className="tensignal-dashboard-page-wrapper">
+        <div className="tensignal-dashboard-container">
 
           {/* Dashboard Header: Seamless Profile Hero */}
-          <header className="seenly-dashboard-header w-full flex justify-center items-center py-5 sm:py-6 px-3 sm:px-4 bg-transparent border-b-0">
+          <header className="tensignal-dashboard-header w-full flex justify-center items-center py-5 sm:py-6 px-3 sm:px-4 bg-transparent border-b-0">
             <div className="flex flex-col items-center justify-center gap-3 sm:gap-3.5 w-full max-w-[480px] mx-auto text-center">
               {/* Centered Large Avatar */}
               <div className="relative mx-auto">
@@ -859,8 +879,8 @@ export default function DashboardPage({ onNavigateToQuiz }) {
           </header>
 
           {/* Tab Navigation */}
-          <div className="seenly-dashboard-tabs-wrapper">
-            <div className="seenly-dashboard-tabs-capsule">
+          <div className="tensignal-dashboard-tabs-wrapper">
+            <div className="tensignal-dashboard-tabs-capsule">
               {[
                 { id: 0, labelKey: 'dashboard.tabs.self' },
                 { id: 1, labelKey: 'dashboard.tabs.outside' },
@@ -874,7 +894,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                     key={tab.id}
                     type="button"
                     onClick={() => setActiveTab(tab.id)}
-                    className={`seenly-tab-pill ${isActive ? 'active' : ''}`}
+                    className={`tensignal-tab-pill ${isActive ? 'active' : ''}`}
                   >
                     {t(tab.labelKey)}
                   </button>
@@ -884,7 +904,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
           </div>
 
           {/* Dashboard Body */}
-          <div className="seenly-dashboard-body">
+          <div className="tensignal-dashboard-body">
             {/* TAB 0: SELF PERCEPTION */}
             {activeTab === 0 && (
               <SelfPerceptionTab
@@ -939,6 +959,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                 t={t}
                 responseCount={responseCount}
                 isPremium={isPremium}
+                isCheckoutLoading={isCheckoutLoading}
                 handleUpgradeToPlus={handleUpgradeToPlus}
                 totalProfileClicks={totalProfileClicks}
                 totalResponders={totalResponders}
@@ -955,6 +976,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
               <DashboardResponsesTab
                 langCode={langCode}
                 isPremium={isPremium}
+                isCheckoutLoading={isCheckoutLoading}
                 handleUpgradeToPlus={handleUpgradeToPlus}
                 responseSessions={responseSessions}
                 visibleResponseSessions={visibleResponseSessions}
@@ -981,6 +1003,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
         selectedResponse={selectedResponse}
         setSelectedResponse={setSelectedResponse}
         isPremium={isPremium}
+        isCheckoutLoading={isCheckoutLoading}
         langCode={langCode}
         handleUpgradeToPlus={handleUpgradeToPlus}
         getObject={getObject}

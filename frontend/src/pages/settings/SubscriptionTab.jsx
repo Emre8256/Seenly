@@ -1,17 +1,41 @@
 import React, { memo } from 'react';
 import {
-  Gauge,
   AlertTriangle,
   Clock,
   Users,
+  CheckCircle2,
   BarChart3,
   Eye,
-  ShieldCheck,
+  RepeatOff,
   ArrowRight,
   UserPlus,
-  ChevronDown
+  ChevronDown,
+  ShieldCheck
 } from 'lucide-react';
 import { useLocale } from '../../context/LocaleContext';
+import ButtonSpinner from '../../components/ButtonSpinner';
+
+/**
+ * Returns grammatically correct Turkish suffix for percentages:
+ * 17 -> "'si", 25 -> "'i", 30 -> "'u", 100 -> "'ü", etc.
+ */
+function getTurkishPercentSuffix(n) {
+  const num = Math.round(Number(n)) || 0;
+  const last = num % 10;
+  if (num !== 0 && last !== 0) {
+    if (last === 1 || last === 5 || last === 8) return "'i";
+    if (last === 2 || last === 7) return "'si";
+    if (last === 3 || last === 4) return "'ü";
+    if (last === 6) return "'sı";
+    if (last === 9) return "'u";
+  }
+  if (num === 100) return "'ü";
+  const tens = num % 100;
+  if (tens === 10 || tens === 30) return "'u";
+  if (tens === 20 || tens === 50) return "'si";
+  if (tens === 70 || tens === 80) return "'i";
+  return "'ı"; // 0, 40, 60, 90
+}
 
 const SubscriptionTab = memo(function SubscriptionTab({
   isPremium,
@@ -23,88 +47,96 @@ const SubscriptionTab = memo(function SubscriptionTab({
   showPlusActivePerks,
   setShowPlusActivePerks,
   actionLoading,
+  checkoutLoadingCode,
   handleUpgradeToPlus,
   capacityPackOptions,
-  handleBuyPack
+  handleBuyPack,
+  plusPriceFormatted
 }) {
   const { t } = useLocale();
+  const effectivePrice = plusPriceFormatted || t('billing.premium.price');
+
+  const effectiveUsagePercent = typeof usagePercent === 'number'
+    ? usagePercent
+    : (maxResponseLimit > 0 ? Math.min(100, Math.round((responseCount / maxResponseLimit) * 100)) : 0);
+  const remainingCount = maxResponseLimit > 0 ? Math.max(0, maxResponseLimit - responseCount) : 0;
 
   return (
-    <div className="seenly-settings-content seenly-settings-fade-in">
-      <div className="seenly-plan-pro seenly-plan-clean">
+    <div className="tensignal-settings-content tensignal-settings-fade-in">
+      <div className="tensignal-plan-pro tensignal-plan-clean">
 
         {/* 1. Limit Tracker Card (Only visible when Free / !isPremium) */}
         {!isPremium && (
-          <section className="seenly-quota-tracker-card relative overflow-hidden">
-            {/* Celestial Sacred Geometry & Vector Motif Layer */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-              <div className="absolute -top-16 -right-16 w-60 h-60 rounded-full bg-[radial-gradient(circle,rgba(228,196,136,0.22)_0%,transparent_70%)] blur-xl pointer-events-none" />
-              <div className="absolute -bottom-16 -left-16 w-52 h-52 rounded-full bg-[radial-gradient(circle,rgba(26,62,114,0.05)_0%,transparent_70%)] blur-xl pointer-events-none" />
-
-              {/* Astrolabe Arc Watermark */}
-              <svg className="absolute -right-8 -top-8 w-44 h-44 text-[#C5A059] opacity-[0.14]" viewBox="0 0 120 120" fill="none" stroke="currentColor">
-                <circle cx="60" cy="60" r="54" strokeWidth="0.75" strokeDasharray="3 3" />
-                <circle cx="60" cy="60" r="42" strokeWidth="0.75" />
-                <circle cx="60" cy="60" r="28" strokeWidth="0.5" strokeDasharray="2 2" />
-                <line x1="6" y1="60" x2="114" y2="60" strokeWidth="0.5" strokeDasharray="3 3" />
-                <line x1="60" y1="6" x2="60" y2="114" strokeWidth="0.5" strokeDasharray="3 3" />
-              </svg>
-            </div>
-
-            {/* Header Block: Title, Subtext & Metric Counter */}
-            <div className="relative z-10 flex items-start sm:items-center justify-between gap-4 flex-col sm:flex-row">
-              <div className="flex items-start sm:items-center gap-3.5">
-                <div className="seenly-quota-head-icon">
-                  <Gauge size={19} strokeWidth={2} />
+          <section className="tensignal-profile-card tensignal-form-card tensignal-quota-card">
+            {/* Header: Title, Description & Metric Counter */}
+            <div className="tensignal-quota-header">
+              <div className="tensignal-quota-header-info">
+                <div className="tensignal-card-head-icon tensignal-quota-head-icon">
+                  <Users size={18} strokeWidth={2.2} />
                 </div>
-                <div>
-                  <h3 className="seenly-quota-title">
+                <div className="tensignal-quota-header-text">
+                  <h3 className="tensignal-card-head-title">
                     {t('settings.subscription.quotaTitle')}
                   </h3>
-                  <p className="seenly-quota-subtext">
+                  <p className="tensignal-card-head-desc">
                     {t('settings.subscription.quotaDesc')}
                   </p>
                 </div>
               </div>
 
-              {/* Metric Badge */}
-              <div className="seenly-quota-metric-badge">
-                <div className="seenly-quota-metric-val">
-                  <span className="seenly-quota-metric-current">{responseCount}</span>
-                  <span className="seenly-quota-metric-sep">/</span>
-                  <span className="seenly-quota-metric-max">{maxResponseLimit}</span>
+              {/* Metric Counter: Natural, Unframed Typography */}
+              <div className="tensignal-quota-metric-wrap">
+                <div className="tensignal-quota-metric-numbers">
+                  <span className="tensignal-quota-metric-current">{responseCount}</span>
+                  <span className="tensignal-quota-metric-sep">/</span>
+                  <span className="tensignal-quota-metric-max">{maxResponseLimit}</span>
                 </div>
-                <span className="seenly-quota-metric-label">
-                  {t('settings.subscription.responsesCollected')}
+                <span className="tensignal-quota-metric-label">
+                  {t('settings.subscription.usedLabel')}
                 </span>
               </div>
             </div>
 
-            {/* Progress Bar Container */}
-            <div className="relative z-10 seenly-quota-track-wrap">
-              <div className="seenly-quota-track-bar">
+            {/* Progress Bar & Sub-Metrics */}
+            <div className="tensignal-quota-progress-section">
+              <div className="tensignal-quota-bar-track">
                 <div
-                  className={`seenly-quota-track-fill ${isQuotaFull ? 'is-full' : isQuotaNearFull ? 'is-warning' : 'is-normal'}`}
-                  style={{ width: `${usagePercent}%` }}
+                  className={`tensignal-quota-bar-fill ${isQuotaFull ? 'is-full' : isQuotaNearFull ? 'is-warning' : 'is-normal'}`}
+                  style={{ width: `${Math.min(100, Math.max(0, effectiveUsagePercent))}%` }}
                 />
+              </div>
+
+              <div className="tensignal-quota-bar-footer">
+                <span className="tensignal-quota-footer-used">
+                  {t('settings.subscription.capacityUsedText', {
+                    percent: effectiveUsagePercent,
+                    suffix: getTurkishPercentSuffix(effectiveUsagePercent)
+                  })}
+                </span>
+                <div className="tensignal-quota-footer-remaining">
+                  <CheckCircle2 size={14} strokeWidth={2.2} className="tensignal-quota-check-icon" />
+                  <span>
+                    {t('settings.subscription.remainingCapacityText', { count: remainingCount })}
+                  </span>
+                </div>
               </div>
             </div>
 
             {/* Contextual Warning / Full Alert Banner */}
             {(isQuotaFull || isQuotaNearFull) && (
-              <div className={`relative z-10 seenly-quota-status-banner ${isQuotaFull ? 'status-full' : 'status-warning'}`}>
-                <div className="seenly-quota-status-icon">
+              <div className={`tensignal-quota-alert-banner ${isQuotaFull ? 'status-full' : 'status-warning'}`}>
+                <div className="tensignal-quota-alert-icon">
                   {isQuotaFull ? (
-                    <AlertTriangle size={14} strokeWidth={2.2} />
+                    <AlertTriangle size={15} strokeWidth={2.2} />
                   ) : (
-                    <Clock size={14} strokeWidth={2.2} />
+                    <Clock size={15} strokeWidth={2.2} />
                   )}
                 </div>
-                <span className="seenly-quota-status-text">
+                <p className="tensignal-quota-alert-msg">
                   {isQuotaFull
                     ? t('settings.subscription.quotaFullAlert')
                     : t('settings.subscription.quotaNearFullAlert')}
-                </span>
+                </p>
               </div>
             )}
           </section>
@@ -112,7 +144,7 @@ const SubscriptionTab = memo(function SubscriptionTab({
 
         {/* 2. If Plus: Active VIP Benefits Card */}
         {isPremium ? (
-          <section className="seenly-plus-active-card relative overflow-hidden">
+          <section className="tensignal-plus-active-card relative overflow-hidden">
             {/* Celestial Sacred Geometry & Vector Motif Layer */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
               <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-[radial-gradient(circle,rgba(228,196,136,0.28)_0%,transparent_70%)] blur-2xl pointer-events-none" />
@@ -133,10 +165,10 @@ const SubscriptionTab = memo(function SubscriptionTab({
             {/* Main Title & Action Toggle Row */}
             <div className="relative z-10 flex items-start sm:items-center justify-between gap-4 flex-col sm:flex-row">
               <div>
-                <h3 className="seenly-plus-active-title">
+                <h3 className="tensignal-plus-active-title">
                   {t('settings.subscription.plusActiveTitle')}
                 </h3>
-                <p className="seenly-plus-active-desc">
+                <p className="tensignal-plus-active-desc">
                   {t('settings.subscription.plusActiveDesc')}
                 </p>
               </div>
@@ -145,76 +177,76 @@ const SubscriptionTab = memo(function SubscriptionTab({
               <button
                 type="button"
                 onClick={() => setShowPlusActivePerks(prev => !prev)}
-                className="seenly-plus-perks-toggle-btn"
+                className="tensignal-plus-perks-toggle-btn"
                 aria-expanded={showPlusActivePerks}
               >
                 <span>{showPlusActivePerks ? t('settings.subscription.hideBenefits') : t('settings.subscription.viewBenefits')}</span>
                 <ChevronDown
                   size={15}
                   strokeWidth={2.4}
-                  className={`seenly-plus-perks-chevron ${showPlusActivePerks ? 'is-open' : ''}`}
+                  className={`tensignal-plus-perks-chevron ${showPlusActivePerks ? 'is-open' : ''}`}
                 />
               </button>
             </div>
 
             {/* Expandable Benefits Container */}
             {showPlusActivePerks && (
-              <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-5 mt-5 border-t border-[rgba(197,160,89,0.22)] seenly-settings-fade-in">
+              <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-5 mt-5 border-t border-[rgba(197,160,89,0.22)] tensignal-settings-fade-in">
                 {/* 1. Sınırsız Katılımcı Kotası */}
-                <div className="seenly-plus-feature-item">
-                  <div className="seenly-plus-feature-icon-badge">
+                <div className="tensignal-plus-feature-item">
+                  <div className="tensignal-plus-feature-icon-badge">
                     <Users size={16} strokeWidth={2.2} />
                   </div>
                   <div>
-                    <h5 className="seenly-plus-feature-title">
+                    <h5 className="tensignal-plus-feature-title">
                       {t('settings.subscription.unlimitedCapacity')}
                     </h5>
-                    <p className="seenly-plus-feature-desc">
+                    <p className="tensignal-plus-feature-desc">
                       {t('settings.subscription.unlimitedCapacityDesc')}
                     </p>
                   </div>
                 </div>
 
                 {/* 2. Bireysel Analiz & Yanıt Dökümü */}
-                <div className="seenly-plus-feature-item">
-                  <div className="seenly-plus-feature-icon-badge">
+                <div className="tensignal-plus-feature-item">
+                  <div className="tensignal-plus-feature-icon-badge">
                     <BarChart3 size={16} strokeWidth={2} />
                   </div>
                   <div>
-                    <h5 className="seenly-plus-feature-title">
+                    <h5 className="tensignal-plus-feature-title">
                       {t('settings.subscription.individualBreakdowns')}
                     </h5>
-                    <p className="seenly-plus-feature-desc">
+                    <p className="tensignal-plus-feature-desc">
                       {t('settings.subscription.individualBreakdownsDesc')}
                     </p>
                   </div>
                 </div>
 
                 {/* 3. Soruda Geçirilen Zaman / Karar Ritmi */}
-                <div className="seenly-plus-feature-item">
-                  <div className="seenly-plus-feature-icon-badge">
+                <div className="tensignal-plus-feature-item">
+                  <div className="tensignal-plus-feature-icon-badge">
                     <Clock size={16} strokeWidth={2.2} />
                   </div>
                   <div>
-                    <h5 className="seenly-plus-feature-title">
+                    <h5 className="tensignal-plus-feature-title">
                       {t('settings.subscription.decisionTimes')}
                     </h5>
-                    <p className="seenly-plus-feature-desc">
+                    <p className="tensignal-plus-feature-desc">
                       {t('settings.subscription.decisionTimesDesc')}
                     </p>
                   </div>
                 </div>
 
                 {/* 4. Profil Ziyaretleri */}
-                <div className="seenly-plus-feature-item">
-                  <div className="seenly-plus-feature-icon-badge">
+                <div className="tensignal-plus-feature-item">
+                  <div className="tensignal-plus-feature-icon-badge">
                     <Eye size={16} strokeWidth={2.2} />
                   </div>
                   <div>
-                    <h5 className="seenly-plus-feature-title">
+                    <h5 className="tensignal-plus-feature-title">
                       {t('settings.subscription.profileVisits')}
                     </h5>
-                    <p className="seenly-plus-feature-desc">
+                    <p className="tensignal-plus-feature-desc">
                       {t('settings.subscription.profileVisitsDesc')}
                     </p>
                   </div>
@@ -223,10 +255,10 @@ const SubscriptionTab = memo(function SubscriptionTab({
             )}
           </section>
         ) : (
-          /* If Free: Showcase Seenly Plus + Extra Packs */
+          /* If Free: Showcase 10Signal Plus + Extra Packs */
           <>
             {/* Main Showcase Card for Plus */}
-            <section className="seenly-plus-showcase-card relative overflow-hidden">
+            <section className="tensignal-plus-showcase-card relative overflow-hidden">
               {/* Celestial Sacred Geometry & Vector Motif Layer */}
               <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
                 <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-[radial-gradient(circle,rgba(228,196,136,0.28)_0%,transparent_70%)] blur-2xl pointer-events-none" />
@@ -256,28 +288,25 @@ const SubscriptionTab = memo(function SubscriptionTab({
               </div>
 
               {/* Hanging Price Curtain Banner */}
-              <div className="seenly-plus-price-curtain">
-                <div className="seenly-plus-price-curtain-pin" aria-hidden="true" />
-                <div className="seenly-plus-price-val">
-                  <span className="seenly-plus-price-symbol">
-                    {t('billing.premium.price').startsWith('₺') ? '₺' : '$'}
-                  </span>
+              <div className="tensignal-plus-price-curtain">
+                <div className="tensignal-plus-price-curtain-pin" aria-hidden="true" />
+                <div className="tensignal-plus-price-val">
                   <span>
-                    {t('billing.premium.price').replace(/^[^0-9.]+/, '') || '2.99'}
+                    {effectivePrice}
                   </span>
                 </div>
-                <span className="seenly-plus-price-label">
+                <span className="tensignal-plus-price-label">
                   {t('common.oneTime')}
                 </span>
               </div>
 
               {/* Title & Subtext Block */}
               <div className="relative z-10 pt-1 max-w-lg">
-                <h3 className="seenly-plus-title">
-                  Seenly Plus
+                <h3 className="tensignal-plus-title">
+                  <span className="tensignal-plus-title-num">10</span>Signal Plus
                 </h3>
                 <div className="w-10 h-[1.5px] bg-[#C5A059] opacity-60 my-2" />
-                <p className="seenly-plus-subtext">
+                <p className="tensignal-plus-subtext">
                   {t('settings.subscription.upgradePlusDesc')}
                 </p>
               </div>
@@ -286,60 +315,60 @@ const SubscriptionTab = memo(function SubscriptionTab({
               <div className="relative z-10 my-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 sm:gap-y-5 gap-x-8">
                   {/* 1. Sınırsız Katılımcı Kotası */}
-                  <div className="seenly-plus-feature-item">
-                    <div className="seenly-plus-feature-icon-badge">
+                  <div className="tensignal-plus-feature-item">
+                    <div className="tensignal-plus-feature-icon-badge">
                       <Users size={16} strokeWidth={2.2} />
                     </div>
                     <div>
-                      <h5 className="seenly-plus-feature-title">
+                      <h5 className="tensignal-plus-feature-title">
                         {t('settings.subscription.unlimitedCapacity')}
                       </h5>
-                      <p className="seenly-plus-feature-desc">
+                      <p className="tensignal-plus-feature-desc">
                         {t('settings.subscription.unlimitedCapacityDesc')}
                       </p>
                     </div>
                   </div>
 
                   {/* 2. Bireysel Analiz & Yanıt Dökümü */}
-                  <div className="seenly-plus-feature-item">
-                    <div className="seenly-plus-feature-icon-badge">
+                  <div className="tensignal-plus-feature-item">
+                    <div className="tensignal-plus-feature-icon-badge">
                       <BarChart3 size={16} strokeWidth={2} />
                     </div>
                     <div>
-                      <h5 className="seenly-plus-feature-title">
+                      <h5 className="tensignal-plus-feature-title">
                         {t('settings.subscription.individualBreakdowns')}
                       </h5>
-                      <p className="seenly-plus-feature-desc">
+                      <p className="tensignal-plus-feature-desc">
                         {t('settings.subscription.individualBreakdownsDesc')}
                       </p>
                     </div>
                   </div>
 
                   {/* 3. Soruda Geçirilen Zaman / Karar Ritmi */}
-                  <div className="seenly-plus-feature-item">
-                    <div className="seenly-plus-feature-icon-badge">
+                  <div className="tensignal-plus-feature-item">
+                    <div className="tensignal-plus-feature-icon-badge">
                       <Clock size={16} strokeWidth={2.2} />
                     </div>
                     <div>
-                      <h5 className="seenly-plus-feature-title">
+                      <h5 className="tensignal-plus-feature-title">
                         {t('settings.subscription.decisionTimes')}
                       </h5>
-                      <p className="seenly-plus-feature-desc">
+                      <p className="tensignal-plus-feature-desc">
                         {t('settings.subscription.decisionTimesDesc')}
                       </p>
                     </div>
                   </div>
 
                   {/* 4. Profil Ziyaretleri */}
-                  <div className="seenly-plus-feature-item">
-                    <div className="seenly-plus-feature-icon-badge">
+                  <div className="tensignal-plus-feature-item">
+                    <div className="tensignal-plus-feature-icon-badge">
                       <Eye size={16} strokeWidth={2.2} />
                     </div>
                     <div>
-                      <h5 className="seenly-plus-feature-title">
+                      <h5 className="tensignal-plus-feature-title">
                         {t('settings.subscription.profileVisits')}
                       </h5>
-                      <p className="seenly-plus-feature-desc">
+                      <p className="tensignal-plus-feature-desc">
                         {t('settings.subscription.profileVisitsDesc')}
                       </p>
                     </div>
@@ -354,29 +383,62 @@ const SubscriptionTab = memo(function SubscriptionTab({
               <div className="relative z-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-2 text-[#554030] text-[12.5px] font-sans">
                   <div className="w-6 h-6 rounded-full bg-[#FAF5EA] border border-[rgba(197,160,89,0.3)] flex items-center justify-center text-[#8C6D37] flex-shrink-0">
-                    <ShieldCheck size={14} strokeWidth={2} />
+                    <RepeatOff size={13} strokeWidth={2.2} />
                   </div>
                   <span>{t('settings.subscription.securePayment')}</span>
                 </div>
 
                 <button
                   type="button"
-                  disabled={actionLoading}
+                  disabled={Boolean(checkoutLoadingCode) || actionLoading}
                   onClick={handleUpgradeToPlus}
-                  className="seenly-plus-cta-btn"
+                  className="tensignal-plus-cta-btn"
+                  style={checkoutLoadingCode === 'seenly_plus_v1' ? { opacity: 0.9, cursor: 'wait' } : {}}
                 >
-                  <span>
-                    {actionLoading
-                      ? t('common.processing')
-                      : t('settings.subscription.upgradeBtn', { price: t('billing.premium.price') })}
-                  </span>
-                  <ArrowRight size={14} strokeWidth={2} className="seenly-plus-cta-arrow" />
+                  {checkoutLoadingCode === 'seenly_plus_v1' ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <ButtonSpinner size={15} />
+                      <span>{t('common.processing')}</span>
+                    </span>
+                  ) : (
+                    <>
+                      <span>
+                        {t('settings.subscription.upgradeBtn', { price: effectivePrice })}
+                      </span>
+                      <ArrowRight size={14} strokeWidth={2} className="tensignal-plus-cta-arrow" />
+                    </>
+                  )}
                 </button>
+              </div>
+
+              {/* Pre-Payment Notice & Legal Links */}
+              <div className="relative z-10 pt-3 mt-3 border-t border-[rgba(197,160,89,0.18)] flex items-start gap-2 text-[11.5px] leading-relaxed text-[#735A47]">
+                <ShieldCheck size={14} className="mt-0.5 text-[#8C6D37] flex-shrink-0" />
+                <p className="m-0">
+                  <span>{t('settings.subscription.refundNoticeText')}</span>{' '}
+                  <a
+                    href="#/terms"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:text-[#1A3E72] font-medium transition-colors"
+                  >
+                    {t('settings.subscription.termsOfService')}
+                  </a>
+                  {' · '}
+                  <a
+                    href="#/refund"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:text-[#1A3E72] font-medium transition-colors"
+                  >
+                    {t('settings.subscription.refundPolicy')}
+                  </a>
+                </p>
               </div>
             </section>
 
             {/* 3. Extra Capacity Packs */}
-            <section className="seenly-packs-painterly-container relative overflow-hidden">
+            <section className="tensignal-packs-painterly-container relative overflow-hidden">
               {/* Celestial Sacred Geometry & Vector Motif Layer */}
               <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
                 <div className="absolute -top-20 -left-20 w-72 h-72 rounded-full bg-[radial-gradient(circle,rgba(228,196,136,0.22)_0%,transparent_70%)] blur-2xl pointer-events-none" />
@@ -415,13 +477,13 @@ const SubscriptionTab = memo(function SubscriptionTab({
                 </div>
               </div>
 
-              <div className="relative z-10 grid grid-cols-3 gap-2 sm:gap-4 pt-3 seenly-packs-grid">
+              <div className="relative z-10 grid grid-cols-3 gap-2 sm:gap-4 pt-3 tensignal-packs-grid">
                 {capacityPackOptions.map((pack) => {
                   return (
-                    <div key={pack.amount} className={`seenly-pack-card seenly-pack-${pack.theme}`}>
+                    <div key={pack.amount} className={`tensignal-pack-card tensignal-pack-${pack.theme}`}>
                       {/* Unique Celestial Sacred Geometry Motif per Pack */}
                       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-                        <div className="seenly-pack-card-ambient-glow" />
+                        <div className="tensignal-pack-card-ambient-glow" />
                         {pack.theme === 'tier1' && (
                           <svg className="absolute -right-6 -top-6 w-28 h-28 text-[#C5A059] opacity-[0.15]" viewBox="0 0 100 100" fill="none" stroke="currentColor">
                             <circle cx="50" cy="50" r="44" strokeWidth="0.75" strokeDasharray="2 2" />
@@ -446,35 +508,70 @@ const SubscriptionTab = memo(function SubscriptionTab({
                       </div>
 
                       {/* 1. Kapasite Miktarı */}
-                      <div className="relative z-10 seenly-pack-quota-pill">
-                        <span className="seenly-pack-quota-num">+{pack.amount}</span>
-                        <span className="seenly-pack-quota-txt">{t('settings.subscription.quotaText')}</span>
+                      <div className="relative z-10 tensignal-pack-quota-pill">
+                        <span className="tensignal-pack-quota-num">+{pack.amount}</span>
+                        <span className="tensignal-pack-quota-txt">{t('settings.subscription.quotaText')}</span>
                       </div>
 
                       {/* 2. Başlık */}
-                      <h5 className="relative z-10 seenly-pack-title">
+                      <h5 className="relative z-10 tensignal-pack-title">
                         {pack.label}
                       </h5>
 
                       {/* 3. Fiyat */}
-                      <div className="relative z-10 seenly-pack-price">
-                        <span className="seenly-pack-price-symbol">$</span>
+                      <div className="relative z-10 tensignal-pack-price">
+                        <span className="tensignal-pack-price-symbol">$</span>
                         <span>{pack.price.replace('$', '')}</span>
                       </div>
 
                       {/* 4. Buton */}
                       <button
                         type="button"
-                        disabled={actionLoading}
+                        disabled={Boolean(checkoutLoadingCode) || actionLoading}
                         onClick={() => handleBuyPack(pack.productCode)}
-                        className="relative z-10 seenly-pack-btn"
+                        className="relative z-10 tensignal-pack-btn"
+                        style={checkoutLoadingCode === pack.productCode ? { opacity: 0.9, cursor: 'wait' } : {}}
                       >
-                        <span>{actionLoading ? t('settings.subscription.addingPack') : t('settings.subscription.addPackBtn')}</span>
-                        <ArrowRight size={14} strokeWidth={2} className="seenly-pack-btn-arrow" />
+                        {checkoutLoadingCode === pack.productCode ? (
+                          <span className="flex items-center justify-center gap-1.5">
+                            <ButtonSpinner size={14} />
+                            <span>{t('settings.subscription.addingPack')}</span>
+                          </span>
+                        ) : (
+                          <>
+                            <span>{t('settings.subscription.addPackBtn')}</span>
+                            <ArrowRight size={14} strokeWidth={2} className="tensignal-pack-btn-arrow" />
+                          </>
+                        )}
                       </button>
                     </div>
                   );
                 })}
+              </div>
+
+              {/* Pre-Payment Notice & Legal Links */}
+              <div className="relative z-10 pt-3 mt-4 border-t border-[rgba(197,160,89,0.18)] flex items-start gap-2 text-[11.5px] leading-relaxed text-[#735A47]">
+                <ShieldCheck size={14} className="mt-0.5 text-[#8C6D37] flex-shrink-0" />
+                <p className="m-0">
+                  <span>{t('settings.subscription.refundNoticeText')}</span>{' '}
+                  <a
+                    href="#/terms"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:text-[#1A3E72] font-medium transition-colors"
+                  >
+                    {t('settings.subscription.termsOfService')}
+                  </a>
+                  {' · '}
+                  <a
+                    href="#/refund"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:text-[#1A3E72] font-medium transition-colors"
+                  >
+                    {t('settings.subscription.refundPolicy')}
+                  </a>
+                </p>
               </div>
             </section>
           </>

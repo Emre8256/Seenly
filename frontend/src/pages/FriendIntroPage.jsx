@@ -5,7 +5,7 @@ import { getPublicDashboard, incrementProfileClick, checkEligibility, getBrowser
 import { CARD_IMAGES } from '../images/cardImages';
 import { getCardRarityData } from '../utils/rarityEngine';
 import { calibrateTraitScore } from '../utils/psychometrics';
-import { useSeenlyShare, buildWhatsAppLink } from '../hooks/useSeenlyShare';
+import { useTenSignalShare, buildWhatsAppLink } from '../hooks/useTenSignalShare';
 
 import FriendIntroStep from './friend-quiz/FriendIntroStep';
 import './friend-quiz/FriendQuizPage.css';
@@ -18,7 +18,7 @@ export default function FriendIntroPage({ slug, onStart }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [hasEvaluated, setHasEvaluated] = useState(false);
-  const { handleInstagramStory, isGenerating } = useSeenlyShare();
+  const { handleInstagramStory, isGenerating } = useTenSignalShare();
 
   useEffect(() => {
     if (!slug) {
@@ -39,12 +39,12 @@ export default function FriendIntroPage({ slug, onStart }) {
         if (eligibility && eligibility.eligible === false) {
           setHasEvaluated(true);
           try {
-            const evaluatedStr = localStorage.getItem('seenly_evaluated_slugs');
+            const evaluatedStr = localStorage.getItem('tensignal_evaluated_slugs') || localStorage.getItem('seenly_evaluated_slugs');
             let evaluatedSlugs = [];
             if (evaluatedStr) evaluatedSlugs = JSON.parse(evaluatedStr);
             if (!evaluatedSlugs.includes(slug)) {
               evaluatedSlugs.push(slug);
-              localStorage.setItem('seenly_evaluated_slugs', JSON.stringify(evaluatedSlugs));
+              localStorage.setItem('tensignal_evaluated_slugs', JSON.stringify(evaluatedSlugs));
             }
           } catch (e) { /* ignore */ }
         }
@@ -215,7 +215,7 @@ export default function FriendIntroPage({ slug, onStart }) {
 
   const responseCount = snapshot?.responseCount || 0;
   const isCapped = snapshot?.acceptingResponses === false;
-  const isLoggedIn = !!localStorage.getItem('seenly_owner_token');
+  const isLoggedIn = Boolean(localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token'));
 
   const activeOutsideSignatureId = calculatePersonalityCard(snapshot?.friendAverages || {});
   const outsideSignature = getObject('signatures', activeOutsideSignatureId);

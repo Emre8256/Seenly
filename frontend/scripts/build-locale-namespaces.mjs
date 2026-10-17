@@ -89,7 +89,7 @@ const enNamespaces = {
   navigation: {
     dashboard: enUi.nav_dashboard || "Dashboard",
     settings: enUi.nav_settings || "Profile",
-    packages: enUi.nav_packages || "Seenly Plus",
+    packages: enUi.nav_packages || "10Signal Plus",
     start: enUi.nav_start || "Start Quiz",
     login: enUi.nav_login || "Log In",
     logout: enUi.nav_logout || "Log Out",
@@ -107,8 +107,8 @@ const enNamespaces = {
       terms: enUi.footer_terms_of_use || "Terms & Conditions",
       contact: enUi.footer_contact || "Contact",
       contactUs: enUi.footer_contact_us || "Contact",
-      description: enUi.landing_footer_desc || "Seenly is designed with care to help people understand themselves and each other better.",
-      rights: enUi.landing_footer_rights || "Seenly. All rights reserved.",
+      description: enUi.landing_footer_desc || "10Signal is designed with care to help people understand themselves and each other better.",
+      rights: enUi.landing_footer_rights || "10Signal. All rights reserved.",
       slogan: enUi.landing_footer_slogan || "See yourself"
     }
   },
@@ -119,9 +119,9 @@ const enNamespaces = {
       title1: enUi.landing_hero_title_1 || "Discover how people ",
       titleItalic: enUi.landing_hero_title_italic || "experience",
       title2: enUi.landing_hero_title_2 || " you.",
-      desc: enUi.landing_hero_desc || "Compare how you see yourself with how people who know you experience you. Seenly makes the common signals and differences between your self-perception and outside perception visible.",
+      desc: enUi.landing_hero_desc || "Compare how you see yourself with how people who know you experience you. 10Signal makes the common signals and differences between your self-perception and outside perception visible.",
       ctaFree: enUi.landing_hero_cta_free || "Start free · See your first results in minutes",
-      startCta: enUi.landing_start_cta || "Start your Seenly",
+      startCta: enUi.landing_start_cta || "Start your 10Signal",
       quickLogin: enUi.landing_quick_login || "Sign In",
       caption: enUi.landing_hero_caption || "Same table, different perspectives",
       badge: enUi.badge_text || "10 SOCIAL SIGNALS. REAL ANSWERS.",
@@ -142,7 +142,7 @@ const enNamespaces = {
       tag: enUi.landing_opening_tag || "Opening",
       quote: enUi.landing_opening_quote || "We think we know ourselves. But people who know us often carry something we cannot see: ",
       quoteItalic: enUi.landing_opening_quote_italic || "how we look through their eyes.",
-      desc: enUi.landing_opening_desc || "Seenly is not a test. It doesn't box you in. Instead, it places your own narrative side by side with the silent observations of your close circle — and opens up a space for you to see yourself in that subtle gap."
+      desc: enUi.landing_opening_desc || "10Signal is not a test. It doesn't box you in. Instead, it places your own narrative side by side with the silent observations of your close circle — and opens up a space for you to see yourself in that subtle gap."
     },
     experience: {
       tag: enUi.landing_hiw_tag || "Experience",
@@ -157,11 +157,11 @@ const enNamespaces = {
     },
     contexts: {
       tag: enUi.landing_cases_tag || "Contexts",
-      title: enUi.landing_cases_title || "Seenly is not just a test.",
+      title: enUi.landing_cases_title || "10Signal is not just a test.",
       desc: enUi.landing_cases_desc || "You can explore how people experience you in different scenes of your life.",
       c1Plate: enUi.landing_case_1_plate || "Digital Reflection",
       c1Title: enUi.landing_case_1_title || "On your social profile",
-      c1Text: enUi.landing_case_1_text || "Add the Seenly link to your profile. Let people see how you present yourself and how you are experienced.",
+      c1Text: enUi.landing_case_1_text || "Add the 10Signal link to your profile. Let people see how you present yourself and how you are experienced.",
       c2Plate: enUi.landing_case_2_plate || "Social Dynamic",
       c2Title: enUi.landing_case_2_title || "In your friend group",
       c2Text: enUi.landing_case_2_text || "Get feedback from your close circle and explore the common signals that connect you.",
@@ -171,7 +171,7 @@ const enNamespaces = {
     },
     howItWorks: {
       tag: enUi.landing_ex_tag || "HOW IT WORKS",
-      title: enUi.landing_ex_title || "Seenly in 3 Steps",
+      title: enUi.landing_ex_title || "10Signal in 3 Steps",
       desc: enUi.landing_ex_desc || "Bringing your self-perception and outside observations together in 3 simple steps:",
       s1Title: enUi.landing_ex_b1_title || "01 / Define Your Self",
       s1Text: enUi.landing_ex_b1_text || "Complete a quick self-assessment to shape your narrative and get your digital Self card.",
@@ -183,7 +183,7 @@ const enNamespaces = {
     layers: {
       tag: enUi.landing_layers_tag || "Layers",
       title: enUi.landing_layers_title || "Results consist of four layers.",
-      desc: enUi.landing_layers_desc || "Each layer is based on an explainable dimension measured by Seenly. Together, they tell how you see yourself and how people experience you.",
+      desc: enUi.landing_layers_desc || "Each layer is based on an explainable dimension measured by 10Signal. Together, they tell how you see yourself and how people experience you.",
       l1Desc: enUi.landing_layers_l1_desc || "The self-perception layer showing how you describe yourself right now.",
       l2Desc: enUi.landing_layers_l2_desc || "A summary of repeating common signals in people who know you.",
       l3Desc: enUi.landing_layers_l3_desc || "Common and diverging aspects between self-perception and outside perception.",
@@ -193,7 +193,7 @@ const enNamespaces = {
       tag: enUi.landing_codes_tag || "Collection",
       cardHeader: enUi.landing_codes_card_header || "Social Identity",
       title: enUi.landing_codes_title || "Every result has its own language.",
-      desc: enUi.landing_codes_desc || "Seenly results are not just a description; they offer a shareable identity and a collection piece to explore.",
+      desc: enUi.landing_codes_desc || "10Signal results are not just a description; they offer a shareable identity and a collection piece to explore.",
       viewAll: enUi.landing_codes_view_all || "Explore All Social Identities"
     },
     security: {
@@ -208,12 +208,12 @@ const enNamespaces = {
     },
     finalCta: {
       title: enUi.landing_final_title || "Compare how you see yourself and how people experience you.",
-      desc: enUi.landing_final_desc || "Start your Seenly experience and discover the common signals seen by people who know you."
+      desc: enUi.landing_final_desc || "Start your 10Signal experience and discover the common signals seen by people who know you."
     }
   },
 
   auth: {
-    modalNameTitle: enUi.modal_name_title || "Create your Seenly",
+    modalNameTitle: enUi.modal_name_title || "Create your 10Signal",
     modalNameSubtitle: enUi.modal_name_subtitle || "What should we call you? Enter a name to start your quiz.",
     modalNamePlaceholder: enUi.modal_name_placeholder || "display name / name",
     loginTitle: enUi.email_entry_quick_login_title || "Quick Login",
@@ -277,7 +277,7 @@ const enNamespaces = {
       copiedLink: "Link Copied!",
       copyProfileLink: "Copy profile link to clipboard",
       inviteFriendsTitle: enUi.invite_friends_title || "Invite Friends to Reveal Outside Read",
-      inviteFriendsDesc: enUi.invite_friends_desc || "Send this link to friends. When 3 answer, you unlock your Outside Seenly and The Gap.",
+      inviteFriendsDesc: enUi.invite_friends_desc || "Send this link to friends. When 3 answer, you unlock your Outside 10Signal and The Gap.",
       copyFriendLink: enUi.copy_link_btn || "Copy Friend Link",
       viewProfileBtn: enUi.view_profile_btn || "View Profile"
     },
@@ -329,7 +329,7 @@ const enNamespaces = {
       saveStory: "Save / Create Story",
       startOwnTitle: enUi.friend_cta_title || "What is your social signature?",
       startOwnDesc: enUi.friend_cta_desc || "Start your own quiz to compare how you see yourself against how friends read you.",
-      startOwnBtn: enUi.friend_create_own_btn || "Create Your Own Seenly",
+      startOwnBtn: enUi.friend_create_own_btn || "Create Your Own 10Signal",
       goToDashboardTitle: enUi.friend_cta_title_loggedin || "See how others read you",
       goToDashboardDesc: enUi.friend_cta_desc_loggedin || "You just read a friend. Now go back to your dashboard and discover how others are reading you in return.",
       goToDashboardBtn: enUi.friend_goto_dashboard_btn || "Go to My Profile"
@@ -341,7 +341,7 @@ const enNamespaces = {
       step1: "1. Open Instagram and create a new Story",
       step2: "2. Add the downloaded image as background",
       step3: "3. Tap the sticker icon → \"Link\" sticker",
-      step4: "4. Paste your Seenly link",
+      step4: "4. Paste your 10Signal link",
       storyCopyLink: "Copy",
       storyCopied: "Copied ✓",
       storyGotIt: "Got it",
@@ -353,9 +353,9 @@ const enNamespaces = {
   dashboard: {
     title: enUi.dashboard_title || "Your Social Reflection",
     signalsFormingTitle: enUi.signals_forming_title || "Signals Forming",
-    signalsFormingDesc: enUi.signals_forming_desc || "Your profile is live. Share the link for friends to read you. Outside Seenly and The Gap unlock at 3 responses.",
+    signalsFormingDesc: enUi.signals_forming_desc || "Your profile is live. Share the link for friends to read you. Outside 10Signal and The Gap unlock at 3 responses.",
     lockedSectionTitle: enUi.locked_section_title || "Observation Awaiting",
-    lockedSectionOutsideDesc: enUi.locked_section_outside_desc || "Requires 3 friend responses to unlock your Outside Seenly analysis.",
+    lockedSectionOutsideDesc: enUi.locked_section_outside_desc || "Requires 3 friend responses to unlock your Outside 10Signal analysis.",
     lockedSectionGapDesc: enUi.locked_section_gap_desc || "Requires 3 friend responses to reveal the alignment gap (The Gap) between self and outer perceptions.",
     inspectProfile: enUi.inspect_profile || "Inspect Profile",
     tabs: {
@@ -416,7 +416,7 @@ const enNamespaces = {
     },
     decisionTimes: {
       lockedTitle: "Pondering Rhythms Locked",
-      lockedDesc: "Discover which questions your friends hesitated on the most, profile visits, and cognitive decision times with Seenly Plus.",
+      lockedDesc: "Discover which questions your friends hesitated on the most, profile visits, and cognitive decision times with 10Signal Plus.",
       unlockPlus: "Unlock with Plus",
       profileVisitsTitle: "Profile Visits & Silent Viewers",
       profileVisitsDesc: "Analyzes the response rate and the initial impression left on people who visited your link.",
@@ -501,7 +501,7 @@ const enNamespaces = {
       quotaTitle: "Participant Quota",
       quotaDesc: "Number of responses you can collect from friends.",
       responsesCollected: "Responses",
-      plusActiveTitle: "Seenly Plus is Active",
+      plusActiveTitle: "10Signal Plus is Active",
       plusActiveDesc: "All advanced features and unlimited participant capacity are unlocked for this profile.",
       viewBenefits: "View Benefits",
       hideBenefits: "Hide Benefits",
@@ -513,7 +513,7 @@ const enNamespaces = {
       decisionTimesDesc: "See the most and least contemplated questions",
       profileVisits: "Profile Visit Analytics",
       profileVisitsDesc: "Track visitor volume and response conversion rates",
-      upgradePlusTitle: "Upgrade to Seenly Plus",
+      upgradePlusTitle: "Upgrade to 10Signal Plus",
       upgradePlusDesc: "Unlock all deep insights, individual analysis details, and unlimited participant capacity.",
       securePayment: "256-Bit SSL Secure Payment",
       upgradeBtn: "Upgrade to Plus ({price})",
@@ -546,7 +546,7 @@ const enNamespaces = {
   },
 
   billing: {
-    sectionTitleHtml: enUi.pricing_section_title_html || "Go deeper with<br>Full Seenly",
+    sectionTitleHtml: enUi.pricing_section_title_html || "Go deeper with<br>Full 10Signal",
     plansSubtitle: enUi.plans_subtitle || "Choose the best plan to explore your character, relationships, and social aura in greater depth.",
     badgePopular: enUi.pricing_badge_popular || "MOST POPULAR",
     disclaimer1: enUi.pricing_disclaimer_1 || "Checkout is not open yet. No payment will be taken.",
@@ -559,12 +559,12 @@ const enNamespaces = {
       f1: enUi.pricing_plan_free_f1 || "10 Social Signals",
       f2: enUi.pricing_plan_free_f2 || "Up to 10 answers",
       f3: enUi.pricing_plan_free_f3 || "First signals at 3 responses",
-      f4: enUi.pricing_plan_free_f4 || "Outside Seenly ready",
+      f4: enUi.pricing_plan_free_f4 || "Outside 10Signal ready",
       f5: enUi.pricing_plan_free_f5 || "Shareable link",
       f6: enUi.pricing_plan_free_f6 || "No login required"
     },
     premium: {
-      name: enUi.pricing_plan_premium_name || "Full Seenly",
+      name: enUi.pricing_plan_premium_name || "Full 10Signal",
       price: enUi.pricing_plan_premium_price || "$2.99",
       f1: enUi.pricing_plan_premium_f1 || "Everything in free",
       f2: enUi.pricing_plan_premium_f2 || "Deep Gap view",
@@ -725,7 +725,7 @@ const trNamespaces = {
   navigation: {
     dashboard: trUi.nav_dashboard || "Kontrol Paneli",
     settings: trUi.nav_settings || "Profil",
-    packages: trUi.nav_packages || "Seenly Plus",
+    packages: trUi.nav_packages || "10Signal Plus",
     start: trUi.nav_start || "Testi Başlat",
     login: trUi.nav_login || "Giriş Yap",
     logout: trUi.nav_logout || "Çıkış Yap",
@@ -743,8 +743,8 @@ const trNamespaces = {
       terms: trUi.footer_terms_of_use || "Kullanım Koşulları",
       contact: trUi.footer_contact || "İletişim",
       contactUs: trUi.footer_contact_us || "İletişim",
-      description: trUi.landing_footer_desc || "Seenly, insanların kendilerini ve birbirlerini daha iyi anlamaları için özenle tasarlanmıştır.",
-      rights: trUi.landing_footer_rights || "Seenly. Tüm hakları saklıdır.",
+      description: trUi.landing_footer_desc || "10Signal, insanların kendilerini ve birbirlerini daha iyi anlamaları için özenle tasarlanmıştır.",
+      rights: trUi.landing_footer_rights || "10Signal. Tüm hakları saklıdır.",
       slogan: trUi.landing_footer_slogan || "Kendini gör"
     }
   },
@@ -755,9 +755,9 @@ const trNamespaces = {
       title1: trUi.landing_hero_title_1 || "İnsanların seni nasıl ",
       titleItalic: trUi.landing_hero_title_italic || "deneyimlediğini",
       title2: trUi.landing_hero_title_2 || " keşfet.",
-      desc: trUi.landing_hero_desc || "Kendini nasıl gördüğünü, seni tanıyan insanların deneyimiyle karşılaştır. Seenly, öz-algın ile dış algın arasındaki ortak sinyalleri ve farkları görünür kılar.",
+      desc: trUi.landing_hero_desc || "Kendini nasıl gördüğünü, seni tanıyan insanların deneyimiyle karşılaştır. 10Signal, öz-algın ile dış algın arasındaki ortak sinyalleri ve farkları görünür kılar.",
       ctaFree: trUi.landing_hero_cta_free || "Ücretsiz başla · İlk sonuçlarını dakikalar içinde gör",
-      startCta: trUi.landing_start_cta || "Seenly'ni Başlat",
+      startCta: trUi.landing_start_cta || "10Signal'ını Başlat",
       quickLogin: trUi.landing_quick_login || "Giriş Yap",
       caption: trUi.landing_hero_caption || "Aynı masa, farklı bakışlar",
       badge: trUi.badge_text || "10 SOSYAL SİNYAL. GERÇEK YANITLAR.",
@@ -778,7 +778,7 @@ const trNamespaces = {
       tag: trUi.landing_opening_tag || "Başlangıç",
       quote: trUi.landing_opening_quote || "Kendimizi bildiğimizi sanırız. Ama bizi tanıyanlar, göremediğimiz bir şeyi taşır: ",
       quoteItalic: trUi.landing_opening_quote_italic || "onların gözünden nasıl göründüğümüzü.",
-      desc: trUi.landing_opening_desc || "Seenly bir test değil. Seni tanımlayıp kutulara koymaz. Kendi anlatını, çevrenin sessiz gözlemleriyle yan yana getirir ve aradaki o ince farkta kendini görmen için alan açar."
+      desc: trUi.landing_opening_desc || "10Signal bir test değil. Seni tanımlayıp kutulara koymaz. Kendi anlatını, çevrenin sessiz gözlemleriyle yan yana getirir ve aradaki o ince farkta kendini görmen için alan açar."
     },
     experience: {
       tag: trUi.landing_hiw_tag || "Deneyim",
@@ -793,11 +793,11 @@ const trNamespaces = {
     },
     contexts: {
       tag: trUi.landing_cases_tag || "Bağlamlar",
-      title: trUi.landing_cases_title || "Seenly sadece bir test değildir.",
+      title: trUi.landing_cases_title || "10Signal sadece bir test değildir.",
       desc: trUi.landing_cases_desc || "Hayatının farklı anlarında insanların seni nasıl deneyimlediğini keşfedebilirsin.",
       c1Plate: trUi.landing_case_1_plate || "Dijital Yansıma",
       c1Title: trUi.landing_case_1_title || "Sosyal profilinde",
-      c1Text: trUi.landing_case_1_text || "Profiline Seenly linkini ekle. Kendini nasıl sunduğun ile nasıl deneyimlendiğini keşfet.",
+      c1Text: trUi.landing_case_1_text || "Profiline 10Signal linkini ekle. Kendini nasıl sunduğun ile nasıl deneyimlendiğini keşfet.",
       c2Plate: trUi.landing_case_2_plate || "Sosyal Dinamik",
       c2Title: trUi.landing_case_2_title || "Arkadaş grubunda",
       c2Text: trUi.landing_case_2_text || "Yakın çevrenden geri bildirim al ve seni bağlayan ortak sinyalleri incele.",
@@ -807,7 +807,7 @@ const trNamespaces = {
     },
     howItWorks: {
       tag: trUi.landing_ex_tag || "NASIL ÇALIŞIR",
-      title: trUi.landing_ex_title || "3 Adımda Seenly",
+      title: trUi.landing_ex_title || "3 Adımda 10Signal",
       desc: trUi.landing_ex_desc || "Öz-algını ve dış gözlemleri 3 basit adımda bir araya getirin:",
       s1Title: trUi.landing_ex_b1_title || "01 / Kendini Tanımla",
       s1Text: trUi.landing_ex_b1_text || "Hızlı bir öz-değerlendirme ile anlatını oluştur ve dijital Self kartını al.",
@@ -819,7 +819,7 @@ const trNamespaces = {
     layers: {
       tag: trUi.landing_layers_tag || "Katmanlar",
       title: trUi.landing_layers_title || "Sonuçlar dört katmandan oluşur.",
-      desc: trUi.landing_layers_desc || "Her katman Seenly tarafından ölçülen açıklanabilir bir boyuta dayanır. Birlikte, kendini nasıl gördüğünü ve insanların seni nasıl deneyimlediğini anlatır.",
+      desc: trUi.landing_layers_desc || "Her katman 10Signal tarafından ölçülen açıklanabilir bir boyuta dayanır. Birlikte, kendini nasıl gördüğünü ve insanların seni nasıl deneyimlediğini anlatır.",
       l1Desc: trUi.landing_layers_l1_desc || "Şu anda kendini nasıl tanımladığını gösteren öz-algı katmanı.",
       l2Desc: trUi.landing_layers_l2_desc || "Seni tanıyan insanlardaki tekrar eden ortak sinyallerin bir özeti.",
       l3Desc: trUi.landing_layers_l3_desc || "Öz-algı ile dış algı arasındaki ortak ve ayrışan yönler.",
@@ -829,7 +829,7 @@ const trNamespaces = {
       tag: trUi.landing_codes_tag || "Koleksiyon",
       cardHeader: trUi.landing_codes_card_header || "Sosyal Rol",
       title: trUi.landing_codes_title || "Her sonucun kendine ait bir dili var.",
-      desc: trUi.landing_codes_desc || "Seenly sonuçları yalnızca bir tanım değil; paylaşılabilir bir kimlik ve keşfedilecek bir koleksiyon parçası sunar.",
+      desc: trUi.landing_codes_desc || "10Signal sonuçları yalnızca bir tanım değil; paylaşılabilir bir kimlik ve keşfedilecek bir koleksiyon parçası sunar.",
       viewAll: trUi.landing_codes_view_all || "Tüm Sosyal Rolleri İncele"
     },
     security: {
@@ -844,12 +844,12 @@ const trNamespaces = {
     },
     finalCta: {
       title: trUi.landing_final_title || "Kendini nasıl gördüğün ile insanların seni nasıl deneyimlediğini karşılaştır.",
-      desc: trUi.landing_final_desc || "Seenly deneyimine başla ve seni tanıyanların gördüğü ortak sinyalleri keşfet."
+      desc: trUi.landing_final_desc || "10Signal deneyimine başla ve seni tanıyanların gördüğü ortak sinyalleri keşfet."
     }
   },
 
   auth: {
-    modalNameTitle: trUi.modal_name_title || "Seenly'ni Oluştur",
+    modalNameTitle: trUi.modal_name_title || "10Signal'ını Oluştur",
     modalNameSubtitle: trUi.modal_name_subtitle || "Sana nasıl hitap edelim? Teste başlamak için bir isim gir.",
     modalNamePlaceholder: trUi.modal_name_placeholder || "görünen isim / ad",
     loginTitle: trUi.email_entry_quick_login_title || "Hızlı Giriş",
@@ -956,7 +956,7 @@ const trNamespaces = {
     result: {
       resultTitle: trUi.friend_result_title || "Yansıma Tamamlandı",
       completedTitle: "Algı Analizini Tamamladınız!",
-      completedDesc: "Arkadaşınızı kendi gözünüzden yansıttınız. Verdiğiniz cevaplar ve sosyal sinyaller doğrultusunda Seenly analitik motoru okuma tarzınızı hesapladı.",
+      completedDesc: "Arkadaşınızı kendi gözünüzden yansıttınız. Verdiğiniz cevaplar ve sosyal sinyaller doğrultusunda 10Signal analitik motoru okuma tarzınızı hesapladı.",
       readingStyleLabel: trUi.friend_style_label || "Sosyal Okuma Tarzınız",
       accuracyScore: trUi.friend_accuracy_score || "Algı İsabeti",
       accuracyDesc: trUi.friend_accuracy_desc || "Kendilerini nasıl gördükleri ile sizin onları nasıl okuduğunuz arasındaki eşleşme oranı.",
@@ -965,7 +965,7 @@ const trNamespaces = {
       saveStory: "Kaydet / Hikaye Oluştur",
       startOwnTitle: trUi.friend_cta_title || "Senin sosyal imzan ne?",
       startOwnDesc: trUi.friend_cta_desc || "Kendi testini başlat, kendini nasıl gördüğünle arkadaşlarının seni nasıl okuduğunu karşılaştır.",
-      startOwnBtn: trUi.friend_create_own_btn || "Kendi Seenly'ni Oluştur",
+      startOwnBtn: trUi.friend_create_own_btn || "Kendi 10Signal'ını Oluştur",
       goToDashboardTitle: trUi.friend_cta_title_loggedin || "Başkalarının seni nasıl okuduğunu gör",
       goToDashboardDesc: trUi.friend_cta_desc_loggedin || "Bir arkadaşını değerlendirdin. Şimdi profiline dönerek diğerlerinin seni nasıl okuduğunu keşfet.",
       goToDashboardBtn: trUi.friend_goto_dashboard_btn || "Profilime Git"
@@ -977,7 +977,7 @@ const trNamespaces = {
       step1: "1. Instagram'ı aç, yeni Story oluştur",
       step2: "2. İndirilen görseli arka plan yap",
       step3: "3. Çıkartma simgesine dokun → \"Bağlantı\"",
-      step4: "4. Seenly linkini yapıştır",
+      step4: "4. 10Signal linkini yapıştır",
       storyCopyLink: "Kopyala",
       storyCopied: "Kopyalandı ✓",
       storyGotIt: "Anladım",
@@ -1052,7 +1052,7 @@ const trNamespaces = {
     },
     decisionTimes: {
       lockedTitle: "Düşünce Ritimleri Kilitli",
-      lockedDesc: "Arkadaşlarınızın en çok hangi sorularda duraksadığını, profil ziyaretlerini ve karar sürelerini Seenly Plus ile keşfedin.",
+      lockedDesc: "Arkadaşlarınızın en çok hangi sorularda duraksadığını, profil ziyaretlerini ve karar sürelerini 10Signal Plus ile keşfedin.",
       unlockPlus: "Plus ile Kilidi Aç",
       profileVisitsTitle: "Gizli İncelemeler & Ziyaretçi Dağılımı",
       profileVisitsDesc: "Linkinizi açan kişilerdeki yanıtlama oranını ve bıraktığınız ilk izlenimi analiz eder.",
@@ -1137,7 +1137,7 @@ const trNamespaces = {
       quotaTitle: "Katılımcı Kotanız",
       quotaDesc: "Arkadaşlarınızdan toplayabileceğiniz yanıt sayısı.",
       responsesCollected: "Yanıt Toplandı",
-      plusActiveTitle: "Seenly Plus Aktif",
+      plusActiveTitle: "10Signal Plus Aktif",
       plusActiveDesc: "Bu profil için tüm gelişmiş özellikler ve sınırsız katılımcı kotası aktiftir.",
       viewBenefits: "Avantajları Gör",
       hideBenefits: "Avantajları Gizle",
@@ -1149,7 +1149,7 @@ const trNamespaces = {
       decisionTimesDesc: "En çok ve en az düşünülen sorular",
       profileVisits: "Profil Ziyaretleri",
       profileVisitsDesc: "Ziyaretçi sayısını ve yanıta dönüşüm oranlarını anlık takip edin",
-      upgradePlusTitle: "Seenly Plus'a Yükselt",
+      upgradePlusTitle: "10Signal Plus'a Yükselt",
       upgradePlusDesc: "Tüm derin analizleri, bireysel yanıt detaylarını ve sınırsız katılımcı kotasını açın.",
       securePayment: "256-Bit SSL Güvenli Ödeme",
       upgradeBtn: "Plus’a Yükselt ({price})",
@@ -1182,7 +1182,7 @@ const trNamespaces = {
   },
 
   billing: {
-    sectionTitleHtml: trUi.pricing_section_title_html || "Daha derine inin:<br>Full Seenly",
+    sectionTitleHtml: trUi.pricing_section_title_html || "Daha derine inin:<br>Full 10Signal",
     plansSubtitle: trUi.plans_subtitle || "Karakterinizi, ilişkilerinizi ve sosyal auranızı daha derinlemesine keşfetmek için en uygun planı seçin.",
     badgePopular: trUi.pricing_badge_popular || "EN ÇOK TERCİH EDİLEN",
     disclaimer1: trUi.pricing_disclaimer_1 || "Ödeme sistemi henüz aktif değildir. Herhangi bir ödeme alınmayacaktır.",
@@ -1200,7 +1200,7 @@ const trNamespaces = {
       f6: trUi.pricing_plan_free_f6 || "Üyelik gerekmez"
     },
     premium: {
-      name: trUi.pricing_plan_premium_name || "Full Seenly",
+      name: trUi.pricing_plan_premium_name || "Full 10Signal",
       price: trUi.pricing_plan_premium_price || "$2.99",
       f1: trUi.pricing_plan_premium_f1 || "Ücretsizdeki her şey",
       f2: trUi.pricing_plan_premium_f2 || "Derin Fark görünümü",

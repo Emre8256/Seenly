@@ -28,15 +28,15 @@ function requestFor(index) {
   const headers = { 'X-Forwarded-For': clientIp(index), 'Content-Type': 'application/json' };
   if (scenario === 'public' || scenario === 'rate-limit') {
     const source = scenario === 'rate-limit' ? '10.99.0.1' : clientIp(index);
-    return [`${baseUrl}/api/v1/seenly/public/${targetSlug}`, { headers: { 'X-Forwarded-For': source } }];
+    return [`${baseUrl}/api/v1/tensignal/public/${targetSlug}`, { headers: { 'X-Forwarded-For': source } }];
   }
   if (scenario === 'eligibility') {
-    return [`${baseUrl}/api/v1/seenly/friend/${targetSlug}/check-eligibility`, {
+    return [`${baseUrl}/api/v1/tensignal/friend/${targetSlug}/check-eligibility`, {
       method: 'POST', headers, body: JSON.stringify({ fingerprintHash: `eligibility-${index}` })
     }];
   }
   if (scenario === 'submission') {
-    return [`${baseUrl}/api/v1/seenly/friend/${targetSlug}/respond`, {
+    return [`${baseUrl}/api/v1/tensignal/friend/${targetSlug}/respond`, {
       method: 'POST', headers, body: JSON.stringify({
         nickname: 'load-test', fingerprintHash: `submission-${Date.now()}-${index}`,
         friendResponses: lenses.map((lens, offset) => ({ questionId: `classic_friend_${lens}_01`, answerValue: 1 + ((index + offset) % 5) })),
@@ -45,12 +45,12 @@ function requestFor(index) {
     }];
   }
   if (scenario === 'owner') {
-    return [`${baseUrl}/api/v1/seenly/owner`, { headers: { 'X-Owner-Token': ownerToken, 'X-Forwarded-For': clientIp(index) } }];
+    return [`${baseUrl}/api/v1/tensignal/owner`, { headers: { 'X-Owner-Token': ownerToken, 'X-Forwarded-For': clientIp(index) } }];
   }
   if (scenario === 'auth-verify-invalid') {
-    return [`${baseUrl}/api/v1/seenly/auth/verify-code`, {
+    return [`${baseUrl}/api/v1/tensignal/auth/verify-code`, {
       method: 'POST', headers, body: JSON.stringify({
-        email: `missing-${index}@load.seenly.test`, code: '000000', purpose: 'LOGIN'
+        email: `missing-${index}@load.tensignal.test`, code: '000000', purpose: 'LOGIN'
       })
     }];
   }

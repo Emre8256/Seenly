@@ -1354,7 +1354,7 @@ html::-webkit-scrollbar-thumb:hover {
   }
 }
 
-@keyframes seenly-shake {
+@keyframes tensignal-shake {
 
   0%,
   100% {
@@ -1577,9 +1577,9 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 /* ============================================
-   SEENLY WIZARD FLOW — Mobile-First Redesign
+   10SIGNAL WIZARD FLOW — Mobile-First Redesign
    ============================================ */
-.seenly-wizard-wrapper {
+.tensignal-wizard-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1592,7 +1592,7 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 /* Background gradient layers on PC matching default landing */
-.seenly-wizard-wrapper::before {
+.tensignal-wizard-wrapper::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -1602,7 +1602,7 @@ html::-webkit-scrollbar-thumb:hover {
   pointer-events: none;
 }
 
-.seenly-wizard-container {
+.tensignal-wizard-container {
   position: relative;
   z-index: 2;
   background-color: var(--background);
@@ -1617,12 +1617,12 @@ html::-webkit-scrollbar-thumb:hover {
   scrollbar-width: none;
 }
 
-.seenly-wizard-container::-webkit-scrollbar {
+.tensignal-wizard-container::-webkit-scrollbar {
   display: none;
 }
 
 /* ── Language Dropdown (in header) ───────────────────────── */
-.seenly-wizard-step-lang {
+.tensignal-wizard-step-lang {
   position: relative;
   display: flex;
   align-items: center;
@@ -1630,7 +1630,7 @@ html::-webkit-scrollbar-thumb:hover {
   z-index: 30;
 }
 
-.seenly-wizard-step-lang .seenly-wizard-step-info {
+.tensignal-wizard-step-lang .tensignal-wizard-step-info {
   font-family: var(--font-sans);
   font-size: 0.78rem;
   font-weight: 700;
@@ -1751,7 +1751,7 @@ html::-webkit-scrollbar-thumb:hover {
 /* ──────────────────────────────────────────────────────────── */
 
 @media (min-width: 768px) {
-  .seenly-wizard-container {
+  .tensignal-wizard-container {
     width: 440px;
     max-width: 90vw;
     height: min(760px, calc(100dvh - 40px));
@@ -1763,7 +1763,7 @@ html::-webkit-scrollbar-thumb:hover {
   }
 }
 
-.seenly-wizard-header {
+.tensignal-wizard-header {
   display: grid;
   grid-template-columns: 48px 1fr auto;
   align-items: center;
@@ -1773,7 +1773,7 @@ html::-webkit-scrollbar-thumb:hover {
   flex-shrink: 0;
 }
 
-.seenly-wizard-back-btn {
+.tensignal-wizard-back-btn {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -1789,11 +1789,11 @@ html::-webkit-scrollbar-thumb:hover {
   padding: 0;
 }
 
-.seenly-wizard-back-btn:hover {
+.tensignal-wizard-back-btn:hover {
   background-color: rgba(11, 27, 44, 0.05);
 }
 
-.seenly-wizard-progress-track {
+.tensignal-wizard-progress-track {
   height: 3px;
   background-color: rgba(11, 27, 44, 0.06);
   border-radius: 2px;
@@ -1801,13 +1801,13 @@ html::-webkit-scrollbar-thumb:hover {
   margin: 0 0.75rem;
 }
 
-.seenly-wizard-progress-bar {
+.tensignal-wizard-progress-bar {
   height: 100%;
   background-color: var(--color-smoky-lavender);
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.seenly-wizard-body {
+.tensignal-wizard-body {
   flex: 1;
   min-height: 0;
   display: flex;
@@ -1821,11 +1821,11 @@ html::-webkit-scrollbar-thumb:hover {
   width: 100%;
 }
 
-.seenly-wizard-body::-webkit-scrollbar {
+.tensignal-wizard-body::-webkit-scrollbar {
   display: none;
 }
 
-.seenly-wizard-content {
+.tensignal-wizard-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1837,7 +1837,7 @@ html::-webkit-scrollbar-thumb:hover {
   box-sizing: border-box;
 }
 
-.seenly-wizard-circle-icon {
+.tensignal-wizard-circle-icon {
   width: 88px;
   height: 88px;
   border-radius: 50%;
@@ -1848,17 +1848,17 @@ html::-webkit-scrollbar-thumb:hover {
   font-size: 2.25rem;
 }
 
-.seenly-wizard-circle-icon.icon-peach {
+.tensignal-wizard-circle-icon.icon-peach {
   background: linear-gradient(135deg, rgba(217, 106, 83, 0.15) 0%, rgba(217, 106, 83, 0.04) 100%);
   color: var(--color-burnt-coral);
 }
 
-.seenly-wizard-circle-icon.icon-purple {
+.tensignal-wizard-circle-icon.icon-purple {
   background: linear-gradient(135deg, rgba(143, 123, 204, 0.15) 0%, rgba(143, 123, 204, 0.04) 100%);
   color: var(--color-smoky-lavender);
 }
 
-.seenly-wizard-title {
+.tensignal-wizard-title {
   font-family: var(--font-serif);
   font-size: 1.65rem;
   font-weight: 900;
@@ -1868,19 +1868,19 @@ html::-webkit-scrollbar-thumb:hover {
   text-align: center;
 }
 
-.seenly-wizard-title.question-text {
+.tensignal-wizard-title.question-text {
   font-size: 1.5rem;
   margin-bottom: 2rem;
   line-height: 1.35;
 }
 
-.seenly-wizard-input-container {
+.tensignal-wizard-input-container {
   width: 100%;
   max-width: 400px;
   margin: 0 auto 1rem auto;
 }
 
-.seenly-wizard-input {
+.tensignal-wizard-input {
   width: 100%;
   border: 1px solid rgba(11, 27, 44, 0.12);
   border-radius: 16px;
@@ -1894,14 +1894,14 @@ html::-webkit-scrollbar-thumb:hover {
   box-sizing: border-box;
 }
 
-.seenly-wizard-input:focus {
+.tensignal-wizard-input:focus {
   border-color: var(--color-burnt-coral);
   box-shadow: 0 0 0 4px rgba(217, 106, 83, 0.1);
   outline: none;
   background-color: #fff;
 }
 
-.seenly-wizard-list-container {
+.tensignal-wizard-list-container {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -1910,7 +1910,7 @@ html::-webkit-scrollbar-thumb:hover {
   margin: 0 auto 1rem auto;
 }
 
-.seenly-wizard-list-btn {
+.tensignal-wizard-list-btn {
   width: 100%;
   border: 1.5px solid rgba(11, 27, 44, 0.08);
   border-radius: 16px;
@@ -1928,29 +1928,29 @@ html::-webkit-scrollbar-thumb:hover {
   box-sizing: border-box;
 }
 
-.seenly-wizard-list-btn span:first-child {
+.tensignal-wizard-list-btn span:first-child {
   flex: 1;
   text-align: left;
 }
 
-.seenly-wizard-list-btn:hover {
+.tensignal-wizard-list-btn:hover {
   border-color: rgba(217, 106, 83, 0.3);
   background-color: #fff;
   transform: translateY(-1px);
 }
 
-.seenly-wizard-list-btn.active {
+.tensignal-wizard-list-btn.active {
   border-color: var(--color-burnt-coral);
   background-color: #fff;
   box-shadow: 0 4px 20px rgba(217, 106, 83, 0.12);
 }
 
-.seenly-wizard-list-btn.active span:first-child {
+.tensignal-wizard-list-btn.active span:first-child {
   color: var(--color-burnt-coral);
   font-weight: 700;
 }
 
-.seenly-wizard-checkmark {
+.tensignal-wizard-checkmark {
   width: 24px !important;
   height: 24px !important;
   min-width: 24px !important;
@@ -1969,7 +1969,7 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 /* Styled info section elements */
-.seenly-wizard-placeholder-lines {
+.tensignal-wizard-placeholder-lines {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -1978,25 +1978,25 @@ html::-webkit-scrollbar-thumb:hover {
   margin-bottom: 2rem;
 }
 
-.seenly-wizard-line {
+.tensignal-wizard-line {
   height: 8px;
   border-radius: 4px;
   background-color: rgba(11, 27, 44, 0.06);
 }
 
-.seenly-wizard-line.w-full {
+.tensignal-wizard-line.w-full {
   width: 100%;
 }
 
-.seenly-wizard-line.w-80 {
+.tensignal-wizard-line.w-80 {
   width: 80%;
 }
 
-.seenly-wizard-line.w-60 {
+.tensignal-wizard-line.w-60 {
   width: 60%;
 }
 
-.seenly-wizard-info-bullets {
+.tensignal-wizard-info-bullets {
   list-style: none;
   padding: 0;
   margin: 1rem auto 1.5rem auto;
@@ -2007,7 +2007,7 @@ html::-webkit-scrollbar-thumb:hover {
   gap: 0.75rem;
 }
 
-.seenly-wizard-info-bullets li {
+.tensignal-wizard-info-bullets li {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -2025,12 +2025,12 @@ html::-webkit-scrollbar-thumb:hover {
   box-sizing: border-box;
 }
 
-.seenly-wizard-info-bullets li::before {
+.tensignal-wizard-info-bullets li::before {
   content: none !important;
   display: none !important;
 }
 
-.seenly-wizard-footer-action {
+.tensignal-wizard-footer-action {
   width: 100%;
   max-width: 400px;
   margin: auto auto 0 auto;
@@ -2040,7 +2040,7 @@ html::-webkit-scrollbar-thumb:hover {
   justify-content: center;
 }
 
-.seenly-wizard-primary-btn {
+.tensignal-wizard-primary-btn {
   width: 100%;
   border: none;
   border-radius: 16px;
@@ -2058,16 +2058,16 @@ html::-webkit-scrollbar-thumb:hover {
   min-height: 52px;
 }
 
-.seenly-wizard-primary-btn:hover {
+.tensignal-wizard-primary-btn:hover {
   background-color: #172B3F;
 }
 
-.seenly-wizard-primary-btn:disabled {
+.tensignal-wizard-primary-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
 
-.seenly-wizard-result-card {
+.tensignal-wizard-result-card {
   width: 100%;
   border: 1px solid rgba(11, 27, 44, 0.06);
   border-radius: 24px;
@@ -2081,7 +2081,7 @@ html::-webkit-scrollbar-thumb:hover {
   margin-bottom: 1.5rem;
 }
 
-.seenly-wizard-result-img {
+.tensignal-wizard-result-img {
   height: 240px;
   aspect-ratio: 3 / 4;
   object-fit: cover;
@@ -2092,16 +2092,16 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 /* Wizard Arrow Micro-animation */
-.seenly-wizard-arrow-icon {
+.tensignal-wizard-arrow-icon {
   transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   display: block;
 }
 
-.seenly-wizard-primary-btn:hover:not(:disabled) .seenly-wizard-arrow-icon {
+.tensignal-wizard-primary-btn:hover:not(:disabled) .tensignal-wizard-arrow-icon {
   transform: translateX(6px);
 }
 
-.seenly-wizard-result-container {
+.tensignal-wizard-result-container {
   width: 100% !important;
   max-width: 500px !important;
   height: auto !important;
@@ -2115,7 +2115,7 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 @media (max-width: 767px) {
-  .seenly-wizard-result-container {
+  .tensignal-wizard-result-container {
     max-width: 100vw !important;
     height: 100dvh !important;
     min-height: 100dvh !important;
@@ -2124,7 +2124,7 @@ html::-webkit-scrollbar-thumb:hover {
   }
 }
 
-.seenly-wizard-result-body {
+.tensignal-wizard-result-body {
   padding-top: 0.5rem !important;
   overflow: hidden !important;
   height: 100% !important;
@@ -2132,17 +2132,17 @@ html::-webkit-scrollbar-thumb:hover {
   scrollbar-width: none !important;
 }
 
-.seenly-wizard-result-body::-webkit-scrollbar {
+.tensignal-wizard-result-body::-webkit-scrollbar {
   display: none !important;
 }
 
-.seenly-wizard-result-lines {
+.tensignal-wizard-result-lines {
   margin: 0.5rem 0 1rem 0;
 }
 
 /* Responsive Desktop Refinements for Editorial Magazine-style layout */
 @media (min-width: 1024px) {
-  .seenly-wizard-container {
+  .tensignal-wizard-container {
     width: 100%;
     max-width: 660px;
     height: min(760px, calc(100dvh - 60px));
@@ -2155,19 +2155,19 @@ html::-webkit-scrollbar-thumb:hover {
     overflow: hidden;
   }
 
-  .seenly-wizard-header {
+  .tensignal-wizard-header {
     padding: 1.5rem 2.5rem 0.25rem 2.5rem;
     /* Reduced header padding */
   }
 
-  .seenly-wizard-body {
+  .tensignal-wizard-body {
     padding: 1.25rem 3rem 2rem 3rem;
     /* Reduced body padding */
     overflow-y: auto;
     /* Allow scrolling inside the card if needed */
   }
 
-  .seenly-wizard-title.question-text {
+  .tensignal-wizard-title.question-text {
     font-size: clamp(1.5rem, 2.5vw, 1.85rem);
     /* Scaled down question font size */
     line-height: 1.25;
@@ -2176,58 +2176,58 @@ html::-webkit-scrollbar-thumb:hover {
     /* Reduced margin */
   }
 
-  .seenly-wizard-list-container {
+  .tensignal-wizard-list-container {
     gap: 10px;
     /* Compact options gap */
     margin-bottom: 0;
   }
 
-  .seenly-wizard-list-btn {
+  .tensignal-wizard-list-btn {
     min-height: 48px;
     /* Compact options height */
     padding: 0.8rem 1.25rem;
     font-size: 1.02rem;
   }
 
-  .seenly-wizard-list-btn span {
+  .tensignal-wizard-list-btn span {
     font-size: 1.02rem;
     font-weight: 600;
   }
 
-  .seenly-wizard-footer-action {
+  .tensignal-wizard-footer-action {
     margin-top: auto;
     /* Push next button to the bottom */
     padding-top: 1rem;
   }
 
   /* Shrunken result screen styles to guarantee visibility within 660px fixed height */
-  .seenly-wizard-result-body {
+  .tensignal-wizard-result-body {
     padding: 0.5rem 2.5rem 1rem 2.5rem !important;
     overflow: hidden !important;
     height: 100% !important;
   }
 
-  .seenly-wizard-result-card {
+  .tensignal-wizard-result-card {
     padding: 1rem 1.25rem;
     margin-bottom: 0.75rem;
     border-radius: 18px;
   }
 
-  .seenly-wizard-result-img {
+  .tensignal-wizard-result-img {
     width: 210px;
     height: 280px;
     max-height: 280px;
     margin: 0.5rem auto;
   }
 
-  .seenly-wizard-result-lines {
+  .tensignal-wizard-result-lines {
     margin: 0.5rem 0 1rem 0;
     /* Reduced spacing */
   }
 }
 
 /* ============================================
-   SEENLY DASHBOARD FLOW — Mockup-aligned Redesign
+   10SIGNAL DASHBOARD FLOW — Mockup-aligned Redesign
    ============================================ */
 .app-shell.dashboard-layout {
   padding: 0;
@@ -2249,7 +2249,7 @@ html::-webkit-scrollbar-thumb:hover {
   background: transparent;
 }
 
-.seenly-dashboard-page-wrapper {
+.tensignal-dashboard-page-wrapper {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -2260,7 +2260,7 @@ html::-webkit-scrollbar-thumb:hover {
   min-height: 100vh;
 }
 
-.seenly-dashboard-container {
+.tensignal-dashboard-container {
   width: 100%;
   max-width: 980px;
   /* Wider container so elements can breathe */
@@ -2275,7 +2275,7 @@ html::-webkit-scrollbar-thumb:hover {
   box-sizing: border-box;
 }
 
-.seenly-dashboard-header {
+.tensignal-dashboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -2285,7 +2285,7 @@ html::-webkit-scrollbar-thumb:hover {
   background-color: transparent !important;
 }
 
-.seenly-dashboard-back-btn {
+.tensignal-dashboard-back-btn {
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -2301,12 +2301,12 @@ html::-webkit-scrollbar-thumb:hover {
   transition: all 0.2s;
 }
 
-.seenly-dashboard-back-btn:hover {
+.tensignal-dashboard-back-btn:hover {
   background-color: rgba(11, 27, 44, 0.02);
   border-color: rgba(11, 27, 44, 0.15);
 }
 
-.seenly-dashboard-profile {
+.tensignal-dashboard-profile {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2314,7 +2314,7 @@ html::-webkit-scrollbar-thumb:hover {
   gap: 10px;
 }
 
-.seenly-dashboard-avatar {
+.tensignal-dashboard-avatar {
   width: 38px;
   height: 38px;
   border-radius: 50%;
@@ -2326,13 +2326,13 @@ html::-webkit-scrollbar-thumb:hover {
   flex-shrink: 0;
 }
 
-.seenly-dashboard-user-info {
+.tensignal-dashboard-user-info {
   display: flex;
   flex-direction: column;
   text-align: left;
 }
 
-.seenly-dashboard-username {
+.tensignal-dashboard-username {
   font-family: var(--font-sans);
   font-size: 0.95rem;
   font-weight: 700;
@@ -2341,28 +2341,28 @@ html::-webkit-scrollbar-thumb:hover {
   line-height: 1.2;
 }
 
-.seenly-dashboard-status {
+.tensignal-dashboard-status {
   display: flex;
   align-items: center;
   gap: 4px;
   margin-top: 2px;
 }
 
-.seenly-dashboard-status .status-dot {
+.tensignal-dashboard-status .status-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background-color: #55B495;
 }
 
-.seenly-dashboard-status .status-text {
+.tensignal-dashboard-status .status-text {
   font-family: var(--font-sans);
   font-size: 0.72rem;
   color: var(--color-text-muted);
   font-weight: 600;
 }
 
-.seenly-dashboard-tabs {
+.tensignal-dashboard-tabs {
   display: flex;
   justify-content: space-around;
   border-bottom: 1px solid rgba(11, 27, 44, 0.06);
@@ -2370,7 +2370,7 @@ html::-webkit-scrollbar-thumb:hover {
   padding: 0.25rem 0.5rem 0 0.5rem;
 }
 
-.seenly-dashboard-tabs .tab-btn {
+.tensignal-dashboard-tabs .tab-btn {
   background: transparent;
   border: none;
   font-family: var(--font-sans);
@@ -2384,35 +2384,35 @@ html::-webkit-scrollbar-thumb:hover {
   transition: all 0.2s;
 }
 
-.seenly-dashboard-tabs .tab-btn.active {
+.tensignal-dashboard-tabs .tab-btn.active {
   color: var(--color-deep-ink);
   opacity: 1;
 }
 
-.seenly-dashboard-tabs .tab-btn.active::after {
+.tensignal-dashboard-tabs .tab-btn.active::after {
   display: none !important;
 }
 
-.seenly-dashboard-body {
+.tensignal-dashboard-body {
   padding: 1.5rem 1.25rem;
   box-sizing: border-box;
 }
 
-.seenly-dashboard-tab-content {
+.tensignal-dashboard-tab-content {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   width: 100%;
 }
 
-.seenly-dashboard-tab-content.full-width-layout {
+.tensignal-dashboard-tab-content.full-width-layout {
   display: flex !important;
   flex-direction: column !important;
   grid-template-columns: none !important;
   width: 100% !important;
 }
 
-.seenly-dashboard-polaroid {
+.tensignal-dashboard-polaroid {
   width: 100%;
   height: 280px;
   border-radius: 20px;
@@ -2479,7 +2479,7 @@ html::-webkit-scrollbar-thumb:hover {
   background-color: #fff;
 }
 
-.seenly-dashboard-signals-card {
+.tensignal-dashboard-signals-card {
   background-color: #fff;
   border: 1px solid rgba(11, 27, 44, 0.05);
   border-radius: 20px;
@@ -2492,7 +2492,7 @@ html::-webkit-scrollbar-thumb:hover {
 
 
 
-.seenly-dashboard-signals-card .signals-title {
+.tensignal-dashboard-signals-card .signals-title {
   font-family: var(--font-sans);
   font-size: 0.95rem;
   font-weight: 700;
@@ -2501,7 +2501,7 @@ html::-webkit-scrollbar-thumb:hover {
   letter-spacing: -0.01em;
 }
 
-.seenly-dashboard-premium-card {
+.tensignal-dashboard-premium-card {
   position: relative;
   overflow: hidden;
   background: #FDFBF4 !important;
@@ -2512,23 +2512,23 @@ html::-webkit-scrollbar-thumb:hover {
   -webkit-backdrop-filter: none !important;
 }
 
-.seenly-dashboard-premium-card::before,
-.seenly-dashboard-premium-card::after {
+.tensignal-dashboard-premium-card::before,
+.tensignal-dashboard-premium-card::after {
   display: none !important;
   content: none !important;
 }
 
-.seenly-dashboard-portrait-frame {
+.tensignal-dashboard-portrait-frame {
   box-shadow:
     0 22px 58px -22px rgba(80, 60, 40, 0.58),
     0 0 0 1px rgba(116, 89, 58, 0.14);
 }
 
-.seenly-dashboard-signal-card {
+.tensignal-dashboard-signal-card {
   min-height: 100%;
 }
 
-.seenly-dashboard-signal-row {
+.tensignal-dashboard-signal-row {
   border-radius: 16px;
   padding: 0.72rem 0.78rem;
   background: rgba(255, 255, 255, 0.34);
@@ -2536,7 +2536,7 @@ html::-webkit-scrollbar-thumb:hover {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.56);
 }
 
-.seenly-overall-match-badge {
+.tensignal-overall-match-badge {
   background: #FFFFFF !important;
   background-color: #FFFFFF !important;
   border: 1px solid rgba(26, 62, 114, 0.32) !important;
@@ -2544,12 +2544,12 @@ html::-webkit-scrollbar-thumb:hover {
   box-shadow: 0 4px 18px rgba(26, 62, 114, 0.14) !important;
 }
 
-.seenly-dashboard-signal-track {
+.tensignal-dashboard-signal-track {
   background: rgba(116, 89, 58, 0.10);
   border: 1px solid rgba(255, 255, 255, 0.42);
 }
 
-.seenly-dashboard-signal-row {
+.tensignal-dashboard-signal-row {
   background: rgba(255, 255, 255, 0.78);
   border: 1px solid rgba(200, 188, 170, 0.5);
   border-radius: 14px;
@@ -2557,7 +2557,7 @@ html::-webkit-scrollbar-thumb:hover {
   box-shadow: 0 1px 4px rgba(80, 60, 40, 0.06);
 }
 
-.seenly-dashboard-gap-meter {
+.tensignal-dashboard-gap-meter {
   background: rgba(255, 255, 255, 0.78);
   border: 1px solid rgba(200, 188, 170, 0.5);
   box-shadow:
@@ -2565,7 +2565,7 @@ html::-webkit-scrollbar-thumb:hover {
     inset 0 1px 0 rgba(255, 255, 255, 0.86);
 }
 
-.seenly-dashboard-gap-row {
+.tensignal-dashboard-gap-row {
   border-radius: 18px;
   padding: 0.88rem 0.95rem;
   background: rgba(255, 255, 255, 0.78);
@@ -2622,7 +2622,7 @@ html::-webkit-scrollbar-thumb:hover {
   transition: width 0.4s ease;
 }
 
-.seenly-dashboard-locked-mask {
+.tensignal-dashboard-locked-mask {
   background: repeating-linear-gradient(45deg, var(--color-bg), var(--color-bg) 10px, rgba(11, 27, 44, 0.01) 10px, rgba(11, 27, 44, 0.01) 20px);
   border: 1px dashed rgba(11, 27, 44, 0.15);
   border-radius: 20px;
@@ -2637,13 +2637,13 @@ html::-webkit-scrollbar-thumb:hover {
   box-sizing: border-box;
 }
 
-.seenly-dashboard-locked-state {
+.tensignal-dashboard-locked-state {
   width: 100%;
   box-sizing: border-box;
   grid-column: 1 / -1;
 }
 
-.seenly-share-actions {
+.tensignal-share-actions {
   width: 100%;
   max-width: 320px;
   display: flex;
@@ -2652,7 +2652,7 @@ html::-webkit-scrollbar-thumb:hover {
   margin-top: 10px;
 }
 
-.seenly-share-bar {
+.tensignal-share-bar {
   background: transparent !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -2669,7 +2669,7 @@ html::-webkit-scrollbar-thumb:hover {
   box-sizing: border-box;
 }
 
-.seenly-share-copy-btn {
+.tensignal-share-copy-btn {
   flex: 1 1 auto;
   min-width: 0;
   height: 44px;
@@ -2694,22 +2694,22 @@ html::-webkit-scrollbar-thumb:hover {
   padding-inline: 18px;
 }
 
-.seenly-share-copy-btn.copied {
+.tensignal-share-copy-btn.copied {
   background: var(--color-burnt-coral);
   border-color: var(--color-burnt-coral);
   box-shadow: 0 4px 16px rgba(217, 106, 83, 0.25);
 }
 
-.seenly-share-copy-btn:hover {
+.tensignal-share-copy-btn:hover {
   transform: translateY(-1px) scale(1.02);
   box-shadow: 0 6px 18px rgba(11, 27, 44, 0.18);
 }
 
-.seenly-share-copy-btn:active {
+.tensignal-share-copy-btn:active {
   transform: translateY(0) scale(0.98);
 }
 
-.seenly-share-qr-btn {
+.tensignal-share-qr-btn {
   flex: 0 0 44px;
   width: 44px;
   height: 44px;
@@ -2725,7 +2725,7 @@ html::-webkit-scrollbar-thumb:hover {
   box-shadow: 0 4px 14px rgba(11, 27, 44, 0.12);
 }
 
-.seenly-share-qr-btn:hover {
+.tensignal-share-qr-btn:hover {
   transform: translateY(-1px) scale(1.05);
   background: #14273e;
   border-color: #14273e;
@@ -2733,11 +2733,11 @@ html::-webkit-scrollbar-thumb:hover {
   box-shadow: 0 6px 18px rgba(11, 27, 44, 0.18);
 }
 
-.seenly-share-qr-btn:active {
+.tensignal-share-qr-btn:active {
   transform: translateY(0) scale(0.95);
 }
 
-.seenly-share-hint {
+.tensignal-share-hint {
   font-size: 0.76rem;
   font-family: var(--font-sans);
   color: var(--color-text-muted);
@@ -2746,7 +2746,7 @@ html::-webkit-scrollbar-thumb:hover {
   text-align: center;
 }
 
-.seenly-dashboard-footer {
+.tensignal-dashboard-footer {
   display: flex;
   gap: 12px;
   padding: 1rem 1.25rem 1.75rem 1.25rem;
@@ -2755,7 +2755,7 @@ html::-webkit-scrollbar-thumb:hover {
   margin-top: auto;
 }
 
-.seenly-dashboard-footer .footer-btn {
+.tensignal-dashboard-footer .footer-btn {
   flex: 1;
   border: 1px solid rgba(11, 27, 44, 0.06);
   border-radius: 16px;
@@ -2771,7 +2771,7 @@ html::-webkit-scrollbar-thumb:hover {
   text-align: center;
 }
 
-.seenly-dashboard-footer .footer-btn:hover {
+.tensignal-dashboard-footer .footer-btn:hover {
   background-color: rgba(253, 251, 247, 0.9);
   border-color: rgba(11, 27, 44, 0.15);
   transform: translateY(-2px);
@@ -2786,31 +2786,31 @@ html::-webkit-scrollbar-thumb:hover {
 
 /* Desktop-specific adjustments for breathing editorial design */
 @media (min-width: 1024px) {
-  .seenly-dashboard-page-wrapper {
+  .tensignal-dashboard-page-wrapper {
     padding: calc(80px + 3rem) 2rem 5rem 2rem;
   }
 
-  .seenly-dashboard-container {
+  .tensignal-dashboard-container {
     max-width: 840px;
     margin: 0 auto;
   }
 
-  .seenly-dashboard-header {
+  .tensignal-dashboard-header {
     padding: 2.25rem 3rem 1rem 3rem;
   }
 
-  .seenly-dashboard-tabs {
+  .tensignal-dashboard-tabs {
     padding: 0.25rem 3rem 0 3rem;
     justify-content: center;
     gap: 2rem;
   }
 
-  .seenly-dashboard-body {
+  .tensignal-dashboard-body {
     padding: 2.5rem 3rem;
     /* Expanded body padding */
   }
 
-  .seenly-dashboard-tab-content {
+  .tensignal-dashboard-tab-content {
     display: grid;
     grid-template-columns: 280px 1fr;
     /* Wider column layout */
@@ -2819,17 +2819,17 @@ html::-webkit-scrollbar-thumb:hover {
     gap: 2.5rem;
   }
 
-  .seenly-dashboard-polaroid {
+  .tensignal-dashboard-polaroid {
     height: 350px;
     /* Tall, visible polaroid archetype card */
   }
 
-  .seenly-dashboard-signals-card {
+  .tensignal-dashboard-signals-card {
     padding: 1.75rem;
     /* Expanded internal padding */
   }
 
-  .seenly-dashboard-signals-card .signals-title {
+  .tensignal-dashboard-signals-card .signals-title {
     margin: 0 0 1.25rem 0;
     font-size: 1.05rem;
   }
@@ -2843,7 +2843,7 @@ html::-webkit-scrollbar-thumb:hover {
     /* Long, clear signal bars */
   }
 
-  .seenly-dashboard-locked-mask {
+  .tensignal-dashboard-locked-mask {
     grid-column: span 2;
     min-height: 350px;
   }
@@ -2852,7 +2852,7 @@ html::-webkit-scrollbar-thumb:hover {
     grid-column: span 2;
   }
 
-  .seenly-dashboard-footer {
+  .tensignal-dashboard-footer {
     padding: 1.5rem 3rem 2.25rem 3rem;
     gap: 16px;
   }
@@ -3314,34 +3314,34 @@ html::-webkit-scrollbar-thumb:hover {
   background-color: #f7f1e7 !important;
 }
 
-.seenly-dashboard-page-wrapper {
+.tensignal-dashboard-page-wrapper {
   padding-top: clamp(2.5rem, 5vw, 4.4rem) !important;
 }
 
-.seenly-dashboard-container {
+.tensignal-dashboard-container {
   width: min(1060px, 100%) !important;
   max-width: 1060px !important;
   overflow: visible !important;
 }
 
-.seenly-dashboard-header {
+.tensignal-dashboard-header {
   padding-top: clamp(0.75rem, 2vw, 1.25rem) !important;
   padding-bottom: clamp(1.35rem, 2.5vw, 2rem) !important;
   border-bottom: 0 !important;
 }
 
-.seenly-dashboard-username {
+.tensignal-dashboard-username {
   font-size: clamp(3.25rem, 7vw, 5rem) !important;
   font-weight: 360 !important;
   letter-spacing: -0.035em !important;
   color: var(--color-deep-ink) !important;
 }
 
-.seenly-dashboard-user-info>div {
+.tensignal-dashboard-user-info>div {
   color: color-mix(in oklch, var(--color-deep-ink) 64%, var(--muted-foreground)) !important;
 }
 
-.seenly-dashboard-copy-system button {
+.tensignal-dashboard-copy-system button {
   min-height: 56px !important;
   min-width: min(330px, 100%) !important;
   border-radius: 999px !important;
@@ -3352,7 +3352,7 @@ html::-webkit-scrollbar-thumb:hover {
   box-shadow: 0 16px 38px rgba(11, 27, 44, 0.16) !important;
 }
 
-.seenly-dashboard-copy-system p {
+.tensignal-dashboard-copy-system p {
   margin-top: 1rem !important;
   color: color-mix(in oklch, var(--color-deep-ink) 58%, var(--muted-foreground)) !important;
   font-family: var(--font-heading) !important;
@@ -3360,11 +3360,11 @@ html::-webkit-scrollbar-thumb:hover {
   font-style: normal !important;
 }
 
-.seenly-dashboard-body {
+.tensignal-dashboard-body {
   padding: 0 clamp(1rem, 2vw, 1.4rem) clamp(2rem, 4vw, 3.5rem) !important;
 }
 
-.seenly-dashboard-tab-content {
+.tensignal-dashboard-tab-content {
   max-width: 1000px !important;
   margin-inline: auto !important;
   padding: 0 !important;
@@ -3374,11 +3374,11 @@ html::-webkit-scrollbar-thumb:hover {
   gap: clamp(1.5rem, 2.6vw, 2rem) !important;
 }
 
-.seenly-dashboard-tab-content>.flex.flex-col.items-center {
+.tensignal-dashboard-tab-content>.flex.flex-col.items-center {
   width: min(420px, 100%) !important;
 }
 
-.seenly-dashboard-premium-card {
+.tensignal-dashboard-premium-card {
   border-radius: 24px !important;
   border: 1px solid rgba(197, 160, 89, 0.25) !important;
   background: #FDFBF4 !important;
@@ -3388,11 +3388,11 @@ html::-webkit-scrollbar-thumb:hover {
   -webkit-backdrop-filter: none !important;
 }
 
-.seenly-dashboard-tab-content>.flex.flex-col.items-center>.seenly-dashboard-premium-card {
+.tensignal-dashboard-tab-content>.flex.flex-col.items-center>.tensignal-dashboard-premium-card {
   padding: 1.5rem !important;
 }
 
-.seenly-dashboard-portrait-frame {
+.tensignal-dashboard-portrait-frame {
   max-width: 230px !important;
   margin-bottom: 1rem !important;
   border-color: rgba(197, 160, 89, 0.45) !important;
@@ -3401,8 +3401,8 @@ html::-webkit-scrollbar-thumb:hover {
     0 0 0 1px rgba(197, 160, 89, 0.22) !important;
 }
 
-.seenly-summary-copy h3,
-.seenly-dashboard-tab-content>.flex.flex-col.items-center h3 {
+.tensignal-summary-copy h3,
+.tensignal-dashboard-tab-content>.flex.flex-col.items-center h3 {
   font-size: clamp(1.15rem, 1.8vw, 1.35rem) !important;
   font-weight: 700 !important;
   color: var(--color-deep-ink) !important;
@@ -3410,8 +3410,8 @@ html::-webkit-scrollbar-thumb:hover {
   line-height: 1.18 !important;
 }
 
-.seenly-signal-summary-card h3,
-.seenly-outside-summary-card h3 {
+.tensignal-signal-summary-card h3,
+.tensignal-outside-summary-card h3 {
   font-size: clamp(1.15rem, 1.8vw, 1.35rem) !important;
   font-weight: 700 !important;
   color: #1A3E72 !important;
@@ -3419,8 +3419,8 @@ html::-webkit-scrollbar-thumb:hover {
   line-height: 1.18 !important;
 }
 
-.seenly-dashboard-tab-content>.flex.flex-col.items-center p,
-.seenly-summary-copy p {
+.tensignal-dashboard-tab-content>.flex.flex-col.items-center p,
+.tensignal-summary-copy p {
   max-width: 250px !important;
   color: color-mix(in oklch, var(--color-deep-ink) 72%, var(--muted-foreground)) !important;
   font-family: var(--font-heading) !important;
@@ -3428,21 +3428,21 @@ html::-webkit-scrollbar-thumb:hover {
   line-height: 1.45 !important;
 }
 
-.seenly-dashboard-signal-card {
+.tensignal-dashboard-signal-card {
   padding: 1.5rem !important;
 }
 
-.seenly-dashboard-signal-card {
+.tensignal-dashboard-signal-card {
   padding: 1.5rem !important;
 }
 
-.seenly-dashboard-signal-card>h3 {
+.tensignal-dashboard-signal-card>h3 {
   font-size: clamp(1.35rem, 2vw, 1.65rem) !important;
   font-weight: 700 !important;
   color: var(--color-deep-ink) !important;
 }
 
-.seenly-profile-summary-box {
+.tensignal-profile-summary-box {
   background: linear-gradient(135deg, rgba(255, 253, 248, 0.95) 0%, rgba(249, 244, 235, 0.85) 100%) !important;
   border: 1px solid rgba(197, 160, 89, 0.22) !important;
   box-shadow: 0 2px 8px rgba(80, 60, 40, 0.03) !important;
@@ -3465,13 +3465,13 @@ html::-webkit-scrollbar-thumb:hover {
 
 @media (min-width: 900px) {
 
-  .seenly-dashboard-tab-content.flex,
-  .seenly-dashboard-tab-content[class*="md:flex-row"] {
+  .tensignal-dashboard-tab-content.flex,
+  .tensignal-dashboard-tab-content[class*="md:flex-row"] {
     flex-direction: row !important;
     align-items: stretch !important;
   }
 
-  .seenly-dashboard-signal-card {
+  .tensignal-dashboard-signal-card {
     flex: 1 1 0 !important;
   }
 }
@@ -3479,60 +3479,60 @@ html::-webkit-scrollbar-thumb:hover {
 /* Force column stacking on mobile for the two-column card layouts */
 @media (max-width: 899px) {
 
-  .seenly-dashboard-tab-content.flex,
-  .seenly-dashboard-tab-content[class*="md:flex-row"] {
+  .tensignal-dashboard-tab-content.flex,
+  .tensignal-dashboard-tab-content[class*="md:flex-row"] {
     flex-direction: column !important;
     align-items: stretch !important;
   }
 
-  .seenly-signal-summary-wrap,
-  .seenly-outside-summary-wrap {
+  .tensignal-signal-summary-wrap,
+  .tensignal-outside-summary-wrap {
     width: 100% !important;
     max-width: 100% !important;
   }
 
-  .seenly-dashboard-signal-card,
-  .seenly-wide-signal-card {
+  .tensignal-dashboard-signal-card,
+  .tensignal-wide-signal-card {
     width: 100% !important;
     flex: none !important;
   }
 }
 
 @media (max-width: 760px) {
-  .seenly-dashboard-username {
+  .tensignal-dashboard-username {
     font-size: clamp(2.8rem, 15vw, 4rem) !important;
   }
 
-  .seenly-dashboard-tabs-capsule {
+  .tensignal-dashboard-tabs-capsule {
     border-radius: 28px !important;
     justify-content: flex-start !important;
   }
 
-  .seenly-dashboard-tabs-capsule button {
+  .tensignal-dashboard-tabs-capsule button {
     font-size: 0.9rem !important;
   }
 
-  .seenly-dashboard-tab-content>.flex.flex-col.items-center,
-  .seenly-dashboard-signal-card {
+  .tensignal-dashboard-tab-content>.flex.flex-col.items-center,
+  .tensignal-dashboard-signal-card {
     width: 100% !important;
     min-height: auto !important;
   }
 }
 
 @media (max-width: 640px) {
-  .seenly-modal-overlay {
+  .tensignal-modal-overlay {
     align-items: flex-end !important;
     padding: 0.75rem !important;
   }
 
-  .seenly-modal-container {
+  .tensignal-modal-container {
     width: 100% !important;
     max-height: 88vh !important;
     border-radius: 22px !important;
     padding: 1.25rem !important;
   }
 
-  .seenly-response-detail-premium>div:nth-of-type(2) {
+  .tensignal-response-detail-premium>div:nth-of-type(2) {
     padding: 0.85rem !important;
   }
 }
@@ -3540,13 +3540,13 @@ html::-webkit-scrollbar-thumb:hover {
 /* ============================================
    AUTH HEADER + LANDING-THEMED DASHBOARD
    ============================================ */
-.seenly-user-menu {
+.tensignal-user-menu {
   position: relative;
   display: inline-flex;
   align-items: center;
 }
 
-.seenly-user-menu-trigger {
+.tensignal-user-menu-trigger {
   min-height: 38px;
   display: inline-flex;
   align-items: center;
@@ -3565,7 +3565,7 @@ html::-webkit-scrollbar-thumb:hover {
   box-shadow: 0 14px 30px -24px rgba(11, 27, 44, 0.48);
 }
 
-.seenly-user-menu-icon {
+.tensignal-user-menu-icon {
   width: 28px;
   height: 28px;
   display: inline-flex;
@@ -3576,7 +3576,7 @@ html::-webkit-scrollbar-thumb:hover {
   color: var(--color-deep-ink);
 }
 
-.seenly-user-menu-panel {
+.tensignal-user-menu-panel {
   position: absolute;
   top: calc(100% + 0.65rem);
   right: 0;
@@ -3589,7 +3589,7 @@ html::-webkit-scrollbar-thumb:hover {
   padding: 0.45rem;
 }
 
-.seenly-user-menu-panel button {
+.tensignal-user-menu-panel button {
   width: 100%;
   border: 0;
   border-radius: 10px;
@@ -3603,7 +3603,7 @@ html::-webkit-scrollbar-thumb:hover {
   cursor: pointer;
 }
 
-.seenly-user-menu-panel button:hover {
+.tensignal-user-menu-panel button:hover {
   background: rgba(217, 106, 83, 0.1);
 }
 
@@ -3674,7 +3674,7 @@ html::-webkit-scrollbar-thumb:hover {
   color: var(--foreground);
 }
 
-.seenly-dashboard-page-wrapper {
+.tensignal-dashboard-page-wrapper {
   padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2rem) 4rem !important;
   min-height: calc(100vh - 72px);
   background: transparent !important;
@@ -3691,7 +3691,7 @@ html::-webkit-scrollbar-thumb:hover {
   max-width: 1180px;
 }
 
-.seenly-dashboard-container {
+.tensignal-dashboard-container {
   width: min(860px, 100%) !important;
   max-width: 860px !important;
   margin: 0 auto !important;
@@ -3702,12 +3702,12 @@ html::-webkit-scrollbar-thumb:hover {
   overflow: hidden !important;
 }
 
-.seenly-dashboard-header {
+.tensignal-dashboard-header {
   padding: clamp(1.4rem, 3vw, 2.25rem) clamp(1.25rem, 4vw, 3rem) clamp(1rem, 2vw, 1.5rem) !important;
   border-bottom: 1px solid rgba(11, 27, 44, 0.08) !important;
 }
 
-.seenly-dashboard-profile {
+.tensignal-dashboard-profile {
   max-width: none !important;
   display: flex !important;
   flex-direction: column !important;
@@ -3718,7 +3718,7 @@ html::-webkit-scrollbar-thumb:hover {
   margin: 0 auto !important;
 }
 
-.seenly-dashboard-avatar {
+.tensignal-dashboard-avatar {
   width: 80px !important;
   height: 80px !important;
   background: rgba(217, 106, 83, 0.12) !important;
@@ -3726,12 +3726,12 @@ html::-webkit-scrollbar-thumb:hover {
   border: 1px solid rgba(11, 27, 44, 0.1) !important;
 }
 
-.seenly-dashboard-user-info {
+.tensignal-dashboard-user-info {
   align-items: center !important;
   text-align: center !important;
 }
 
-.seenly-dashboard-username {
+.tensignal-dashboard-username {
   font-family: var(--font-heading) !important;
   font-size: clamp(1.9rem, 3.6vw, 2.6rem) !important;
   font-weight: 520 !important;
@@ -3739,13 +3739,13 @@ html::-webkit-scrollbar-thumb:hover {
   color: var(--foreground) !important;
 }
 
-.seenly-dashboard-copy-system {
+.tensignal-dashboard-copy-system {
   margin-top: 0.5rem !important;
   max-width: 380px !important;
   width: 100% !important;
 }
 
-.seenly-dashboard-tabs {
+.tensignal-dashboard-tabs {
   display: flex !important;
   flex-wrap: nowrap !important;
   overflow-x: auto !important;
@@ -3762,11 +3762,11 @@ html::-webkit-scrollbar-thumb:hover {
   box-sizing: border-box !important;
 }
 
-.seenly-dashboard-tabs::-webkit-scrollbar {
+.tensignal-dashboard-tabs::-webkit-scrollbar {
   display: none !important;
 }
 
-.seenly-dashboard-tabs .tab-btn {
+.tensignal-dashboard-tabs .tab-btn {
   flex: 1 1 0% !important;
   min-width: max-content !important;
   text-align: center !important;
@@ -3782,22 +3782,22 @@ html::-webkit-scrollbar-thumb:hover {
   opacity: 1 !important;
 }
 
-.seenly-dashboard-tabs .tab-btn:hover {
+.tensignal-dashboard-tabs .tab-btn:hover {
   color: var(--color-deep-ink) !important;
   background: rgba(11, 27, 44, 0.02) !important;
 }
 
-.seenly-dashboard-tabs .tab-btn.active {
+.tensignal-dashboard-tabs .tab-btn.active {
   background: #ffffff !important;
   color: var(--color-deep-ink) !important;
   box-shadow: 0 4px 12px rgba(11, 27, 44, 0.05) !important;
 }
 
-.seenly-dashboard-body {
+.tensignal-dashboard-body {
   padding: clamp(1.2rem, 3vw, 2.5rem) clamp(1rem, 4vw, 3rem) clamp(1.5rem, 4vw, 3rem) !important;
 }
 
-.seenly-dashboard-tab-content {
+.tensignal-dashboard-tab-content {
   gap: clamp(1rem, 2.4vw, 2rem) !important;
   background: rgba(11, 27, 44, 0.04) !important;
   border-radius: 24px !important;
@@ -3807,22 +3807,22 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 @media (min-width: 1024px) {
-  .seenly-dashboard-tab-content {
+  .tensignal-dashboard-tab-content {
     grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1.1fr) !important;
     align-items: stretch !important;
   }
 
-  .seenly-dashboard-polaroid {
+  .tensignal-dashboard-polaroid {
     min-height: 430px;
   }
 }
 
-.seenly-dashboard-polaroid {
+.tensignal-dashboard-polaroid {
   border-radius: 18px !important;
   box-shadow: 0 18px 44px rgba(11, 27, 44, 0.12) !important;
 }
 
-.seenly-dashboard-signals-card,
+.tensignal-dashboard-signals-card,
 .profile-flow-stat-card,
 .profile-flow-report-card {
   border: 1px solid oklch(0.74 0.035 70 / 0.34) !important;
@@ -3838,26 +3838,26 @@ html::-webkit-scrollbar-thumb:hover {
     display: none;
   }
 
-  .seenly-dashboard-profile {
+  .tensignal-dashboard-profile {
     grid-template-columns: 1fr !important;
     justify-items: center !important;
     text-align: center !important;
   }
 
-  .seenly-dashboard-user-info {
+  .tensignal-dashboard-user-info {
     align-items: center !important;
     text-align: center !important;
   }
 }
 
-.seenly-plan-page {
+.tensignal-plan-page {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: clamp(1.15rem, 2.6vw, 1.8rem);
 }
 
-.seenly-plan-hero {
+.tensignal-plan-hero {
   text-align: center;
   display: grid;
   justify-items: center;
@@ -3865,7 +3865,7 @@ html::-webkit-scrollbar-thumb:hover {
   padding: 0.25rem 0 0.55rem;
 }
 
-.seenly-plan-hero h3 {
+.tensignal-plan-hero h3 {
   margin: 0;
   color: var(--foreground);
   font-family: var(--font-heading);
@@ -3874,7 +3874,7 @@ html::-webkit-scrollbar-thumb:hover {
   line-height: 1.02;
 }
 
-.seenly-plan-hero p {
+.tensignal-plan-hero p {
   max-width: 620px;
   margin: 0;
   color: var(--muted-foreground);
@@ -3882,15 +3882,15 @@ html::-webkit-scrollbar-thumb:hover {
   line-height: 1.65;
 }
 
-.seenly-plan-main-grid {
+.tensignal-plan-main-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: stretch;
   gap: clamp(1rem, 2.4vw, 1.35rem);
 }
 
-.seenly-plan-card,
-.seenly-plan-pack {
+.tensignal-plan-card,
+.tensignal-plan-pack {
   position: relative;
   border: 1px solid rgba(116, 89, 58, 0.13);
   border-radius: 24px;
@@ -3905,17 +3905,17 @@ html::-webkit-scrollbar-thumb:hover {
   overflow: hidden;
 }
 
-.seenly-plan-card {
+.tensignal-plan-card {
   min-height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.seenly-plan-card.is-active {
+.tensignal-plan-card.is-active {
   border-color: rgba(34, 137, 92, 0.28);
 }
 
-.seenly-plan-card-head {
+.tensignal-plan-card-head {
   min-height: 30px;
   display: flex;
   align-items: center;
@@ -3924,18 +3924,18 @@ html::-webkit-scrollbar-thumb:hover {
   margin-bottom: 0.65rem;
 }
 
-.seenly-plan-card-plus {
+.tensignal-plan-card-plus {
   border-color: rgba(45, 86, 65, 0.28);
 }
 
-.seenly-plan-card.is-active {
+.tensignal-plan-card.is-active {
   box-shadow:
     0 16px 44px rgba(45, 86, 65, 0.06),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 /* Diagonal Ribbon */
-.seenly-plan-ribbon {
+.tensignal-plan-ribbon {
   position: absolute;
   top: 18px;
   right: -32px;
@@ -3953,7 +3953,7 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 /* Background SVGs */
-.seenly-plan-leaf-decoration {
+.tensignal-plan-leaf-decoration {
   position: absolute;
   top: -10px;
   right: -10px;
@@ -3965,7 +3965,7 @@ html::-webkit-scrollbar-thumb:hover {
   z-index: 1;
 }
 
-.seenly-plan-waves-decoration {
+.tensignal-plan-waves-decoration {
   position: absolute;
   bottom: 0;
   right: 0;
@@ -3978,7 +3978,7 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 /* Kickers and Headings */
-.seenly-plan-kicker {
+.tensignal-plan-kicker {
   font-family: var(--font-mono);
   font-size: 0.68rem;
   font-weight: 800;
@@ -3988,7 +3988,7 @@ html::-webkit-scrollbar-thumb:hover {
   z-index: 2;
 }
 
-.seenly-plan-title {
+.tensignal-plan-title {
   margin: 0.65rem 0 0;
   font-family: var(--font-serif);
   font-size: clamp(2rem, 3.5vw, 2.75rem);
@@ -4000,7 +4000,7 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 /* Pricing block */
-.seenly-plan-price {
+.tensignal-plan-price {
   display: flex;
   align-items: baseline;
   gap: 0.65rem;
@@ -4008,22 +4008,22 @@ html::-webkit-scrollbar-thumb:hover {
   z-index: 2;
 }
 
-.seenly-plan-price strong {
+.tensignal-plan-price strong {
   font-family: var(--font-serif);
   font-size: clamp(2.2rem, 4vw, 3rem);
   font-weight: 900;
   line-height: 1;
 }
 
-.seenly-plan-free-text {
+.tensignal-plan-free-text {
   color: #c5a059;
 }
 
-.seenly-plan-plus-price {
+.tensignal-plan-plus-price {
   color: #2d5641;
 }
 
-.seenly-plan-price small {
+.tensignal-plan-price small {
   color: var(--color-text-muted);
   font-family: var(--font-sans);
   font-size: 0.82rem;
@@ -4031,7 +4031,7 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 /* Star/Diamond Divider */
-.seenly-plan-diamond-divider {
+.tensignal-plan-diamond-divider {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4041,20 +4041,20 @@ html::-webkit-scrollbar-thumb:hover {
   z-index: 2;
 }
 
-.seenly-plan-diamond-divider .line {
+.tensignal-plan-diamond-divider .line {
   height: 1px;
   flex: 1;
   background: linear-gradient(90deg, transparent, rgba(200, 188, 170, 0.45), transparent);
 }
 
-.seenly-plan-diamond-divider .diamond {
+.tensignal-plan-diamond-divider .diamond {
   font-size: 0.7rem;
   color: #c5a059;
   opacity: 0.85;
 }
 
 /* Features checklist */
-.seenly-plan-features-list {
+.tensignal-plan-features-list {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
@@ -4065,7 +4065,7 @@ html::-webkit-scrollbar-thumb:hover {
   z-index: 2;
 }
 
-.seenly-plan-features-list li {
+.tensignal-plan-features-list li {
   display: flex;
   gap: 0.75rem;
   align-items: center;
@@ -4076,7 +4076,7 @@ html::-webkit-scrollbar-thumb:hover {
   text-align: left;
 }
 
-.seenly-plan-check-circle-outline {
+.tensignal-plan-check-circle-outline {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -4088,7 +4088,7 @@ html::-webkit-scrollbar-thumb:hover {
   flex-shrink: 0;
 }
 
-.seenly-plan-check-circle-solid {
+.tensignal-plan-check-circle-solid {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -4101,7 +4101,7 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 /* CTA buttons inside cards */
-.seenly-plan-card button {
+.tensignal-plan-card button {
   width: 100%;
   min-height: 48px;
   border-radius: 999px;
@@ -4118,40 +4118,40 @@ html::-webkit-scrollbar-thumb:hover {
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.seenly-plan-card button .arrow {
+.tensignal-plan-card button .arrow {
   font-size: 0.9rem;
   transition: transform 0.2s ease;
 }
 
-.seenly-plan-card button:hover .arrow {
+.tensignal-plan-card button:hover .arrow {
   transform: translateX(3px);
 }
 
 /* Secondary Button (Free plan current / included state) */
-.seenly-plan-secondary-btn {
+.tensignal-plan-secondary-btn {
   border: 1px solid rgba(200, 188, 170, 0.5) !important;
   background: rgba(251, 246, 237, 0.6) !important;
   color: #8c6c3e !important;
 }
 
-.seenly-plan-secondary-btn:disabled {
+.tensignal-plan-secondary-btn:disabled {
   cursor: default;
 }
 
 /* Primary Button (Plus actions) */
-.seenly-plan-primary-btn {
+.tensignal-plan-primary-btn {
   border: none !important;
   background: #2d5641 !important;
   color: #ffffff !important;
   box-shadow: 0 4px 14px rgba(45, 86, 65, 0.15);
 }
 
-.seenly-plan-primary-btn:hover:not(:disabled) {
+.tensignal-plan-primary-btn:hover:not(:disabled) {
   transform: scale(1.015);
   box-shadow: 0 6px 18px rgba(45, 86, 65, 0.22);
 }
 
-.seenly-plan-primary-btn:disabled {
+.tensignal-plan-primary-btn:disabled {
   background: #2d5641 !important;
   color: rgba(255, 255, 255, 0.82) !important;
   cursor: default;
@@ -4159,7 +4159,7 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 /* Bottom Pack Section (Watercolor banner) */
-.seenly-plan-pack-section {
+.tensignal-plan-pack-section {
   position: relative;
   border: 1px solid rgba(200, 188, 170, 0.35);
   border-radius: 28px;
@@ -4174,7 +4174,7 @@ html::-webkit-scrollbar-thumb:hover {
   gap: 1.5rem;
 }
 
-.seenly-plan-pack-leaf-decoration {
+.tensignal-plan-pack-leaf-decoration {
   position: absolute;
   top: -10px;
   right: -10px;
@@ -4186,13 +4186,13 @@ html::-webkit-scrollbar-thumb:hover {
   z-index: 1;
 }
 
-.seenly-plan-pack-section .seenly-plan-section-head {
+.tensignal-plan-pack-section .tensignal-plan-section-head {
   text-align: left;
   z-index: 2;
   max-width: 580px;
 }
 
-.seenly-plan-pack-section .seenly-plan-section-head h4 {
+.tensignal-plan-pack-section .tensignal-plan-section-head h4 {
   margin: 0.5rem 0 0.35rem;
   font-family: var(--font-serif);
   font-size: 1.85rem;
@@ -4201,7 +4201,7 @@ html::-webkit-scrollbar-thumb:hover {
   line-height: 1.15;
 }
 
-.seenly-plan-pack-section .seenly-plan-section-head p {
+.tensignal-plan-pack-section .tensignal-plan-section-head p {
   margin: 0;
   color: var(--color-text-muted);
   font-size: 0.88rem;
@@ -4210,14 +4210,14 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 /* Sub-cards Grid */
-.seenly-plan-pack-grid {
+.tensignal-plan-pack-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.25rem;
   z-index: 2;
 }
 
-.seenly-plan-pack {
+.tensignal-plan-pack {
   border: 1px solid rgba(200, 188, 170, 0.35);
   border-radius: 20px;
   padding: 1.5rem 1.25rem 1.25rem;
@@ -4231,7 +4231,7 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 /* Pack color theme templates */
-.seenly-plan-pack.theme-gold {
+.tensignal-plan-pack.theme-gold {
   background: rgba(255, 253, 248, 0.65) !important;
   --pack-primary: #c5a059;
   --pack-bg-light: rgba(246, 237, 222, 0.5);
@@ -4239,7 +4239,7 @@ html::-webkit-scrollbar-thumb:hover {
   --pack-btn-border: rgba(197, 160, 89, 0.4);
 }
 
-.seenly-plan-pack.theme-purple {
+.tensignal-plan-pack.theme-purple {
   background: rgba(253, 251, 255, 0.65) !important;
   --pack-primary: #8f7bcc;
   --pack-bg-light: rgba(143, 123, 204, 0.1);
@@ -4247,7 +4247,7 @@ html::-webkit-scrollbar-thumb:hover {
   --pack-btn-border: rgba(143, 123, 204, 0.4);
 }
 
-.seenly-plan-pack.theme-green {
+.tensignal-plan-pack.theme-green {
   background: rgba(250, 253, 251, 0.65) !important;
   --pack-primary: #598c73;
   --pack-bg-light: rgba(89, 140, 115, 0.1);
@@ -4255,12 +4255,12 @@ html::-webkit-scrollbar-thumb:hover {
   --pack-btn-border: rgba(89, 140, 115, 0.4);
 }
 
-.seenly-plan-pack.is-muted {
+.tensignal-plan-pack.is-muted {
   opacity: 0.72;
 }
 
 /* Icons backdrop inside mini cards */
-.seenly-plan-pack-icon-wrap {
+.tensignal-plan-pack-icon-wrap {
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -4272,7 +4272,7 @@ html::-webkit-scrollbar-thumb:hover {
   margin-bottom: 0.75rem;
 }
 
-.seenly-plan-pack-label {
+.tensignal-plan-pack-label {
   font-family: var(--font-mono);
   font-size: 0.62rem;
   font-weight: 900;
@@ -4281,7 +4281,7 @@ html::-webkit-scrollbar-thumb:hover {
   text-transform: uppercase;
 }
 
-.seenly-plan-pack-amount {
+.tensignal-plan-pack-amount {
   font-family: var(--font-serif);
   font-size: clamp(2.4rem, 4vw, 3rem);
   font-weight: 900;
@@ -4290,7 +4290,7 @@ html::-webkit-scrollbar-thumb:hover {
   margin: 0.35rem 0 0.15rem;
 }
 
-.seenly-plan-pack-kicker-h5 {
+.tensignal-plan-pack-kicker-h5 {
   margin: 0 0 0.5rem;
   font-family: var(--font-sans);
   font-size: 0.78rem;
@@ -4300,7 +4300,7 @@ html::-webkit-scrollbar-thumb:hover {
   color: var(--color-text-muted);
 }
 
-.seenly-plan-pack-price {
+.tensignal-plan-pack-price {
   font-family: var(--font-serif);
   font-size: 1.45rem;
   font-weight: 900;
@@ -4308,7 +4308,7 @@ html::-webkit-scrollbar-thumb:hover {
   margin-bottom: 0.85rem;
 }
 
-.seenly-plan-pack-btn {
+.tensignal-plan-pack-btn {
   width: 100%;
   min-height: 40px;
   border-radius: 999px;
@@ -4327,22 +4327,22 @@ html::-webkit-scrollbar-thumb:hover {
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.seenly-plan-pack-btn:hover:not(:disabled) {
+.tensignal-plan-pack-btn:hover:not(:disabled) {
   transform: scale(1.015);
   background: var(--pack-primary) !important;
   color: #ffffff !important;
   border-color: var(--pack-primary) !important;
 }
 
-.seenly-plan-pack-btn .arrow {
+.tensignal-plan-pack-btn .arrow {
   transition: transform 0.2s ease;
 }
 
-.seenly-plan-pack-btn:hover:not(:disabled) .arrow {
+.tensignal-plan-pack-btn:hover:not(:disabled) .arrow {
   transform: translateX(2px);
 }
 
-.seenly-plan-pack-btn:disabled {
+.tensignal-plan-pack-btn:disabled {
   cursor: default;
   opacity: 0.85;
 }
@@ -4351,12 +4351,12 @@ html::-webkit-scrollbar-thumb:hover {
    RESPONSIVE OVERRIDES
    ============================================================ */
 @media (max-width: 890px) {
-  .seenly-plan-main-grid {
+  .tensignal-plan-main-grid {
     grid-template-columns: 1fr;
     gap: 1.25rem;
   }
 
-  .seenly-plan-pack-grid {
+  .tensignal-plan-pack-grid {
     grid-template-columns: 1fr;
     align-items: flex-start;
     flex-direction: column;
@@ -4364,15 +4364,15 @@ html::-webkit-scrollbar-thumb:hover {
   }
 }
 
-.seenly-gap-editorial-content {
+.tensignal-gap-editorial-content {
   display: block !important;
   grid-template-columns: 1fr !important;
   overflow-x: hidden !important;
 }
 
 /* Match card backgrounds inside engagement/analytics/plan tabs to premium card style */
-.seenly-gap-editorial-content [class*="bg-white/"],
-.seenly-gap-editorial-content [class*="bg-white"] {
+.tensignal-gap-editorial-content [class*="bg-white/"],
+.tensignal-gap-editorial-content [class*="bg-white"] {
   background: linear-gradient(180deg, rgba(255, 253, 248, 0.94), rgba(246, 241, 231, 0.96)) !important;
   border-color: rgba(255, 255, 255, 0.72) !important;
   backdrop-filter: none !important;
@@ -4384,10 +4384,10 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 /* Make inner white sub-boxes visibly pop above the card surface */
-.seenly-gap-editorial-content [class*="bg-white/2"],
-.seenly-gap-editorial-content [class*="bg-white/3"],
-.seenly-gap-editorial-content [class*="bg-white/4"],
-.seenly-gap-editorial-content [class*="bg-white/5"] {
+.tensignal-gap-editorial-content [class*="bg-white/2"],
+.tensignal-gap-editorial-content [class*="bg-white/3"],
+.tensignal-gap-editorial-content [class*="bg-white/4"],
+.tensignal-gap-editorial-content [class*="bg-white/5"] {
   background: rgba(255, 255, 255, 0.85) !important;
   border: 1px solid rgba(220, 210, 195, 0.6) !important;
   box-shadow: 0 2px 8px rgba(80, 60, 40, 0.08) !important;
@@ -4395,7 +4395,7 @@ html::-webkit-scrollbar-thumb:hover {
   -webkit-backdrop-filter: none !important;
 }
 
-.seenly-response-pagination {
+.tensignal-response-pagination {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4404,7 +4404,7 @@ html::-webkit-scrollbar-thumb:hover {
   padding-top: 0.35rem;
 }
 
-.seenly-response-page-btn {
+.tensignal-response-page-btn {
   width: 36px;
   height: 36px;
   border: 1px solid rgba(116, 89, 58, 0.16);
@@ -4422,35 +4422,35 @@ html::-webkit-scrollbar-thumb:hover {
   transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 
-.seenly-response-page-btn:hover {
+.tensignal-response-page-btn:hover {
   border-color: rgba(217, 106, 83, 0.34);
   background: rgba(255, 253, 248, 0.94);
   color: var(--foreground);
 }
 
-.seenly-response-page-btn.active {
+.tensignal-response-page-btn.active {
   border-color: var(--color-deep-ink);
   background: var(--color-deep-ink);
   color: var(--color-paper-cream);
 }
 
-.seenly-response-page-btn:disabled {
+.tensignal-response-page-btn:disabled {
   opacity: 0.42;
   cursor: not-allowed;
 }
 
-.seenly-response-page-btn:disabled:hover {
+.tensignal-response-page-btn:disabled:hover {
   border-color: rgba(116, 89, 58, 0.16);
   background: rgba(255, 253, 248, 0.72);
   color: var(--muted-foreground);
 }
 
-.seenly-response-page-nav {
+.tensignal-response-page-nav {
   font-family: var(--font-sans);
   font-size: 0.95rem;
 }
 
-.seenly-response-page-ellipsis {
+.tensignal-response-page-ellipsis {
   min-width: 20px;
   color: var(--muted-foreground);
   font-family: var(--font-mono);
@@ -4460,21 +4460,21 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 @media (max-width: 420px) {
-  .seenly-response-pagination {
+  .tensignal-response-pagination {
     gap: 0.35rem;
   }
 
-  .seenly-response-page-btn {
+  .tensignal-response-page-btn {
     width: 32px;
     height: 32px;
     font-size: 0.72rem;
   }
 
-  .seenly-response-page-nav {
+  .tensignal-response-page-nav {
     font-size: 0.85rem;
   }
 
-  .seenly-response-page-ellipsis {
+  .tensignal-response-page-ellipsis {
     min-width: 16px;
     font-size: 0.72rem;
   }
@@ -4731,37 +4731,37 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 @media (max-height: 760px) {
-  .seenly-wizard-wrapper {
+  .tensignal-wizard-wrapper {
     align-items: flex-start;
   }
 
-  .seenly-wizard-header {
+  .tensignal-wizard-header {
     padding-top: 0.75rem;
     padding-bottom: 0.55rem;
   }
 
-  .seenly-wizard-body:has(.question-text) {
+  .tensignal-wizard-body:has(.question-text) {
     gap: 0.75rem;
     padding-top: 0.9rem;
     padding-bottom: 0.9rem;
   }
 
-  .seenly-wizard-body:has(.question-text) .seenly-wizard-title.question-text {
+  .tensignal-wizard-body:has(.question-text) .tensignal-wizard-title.question-text {
     font-size: clamp(1.65rem, 2.35vw, 2.35rem);
     line-height: 1.05;
   }
 
-  .seenly-wizard-body:has(.question-text) .seenly-wizard-list-container {
+  .tensignal-wizard-body:has(.question-text) .tensignal-wizard-list-container {
     gap: 0.4rem;
   }
 
-  .seenly-wizard-body:has(.question-text) .seenly-wizard-list-btn {
+  .tensignal-wizard-body:has(.question-text) .tensignal-wizard-list-btn {
     min-height: 54px;
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
   }
 
-  .seenly-wizard-body:has(.question-text) .seenly-wizard-primary-btn {
+  .tensignal-wizard-body:has(.question-text) .tensignal-wizard-primary-btn {
     min-height: 52px;
   }
 }
@@ -4769,13 +4769,13 @@ html::-webkit-scrollbar-thumb:hover {
 /* ============================================
    QUIZ & ONBOARDING FLOW MOBILE & KEYBOARD RESILIENT STYLES
    ============================================ */
-html:has(.seenly-wizard-wrapper),
-body:has(.seenly-wizard-wrapper) {
+html:has(.tensignal-wizard-wrapper),
+body:has(.tensignal-wizard-wrapper) {
   height: 100%;
   overflow: hidden;
 }
 
-.seenly-wizard-wrapper {
+.tensignal-wizard-wrapper {
   width: 100vw;
   height: 100vh;
   height: 100dvh;
@@ -4790,11 +4790,11 @@ body:has(.seenly-wizard-wrapper) {
   background: var(--background) !important;
 }
 
-.seenly-wizard-wrapper::before {
+.tensignal-wizard-wrapper::before {
   display: none;
 }
 
-.seenly-wizard-container {
+.tensignal-wizard-container {
   width: min(720px, calc(100vw - clamp(1.5rem, 3.6vw, 2.5rem)));
   height: min(660px, calc(100dvh - clamp(1.5rem, 3.6vw, 2.5rem)));
   min-height: 0;
@@ -4813,11 +4813,11 @@ body:has(.seenly-wizard-wrapper) {
   position: relative;
 }
 
-.seenly-wizard-container::before {
+.tensignal-wizard-container::before {
   display: none;
 }
 
-.seenly-wizard-header {
+.tensignal-wizard-header {
   min-height: 56px;
   display: flex !important;
   align-items: center;
@@ -4832,7 +4832,7 @@ body:has(.seenly-wizard-wrapper) {
   flex-shrink: 0;
 }
 
-.seenly-wizard-back-btn {
+.tensignal-wizard-back-btn {
   width: 38px !important;
   height: 38px !important;
   min-width: 38px;
@@ -4850,13 +4850,13 @@ body:has(.seenly-wizard-wrapper) {
   flex-shrink: 0;
 }
 
-.seenly-wizard-back-btn:hover,
-.seenly-wizard-back-btn:active {
+.tensignal-wizard-back-btn:hover,
+.tensignal-wizard-back-btn:active {
   background: rgba(11, 27, 44, 0.08) !important;
   transform: scale(0.96);
 }
 
-.seenly-wizard-progress-track {
+.tensignal-wizard-progress-track {
   flex: 1;
   height: 4px;
   background: rgba(11, 27, 44, 0.08) !important;
@@ -4865,15 +4865,15 @@ body:has(.seenly-wizard-wrapper) {
   margin: 0 0.5rem;
 }
 
-.seenly-wizard-progress-bar {
+.tensignal-wizard-progress-bar {
   height: 100%;
   border-radius: inherit;
   background: var(--color-deep-ink) !important;
   transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.seenly-wizard-step-info,
-.seenly-wizard-step-lang .lang-dropdown-trigger {
+.tensignal-wizard-step-info,
+.tensignal-wizard-step-lang .lang-dropdown-trigger {
   height: 34px;
   min-height: 34px;
   font-size: 0.76rem;
@@ -4887,12 +4887,12 @@ body:has(.seenly-wizard-wrapper) {
   transition: all 0.2s ease;
 }
 
-.seenly-wizard-step-lang .lang-dropdown-trigger:hover,
-.seenly-wizard-step-lang .lang-dropdown-trigger:active {
+.tensignal-wizard-step-lang .lang-dropdown-trigger:hover,
+.tensignal-wizard-step-lang .lang-dropdown-trigger:active {
   background: rgba(11, 27, 44, 0.08);
 }
 
-.seenly-wizard-body {
+.tensignal-wizard-body {
   flex: 1;
   min-height: 0;
   display: flex;
@@ -4909,7 +4909,7 @@ body:has(.seenly-wizard-wrapper) {
   box-sizing: border-box;
 }
 
-.seenly-wizard-content {
+.tensignal-wizard-content {
   width: min(100%, 640px);
   max-width: 640px;
   margin: auto 0;
@@ -4922,7 +4922,7 @@ body:has(.seenly-wizard-wrapper) {
   flex-shrink: 0;
 }
 
-.seenly-wizard-circle-icon {
+.tensignal-wizard-circle-icon {
   width: clamp(48px, 5vw, 60px);
   height: clamp(48px, 5vw, 60px);
   box-shadow: 0 12px 28px rgba(11, 27, 44, 0.06);
@@ -4933,12 +4933,12 @@ body:has(.seenly-wizard-wrapper) {
   flex-shrink: 0;
 }
 
-.seenly-wizard-circle-icon svg {
+.tensignal-wizard-circle-icon svg {
   width: 26px;
   height: 26px;
 }
 
-.seenly-wizard-title {
+.tensignal-wizard-title {
   max-width: 640px;
   font-size: clamp(1.5rem, 2.8vw, 2.35rem);
   line-height: 1.1;
@@ -4947,20 +4947,20 @@ body:has(.seenly-wizard-wrapper) {
   margin: 0;
 }
 
-.seenly-wizard-title.question-text,
-.seenly-wizard-body:has(.question-text) .seenly-wizard-title.question-text {
+.tensignal-wizard-title.question-text,
+.tensignal-wizard-body:has(.question-text) .tensignal-wizard-title.question-text {
   width: min(100%, 680px);
   font-size: clamp(1.25rem, 2.1vw, 1.85rem);
   line-height: 1.15;
   margin: 0;
 }
 
-.seenly-wizard-input-container {
+.tensignal-wizard-input-container {
   width: min(100%, 400px);
   box-sizing: border-box;
 }
 
-.seenly-wizard-input {
+.tensignal-wizard-input {
   width: 100%;
   min-height: 50px;
   border-radius: 16px;
@@ -4978,14 +4978,14 @@ body:has(.seenly-wizard-wrapper) {
   box-sizing: border-box;
 }
 
-.seenly-wizard-input:focus {
+.tensignal-wizard-input:focus {
   border-color: var(--color-burnt-coral, #d96a53);
   background: #ffffff;
   box-shadow: 0 0 0 3.5px rgba(217, 106, 83, 0.14), inset 0 1px 2px rgba(11, 27, 44, 0.02);
 }
 
-.seenly-wizard-list-container,
-.seenly-wizard-body:has(.question-text) .seenly-wizard-list-container {
+.tensignal-wizard-list-container,
+.tensignal-wizard-body:has(.question-text) .tensignal-wizard-list-container {
   width: min(100%, 680px);
   max-width: 680px;
   gap: 0.45rem;
@@ -4994,8 +4994,8 @@ body:has(.seenly-wizard-wrapper) {
   box-sizing: border-box;
 }
 
-.seenly-wizard-list-btn,
-.seenly-wizard-body:has(.question-text) .seenly-wizard-list-btn {
+.tensignal-wizard-list-btn,
+.tensignal-wizard-body:has(.question-text) .tensignal-wizard-list-btn {
   min-height: 48px;
   border-radius: 14px;
   padding: 0.65rem 0.85rem;
@@ -5011,28 +5011,28 @@ body:has(.seenly-wizard-wrapper) {
   box-sizing: border-box;
 }
 
-.seenly-wizard-list-btn:hover,
-.seenly-wizard-body:has(.question-text) .seenly-wizard-list-btn:hover {
+.tensignal-wizard-list-btn:hover,
+.tensignal-wizard-body:has(.question-text) .tensignal-wizard-list-btn:hover {
   background: rgba(217, 106, 83, 0.04);
   border-color: rgba(217, 106, 83, 0.3);
   transform: translateY(-1px);
 }
 
-.seenly-wizard-list-btn.active,
-.seenly-wizard-body:has(.question-text) .seenly-wizard-list-btn.active {
+.tensignal-wizard-list-btn.active,
+.tensignal-wizard-body:has(.question-text) .tensignal-wizard-list-btn.active {
   background: linear-gradient(135deg, rgba(217, 106, 83, 0.08) 0%, rgba(143, 123, 204, 0.06) 100%);
   border-color: var(--color-burnt-coral, #d96a53);
   box-shadow: 0 6px 18px rgba(217, 106, 83, 0.08);
   font-weight: 600;
 }
 
-.seenly-wizard-list-btn span:first-child {
+.tensignal-wizard-list-btn span:first-child {
   font-size: clamp(0.86rem, 1.05vw, 0.96rem);
   line-height: 1.18;
   font-weight: 700;
 }
 
-.seenly-wizard-checkmark {
+.tensignal-wizard-checkmark {
   width: 22px !important;
   height: 22px !important;
   min-width: 22px !important;
@@ -5048,11 +5048,11 @@ body:has(.seenly-wizard-wrapper) {
   justify-content: center;
 }
 
-.seenly-wizard-placeholder-lines {
+.tensignal-wizard-placeholder-lines {
   display: none;
 }
 
-.seenly-wizard-info-bullets {
+.tensignal-wizard-info-bullets {
   width: 100%;
   max-width: 400px;
   display: flex;
@@ -5064,7 +5064,7 @@ body:has(.seenly-wizard-wrapper) {
   box-sizing: border-box;
 }
 
-.seenly-wizard-info-bullets li {
+.tensignal-wizard-info-bullets li {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -5083,7 +5083,7 @@ body:has(.seenly-wizard-wrapper) {
   box-sizing: border-box;
 }
 
-.seenly-wizard-footer-action {
+.tensignal-wizard-footer-action {
   width: 100%;
   max-width: 400px;
   display: flex;
@@ -5095,7 +5095,7 @@ body:has(.seenly-wizard-wrapper) {
   flex-shrink: 0;
 }
 
-.seenly-wizard-primary-btn {
+.tensignal-wizard-primary-btn {
   width: 100%;
   max-width: 400px;
   min-height: 48px;
@@ -5118,13 +5118,13 @@ body:has(.seenly-wizard-wrapper) {
   box-sizing: border-box;
 }
 
-.seenly-wizard-primary-btn:hover {
+.tensignal-wizard-primary-btn:hover {
   transform: translateY(-1.5px);
   box-shadow: 0 12px 28px rgba(11, 27, 44, 0.2) !important;
   background: #162a3f !important;
 }
 
-.seenly-wizard-primary-btn:disabled {
+.tensignal-wizard-primary-btn:disabled {
   background: rgba(11, 27, 44, 0.08) !important;
   color: rgba(11, 27, 44, 0.35) !important;
   box-shadow: none !important;
@@ -5132,21 +5132,21 @@ body:has(.seenly-wizard-wrapper) {
   transform: none !important;
 }
 
-.seenly-wizard-arrow-icon {
+.tensignal-wizard-arrow-icon {
   width: 16px;
   height: 16px;
 }
 
 /* Mobile Screens (< 640px) */
 @media (max-width: 640px) {
-  .seenly-wizard-wrapper {
+  .tensignal-wizard-wrapper {
     padding: 0;
     height: 100dvh;
     min-height: 100dvh;
     background: var(--color-paper-cream) !important;
   }
 
-  .seenly-wizard-container {
+  .tensignal-wizard-container {
     width: 100vw;
     height: 100dvh;
     min-height: 100dvh;
@@ -5156,7 +5156,7 @@ body:has(.seenly-wizard-wrapper) {
     background: var(--color-paper-cream) !important;
   }
 
-  .seenly-wizard-header {
+  .tensignal-wizard-header {
     min-height: 50px;
     padding: 0.4rem 0.85rem 0.25rem 0.85rem;
     padding-top: max(0.5rem, env(safe-area-inset-top));
@@ -5165,7 +5165,7 @@ body:has(.seenly-wizard-wrapper) {
     box-shadow: none !important;
   }
 
-  .seenly-wizard-back-btn {
+  .tensignal-wizard-back-btn {
     width: 38px !important;
     height: 38px !important;
     min-width: 38px;
@@ -5174,12 +5174,12 @@ body:has(.seenly-wizard-wrapper) {
     color: var(--color-deep-ink) !important;
   }
 
-  .seenly-wizard-step-info {
+  .tensignal-wizard-step-info {
     min-width: 36px;
     padding: 0 0.4rem;
   }
 
-  .seenly-wizard-step-lang .lang-dropdown-trigger {
+  .tensignal-wizard-step-lang .lang-dropdown-trigger {
     padding: 0 0.55rem;
     height: 32px !important;
     min-height: 32px !important;
@@ -5188,7 +5188,7 @@ body:has(.seenly-wizard-wrapper) {
     color: var(--color-deep-ink) !important;
   }
 
-  .seenly-wizard-body {
+  .tensignal-wizard-body {
     padding: 0.5rem 1.15rem max(1rem, env(safe-area-inset-bottom)) 1.15rem;
     gap: 0.75rem;
     height: 100%;
@@ -5197,7 +5197,7 @@ body:has(.seenly-wizard-wrapper) {
     overscroll-behavior-y: contain;
   }
 
-  .seenly-wizard-content {
+  .tensignal-wizard-content {
     width: 100%;
     max-width: 100%;
     margin: auto 0;
@@ -5207,50 +5207,50 @@ body:has(.seenly-wizard-wrapper) {
     align-items: center;
   }
 
-  .seenly-wizard-circle-icon {
+  .tensignal-wizard-circle-icon {
     width: 52px !important;
     height: 52px !important;
     margin-bottom: 0.2rem;
     transition: all 0.25s ease;
   }
 
-  .seenly-wizard-title {
+  .tensignal-wizard-title {
     font-size: clamp(1.45rem, 6.5vw, 1.85rem);
     line-height: 1.15;
   }
 
-  .seenly-wizard-title.question-text,
-  .seenly-wizard-body:has(.question-text) .seenly-wizard-title.question-text {
+  .tensignal-wizard-title.question-text,
+  .tensignal-wizard-body:has(.question-text) .tensignal-wizard-title.question-text {
     font-size: clamp(1.1rem, 5vw, 1.35rem);
     line-height: 1.18;
   }
 
-  .seenly-wizard-body:has(.question-text) {
+  .tensignal-wizard-body:has(.question-text) {
     padding: 0.6rem 0.85rem max(0.75rem, env(safe-area-inset-bottom)) 0.85rem;
     gap: 0.5rem;
   }
 
-  .seenly-wizard-list-container,
-  .seenly-wizard-body:has(.question-text) .seenly-wizard-list-container {
+  .tensignal-wizard-list-container,
+  .tensignal-wizard-body:has(.question-text) .tensignal-wizard-list-container {
     gap: 0.38rem;
     width: 100%;
   }
 
-  .seenly-wizard-list-btn,
-  .seenly-wizard-body:has(.question-text) .seenly-wizard-list-btn {
+  .tensignal-wizard-list-btn,
+  .tensignal-wizard-body:has(.question-text) .tensignal-wizard-list-btn {
     min-height: 44px;
     padding: 0.5rem 0.7rem;
   }
 
-  .seenly-wizard-list-btn span:first-child {
+  .tensignal-wizard-list-btn span:first-child {
     font-size: 0.85rem;
   }
 
-  .seenly-wizard-input-container {
+  .tensignal-wizard-input-container {
     width: 100%;
   }
 
-  .seenly-wizard-input {
+  .tensignal-wizard-input {
     min-height: 50px;
     font-size: 16px !important;
     border-radius: 14px;
@@ -5258,25 +5258,25 @@ body:has(.seenly-wizard-wrapper) {
     background: rgba(255, 255, 255, 0.85);
   }
 
-  .seenly-wizard-input:focus {
+  .tensignal-wizard-input:focus {
     background: #ffffff;
     border-color: var(--color-burnt-coral, #d96a53);
     box-shadow: 0 0 0 3px rgba(217, 106, 83, 0.15);
   }
 
-  .seenly-wizard-info-bullets {
+  .tensignal-wizard-info-bullets {
     width: 100%;
     margin: 0.2rem auto 0.4rem auto;
     gap: 0.5rem;
   }
 
-  .seenly-wizard-info-bullets li {
+  .tensignal-wizard-info-bullets li {
     font-size: 0.84rem;
     padding: 0.6rem 0.85rem;
     min-height: 42px;
   }
 
-  .seenly-auth-card {
+  .tensignal-auth-card {
     width: 100% !important;
     max-width: 100% !important;
     padding: 1.15rem 1rem !important;
@@ -5288,14 +5288,14 @@ body:has(.seenly-wizard-wrapper) {
     gap: 0.75rem !important;
   }
 
-  .seenly-wizard-footer-action {
+  .tensignal-wizard-footer-action {
     width: 100%;
     margin-top: auto;
     padding-top: 0.5rem;
     flex-shrink: 0;
   }
 
-  .seenly-wizard-primary-btn {
+  .tensignal-wizard-primary-btn {
     width: 100%;
     min-height: 48px;
     font-size: 0.94rem;
@@ -5305,7 +5305,7 @@ body:has(.seenly-wizard-wrapper) {
 
 /* Tablet & Mobile Keyboard Open / Short Viewport Adjustments */
 @media (max-height: 640px) {
-  .seenly-wizard-header {
+  .tensignal-wizard-header {
     min-height: 44px;
     padding-top: max(0.35rem, env(safe-area-inset-top));
     padding-bottom: 0.25rem;
@@ -5314,52 +5314,52 @@ body:has(.seenly-wizard-wrapper) {
     box-shadow: none !important;
   }
 
-  .seenly-wizard-body {
+  .tensignal-wizard-body {
     padding-top: 0.4rem;
     padding-bottom: 0.5rem;
     gap: 0.45rem;
   }
 
-  .seenly-wizard-content {
+  .tensignal-wizard-content {
     margin-top: 0.25rem !important;
     margin-bottom: auto !important;
     gap: 0.45rem;
   }
 
-  .seenly-wizard-circle-icon {
+  .tensignal-wizard-circle-icon {
     width: 38px !important;
     height: 38px !important;
     margin: 0 auto 0.35rem auto !important;
   }
 
-  .seenly-wizard-circle-icon svg {
+  .tensignal-wizard-circle-icon svg {
     width: 20px !important;
     height: 20px !important;
   }
 
-  .seenly-wizard-title {
+  .tensignal-wizard-title {
     font-size: 1.35rem !important;
     margin-bottom: 0.35rem !important;
   }
 
-  .seenly-auth-card {
+  .tensignal-auth-card {
     padding: 0.85rem 0.8rem !important;
     gap: 0.5rem !important;
   }
 
-  .seenly-wizard-input {
+  .tensignal-wizard-input {
     min-height: 44px;
     font-size: 16px !important;
   }
 
-  .seenly-wizard-primary-btn {
+  .tensignal-wizard-primary-btn {
     min-height: 44px;
   }
 }
 
 /* Full Virtual Keyboard Open on Mobile (Screen Height <= 520px) */
 @media (max-height: 520px) {
-  .seenly-wizard-header {
+  .tensignal-wizard-header {
     min-height: 38px !important;
     padding: 0.2rem 0.65rem !important;
     background: transparent !important;
@@ -5367,22 +5367,22 @@ body:has(.seenly-wizard-wrapper) {
     box-shadow: none !important;
   }
 
-  .seenly-wizard-back-btn {
+  .tensignal-wizard-back-btn {
     width: 32px !important;
     height: 32px !important;
     min-width: 32px;
   }
 
-  .seenly-wizard-back-btn svg {
+  .tensignal-wizard-back-btn svg {
     width: 16px;
     height: 16px;
   }
 
-  .seenly-wizard-progress-track {
+  .tensignal-wizard-progress-track {
     height: 3px !important;
   }
 
-  .seenly-wizard-step-lang .lang-dropdown-trigger {
+  .tensignal-wizard-step-lang .lang-dropdown-trigger {
     height: 28px !important;
     min-height: 28px !important;
     font-size: 0.7rem !important;
@@ -5390,52 +5390,52 @@ body:has(.seenly-wizard-wrapper) {
   }
 
   /* Hide decorative icons completely when virtual keyboard is open */
-  .seenly-wizard-circle-icon,
-  .seenly-auth-step-icon {
+  .tensignal-wizard-circle-icon,
+  .tensignal-auth-step-icon {
     display: none !important;
   }
 
-  .seenly-wizard-title {
+  .tensignal-wizard-title {
     font-size: 1.18rem !important;
     line-height: 1.15 !important;
     margin-bottom: 0.3rem !important;
   }
 
-  .seenly-wizard-content {
+  .tensignal-wizard-content {
     margin-top: 0.15rem !important;
     margin-bottom: auto !important;
     gap: 0.3rem !important;
   }
 
-  .seenly-wizard-body {
+  .tensignal-wizard-body {
     padding: 0.25rem 0.75rem 0.4rem 0.75rem !important;
     gap: 0.35rem !important;
   }
 
-  .seenly-auth-card {
+  .tensignal-auth-card {
     padding: 0.65rem 0.75rem !important;
     gap: 0.4rem !important;
     border-radius: 14px !important;
   }
 
-  .seenly-wizard-input {
+  .tensignal-wizard-input {
     min-height: 42px !important;
     font-size: 16px !important;
     border-radius: 12px !important;
   }
 
-  .seenly-wizard-footer-action {
+  .tensignal-wizard-footer-action {
     padding-top: 0.25rem !important;
   }
 
-  .seenly-wizard-primary-btn {
+  .tensignal-wizard-primary-btn {
     min-height: 42px !important;
     font-size: 0.88rem !important;
     border-radius: 12px !important;
   }
 }
 
-.seenly-plan-active-badge {
+.tensignal-plan-active-badge {
   position: absolute;
   top: 14px;
   right: 14px;
@@ -5455,134 +5455,134 @@ body:has(.seenly-wizard-wrapper) {
 @media (min-width: 1024px) {
 
   /* Header & Profile Details */
-  .seenly-dashboard-username {
+  .tensignal-dashboard-username {
     font-size: 2.75rem !important;
   }
 
-  .seenly-dashboard-user-info div {
+  .tensignal-dashboard-user-info div {
     font-size: 0.98rem !important;
     gap: 8px !important;
   }
 
-  .seenly-dashboard-copy-system {
+  .tensignal-dashboard-copy-system {
     max-width: 440px !important;
   }
 
-  .seenly-dashboard-copy-system button {
+  .tensignal-dashboard-copy-system button {
     height: 48px !important;
     font-size: 0.86rem !important;
   }
 
-  .seenly-dashboard-copy-system p {
+  .tensignal-dashboard-copy-system p {
     font-size: 0.82rem !important;
   }
 
   /* Navigation Tabs */
-  .seenly-dashboard-tabs {
+  .tensignal-dashboard-tabs {
     gap: 2px !important;
     padding: 5px !important;
     border-radius: 24px !important;
   }
 
-  .seenly-dashboard-tabs .tab-btn {
+  .tensignal-dashboard-tabs .tab-btn {
     padding: 0.72rem 1.1rem !important;
     font-size: 0.85rem !important;
     border-radius: 18px !important;
   }
 
   /* Tab Inner Contents - Layout Padding */
-  .seenly-dashboard-body {
+  .tensignal-dashboard-body {
     padding: 3rem 2.5rem 3.5rem !important;
   }
 
-  .seenly-dashboard-tab-content {
+  .tensignal-dashboard-tab-content {
     gap: 2rem !important;
   }
 
   /* Left Columns (Signature/Identity Cards) */
-  .seenly-dashboard-tab-content .font-mono.uppercase.tracking-wider {
+  .tensignal-dashboard-tab-content .font-mono.uppercase.tracking-wider {
     font-size: 0.76rem !important;
   }
 
-  .seenly-dashboard-tab-content h3.font-heading {
+  .tensignal-dashboard-tab-content h3.font-heading {
     font-size: 1.7rem !important;
   }
 
-  .seenly-dashboard-tab-content p.font-serif.italic {
+  .tensignal-dashboard-tab-content p.font-serif.italic {
     font-size: 1.05rem !important;
     line-height: 1.65 !important;
   }
 
-  .seenly-dashboard-tab-content button.uppercase.tracking-wider {
+  .tensignal-dashboard-tab-content button.uppercase.tracking-wider {
     font-size: 0.82rem !important;
   }
 
-  .seenly-dashboard-tab-content svg {
+  .tensignal-dashboard-tab-content svg {
     transform: scale(1.08);
   }
 
   /* Right Columns (Social Signals Grid) */
-  .seenly-dashboard-tab-content h4.font-heading {
+  .tensignal-dashboard-tab-content h4.font-heading {
     font-size: 1.35rem !important;
   }
 
-  .seenly-dashboard-tab-content .font-sans.text-xs.font-semibold {
+  .tensignal-dashboard-tab-content .font-sans.text-xs.font-semibold {
     font-size: 0.98rem !important;
   }
 
-  .seenly-dashboard-tab-content .font-mono.text-\[10px\] {
+  .tensignal-dashboard-tab-content .font-mono.text-\[10px\] {
     font-size: 0.82rem !important;
   }
 
-  .seenly-dashboard-tab-content .h-1\.5 {
+  .tensignal-dashboard-tab-content .h-1\.5 {
     height: 8px !important;
   }
 
   /* Gap Analysis Tab Custom Scaling */
-  .seenly-dashboard-tab-content .font-heading.text-\[0\.95rem\] {
+  .tensignal-dashboard-tab-content .font-heading.text-\[0\.95rem\] {
     font-size: 1.1rem !important;
   }
 
-  .seenly-dashboard-tab-content .font-mono.text-\[10\.5px\] {
+  .tensignal-dashboard-tab-content .font-mono.text-\[10\.5px\] {
     font-size: 0.82rem !important;
   }
 
-  .seenly-dashboard-tab-content h4.font-serif.text-lg {
+  .tensignal-dashboard-tab-content h4.font-serif.text-lg {
     font-size: 1.25rem !important;
   }
 
-  .seenly-dashboard-tab-content p.font-sans.text-\[0\.88rem\] {
+  .tensignal-dashboard-tab-content p.font-sans.text-\[0\.88rem\] {
     font-size: 0.98rem !important;
     line-height: 1.6 !important;
   }
 
   /* Etkilesim & Gelen Analizler Text & Card Sizes */
-  .seenly-dashboard-tab-content .font-serif.text-2xl,
-  .seenly-dashboard-tab-content .font-serif.text-3xl {
+  .tensignal-dashboard-tab-content .font-serif.text-2xl,
+  .tensignal-dashboard-tab-content .font-serif.text-3xl {
     font-size: 2.25rem !important;
   }
 
-  .seenly-dashboard-tab-content .text-sm.text-muted-foreground {
+  .tensignal-dashboard-tab-content .text-sm.text-muted-foreground {
     font-size: 1rem !important;
     line-height: 1.65 !important;
   }
 
-  .seenly-dashboard-tab-content h4.font-serif.text-xl {
+  .tensignal-dashboard-tab-content h4.font-serif.text-xl {
     font-size: 1.35rem !important;
   }
 
-  .seenly-dashboard-tab-content p.font-sans.text-xs,
-  .seenly-dashboard-tab-content p.font-sans.text-\[0\.82rem\] {
+  .tensignal-dashboard-tab-content p.font-sans.text-xs,
+  .tensignal-dashboard-tab-content p.font-sans.text-\[0\.82rem\] {
     font-size: 0.95rem !important;
     line-height: 1.55 !important;
   }
 
   /* Planim Tab - Extra Packs Header */
-  .seenly-extra-packs-header h4 {
+  .tensignal-extra-packs-header h4 {
     font-size: 1.25rem !important;
   }
 
-  .seenly-extra-packs-header p {
+  .tensignal-extra-packs-header p {
     font-size: 0.95rem !important;
     line-height: 1.55 !important;
   }
@@ -5591,14 +5591,14 @@ body:has(.seenly-wizard-wrapper) {
 /* ============================================
    DASHBOARD FINAL REFINEMENT
    ============================================ */
-.seenly-dashboard-body {
+.tensignal-dashboard-body {
   padding: clamp(1.4rem, 3vw, 2.4rem) clamp(1rem, 2vw, 1.5rem) clamp(2.5rem, 4vw, 3.75rem) !important;
   background: transparent !important;
 }
 
-.seenly-dashboard-tab-content,
-.seenly-dashboard-tab-content.flex,
-.seenly-dashboard-tab-content[class*="md:flex-row"] {
+.tensignal-dashboard-tab-content,
+.tensignal-dashboard-tab-content.flex,
+.tensignal-dashboard-tab-content[class*="md:flex-row"] {
   max-width: 1040px !important;
   margin-inline: auto !important;
   padding: 0 !important;
@@ -5610,7 +5610,7 @@ body:has(.seenly-wizard-wrapper) {
   gap: clamp(1.35rem, 2.5vw, 2rem) !important;
 }
 
-.seenly-dashboard-tabs-wrapper {
+.tensignal-dashboard-tabs-wrapper {
   position: relative !important;
   width: 100% !important;
   max-width: 1040px !important;
@@ -5619,7 +5619,7 @@ body:has(.seenly-wizard-wrapper) {
   box-sizing: border-box !important;
 }
 
-.seenly-dashboard-tabs-capsule {
+.tensignal-dashboard-tabs-capsule {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -5638,12 +5638,12 @@ body:has(.seenly-wizard-wrapper) {
   box-sizing: border-box !important;
 }
 
-.seenly-dashboard-tabs-capsule::-webkit-scrollbar {
+.tensignal-dashboard-tabs-capsule::-webkit-scrollbar {
   display: none !important;
 }
 
-.seenly-tab-pill,
-.seenly-dashboard-tabs-capsule button {
+.tensignal-tab-pill,
+.tensignal-dashboard-tabs-capsule button {
   flex-shrink: 0 !important;
   padding: 8px 18px !important;
   border-radius: 999px !important;
@@ -5661,8 +5661,8 @@ body:has(.seenly-wizard-wrapper) {
   white-space: nowrap !important;
 }
 
-.seenly-tab-pill:hover:not(.active),
-.seenly-dashboard-tabs-capsule button:not(.active):hover {
+.tensignal-tab-pill:hover:not(.active),
+.tensignal-dashboard-tabs-capsule button:not(.active):hover {
   background: rgba(255, 255, 255, 0.9) !important;
   color: #1A3E72 !important;
   border-color: rgba(197, 160, 89, 0.4) !important;
@@ -5670,8 +5670,8 @@ body:has(.seenly-wizard-wrapper) {
   transform: translateY(-1px) !important;
 }
 
-.seenly-tab-pill.active,
-.seenly-dashboard-tabs-capsule button.active {
+.tensignal-tab-pill.active,
+.tensignal-dashboard-tabs-capsule button.active {
   background: #FFFFFF !important;
   color: #0B1B2C !important;
   border: 1.5px solid rgba(197, 160, 89, 0.5) !important;
@@ -5681,97 +5681,97 @@ body:has(.seenly-wizard-wrapper) {
 }
 
 @media (max-width: 760px) {
-  .seenly-dashboard-username {
+  .tensignal-dashboard-username {
     font-size: clamp(1.9rem, 7.5vw, 3.2rem) !important;
   }
 
-  .seenly-share-actions {
+  .tensignal-share-actions {
     max-width: 270px !important;
     margin-top: 8px !important;
   }
 
-  .seenly-share-bar {
+  .tensignal-share-bar {
     gap: 7px !important;
   }
 
-  .seenly-share-copy-btn {
+  .tensignal-share-copy-btn {
     height: 38px !important;
     font-size: 0.72rem !important;
     padding-inline: 14px !important;
   }
 
-  .seenly-share-qr-btn {
+  .tensignal-share-qr-btn {
     width: 38px !important;
     height: 38px !important;
     flex: 0 0 38px !important;
   }
 
-  .seenly-share-hint {
+  .tensignal-share-hint {
     font-size: 0.7rem !important;
     margin-top: 6px !important;
   }
 
-  .seenly-dashboard-tabs-wrapper {
+  .tensignal-dashboard-tabs-wrapper {
     padding: 0 !important;
     margin: 0.8rem auto 0.4rem auto !important;
   }
 
-  .seenly-dashboard-tabs-capsule {
+  .tensignal-dashboard-tabs-capsule {
     justify-content: flex-start !important;
     padding: 4px 36px 8px 16px !important;
     gap: 8px !important;
   }
 
-  .seenly-dashboard-tabs-capsule button {
+  .tensignal-dashboard-tabs-capsule button {
     font-size: 0.78rem !important;
     padding: 8px 15px !important;
     min-height: 38px !important;
   }
 
-  .seenly-dashboard-signal-card .grid {
+  .tensignal-dashboard-signal-card .grid {
     grid-template-columns: 1fr !important;
   }
 
-  .seenly-signal-flow,
-  .seenly-outside-flow {
+  .tensignal-signal-flow,
+  .tensignal-outside-flow {
     flex-direction: column !important;
     gap: 16px !important;
   }
 
-  .seenly-signal-summary-wrap,
-  .seenly-outside-summary-wrap {
+  .tensignal-signal-summary-wrap,
+  .tensignal-outside-summary-wrap {
     width: 100% !important;
     max-width: 100% !important;
   }
 
-  .seenly-signal-summary-card,
-  .seenly-outside-summary-card {
+  .tensignal-signal-summary-card,
+  .tensignal-outside-summary-card {
     border-radius: 24px !important;
     padding: 16px 18px !important;
   }
 
-  .seenly-dashboard-signal-card {
+  .tensignal-dashboard-signal-card {
     border-radius: 24px !important;
     padding: 16px 18px !important;
     min-height: auto !important;
   }
 
-  .seenly-dashboard-premium-card {
+  .tensignal-dashboard-premium-card {
     border-radius: 24px !important;
   }
 }
 
 @media (max-width: 480px) {
 
-  .seenly-signal-summary-card,
-  .seenly-outside-summary-card,
-  .seenly-dashboard-signal-card,
-  .seenly-dashboard-premium-card {
+  .tensignal-signal-summary-card,
+  .tensignal-outside-summary-card,
+  .tensignal-dashboard-signal-card,
+  .tensignal-dashboard-premium-card {
     padding: 14px 14px !important;
     border-radius: 20px !important;
   }
 
-  .seenly-dashboard-tabs-capsule button {
+  .tensignal-dashboard-tabs-capsule button {
     font-size: 0.74rem !important;
     padding: 6px 12px !important;
     min-height: 34px !important;
@@ -5807,9 +5807,9 @@ body:has(.seenly-wizard-wrapper) {
   background-repeat: no-repeat, repeat !important;
 }
 
-.seenly-dashboard-page-wrapper,
-.seenly-dashboard-container,
-.seenly-dashboard-body {
+.tensignal-dashboard-page-wrapper,
+.tensignal-dashboard-container,
+.tensignal-dashboard-body {
   position: relative !important;
   z-index: 1 !important;
   background: transparent !important;
@@ -5817,30 +5817,30 @@ body:has(.seenly-wizard-wrapper) {
   filter: none !important;
 }
 
-.seenly-dashboard-body::before,
-.seenly-dashboard-body::after,
-.seenly-dashboard-tab-content::before,
-.seenly-dashboard-tab-content::after {
+.tensignal-dashboard-body::before,
+.tensignal-dashboard-body::after,
+.tensignal-dashboard-tab-content::before,
+.tensignal-dashboard-tab-content::after {
   display: none !important;
   content: none !important;
   box-shadow: none !important;
 }
 
-.seenly-dashboard-tab-content,
-.seenly-dashboard-tab-content.flex,
-.seenly-dashboard-tab-content.full-width-layout,
-.seenly-dashboard-tab-content[class*="md:flex-row"] {
+.tensignal-dashboard-tab-content,
+.tensignal-dashboard-tab-content.flex,
+.tensignal-dashboard-tab-content.full-width-layout,
+.tensignal-dashboard-tab-content[class*="md:flex-row"] {
   background: transparent !important;
   box-shadow: none !important;
   filter: none !important;
 }
 
 @media (min-width: 900px) {
-  .seenly-dashboard-signal-card {
+  .tensignal-dashboard-signal-card {
     min-height: 590px !important;
   }
 
-  .seenly-dashboard-signal-card .grid {
+  .tensignal-dashboard-signal-card .grid {
     flex: 1 1 auto !important;
     align-content: space-between !important;
     row-gap: clamp(1.1rem, 2vh, 1.5rem) !important;
@@ -5850,10 +5850,10 @@ body:has(.seenly-wizard-wrapper) {
 /* ============================================
    DASHBOARD NO INTER-CONTENT SHADOWS
    ============================================ */
-.seenly-dashboard-tab-content,
-.seenly-dashboard-tab-content.full-width-layout,
-.seenly-dashboard-tab-content.scrollable-gap-content,
-.seenly-gap-editorial-content {
+.tensignal-dashboard-tab-content,
+.tensignal-dashboard-tab-content.full-width-layout,
+.tensignal-dashboard-tab-content.scrollable-gap-content,
+.tensignal-gap-editorial-content {
   background: transparent !important;
   border-color: transparent !important;
   box-shadow: none !important;
@@ -5862,26 +5862,26 @@ body:has(.seenly-wizard-wrapper) {
   -webkit-backdrop-filter: none !important;
 }
 
-.seenly-gap-editorial-content>*,
-.seenly-gap-editorial-content [class*="shadow"],
-.seenly-gap-editorial-content [style*="box-shadow"],
-.seenly-gap-editorial-content [class*="bg-white"],
-.seenly-gap-editorial-content [class*="bg-white/"] {
+.tensignal-gap-editorial-content>*,
+.tensignal-gap-editorial-content [class*="shadow"],
+.tensignal-gap-editorial-content [style*="box-shadow"],
+.tensignal-gap-editorial-content [class*="bg-white"],
+.tensignal-gap-editorial-content [class*="bg-white/"] {
   box-shadow: none !important;
   filter: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
 
-.seenly-gap-editorial-content [class*="bg-white"],
-.seenly-gap-editorial-content [class*="bg-white/"] {
+.tensignal-gap-editorial-content [class*="bg-white"],
+.tensignal-gap-editorial-content [class*="bg-white/"] {
   background: rgba(255, 253, 248, 0.86) !important;
 }
 
-.seenly-gap-editorial-content::before,
-.seenly-gap-editorial-content::after,
-.seenly-gap-editorial-content>*::before,
-.seenly-gap-editorial-content>*::after {
+.tensignal-gap-editorial-content::before,
+.tensignal-gap-editorial-content::after,
+.tensignal-gap-editorial-content>*::before,
+.tensignal-gap-editorial-content>*::after {
   display: none !important;
   content: none !important;
   box-shadow: none !important;
@@ -5912,17 +5912,17 @@ body:has(.seenly-wizard-wrapper) {
       #000 100%) !important;
 }
 
-.seenly-gap-editorial-content .seenly-dashboard-premium-card,
-.seenly-gap-editorial-content .seenly-plan-card,
-.seenly-gap-editorial-content .seenly-plan-pack,
-.seenly-gap-editorial-content .profile-flow-stat-card,
-.seenly-gap-editorial-content .profile-flow-report-card,
-.seenly-gap-editorial-content [class*="shadow-contact"] {
+.tensignal-gap-editorial-content .tensignal-dashboard-premium-card,
+.tensignal-gap-editorial-content .tensignal-plan-card,
+.tensignal-gap-editorial-content .tensignal-plan-pack,
+.tensignal-gap-editorial-content .profile-flow-stat-card,
+.tensignal-gap-editorial-content .profile-flow-report-card,
+.tensignal-gap-editorial-content [class*="shadow-contact"] {
   box-shadow: none !important;
   filter: none !important;
 }
 
-.seenly-gap-editorial-content .seenly-dashboard-premium-card {
+.tensignal-gap-editorial-content .tensignal-dashboard-premium-card {
   background: #FDFBF4 !important;
   border-color: rgba(116, 89, 58, 0.13) !important;
 }
@@ -5947,36 +5947,36 @@ body:has(.seenly-wizard-wrapper) {
 }
 
 /* Remove shadowing from Self View and Outside View tabs too. */
-.seenly-dashboard-tab-content>.flex.flex-col.items-center>.seenly-dashboard-premium-card,
-.seenly-dashboard-tab-content>.seenly-dashboard-premium-card,
-.seenly-dashboard-tab-content .seenly-dashboard-premium-card,
-.seenly-dashboard-signal-card,
-.seenly-dashboard-signal-card .grid>div,
-.seenly-dashboard-portrait-frame {
+.tensignal-dashboard-tab-content>.flex.flex-col.items-center>.tensignal-dashboard-premium-card,
+.tensignal-dashboard-tab-content>.tensignal-dashboard-premium-card,
+.tensignal-dashboard-tab-content .tensignal-dashboard-premium-card,
+.tensignal-dashboard-signal-card,
+.tensignal-dashboard-signal-card .grid>div,
+.tensignal-dashboard-portrait-frame {
   box-shadow: none !important;
   filter: none !important;
 }
 
-.seenly-dashboard-premium-card::before,
-.seenly-dashboard-premium-card::after,
-.seenly-dashboard-portrait-frame::before,
-.seenly-dashboard-portrait-frame::after {
+.tensignal-dashboard-premium-card::before,
+.tensignal-dashboard-premium-card::after,
+.tensignal-dashboard-portrait-frame::before,
+.tensignal-dashboard-portrait-frame::after {
   display: none !important;
   content: none !important;
   box-shadow: none !important;
   background: transparent !important;
 }
 
-.seenly-dashboard-portrait-frame .shadow-\[inset_0_0_45px_18px_var\(--background\)\] {
+.tensignal-dashboard-portrait-frame .shadow-\[inset_0_0_45px_18px_var\(--background\)\] {
   box-shadow: none !important;
 }
 
-.seenly-dashboard-premium-card,
-.seenly-dashboard-signal-card,
-.seenly-signal-summary-card,
-.seenly-outside-summary-card,
+.tensignal-dashboard-premium-card,
+.tensignal-dashboard-signal-card,
+.tensignal-signal-summary-card,
+.tensignal-outside-summary-card,
 .signal-card-item,
-.seenly-dashboard-tab-content .seenly-dashboard-premium-card {
+.tensignal-dashboard-tab-content .tensignal-dashboard-premium-card {
   background: #FDFBF4 !important;
   background-color: #FDFBF4 !important;
   backdrop-filter: none !important;
@@ -5985,7 +5985,7 @@ body:has(.seenly-wizard-wrapper) {
   border-color: rgba(116, 89, 58, 0.13) !important;
 }
 
-.seenly-dashboard-signal-card .grid>div {
+.tensignal-dashboard-signal-card .grid>div {
   background: #FDFBF4 !important;
   background-color: #FDFBF4 !important;
   backdrop-filter: none !important;
@@ -6014,21 +6014,21 @@ body:has(.seenly-wizard-wrapper) {
 }
 
 /* Keep Self View and Outside View cards identical in form and height. */
-.seenly-dashboard-tab-content.flex,
-.seenly-dashboard-tab-content[class*="md:flex-row"] {
+.tensignal-dashboard-tab-content.flex,
+.tensignal-dashboard-tab-content[class*="md:flex-row"] {
   align-items: stretch !important;
 }
 
-.seenly-dashboard-tab-content.flex>.flex.flex-col.items-center,
-.seenly-dashboard-tab-content[class*="md:flex-row"]>.flex.flex-col.items-center {
+.tensignal-dashboard-tab-content.flex>.flex.flex-col.items-center,
+.tensignal-dashboard-tab-content[class*="md:flex-row"]>.flex.flex-col.items-center {
   align-self: stretch !important;
   display: flex !important;
 }
 
-.seenly-dashboard-tab-content.flex>.flex.flex-col.items-center>.seenly-dashboard-premium-card,
-.seenly-dashboard-tab-content[class*="md:flex-row"]>.flex.flex-col.items-center>.seenly-dashboard-premium-card,
-.seenly-dashboard-tab-content.flex>.seenly-dashboard-signal-card,
-.seenly-dashboard-tab-content[class*="md:flex-row"]>.seenly-dashboard-signal-card {
+.tensignal-dashboard-tab-content.flex>.flex.flex-col.items-center>.tensignal-dashboard-premium-card,
+.tensignal-dashboard-tab-content[class*="md:flex-row"]>.flex.flex-col.items-center>.tensignal-dashboard-premium-card,
+.tensignal-dashboard-tab-content.flex>.tensignal-dashboard-signal-card,
+.tensignal-dashboard-tab-content[class*="md:flex-row"]>.tensignal-dashboard-signal-card {
   min-height: 620px !important;
   height: 100% !important;
   border-radius: 28px !important;
@@ -6040,18 +6040,18 @@ body:has(.seenly-wizard-wrapper) {
   filter: none !important;
 }
 
-.seenly-dashboard-tab-content.flex>.seenly-dashboard-signal-card,
-.seenly-dashboard-tab-content[class*="md:flex-row"]>.seenly-dashboard-signal-card {
+.tensignal-dashboard-tab-content.flex>.tensignal-dashboard-signal-card,
+.tensignal-dashboard-tab-content[class*="md:flex-row"]>.tensignal-dashboard-signal-card {
   display: flex !important;
   flex-direction: column !important;
 }
 
 @media (max-width: 760px) {
 
-  .seenly-dashboard-tab-content.flex>.flex.flex-col.items-center>.seenly-dashboard-premium-card,
-  .seenly-dashboard-tab-content[class*="md:flex-row"]>.flex.flex-col.items-center>.seenly-dashboard-premium-card,
-  .seenly-dashboard-tab-content.flex>.seenly-dashboard-signal-card,
-  .seenly-dashboard-tab-content[class*="md:flex-row"]>.seenly-dashboard-signal-card {
+  .tensignal-dashboard-tab-content.flex>.flex.flex-col.items-center>.tensignal-dashboard-premium-card,
+  .tensignal-dashboard-tab-content[class*="md:flex-row"]>.flex.flex-col.items-center>.tensignal-dashboard-premium-card,
+  .tensignal-dashboard-tab-content.flex>.tensignal-dashboard-signal-card,
+  .tensignal-dashboard-tab-content[class*="md:flex-row"]>.tensignal-dashboard-signal-card {
     min-height: auto !important;
     height: auto !important;
     border-radius: 24px !important;
@@ -6084,28 +6084,28 @@ body:has(.app-shell)::before {
   background-image: none !important;
 }
 
-.seenly-dashboard-background {
+.tensignal-dashboard-background {
   display: none !important;
 }
 
-.seenly-dashboard-page-wrapper,
-.seenly-dashboard-container,
-.seenly-dashboard-body,
-.seenly-dashboard-tab-content {
+.tensignal-dashboard-page-wrapper,
+.tensignal-dashboard-container,
+.tensignal-dashboard-body,
+.tensignal-dashboard-tab-content {
   background: transparent !important;
 }
 
-.seenly-dashboard-tab-content .seenly-dashboard-premium-card,
-.seenly-dashboard-tab-content.flex>.flex.flex-col.items-center>.seenly-dashboard-premium-card,
-.seenly-dashboard-tab-content[class*="md:flex-row"]>.flex.flex-col.items-center>.seenly-dashboard-premium-card,
-.seenly-dashboard-tab-content.flex>.seenly-dashboard-signal-card,
-.seenly-dashboard-tab-content[class*="md:flex-row"]>.seenly-dashboard-signal-card {
+.tensignal-dashboard-tab-content .tensignal-dashboard-premium-card,
+.tensignal-dashboard-tab-content.flex>.flex.flex-col.items-center>.tensignal-dashboard-premium-card,
+.tensignal-dashboard-tab-content[class*="md:flex-row"]>.flex.flex-col.items-center>.tensignal-dashboard-premium-card,
+.tensignal-dashboard-tab-content.flex>.tensignal-dashboard-signal-card,
+.tensignal-dashboard-tab-content[class*="md:flex-row"]>.tensignal-dashboard-signal-card {
   background:
     linear-gradient(180deg, rgba(255, 253, 248, 0.68), rgba(255, 251, 244, 0.58)),
     rgba(255, 253, 248, 0.42) !important;
 }
 
-.seenly-dashboard-signal-card .grid>div {
+.tensignal-dashboard-signal-card .grid>div {
   background: rgba(255, 253, 248, 0.54) !important;
   border: 1.5px solid rgba(11, 27, 44, 0.25) !important;
 }
@@ -6118,7 +6118,7 @@ body:has(.app-shell)::before {
   margin: 0 !important;
 }
 
-.seenly-dashboard-page-wrapper {
+.tensignal-dashboard-page-wrapper {
   position: relative !important;
   z-index: 1 !important;
 }
@@ -6142,7 +6142,7 @@ body:has(.app-shell)::before {
 }
 
 /* Match dashboard signal tiles to the Gap tab's horizontal comparison cards. */
-.seenly-dashboard-signal-card .grid>.signal-card-item {
+.tensignal-dashboard-signal-card .grid>.signal-card-item {
   border: 1px solid rgba(200, 188, 170, 0.5) !important;
   border-radius: 18px !important;
   background: rgba(255, 255, 255, 0.78) !important;
@@ -6150,15 +6150,15 @@ body:has(.app-shell)::before {
   transform: none !important;
 }
 
-.seenly-dashboard-signal-card .grid>.signal-card-item:hover {
+.tensignal-dashboard-signal-card .grid>.signal-card-item:hover {
   border-color: rgba(200, 188, 170, 0.68) !important;
   box-shadow: none !important;
   transform: none !important;
 }
 
 /* Restore the selected state: identity card left, signal panel right. */
-.seenly-dashboard-tab-content.seenly-signal-flow,
-.seenly-dashboard-tab-content.seenly-outside-flow {
+.tensignal-dashboard-tab-content.tensignal-signal-flow,
+.tensignal-dashboard-tab-content.tensignal-outside-flow {
   width: min(980px, 100%) !important;
   max-width: 980px !important;
   display: flex !important;
@@ -6169,16 +6169,16 @@ body:has(.app-shell)::before {
   overflow: visible !important;
 }
 
-.seenly-dashboard-tab-content.seenly-signal-flow>.seenly-signal-summary-wrap,
-.seenly-dashboard-tab-content.seenly-outside-flow>.seenly-outside-summary-wrap {
+.tensignal-dashboard-tab-content.tensignal-signal-flow>.tensignal-signal-summary-wrap,
+.tensignal-dashboard-tab-content.tensignal-outside-flow>.tensignal-outside-summary-wrap {
   width: 320px !important;
   max-width: 320px !important;
   flex: 0 0 320px !important;
   align-self: stretch !important;
 }
 
-.seenly-dashboard-tab-content.seenly-signal-flow>.seenly-dashboard-signal-card,
-.seenly-dashboard-tab-content.seenly-outside-flow>.seenly-dashboard-signal-card {
+.tensignal-dashboard-tab-content.tensignal-signal-flow>.tensignal-dashboard-signal-card,
+.tensignal-dashboard-tab-content.tensignal-outside-flow>.tensignal-dashboard-signal-card {
   width: auto !important;
   max-width: none !important;
   min-width: 0 !important;
@@ -6186,8 +6186,8 @@ body:has(.app-shell)::before {
   align-self: stretch !important;
 }
 
-.seenly-dashboard-tab-content.seenly-signal-flow .seenly-signal-summary-card,
-.seenly-dashboard-tab-content.seenly-outside-flow .seenly-outside-summary-card {
+.tensignal-dashboard-tab-content.tensignal-signal-flow .tensignal-signal-summary-card,
+.tensignal-dashboard-tab-content.tensignal-outside-flow .tensignal-outside-summary-card {
   height: 100% !important;
   display: flex !important;
   flex-direction: column !important;
@@ -6197,8 +6197,8 @@ body:has(.app-shell)::before {
   padding: 1.5rem !important;
 }
 
-.seenly-dashboard-tab-content.seenly-signal-flow .seenly-signal-summary-main,
-.seenly-dashboard-tab-content.seenly-outside-flow .seenly-outside-summary-main {
+.tensignal-dashboard-tab-content.tensignal-signal-flow .tensignal-signal-summary-main,
+.tensignal-dashboard-tab-content.tensignal-outside-flow .tensignal-outside-summary-main {
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
@@ -6207,8 +6207,8 @@ body:has(.app-shell)::before {
   padding-block: 0.5rem !important;
 }
 
-.seenly-dashboard-tab-content.seenly-signal-flow .seenly-dashboard-portrait-frame,
-.seenly-dashboard-tab-content.seenly-outside-flow .seenly-dashboard-portrait-frame {
+.tensignal-dashboard-tab-content.tensignal-signal-flow .tensignal-dashboard-portrait-frame,
+.tensignal-dashboard-tab-content.tensignal-outside-flow .tensignal-dashboard-portrait-frame {
   width: min(230px, 100%) !important;
   max-width: 230px !important;
   margin: 0 0 0.85rem !important;
@@ -6217,28 +6217,28 @@ body:has(.app-shell)::before {
 /* Mobile: stack identity card on top, signal panel below */
 @media (max-width: 899px) {
 
-  .seenly-dashboard-tab-content.seenly-signal-flow,
-  .seenly-dashboard-tab-content.seenly-outside-flow {
+  .tensignal-dashboard-tab-content.tensignal-signal-flow,
+  .tensignal-dashboard-tab-content.tensignal-outside-flow {
     flex-direction: column !important;
     align-items: stretch !important;
   }
 
-  .seenly-dashboard-tab-content.seenly-signal-flow>.seenly-signal-summary-wrap,
-  .seenly-dashboard-tab-content.seenly-outside-flow>.seenly-outside-summary-wrap {
+  .tensignal-dashboard-tab-content.tensignal-signal-flow>.tensignal-signal-summary-wrap,
+  .tensignal-dashboard-tab-content.tensignal-outside-flow>.tensignal-outside-summary-wrap {
     width: 100% !important;
     max-width: 100% !important;
     flex: none !important;
   }
 
-  .seenly-dashboard-tab-content.seenly-signal-flow>.seenly-dashboard-signal-card,
-  .seenly-dashboard-tab-content.seenly-outside-flow>.seenly-dashboard-signal-card {
+  .tensignal-dashboard-tab-content.tensignal-signal-flow>.tensignal-dashboard-signal-card,
+  .tensignal-dashboard-tab-content.tensignal-outside-flow>.tensignal-dashboard-signal-card {
     width: 100% !important;
     flex: none !important;
     min-height: auto !important;
   }
 
-  .seenly-dashboard-tab-content.seenly-signal-flow .seenly-signal-summary-card,
-  .seenly-dashboard-tab-content.seenly-outside-flow .seenly-outside-summary-card {
+  .tensignal-dashboard-tab-content.tensignal-signal-flow .tensignal-signal-summary-card,
+  .tensignal-dashboard-tab-content.tensignal-outside-flow .tensignal-outside-summary-card {
     min-height: auto !important;
   }
 }
@@ -6258,26 +6258,40 @@ body:has(.app-shell)::before {
 
 @media (min-width: 900px) {
 
-  .seenly-dashboard-tab-content.seenly-signal-flow,
-  .seenly-dashboard-tab-content.seenly-outside-flow {
+  .tensignal-dashboard-tab-content.tensignal-signal-flow,
+  .tensignal-dashboard-tab-content.tensignal-outside-flow {
     display: grid !important;
     grid-template-columns: 310px minmax(0, 1fr) !important;
     align-items: stretch !important;
   }
 
-  .seenly-dashboard-tab-content.seenly-signal-flow>.seenly-signal-summary-wrap,
-  .seenly-dashboard-tab-content.seenly-outside-flow>.seenly-outside-summary-wrap,
-  .seenly-dashboard-tab-content.seenly-signal-flow>.seenly-dashboard-signal-card,
-  .seenly-dashboard-tab-content.seenly-outside-flow>.seenly-dashboard-signal-card {
+  .tensignal-dashboard-tab-content.tensignal-signal-flow>.tensignal-signal-summary-wrap,
+  .tensignal-dashboard-tab-content.tensignal-outside-flow>.tensignal-outside-summary-wrap,
+  .tensignal-dashboard-tab-content.tensignal-signal-flow>.tensignal-dashboard-signal-card,
+  .tensignal-dashboard-tab-content.tensignal-outside-flow>.tensignal-dashboard-signal-card {
     height: 100% !important;
     align-self: stretch !important;
   }
 
-  .seenly-dashboard-tab-content.seenly-signal-flow .seenly-signal-summary-card,
-  .seenly-dashboard-tab-content.seenly-outside-flow .seenly-outside-summary-card,
-  .seenly-dashboard-tab-content.seenly-signal-flow>.seenly-dashboard-signal-card,
-  .seenly-dashboard-tab-content.seenly-outside-flow>.seenly-dashboard-signal-card {
+  .tensignal-dashboard-tab-content.tensignal-signal-flow .tensignal-signal-summary-card,
+  .tensignal-dashboard-tab-content.tensignal-outside-flow .tensignal-outside-summary-card,
+  .tensignal-dashboard-tab-content.tensignal-signal-flow>.tensignal-dashboard-signal-card,
+  .tensignal-dashboard-tab-content.tensignal-outside-flow>.tensignal-dashboard-signal-card {
     min-height: 0 !important;
     height: 100% !important;
   }
 }
+
+@keyframes tensignal-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.tensignal-inline-spinner {
+  animation: tensignal-spin 0.75s linear infinite !important;
+}
+

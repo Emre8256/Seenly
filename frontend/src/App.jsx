@@ -1,3 +1,4 @@
+import './utils/storageMigration';
 import React, { lazy, Suspense, useState, useEffect, useCallback } from 'react';
 import { LocaleProvider } from './context/LocaleContext';
 import LandingPage from './components/LandingPage';
@@ -83,7 +84,7 @@ const parseHashRoute = (hash) => {
 export default function App() {
   const [route, setRoute] = useState(() => {
     const initialRoute = parseHashRoute(window.location.hash);
-    if (initialRoute.type === 'quiz' && localStorage.getItem('seenly_owner_token')) {
+    if (initialRoute.type === 'quiz' && (localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token'))) {
       return { type: 'dashboard', slug: null };
     }
     return initialRoute;
@@ -94,17 +95,21 @@ export default function App() {
     if ((cleanHash === 'quiz' || cleanHash === '/quiz' || /^\/quiz(?:\?|$)/.test(cleanHash))) {
       return false;
     }
-    return Number(sessionStorage.getItem('seenly_currentIndex') || -1) === -1;
+    return Number((sessionStorage.getItem('tensignal_currentIndex') || sessionStorage.getItem('seenly_currentIndex')) || -1) === -1;
   });
 
   const handleLandingStart = useCallback(() => {
+    sessionStorage.setItem('tensignal_isQuickLogin', 'false');
     sessionStorage.setItem('seenly_isQuickLogin', 'false');
+    sessionStorage.setItem('tensignal_currentIndex', '-2');
     sessionStorage.setItem('seenly_currentIndex', '-2');
     setShowLandingHeader(false);
   }, []);
 
   const handleLandingLogin = useCallback(() => {
+    sessionStorage.setItem('tensignal_isQuickLogin', 'true');
     sessionStorage.setItem('seenly_isQuickLogin', 'true');
+    sessionStorage.setItem('tensignal_currentIndex', '-5');
     sessionStorage.setItem('seenly_currentIndex', '-5');
     setShowLandingHeader(false);
   }, []);
@@ -123,13 +128,19 @@ export default function App() {
     const handleTriggerLanding = () => {
       setShowLandingHeader(true);
     };
-    window.addEventListener('seenly_trigger_start_quiz', handleTriggerStart);
-    window.addEventListener('seenly_trigger_login', handleTriggerLogin);
-    window.addEventListener('seenly_trigger_landing', handleTriggerLanding);
+    window.addEventListener('tensignal_trigger_start_quiz', handleTriggerStart);
+    window.addEventListener('tensignal_trigger_start_quiz', handleTriggerStart);
+    window.addEventListener('tensignal_trigger_login', handleTriggerLogin);
+    window.addEventListener('tensignal_trigger_login', handleTriggerLogin);
+    window.addEventListener('tensignal_trigger_landing', handleTriggerLanding);
+    window.addEventListener('tensignal_trigger_landing', handleTriggerLanding);
     return () => {
-      window.removeEventListener('seenly_trigger_start_quiz', handleTriggerStart);
-      window.removeEventListener('seenly_trigger_login', handleTriggerLogin);
-      window.removeEventListener('seenly_trigger_landing', handleTriggerLanding);
+      window.removeEventListener('tensignal_trigger_start_quiz', handleTriggerStart);
+      window.removeEventListener('tensignal_trigger_start_quiz', handleTriggerStart);
+      window.removeEventListener('tensignal_trigger_login', handleTriggerLogin);
+      window.removeEventListener('tensignal_trigger_login', handleTriggerLogin);
+      window.removeEventListener('tensignal_trigger_landing', handleTriggerLanding);
+      window.removeEventListener('tensignal_trigger_landing', handleTriggerLanding);
     };
   }, []);
 
@@ -140,7 +151,7 @@ export default function App() {
       if (newRoute.type === 'quiz') {
         const cleanHash = window.location.hash.replace(/^#/, '');
         const isQuizRoute = cleanHash === 'quiz' || cleanHash === '/quiz' || /^\/quiz(?:\?|$)/.test(cleanHash);
-        const curIdx = Number(sessionStorage.getItem('seenly_currentIndex') || -1);
+        const curIdx = Number((sessionStorage.getItem('tensignal_currentIndex') || sessionStorage.getItem('seenly_currentIndex')) || -1);
         if (isQuizRoute || curIdx !== -1) {
           setShowLandingHeader(false);
         } else {
@@ -157,7 +168,7 @@ export default function App() {
   useEffect(() => {
     const handleStorageChange = (e) => {
       // If the owner token is removed or cleared from localStorage in another tab
-      if (e.key === 'seenly_owner_token' && !e.newValue) {
+      if ((e.key === 'tensignal_owner_token' || e.key === 'seenly_owner_token') && !e.newValue) {
         // Redirect to home page
         window.location.hash = '#/';
         // Clear session storage for a clean state
@@ -172,12 +183,12 @@ export default function App() {
   // Redirect if they land on quiz page but have an existing owner token
   // Also redirect if they try to access their own friend link
   useEffect(() => {
-    if (route.type === 'quiz' && localStorage.getItem('seenly_owner_token')) {
+    if (route.type === 'quiz' && (localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token'))) {
       window.location.hash = '#/dashboard';
     } else if (
       (route.type === 'friend-intro' || route.type === 'friend-quiz' || route.type === 'friend-result') &&
-      route.slug && route.slug === localStorage.getItem('seenly_owner_slug') &&
-      localStorage.getItem('seenly_owner_token')
+      route.slug && route.slug === (localStorage.getItem('tensignal_owner_slug') || localStorage.getItem('seenly_owner_slug')) &&
+      (localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token'))
     ) {
       window.location.hash = '#/dashboard';
     }
@@ -199,12 +210,12 @@ export default function App() {
   const handleStartFriendQuiz = (slug, nickname) => {
     setFriendNickname(nickname);
     try {
-      const saved = sessionStorage.getItem('seenly_friend_state');
+      const saved = sessionStorage.getItem('tensignal_friend_state') || sessionStorage.getItem('seenly_friend_state');
       let parsed = {};
       if (saved) {
         parsed = JSON.parse(saved);
       }
-      sessionStorage.setItem('seenly_friend_state', JSON.stringify({
+      sessionStorage.setItem('tensignal_friend_state', JSON.stringify({
         ...parsed,
         nickname: nickname,
         currentIndex: parsed.currentIndex || 0,

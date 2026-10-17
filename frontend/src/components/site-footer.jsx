@@ -1,4 +1,4 @@
-import { SeenlyLogo } from "./seenly-logo"
+import { TenSignalLogo } from "./tensignal-logo"
 import { useLocale } from "../context/LocaleContext"
 
 export function SiteFooter() {
@@ -17,18 +17,15 @@ export function SiteFooter() {
       <div className="mx-auto max-w-[1180px] px-5 py-10 sm:px-8">
         <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <div className="max-w-sm">
-            <div className="flex items-center gap-2.5">
-              <SeenlyLogo className="h-6 w-6 text-navy" />
-              <span className="font-heading text-lg font-medium text-foreground">
-                Seenly
-              </span>
+            <div className="flex items-center">
+              <TenSignalLogo className="h-7 sm:h-[30px] w-auto object-contain" />
             </div>
             <p className="mt-5 text-pretty text-sm leading-relaxed text-muted-foreground">
               {t("navigation.footer.description")}
             </p>
             <div className="mt-6 flex items-center gap-4 text-muted-foreground">
               <a
-                href="https://instagram.com/seenly.co"
+                href="https://instagram.com/tensignal"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-peach transition-colors duration-300"
@@ -41,7 +38,7 @@ export function SiteFooter() {
                 </svg>
               </a>
               <a
-                href="https://tiktok.com/@seenly.co"
+                href="https://tiktok.com/@tensignal"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-peach transition-colors duration-300"

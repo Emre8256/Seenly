@@ -3,10 +3,12 @@ import { ArrowRight, UsersRound } from 'lucide-react';
 import premiumBg2 from '../../images/backgrounds/premium_bg2.avif';
 import anonimLogo from '../../images/Icons/AnonimLOGO.avif';
 import { useLocale } from '../../context/LocaleContext';
+import ButtonSpinner from '../../components/ButtonSpinner';
 
 const DashboardResponsesTab = memo(function DashboardResponsesTab({
   langCode: propLangCode,
   isPremium,
+  isCheckoutLoading,
   handleUpgradeToPlus,
   responseSessions,
   visibleResponseSessions,
@@ -27,7 +29,7 @@ const DashboardResponsesTab = memo(function DashboardResponsesTab({
   const tr = (key, vars) => t(key, vars, propLangCode || locale);
 
   return (
-    <div className="seenly-dashboard-tab-content full-width-layout scrollable-gap-content seenly-gap-editorial-content" style={{ maxWidth: '840px', width: '100%' }}>
+    <div className="tensignal-dashboard-tab-content full-width-layout scrollable-gap-content tensignal-gap-editorial-content" style={{ maxWidth: '840px', width: '100%' }}>
       <div className="flex flex-col gap-4 sm:gap-5 w-full box-border">
         {/* Non-Plus Hero Intelligence Banner for Gelen Analizler */}
         {!isPremium && (
@@ -68,11 +70,22 @@ const DashboardResponsesTab = memo(function DashboardResponsesTab({
 
                 <button
                   type="button"
+                  disabled={isCheckoutLoading}
                   onClick={handleUpgradeToPlus}
                   className="group w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#16222F] hover:bg-[#0E1721] text-white font-sans font-semibold text-[11.5px] sm:text-[12px] tracking-wider uppercase shadow-[0_4px_16px_rgba(22,34,47,0.2)] active:scale-[0.98] transition-all cursor-pointer border border-white/10"
+                  style={isCheckoutLoading ? { opacity: 0.9, cursor: 'wait' } : {}}
                 >
-                  <span>{tr('dashboard.responses.unlockWithPlus')}</span>
-                  <ArrowRight size={13} strokeWidth={2.2} className="text-white group-hover:translate-x-0.5 transition-all" />
+                  {isCheckoutLoading ? (
+                    <span className="inline-flex items-center gap-2">
+                      <ButtonSpinner size={14} />
+                      <span>{tr('common.processing')}</span>
+                    </span>
+                  ) : (
+                    <>
+                      <span>{tr('dashboard.responses.unlockWithPlus')}</span>
+                      <ArrowRight size={13} strokeWidth={2.2} className="text-white group-hover:translate-x-0.5 transition-all" />
+                    </>
+                  )}
                 </button>
               </div>
             </div>
@@ -173,12 +186,12 @@ const DashboardResponsesTab = memo(function DashboardResponsesTab({
 
             {/* Always Visible Pagination Controls */}
             <div
-              className="seenly-response-pagination pt-1"
+              className="tensignal-response-pagination pt-1"
               aria-label={tr('accessibility.receivedAnalysisPages')}
             >
               <button
                 type="button"
-                className="seenly-response-page-btn seenly-response-page-nav"
+                className="tensignal-response-page-btn tensignal-response-page-nav"
                 aria-label={tr('accessibility.previousPage')}
                 disabled={safeResponseHistoryPage === 1}
                 onClick={() => setResponseHistoryPage((currentPage) => Math.max(1, currentPage - 1))}
@@ -189,7 +202,7 @@ const DashboardResponsesTab = memo(function DashboardResponsesTab({
               {(responseHistoryTotalPages > 1 ? responseHistoryPageItems : [1]).map((pageItem) => {
                 if (typeof pageItem === 'string') {
                   return (
-                    <span key={pageItem} className="seenly-response-page-ellipsis" aria-hidden="true">
+                    <span key={pageItem} className="tensignal-response-page-ellipsis" aria-hidden="true">
                       ...
                     </span>
                   );
@@ -202,7 +215,7 @@ const DashboardResponsesTab = memo(function DashboardResponsesTab({
                   <button
                     key={pageNumber}
                     type="button"
-                    className={`seenly-response-page-btn${isActivePage ? ' active' : ''}`}
+                    className={`tensignal-response-page-btn${isActivePage ? ' active' : ''}`}
                     aria-current={isActivePage ? 'page' : undefined}
                     onClick={() => setResponseHistoryPage(pageNumber)}
                   >
@@ -213,7 +226,7 @@ const DashboardResponsesTab = memo(function DashboardResponsesTab({
 
               <button
                 type="button"
-                className="seenly-response-page-btn seenly-response-page-nav"
+                className="tensignal-response-page-btn tensignal-response-page-nav"
                 aria-label={tr('accessibility.nextPage')}
                 disabled={safeResponseHistoryPage === responseHistoryTotalPages || responseHistoryTotalPages <= 1}
                 onClick={() => setResponseHistoryPage((currentPage) => Math.min(responseHistoryTotalPages, currentPage + 1))}

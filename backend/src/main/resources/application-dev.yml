@@ -22,8 +22,10 @@ spring:
       mail.smtp.starttls.enable: ${SMTP_STARTTLS:false}
 
 app:
+  email:
+    mail-from: ${AUTH_MAIL_FROM:mail@10signal.me}
   auth:
-    mail-from: ${AUTH_MAIL_FROM:no-reply@seenly.local}
+    mail-from: ${AUTH_MAIL_FROM:mail@10signal.me}
   security:
     allowed-origins:
       - http://localhost:3000

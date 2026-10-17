@@ -1,13 +1,13 @@
 [
   {
     "id": "q1",
-    "question": "What is Seenly and how does it work?",
-    "answer": "Seenly is an interactive social mirror quiz that compares how you see yourself (Self Perception) with how your friends perceive you (Outside Perception). First, you answer 10 quick questions to create your profile, then you send your unique link to your friends so they can review you anonymously."
+    "question": "What is 10Signal and how does it work?",
+    "answer": "10Signal is an interactive social mirror quiz that compares how you see yourself (Self Perception) with how your friends perceive you (Outside Perception). First, you answer 10 quick questions to create your profile, then you send your unique link to your friends so they can review you anonymously."
   },
   {
     "id": "q2",
     "question": "Are my answers shown to my friends? What is the level of anonymity?",
-    "answer": "Absolutely not. Seenly is designed entirely with privacy in mind. Your friends' individual answers or the options you choose in your own quiz are never shown to anyone. Only when 3 or more friends complete the quiz can you see the overall average of their answers (Outside Perception)."
+    "answer": "Absolutely not. 10Signal is designed entirely with privacy in mind. Your friends' individual answers or the options you choose in your own quiz are never shown to anyone. Only when 3 or more friends complete the quiz can you see the overall average of their answers (Outside Perception)."
   },
   {
     "id": "q3",
@@ -27,17 +27,17 @@
   {
     "id": "q6",
     "question": "What are extra respondent packs?",
-    "answer": "Extra respondent packs are additional packages that allow you to increase your profile's respondent limit without upgrading to the Seenly Plus plan. Depending on your needs, you can add 100, 250, or 500 extra respondent capacity to keep collecting analyses from your friends. If you upgrade to the Plus plan, your capacity becomes completely unlimited."
+    "answer": "Extra respondent packs are additional packages that allow you to increase your profile's respondent limit without upgrading to the 10Signal Plus plan. Depending on your needs, you can add 50, 150, or 300 extra evaluation capacity to keep collecting analyses from your friends. If you upgrade to the Plus plan, your capacity becomes completely unlimited."
   },
   {
     "id": "q7",
-    "question": "Does my friend need to register on Seenly to evaluate me?",
-    "answer": "No. Your friends do not need to register or create an account on Seenly to leave feedback for you. They can start the quiz directly by clicking the link you share and anonymously review you in just 1 minute."
+    "question": "Does my friend need to register on 10Signal to evaluate me?",
+    "answer": "No. Your friends do not need to register or create an account on 10Signal to leave feedback for you. They can start the quiz directly by clicking the link you share and anonymously review you in just 1 minute."
   },
   {
     "id": "q8",
-    "question": "Is Seenly Plus a subscription or a one-time payment?",
-    "answer": "Seenly Plus is absolutely not a subscription. With a one-time payment, you permanently remove all restrictions on your profile (unlimited respondents capacity, detailed reflection analyses, blind spot reports). No recurring charges will ever be made to your card."
+    "question": "Is 10Signal Plus a subscription or a one-time payment?",
+    "answer": "10Signal Plus is absolutely not a subscription. With a one-time payment, you permanently remove all restrictions on your profile (unlimited respondents capacity, detailed reflection analyses, blind spot reports). No recurring charges will ever be made to your card."
   },
   {
     "id": "q9",

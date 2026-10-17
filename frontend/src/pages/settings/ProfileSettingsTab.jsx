@@ -41,16 +41,16 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
   const { t } = useLocale();
 
   return (
-    <div className="seenly-settings-content seenly-settings-fade-in">
-      <div className="seenly-plan-pro seenly-plan-clean">
+    <div className="tensignal-settings-content tensignal-settings-fade-in">
+      <div className="tensignal-plan-pro tensignal-plan-clean">
 
         {/* Single Unified Profile Card */}
-        <section className="seenly-profile-card seenly-form-card">
+        <section className="tensignal-profile-card tensignal-form-card">
 
           {/* 1. Avatar Picker Header Row */}
-          <div className="seenly-avatar-row">
+          <div className="tensignal-avatar-row">
             <div
-              className="seenly-profile-avatar-preview-wrap cursor-pointer"
+              className="tensignal-profile-avatar-preview-wrap cursor-pointer"
               onClick={() => setShowAvatarPicker(prev => !prev)}
               title={t('settings.profile.changeAvatar')}
             >
@@ -58,33 +58,33 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
                 <img
                   src={currentAvatarSrc}
                   alt={displayName}
-                  className="seenly-profile-avatar-preview-img"
+                  className="tensignal-profile-avatar-preview-img"
                 />
               ) : (
-                <div className="seenly-profile-identity-avatar">
+                <div className="tensignal-profile-identity-avatar">
                   {displayName ? displayName.charAt(0).toUpperCase() : 'U'}
                 </div>
               )}
             </div>
 
-            <div className="seenly-avatar-details">
-              <div className="seenly-avatar-details-title-row">
-                <h3 className="seenly-avatar-details-title">
+            <div className="tensignal-avatar-details">
+              <div className="tensignal-avatar-details-title-row">
+                <h3 className="tensignal-avatar-details-title">
                   {t('settings.profile.avatarTitle')}
                 </h3>
                 {avatarSaveStatus === 'saved' && (
-                  <span className="seenly-profile-status-badge">
+                  <span className="tensignal-profile-status-badge">
                     <Check size={12} strokeWidth={2.5} />
                     {t('settings.profile.avatarSaved')}
                   </span>
                 )}
                 {avatarSaveStatus === 'saving' && (
-                  <span className="seenly-profile-status-badge is-saving">
+                  <span className="tensignal-profile-status-badge is-saving">
                     {t('settings.profile.avatarSaving')}
                   </span>
                 )}
               </div>
-              <p className="seenly-avatar-details-subtext">
+              <p className="tensignal-avatar-details-subtext">
                 {t('settings.profile.avatarSubtitle')}
               </p>
             </div>
@@ -92,7 +92,7 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
             <button
               type="button"
               onClick={() => setShowAvatarPicker(prev => !prev)}
-              className={`seenly-avatar-toggle-btn ${showAvatarPicker ? 'active' : ''}`}
+              className={`tensignal-avatar-toggle-btn ${showAvatarPicker ? 'active' : ''}`}
             >
               <span>{showAvatarPicker ? t('settings.profile.closeAvatar') : t('settings.profile.changeAvatar')}</span>
               {showAvatarPicker ? <ChevronUp size={16} strokeWidth={2.2} /> : <ChevronDown size={16} strokeWidth={2.2} />}
@@ -101,25 +101,25 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
 
           {/* Expandable Avatar Picker Drawer */}
           {showAvatarPicker && (
-            <div className="seenly-avatar-drawer seenly-settings-fade-in">
-              <div className="seenly-avatar-filter-row">
+            <div className="tensignal-avatar-drawer tensignal-settings-fade-in">
+              <div className="tensignal-avatar-filter-row">
                 <button
                   type="button"
                   onClick={() => setAvatarFilter('kadin')}
-                  className={`seenly-avatar-filter-btn ${avatarFilter === 'kadin' ? 'active' : ''}`}
+                  className={`tensignal-avatar-filter-btn ${avatarFilter === 'kadin' ? 'active' : ''}`}
                 >
                   {t('settings.profile.womenCategory')}
                 </button>
                 <button
                   type="button"
                   onClick={() => setAvatarFilter('erkek')}
-                  className={`seenly-avatar-filter-btn ${avatarFilter === 'erkek' ? 'active' : ''}`}
+                  className={`tensignal-avatar-filter-btn ${avatarFilter === 'erkek' ? 'active' : ''}`}
                 >
                   {t('settings.profile.menCategory')}
                 </button>
               </div>
 
-              <div className="seenly-avatar-grid">
+              <div className="tensignal-avatar-grid">
                 {filteredAvatars.map((av) => {
                   const isSelected = selectedAvatar === av.id;
                   return (
@@ -127,18 +127,18 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
                       key={av.id}
                       type="button"
                       onClick={() => handleSelectAvatar(av.id)}
-                      className={`seenly-avatar-item-btn ${isSelected ? 'is-selected' : ''}`}
+                      className={`tensignal-avatar-item-btn ${isSelected ? 'is-selected' : ''}`}
                       aria-label={av.label}
                       title={av.label}
                     >
-                      <div className="seenly-avatar-circle-frame">
+                      <div className="tensignal-avatar-circle-frame">
                         <img
                           src={av.src}
                           alt={av.label}
-                          className="seenly-avatar-thumb"
+                          className="tensignal-avatar-thumb"
                         />
                         {isSelected && (
-                          <span className="seenly-avatar-check-indicator">
+                          <span className="tensignal-avatar-check-indicator">
                             <Check size={12} strokeWidth={3} />
                           </span>
                         )}
@@ -151,22 +151,22 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
           )}
 
           {/* Subtle Divider */}
-          <div className="seenly-profile-divider" />
+          <div className="tensignal-profile-divider" />
 
           {/* 2. Display Name Row with Dedicated Update Button */}
-          <form onSubmit={handleSaveDisplayName} className="seenly-profile-item-form">
-            <div className="seenly-form-field">
-              <div className="seenly-form-label-row">
-                <label htmlFor="seenly-display-name-input" className="seenly-form-label">
+          <form onSubmit={handleSaveDisplayName} className="tensignal-profile-item-form">
+            <div className="tensignal-form-field">
+              <div className="tensignal-form-label-row">
+                <label htmlFor="tensignal-display-name-input" className="tensignal-form-label">
                   {t('settings.profile.displayNameTitle')}
                 </label>
-                <span className="seenly-field-counter">
+                <span className="tensignal-field-counter">
                   {profileNameInput.length}/15
                 </span>
               </div>
-              <div className="seenly-inline-input-group">
+              <div className="tensignal-inline-input-group">
                 <input
-                  id="seenly-display-name-input"
+                  id="tensignal-display-name-input"
                   type="text"
                   value={profileNameInput}
                   disabled={isNameChangeLocked}
@@ -178,7 +178,7 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
                   }}
                   maxLength={15}
                   placeholder={t('settings.profile.displayNamePlaceholder')}
-                  className="seenly-form-input"
+                  className="tensignal-form-input"
                   style={isNameChangeLocked ? {
                     opacity: 0.75,
                     cursor: 'not-allowed',
@@ -188,7 +188,7 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
                 <button
                   type="submit"
                   disabled={isNameChangeLocked || nameSaveStatus === 'saving' || !profileNameInput.trim() || profileNameInput.trim() === displayName}
-                  className={`seenly-inline-save-btn ${nameSaveStatus === 'saved' ? 'is-saved' : ''}`}
+                  className={`tensignal-inline-save-btn ${nameSaveStatus === 'saved' ? 'is-saved' : ''}`}
                   style={isNameChangeLocked ? {
                     cursor: 'not-allowed',
                     opacity: 0.7,
@@ -216,31 +216,31 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
               </div>
             </div>
             {nameErrorMessage && (
-              <div className="seenly-profile-feedback is-error">
+              <div className="tensignal-profile-feedback is-error">
                 {nameErrorMessage}
               </div>
             )}
             {nameSaveStatus === 'saved' && !nameErrorMessage && (
-              <div className="seenly-profile-feedback is-success">
+              <div className="tensignal-profile-feedback is-success">
                 {t('settings.profile.nameSuccess')}
               </div>
             )}
           </form>
 
           {/* Subtle Divider */}
-          <div className="seenly-profile-divider" />
+          <div className="tensignal-profile-divider" />
 
           {/* 3. Email Address Row with Dedicated Update Button */}
-          <form onSubmit={handleSaveEmail} className="seenly-profile-item-form">
-            <div className="seenly-form-field">
-              <div className="seenly-form-label-row">
-                <label htmlFor="seenly-email-input" className="seenly-form-label">
+          <form onSubmit={handleSaveEmail} className="tensignal-profile-item-form">
+            <div className="tensignal-form-field">
+              <div className="tensignal-form-label-row">
+                <label htmlFor="tensignal-email-input" className="tensignal-form-label">
                   {t('settings.profile.emailTitle')}
                 </label>
               </div>
-              <div className="seenly-inline-input-group">
+              <div className="tensignal-inline-input-group">
                 <input
-                  id="seenly-email-input"
+                  id="tensignal-email-input"
                   type="email"
                   value={emailInput}
                   onChange={(e) => {
@@ -249,12 +249,12 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
                     if (emailSaveStatus !== 'idle') setEmailSaveStatus('idle');
                   }}
                   placeholder={t('settings.profile.emailPlaceholder')}
-                  className="seenly-form-input"
+                  className="tensignal-form-input"
                 />
                 <button
                   type="submit"
                   disabled={emailSaveStatus === 'saving' || !emailInput.trim() || emailInput.trim().toLowerCase() === (userEmail || '').toLowerCase()}
-                  className={`seenly-inline-save-btn ${emailSaveStatus === 'saved' ? 'is-saved' : ''}`}
+                  className={`tensignal-inline-save-btn ${emailSaveStatus === 'saved' ? 'is-saved' : ''}`}
                 >
                   {emailSaveStatus === 'saving' ? (
                     <span>{t('common.processing')}</span>
@@ -270,27 +270,27 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
               </div>
             </div>
             {emailErrorMessage && (
-              <div className="seenly-profile-feedback is-error">
+              <div className="tensignal-profile-feedback is-error">
                 {emailErrorMessage}
               </div>
             )}
             {emailSaveStatus === 'saved' && !emailErrorMessage && (
-              <div className="seenly-profile-feedback is-success">
+              <div className="tensignal-profile-feedback is-success">
                 {t('settings.profile.emailSuccess')}
               </div>
             )}
           </form>
 
           {/* Subtle Divider */}
-          <div className="seenly-profile-divider" />
+          <div className="tensignal-profile-divider" />
 
           {/* 4. Delete Account Row */}
-          <div className="seenly-danger-content">
-            <div className="seenly-danger-info">
-              <h4 className="seenly-danger-title">
+          <div className="tensignal-danger-content">
+            <div className="tensignal-danger-info">
+              <h4 className="tensignal-danger-title">
                 {t('settings.deleteAccount.deleteAccountBtn')}
               </h4>
-              <p className="seenly-danger-subtext">
+              <p className="tensignal-danger-subtext">
                 {t('settings.deleteAccount.confirmDialog')}
               </p>
             </div>
@@ -298,7 +298,7 @@ const ProfileSettingsTab = memo(function ProfileSettingsTab({
             <button
               type="button"
               onClick={handleDeleteAccount}
-              className="seenly-danger-outline-btn"
+              className="tensignal-danger-outline-btn"
             >
               <Trash2 size={14} strokeWidth={2} />
               <span>{t('settings.deleteAccount.deleteAccountBtn')}</span>

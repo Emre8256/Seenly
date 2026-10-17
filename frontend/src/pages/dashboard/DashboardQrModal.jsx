@@ -86,7 +86,7 @@ const DashboardQrModal = memo(function DashboardQrModal({
             if (qrDataUrl) {
                 const link = document.createElement('a');
                 link.href = qrDataUrl;
-                link.download = `Seenly_QR_${displayName}.png`;
+                link.download = `10Signal_QR_${displayName}.png`;
                 link.click();
             }
           }}

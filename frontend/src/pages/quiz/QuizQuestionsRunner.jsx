@@ -23,11 +23,11 @@ const QuizQuestionsRunner = memo(function QuizQuestionsRunner({
     const questionId = selfQuestionIds[currentIndex];
     return (
       <>
-        <div className="seenly-wizard-content">
-          <h2 className="seenly-wizard-title question-text">
+        <div className="tensignal-wizard-content">
+          <h2 className="tensignal-wizard-title question-text">
             {t('questions', questionId)}
           </h2>
-          <div className="seenly-wizard-list-container">
+          <div className="tensignal-wizard-list-container">
             {[
               { value: 1, label: t('common.agreement_strongly_disagree') },
               { value: 2, label: t('common.agreement_disagree') },
@@ -40,22 +40,22 @@ const QuizQuestionsRunner = memo(function QuizQuestionsRunner({
                 <button
                   key={opt.value}
                   type="button"
-                  className={`seenly-wizard-list-btn ${isActive ? 'active' : ''}`}
+                  className={`tensignal-wizard-list-btn ${isActive ? 'active' : ''}`}
                   onClick={() => {
                     setAnswers(prev => ({ ...prev, [questionId]: opt.value }));
                   }}
                 >
                   <span>{opt.label}</span>
-                  {isActive && <span className="seenly-wizard-checkmark">✓</span>}
+                  {isActive && <span className="tensignal-wizard-checkmark">✓</span>}
                 </button>
               );
             })}
           </div>
         </div>
-        <div className="seenly-wizard-footer-action">
+        <div className="tensignal-wizard-footer-action">
           <button
             type="button"
-            className="seenly-wizard-primary-btn"
+            className="tensignal-wizard-primary-btn"
             disabled={answers[questionId] === undefined}
             onClick={() => {
               if (currentIndex < selfQuestionIds.length - 1) {
@@ -76,9 +76,9 @@ const QuizQuestionsRunner = memo(function QuizQuestionsRunner({
   if (currentIndex === -9) {
     return (
       <>
-        <div className="seenly-wizard-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', padding: '0.2rem 0', boxSizing: 'border-box' }}>
+        <div className="tensignal-wizard-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', padding: '0.2rem 0', boxSizing: 'border-box' }}>
           {/* Header Icon */}
-          <div className="seenly-wizard-circle-icon icon-purple" style={{ margin: '0 auto 0.6rem auto', width: '48px', height: '48px', flexShrink: 0 }}>
+          <div className="tensignal-wizard-circle-icon icon-purple" style={{ margin: '0 auto 0.6rem auto', width: '48px', height: '48px', flexShrink: 0 }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
               <circle cx="12" cy="7" r="4" />
@@ -86,7 +86,7 @@ const QuizQuestionsRunner = memo(function QuizQuestionsRunner({
           </div>
 
           {/* Title */}
-          <h2 className="seenly-wizard-title" style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-deep-ink)', marginBottom: '0.35rem', textAlign: 'center', width: '100%', fontSize: '1.5rem', lineHeight: '1.2' }}>
+          <h2 className="tensignal-wizard-title" style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-deep-ink)', marginBottom: '0.35rem', textAlign: 'center', width: '100%', fontSize: '1.5rem', lineHeight: '1.2' }}>
             {tr('quiz.runner.chooseAvatarTitle')}
           </h2>
 
@@ -104,25 +104,25 @@ const QuizQuestionsRunner = memo(function QuizQuestionsRunner({
           </p>
 
           {/* Filter Pills */}
-          <div className="seenly-onboarding-avatar-filters">
+          <div className="tensignal-onboarding-avatar-filters">
             <button
               type="button"
               onClick={() => setAvatarFilter('kadin')}
-              className={`seenly-onboarding-filter-pill ${avatarFilter === 'kadin' ? 'active' : ''}`}
+              className={`tensignal-onboarding-filter-pill ${avatarFilter === 'kadin' ? 'active' : ''}`}
             >
               {tr('quiz.runner.avatarWomen')}
             </button>
             <button
               type="button"
               onClick={() => setAvatarFilter('erkek')}
-              className={`seenly-onboarding-filter-pill ${avatarFilter === 'erkek' ? 'active' : ''}`}
+              className={`tensignal-onboarding-filter-pill ${avatarFilter === 'erkek' ? 'active' : ''}`}
             >
               {tr('quiz.runner.avatarMen')}
             </button>
           </div>
 
           {/* Responsive Avatar Grid */}
-          <div className="seenly-onboarding-avatar-grid">
+          <div className="tensignal-onboarding-avatar-grid">
             {filteredAvatars.map((av) => {
               const isSelected = selectedAvatar === av.id;
               return (
@@ -131,21 +131,22 @@ const QuizQuestionsRunner = memo(function QuizQuestionsRunner({
                   type="button"
                   onClick={() => {
                     setSelectedAvatar(av.id);
-                    sessionStorage.setItem('seenly_avatar', av.id);
+                    sessionStorage.setItem('tensignal_avatar', av.id);
+                    localStorage.setItem('tensignal_avatar', av.id);
                     localStorage.setItem('seenly_avatar', av.id);
                   }}
-                  className={`seenly-onboarding-avatar-item ${isSelected ? 'is-selected' : ''}`}
+                  className={`tensignal-onboarding-avatar-item ${isSelected ? 'is-selected' : ''}`}
                   aria-label={av.label}
                   title={av.label}
                 >
-                  <div className="seenly-onboarding-avatar-circle">
+                  <div className="tensignal-onboarding-avatar-circle">
                     <img
                       src={av.src}
                       alt={av.label}
-                      className="seenly-onboarding-avatar-img"
+                      className="tensignal-onboarding-avatar-img"
                     />
                     {isSelected && (
-                      <span className="seenly-onboarding-avatar-check">
+                      <span className="tensignal-onboarding-avatar-check">
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
                           <polyline points="20 6 9 17 4 12" />
                         </svg>
@@ -159,21 +160,22 @@ const QuizQuestionsRunner = memo(function QuizQuestionsRunner({
         </div>
 
         {/* Action Button */}
-        <div className="seenly-wizard-footer-action">
+        <div className="tensignal-wizard-footer-action">
           <button
             type="button"
-            className="seenly-wizard-primary-btn"
+            className="tensignal-wizard-primary-btn"
             onClick={() => {
               if (!selectedAvatar) {
                 setSelectedAvatar('kadin1');
-                sessionStorage.setItem('seenly_avatar', 'kadin1');
+                sessionStorage.setItem('tensignal_avatar', 'kadin1');
+                localStorage.setItem('tensignal_avatar', 'kadin1');
                 localStorage.setItem('seenly_avatar', 'kadin1');
               }
               setCurrentIndex(-10);
             }}
           >
             <span>{t('common.next')}</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="seenly-wizard-arrow-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="tensignal-wizard-arrow-icon">
               <line x1="4" y1="12" x2="20" y2="12" />
               <polyline points="13 5 20 12 13 19" />
             </svg>

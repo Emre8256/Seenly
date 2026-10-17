@@ -1,21 +1,21 @@
 import React, { useEffect, useRef, useState } from "react"
-import { SeenlyLogo } from "./seenly-logo"
+import { TenSignalLogo } from "./tensignal-logo"
 import { useLocale } from "../context/LocaleContext"
 import LocaleSwitch from "./LocaleSwitch"
 import { getAvatarSrc } from "../images/avatars"
 import { logoutOwner } from "../services/api"
 
 export function SiteHeader({ onStartClick, onLoginClick }) {
-  const { t, locale: langCode } = useLocale()
+  const { t, locale: langCode, resetAccountLocale } = useLocale()
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(() => window.scrollY > 24)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const userMenuRef = useRef(null)
   const [mobileUserMenuOpen, setMobileUserMenuOpen] = useState(false)
   const mobileUserMenuRef = useRef(null)
-  const isLoggedIn = Boolean(localStorage.getItem("seenly_owner_token"))
-  const displayName = localStorage.getItem("seenly_display_name") || sessionStorage.getItem("seenly_displayName") || t("navigation.dashboard")
-  const userAvatar = localStorage.getItem("seenly_avatar") || sessionStorage.getItem("seenly_avatar")
+  const isLoggedIn = Boolean(localStorage.getItem("tensignal_owner_token") || localStorage.getItem("seenly_owner_token"))
+  const displayName = localStorage.getItem("tensignal_display_name") || localStorage.getItem("seenly_display_name") || sessionStorage.getItem("tensignal_displayName") || sessionStorage.getItem("seenly_displayName") || t("navigation.dashboard")
+  const userAvatar = localStorage.getItem("tensignal_avatar") || localStorage.getItem("seenly_avatar") || sessionStorage.getItem("tensignal_avatar") || sessionStorage.getItem("seenly_avatar")
   const avatarSrc = getAvatarSrc(userAvatar)
 
   const goSettings = (tab = 'profile') => {
@@ -33,7 +33,7 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
   }
 
   const logout = async () => {
-    const ownerToken = localStorage.getItem("seenly_owner_token")
+    const ownerToken = localStorage.getItem("tensignal_owner_token") || localStorage.getItem("seenly_owner_token")
     if (ownerToken) {
       try {
         await logoutOwner(ownerToken)
@@ -41,9 +41,12 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
         // Local logout must still complete if the server is unavailable.
       }
     }
+    localStorage.removeItem("tensignal_owner_token");
     localStorage.removeItem("seenly_owner_token")
+    localStorage.removeItem("tensignal_display_name");
     localStorage.removeItem("seenly_display_name")
     sessionStorage.clear()
+    resetAccountLocale()
     setOpen(false)
     setUserMenuOpen(false)
     setMobileUserMenuOpen(false)
@@ -51,9 +54,11 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
   }
 
   const handleLogoClick = (e) => {
+    sessionStorage.setItem('tensignal_currentIndex', '-1');
     sessionStorage.setItem('seenly_currentIndex', '-1');
+    sessionStorage.setItem('tensignal_isQuickLogin', 'false');
     sessionStorage.setItem('seenly_isQuickLogin', 'false');
-    window.dispatchEvent(new CustomEvent('seenly_trigger_landing'));
+    window.dispatchEvent(new CustomEvent('tensignal_trigger_landing'));
     if (window.location.hash !== '#/' && window.location.hash !== '') {
       window.location.hash = '#/';
     }
@@ -69,9 +74,11 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
         if (onStartClick) {
           onStartClick(e)
         } else {
+          sessionStorage.setItem('tensignal_currentIndex', '-2')
           sessionStorage.setItem('seenly_currentIndex', '-2')
+          sessionStorage.setItem('tensignal_isQuickLogin', 'false')
           sessionStorage.setItem('seenly_isQuickLogin', 'false')
-          window.dispatchEvent(new CustomEvent('seenly_trigger_start_quiz'))
+          window.dispatchEvent(new CustomEvent('tensignal_trigger_start_quiz'))
           if (window.location.hash !== '#/' && window.location.hash !== '') {
             window.location.hash = '#/'
           }
@@ -139,11 +146,8 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
       style={{ position: 'sticky', top: 0, zIndex: 100, width: '100%' }}
     >
       <div className="mx-auto flex h-[72px] max-w-[1180px] items-center justify-between px-5 sm:px-8">
-        <a href="#" onClick={handleLogoClick} className="group flex items-center gap-2.5" aria-label="Seenly">
-          <SeenlyLogo className="h-6 w-6 text-navy transition-transform duration-500 group-hover:rotate-[8deg]" />
-          <span className="font-heading text-[1.35rem] font-medium tracking-tight text-foreground">
-            Seenly
-          </span>
+        <a href="#" onClick={handleLogoClick} className="group flex items-center select-none" aria-label="10Signal">
+          <TenSignalLogo className="h-7 sm:h-[30px] w-auto object-contain transition-opacity duration-300 group-hover:opacity-90" />
         </a>
 
         <nav className="hidden items-center gap-9 md:flex" aria-label={t("accessibility.openMenu")}>
@@ -245,7 +249,7 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
                 </svg>
               </button>
               {userMenuOpen && (
-                <div className="seenly-user-menu-panel" style={{ minWidth: '200px', padding: '10px' }}>
+                <div className="tensignal-user-menu-panel" style={{ minWidth: '200px', padding: '10px' }}>
                   <div style={{
                     padding: '6px 10px 10px 10px',
                     marginBottom: '6px',
@@ -332,7 +336,7 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                     </svg>
-                    Seenly Plus
+                    10Signal Plus
                   </button>
 
                   <button
@@ -550,7 +554,7 @@ export function SiteHeader({ onStartClick, onLoginClick }) {
                       gap: '8px'
                     }}
                   >
-                    Seenly Plus
+                    10Signal Plus
                   </button>
 
                   <button

@@ -1,7 +1,14 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
-import { LocaleProvider, useLocale, DEFAULT_LOCALE, CANONICAL_LOCALE } from '../context/LocaleContext';
+import {
+  LocaleProvider,
+  useLocale,
+  DEFAULT_LOCALE,
+  CANONICAL_LOCALE,
+  detectBrowserPrimaryLocale,
+  resolveInitialLocale
+} from '../context/LocaleContext';
 import { getSupportedLocales, registerLocale } from '../content/locales/registry';
 
 // Test consumer component
@@ -255,16 +262,30 @@ describe('Comprehensive i18n Behavior Test Suite', () => {
   it('18. provides canonical English legal fallback for missing TR legal body', async () => {
     render(
       <LocaleProvider defaultLocale="tr">
-        <TestConsumer legalDocKey="terms" />
+        <TestConsumer legalDocKey="untranslatedDoc" />
       </LocaleProvider>
     );
     await waitFor(() => {
       // Title is in Turkish
-      expect(screen.getByTestId('legal-title')).toHaveTextContent('Kullanım Koşulları');
+      expect(screen.getByTestId('legal-title')).toHaveTextContent('Çevrilmemiş Belge');
       // Body clauses fall back to canonical English
       expect(screen.getByTestId('legal-fallback')).toHaveTextContent('true');
       expect(Number(screen.getByTestId('legal-sections-count').textContent)).toBeGreaterThan(0);
-      expect(screen.getByTestId('legal-first-clause')).toHaveTextContent('Welcome to Seenly.');
+      expect(screen.getByTestId('legal-first-clause')).toHaveTextContent('Welcome to 10Signal.');
+    });
+  });
+
+  it('18b. renders complete Turkish legal document when TR sections are provided', async () => {
+    render(
+      <LocaleProvider defaultLocale="tr">
+        <TestConsumer legalDocKey="terms" />
+      </LocaleProvider>
+    );
+    await waitFor(() => {
+      expect(screen.getByTestId('legal-title')).toHaveTextContent('Kullanım Koşulları');
+      expect(screen.getByTestId('legal-fallback')).toHaveTextContent('false');
+      expect(Number(screen.getByTestId('legal-sections-count').textContent)).toBe(17);
+      expect(screen.getByTestId('legal-first-clause')).toHaveTextContent("10Signal'a hoş geldiniz.");
     });
   });
 
@@ -284,5 +305,148 @@ describe('Comprehensive i18n Behavior Test Suite', () => {
     });
 
     expect(getSupportedLocales().some(l => l.code === 'es')).toBe(true);
+  });
+});
+
+describe('12.A Automatic Browser Language Detection', () => {
+  it('detects tr for tr-TR primary', () => {
+    expect(detectBrowserPrimaryLocale({ languages: ['tr-TR', 'en-US'] })).toBe('tr');
+    expect(detectBrowserPrimaryLocale({ language: 'tr-TR' })).toBe('tr');
+  });
+
+  it('detects tr for tr-CY primary', () => {
+    expect(detectBrowserPrimaryLocale({ languages: ['tr-CY'] })).toBe('tr');
+  });
+
+  it('detects en for en-US primary', () => {
+    expect(detectBrowserPrimaryLocale({ languages: ['en-US', 'tr-TR'] })).toBe('en');
+  });
+
+  it('detects en for de-DE primary', () => {
+    expect(detectBrowserPrimaryLocale({ languages: ['de-DE'] })).toBe('en');
+  });
+
+  it('detects en for fr-FR primary', () => {
+    expect(detectBrowserPrimaryLocale({ languages: ['fr-FR'] })).toBe('en');
+  });
+
+  it('detects en for invalid or empty primary', () => {
+    expect(detectBrowserPrimaryLocale(null)).toBe('en');
+    expect(detectBrowserPrimaryLocale({})).toBe('en');
+    expect(detectBrowserPrimaryLocale({ languages: [] })).toBe('en');
+    expect(detectBrowserPrimaryLocale({ language: '' })).toBe('en');
+    expect(detectBrowserPrimaryLocale({ language: 'unknown-XX' })).toBe('en');
+  });
+
+  it('requires primary to be Turkish; [de-DE, tr-TR] resolves to en', () => {
+    expect(detectBrowserPrimaryLocale({ languages: ['de-DE', 'tr-TR'] })).toBe('en');
+  });
+
+  it('requires primary to be Turkish; [tr-TR, en-US] resolves to tr', () => {
+    expect(detectBrowserPrimaryLocale({ languages: ['tr-TR', 'en-US'] })).toBe('tr');
+  });
+});
+
+describe('12.B Manual Preference Priority', () => {
+  beforeEach(() => {
+    localStorage.clear();
+    sessionStorage.clear();
+  });
+
+  it('Turkish browser + manual English -> en', () => {
+    localStorage.setItem('tensignal_locale', 'en');
+    localStorage.setItem('tensignal_locale_manual', 'true');
+    // Even if browser is Turkish:
+    const mockNav = { languages: ['tr-TR'] };
+    const originalNav = global.navigator;
+    try {
+      expect(resolveInitialLocale()).toBe('en');
+    } finally {
+      global.navigator = originalNav;
+    }
+  });
+
+  it('English browser + manual Turkish -> tr', () => {
+    localStorage.setItem('tensignal_locale', 'tr');
+    localStorage.setItem('tensignal_locale_manual', 'true');
+    expect(resolveInitialLocale()).toBe('tr');
+  });
+
+  it('persists manual choice after simulated refresh / restart', () => {
+    render(
+      <LocaleProvider>
+        <TestConsumer />
+      </LocaleProvider>
+    );
+    fireEvent.click(screen.getByTestId('switch-to-en'));
+    expect(localStorage.getItem('tensignal_locale_manual')).toBe('true');
+    expect(localStorage.getItem('tensignal_locale')).toBe('en');
+
+    // On next init
+    expect(resolveInitialLocale()).toBe('en');
+  });
+
+  it('preserves legacy user saved locale if manual flag not set', () => {
+    localStorage.setItem('tensignal_locale', 'tr');
+    expect(resolveInitialLocale()).toBe('tr');
+  });
+});
+
+describe('12.C Account & Device Synchronization', () => {
+  beforeEach(() => {
+    localStorage.clear();
+    sessionStorage.clear();
+  });
+
+  function SyncTestConsumer({ accountPreferredLocale }) {
+    const { locale, setLocale, syncAccountLocale, resetAccountLocale } = useLocale();
+    return (
+      <div>
+        <span data-testid="sync-locale">{locale}</span>
+        <button data-testid="do-sync" onClick={() => syncAccountLocale(accountPreferredLocale)}>Sync</button>
+        <button data-testid="do-manual-tr" onClick={() => setLocale('tr')}>Manual TR</button>
+        <button data-testid="do-manual-en" onClick={() => setLocale('en')}>Manual EN</button>
+        <button data-testid="do-logout" onClick={() => resetAccountLocale()}>Logout</button>
+      </div>
+    );
+  }
+
+  it('account preferredLocale=en takes precedence over device/browser default', () => {
+    localStorage.setItem('tensignal_account_locale', 'en');
+    expect(resolveInitialLocale()).toBe('en');
+  });
+
+  it('account preferredLocale=tr takes precedence over English browser', () => {
+    localStorage.setItem('tensignal_account_locale', 'tr');
+    expect(resolveInitialLocale()).toBe('tr');
+  });
+
+  it('syncAccountLocale applies account preference and persists for cross-device consistency', () => {
+    const { unmount } = render(
+      <LocaleProvider>
+        <SyncTestConsumer accountPreferredLocale="en" />
+      </LocaleProvider>
+    );
+    fireEvent.click(screen.getByTestId('do-sync'));
+    expect(screen.getByTestId('sync-locale')).toHaveTextContent('en');
+    expect(localStorage.getItem('tensignal_account_locale')).toBe('en');
+    expect(localStorage.getItem('tensignal_locale')).toBe('en');
+    unmount();
+  });
+
+  it('logout cleans account locale and prevents preference leak across users', () => {
+    localStorage.setItem('tensignal_account_locale', 'tr');
+    localStorage.setItem('tensignal_locale_manual', 'true');
+    localStorage.setItem('tensignal_locale', 'tr');
+
+    render(
+      <LocaleProvider>
+        <SyncTestConsumer accountPreferredLocale="tr" />
+      </LocaleProvider>
+    );
+
+    fireEvent.click(screen.getByTestId('do-logout'));
+    expect(localStorage.getItem('tensignal_account_locale')).toBeNull();
+    expect(localStorage.getItem('tensignal_locale_manual')).toBeNull();
   });
 });

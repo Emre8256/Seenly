@@ -30,7 +30,7 @@ export const LockedMask = memo(function LockedMask({
 
   return (
     <div
-      className="seenly-dashboard-locked-mask p-6 sm:p-12 md:p-14 text-center w-full min-h-[320px] sm:min-h-[360px] flex flex-col items-center justify-center relative overflow-hidden box-border rounded-[24px] sm:rounded-[32px]"
+      className="tensignal-dashboard-locked-mask p-6 sm:p-12 md:p-14 text-center w-full min-h-[320px] sm:min-h-[360px] flex flex-col items-center justify-center relative overflow-hidden box-border rounded-[24px] sm:rounded-[32px]"
       style={{
         background: '#FDFBF7',
         border: '1px solid rgba(197, 160, 89, 0.25)',
@@ -107,7 +107,7 @@ export const CharacterBalanceBanner = memo(function CharacterBalanceBanner({ sig
 
   return (
     <div
-      className="seenly-dashboard-premium-card w-full p-4 sm:p-6 rounded-[24px] sm:rounded-[28px] box-border mb-1"
+      className="tensignal-dashboard-premium-card w-full p-4 sm:p-6 rounded-[24px] sm:rounded-[28px] box-border mb-1"
       style={{
         background: '#FDFBF4',
         border: '1px solid rgba(197, 160, 89, 0.22)',
@@ -221,7 +221,7 @@ export const SocialSignalsPanel = memo(function SocialSignalsPanel({ signals, ar
 
   return (
     <div
-      className="seenly-dashboard-premium-card seenly-dashboard-signal-card seenly-wide-signal-card p-4 sm:p-6 flex flex-col rounded-[24px] sm:rounded-[32px] flex-1 box-border"
+      className="tensignal-dashboard-premium-card tensignal-dashboard-signal-card tensignal-wide-signal-card p-4 sm:p-6 flex flex-col rounded-[24px] sm:rounded-[32px] flex-1 box-border"
       style={{
         background: '#FDFBF4',
         border: '1px solid rgba(197, 160, 89, 0.28)',

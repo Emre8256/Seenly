@@ -14,13 +14,15 @@ export default function AppShell({
   userName = 'Panelim'
 }) {
   const { t } = useLocale();
-  const isLoggedIn = Boolean(localStorage.getItem('seenly_owner_token'));
+  const isLoggedIn = Boolean(localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token'));
 
   const handleStartQuizClick = (e) => {
     e?.preventDefault?.();
+    sessionStorage.setItem('tensignal_currentIndex', '-2');
     sessionStorage.setItem('seenly_currentIndex', '-2');
+    sessionStorage.setItem('tensignal_isQuickLogin', 'false');
     sessionStorage.setItem('seenly_isQuickLogin', 'false');
-    window.dispatchEvent(new CustomEvent('seenly_trigger_start_quiz'));
+    window.dispatchEvent(new CustomEvent('tensignal_trigger_start_quiz'));
     if (window.location.hash !== '#/' && window.location.hash !== '') {
       window.location.hash = '#/';
     }
@@ -28,9 +30,11 @@ export default function AppShell({
 
   const handleLoginClick = (e) => {
     e?.preventDefault?.();
+    sessionStorage.setItem('tensignal_currentIndex', '-5');
     sessionStorage.setItem('seenly_currentIndex', '-5');
+    sessionStorage.setItem('tensignal_isQuickLogin', 'true');
     sessionStorage.setItem('seenly_isQuickLogin', 'true');
-    window.dispatchEvent(new CustomEvent('seenly_trigger_login'));
+    window.dispatchEvent(new CustomEvent('tensignal_trigger_login'));
     if (window.location.hash !== '#/' && window.location.hash !== '') {
       window.location.hash = '#/';
     }

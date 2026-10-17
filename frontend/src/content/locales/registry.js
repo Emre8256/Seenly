@@ -1,5 +1,5 @@
 /**
- * Central Locale Registry for Seenly
+ * Central Locale Registry for 10Signal
  * Adding a new locale only requires:
  * 1. Adding the locale files under `src/content/locales/<locale>/`
  * 2. Registering the locale in this file
@@ -7,6 +7,7 @@
  */
 
 import trCore from './tr/core';
+import enCore from './en/core';
 
 export const locales = {
   tr: {
@@ -22,12 +23,12 @@ export const locales = {
     name: 'English',
     nativeName: 'English',
     direction: 'ltr',
-    loadCore: () => import('./en/core.js').then((m) => m.default),
+    loadCore: () => Promise.resolve(enCore),
     loadExtended: () => import('./en/extended.js').then((m) => m.default),
   },
 };
 
-export const DEFAULT_LOCALE = 'tr';
+export const DEFAULT_LOCALE = 'en';
 export const CANONICAL_LOCALE = 'en';
 
 export function getSupportedLocales() {

@@ -1,8 +1,8 @@
 import React, { memo } from 'react';
-import { SeenlyCodes } from '../../components/seenly-codes';
+import { TenSignalCodes } from '../../components/tensignal-codes';
 
 const LandingArchetypesShowcase = memo(function LandingArchetypesShowcase() {
-  return <SeenlyCodes />;
+  return <TenSignalCodes />;
 });
 
 export default LandingArchetypesShowcase;

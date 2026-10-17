@@ -1,11 +1,11 @@
-        .seenly-settings-page-container {
+        .tensignal-settings-page-container {
           min-height: calc(100vh - 72px);
           background-color: var(--background);
           padding: 2rem 1.25rem 4.5rem;
         }
 
 /* Profile update confirmations */
-.seenly-settings-modal-overlay {
+.tensignal-settings-modal-overlay {
   position: fixed;
   inset: 0;
   z-index: 1000;
@@ -15,10 +15,10 @@
   background: rgba(11, 27, 44, 0.38);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  animation: seenly-settings-modal-fade 180ms ease-out;
+  animation: tensignal-settings-modal-fade 180ms ease-out;
 }
 
-.seenly-settings-modal {
+.tensignal-settings-modal {
   position: relative;
   width: min(100%, 420px);
   padding: 1.75rem;
@@ -27,10 +27,10 @@
   background: #fdfbf7;
   box-shadow: 0 24px 70px rgba(11, 27, 44, 0.2);
   text-align: center;
-  animation: seenly-settings-modal-rise 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  animation: tensignal-settings-modal-rise 220ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.seenly-settings-modal-close {
+.tensignal-settings-modal-close {
   position: absolute;
   top: 0.85rem;
   right: 0.85rem;
@@ -47,12 +47,12 @@
   transition: background 160ms ease, color 160ms ease;
 }
 
-.seenly-settings-modal-close:hover {
+.tensignal-settings-modal-close:hover {
   background: rgba(11, 27, 44, 0.06);
   color: #0b1b2c;
 }
 
-.seenly-settings-modal-icon {
+.tensignal-settings-modal-icon {
   display: grid;
   place-items: center;
   width: 48px;
@@ -61,19 +61,19 @@
   border-radius: 14px;
 }
 
-.seenly-settings-modal-icon.is-warning {
+.tensignal-settings-modal-icon.is-warning {
   border: 1px solid rgba(197, 160, 89, 0.24);
   background: rgba(197, 160, 89, 0.1);
   color: #8a682b;
 }
 
-.seenly-settings-modal-icon.is-email {
+.tensignal-settings-modal-icon.is-email {
   border: 1px solid rgba(33, 51, 84, 0.16);
   background: rgba(33, 51, 84, 0.07);
   color: #213354;
 }
 
-.seenly-settings-modal-title {
+.tensignal-settings-modal-title {
   margin: 0 2rem 0.6rem;
   color: #0b1b2c;
   font-family: var(--font-serif);
@@ -83,7 +83,7 @@
   letter-spacing: -0.02em;
 }
 
-.seenly-settings-modal-description {
+.tensignal-settings-modal-description {
   margin: 0 auto;
   color: #64748b;
   font-family: var(--font-sans);
@@ -91,14 +91,14 @@
   line-height: 1.6;
 }
 
-.seenly-settings-otp {
+.tensignal-settings-otp {
   display: flex;
   justify-content: center;
   gap: 0.65rem;
   margin: 1.35rem 0 0.8rem;
 }
 
-.seenly-settings-otp input {
+.tensignal-settings-otp input {
   width: 48px;
   height: 54px;
   padding: 0;
@@ -114,17 +114,17 @@
   transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
 }
 
-.seenly-settings-otp input:focus {
+.tensignal-settings-otp input:focus {
   border-color: #213354;
   background: #fff;
   box-shadow: 0 0 0 3px rgba(33, 51, 84, 0.09);
 }
 
-.seenly-settings-otp input.has-error {
+.tensignal-settings-otp input.has-error {
   border-color: rgba(190, 55, 55, 0.6);
 }
 
-.seenly-settings-dev-code {
+.tensignal-settings-dev-code {
   margin: 0;
   color: #7c6a4a;
   font-family: var(--font-mono);
@@ -132,7 +132,7 @@
   letter-spacing: 0.04em;
 }
 
-.seenly-settings-modal-error {
+.tensignal-settings-modal-error {
   margin: 0.85rem 0 0;
   padding: 0.65rem 0.8rem;
   border: 1px solid rgba(190, 55, 55, 0.18);
@@ -145,15 +145,15 @@
   line-height: 1.45;
 }
 
-.seenly-settings-modal-actions {
+.tensignal-settings-modal-actions {
   display: grid;
   grid-template-columns: 1fr 1.35fr;
   gap: 0.65rem;
   margin-top: 1.5rem;
 }
 
-.seenly-settings-modal-secondary,
-.seenly-settings-modal-primary {
+.tensignal-settings-modal-secondary,
+.tensignal-settings-modal-primary {
   min-height: 44px;
   padding: 0.7rem 1rem;
   border-radius: 12px;
@@ -164,62 +164,62 @@
   transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
 }
 
-.seenly-settings-modal-secondary {
+.tensignal-settings-modal-secondary {
   border: 1px solid rgba(11, 27, 44, 0.12);
   background: transparent;
   color: #334155;
 }
 
-.seenly-settings-modal-primary {
+.tensignal-settings-modal-primary {
   border: 1px solid #213354;
   background: #213354;
   color: #fdfbf7;
   box-shadow: 0 7px 18px rgba(33, 51, 84, 0.16);
 }
 
-.seenly-settings-modal-secondary:hover:not(:disabled),
-.seenly-settings-modal-primary:hover:not(:disabled) {
+.tensignal-settings-modal-secondary:hover:not(:disabled),
+.tensignal-settings-modal-primary:hover:not(:disabled) {
   transform: translateY(-1px);
 }
 
-.seenly-settings-modal-primary:disabled,
-.seenly-settings-modal-secondary:disabled,
-.seenly-settings-modal-close:disabled {
+.tensignal-settings-modal-primary:disabled,
+.tensignal-settings-modal-secondary:disabled,
+.tensignal-settings-modal-close:disabled {
   cursor: not-allowed;
   opacity: 0.55;
 }
 
-@keyframes seenly-settings-modal-fade {
+@keyframes tensignal-settings-modal-fade {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-@keyframes seenly-settings-modal-rise {
+@keyframes tensignal-settings-modal-rise {
   from { opacity: 0; transform: translateY(8px) scale(0.98); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 @media (max-width: 480px) {
-  .seenly-settings-modal {
+  .tensignal-settings-modal {
     padding: 1.5rem 1.15rem 1.15rem;
     border-radius: 18px;
   }
 
-  .seenly-settings-modal-actions {
+  .tensignal-settings-modal-actions {
     grid-template-columns: 1fr;
   }
 
-  .seenly-settings-otp {
+  .tensignal-settings-otp {
     gap: 0.45rem;
   }
 
-  .seenly-settings-otp input {
+  .tensignal-settings-otp input {
     width: 44px;
     height: 50px;
   }
 }
 
-        .seenly-settings-inner {
+        .tensignal-settings-inner {
           max-width: 740px;
           margin: 0 auto;
           display: flex;
@@ -227,12 +227,12 @@
           gap: 1.5rem;
         }
 
-        .seenly-settings-top-nav {
+        .tensignal-settings-top-nav {
           display: flex;
           align-items: center;
         }
 
-        .seenly-settings-back-btn {
+        .tensignal-settings-back-btn {
           display: inline-flex;
           align-items: center;
           gap: 0.5rem;
@@ -249,20 +249,20 @@
           backdrop-filter: blur(8px);
         }
 
-        .seenly-settings-back-btn:hover {
+        .tensignal-settings-back-btn:hover {
           background: #FDFBF4;
           border-color: rgba(197, 160, 89, 0.55);
           color: var(--color-deep-ink);
           transform: translateX(-2px);
         }
 
-        .seenly-settings-header {
+        .tensignal-settings-header {
           display: flex;
           flex-direction: column;
           gap: 0.25rem;
         }
 
-        .seenly-settings-title {
+        .tensignal-settings-title {
           margin: 0;
           font-family: var(--font-heading);
           font-size: clamp(1.65rem, 3.5vw, 2.15rem);
@@ -271,7 +271,7 @@
           letter-spacing: -0.025em;
         }
 
-        .seenly-settings-subtitle {
+        .tensignal-settings-subtitle {
           margin: 0;
           font-family: var(--font-sans);
           font-size: 0.88rem;
@@ -279,13 +279,13 @@
           line-height: 1.4;
         }
 
-        .seenly-settings-tabs-wrapper {
+        .tensignal-settings-tabs-wrapper {
           display: flex;
           justify-content: flex-start;
           margin-bottom: 0.25rem;
         }
 
-        .seenly-settings-tabs-capsule {
+        .tensignal-settings-tabs-capsule {
           display: inline-flex;
           align-items: center;
           gap: 0.35rem;
@@ -297,7 +297,7 @@
           backdrop-filter: blur(12px);
         }
 
-        .seenly-settings-tab-btn {
+        .tensignal-settings-tab-btn {
           display: inline-flex;
           align-items: center;
           gap: 0.45rem;
@@ -313,28 +313,28 @@
           transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .seenly-settings-tab-btn:hover {
+        .tensignal-settings-tab-btn:hover {
           color: var(--color-deep-ink);
           background: rgba(197, 160, 89, 0.1);
         }
 
-        .seenly-settings-tab-btn.active {
+        .tensignal-settings-tab-btn.active {
           background: var(--color-deep-ink);
           color: #ffffff;
           box-shadow: 0 4px 12px rgba(11, 27, 44, 0.12);
         }
 
-        .seenly-settings-fade-in {
-          animation: seenlyFadeIn 0.3s ease-out;
+        .tensignal-settings-fade-in {
+          animation: tensignalFadeIn 0.3s ease-out;
         }
 
-        @keyframes seenlyFadeIn {
+        @keyframes tensignalFadeIn {
           from { opacity: 0; transform: translateY(4px); }
           to { opacity: 1; transform: translateY(0); }
         }
 
         /* Unified Card Base - Warm Eye-Friendly Palette */
-        .seenly-profile-card {
+        .tensignal-profile-card {
           background: #FDFBF4;
           border: 1px solid rgba(197, 160, 89, 0.28);
           border-radius: 20px;
@@ -343,14 +343,14 @@
         }
 
         /* Avatar Picker Row */
-        .seenly-avatar-row {
+        .tensignal-avatar-row {
           display: flex;
           align-items: center;
           gap: 1.25rem;
           flex-wrap: wrap;
         }
 
-        .seenly-profile-avatar-preview-wrap {
+        .tensignal-profile-avatar-preview-wrap {
           position: relative;
           width: 80px;
           height: 80px;
@@ -358,11 +358,11 @@
           transition: transform 0.2s ease;
         }
 
-        .seenly-profile-avatar-preview-wrap:hover {
+        .tensignal-profile-avatar-preview-wrap:hover {
           transform: scale(1.03);
         }
 
-        .seenly-profile-avatar-preview-img {
+        .tensignal-profile-avatar-preview-img {
           width: 80px;
           height: 80px;
           border-radius: 50%;
@@ -372,7 +372,7 @@
           background-color: #FDFBF4;
         }
 
-        .seenly-profile-avatar-badge {
+        .tensignal-profile-avatar-badge {
           position: absolute;
           bottom: 0px;
           right: 0px;
@@ -388,7 +388,7 @@
           box-shadow: 0 2px 6px rgba(0,0,0,0.18);
         }
 
-        .seenly-avatar-details {
+        .tensignal-avatar-details {
           flex: 1;
           min-width: 180px;
           display: flex;
@@ -396,14 +396,14 @@
           gap: 0.25rem;
         }
 
-        .seenly-avatar-details-title-row {
+        .tensignal-avatar-details-title-row {
           display: flex;
           align-items: center;
           gap: 0.55rem;
           flex-wrap: wrap;
         }
 
-        .seenly-avatar-details-title {
+        .tensignal-avatar-details-title {
           margin: 0;
           font-family: var(--font-heading);
           font-size: 1.15rem;
@@ -411,7 +411,7 @@
           color: var(--color-deep-ink);
         }
 
-        .seenly-avatar-details-subtext {
+        .tensignal-avatar-details-subtext {
           margin: 0;
           font-family: var(--font-sans);
           font-size: 0.83rem;
@@ -419,7 +419,7 @@
           line-height: 1.4;
         }
 
-        .seenly-profile-status-badge {
+        .tensignal-profile-status-badge {
           display: inline-flex;
           align-items: center;
           gap: 0.25rem;
@@ -431,12 +431,12 @@
           font-weight: 700;
         }
 
-        .seenly-profile-status-badge.is-saving {
+        .tensignal-profile-status-badge.is-saving {
           background: rgba(11, 27, 44, 0.08);
           color: var(--color-deep-ink);
         }
 
-        .seenly-avatar-toggle-btn {
+        .tensignal-avatar-toggle-btn {
           display: inline-flex;
           align-items: center;
           gap: 0.4rem;
@@ -452,14 +452,14 @@
           transition: all 0.2s ease;
         }
 
-        .seenly-avatar-toggle-btn:hover,
-        .seenly-avatar-toggle-btn.active {
+        .tensignal-avatar-toggle-btn:hover,
+        .tensignal-avatar-toggle-btn.active {
           background: var(--color-deep-ink);
           color: #ffffff;
           border-color: var(--color-deep-ink);
         }
 
-        .seenly-profile-divider {
+        .tensignal-profile-divider {
           width: 100%;
           height: 1px;
           background: rgba(197, 160, 89, 0.18);
@@ -467,20 +467,20 @@
         }
 
         /* Avatar Drawer */
-        .seenly-avatar-drawer {
+        .tensignal-avatar-drawer {
           margin-top: 1.25rem;
           padding-top: 1.25rem;
           border-top: 1px solid rgba(197, 160, 89, 0.18);
         }
 
-        .seenly-avatar-filter-row {
+        .tensignal-avatar-filter-row {
           display: flex;
           align-items: center;
           gap: 0.4rem;
           margin-bottom: 0.75rem;
         }
 
-        .seenly-avatar-filter-btn {
+        .tensignal-avatar-filter-btn {
           padding: 0.35rem 0.8rem;
           border-radius: 9999px;
           border: 1px solid rgba(197, 160, 89, 0.24);
@@ -493,26 +493,26 @@
           transition: all 0.2s ease;
         }
 
-        .seenly-avatar-filter-btn:hover {
+        .tensignal-avatar-filter-btn:hover {
           color: var(--color-deep-ink);
           border-color: rgba(197, 160, 89, 0.45);
           background: rgba(197, 160, 89, 0.08);
         }
 
-        .seenly-avatar-filter-btn.active {
+        .tensignal-avatar-filter-btn.active {
           background: var(--color-deep-ink);
           color: #ffffff;
           border-color: var(--color-deep-ink);
         }
 
-        .seenly-avatar-grid {
+        .tensignal-avatar-grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
           gap: 0.9rem;
           padding-top: 0.15rem;
         }
 
-        .seenly-avatar-item-btn {
+        .tensignal-avatar-item-btn {
           padding: 0;
           border: none;
           background: transparent;
@@ -524,15 +524,15 @@
           transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .seenly-avatar-item-btn:hover {
+        .tensignal-avatar-item-btn:hover {
           transform: translateY(-2px) scale(1.05);
         }
 
-        .seenly-avatar-item-btn.is-selected {
+        .tensignal-avatar-item-btn.is-selected {
           transform: scale(1.04);
         }
 
-        .seenly-avatar-circle-frame {
+        .tensignal-avatar-circle-frame {
           position: relative;
           width: 82px;
           height: 82px;
@@ -544,18 +544,18 @@
           background: #FDFBF4;
         }
 
-        .seenly-avatar-item-btn:hover .seenly-avatar-circle-frame {
+        .tensignal-avatar-item-btn:hover .tensignal-avatar-circle-frame {
           border-color: rgba(197, 160, 89, 0.6);
           box-shadow: 0 4px 16px rgba(197, 160, 89, 0.2);
         }
 
-        .seenly-avatar-item-btn.is-selected .seenly-avatar-circle-frame {
+        .tensignal-avatar-item-btn.is-selected .tensignal-avatar-circle-frame {
           border-color: #8C6D37;
           border-width: 3px;
           box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.2), 0 6px 20px rgba(80, 60, 40, 0.15);
         }
 
-        .seenly-avatar-thumb {
+        .tensignal-avatar-thumb {
           width: 100%;
           height: 100%;
           border-radius: 50%;
@@ -563,7 +563,7 @@
           display: block;
         }
 
-        .seenly-avatar-check-indicator {
+        .tensignal-avatar-check-indicator {
           position: absolute;
           bottom: 0px;
           right: 0px;
@@ -580,19 +580,19 @@
         }
 
         /* 2. Unified Form Card */
-        .seenly-form-card {
+        .tensignal-form-card {
           display: flex;
           flex-direction: column;
           gap: 1.25rem;
         }
 
-        .seenly-card-head {
+        .tensignal-card-head {
           display: flex;
           align-items: flex-start;
           gap: 0.75rem;
         }
 
-        .seenly-card-head-icon {
+        .tensignal-card-head-icon {
           width: 36px;
           height: 36px;
           flex: 0 0 36px;
@@ -604,7 +604,7 @@
           border: 1px solid rgba(197, 160, 89, 0.22);
         }
 
-        .seenly-card-head-title {
+        .tensignal-card-head-title {
           margin: 0;
           font-family: var(--font-heading);
           font-size: 1.05rem;
@@ -612,52 +612,52 @@
           color: var(--color-deep-ink);
         }
 
-        .seenly-card-head-desc {
+        .tensignal-card-head-desc {
           margin: 0.15rem 0 0;
           font-family: var(--font-sans);
           font-size: 0.8rem;
           color: var(--color-text-muted);
         }
 
-        .seenly-profile-item-form {
+        .tensignal-profile-item-form {
           display: flex;
           flex-direction: column;
           gap: 0.5rem;
         }
 
-        .seenly-form-field {
+        .tensignal-form-field {
           display: flex;
           flex-direction: column;
           gap: 0.4rem;
         }
 
-        .seenly-form-label-row {
+        .tensignal-form-label-row {
           display: flex;
           align-items: center;
           justify-content: space-between;
         }
 
-        .seenly-form-label {
+        .tensignal-form-label {
           font-family: var(--font-sans);
           font-size: 0.82rem;
           font-weight: 650;
           color: var(--color-deep-ink);
         }
 
-        .seenly-field-counter {
+        .tensignal-field-counter {
           font-family: var(--font-sans);
           font-size: 0.75rem;
           color: var(--color-text-muted);
           font-weight: 600;
         }
 
-        .seenly-inline-input-group {
+        .tensignal-inline-input-group {
           display: flex;
           align-items: center;
           gap: 0.65rem;
         }
 
-        .seenly-form-input {
+        .tensignal-form-input {
           flex: 1;
           width: 100%;
           box-sizing: border-box;
@@ -672,13 +672,13 @@
           transition: all 0.2s ease;
         }
 
-        .seenly-form-input:focus {
+        .tensignal-form-input:focus {
           border-color: #c5a059;
           box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.15);
           background: #ffffff;
         }
 
-        .seenly-inline-save-btn {
+        .tensignal-inline-save-btn {
           display: inline-flex;
           align-items: center;
           justify-content: center;
@@ -697,23 +697,23 @@
           flex-shrink: 0;
         }
 
-        .seenly-inline-save-btn:hover:not(:disabled) {
+        .tensignal-inline-save-btn:hover:not(:disabled) {
           background: #14283f;
           box-shadow: 0 4px 12px rgba(11, 27, 44, 0.15);
           transform: translateY(-1px);
         }
 
-        .seenly-inline-save-btn:disabled {
+        .tensignal-inline-save-btn:disabled {
           opacity: 0.45;
           cursor: not-allowed;
         }
 
-        .seenly-inline-save-btn.is-saved {
+        .tensignal-inline-save-btn.is-saved {
           background: #059669;
           color: #ffffff;
         }
 
-        .seenly-profile-feedback {
+        .tensignal-profile-feedback {
           padding: 0.55rem 0.85rem;
           border-radius: 10px;
           font-family: var(--font-sans);
@@ -721,27 +721,27 @@
           font-weight: 600;
         }
 
-        .seenly-profile-feedback.is-error {
+        .tensignal-profile-feedback.is-error {
           background: rgba(239, 68, 68, 0.08);
           color: #dc2626;
           border: 1px solid rgba(239, 68, 68, 0.2);
         }
 
-        .seenly-profile-feedback.is-success {
+        .tensignal-profile-feedback.is-success {
           background: rgba(16, 185, 129, 0.08);
           color: #059669;
           border: 1px solid rgba(16, 185, 129, 0.2);
         }
 
         /* 3. Professional Account Danger Card */
-        .seenly-account-danger-card {
+        .tensignal-account-danger-card {
           border: 1px solid rgba(197, 160, 89, 0.28);
           background: #FDFBF4;
           border-radius: 20px;
           box-shadow: 0 4px 18px rgba(80, 60, 40, 0.03);
         }
 
-        .seenly-danger-content {
+        .tensignal-danger-content {
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -749,12 +749,12 @@
           flex-wrap: wrap;
         }
 
-        .seenly-danger-info {
+        .tensignal-danger-info {
           flex: 1;
           min-width: 240px;
         }
 
-        .seenly-danger-title {
+        .tensignal-danger-title {
           margin: 0;
           font-family: var(--font-heading);
           font-size: 0.95rem;
@@ -762,7 +762,7 @@
           color: var(--color-deep-ink);
         }
 
-        .seenly-danger-subtext {
+        .tensignal-danger-subtext {
           margin: 0.15rem 0 0;
           font-family: var(--font-sans);
           font-size: 0.78rem;
@@ -770,7 +770,7 @@
           line-height: 1.35;
         }
 
-        .seenly-danger-outline-btn {
+        .tensignal-danger-outline-btn {
           display: inline-flex;
           align-items: center;
           gap: 0.4rem;
@@ -787,7 +787,7 @@
           white-space: nowrap;
         }
 
-        .seenly-danger-outline-btn:hover {
+        .tensignal-danger-outline-btn:hover {
           background: #dc2626;
           color: #ffffff;
           border-color: #dc2626;
@@ -795,7 +795,7 @@
         }
 
         /* Notifications & Switch Styles */
-        .seenly-notif-master-row {
+        .tensignal-notif-master-row {
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -803,7 +803,7 @@
           flex-wrap: wrap;
         }
 
-        .seenly-notif-master-info {
+        .tensignal-notif-master-info {
           display: flex;
           align-items: flex-start;
           gap: 0.9rem;
@@ -811,25 +811,25 @@
           min-width: 240px;
         }
 
-        .seenly-notif-master-icon {
+        .tensignal-notif-master-icon {
           width: 42px;
           height: 42px;
           flex: 0 0 42px;
         }
 
-        .seenly-notif-master-text {
+        .tensignal-notif-master-text {
           display: flex;
           flex-direction: column;
           gap: 0.25rem;
         }
 
-        .seenly-notif-switch-wrap {
+        .tensignal-notif-switch-wrap {
           display: flex;
           align-items: center;
           justify-content: flex-end;
         }
 
-        .seenly-toggle-switch {
+        .tensignal-toggle-switch {
           position: relative;
           width: 48px;
           height: 28px;
@@ -845,13 +845,13 @@
           align-items: center;
         }
 
-        .seenly-toggle-switch.is-active {
+        .tensignal-toggle-switch.is-active {
           background: #1A3E72;
           border-color: #1A3E72;
           box-shadow: 0 2px 10px rgba(26, 62, 114, 0.25);
         }
 
-        .seenly-toggle-switch:disabled {
+        .tensignal-toggle-switch:disabled {
           opacity: 0.35;
           cursor: not-allowed;
           background: #E5E0D8;
@@ -859,7 +859,7 @@
           box-shadow: none;
         }
 
-        .seenly-toggle-thumb {
+        .tensignal-toggle-thumb {
           position: absolute;
           top: 3px;
           left: 3px;
@@ -871,17 +871,17 @@
           transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .seenly-toggle-switch.is-active .seenly-toggle-thumb {
+        .tensignal-toggle-switch.is-active .tensignal-toggle-thumb {
           transform: translateX(20px);
         }
 
-        .seenly-notif-embedded-list {
+        .tensignal-notif-embedded-list {
           display: flex;
           flex-direction: column;
           gap: 0;
         }
 
-        .seenly-notif-row-embedded {
+        .tensignal-notif-row-embedded {
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -890,12 +890,12 @@
           transition: all 0.2s ease;
         }
 
-        .seenly-notif-row-embedded.is-disabled {
+        .tensignal-notif-row-embedded.is-disabled {
           opacity: 0.4;
           pointer-events: none;
         }
 
-        .seenly-notif-row-left {
+        .tensignal-notif-row-left {
           display: flex;
           align-items: flex-start;
           gap: 0.95rem;
@@ -903,14 +903,14 @@
           min-width: 200px;
         }
 
-        .seenly-notif-master-icon {
+        .tensignal-notif-master-icon {
           width: 40px;
           height: 40px;
           flex: 0 0 40px;
           margin-top: 2px;
         }
 
-        .seenly-notif-sub-icon {
+        .tensignal-notif-sub-icon {
           width: 36px;
           height: 36px;
           border-radius: 10px;
@@ -923,13 +923,13 @@
           margin-top: 2px;
         }
 
-        .seenly-notif-subcard-copy {
+        .tensignal-notif-subcard-copy {
           display: flex;
           flex-direction: column;
           gap: 0.2rem;
         }
 
-        .seenly-notif-master-title {
+        .tensignal-notif-master-title {
           margin: 0;
           font-family: var(--font-heading);
           font-size: 1.1rem;
@@ -937,7 +937,7 @@
           color: var(--color-deep-ink);
         }
 
-        .seenly-notif-row-title {
+        .tensignal-notif-row-title {
           margin: 0;
           font-family: var(--font-heading);
           font-size: 0.98rem;
@@ -945,7 +945,7 @@
           color: var(--color-deep-ink);
         }
 
-        .seenly-notif-row-desc {
+        .tensignal-notif-row-desc {
           margin: 0;
           font-family: var(--font-sans);
           font-size: 0.82rem;
@@ -953,174 +953,230 @@
           line-height: 1.4;
         }
 
-        /* Quota Tracker Card (Celestial Luxury Theme) */
-        .seenly-quota-tracker-card {
-          position: relative;
-          background: radial-gradient(ellipse at 88% 0%, rgba(228, 196, 136, 0.22) 0%, rgba(253, 251, 246, 0) 55%), radial-gradient(ellipse at 12% 100%, rgba(26, 62, 114, 0.05) 0%, rgba(253, 251, 246, 0) 50%), linear-gradient(180deg, #FCF9F3 0%, #F8F3E7 100%);
-          border: 1px solid rgba(197, 160, 89, 0.35);
-          border-radius: 24px;
-          padding: 22px 26px;
+        /* Quota Tracker Card - Modern, Minimal & Compact SaaS Component */
+        .tensignal-quota-card {
+          margin-bottom: 1.15rem;
+          padding: 1.25rem 1.45rem;
+          border-radius: 18px;
+          background: #FAF7F2;
+          border: 1px solid rgba(197, 160, 89, 0.22);
           box-shadow: none;
-          margin-bottom: 0.85rem;
+          position: relative;
         }
 
-        .seenly-quota-head-icon {
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          background: #FAF5EA;
-          border: 1px solid rgba(197, 160, 89, 0.4);
-          color: #8C6D37;
+        .tensignal-quota-header {
           display: flex;
           align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-          box-shadow: 0 2px 8px rgba(197, 160, 89, 0.12);
+          justify-content: space-between;
+          gap: 1.25rem;
         }
 
-        .seenly-quota-title {
-          font-family: 'Playfair Display', Georgia, serif;
-          font-size: 1.25rem;
+        .tensignal-quota-header-info {
+          display: flex;
+          align-items: center;
+          gap: 0.85rem;
+          flex: 1;
+          min-width: 0;
+        }
+
+        .tensignal-quota-head-icon {
+          width: 38px;
+          height: 38px;
+          flex: 0 0 38px;
+          display: grid;
+          place-items: center;
+          border-radius: 10px;
+          background: rgba(197, 160, 89, 0.13);
+          color: #8C6D37;
+          border: 1px solid rgba(197, 160, 89, 0.2);
+        }
+
+        .tensignal-quota-header-text {
+          display: flex;
+          flex-direction: column;
+          gap: 0.15rem;
+          min-width: 0;
+        }
+
+        .tensignal-quota-header-text .tensignal-card-head-title {
+          font-size: 1.05rem;
           font-weight: 700;
           color: #1A3E72;
           margin: 0;
-          line-height: 1.2;
+          line-height: 1.3;
         }
 
-        .seenly-quota-subtext {
-          font-family: var(--font-sans);
-          font-size: 12.5px;
-          color: #554030;
-          margin: 4px 0 0;
-          line-height: 1.4;
+        .tensignal-quota-header-text .tensignal-card-head-desc {
+          font-size: 0.84rem;
+          color: #78716C;
+          margin: 0;
+          line-height: 1.35;
         }
 
-        .seenly-quota-metric-badge {
+        .tensignal-quota-metric-wrap,
+        .tensignal-quota-metric-pill {
           display: flex;
           flex-direction: column;
           align-items: flex-end;
+          justify-content: center;
           flex-shrink: 0;
+          text-align: right;
+          background: none;
+          border: none;
+          padding: 0;
         }
 
-        .seenly-quota-metric-val {
+        .tensignal-quota-metric-numbers {
           display: flex;
           align-items: baseline;
           gap: 3px;
-          font-family: var(--font-sans), 'DM Sans', sans-serif;
+          font-family: var(--font-sans);
           line-height: 1;
         }
 
-        .seenly-quota-metric-current {
-          font-size: 1.55rem;
-          font-weight: 850;
+        .tensignal-quota-metric-current {
+          font-size: 1.45rem;
+          font-weight: 800;
           color: #1A3E72;
           letter-spacing: -0.02em;
         }
 
-        .seenly-quota-metric-sep {
+        .tensignal-quota-metric-sep {
           font-size: 1.15rem;
-          font-weight: 500;
-          color: #C5A059;
+          font-weight: 400;
+          color: #94A3B8;
           margin: 0 1px;
         }
 
-        .seenly-quota-metric-max {
-          font-size: 1.25rem;
-          font-weight: 700;
-          color: #7A5C28;
+        .tensignal-quota-metric-max {
+          font-size: 1.15rem;
+          font-weight: 500;
+          color: #64748B;
         }
 
-        .seenly-quota-metric-label {
+        .tensignal-quota-metric-label {
           font-family: var(--font-sans);
-          font-size: 10.5px;
-          font-weight: 750;
+          font-size: 0.72rem;
+          font-weight: 600;
           color: #8C6D37;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          margin-top: 4px;
+          margin-top: 3px;
+          letter-spacing: 0.01em;
         }
 
-        .seenly-quota-track-wrap {
-          margin: 16px 0 0;
+        .tensignal-quota-progress-section {
+          display: flex;
+          flex-direction: column;
+          gap: 0.65rem;
+          margin-top: 1rem;
         }
 
-        .seenly-quota-track-bar {
+        .tensignal-quota-bar-track {
           width: 100%;
-          height: 9px;
+          height: 7px;
           border-radius: 9999px;
           background: rgba(197, 160, 89, 0.18);
-          box-shadow: inset 0 1px 3px rgba(80, 60, 40, 0.1);
           overflow: hidden;
           position: relative;
         }
 
-        .seenly-quota-track-fill {
+        .tensignal-quota-bar-fill {
           height: 100%;
           border-radius: 9999px;
-          transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .seenly-quota-track-fill.is-normal {
-          background: linear-gradient(90deg, #C5A059 0%, #1A3E72 100%);
-          box-shadow: 0 1px 4px rgba(26, 62, 114, 0.3);
+        .tensignal-quota-bar-fill.is-normal {
+          background: #1A3E72;
         }
 
-        .seenly-quota-track-fill.is-warning {
-          background: linear-gradient(90deg, #C5A059 0%, #D97706 100%);
-          box-shadow: 0 1px 4px rgba(217, 119, 6, 0.35);
+        .tensignal-quota-bar-fill.is-warning {
+          background: #D97706;
         }
 
-        .seenly-quota-track-fill.is-full {
-          background: linear-gradient(90deg, #D97706 0%, #DC2626 100%);
-          box-shadow: 0 1px 6px rgba(220, 38, 38, 0.4);
+        .tensignal-quota-bar-fill.is-full {
+          background: #DC2626;
         }
 
-        .seenly-quota-status-banner {
+        .tensignal-quota-bar-footer {
           display: flex;
           align-items: center;
-          gap: 8px;
-          padding: 8px 14px;
-          margin-top: 12px;
-          border-radius: 12px;
+          justify-content: space-between;
+          gap: 0.75rem;
           font-family: var(--font-sans);
-          font-size: 12px;
-          line-height: 1.35;
+          font-size: 0.8rem;
+          line-height: 1.4;
+        }
+
+        .tensignal-quota-footer-used {
+          color: #64748B;
+          font-weight: 500;
+          font-size: 0.8rem;
+        }
+
+        .tensignal-quota-footer-remaining {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.38rem;
+          color: #475569;
+          font-weight: 600;
+          font-size: 0.8rem;
+          white-space: nowrap;
+        }
+
+        .tensignal-quota-check-icon {
+          color: #8C6D37;
+          flex-shrink: 0;
+        }
+
+        .tensignal-quota-alert-banner {
+          display: flex;
+          align-items: flex-start;
+          gap: 0.65rem;
+          padding: 0.6rem 0.85rem;
+          border-radius: 10px;
+          margin-top: 0.75rem;
+          font-family: var(--font-sans);
+          font-size: 0.8rem;
+          line-height: 1.45;
           transition: all 0.2s ease;
         }
 
-        .seenly-quota-status-banner.status-warning {
-          background: rgba(254, 243, 199, 0.85);
-          border: 1px solid rgba(245, 158, 11, 0.4);
+        .tensignal-quota-alert-banner.status-warning {
+          background: rgba(254, 243, 199, 0.7);
+          border: 1px solid rgba(245, 158, 11, 0.35);
           color: #92400E;
         }
 
-        .seenly-quota-status-banner.status-warning .seenly-quota-status-icon {
+        .tensignal-quota-alert-banner.status-warning .tensignal-quota-alert-icon {
           color: #D97706;
         }
 
-        .seenly-quota-status-banner.status-full {
-          background: rgba(254, 226, 226, 0.85);
-          border: 1px solid rgba(239, 68, 68, 0.4);
+        .tensignal-quota-alert-banner.status-full {
+          background: rgba(254, 226, 226, 0.7);
+          border: 1px solid rgba(239, 68, 68, 0.35);
           color: #991B1B;
         }
 
-        .seenly-quota-status-banner.status-full .seenly-quota-status-icon {
+        .tensignal-quota-alert-banner.status-full .tensignal-quota-alert-icon {
           color: #DC2626;
         }
 
-        .seenly-quota-status-icon {
+        .tensignal-quota-alert-icon {
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
+          margin-top: 2px;
         }
 
-        .seenly-quota-status-text {
-          font-weight: 550;
+        .tensignal-quota-alert-msg {
+          margin: 0;
+          font-weight: 500;
         }
 
-        /* Seenly Plus Active Card (When User is Premium) */
-        .seenly-plus-active-card {
+
+        /* 10Signal Plus Active Card (When User is Premium) */
+        .tensignal-plus-active-card {
           position: relative;
           background: radial-gradient(ellipse at 92% 0%, rgba(228, 196, 136, 0.25) 0%, rgba(253, 251, 246, 0) 55%), radial-gradient(ellipse at 8% 100%, rgba(26, 62, 114, 0.05) 0%, rgba(253, 251, 246, 0) 50%), linear-gradient(180deg, #FCF9F3 0%, #F8F3E7 100%);
           border: 1px solid rgba(197, 160, 89, 0.38);
@@ -1130,7 +1186,7 @@
           margin-top: 0.25rem;
         }
 
-        .seenly-plus-status-badge {
+        .tensignal-plus-status-badge {
           display: inline-flex;
           align-items: center;
           gap: 6px;
@@ -1145,7 +1201,7 @@
           letter-spacing: 0.04em;
         }
 
-        .seenly-plus-status-dot {
+        .tensignal-plus-status-dot {
           width: 7px;
           height: 7px;
           border-radius: 50%;
@@ -1153,7 +1209,7 @@
           box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
         }
 
-        .seenly-plus-active-title {
+        .tensignal-plus-active-title {
           font-family: 'Playfair Display', Georgia, serif;
           font-size: 1.65rem;
           font-weight: 700;
@@ -1162,7 +1218,7 @@
           line-height: 1.25;
         }
 
-        .seenly-plus-active-desc {
+        .tensignal-plus-active-desc {
           font-family: var(--font-sans);
           font-size: 13px;
           color: #554030;
@@ -1170,7 +1226,7 @@
           margin: 4px 0 0;
         }
 
-        .seenly-plus-perks-toggle-btn {
+        .tensignal-plus-perks-toggle-btn {
           display: inline-flex;
           align-items: center;
           gap: 6px;
@@ -1189,24 +1245,24 @@
           transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .seenly-plus-perks-toggle-btn:hover {
+        .tensignal-plus-perks-toggle-btn:hover {
           background: #F4EEDF;
           border-color: rgba(197, 160, 89, 0.65);
           transform: translateY(-1px);
           box-shadow: 0 4px 12px rgba(197, 160, 89, 0.2);
         }
 
-        .seenly-plus-perks-chevron {
+        .tensignal-plus-perks-chevron {
           transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
           color: #8C6D37;
         }
 
-        .seenly-plus-perks-chevron.is-open {
+        .tensignal-plus-perks-chevron.is-open {
           transform: rotate(180deg);
         }
 
-        /* Seenly Plus Exact Showcase Card (Matching User Mockup) */
-        .seenly-plus-showcase-card {
+        /* 10Signal Plus Exact Showcase Card (Matching User Mockup) */
+        .tensignal-plus-showcase-card {
           position: relative;
           background: radial-gradient(ellipse at 92% 0%, rgba(228, 196, 136, 0.22) 0%, rgba(253, 251, 246, 0) 55%), radial-gradient(ellipse at 8% 100%, rgba(26, 62, 114, 0.05) 0%, rgba(253, 251, 246, 0) 50%), linear-gradient(180deg, #FCF9F3 0%, #F8F3E7 100%);
           border: 1px solid rgba(197, 160, 89, 0.35);
@@ -1216,7 +1272,7 @@
           margin-top: 0.5rem;
         }
 
-        .seenly-plus-badge-left {
+        .tensignal-plus-badge-left {
           display: inline-flex;
           align-items: center;
           gap: 6px;
@@ -1231,7 +1287,7 @@
           text-transform: uppercase;
         }
 
-        .seenly-plus-badge-right {
+        .tensignal-plus-badge-right {
           display: inline-flex;
           align-items: center;
           gap: 6px;
@@ -1243,16 +1299,26 @@
           text-transform: uppercase;
         }
 
-        .seenly-plus-title {
+        .tensignal-plus-title {
           font-family: 'Playfair Display', Georgia, serif;
           font-size: 2.5rem;
           font-weight: 650;
           color: #1A3E72;
           margin: 0;
           line-height: 1.15;
+          letter-spacing: -0.01em;
         }
 
-        .seenly-plus-subtext {
+        .tensignal-plus-title-num {
+          display: inline-block;
+          font-size: 1.22em;
+          line-height: 1;
+          vertical-align: baseline;
+          margin-right: 0.5px;
+          font-weight: 650;
+        }
+
+        .tensignal-plus-subtext {
           font-family: var(--font-sans);
           font-size: 13.5px;
           color: #554030;
@@ -1262,7 +1328,7 @@
         }
 
         /* Hanging Price Curtain Banner (Top-Right Suspended) */
-        .seenly-plus-price-curtain {
+        .tensignal-plus-price-curtain {
           position: absolute;
           top: 0;
           right: 28px;
@@ -1281,7 +1347,7 @@
           box-shadow: 0 8px 24px rgba(80, 60, 40, 0.09);
         }
 
-        .seenly-plus-price-curtain-pin {
+        .tensignal-plus-price-curtain-pin {
           position: absolute;
           top: 0;
           left: 50%;
@@ -1294,7 +1360,7 @@
           box-shadow: 0 1px 3px rgba(184, 144, 71, 0.4);
         }
 
-        .seenly-plus-price-val {
+        .tensignal-plus-price-val {
           font-family: var(--font-sans), 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
           font-size: 2.15rem;
           font-weight: 750;
@@ -1307,7 +1373,7 @@
           letter-spacing: -0.02em;
         }
 
-        .seenly-plus-price-symbol {
+        .tensignal-plus-price-symbol {
           font-family: var(--font-sans), 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
           font-size: 1.75rem;
           font-weight: 700;
@@ -1317,7 +1383,7 @@
           line-height: 1;
         }
 
-        .seenly-plus-price-label {
+        .tensignal-plus-price-label {
           font-family: var(--font-sans);
           font-size: 9.5px;
           font-weight: 750;
@@ -1328,13 +1394,13 @@
           display: block;
         }
 
-        .seenly-plus-feature-item {
+        .tensignal-plus-feature-item {
           display: flex;
           align-items: flex-start;
           gap: 12px;
         }
 
-        .seenly-plus-feature-icon-badge {
+        .tensignal-plus-feature-icon-badge {
           width: 38px;
           height: 38px;
           border-radius: 50%;
@@ -1348,7 +1414,7 @@
           margin-top: 1px;
         }
 
-        .seenly-plus-feature-title {
+        .tensignal-plus-feature-title {
           font-family: 'Playfair Display', Georgia, serif;
           font-size: 14.5px;
           font-weight: 650;
@@ -1357,7 +1423,7 @@
           line-height: 1.25;
         }
 
-        .seenly-plus-feature-desc {
+        .tensignal-plus-feature-desc {
           font-family: var(--font-sans);
           font-size: 12px;
           color: #64748B;
@@ -1365,7 +1431,7 @@
           line-height: 1.35;
         }
 
-        .seenly-plus-cta-btn {
+        .tensignal-plus-cta-btn {
           display: inline-flex;
           align-items: center;
           justify-content: center;
@@ -1384,29 +1450,29 @@
           box-shadow: 0 4px 14px rgba(16, 37, 68, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.22);
         }
 
-        .seenly-plus-cta-arrow {
+        .tensignal-plus-cta-arrow {
           color: #FAF6EE;
           transition: transform 0.2s ease;
         }
 
-        .seenly-plus-cta-btn:hover {
+        .tensignal-plus-cta-btn:hover {
           background: linear-gradient(180deg, #24497C 0%, #152E52 100%);
           box-shadow: 0 6px 20px rgba(16, 37, 68, 0.38), inset 0 1px 1px rgba(255, 255, 255, 0.3);
           transform: translateY(-1.5px);
           color: #FFFFFF;
         }
 
-        .seenly-plus-cta-btn:hover .seenly-plus-cta-arrow {
+        .tensignal-plus-cta-btn:hover .tensignal-plus-cta-arrow {
           transform: translateX(3px);
           color: #FFFFFF;
         }
 
-        .seenly-plus-cta-btn:active {
+        .tensignal-plus-cta-btn:active {
           transform: translateY(0.5px);
           box-shadow: 0 2px 8px rgba(16, 37, 68, 0.25);
         }
 
-        .seenly-plus-cta-btn:disabled {
+        .tensignal-plus-cta-btn:disabled {
           opacity: 0.5;
           cursor: not-allowed;
           transform: none;
@@ -1414,7 +1480,7 @@
         }
 
         /* Refined Capacity Pack Styles (Exact Mockup Match with Celestial Motifs) */
-        .seenly-packs-painterly-container {
+        .tensignal-packs-painterly-container {
           position: relative;
           background: radial-gradient(ellipse at 12% 0%, rgba(228, 196, 136, 0.18) 0%, rgba(253, 251, 246, 0) 50%), radial-gradient(ellipse at 88% 100%, rgba(212, 163, 76, 0.15) 0%, rgba(253, 251, 246, 0) 55%), linear-gradient(180deg, #FBF8F0 0%, #F6F0E2 100%);
           border: 1px solid rgba(197, 160, 89, 0.32);
@@ -1424,7 +1490,7 @@
           margin-top: 0.75rem;
         }
 
-        .seenly-pack-card {
+        .tensignal-pack-card {
           position: relative;
           border-radius: 22px;
           padding: 22px 14px 18px;
@@ -1436,33 +1502,33 @@
           overflow: hidden;
         }
 
-        .seenly-pack-tier1 {
+        .tensignal-pack-tier1 {
           background: radial-gradient(circle at 85% 0%, rgba(228, 196, 136, 0.24) 0%, transparent 60%), linear-gradient(180deg, #FDFCFA 0%, #F8F3E8 100%);
           border: 1px solid rgba(197, 160, 89, 0.36);
           box-shadow: none;
         }
 
-        .seenly-pack-tier2 {
+        .tensignal-pack-tier2 {
           background: radial-gradient(circle at 50% 0%, rgba(218, 175, 95, 0.28) 0%, transparent 65%), linear-gradient(180deg, #FDFBFA 0%, #F6EEDD 100%);
           border: 1px solid rgba(197, 160, 89, 0.44);
           box-shadow: none;
         }
 
-        .seenly-pack-tier3 {
+        .tensignal-pack-tier3 {
           background: radial-gradient(circle at 15% 0%, rgba(212, 163, 76, 0.3) 0%, transparent 65%), linear-gradient(180deg, #FDFCFA 0%, #F5EADB 100%);
           border: 1px solid rgba(197, 160, 89, 0.48);
           box-shadow: none;
         }
 
-        .seenly-pack-tier1:hover,
-        .seenly-pack-tier2:hover,
-        .seenly-pack-tier3:hover {
+        .tensignal-pack-tier1:hover,
+        .tensignal-pack-tier2:hover,
+        .tensignal-pack-tier3:hover {
           transform: translateY(-2.5px);
           border-color: rgba(197, 160, 89, 0.65);
           box-shadow: none;
         }
 
-        .seenly-pack-quota-pill {
+        .tensignal-pack-quota-pill {
           display: inline-flex;
           align-items: baseline;
           justify-content: center;
@@ -1475,7 +1541,7 @@
           box-shadow: 0 1px 4px rgba(197, 160, 89, 0.1);
         }
 
-        .seenly-pack-quota-num {
+        .tensignal-pack-quota-num {
           font-family: var(--font-sans), 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
           font-size: 13.5px;
           font-weight: 800;
@@ -1483,7 +1549,7 @@
           line-height: 1;
         }
 
-        .seenly-pack-quota-txt {
+        .tensignal-pack-quota-txt {
           font-family: var(--font-sans), 'DM Sans', sans-serif;
           font-size: 11px;
           font-weight: 600;
@@ -1491,7 +1557,7 @@
           line-height: 1;
         }
 
-        .seenly-pack-title {
+        .tensignal-pack-title {
           font-family: var(--font-sans);
           font-size: 11px;
           font-weight: 700;
@@ -1502,7 +1568,7 @@
           opacity: 0.85;
         }
 
-        .seenly-pack-price {
+        .tensignal-pack-price {
           font-family: var(--font-sans), 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
           font-size: 1.85rem;
           font-weight: 750;
@@ -1515,7 +1581,7 @@
           letter-spacing: -0.02em;
         }
 
-        .seenly-pack-price-symbol {
+        .tensignal-pack-price-symbol {
           font-family: var(--font-sans), 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
           font-size: 1.45rem;
           font-weight: 700;
@@ -1526,7 +1592,7 @@
         }
 
         /* Authentic Tactile Midnight Button matching Mockup */
-        .seenly-pack-btn {
+        .tensignal-pack-btn {
           width: 100%;
           padding: 10px 18px;
           border-radius: 9999px;
@@ -1546,29 +1612,29 @@
           box-shadow: 0 4px 14px rgba(16, 37, 68, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.22);
         }
 
-        .seenly-pack-btn-arrow {
+        .tensignal-pack-btn-arrow {
           color: #FAF6EE;
           transition: transform 0.2s ease;
         }
 
-        .seenly-pack-btn:hover {
+        .tensignal-pack-btn:hover {
           background: linear-gradient(180deg, #24497C 0%, #152E52 100%);
           box-shadow: 0 6px 20px rgba(16, 37, 68, 0.38), inset 0 1px 1px rgba(255, 255, 255, 0.3);
           transform: translateY(-1.5px);
           color: #FFFFFF;
         }
 
-        .seenly-pack-btn:hover .seenly-pack-btn-arrow {
+        .tensignal-pack-btn:hover .tensignal-pack-btn-arrow {
           transform: translateX(3px);
           color: #FFFFFF;
         }
 
-        .seenly-pack-btn:active {
+        .tensignal-pack-btn:active {
           transform: translateY(0.5px);
           box-shadow: 0 2px 8px rgba(16, 37, 68, 0.25);
         }
 
-        .seenly-pack-btn:disabled {
+        .tensignal-pack-btn:disabled {
           opacity: 0.5;
           cursor: not-allowed;
           transform: none;
@@ -1578,66 +1644,153 @@
 
 
         @media (max-width: 640px) {
-          /* Quota Tracker Mobile */
-          .seenly-quota-tracker-card {
-            padding: 16px 14px 16px !important;
-            border-radius: 20px !important;
-            margin-bottom: 0.65rem !important;
+          /* Quota Tracker Mobile - Compact, Solid & Unified */
+          .tensignal-quota-card {
+            padding: 1.05rem 1.1rem !important;
+            border-radius: 16px !important;
+            margin-bottom: 0.85rem !important;
           }
 
-          .seenly-quota-head-icon {
-            width: 32px !important;
-            height: 32px !important;
+          .tensignal-quota-header {
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 0.75rem !important;
           }
 
-          .seenly-quota-title {
-            font-size: 1.1rem !important;
+          .tensignal-quota-header-info {
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.65rem !important;
+            flex: 1 !important;
+            min-width: 0 !important;
           }
 
-          .seenly-quota-subtext {
-            font-size: 11px !important;
-            line-height: 1.35 !important;
+          .tensignal-quota-head-icon {
+            width: 34px !important;
+            height: 34px !important;
+            flex: 0 0 34px !important;
+            border-radius: 9px !important;
           }
 
-          .seenly-quota-metric-current {
-            font-size: 1.35rem !important;
+          .tensignal-quota-header-text {
+            min-width: 0 !important;
+            flex: 1 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 1px !important;
           }
 
-          .seenly-quota-metric-max {
-            font-size: 1.1rem !important;
+          .tensignal-quota-header-text .tensignal-card-head-title {
+            font-size: 0.94rem !important;
+            line-height: 1.25 !important;
+            letter-spacing: -0.01em !important;
+            margin: 0 !important;
           }
 
-          .seenly-quota-metric-label {
-            font-size: 9.5px !important;
+          .tensignal-quota-header-text .tensignal-card-head-desc {
+            font-size: 0.76rem !important;
+            line-height: 1.3 !important;
+            margin: 0 !important;
+            color: #78716C !important;
           }
 
-          .seenly-quota-track-wrap {
-            margin: 12px 0 0 !important;
+          .tensignal-quota-metric-wrap,
+          .tensignal-quota-metric-pill {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-end !important;
+            justify-content: center !important;
+            width: auto !important;
+            padding: 0 !important;
+            background: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            flex-shrink: 0 !important;
+            text-align: right !important;
           }
 
-          .seenly-quota-status-banner {
-            padding: 6px 10px !important;
-            font-size: 10.5px !important;
-            margin-top: 8px !important;
+          .tensignal-quota-metric-numbers {
+            display: flex !important;
+            align-items: baseline !important;
+            gap: 2px !important;
+            order: unset !important;
+            line-height: 1 !important;
+          }
+
+          .tensignal-quota-metric-current {
+            font-size: 1.3rem !important;
+            font-weight: 800 !important;
+          }
+
+          .tensignal-quota-metric-sep {
+            font-size: 1rem !important;
+          }
+
+          .tensignal-quota-metric-max {
+            font-size: 1.05rem !important;
+          }
+
+          .tensignal-quota-metric-label {
+            display: block !important;
+            order: unset !important;
+            margin-top: 2px !important;
+            font-size: 0.68rem !important;
+            letter-spacing: 0.02em !important;
+          }
+
+          .tensignal-quota-progress-section {
+            margin-top: 0.8rem !important;
+            gap: 0.55rem !important;
+          }
+
+          .tensignal-quota-bar-track {
+            height: 6.5px !important;
+          }
+
+          .tensignal-quota-bar-footer {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 0.5rem !important;
+            flex-wrap: wrap !important;
+          }
+
+          .tensignal-quota-footer-used {
+            font-size: 0.74rem !important;
+            line-height: 1.3 !important;
+          }
+
+          .tensignal-quota-footer-remaining {
+            font-size: 0.74rem !important;
+            line-height: 1.3 !important;
+            gap: 0.32rem !important;
+          }
+
+          .tensignal-quota-alert-banner {
+            padding: 0.55rem 0.75rem !important;
+            font-size: 0.76rem !important;
             border-radius: 10px !important;
+            margin-top: 0.65rem !important;
           }
 
-          /* Seenly Plus Active Card Mobile */
-          .seenly-plus-active-card {
+          /* 10Signal Plus Active Card Mobile */
+          .tensignal-plus-active-card {
             padding: 20px 14px 18px !important;
             border-radius: 20px !important;
           }
 
-          .seenly-plus-active-title {
+          .tensignal-plus-active-title {
             font-size: 1.35rem !important;
           }
 
-          .seenly-plus-active-desc {
+          .tensignal-plus-active-desc {
             font-size: 11.5px !important;
             line-height: 1.4 !important;
           }
 
-          .seenly-plus-perks-toggle-btn {
+          .tensignal-plus-perks-toggle-btn {
             width: 100% !important;
             justify-content: center !important;
             padding: 8px 14px !important;
@@ -1645,13 +1798,13 @@
             margin-top: 6px !important;
           }
 
-          /* Seenly Plus Showcase Card Mobile */
-          .seenly-plus-showcase-card {
+          /* 10Signal Plus Showcase Card Mobile */
+          .tensignal-plus-showcase-card {
             padding: 20px 14px 18px !important;
             border-radius: 20px !important;
           }
 
-          .seenly-plus-price-curtain {
+          .tensignal-plus-price-curtain {
             right: 14px !important;
             padding: 8px 12px 10px !important;
             border-bottom-left-radius: 12px !important;
@@ -1659,61 +1812,61 @@
             box-shadow: 0 4px 14px rgba(80, 60, 40, 0.08) !important;
           }
 
-          .seenly-plus-price-curtain-pin {
+          .tensignal-plus-price-curtain-pin {
             width: 20px !important;
             height: 2.5px !important;
           }
 
-          .seenly-plus-price-val {
+          .tensignal-plus-price-val {
             font-size: 1.6rem !important;
             margin: 2px 0 0 !important;
           }
 
-          .seenly-plus-price-symbol {
+          .tensignal-plus-price-symbol {
             font-size: 1.3rem !important;
           }
 
-          .seenly-plus-price-label {
+          .tensignal-plus-price-label {
             font-size: 8px !important;
             letter-spacing: 0.1em !important;
             margin-top: 3px !important;
           }
 
-          .seenly-plus-badge-left {
+          .tensignal-plus-badge-left {
             font-size: 9.5px !important;
             padding: 4px 10px !important;
           }
 
-          .seenly-plus-title {
+          .tensignal-plus-title {
             font-size: 1.65rem !important;
           }
 
-          .seenly-plus-subtext {
+          .tensignal-plus-subtext {
             font-size: 11.5px !important;
             line-height: 1.45 !important;
             margin-top: 6px !important;
             padding-right: 70px !important;
           }
 
-          .seenly-plus-feature-item {
+          .tensignal-plus-feature-item {
             gap: 10px !important;
           }
 
-          .seenly-plus-feature-icon-badge {
+          .tensignal-plus-feature-icon-badge {
             width: 32px !important;
             height: 32px !important;
           }
 
-          .seenly-plus-feature-title {
+          .tensignal-plus-feature-title {
             font-size: 13px !important;
           }
 
-          .seenly-plus-feature-desc {
+          .tensignal-plus-feature-desc {
             font-size: 11px !important;
             line-height: 1.3 !important;
           }
 
-          .seenly-plus-cta-btn {
+          .tensignal-plus-cta-btn {
             width: 100% !important;
             padding: 12px 18px !important;
             font-size: 13px !important;
@@ -1721,56 +1874,56 @@
           }
 
           /* Extra Capacity Packs Mobile (Compact 3-Column Grid) */
-          .seenly-packs-painterly-container {
+          .tensignal-packs-painterly-container {
             padding: 16px 10px 18px !important;
             border-radius: 20px !important;
             margin-top: 0.65rem !important;
           }
 
-          .seenly-packs-grid {
+          .tensignal-packs-grid {
             gap: 6px !important;
           }
 
-          .seenly-pack-card {
+          .tensignal-pack-card {
             padding: 14px 5px 12px !important;
             border-radius: 16px !important;
             box-shadow: 0 4px 12px rgba(80, 60, 40, 0.04) !important;
           }
 
-          .seenly-pack-quota-pill {
+          .tensignal-pack-quota-pill {
             padding: 2.5px 6px !important;
             gap: 2px !important;
             margin-bottom: 4px !important;
             border-radius: 9999px !important;
           }
 
-          .seenly-pack-quota-num {
+          .tensignal-pack-quota-num {
             font-size: 10.5px !important;
             font-weight: 800 !important;
           }
 
-          .seenly-pack-quota-txt {
+          .tensignal-pack-quota-txt {
             font-size: 8.5px !important;
             font-weight: 600 !important;
           }
 
-          .seenly-pack-title {
+          .tensignal-pack-title {
             font-size: 8.5px !important;
             letter-spacing: 0.05em !important;
             margin: 0 0 8px !important;
           }
 
-          .seenly-pack-price {
+          .tensignal-pack-price {
             font-size: 1.25rem !important;
             margin: 0 0 8px !important;
           }
 
-          .seenly-pack-price-symbol {
+          .tensignal-pack-price-symbol {
             font-size: 0.95rem !important;
             margin-right: 1px !important;
           }
 
-          .seenly-pack-btn {
+          .tensignal-pack-btn {
             width: 100% !important;
             padding: 7px 2px !important;
             font-size: 10px !important;
@@ -1780,54 +1933,76 @@
             min-height: 32px !important;
           }
 
-          .seenly-pack-btn-arrow {
+          .tensignal-pack-btn-arrow {
             display: none !important;
           }
         }
 
         @media (max-width: 380px) {
-          .seenly-packs-painterly-container {
+          /* Quota Tracker Extra Compact for Small Phones */
+          .tensignal-quota-card {
+            padding: 0.95rem 0.85rem !important;
+          }
+
+          .tensignal-quota-header-text .tensignal-card-head-title {
+            font-size: 0.88rem !important;
+          }
+
+          .tensignal-quota-header-text .tensignal-card-head-desc {
+            font-size: 0.71rem !important;
+          }
+
+          .tensignal-quota-metric-current {
+            font-size: 1.18rem !important;
+          }
+
+          .tensignal-quota-footer-used,
+          .tensignal-quota-footer-remaining {
+            font-size: 0.7rem !important;
+          }
+
+          .tensignal-packs-painterly-container {
             padding: 14px 6px 16px !important;
           }
 
-          .seenly-packs-grid {
+          .tensignal-packs-grid {
             gap: 4px !important;
           }
 
-          .seenly-pack-card {
+          .tensignal-pack-card {
             padding: 10px 2px 8px !important;
             border-radius: 12px !important;
           }
 
-          .seenly-pack-quota-pill {
+          .tensignal-pack-quota-pill {
             padding: 2px 4px !important;
             margin-bottom: 3px !important;
           }
 
-          .seenly-pack-quota-num {
+          .tensignal-pack-quota-num {
             font-size: 9.5px !important;
           }
 
-          .seenly-pack-quota-txt {
+          .tensignal-pack-quota-txt {
             font-size: 7.5px !important;
           }
 
-          .seenly-pack-title {
+          .tensignal-pack-title {
             font-size: 7.5px !important;
             letter-spacing: 0.02em !important;
             margin-bottom: 6px !important;
           }
 
-          .seenly-pack-price {
+          .tensignal-pack-price {
             font-size: 1.1rem !important;
             margin-bottom: 6px !important;
           }
 
-          .seenly-pack-price-symbol {
+          .tensignal-pack-price-symbol {
             font-size: 0.85rem !important;
           }
 
-          .seenly-pack-btn {
+          .tensignal-pack-btn {
             font-size: 8.5px !important;
             padding: 6px 1px !important;
             min-height: 28px !important;
@@ -1836,35 +2011,35 @@
 
         @media (max-width: 640px) {
 
-          .seenly-avatar-summary-row {
+          .tensignal-avatar-summary-row {
             flex-direction: column;
             align-items: flex-start;
             gap: 1rem;
           }
-          .seenly-avatar-toggle-btn {
+          .tensignal-avatar-toggle-btn {
             width: 100%;
             justify-content: center;
           }
-          .seenly-avatar-grid {
+          .tensignal-avatar-grid {
             grid-template-columns: repeat(3, 1fr);
             gap: 0.65rem;
           }
-          .seenly-avatar-circle-frame {
+          .tensignal-avatar-circle-frame {
             width: 76px;
             height: 76px;
           }
-          .seenly-danger-content {
+          .tensignal-danger-content {
             flex-direction: column;
             align-items: stretch;
           }
-          .seenly-danger-outline-btn {
+          .tensignal-danger-outline-btn {
             width: 100%;
             justify-content: center;
           }
-          .seenly-settings-tabs-capsule {
+          .tensignal-settings-tabs-capsule {
             width: 100%;
           }
-          .seenly-settings-tab-btn {
+          .tensignal-settings-tab-btn {
             flex: 1;
             justify-content: center;
             padding: 0.5rem 0.4rem;

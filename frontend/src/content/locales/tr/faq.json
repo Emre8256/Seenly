@@ -1,13 +1,13 @@
 [
   {
     "id": "q1",
-    "question": "Seenly nedir ve nasıl çalışır?",
-    "answer": "Seenly, kendinizi nasıl gördüğünüz (Öz Algı) ile arkadaşlarınızın sizi nasıl gördüğünü (Dış Algı) karşılaştıran interaktif bir sosyal ayna testidir. Önce siz 10 hızlı soruyu cevaplayarak kendi profilinizi oluşturursunuz, ardından size özel linki arkadaşlarınıza göndererek onların da sizi anonim olarak okumasını sağlarsınız."
+    "question": "10Signal nedir ve nasıl çalışır?",
+    "answer": "10Signal, kendinizi nasıl gördüğünüz (Öz Algı) ile arkadaşlarınızın sizi nasıl gördüğünü (Dış Algı) karşılaştıran interaktif bir sosyal ayna testidir. Önce siz 10 hızlı soruyu cevaplayarak kendi profilinizi oluşturursunuz, ardından size özel linki arkadaşlarınıza göndererek onların da sizi anonim olarak okumasını sağlarsınız."
   },
   {
     "id": "q2",
     "question": "Cevaplarım arkadaşlarıma gösterilir mi? Anonimlik derecesi nedir?",
-    "answer": "Kesinlikle hayır. Seenly tamamen gizlilik odaklı tasarlanmıştır. Arkadaşlarınızın size verdiği tekil cevaplar veya sizin kendi testinizde işaretlediğiniz şıklar asla kimseye gösterilmez. Sadece 3 veya daha fazla arkadaşınız testi bitirdiğinde, onların cevaplarının genel ortalamasını (Dış Algı) görebilirsiniz."
+    "answer": "Kesinlikle hayır. 10Signal tamamen gizlilik odaklı tasarlanmıştır. Arkadaşlarınızın size verdiği tekil cevaplar veya sizin kendi testinizde işaretlediğiniz şıklar asla kimseye gösterilmez. Sadece 3 veya daha fazla arkadaşınız testi bitirdiğinde, onların cevaplarının genel ortalamasını (Dış Algı) görebilirsiniz."
   },
   {
     "id": "q3",
@@ -27,17 +27,17 @@
   {
     "id": "q6",
     "question": "Ek katılımcı paketleri nedir?",
-    "answer": "Ek katılımcı paketleri, Seenly Plus planına geçiş yapmadan profilinizin katılımcı limitini artırmanızı sağlayan ek paketlerdir. İhtiyacınıza göre profilinize 100, 250 veya 500 kişilik ek katılımcı kapasitesi tanımlayarak daha fazla arkadaşınızdan analiz toplamaya devam edebilirsiniz. Plus planına yükselttiğinizde ise kapasiteniz tamamen sınırsız olur."
+    "answer": "Ek katılımcı paketleri, 10Signal Plus planına geçiş yapmadan profilinizin katılımcı limitini artırmanızı sağlayan ek paketlerdir. İhtiyacınıza göre profilinize 50, 150 veya 300 kişilik ek değerlendirme kapasitesi tanımlayarak daha fazla arkadaşınızdan analiz toplamaya devam edebilirsiniz. Plus planına yükselttiğinizde ise kapasiteniz tamamen sınırsız olur."
   },
   {
     "id": "q7",
-    "question": "Arkadaşımın beni değerlendirmesi için Seenly'e üye olması gerekiyor mu?",
-    "answer": "Hayır. Arkadaşlarınızın size geri bildirim bırakabilmesi için Seenly'e üye olması veya hesap açması gerekmez. Paylaştığınız linke tıklayarak doğrudan teste başlayabilir ve 1 dakika içinde sizi anonim olarak okuyabilirler."
+    "question": "Arkadaşımın beni değerlendirmesi için 10Signal'a üye olması gerekiyor mu?",
+    "answer": "Hayır. Arkadaşlarınızın size geri bildirim bırakabilmesi için 10Signal'a üye olması veya hesap açması gerekmez. Paylaştığınız linke tıklayarak doğrudan teste başlayabilir ve 1 dakika içinde sizi anonim olarak okuyabilirler."
   },
   {
     "id": "q8",
-    "question": "Seenly Plus abonelik sistemi mi, yoksa tek seferlik bir ödeme mi?",
-    "answer": "Seenly Plus kesinlikle bir abonelik değildir. Tek seferlik bir ödeme ile profilinizdeki tüm kısıtlamaları (sınırsız katılımcı limiti, detaylı analizler, kör nokta raporları) kalıcı olarak kaldırırsınız. Kartınızdan otomatik olarak tekrarlayan hiçbir ücret tahsil edilmez."
+    "question": "10Signal Plus abonelik sistemi mi, yoksa tek seferlik bir ödeme mi?",
+    "answer": "10Signal Plus kesinlikle bir abonelik değildir. Tek seferlik bir ödeme ile profilinizdeki tüm kısıtlamaları (sınırsız katılımcı limiti, detaylı analizler, kör nokta raporları) kalıcı olarak kaldırırsınız. Kartınızdan otomatik olarak tekrarlayan hiçbir ücret tahsil edilmez."
   },
   {
     "id": "q9",

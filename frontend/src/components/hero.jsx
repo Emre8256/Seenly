@@ -5,7 +5,7 @@ import heroMobileImg from "../images/landing/hero-mobile.avif"
 
 export function Hero({ onStartClick, onLoginClick }) {
   const { t } = useLocale()
-  const isLoggedIn = Boolean(localStorage.getItem("seenly_owner_token"))
+  const isLoggedIn = Boolean(localStorage.getItem("tensignal_owner_token") || localStorage.getItem("seenly_owner_token"))
   const startLabel = isLoggedIn ? t("navigation.dashboard") : t("home.hero.startCta")
   const quickLoginLabel = t("home.hero.quickLogin")
 

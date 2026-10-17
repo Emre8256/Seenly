@@ -1,4 +1,4 @@
-# Seenly production performance gate
+# 10Signal production performance gate
 
 Date: 2026-09-06
 
@@ -14,7 +14,7 @@ Date: 2026-09-06
 
 The large profile contained 500 responses/5,000 participant answers at baseline and approximately 850 responses/8,500 answers after write tests. It also contained ten self answers, a result snapshot, premium owner history, and 5,000 expired rate-limit rows. One hundred independent profiles were used to distinguish a viral-profile lock from general write capacity.
 
-`performance/node-load.mjs` covers public reads, eligibility, submissions, owner reads, invalid OTP verification, payment product reads, and intentional rate limiting. `performance/k6-seenly.js` provides the portable k6 public-read scenario. Distinct forwarded client addresses were accepted only because the test process was configured as a trusted proxy; the rate-limit scenario intentionally kept one address. Expected 409/429 responses are counted separately from failures.
+`performance/node-load.mjs` covers public reads, eligibility, submissions, owner reads, invalid OTP verification, payment product reads, and intentional rate limiting. `performance/k6-tensignal.js` provides the portable k6 public-read scenario. Distinct forwarded client addresses were accepted only because the test process was configured as a trusted proxy; the rate-limit scenario intentionally kept one address. Expected 409/429 responses are counted separately from failures.
 
 The assumed launch peak is 25-100 concurrent clients. This is an assumption because production traffic history is unavailable.
 

@@ -42,7 +42,7 @@ export default function IdentitiesPage() {
 
   // Handle auto-open of selected identity from dashboard
   useEffect(() => {
-    const selectedId = localStorage.getItem('seenly_selected_identity');
+    const selectedId = localStorage.getItem('tensignal_selected_identity') || localStorage.getItem('seenly_selected_identity');
     if (selectedId) {
       const card = SIGNATURES_DATA.find(c => c.id === selectedId);
       if (card) {
@@ -54,14 +54,15 @@ export default function IdentitiesPage() {
           setFilterFamily(family);
         }
       }
+      localStorage.removeItem('tensignal_selected_identity');
       localStorage.removeItem('seenly_selected_identity');
     }
   }, []);
 
   const handleStartQuiz = useCallback(() => {
-    sessionStorage.setItem('seenly_currentIndex', '-2');
-    sessionStorage.setItem('seenly_isQuickLogin', 'false');
-    window.dispatchEvent(new CustomEvent('seenly_trigger_start_quiz'));
+    sessionStorage.setItem('tensignal_currentIndex', '-2');
+    sessionStorage.setItem('tensignal_isQuickLogin', 'false');
+    window.dispatchEvent(new CustomEvent('tensignal_trigger_start_quiz'));
     window.location.hash = '#/';
   }, []);
 

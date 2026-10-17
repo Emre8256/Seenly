@@ -6,8 +6,8 @@
     "fallbackNotice": "This legal document is currently available only in its canonical English version."
   },
   "terms": {
-    "title": "Terms & Conditions",
-    "lastUpdated": "September 4, 2026",
+    "title": "Terms of Service",
+    "lastUpdated": "October 18, 2026",
     "sections": [
       {
         "id": "intro",
@@ -15,529 +15,413 @@
         "blocks": [
           {
             "type": "p",
-            "text": "Welcome to Seenly."
+            "text": "Welcome to 10Signal."
           },
           {
             "type": "p",
-            "text": "These Terms & Conditions (\"Terms\") govern your access to and use of Seenly, including our website, assessments, profiles, sharing features, digital products, and related services (collectively, the **\"Service\"**)."
+            "text": "These Terms of Service (\"Terms\") govern your access to and use of 10Signal, including our website, web application, self-assessments, peer evaluation links, algorithmic perception scoring, profiles, digital products, and associated services (collectively, the **\"Service\"**)."
           },
           {
             "type": "p",
-            "text": "By accessing or using Seenly, creating an account, submitting an assessment, participating through a shared link, or purchasing a digital product, you agree to these Terms and our Privacy Policy."
+            "text": "By accessing or using 10Signal, registering an account, completing an assessment, submitting responses through a friend evaluation link, or purchasing digital entitlements, you enter into a legally binding agreement and agree to be bound by these Terms and our Privacy Policy."
           },
           {
             "type": "p",
-            "text": "If you do not agree with these Terms, please do not use the Service."
+            "text": "If you do not agree to these Terms, you must not access or use the Service."
           }
         ]
       },
       {
         "id": "about",
-        "title": "1. About Seenly",
+        "title": "About 10Signal & Operational Structure",
+        "number": 1,
         "blocks": [
           {
             "type": "p",
-            "text": "Seenly is an independent social perception and self-reflection platform developed and operated by its creators."
+            "text": "10Signal is an independent digital platform developed and operated by a two-person team based in Türkiye."
           },
           {
             "type": "p",
-            "text": "The Service allows users to complete self-assessments, invite other people to provide feedback, compare self-perception with peer perception, and receive automatically generated scores, archetypes, cards, visualizations, and related insights."
+            "text": "10Signal operates as an independent venture pending formal corporate entity registration. All official communications, support requests, and contractual notices should be addressed to our designated channel at: 10signal.me@gmail.com"
           },
           {
             "type": "p",
-            "text": "Seenly may change, add, remove, or improve features over time."
+            "text": "We reserve the right to transfer our contractual position, rights, and obligations under these Terms to a legally constituted corporate entity or successor operator as part of a restructuring, incorporation, or business transfer, subject to applicable law."
           }
         ]
       },
       {
-        "id": "personal-insight",
-        "title": "2. Personal Insight — Not Professional Advice",
+        "id": "non-clinical-disclaimer",
+        "title": "Personal Reflection — Non-Clinical & Non-Professional Disclaimer",
+        "number": 2,
         "blocks": [
           {
             "type": "p",
-            "text": "Seenly is designed for **personal insight and social reflection**."
+            "text": "10Signal is designed solely for **personal insight, recreational self-reflection, and social perception awareness**."
+          },
+          {
+            "type": "highlight",
+            "text": "**Important Notice:** 10Signal does not provide clinical psychology, psychiatry, healthcare, recruitment, employment screening, credit assessment, or legal advice. Our assessments, perception gap analyses, scores, archetypes, and reports must never be used as a psychological diagnosis, medical evaluation, or basis for high-impact decisions."
           },
           {
             "type": "p",
-            "text": "Assessment results, perception gaps, scores, archetypes, participant feedback, visualizations, and other outputs are generated from information submitted through the Service."
+            "text": "All assessment outputs, archetypes, blind spot metrics, and perception gap calculations are mathematical comparisons derived from user-submitted responses. They do not constitute an objective, clinically validated, or certified measurement of psychological health, mental aptitude, character integrity, or professional competence."
           },
           {
             "type": "p",
-            "text": "Seenly does not provide medical, psychiatric, psychological, clinical, legal, employment, or other professional advice."
-          },
-          {
-            "type": "p",
-            "text": "Results should not be treated as a diagnosis or as a comprehensive or objectively accurate assessment of a person's personality, psychological condition, abilities, or suitability for any particular purpose."
-          },
-          {
-            "type": "p",
-            "text": "You remain responsible for any decisions or actions you take based on information obtained through Seenly."
-          },
-          {
-            "type": "p",
-            "text": "Seenly should not be used to make high-impact decisions about another person, including decisions relating to employment, recruitment, healthcare, credit, insurance, education, or similar matters."
-          }
-        ]
-      },
-      {
-        "id": "eligibility",
-        "title": "3. Eligibility",
-        "blocks": [
-          {
-            "type": "p",
-            "text": "You may use Seenly only if you are legally permitted to enter into these Terms and provide any consent required for use of the Service under the laws applicable to you."
-          },
-          {
-            "type": "p",
-            "text": "If you are not legally permitted to use the Service independently, you may use Seenly only where appropriate authorization has been obtained."
+            "text": "You maintain sole responsibility for any personal decisions, reflections, or interpersonal actions you take based on information obtained through the Service. You must not use 10Signal to make high-impact decisions concerning third parties, including hiring, firing, academic evaluation, creditworthiness, or healthcare determinations."
           }
         ]
       },
       {
         "id": "accounts-security",
-        "title": "4. Accounts and Security",
+        "title": "User Accounts, Authentication & Security",
+        "number": 3,
         "blocks": [
           {
             "type": "p",
-            "text": "Some Seenly features require an account."
+            "text": "Access to personalized dashboards, assessment history, profile sharing, and digital purchases requires an account. 10Signal utilizes passwordless authentication via one-time verification codes (OTPs) delivered to your registered email address."
           },
           {
             "type": "p",
-            "text": "You agree to provide accurate information and to maintain reasonable security over your account and authentication methods."
+            "text": "You are responsible for maintaining control over the email address associated with your account and for safeguarding session tokens on your devices. You agree to immediately notify us at 10signal.me@gmail.com if you suspect unauthorized access to your account."
           },
           {
             "type": "p",
-            "text": "You are responsible for activity performed through your account unless that activity results from circumstances reasonably outside your control."
-          },
-          {
-            "type": "p",
-            "text": "You must not:"
+            "text": "You strictly agree not to:"
           },
           {
             "type": "list",
             "items": [
-              "Create accounts for fraudulent or abusive purposes;",
-              "Impersonate another person;",
-              "Attempt to obtain unauthorized access to another account;",
-              "Share or misuse authentication credentials in a way that compromises account security;",
-              "Deliberately circumvent account, participation, or usage restrictions."
+              "Create fraudulent, automated, or disposable accounts;",
+              "Impersonate any other individual or misrepresent your affiliation with any person;",
+              "Attempt to access another user's private dashboard, session tokens, or account records;",
+              "Share or publish authentication tokens or private session links in a manner that compromises account integrity."
             ]
           },
           {
             "type": "p",
-            "text": "If you believe your account has been compromised, contact us at support@seenly.app."
-          },
-          {
-            "type": "p",
-            "text": "We may temporarily restrict, suspend, or terminate an account where reasonably necessary to protect Seenly or its users, investigate abuse, comply with legal obligations, or address a material violation of these Terms."
+            "text": "We reserve the right to temporarily suspend or permanently terminate any account that violates these Terms, engages in abusive activity, or poses a security risk to the platform."
           }
         ]
       },
       {
-        "id": "participant-feedback",
-        "title": "5. Participant Feedback and Shared Links",
+        "id": "peer-feedback",
+        "title": "Anonymous Peer Participation & Safeguards",
+        "number": 4,
         "blocks": [
           {
             "type": "p",
-            "text": "Seenly allows users to invite other people to submit feedback through participation links."
+            "text": "10Signal enables users to invite friends and peers to provide perspective feedback via dedicated public links (/friend/{slug}). Peer respondents participate voluntarily."
           },
           {
             "type": "p",
-            "text": "Participants are responsible for the responses they voluntarily submit."
+            "text": "Voter anonymity is a foundational architectural safeguard: 10Signal does not disclose the personal identity, email address, or individual profile link of a peer respondent to the profile owner. Peer responses are presented as aggregated insights, archetypes, and anonymous signals."
           },
           {
             "type": "p",
-            "text": "You agree not to use Seenly to:"
+            "text": "As a peer respondent or profile owner, you agree not to:"
           },
           {
             "type": "list",
             "items": [
-              "Harass, threaten, intimidate, or abuse another person;",
-              "Impersonate another individual;",
-              "Deliberately submit false responses for the purpose of manipulating results;",
-              "Coordinate fraudulent or artificial submissions;",
-              "Use automated systems, bots, scripts, or similar tools to generate responses;",
-              "Submit unlawful, defamatory, hateful, or otherwise abusive content."
+              "Submit feedback that is harassing, abusive, threatening, defamatory, hateful, or discriminatory;",
+              "Submit coordinated, fake, or dishonest evaluations designed to artificially distort assessment scores;",
+              "Deploy automated bots, scripts, headless browsers, or crawler tools to generate simulated responses;",
+              "Circumvent rate limiting, IP collision prevention, or device verification checks."
             ]
           },
           {
             "type": "p",
-            "text": "Anonymous participation means that Seenly does not intentionally display the participant's identity to the profile owner through their submitted feedback, except as otherwise clearly disclosed by a particular feature or where disclosure is legally required."
-          },
-          {
-            "type": "p",
-            "text": "Seenly may use technical measures to detect duplicate submissions, automated activity, manipulation, or abuse."
+            "text": "10Signal employs automated technical safeguards—including salted one-way hash digests of network signals—to identify duplicate submissions and prevent voting abuse without compromising respondent anonymity."
           }
         ]
       },
       {
         "id": "acceptable-use",
-        "title": "6. Acceptable Use",
+        "title": "Acceptable Use & Prohibited Conduct",
+        "number": 5,
         "blocks": [
           {
             "type": "p",
-            "text": "You may use Seenly only for lawful purposes and in accordance with these Terms."
+            "text": "You agree to use 10Signal solely for lawful personal purposes and in full compliance with these Terms."
           },
           {
             "type": "p",
-            "text": "You must not:"
+            "text": "You are expressly prohibited from:"
           },
           {
             "type": "list",
             "items": [
-              "Attempt to gain unauthorized access to the Service or its infrastructure;",
-              "Interfere with the normal operation or security of the Service;",
-              "Deliberately bypass rate limits, participation limits, or security mechanisms;",
-              "Introduce malware, malicious code, or automated attacks;",
-              "Scrape or systematically extract substantial portions of the Service without permission;",
-              "Reverse engineer or attempt to derive non-public source code except where such restriction is prohibited by applicable law;",
-              "Use Seenly content, systems, or data to create a competing service through unauthorized copying or extraction;",
-              "Use the Service in a way that violates another person's rights or applicable law."
+              "Interfering with, disrupting, or probing the security or vulnerability of the Service or its hosting infrastructure;",
+              "Reverse engineering, decompiling, or attempting to extract the underlying source code or scoring algorithms of 10Signal;",
+              "Scraping, harvesting, or systematically extracting data, text, archetypes, or graphic assets from the Service;",
+              "Using the Service or its contents to train, evaluate, or develop competing machine learning models or commercial services;",
+              "Bypassing response limits, account capacity barriers, or payment verification checkpoints through technical exploitation."
             ]
-          },
-          {
-            "type": "p",
-            "text": "We may take reasonable technical or account-level measures to prevent or respond to prohibited activity."
           }
         ]
       },
       {
-        "id": "purchases-digital-products",
-        "title": "7. Purchases and Digital Products",
+        "id": "digital-products",
+        "title": "Digital Products & One-Time Purchases",
+        "number": 6,
         "blocks": [
           {
             "type": "p",
-            "text": "Seenly may offer paid digital products or features, including premium functionality and additional participation capacity."
-          },
-          {
-            "type": "p",
-            "text": "The price, features, and applicable conditions of a purchase will be displayed before you complete the transaction."
-          },
-          {
-            "type": "p",
-            "text": "Payments may be processed by an independent payment processor or Merchant of Record. By completing a purchase, you also agree to any terms presented by the relevant payment provider where applicable."
-          },
-          {
-            "type": "p",
-            "text": "A purchase is considered completed once payment has been successfully confirmed and the relevant digital product or entitlement has been made available to your account."
-          },
-          {
-            "type": "p",
-            "text": "We reserve the right to:"
+            "text": "10Signal offers optional paid digital products to enhance your experience:"
           },
           {
             "type": "list",
             "items": [
-              "Change prices for future purchases;",
-              "Add, modify, or discontinue paid products;",
-              "Refuse or cancel a transaction where reasonably necessary to prevent fraud, abuse, pricing errors, or technical mistakes."
+              "10Signal Plus: A one-time purchase that unlocks permanent premium status for your account, un-capping profile response capacity, granting deep signal analytics, perception gap matrices, and extended reflection archetypes;",
+              "Response Capacity Packs: Standalone digital entitlements (+50, +150, or +300 response allotments) that increase your profile's collective response quota for gathering peer feedback."
             ]
           },
           {
             "type": "p",
-            "text": "A price change will not retroactively alter a purchase that has already been completed."
+            "text": "Our digital products are **one-time purchases**. 10Signal does not charge recurring subscription fees. Pricing is displayed clearly before purchase in the applicable currency, inclusive of mandatory taxes where required."
           },
           {
             "type": "p",
-            "text": "If payment is successfully collected but we are unable to provide the purchased digital product, we will provide an appropriate remedy, which may include restoring access, replacement, account credit, or a refund."
+            "text": "Immediate Performance: Digital products are delivered and activated electronically in real time upon successful payment verification. Entitlements are directly credited to your active account."
           }
         ]
       },
       {
-        "id": "refunds",
-        "title": "8. Refunds",
+        "id": "payment-processing",
+        "title": "Payment Processing & Merchant of Record",
+        "number": 7,
         "blocks": [
           {
             "type": "p",
-            "text": "Unless otherwise stated at the time of purchase, Seenly offers a **14-day refund period for eligible unused Response Capacity Packs**."
+            "text": "All payment transactions for 10Signal digital products are processed by our authorized global Merchant of Record (MoR), Lemon Squeezy, LLC (USA)."
           },
           {
             "type": "p",
-            "text": "A Response Capacity Pack is generally eligible for a full refund where:"
+            "text": "When purchasing a digital product on 10Signal, you enter into a sales transaction directly with Lemon Squeezy as the legal merchant. Lemon Squeezy handles order billing, payment collection, sales tax/VAT calculation and remittance, and customer invoicing subject to Lemon Squeezy's Terms of Service and Privacy Policy."
+          },
+          {
+            "type": "p",
+            "text": "10Signal never receives, processes, or stores your credit card numbers or raw payment details. We receive only transaction identifiers, order timestamps, and product codes necessary to grant your digital entitlements."
+          }
+        ]
+      },
+      {
+        "id": "refund-policy",
+        "title": "No Voluntary Refunds & Statutory Consumer Rights",
+        "number": 8,
+        "blocks": [
+          {
+            "type": "highlight",
+            "text": "10Signal does not offer voluntary refunds for digital purchases, including Plus access and Response Capacity Packs. Changing your mind, not using the purchased features, or leaving purchased capacity unused does not, by itself, qualify for a voluntary refund. This policy does not limit any withdrawal, refund, or other consumer rights that cannot lawfully be excluded."
+          },
+          {
+            "type": "h3",
+            "text": "A. Commercial Non-Refundable Scenarios"
+          },
+          {
+            "type": "p",
+            "text": "Because digital entitlements are provisioned electronically and made immediately available upon payment confirmation, voluntary refund requests will not be approved under the following circumstances:"
           },
           {
             "type": "list",
             "items": [
-              "The request is submitted within 14 calendar days of purchase; and",
-              "None of the purchased additional response capacity has been consumed."
+              "Failing to collect peer evaluations or leaving purchased capacity packs unconsumed;",
+              "Personal dissatisfaction with peer ratings, archetype classifications, or perception gap results;",
+              "Account termination or deletion initiated by the user after completing a purchase;",
+              "Breach of these Terms resulting in account restriction or suspension."
             ]
           },
           {
             "type": "p",
-            "text": "Once purchased response capacity has been used to collect responses, the consumed digital capacity is generally non-refundable."
+            "text": "Discontinuation of Past 14-Day Guarantee: Any discretionary 14-day refund period previously advertised for unused capacity packs is permanently discontinued for all prospective purchases. Transactions completed prior to this policy update remain governed by the terms in effect at their timestamp."
+          },
+          {
+            "type": "h3",
+            "text": "B. Duplicate Charges and Technical Delivery Failures"
           },
           {
             "type": "p",
-            "text": "Duplicate or clearly erroneous charges will be investigated and refunded where appropriate."
+            "text": "If a network malfunction, browser glitch, or payment gateway error causes duplicate charges for a single order, or if payment is collected but technical failure prevents digital entitlement activation, we will promptly investigate. Validated duplicate charges will be refunded to the original payment method, or the missing digital entitlement will be manually credited."
+          },
+          {
+            "type": "h3",
+            "text": "C. Chargebacks and Merchant Reversals"
           },
           {
             "type": "p",
-            "text": "Other digital products or premium features may have different refund conditions depending on the nature of the product and whether it has already been delivered, activated, accessed, or consumed."
+            "text": "If a chargeback, bank reversal, or mandatory merchant refund is executed via Lemon Squeezy, 10Signal automatically revokes the associated digital entitlement (downgrading Plus status to standard and adjusting extra capacity)."
+          }
+        ]
+      },
+      {
+        "id": "withdrawal-disclosure",
+        "title": "Distance Contracts & Statutory Withdrawal Disclosures",
+        "number": 9,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Under consumer protection legislation in various jurisdictions, statutory withdrawal rights may apply to distance sales contracts unless a lawful statutory exemption applies."
+          },
+          {
+            "type": "h3",
+            "text": "Notice for Consumers in Türkiye (Law No. 6502)"
           },
           {
             "type": "p",
-            "text": "Nothing in this section limits any refund, cancellation, or consumer right that cannot lawfully be excluded."
+            "text": "Under Article 15(1)(ğ) of the Turkish Regulation on Distance Contracts (Mesafeli Sözleşmeler Yönetmeliği), statutory withdrawal rights do not apply to contracts concerning services performed immediately in electronic form or intangible goods delivered immediately to the consumer. For this exemption to apply lawfully, statutory pre-contractual information must be provided and statutory confirmations obtained prior to contract conclusion."
+          },
+          {
+            "type": "h3",
+            "text": "Notice for Consumers in the European Union / EEA"
           },
           {
             "type": "p",
-            "text": "The policies or requirements of the payment provider or Merchant of Record may also apply to a transaction."
+            "text": "Pursuant to Article 16(m) of EU Directive 2011/83/EU on Consumer Rights, the statutory 14-day right of withdrawal for digital content not supplied on a tangible medium is excluded once performance has begun, provided the consumer has given express prior consent and acknowledged the resulting loss of the right of withdrawal, accompanied by appropriate confirmation. 10Signal does not claim that statutory rights are waived where mandatory statutory conditions have not been satisfied."
+          }
+        ]
+      },
+      {
+        "id": "account-deletion-rights",
+        "title": "Account Deletion & Impact on Purchased Rights",
+        "number": 10,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "You may permanently delete your account at any time via the Settings menu or by writing to 10signal.me@gmail.com."
           },
           {
             "type": "p",
-            "text": "Refund requests can be sent to:"
-          },
-          {
-            "type": "list",
-            "items": [
-              "billing@seenly.app",
-              "support@seenly.app"
-            ]
+            "text": "Account deletion executes a permanent database cascade: your user record, profiles, evaluations, and account balances are permanently deleted."
           },
           {
             "type": "p",
-            "text": "Please include sufficient information to identify the relevant transaction, such as your Order ID and account email address."
+            "text": "Deleting your account does NOT automatically generate, trigger, or entitle you to a financial refund for previously purchased Plus access or unused response capacity. Digital entitlements are linked to the specific account record and are permanently extinguished upon account deletion."
           },
           {
             "type": "p",
-            "text": "Approved refunds are returned through the original payment method where reasonably possible. Processing times may vary depending on the payment provider and financial institution."
+            "text": "If you register a new account in the future using the same email address, it will be treated as an entirely new account; previously deleted purchases and capacity packs cannot be restored or transferred."
           }
         ]
       },
       {
         "id": "intellectual-property",
-        "title": "9. Intellectual Property",
+        "title": "Intellectual Property Rights",
+        "number": 11,
         "blocks": [
           {
             "type": "p",
-            "text": "Seenly and the original materials made available through the Service are protected by applicable intellectual property laws."
+            "text": "All rights, title, and interest in and to 10Signal—including software code, algorithms, visual designs, UI layouts, archetype illustrations, assessment questionnaires, text, logos, and trademarks—are owned by 10Signal and protected by international copyright, trademark, and intellectual property laws."
           },
           {
             "type": "p",
-            "text": "This includes, where applicable:"
-          },
-          {
-            "type": "list",
-            "items": [
-              "The Seenly name and branding;",
-              "Logos and visual identity;",
-              "Original archetype artwork and illustrations;",
-              "Assessment presentation and original written content;",
-              "Scoring and analysis implementations;",
-              "User-interface designs;",
-              "Software and source code;",
-              "Original graphics and other digital assets."
-            ]
+            "text": "Subject to your compliance with these Terms, we grant you a limited, non-exclusive, non-transferable, revocable license to access and use the Service for personal, non-commercial self-reflection purposes."
           },
           {
             "type": "p",
-            "text": "Except where expressly permitted, you may not reproduce, redistribute, sell, commercially exploit, systematically scrape, or create unauthorized derivative copies of protected Seenly materials."
-          },
-          {
-            "type": "p",
-            "text": "Using Seenly does not transfer ownership of Seenly intellectual property to you."
-          },
-          {
-            "type": "p",
-            "text": "Content or information that you personally submit to Seenly remains yours to the extent you have rights in it. You grant Seenly the limited rights necessary to process that content for operating and providing the Service in accordance with these Terms and our Privacy Policy."
+            "text": "You retain any intellectual property rights you hold in the content you submit. By submitting feedback or evaluations, you grant 10Signal a worldwide, royalty-free license to host, process, and display that content solely as necessary to provide the Service."
           }
         ]
       },
       {
-        "id": "service-availability",
-        "title": "10. Service Availability and Changes",
+        "id": "availability-liability",
+        "title": "Service Availability, Maintenance & Limitation of Liability",
+        "number": 12,
         "blocks": [
           {
             "type": "p",
-            "text": "We aim to provide Seenly reliably, but we do not guarantee uninterrupted or error-free availability."
+            "text": "10Signal is provided on an **\"as is\"** and **\"as available\"** basis without warranties of any kind, whether express, implied, or statutory."
           },
           {
             "type": "p",
-            "text": "The Service may occasionally be unavailable because of:"
-          },
-          {
-            "type": "list",
-            "items": [
-              "Maintenance;",
-              "Technical problems;",
-              "Infrastructure failures;",
-              "Security incidents;",
-              "Third-party service interruptions;",
-              "Updates or changes to the Service;",
-              "Circumstances outside our reasonable control."
-            ]
+            "text": "While we strive for continuous availability, the Service may experience interruptions, delays, or errors due to scheduled maintenance, server updates, network outages, or third-party service disruptions."
           },
           {
             "type": "p",
-            "text": "We may modify, suspend, or discontinue features where reasonably necessary."
+            "text": "To the maximum extent permitted by applicable law, 10Signal and its developers shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of data, personal goodwill, or emotional distress, arising out of your access to or use of the Service."
           },
           {
             "type": "p",
-            "text": "Where a change materially affects a paid product that has already been purchased, we will take reasonable steps to provide an appropriate solution consistent with applicable requirements."
+            "text": "Nothing in these Terms limits or excludes liability for intentional misconduct, gross negligence, personal injury, or statutory consumer guarantees that cannot be lawfully waived."
           }
         ]
       },
       {
-        "id": "disclaimers",
-        "title": "11. Disclaimers and Limitation of Liability",
+        "id": "age-eligibility",
+        "title": "Age Eligibility & Protection of Minors",
+        "number": 13,
         "blocks": [
           {
             "type": "p",
-            "text": "Seenly is provided on an **\"as is\"** and **\"as available\"** basis."
+            "text": "10Signal is intended strictly for individuals aged **16 or older** (or the age of majority required for digital consent in your jurisdiction)."
           },
           {
             "type": "p",
-            "text": "We do not guarantee that:"
-          },
-          {
-            "type": "list",
-            "items": [
-              "Assessment results will perfectly or objectively describe you or another person;",
-              "Participant feedback will be accurate, truthful, complete, or representative;",
-              "Scores, archetypes, perception gaps, or other outputs will meet your expectations;",
-              "The Service will always be uninterrupted, error-free, or completely secure."
-            ]
-          },
-          {
-            "type": "p",
-            "text": "To the maximum extent permitted by applicable law, Seenly and its creators will not be responsible for indirect, incidental, special, consequential, or similar losses arising from use of or inability to use the Service."
-          },
-          {
-            "type": "p",
-            "text": "Nothing in these Terms excludes or limits liability or consumer rights that cannot legally be excluded or limited."
+            "text": "Individuals under 16 are not permitted to create an account, purchase digital products, or submit peer evaluations. If we discover that personal data has been submitted by a child under 16, we will take prompt steps to delete the data and close the associated profile upon verification."
           }
         ]
       },
       {
-        "id": "third-party-services",
-        "title": "12. Third-Party Services",
+        "id": "dispute-resolution",
+        "title": "Dispute Resolution & Applicable Law",
+        "number": 14,
         "blocks": [
           {
             "type": "p",
-            "text": "Seenly may rely on or link to third-party services, including payment providers, infrastructure providers, social platforms, or external websites."
+            "text": "We encourage you to contact us directly at 10signal.me@gmail.com to resolve any concern or dispute informally and amiably."
           },
           {
             "type": "p",
-            "text": "Those services operate independently and may be governed by their own terms and privacy policies."
+            "text": "These Terms are presented in both English and Turkish. Both versions articulate identical commercial commitments and legal terms."
+          },
+          {
+            "type": "h3",
+            "text": "Consumer Rights in Türkiye"
           },
           {
             "type": "p",
-            "text": "Seenly is not responsible for the independent operation or content of third-party services except to the extent responsibility cannot legally be excluded."
+            "text": "For consumers residing in Türkiye, disputes arising from distance contracts may be submitted to Consumer Arbitration Committees (Tüketici Hakem Heyetleri) or Consumer Courts (Tüketici Mahkemeleri) within the monetary limits set annually by the Ministry of Trade, situated in the jurisdiction of the consumer's residence or where the transaction was executed."
+          },
+          {
+            "type": "h3",
+            "text": "International Consumers"
+          },
+          {
+            "type": "p",
+            "text": "If you are a consumer residing outside Türkiye, nothing in these Terms deprives you of the protection afforded by mandatory provisions of the consumer protection laws of your country of habitual residence."
           }
         ]
       },
       {
-        "id": "termination",
-        "title": "13. Termination",
+        "id": "amendments",
+        "title": "Amendments to these Terms",
+        "number": 15,
         "blocks": [
           {
             "type": "p",
-            "text": "You may stop using Seenly at any time and may delete your account where account deletion functionality is available."
+            "text": "We may update these Terms periodically to reflect changes in our platform features, payment infrastructure, or legal obligations."
           },
           {
             "type": "p",
-            "text": "We may restrict, suspend, or terminate access where reasonably necessary because of:"
-          },
-          {
-            "type": "list",
-            "items": [
-              "A material violation of these Terms;",
-              "Fraudulent or abusive activity;",
-              "Attempts to manipulate Seenly results;",
-              "Security threats;",
-              "Unlawful activity;",
-              "Legal or regulatory requirements."
-            ]
-          },
-          {
-            "type": "p",
-            "text": "Where reasonable in the circumstances, we may provide notice or an opportunity to resolve the issue before permanent termination."
-          },
-          {
-            "type": "p",
-            "text": "Termination does not affect provisions that by their nature should continue to apply, including intellectual property, completed payment obligations, disclaimers, and limitations of liability."
-          }
-        ]
-      },
-      {
-        "id": "changes-to-terms",
-        "title": "14. Changes to These Terms",
-        "blocks": [
-          {
-            "type": "p",
-            "text": "We may update these Terms when Seenly, our commercial practices, our service providers, or applicable requirements change."
-          },
-          {
-            "type": "p",
-            "text": "The **\"Last updated\"** date at the top of this page will indicate the latest revision."
-          },
-          {
-            "type": "p",
-            "text": "By continuing to use Seenly after revised Terms become effective, you agree to the updated Terms where permitted by applicable law."
-          },
-          {
-            "type": "p",
-            "text": "Where a material change requires additional notice or consent, we will take appropriate steps."
-          }
-        ]
-      },
-      {
-        "id": "governing-language",
-        "title": "15. Governing Language",
-        "blocks": [
-          {
-            "type": "p",
-            "text": "These Terms are written in English."
-          },
-          {
-            "type": "p",
-            "text": "Seenly may provide translations for convenience. If there is a material inconsistency between the English version and a translated version, the English version will govern to the extent permitted by applicable law."
-          }
-        ]
-      },
-      {
-        "id": "general-terms",
-        "title": "16. General Terms",
-        "blocks": [
-          {
-            "type": "p",
-            "text": "If any provision of these Terms is found to be invalid or unenforceable, the remaining provisions will continue in effect."
-          },
-          {
-            "type": "p",
-            "text": "Our failure to enforce a provision of these Terms does not waive our right to enforce it later."
-          },
-          {
-            "type": "p",
-            "text": "You may not transfer your rights or obligations under these Terms without our permission where such restriction is legally permitted."
-          },
-          {
-            "type": "p",
-            "text": "If Seenly's operation is transferred to another person or entity in the future, these Terms and the rights and obligations connected with the Service may be transferred as part of that transition, subject to applicable law."
-          },
-          {
-            "type": "p",
-            "text": "These Terms, together with our Privacy Policy and any refund or purchase terms presented to you, constitute the agreement governing your use of Seenly."
-          },
-          {
-            "type": "p",
-            "text": "Nothing in these Terms removes rights that cannot legally be waived or restricted."
+            "text": "The \"Last updated\" date at the top of this document indicates the effective date of the latest version. Material amendments will be communicated through web notices or email alerts prior to taking effect."
           }
         ]
       },
       {
         "id": "contact",
-        "title": "17. Contact",
+        "title": "Contact & Customer Inquiries",
+        "number": 16,
         "blocks": [
           {
             "type": "p",
-            "text": "Seenly is currently an independent project developed and operated by its creators."
+            "text": "For any inquiries, feedback, or support regarding these Terms or our digital products, please reach out to our team at:"
           },
           {
             "type": "list",
             "items": [
-              "For questions about these Terms: legal@seenly.app",
-              "For general support: support@seenly.app",
-              "For billing or refund inquiries: billing@seenly.app"
+              "Official Support & Inquiries: 10signal.me@gmail.com",
+              "Response Standard: We strive to review and respond to all legitimate requests within 30 calendar days."
             ]
           }
         ]
@@ -546,431 +430,565 @@
   },
   "privacy": {
     "title": "Privacy Policy",
-    "lastUpdated": "September 4, 2026",
+    "lastUpdated": "October 18, 2026",
     "sections": [
       {
-        "id": "intro",
-        "intro": true,
+        "id": "data-controller",
+        "title": "Data Controller and Operational Status",
+        "number": 1,
         "blocks": [
           {
             "type": "p",
-            "text": "Seenly (\"Seenly\", \"we\", \"us\", or \"our\") is an independent social perception and self-reflection platform developed and operated by its creators."
+            "text": "10Signal (\"10Signal\", \"we\", \"us\", or \"our\") is an independent digital platform developed and operated by a two-person team based in Türkiye."
           },
           {
             "type": "p",
-            "text": "We care about privacy because Seenly processes personal reflections, assessment responses, social perceptions, and feedback submitted by people you invite."
+            "text": "For the purposes of the European Union General Data Protection Regulation (Regulation (EU) 2016/679, \"GDPR\"), the Turkish Law on the Protection of Personal Data (Law No. 6698, \"KVKK\"), and other applicable international data privacy frameworks, 10Signal acts as the data controller for personal data collected directly through the 10Signal application and associated services."
           },
           {
             "type": "p",
-            "text": "This Privacy Policy explains what information we collect, how we use it, when it may be shared, how long we keep it, and what choices you have."
+            "text": "This Privacy Policy serves as our statutory notice under GDPR Articles 13 and 14 and constitutes our general disclosure statement pursuant to Article 10 of the KVKK."
+          },
+          {
+            "type": "p",
+            "text": "All communications, inquiries, and statutory data subject requests should be directed to our designated privacy channel at: 10signal.me@gmail.com"
           },
           {
             "type": "highlight",
-            "text": "**Our Privacy Commitment:** Seenly is built around personal and interpersonal reflection. We do not sell personal information, self-assessment responses, or peer-assessment data to advertisers or data brokers. We use information entrusted to Seenly only to provide, protect, maintain, and improve the Service as described in this Privacy Policy."
+            "text": "**Core Commitment:** 10Signal is built exclusively for personal and social self-reflection. We do not sell, rent, monetize, or trade your personal information, self-evaluations, or peer ratings to third-party data brokers, advertising networks, or commercial profile aggregators."
           }
         ]
       },
       {
-        "id": "information-we-collect",
-        "title": "What Information We Collect",
+        "id": "categories-of-data",
+        "title": "Categories of Personal Data Collected",
+        "number": 2,
         "blocks": [
           {
             "type": "p",
-            "text": "We collect information that you provide directly to Seenly and limited technical information generated when you use the Service."
+            "text": "We collect and process only the categories of personal data that are strictly necessary to provide our core self-discovery features, maintain system security, and comply with operational requirements."
           },
           {
             "type": "h3",
-            "text": "Account and Profile Information"
-          },
-          {
-            "type": "p",
-            "text": "When you create an account, we may process:"
+            "text": "A. Account and Profile Data"
           },
           {
             "type": "list",
             "items": [
-              "Display name;",
-              "Email address;",
-              "Account identifier;",
-              "Selected avatar;",
-              "Language and interface preferences;",
-              "Authentication and account-security information."
+              "Account identifier (UUID);",
+              "User-selected display name;",
+              "Email address (used for one-time password [OTP] authentication, security notices, transactional receipts, and customer support);",
+              "Selected visual avatar asset identifier;",
+              "Account entitlement tier (Standard vs. 10Signal Plus) and response capacity limits;",
+              "Interface language preference (e.g., 'en' or 'tr');",
+              "Account creation, name update, and last activity timestamps."
             ]
           },
           {
-            "type": "p",
-            "text": "Your email address may be used for authentication, one-time verification codes, account recovery, security notices, purchase-related messages, and support."
-          },
-          {
             "type": "h3",
-            "text": "Assessment Information"
-          },
-          {
-            "type": "p",
-            "text": "When you complete a Seenly assessment, we process the responses you voluntarily provide."
-          },
-          {
-            "type": "p",
-            "text": "These responses may relate to personality traits, interpersonal behavior, communication, social dynamics, self-perception, and similar characteristics. We use them to generate Seenly results such as scores, comparisons, perception gaps, archetypes, cards, and visual insights."
-          },
-          {
-            "type": "p",
-            "style": "italic",
-            "text": "Seenly assessments are intended for personal insight, entertainment, and social reflection. They are not medical, psychological, psychiatric, or clinical diagnoses."
-          },
-          {
-            "type": "h3",
-            "text": "Peer and Participant Feedback"
-          },
-          {
-            "type": "p",
-            "text": "Seenly allows people you invite to provide feedback through a participation link."
-          },
-          {
-            "type": "p",
-            "text": "Participant responses may be aggregated, subject to minimum-response thresholds, or otherwise presented in a way designed to protect individual participants from unnecessary identification."
-          },
-          {
-            "type": "p",
-            "text": "Unless a feature clearly states otherwise, Seenly does not intentionally reveal the identity of an anonymous participant to the profile owner."
-          },
-          {
-            "type": "h3",
-            "text": "Technical and Security Information"
-          },
-          {
-            "type": "p",
-            "text": "When you use Seenly, we may process limited technical information such as:"
+            "text": "B. Self-Assessment and Psychometric Response Data"
           },
           {
             "type": "list",
             "items": [
-              "IP address;",
-              "Browser and device information;",
-              "Timestamps;",
-              "Authentication and security events;",
-              "Rate-limit information;",
-              "Error and performance information;",
-              "Pseudonymous browser or device identifiers."
+              "Numerical rating responses (values 1 through 5) submitted voluntarily to self-evaluation questions across 10 social perception lenses: Warmth (Samimiyet), Charm (Çekicilik), Intellect (Zeka), Vision (Vizyon), Energy (Enerji), Reliability (Güvenilirlik), Confidence (Ego), Drive/Success (Başarı), Generosity (Cömertlik), and Maturity (Olgunluk);",
+              "Calculated trait score averages, archetype card classifications, perception gap vectors, and confidence band states."
             ]
           },
           {
+            "type": "h3",
+            "text": "C. Peer (Friend) Assessment Data"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Numerical evaluations (values 1 through 5) submitted by peer participants via your public profile link (/friend/{slug});",
+              "Optional respondent nickname voluntarily entered by the participant (participants may choose to leave this field blank);",
+              "Per-question completion duration analytics (response latency in milliseconds);",
+              "Important: Peer respondents are NEVER required to provide their email address, real name, phone number, or login credentials."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "D. Technical Identifiers, Network and Anti-Abuse Data"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Pseudonymous network hash: When an HTTP request reaches 10Signal, the client's IP address is used in temporary server memory solely to compute an irreversible SHA-256 hash. The raw IP address is NEVER stored in persistent database tables;",
+              "Pseudonymous device fingerprint hash: A client-generated browser signal converted on our servers into an irreversible SHA-256 hash solely to enforce a strict one-vote-per-device-per-profile constraint;",
+              "Rate-limit bucket counters, access timestamps, and security audit event logs."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "E. Payment and Commercial Transaction Records"
+          },
+          {
             "type": "p",
-            "text": "Seenly may use hashed or pseudonymized browser/device fingerprint signals to prevent duplicate submissions, automated activity, manipulation, spam, and abuse. These identifiers are not used to create advertising profiles."
+            "text": "Payments are processed entirely through our Merchant of Record, Lemon Squeezy, LLC. 10Signal never collects, stores, or accesses full credit card numbers, expiration dates, or CVV/CVC security codes. We receive and store only transaction metadata: transaction ID, checkout ID, product code, entitlement quantity, purchase currency, amount in minor units, payment status, and entitlement grant timestamps."
+          },
+          {
+            "type": "h3",
+            "text": "F. Communications and Verification Grants"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Records of correspondence and support requests sent to 10signal.me@gmail.com;",
+              "Cryptographically hashed OTP verification codes and short-lived registration grants (with a maximum lifespan of 10 to 30 minutes)."
+            ]
           }
         ]
       },
       {
-        "id": "how-we-use-information",
-        "title": "How We Use Information",
+        "id": "purposes-legal-bases",
+        "title": "Purposes of Processing and Legal Bases (GDPR & KVKK)",
+        "number": 3,
         "blocks": [
           {
             "type": "p",
-            "text": "We use information to:"
+            "text": "We process personal data only when an authorized statutory legal basis exists under applicable law. We explicitly distinguish between the legal grounds recognized under the EU GDPR (Regulation (EU) 2016/679) and the Turkish KVKK (Law No. 6698). In compliance with international data privacy standards, consent is NOT treated as a universal catch-all justification for routine operations."
+          },
+          {
+            "type": "h3",
+            "text": "A. Account Creation, Authentication & Profile Management"
           },
           {
             "type": "list",
             "items": [
-              "Create and maintain accounts;",
-              "Authenticate users;",
-              "Process assessments and generate results;",
-              "Collect and aggregate participant feedback;",
-              "Provide profile and sharing features;",
-              "Provide paid features;",
-              "Process and recognize purchases;",
-              "Prevent fraud, abuse, spam, and duplicate submissions;",
-              "Secure Seenly and user accounts;",
-              "Provide support and essential communications;",
-              "Troubleshoot and improve the Service."
+              "GDPR Legal Basis: Article 6(1)(b) — Processing is necessary for the performance of a contract (our Terms of Service) to which you are party, or to take steps at your request prior to entering into a contract.",
+              "KVKK Legal Basis: Article 5(2)(c) — Processing of personal data belonging to the parties of a contract is necessary, provided that it is directly related to the establishment or performance of that contract."
             ]
+          },
+          {
+            "type": "h3",
+            "text": "B. Assessment Processing, Archetype Computation & Perception Insights"
+          },
+          {
+            "type": "list",
+            "items": [
+              "GDPR Legal Basis: Article 6(1)(b) (Performance of contract to calculate and deliver requested personality and gap insights) and Article 6(1)(a) (Explicit consent voluntarily provided when you choose to take the assessment and share your link).",
+              "KVKK Legal Basis: Article 5(2)(c) (Contractual performance for service functionality) and Article 5(1) (Explicit consent / Açık Rıza for elective self-assessment participation)."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "C. Abuse Prevention, Ballot-Stuffing Defense & System Integrity"
+          },
+          {
+            "type": "list",
+            "items": [
+              "GDPR Legal Basis: Article 6(1)(f) — Legitimate interests pursued by 10Signal and its users to safeguard the authenticity of peer feedback, prevent automated attacks, eliminate duplicate submissions, and maintain platform stability.",
+              "KVKK Legal Basis: Article 5(2)(f) — Processing is necessary for the legitimate interests of the data controller, provided that it does not harm the fundamental rights and freedoms of the data subject."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "D. Transactional Communications, OTP Verification & Account Security"
+          },
+          {
+            "type": "list",
+            "items": [
+              "GDPR Legal Basis: Article 6(1)(b) (Contract performance) and Article 6(1)(c) (Compliance with statutory security obligations).",
+              "KVKK Legal Basis: Article 5(2)(c) (Contractual performance) and Article 5(2)(ç) (Fulfillment of the data controller's legal obligations)."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "E. Payment Processing, Commercial Recordkeeping & Tax Compliance"
+          },
+          {
+            "type": "list",
+            "items": [
+              "GDPR Legal Basis: Article 6(1)(b) (Fulfillment of digital goods purchase contract) and Article 6(1)(c) (Compliance with mandatory fiscal, commercial, and financial record retention laws).",
+              "KVKK Legal Basis: Article 5(2)(c) (Contract performance) and Article 5(2)(a)/(ç) (Expressly stipulated by legislation and fulfillment of legal duties)."
+            ]
+          }
+        ]
+      },
+      {
+        "id": "psychometrics-profiling",
+        "title": "Assessment Mechanics, Non-Clinical Psychometrics & Profiling Safeguards",
+        "number": 4,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal utilizes algorithmic scoring formulas to compute normalized averages, archetype classifications, and perception gap vectors based upon self-ratings and peer feedback."
           },
           {
             "type": "highlight",
-            "text": "We do not sell or rent personal information. We do not sell self-assessment responses, peer feedback, personality-related results, or social-perception data to advertisers, advertising networks, or data brokers."
-          }
-        ]
-      },
-      {
-        "id": "payments",
-        "title": "Payments",
-        "blocks": [
+            "text": "**Strict Non-Clinical Disclaimer:** 10Signal assessments, archetypes, radar charts, and perception gap scores are designed strictly for personal reflection, interpersonal self-awareness, communication insights, and entertainment. 10Signal does NOT offer medical, psychological, psychiatric, or healthcare services. Our algorithms do NOT generate clinical diagnoses, mental health assessments, psychiatric evaluations, or medical treatment recommendations."
+          },
           {
-            "type": "p",
-            "text": "Seenly may offer paid digital features or additional participation capacity."
+            "type": "h3",
+            "text": "No High-Impact Automated Decision-Making (GDPR Article 22)"
           },
           {
             "type": "p",
-            "text": "Payments may be processed by an independent payment provider or Merchant of Record. The payment provider may process billing, payment method, transaction, tax, and related information required to complete the purchase."
+            "text": "10Signal does NOT subject users to automated decision-making or profiling that produces legal effects or similarly significantly affects them under GDPR Article 22 or KVKK Article 11(1)(g). Our calculations are confined entirely to user-facing reflection archetypes. They are never utilized for credit underwriting, insurance pricing, employment suitability screening, judicial evaluation, or behavioral commercial gating."
+          },
+          {
+            "type": "h3",
+            "text": "Zero Processing of Special Category / Sensitive Personal Data"
           },
           {
             "type": "p",
-            "text": "Where payment information is entered directly through the payment provider, Seenly does not intentionally store full payment card numbers or card security codes on its own application servers."
-          },
-          {
-            "type": "p",
-            "text": "We may receive limited transaction information such as:"
-          },
-          {
-            "type": "list",
-            "items": [
-              "Transaction ID;",
-              "Product purchased;",
-              "Amount and currency;",
-              "Payment status;",
-              "Purchase date;",
-              "Refund or chargeback status."
-            ]
-          },
-          {
-            "type": "p",
-            "text": "Payment providers process payment information according to their own privacy policies and legal obligations."
+            "text": "Under Article 9 of the GDPR and Article 6 of the KVKK, certain categories of data receive heightened protection, including race, ethnic origin, political opinions, religious or philosophical beliefs, trade union membership, genetic data, biometric data for identification, health or medical data, and information concerning sex life or sexual orientation. 10Signal strictly DOES NOT collect, solicit, or process any special category personal data. Users and peer respondents must never enter sensitive health, political, religious, or biometric data into open-text fields, nicknames, or support correspondence."
           }
         ]
       },
       {
         "id": "anonymous-participation",
-        "title": "Anonymous Participation",
+        "title": "Anonymous Peer Participation & Privacy Safeguards",
+        "number": 5,
         "blocks": [
           {
             "type": "p",
-            "text": "Anonymous participation on Seenly means that a participant's identity is not intentionally shown to the profile owner through their submitted feedback."
-          },
-          {
-            "type": "p",
-            "text": "It does not mean that Seenly processes no technical information. Limited technical information may still be used to prevent:"
+            "text": "Peer evaluation is a core feature of 10Signal. We have implemented robust technical safeguards to protect the privacy and anonymity of participating peers."
           },
           {
             "type": "list",
             "items": [
-              "Duplicate submissions;",
-              "Bots;",
-              "Spam;",
-              "Manipulation;",
-              "Attempts to bypass participation limits."
+              "No Credentials Required: Peers access evaluations via a public link (/friend/{slug}). They are not required to create an account, log in, or provide an email address, phone number, or legal identity.",
+              "Optional Pseudonyms: A participant may voluntarily choose an arbitrary nickname. If omitted, the session remains completely unlabelled.",
+              "Enforced Minimum Aggregation Threshold: To ensure that profile owners cannot isolate or reverse-engineer the ratings of a single individual, outside perception scores and friend averages are strictly locked until a minimum threshold of at least three (3) unique evaluations have been submitted.",
+              "Owner History Protections: When a profile owner views detailed response cards, voter network hashes and device fingerprint hashes are stripped and NEVER exposed to the owner or returned in public API payloads.",
+              "Confidentiality Guarantee: 10Signal does not track, deanonymize, or disclose the identity of anonymous participants to profile owners upon private request, except where disclosure is strictly mandated by valid legal process or judicial court order."
+            ]
+          }
+        ]
+      },
+      {
+        "id": "technical-identifiers",
+        "title": "Technical Identifiers, Hashing & Duplicate Prevention",
+        "number": 6,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "To prevent ballot manipulation, spamming, and denial-of-service abuse while preserving privacy, 10Signal relies on one-way cryptographic hashing rather than raw identifier storage."
+          },
+          {
+            "type": "h3",
+            "text": "A. Network IP Address Policy"
+          },
+          {
+            "type": "p",
+            "text": "When an HTTP request is received by our servers, the client's remote IP address is temporarily read in volatile memory solely to calculate an irreversible SHA-256 hash formatted as network:v1:[IP]. The raw IP address is NEVER written to or stored in persistent database tables."
+          },
+          {
+            "type": "h3",
+            "text": "B. Browser Environment Fingerprint Signals"
+          },
+          {
+            "type": "p",
+            "text": "When a peer submits an evaluation, a client-derived browser environment signal is sent to the server. The server immediately applies a one-way cryptographic SHA-256 hash (fingerprint:v1:[signal]). This hash is used solely to enforce a strict unique constraint (one response per device per profile) and cannot be reverse-engineered to track users across third-party websites."
+          },
+          {
+            "type": "h3",
+            "text": "C. Rate Limiting and Automated Periodic Cleanup"
+          },
+          {
+            "type": "p",
+            "text": "Rate limiting is enforced at the database layer through dedicated rate-limit bucket tables. An automated background cleanup scheduler runs every hour, purging expired rate-limit records, expired OTP challenges, and expired verification grants with an operational retention window of 24 hours."
+          }
+        ]
+      },
+      {
+        "id": "cookies-browser-storage",
+        "title": "Cookies, Local Storage & Browser State",
+        "number": 7,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal operates without third-party advertising cookies, commercial tracking pixels, or cross-site tracking scripts. We utilize only strictly necessary browser storage mechanisms to ensure service functionality."
+          },
+          {
+            "type": "h3",
+            "text": "A. Local Storage (localStorage)"
+          },
+          {
+            "type": "list",
+            "items": [
+              "tensignal_owner_token / seenly_owner_token: Stores the cryptographic owner session token required for authenticated access to your private profile and dashboard;",
+              "tensignal_locale, tensignal_account_locale, tensignal_locale_manual: Stores your preferred UI language selection (e.g., 'en' or 'tr');",
+              "tensignal_display_name, tensignal_avatar, tensignal_owner_slug, tensignal_is_premium: Caches non-sensitive profile state to enable instantaneous interface rendering;",
+              "tensignal_participant_signal: Temporarily stores a client signal used to verify whether you have completed an evaluation on a given profile link."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "B. Session Storage (sessionStorage)"
+          },
+          {
+            "type": "list",
+            "items": [
+              "tensignal_answers, tensignal_currentIndex: Holds your in-progress quiz responses during an active browser session so progress is not lost upon accidental page refresh;",
+              "tensignal_registration_grant: Stores a transient cryptographic token utilized during the email verification workflow;",
+              "Lifecycle: Session storage is automatically cleared upon quiz submission, account sign-out, or browser tab closure."
+            ]
+          }
+        ]
+      },
+      {
+        "id": "third-party-service-providers",
+        "title": "Third-Party Service Providers (Sub-Processors)",
+        "number": 8,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "To operate 10Signal reliably and securely, we partner with specialized third-party infrastructure providers and sub-processors who process limited data on our behalf:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Brevo (Sendinblue SAS, France / EU): Provides transactional email infrastructure via REST API for dispatching one-time login codes (OTPs), security alerts, account deletion notices, and lifecycle notifications. Brevo processes recipient email addresses and email contents within data centers located in the European Union (France and Germany).",
+              "Lemon Squeezy, LLC (USA): Serves as our Merchant of Record (MoR) for digital goods purchases (10Signal Plus and Response Capacity Packs). Lemon Squeezy directly processes payment card data, billing addresses, tax assessments, and fraud checks on their secure checkout pages. 10Signal receives only transaction metadata and cryptographically signed webhook notifications.",
+              "Cloud Infrastructure & PostgreSQL Database: Houses our containerized backend services, relational database, and application caches under strict technical access controls.",
+              "Google Fonts (Google LLC): Delivers web font styling stylesheets via global content delivery networks (CDNs)."
             ]
           },
           {
             "type": "p",
-            "text": "Seenly will not intentionally reveal an anonymous participant's identity merely because another user requests it, except where disclosure is legally required."
+            "text": "Our sub-processors are legally and contractually restricted from using your personal data for their own independent advertising, marketing, or commercial profiling purposes."
           }
         ]
       },
       {
-        "id": "public-profiles",
-        "title": "Public Profiles and Sharing",
+        "id": "international-transfers",
+        "title": "International Data Transfers (GDPR Chapter V & KVKK Art. 9)",
+        "number": 9,
         "blocks": [
           {
             "type": "p",
-            "text": "Certain Seenly features allow users to share profiles, results, cards, or participation links."
+            "text": "Because 10Signal is accessible globally and relies on specialized international service providers, your personal data may be transferred to and processed on servers located outside your country of residence."
           },
           {
-            "type": "p",
-            "text": "Information you intentionally make public or share through these features may be accessible to other people. People who receive such content may copy, screenshot, save, or redistribute it outside Seenly. We cannot control information that others independently copy or share outside the Service."
-          }
-        ]
-      },
-      {
-        "id": "cookies",
-        "title": "Cookies and Browser Storage",
-        "blocks": [
-          {
-            "type": "p",
-            "text": "Seenly may use essential cookies, localStorage, sessionStorage, or similar technologies to:"
+            "type": "h3",
+            "text": "Service Providers Processing Data Internationally"
           },
           {
             "type": "list",
             "items": [
-              "Maintain authentication;",
-              "Secure sessions;",
-              "Remember language and interface preferences;",
-              "Preserve assessments that are still in progress;",
-              "Provide essential Service functionality."
+              "Brevo (Sendinblue SAS - France / EU): Serves as our transactional email provider. Recipient email addresses and notification payloads for one-time login codes (OTPs), security alerts, account deletion notices, and lifecycle messages are processed within Brevo's data centers located in the European Union (France and Germany).",
+              "Lemon Squeezy, LLC (USA): Serves as our Merchant of Record for digital product purchases (10Signal Plus and Response Capacity Packs). When you initiate a checkout, order details, billing metadata, and payment transactions are processed on Lemon Squeezy's secure infrastructure in the United States."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "Transfers under European Union GDPR (Chapter V)"
+          },
+          {
+            "type": "p",
+            "text": "For users located in the European Economic Area (EEA), transactional email processing via Brevo is conducted directly within the European Union. Payment processing flows with Lemon Squeezy in the United States are conducted pursuant to standard data processing terms and derogations for the performance of the purchase contract (GDPR Article 49(1)(b))."
+          },
+          {
+            "type": "h3",
+            "text": "Status under Turkish KVKK (Article 9)"
+          },
+          {
+            "type": "p",
+            "text": "Under Article 9 of the Turkish Law on the Protection of Personal Data (KVKK, as amended in 2024), continuous and systematic transfers of personal data from Türkiye to foreign jurisdictions require an adequacy decision issued by the Personal Data Protection Board (Article 9(1)) or appropriate safeguards such as standard contractual clauses formally notified to the Authority or Board-approved commitments (Article 9(4)). Statutory derogations under Article 9(6) apply strictly to occasional transfers."
+          },
+          {
+            "type": "p",
+            "text": "10Signal operates as an independent two-person venture and currently does not have an adequacy decision from the Board, formal Standard Contractual Clauses notified to the Turkish Authority, or approved commitments in place for destination jurisdictions. Users are hereby informed that utilizing the platform's authentication, notification, and payment features involves the technical processing of data by the aforementioned international providers. Users may terminate these technical processing flows at any time by requesting account deletion."
+          }
+        ]
+      },
+      {
+        "id": "retention-and-deletion",
+        "title": "Data Retention, Account Deletion & Anonymization Lifecycle",
+        "number": 10,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "We retain personal data only for as long as strictly necessary to deliver the requested services, maintain security, enforce duplicate response restrictions, and comply with legal retention requirements."
+          },
+          {
+            "type": "h3",
+            "text": "A. Active Account Data"
+          },
+          {
+            "type": "p",
+            "text": "Profile details, self-evaluations, and peer response sessions remain stored while your account remains active."
+          },
+          {
+            "type": "h3",
+            "text": "B. Account Deletion Execution Flow"
+          },
+          {
+            "type": "p",
+            "text": "You may permanently delete your account at any time via the Settings menu or by emailing 10signal.me@gmail.com. When account deletion is triggered (/api/billing/delete-account):"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Immediate Database Cascade: The user record, all linked 10Signal profiles, self-evaluation answers, result snapshots, and all peer response sessions and friend evaluations are permanently deleted from active database tables immediately;",
+              "Asynchronous Outbox Scrubbing: A final account deletion confirmation email is enqueued for delivery. When the background email outbox worker successfully dispatches this notice via Brevo (or upon terminal failure or 24-hour expiration), the recipient email on that outbox record is overwritten with purged@deleted.tensignal.app and its payload is wiped to empty JSON ({});",
+              "Session Invalidation: All active owner authentication tokens and browser session credentials are instantaneously revoked."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "C. Operational and Commercial Retention"
+          },
+          {
+            "type": "list",
+            "items": [
+              "OTP Challenges and Grants: Expire after 10 to 30 minutes and are permanently purged by hourly automated cleanup jobs;",
+              "Rate-Limit Records: Expire after their configured window and are purged within 24 hours;",
+              "Commercial Transaction Records: In accordance with statutory financial, fiscal, and tax recordkeeping laws, payment transaction logs may be retained for statutory limitation periods (up to 10 years where required by applicable commercial codes)."
+            ]
+          }
+        ]
+      },
+      {
+        "id": "security-measures",
+        "title": "Technical and Organizational Security Measures",
+        "number": 11,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal implements multi-layered technical and organizational safeguards designed to protect personal data against accidental loss, unauthorized access, alteration, disclosure, and misuse."
+          },
+          {
+            "type": "list",
+            "items": [
+              "Encryption in Transit: All data exchanged between your browser and our servers is encrypted using modern TLS (Transport Layer Security 1.2 and 1.3) with strict HTTPS enforcement;",
+              "Cryptographic Token Hashing: Owner access tokens are stored in the database exclusively as irreversible SHA-256 cryptographic hashes, preventing plain-text credential exposure;",
+              "Pseudonymization by Design: Client IP addresses and device signals are immediately salted and hashed before database persistence;",
+              "Outbox Payload Encryption: Sensitive OTP authentication payloads stored in our transactional email outbox queue are encrypted at rest using AES-256-GCM;",
+              "Database Rate Limiting: Strict rate-limiting algorithms guard against automated brute-force attacks, credential stuffing, and volumetric denial-of-service attempts;",
+              "Strict Header Authentication: Private dashboard endpoints mandate valid cryptographic X-Owner-Token headers and reject URL-based token exposure."
+            ]
+          }
+        ]
+      },
+      {
+        "id": "data-subject-rights",
+        "title": "Data Subject Rights under GDPR and KVKK",
+        "number": 12,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "We respect your statutory rights regarding your personal data under the EU GDPR, the Turkish KVKK, and comparable international data protection frameworks."
+          },
+          {
+            "type": "h3",
+            "text": "Rights under the EU GDPR (Articles 15–22)"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Right of Access (Article 15): Request confirmation as to whether we process your personal data and obtain a copy of that data;",
+              "Right to Rectification (Article 16): Request the correction of inaccurate or incomplete personal data;",
+              "Right to Erasure / Right to be Forgotten (Article 17): Request permanent deletion of personal data where statutory grounds apply;",
+              "Right to Restriction of Processing (Article 18): Request the restriction of processing under specified legal conditions;",
+              "Right to Data Portability (Article 20): Receive your personal data in a structured, commonly used, and machine-readable format;",
+              "Right to Object (Article 21): Object to data processing based upon our legitimate interests;",
+              "Rights Regarding Profiling (Article 22): Right not to be subjected to decisions based solely on automated processing having legal or significant effects;",
+              "Right to Lodge a Complaint: You have the right to lodge a complaint with a competent supervisory authority in your EU Member State."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "Rights under the Turkish KVKK (Article 11)"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Learn whether your personal data is being processed;",
+              "Request information if your personal data has been processed;",
+              "Learn the purpose of the processing and whether data is used in accordance with that purpose;",
+              "Know the third parties to whom personal data is transferred domestically or abroad;",
+              "Request correction of incomplete or inaccurate data;",
+              "Request deletion or destruction of personal data pursuant to Article 7 of the KVKK;",
+              "Request notification of corrections, deletions, or destructions to third parties to whom your data was transferred;",
+              "Object to results that emerge exclusively through automated systems to your detriment;",
+              "Claim compensation for damages suffered as a result of unlawful processing of personal data."
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "How to Exercise Your Rights"
+          },
+          {
+            "type": "p",
+            "text": "You may exercise any of your statutory rights by submitting a written request to our dedicated privacy contact at: 10signal.me@gmail.com"
+          },
+          {
+            "type": "p",
+            "text": "To protect user confidentiality, we will verify that you control the associated account or registered email address before executing your request. Valid requests will be processed free of charge and answered without undue delay, and in all cases within thirty (30) days as stipulated by both GDPR and KVKK."
+          }
+        ]
+      },
+      {
+        "id": "childrens-privacy",
+        "title": "Children's Privacy & Age Limitations",
+        "number": 13,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal is not intended for or targeted at individuals under 16 years of age (or the minimum legal age for digital consent under the laws of your jurisdiction)."
+          },
+          {
+            "type": "p",
+            "text": "We do not knowingly solicit, collect, or process personal data from children under 16. If we discover that personal data of a minor under 16 has been collected without verified parental or legal guardian consent, we will take immediate steps to delete the information and terminate the associated profile. If you believe a minor has submitted personal data to 10Signal, please contact us at: 10signal.me@gmail.com"
+          }
+        ]
+      },
+      {
+        "id": "notification-preferences",
+        "title": "Notification Preferences & Direct Communications",
+        "number": 14,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "10Signal maintains a clear distinction between essential transactional system messages and optional lifecycle notifications:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Essential Transactional Notices: Authentication OTPs, account security alerts, billing confirmations, and account deletion verifications are essential to the execution of our service contract and cannot be deactivated while the account is active;",
+              "Configurable Lifecycle Notifications: You may toggle optional notification categories at any time in the Settings dashboard, including: (1) new evaluation alerts, (2) inactivity reflection reminders, (3) perception card changes, and (4) capacity quota warnings."
             ]
           },
           {
             "type": "p",
-            "text": "We do not use these technologies to sell your browsing activity to third-party advertising networks. If we introduce non-essential technologies that require consent, appropriate consent controls will be provided where required."
+            "text": "When you turn off a notification category in Settings, our notification scheduler and outbox worker immediately cease generating or dispatching emails of that type."
           }
         ]
       },
       {
-        "id": "information-sharing",
-        "title": "Service Providers and Information Sharing",
+        "id": "policy-amendments",
+        "title": "Amendments to this Privacy Policy",
+        "number": 15,
         "blocks": [
           {
             "type": "p",
-            "text": "We may use trusted third-party providers to operate Seenly, including providers of:"
+            "text": "We may update this Privacy Policy periodically to reflect enhancements in 10Signal features, architectural updates, sub-processor changes, or amendments to statutory data protection regulations."
+          },
+          {
+            "type": "p",
+            "text": "The \"Last updated\" date at the top of this document indicates when the latest revisions took effect. In the event of material modifications that alter your substantive rights, we will provide prominent notice through the 10Signal application interface or via email prior to the changes becoming effective."
+          }
+        ]
+      },
+      {
+        "id": "contact-inquiries",
+        "title": "Contact & Inquiries",
+        "number": 16,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "If you have any questions, comments, concerns, or requests regarding this Privacy Policy, your personal data, or our data handling practices, please contact our core privacy team:"
           },
           {
             "type": "list",
             "items": [
-              "Hosting and cloud infrastructure;",
-              "Databases and storage;",
-              "Transactional email;",
-              "Security and abuse prevention;",
-              "Error or performance monitoring;",
-              "Customer support;",
-              "Payment processing."
-            ]
-          },
-          {
-            "type": "p",
-            "text": "These providers may process only the information reasonably necessary to provide their services to Seenly."
-          },
-          {
-            "type": "p",
-            "text": "We may also disclose information where reasonably necessary to comply with applicable law, valid legal process, fraud prevention, security investigations, or protection of our rights and users."
-          },
-          {
-            "type": "p",
-            "text": "We do not share personal information with third parties for their own behavioral advertising purposes."
-          }
-        ]
-      },
-      {
-        "id": "international-processing",
-        "title": "International Processing",
-        "blocks": [
-          {
-            "type": "p",
-            "text": "Seenly is intended for users in multiple regions and may rely on service providers or infrastructure located in different jurisdictions. As a result, information may be processed or stored outside the location where you live."
-          },
-          {
-            "type": "p",
-            "text": "Where applicable privacy requirements impose restrictions on international transfers, appropriate safeguards will be used where required."
-          }
-        ]
-      },
-      {
-        "id": "data-retention",
-        "title": "Data Retention and Deletion",
-        "blocks": [
-          {
-            "type": "p",
-            "text": "We keep personal information only for as long as reasonably necessary to provide Seenly, maintain security, prevent abuse, process transactions, comply with legal obligations, or resolve disputes."
-          },
-          {
-            "type": "list",
-            "items": [
-              "Account and assessment information may generally remain while your Seenly account is active.",
-              "Temporary authentication information may expire automatically.",
-              "Security and anti-abuse information may be retained for a limited period where necessary to prevent repeated misuse.",
-              "Payment, refund, chargeback, tax, or accounting records may be retained where required or reasonably necessary."
-            ]
-          },
-          {
-            "type": "p",
-            "text": "If you delete your Seenly account, information directly associated with the active account will be deleted or de-identified where reasonably possible."
-          },
-          {
-            "type": "p",
-            "text": "Certain limited information may remain temporarily where necessary for legal obligations, transaction records, security, fraud prevention, dispute resolution, or backup retention."
-          }
-        ]
-      },
-      {
-        "id": "your-rights",
-        "title": "Your Privacy Rights",
-        "blocks": [
-          {
-            "type": "p",
-            "text": "Depending on the privacy rules applicable to you, you may have rights to:"
-          },
-          {
-            "type": "list",
-            "items": [
-              "Access personal information associated with you;",
-              "Correct inaccurate information;",
-              "Request deletion of eligible information;",
-              "Object to or restrict certain processing;",
-              "Withdraw consent where processing relies on consent;",
-              "Request certain information in a portable format;",
-              "Exercise other privacy rights available under applicable law."
-            ]
-          },
-          {
-            "type": "p",
-            "text": "We may need to verify that you control the relevant Seenly account or email address before processing certain requests."
-          },
-          {
-            "type": "p",
-            "text": "Privacy requests can be sent to: privacy@seenly.app"
-          }
-        ]
-      },
-      {
-        "id": "security",
-        "title": "Security",
-        "blocks": [
-          {
-            "type": "p",
-            "text": "We use reasonable technical and organizational measures designed to protect information against unauthorized access, disclosure, alteration, loss, or misuse."
-          },
-          {
-            "type": "p",
-            "text": "These measures may include encryption in transit, authentication controls, restricted access, cryptographic protection of credentials, pseudonymization or hashing, rate limiting, anti-abuse controls, and security monitoring."
-          },
-          {
-            "type": "p",
-            "text": "No internet service can guarantee absolute security. If a security incident occurs and notification is required, we will take appropriate steps to investigate, mitigate the issue, and provide legally required notices."
-          }
-        ]
-      },
-      {
-        "id": "age-requirements",
-        "title": "Age Requirements",
-        "blocks": [
-          {
-            "type": "p",
-            "text": "Seenly is not intended for individuals who are legally unable to provide the permissions required to use the Service in their jurisdiction."
-          },
-          {
-            "type": "p",
-            "text": "We do not knowingly seek to collect personal information in violation of applicable age or consent requirements. If you believe that information has been submitted without the authorization required by applicable law, contact us at: privacy@seenly.app"
-          }
-        ]
-      },
-      {
-        "id": "third-party-services-privacy",
-        "title": "Third-Party Services",
-        "blocks": [
-          {
-            "type": "p",
-            "text": "Seenly may link to or interact with third-party websites, payment services, or social platforms. Those services operate independently and process information according to their own privacy practices."
-          },
-          {
-            "type": "p",
-            "text": "This Privacy Policy applies only to information processed by or on behalf of Seenly."
-          }
-        ]
-      },
-      {
-        "id": "policy-changes",
-        "title": "Changes to This Policy",
-        "blocks": [
-          {
-            "type": "p",
-            "text": "We may update this Privacy Policy as Seenly, our service providers, or applicable privacy requirements change. The \"Last updated\" date at the top of this page will show when the Policy was most recently revised."
-          },
-          {
-            "type": "p",
-            "text": "Where a material change requires additional notice or consent, we will take appropriate steps."
-          }
-        ]
-      },
-      {
-        "id": "contact-privacy",
-        "title": "Contact",
-        "blocks": [
-          {
-            "type": "p",
-            "text": "Seenly is currently an independent project developed and operated by its creators."
-          },
-          {
-            "type": "list",
-            "items": [
-              "For privacy questions or requests: privacy@seenly.app",
-              "For account or product support: support@seenly.app"
+              "Dedicated Privacy and Support Email: 10signal.me@gmail.com",
+              "Response Commitment: All legitimate inquiries are evaluated and answered within thirty (30) calendar days."
             ]
           }
         ]
@@ -979,7 +997,7 @@
   },
   "refund": {
     "title": "Refund Policy",
-    "lastUpdated": "September 2026",
+    "lastUpdated": "October 18, 2026",
     "sections": [
       {
         "id": "digital-goods",
@@ -988,70 +1006,91 @@
         "blocks": [
           {
             "type": "p",
-            "text": "All commercial offerings available on Seenly—including the one-time Seenly Plus purchase and standalone Response Capacity Packs (100, 250, and 500 response capacity allotments)—are intangible digital goods delivered electronically and activated immediately upon successful transaction confirmation by our payment processing partners."
+            "text": "All commercial offerings available on 10Signal—including 10Signal Plus and Response Capacity Packs (+50, +150, +300 response allotments)—are intangible digital products delivered and activated electronically in real time upon successful payment verification."
           }
         ]
       },
       {
-        "id": "unused-guarantee",
+        "id": "no-voluntary-refunds",
         "number": 2,
-        "title": "14-Day Unused Pack Refund Guarantee",
+        "title": "No Voluntary Refunds for Digital Purchases",
         "blocks": [
           {
             "type": "highlight",
-            "text": "Eligible Full Refund: If you purchase a Response Capacity Pack and ZERO (0) evaluations/responses have been recorded or consumed from that purchased pack, you are eligible to request a 100% full refund within 14 calendar days of the transaction date."
+            "text": "10Signal does not offer voluntary refunds for digital purchases, including Plus access and Response Capacity Packs. Changing your mind, not using the purchased features, or leaving purchased capacity unused does not, by itself, qualify for a voluntary refund. This policy does not limit any withdrawal, refund, or other consumer rights that cannot lawfully be excluded."
           },
           {
             "type": "p",
-            "text": "Additionally, if a technical error or network interruption results in an unintended duplicate charge for the same order, the redundant transaction will be fully refunded upon verification."
+            "text": "Due to the immediate provisioning of digital capacity, voluntary refunds will not be granted under the following scenarios:"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Leaving purchased response capacity unused on your profile;",
+              "Subjective dissatisfaction with ratings, perception cards, or archetype scores submitted by friends;",
+              "Voluntary account deletion or abandonment after completing a purchase;",
+              "Account suspension or restrictions resulting from violations of our Terms of Service."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Discontinuation of Past Discretionary Guarantees: The previously advertised 14-day refund period for unused packs has been discontinued for all future transactions. Purchases completed under prior policy versions remain subject to the terms in force at the time of purchase."
           }
         ]
       },
       {
-        "id": "non-refundable",
+        "id": "billing-errors",
         "number": 3,
-        "title": "Non-Refundable Scenarios",
+        "title": "Duplicate Charges & Technical Delivery Failures",
         "blocks": [
           {
             "type": "p",
-            "text": "Due to the immediate performance and irreversible consumption of digital capacity, refunds cannot be granted under the following conditions:"
+            "text": "If a verified technical glitch, gateway timeout, or network error results in duplicate charges for the same order, the redundant charge will be promptly refunded to your original payment method upon review."
           },
           {
-            "type": "list",
-            "items": [
-              "**Consumed Response Capacity:** Once capacity is consumed or evaluations are gathered from your public reflection link, the purchase is strictly non-refundable.",
-              "**Utilized Seenly Plus Features:** Seenly Plus purchases where premium analytical features, deep signal metrics, or extended perks have been accessed.",
-              "**Expired Time Window:** Refund requests submitted more than 14 calendar days after the original purchase timestamp.",
-              "**Subjective Dissatisfaction:** Personal disagreement with the ratings, perception feedback, or archetype classifications submitted by your peers.",
-              "**Policy Violations:** Accounts suspended or permanently banned due to breaches of our Terms of Use or anti-spam rules."
-            ]
+            "type": "p",
+            "text": "If payment is successfully collected by Lemon Squeezy but digital entitlements fail to activate on your 10Signal account due to a technical error, we will manually credit the purchased entitlements or provide an appropriate remedy."
           }
         ]
       },
       {
-        "id": "how-to-request",
+        "id": "statutory-consumer-rights",
         "number": 4,
-        "title": "How to Request a Refund",
+        "title": "Statutory Consumer & Withdrawal Rights",
         "blocks": [
           {
             "type": "p",
-            "text": "To initiate a refund request for an eligible unused pack or report a billing discrepancy, please contact our support team at support@seenly.app or billing@seenly.app from the email address associated with your Seenly account."
+            "text": "Nothing in this Refund Policy excludes, restricts, or modifies any statutory consumer guarantees, rights of withdrawal, or legal remedies that apply to you under mandatory applicable consumer protection laws (including Turkish Law No. 6502 and EU Directive 2011/83/EU)."
+          }
+        ]
+      },
+      {
+        "id": "contact-billing",
+        "number": 5,
+        "title": "Inquiries & Billing Support",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "To report a duplicate transaction or make a billing inquiry, please contact our support team from the email address registered to your account at: 10signal.me@gmail.com"
           },
           {
             "type": "p",
-            "text": "Please include the following information in your request:"
-          },
-          {
-            "type": "list",
-            "items": [
-              "Order ID / Merchant Transaction Reference",
-              "Registered Seenly Account Email",
-              "Detailed description of the issue or refund reason"
-            ]
-          },
+            "text": "Please provide your Order ID (from Lemon Squeezy), account email, and a description of the billing issue."
+          }
+        ]
+      }
+    ]
+  },
+  "untranslatedDoc": {
+    "title": "Untranslated Document",
+    "lastUpdated": "October 2026",
+    "sections": [
+      {
+        "id": "intro",
+        "blocks": [
           {
             "type": "p",
-            "text": "Approved refunds are reviewed within 3 to 5 business days and credited back to your original payment method within 5 to 10 business days, depending on your financial institution."
+            "text": "Welcome to 10Signal."
           }
         ]
       }

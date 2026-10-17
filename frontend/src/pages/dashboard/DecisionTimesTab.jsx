@@ -2,12 +2,14 @@ import React, { memo } from 'react';
 import { Lock, ArrowRight, Timer, Zap } from 'lucide-react';
 import { LockedMask } from './DashboardSharedComponents';
 import premiumBg from '../../images/backgrounds/premium_bg.avif';
+import ButtonSpinner from '../../components/ButtonSpinner';
 
 const DecisionTimesTab = memo(function DecisionTimesTab({
   langCode,
   t,
   responseCount,
   isPremium,
+  isCheckoutLoading,
   handleUpgradeToPlus,
   totalProfileClicks,
   totalResponders,
@@ -18,9 +20,9 @@ const DecisionTimesTab = memo(function DecisionTimesTab({
   fastestTimeSec
 }) {
   return (
-    <div className="seenly-dashboard-tab-content full-width-layout scrollable-gap-content seenly-gap-editorial-content" style={{ maxWidth: '860px', width: '100%', margin: '0 auto' }}>
+    <div className="tensignal-dashboard-tab-content full-width-layout scrollable-gap-content tensignal-gap-editorial-content" style={{ maxWidth: '860px', width: '100%', margin: '0 auto' }}>
       {responseCount < 3 ? (
-        <div className="seenly-dashboard-locked-state w-full box-border" style={{ minHeight: '260px' }}>
+        <div className="tensignal-dashboard-locked-state w-full box-border" style={{ minHeight: '260px' }}>
           <LockedMask
             title={t('dashboard.decisionTimes.lockedTitle')}
             description={t('dashboard.decisionTimes.lockedDesc')}
@@ -70,11 +72,22 @@ const DecisionTimesTab = memo(function DecisionTimesTab({
 
                 <button
                   type="button"
+                  disabled={isCheckoutLoading}
                   onClick={handleUpgradeToPlus}
                   className="group w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#0B1B2C]/80 hover:bg-[#0B1B2C] text-[#F3DE9A] hover:text-white font-sans font-semibold text-[11.5px] sm:text-[12px] tracking-wider uppercase border border-[#F3DE9A]/35 hover:border-[#F3DE9A]/70 shadow-sm active:scale-[0.98] transition-all cursor-pointer"
+                  style={isCheckoutLoading ? { opacity: 0.9, cursor: 'wait' } : {}}
                 >
-                  <span>{t('dashboard.decisionTimes.unlockPlus')}</span>
-                  <ArrowRight size={13} strokeWidth={2.2} className="text-[#F3DE9A] group-hover:text-white group-hover:translate-x-0.5 transition-all" />
+                  {isCheckoutLoading ? (
+                    <span className="inline-flex items-center gap-2">
+                      <ButtonSpinner size={14} />
+                      <span>{t('common.processing')}</span>
+                    </span>
+                  ) : (
+                    <>
+                      <span>{t('dashboard.decisionTimes.unlockPlus')}</span>
+                      <ArrowRight size={13} strokeWidth={2.2} className="text-[#F3DE9A] group-hover:text-white group-hover:translate-x-0.5 transition-all" />
+                    </>
+                  )}
                 </button>
               </div>
             </div>

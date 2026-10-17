@@ -13,12 +13,12 @@ const DashboardGapTab = memo(function DashboardGapTab({
   gapAlignmentDesc
 }) {
   return (
-    <div className="seenly-dashboard-tab-content full-width-layout scrollable-gap-content seenly-gap-editorial-content" style={{ maxWidth: '880px', width: '100%' }}>
+    <div className="tensignal-dashboard-tab-content full-width-layout scrollable-gap-content tensignal-gap-editorial-content" style={{ maxWidth: '880px', width: '100%' }}>
       {responseCount >= 3 ? (
         <div className="flex flex-col gap-4 sm:gap-5 w-full">
           {/* 1. Seamless Embedded Overview Banner */}
           <div
-            className="seenly-dashboard-premium-card p-4 sm:p-6 sm:px-8 rounded-[24px] sm:rounded-[28px] w-full flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6 box-border"
+            className="tensignal-dashboard-premium-card p-4 sm:p-6 sm:px-8 rounded-[24px] sm:rounded-[28px] w-full flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6 box-border"
             style={{
               background: '#FDFBF4',
               border: '1px solid rgba(197, 160, 89, 0.25)',
@@ -65,7 +65,7 @@ const DashboardGapTab = memo(function DashboardGapTab({
 
           {/* 2. Sinyal Boyut Karşılaştırması */}
           <div
-            className="seenly-dashboard-premium-card p-4 sm:p-6 sm:p-7 rounded-[24px] sm:rounded-[32px] w-full flex flex-col box-border"
+            className="tensignal-dashboard-premium-card p-4 sm:p-6 sm:p-7 rounded-[24px] sm:rounded-[32px] w-full flex flex-col box-border"
             style={{
               background: '#FDFBF4',
               border: '1px solid rgba(197, 160, 89, 0.28)',
@@ -206,7 +206,7 @@ const DashboardGapTab = memo(function DashboardGapTab({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4 w-full">
             {/* 1. Kör Nokta */}
             <div
-              className="seenly-dashboard-premium-card p-4 sm:p-5 sm:p-6 rounded-[22px] sm:rounded-[26px] text-left flex flex-col justify-between box-border transition-all duration-200 hover:-translate-y-0.5"
+              className="tensignal-dashboard-premium-card p-4 sm:p-5 sm:p-6 rounded-[22px] sm:rounded-[26px] text-left flex flex-col justify-between box-border transition-all duration-200 hover:-translate-y-0.5"
               style={{
                 background: '#FDFBF4',
                 border: '1px solid rgba(197, 160, 89, 0.35)',
@@ -235,7 +235,7 @@ const DashboardGapTab = memo(function DashboardGapTab({
 
             {/* 2. Sosyal Maske */}
             <div
-              className="seenly-dashboard-premium-card p-4 sm:p-5 sm:p-6 rounded-[22px] sm:rounded-[26px] text-left flex flex-col justify-between box-border transition-all duration-200 hover:-translate-y-0.5"
+              className="tensignal-dashboard-premium-card p-4 sm:p-5 sm:p-6 rounded-[22px] sm:rounded-[26px] text-left flex flex-col justify-between box-border transition-all duration-200 hover:-translate-y-0.5"
               style={{
                 background: '#FDFBF4',
                 border: '1px solid rgba(224, 101, 83, 0.3)',
@@ -264,7 +264,7 @@ const DashboardGapTab = memo(function DashboardGapTab({
 
             {/* 3. Senkronizasyon */}
             <div
-              className="seenly-dashboard-premium-card p-4 sm:p-5 sm:p-6 rounded-[22px] sm:rounded-[26px] text-left flex flex-col justify-between box-border transition-all duration-200 hover:-translate-y-0.5"
+              className="tensignal-dashboard-premium-card p-4 sm:p-5 sm:p-6 rounded-[22px] sm:rounded-[26px] text-left flex flex-col justify-between box-border transition-all duration-200 hover:-translate-y-0.5"
               style={{
                 background: '#FDFBF4',
                 border: '1px solid rgba(26, 62, 114, 0.25)',
@@ -293,7 +293,7 @@ const DashboardGapTab = memo(function DashboardGapTab({
           </div>
         </div>
       ) : (
-        <div className="seenly-dashboard-locked-state">
+        <div className="tensignal-dashboard-locked-state">
           <LockedMask
             title={t('dashboard.lockedSectionTitle')}
             description={t('dashboard.lockedSectionGapDesc')}

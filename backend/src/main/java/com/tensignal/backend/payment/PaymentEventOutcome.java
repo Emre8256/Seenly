@@ -1,0 +1,7 @@
+package com.tensignal.backend.payment;
+
+public enum PaymentEventOutcome {
+    PROCESSED,
+    IGNORED_STALE,
+    IGNORED_FINAL_STATE
+}

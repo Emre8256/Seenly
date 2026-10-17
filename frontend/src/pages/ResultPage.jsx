@@ -12,7 +12,7 @@ export default function ResultPage({ onNavigateToQuiz }) {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('seenly_owner_token');
+    const token = (localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token'));
 
     if (!token) {
       setError('no_token');
@@ -25,8 +25,8 @@ export default function ResultPage({ onNavigateToQuiz }) {
         const data = await getOwnerDashboard(token);
         setSnapshot(data);
       } catch (err) {
-        localStorage.removeItem('seenly_owner_token');
-        localStorage.removeItem('seenly_display_name');
+        localStorage.removeItem('tensignal_owner_token'); localStorage.removeItem('seenly_owner_token');
+        localStorage.removeItem('tensignal_display_name'); localStorage.removeItem('seenly_display_name');
         sessionStorage.clear();
         setError('profile_not_found');
       } finally {

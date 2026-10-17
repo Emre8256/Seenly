@@ -1,6 +1,6 @@
-# Seenly Email Notification Architecture & Production Guide
+# 10Signal Email Notification Architecture & Production Guide
 
-This document outlines the architecture, transactional outbox mechanism, provider abstraction, security model, and production deployment configuration for Seenly's email notification system.
+This document outlines the architecture, transactional outbox mechanism, provider abstraction, security model, and production deployment configuration for 10Signal's email notification system.
 
 ---
 
@@ -152,28 +152,28 @@ Templates are defined in locale-specific JSON files:
 
 | Type | Category | Idempotency Key Format | Lifecycle / Rule |
 | :--- | :--- | :--- | :--- |
-| `FIRST_SHARE_REMINDER` | Reminders | `first-share-reminder:{seenlyId}` | Scheduled +24h after profile creation. Cancelled if `responseCount >= 3`. |
-| `NEW_EVALUATION` | Evaluations | `new-evaluation:{seenlyId}:{10mBucket}` | 10-minute debounce window. Multiple responses aggregate into a single email. |
-| `REPORT_UNLOCKED` | Reminders | `report-unlocked:{seenlyId}` | Triggered on exact `2 -> 3` response count transition. Exactly once. |
-| `INACTIVITY_REMINDER` | Reminders | `inactivity-reminder:{seenlyId}:{cycle}` | Triggered after 7 days without activity. Enforces minimum 30-day cooldown. |
-| `CAPACITY_80_PERCENT` | Capacity Alerts | `capacity-80:{seenlyId}:{capacityVersion}` | Triggered on threshold crossing `prev < 80% && next >= 80%`. |
-| `CAPACITY_FULL` | Capacity Alerts | `capacity-full:{seenlyId}:{capacityVersion}` | Triggered when capacity is reached. Never spammed on re-attempts. |
+| `FIRST_SHARE_REMINDER` | Reminders | `first-share-reminder:{tenSignalId}` | Scheduled +24h after profile creation. Cancelled if `responseCount >= 3`. |
+| `NEW_EVALUATION` | Evaluations | `new-evaluation:{tenSignalId}:{10mBucket}` | 10-minute debounce window. Multiple responses aggregate into a single email. |
+| `REPORT_UNLOCKED` | Reminders | `report-unlocked:{tenSignalId}` | Triggered on exact `2 -> 3` response count transition. Exactly once. |
+| `INACTIVITY_REMINDER` | Reminders | `inactivity-reminder:{tenSignalId}:{cycle}` | Triggered after 7 days without activity. Enforces minimum 30-day cooldown. |
+| `CAPACITY_80_PERCENT` | Capacity Alerts | `capacity-80:{tenSignalId}:{capacityVersion}` | Triggered on threshold crossing `prev < 80% && next >= 80%`. |
+| `CAPACITY_FULL` | Capacity Alerts | `capacity-full:{tenSignalId}:{capacityVersion}` | Triggered when capacity is reached. Never spammed on re-attempts. |
 | `PLUS_WELCOME` | Transactional | `plus-welcome:{txId}` | Triggered upon verified PLUS grant. Strictly uses "one-time purchase" terminology (never "subscription"). |
 | `PURCHASE_RECEIPT` | Transactional | `purchase-receipt:{txId}` | Official receipt containing product, amount, currency, reference. Zero card numbers or secrets. |
-| `EMAIL_CHANGED` | Transactional | `email-changed:{seenlyId}:{oldEmailHash}:{epoch}` | Sent to the **old** email address immediately after verified email change. |
+| `EMAIL_CHANGED` | Transactional | `email-changed:{tenSignalId}:{oldEmailHash}:{epoch}` | Sent to the **old** email address immediately after verified email change. |
 | `ACCOUNT_DELETED` | Transactional | `account-deleted:{userId}:{epoch}` | Enqueued before user deletion. Recipient is purged after send. |
 | `LOGIN_VERIFICATION` | Transactional | `otp-login:{hash}:{epoch}` | Short-lived encrypted OTP. |
 | `REGISTRATION_VERIFICATION` | Transactional | `otp-register:{hash}:{epoch}` | Short-lived encrypted OTP. |
 | `EMAIL_CHANGE_VERIFICATION` | Transactional | `otp-email-change:{hash}:{epoch}` | Short-lived encrypted OTP. |
-| `SOCIAL_CARD_CHANGED` | Card Changes | `social-card-changed:{seenlyId}:{outsideSig}` | Triggered on authoritative outside archetype state transition in `ScoringEngineService`. |
+| `SOCIAL_CARD_CHANGED` | Card Changes | `social-card-changed:{tenSignalId}:{outsideSig}` | Triggered on authoritative outside archetype state transition in `ScoringEngineService`. |
 
 ---
 
 ## 8. User Notification Preferences
 
 Owners can control non-transactional notification categories via:
-- `GET /api/v1/seenly/owner/notification-preferences`
-- `PUT /api/v1/seenly/owner/notification-preferences`
+- `GET /api/v1/tensignal/owner/notification-preferences`
+- `PUT /api/v1/tensignal/owner/notification-preferences`
 
 Supported toggles:
 - `evaluations`: Controls `NEW_EVALUATION`.
@@ -191,7 +191,7 @@ When an account is deleted:
 1. An `ACCOUNT_DELETED` notification is enqueued with a short 24-hour expiration window.
 2. Email delivery failure does not roll back account deletion.
 3. Upon successful email delivery by the worker:
-   - Plaintext `recipient` is replaced with `purged@deleted.seenly.app`.
+   - Plaintext `recipient` is replaced with `purged@deleted.tensignal.app`.
    - `payload_json` is cleared to `{}`.
    - `recipient_hash` is retained for idempotency and security deduplication without PII.
 
@@ -199,19 +199,19 @@ When an account is deleted:
 
 ## 10. Production Configuration & Provider Setup
 
-When ready to switch to a live SMTP provider (e.g. Mailgun, Postmark, AWS SES, Resend), set the following environment variables. **NO CODE CHANGES ARE REQUIRED**:
+When ready to switch to a live provider (e.g. Brevo REST API, SMTP), set the following environment variables. **NO CODE CHANGES ARE REQUIRED**:
 
 ```bash
 # 1. Enable SMTP Provider
 EMAIL_PROVIDER=smtp
 
 # 2. Sender Address
-AUTH_MAIL_FROM=Seenly <no-reply@seenly.app>
+AUTH_MAIL_FROM=10Signal <no-reply@tensignal.app>
 
 # 3. SMTP Server Connection
 SMTP_HOST=smtp.mailgun.org
 SMTP_PORT=587
-SMTP_USERNAME=postmaster@seenly.app
+SMTP_USERNAME=postmaster@tensignal.app
 SMTP_PASSWORD=your_secure_smtp_api_key_or_password
 SMTP_AUTH=true
 SMTP_STARTTLS=true

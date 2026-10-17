@@ -11,7 +11,7 @@ const QuizLanguageDropdown = memo(function QuizLanguageDropdown({
   const { supportedLocales, t } = useLocale();
 
   return (
-    <div className="seenly-wizard-step-lang" ref={dropdownRef}>
+    <div className="tensignal-wizard-step-lang" ref={dropdownRef}>
       <button
         type="button"
         className="lang-dropdown-trigger"

@@ -1,4 +1,4 @@
-# Seenly frontend quality and release gate
+# 10Signal frontend quality and release gate
 
 Date: 2026-09-06
 
@@ -29,7 +29,7 @@ Configured projects: Chromium, Firefox, WebKit, 320px mobile, iPhone 390px, tabl
 
 ## Owner history API
 
-`GET /api/v1/seenly/owner` no longer embeds an unbounded premium `responseSessions` graph. Detailed history is available only from authenticated `GET /api/v1/seenly/owner/responses?limit=5&cursor=...`:
+`GET /api/v1/tensignal/owner` no longer embeds an unbounded premium `responseSessions` graph. Detailed history is available only from authenticated `GET /api/v1/tensignal/owner/responses?limit=5&cursor=...`:
 
 - Plus authorization is enforced server-side.
 - Limit is clamped to 1-25.
@@ -51,7 +51,7 @@ Configured projects: Chromium, Firefox, WebKit, 320px mobile, iPhone 390px, tabl
 
 Commercial copy is inconsistent and was not silently rewritten:
 
-- `RefundPolicyPage.jsx` describes Seenly Plus as a subscription with active cycles.
+- `RefundPolicyPage.jsx` describes 10Signal Plus as a subscription with active cycles.
 - `DashboardPage.jsx` reports a subscription process.
 - `SubscriptionTab.jsx` says Plus is a permanent one-time purchase with no recurring fee.
 - Pricing content also describes one-time reports/purchases while navigation uses membership/üyelik.
@@ -72,7 +72,7 @@ Gate 9 before/after production-build Lighthouse results:
 | CLS | 0.104 | 0 |
 | TBT | 106ms | 84ms |
 
-The measured initial critical path contained a broad Google Fonts request (multiple unused families and roughly 259KB of observed font transfers), followed by the app entry and lazy initial route. External fonts were removed in favor of a stable system stack, the existing initial route chunk now starts downloading immediately, the true hero image has intrinsic dimensions and high fetch priority, and below-fold images are lazy-decoded with reserved dimensions. The final Lighthouse LCP node was the small `Seenly` header wordmark, not a large image; TTFB was about 6ms and the reported element render-delay subpart about 521ms. The remaining 3.70s lab LCP is therefore dominated by throttled first-render/JavaScript/CSS work rather than image download. It remains above the 2.5s gate and must not be treated as passing. Raw after data is `lighthouse-report.json`; the original result is `lighthouse-report-before.json`.
+The measured initial critical path contained a broad Google Fonts request (multiple unused families and roughly 259KB of observed font transfers), followed by the app entry and lazy initial route. External fonts were removed in favor of a stable system stack, the existing initial route chunk now starts downloading immediately, the true hero image has intrinsic dimensions and high fetch priority, and below-fold images are lazy-decoded with reserved dimensions. The final Lighthouse LCP node was the small `10Signal` header wordmark, not a large image; TTFB was about 6ms and the reported element render-delay subpart about 521ms. The remaining 3.70s lab LCP is therefore dominated by throttled first-render/JavaScript/CSS work rather than image download. It remains above the 2.5s gate and must not be treated as passing. Raw after data is `lighthouse-report.json`; the original result is `lighthouse-report-before.json`.
 
 SEO now includes a title, description, viewport, robots directive and theme color. Hash routing still limits crawlable per-route URLs and metadata; a router/SSR migration was intentionally not performed in this gate.
 
@@ -101,4 +101,4 @@ These checks are operationally required and have **not** been claimed as complet
 
 ## Commercial terminology and legal review
 
-Product UI uses “Seenly Plus” and “one-time purchase”; recurring subscription/membership wording was removed from application navigation and checkout errors. Legal copy still conflicts and was not silently rewritten: `src/pages/RefundPolicyPage.jsx` describes a “Seenly Plus subscription” at line 46 and “active ... subscription cycles” at line 80. Product/legal review must correct that policy consistently with the intended one-time-purchase model.
+Product UI uses “10Signal Plus” and “one-time purchase”; recurring subscription/membership wording was removed from application navigation and checkout errors. Legal copy still conflicts and was not silently rewritten: `src/pages/RefundPolicyPage.jsx` describes a “10Signal Plus subscription” at line 46 and “active ... subscription cycles” at line 80. Product/legal review must correct that policy consistently with the intended one-time-purchase model.

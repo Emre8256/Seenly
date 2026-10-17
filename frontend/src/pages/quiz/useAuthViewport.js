@@ -18,7 +18,7 @@ export default function useAuthViewport(active) {
         root.style.setProperty('--auth-top', `${viewport?.offsetTop ?? 0}px`);
         root.dataset.compact = String(height < 540);
         const focused = document.activeElement;
-        const scroller = focused?.closest('.seenly-wizard-body');
+        const scroller = focused?.closest('.tensignal-wizard-body');
         if (!root.contains(focused) || !scroller) return;
         const input = focused.getBoundingClientRect();
         const bounds = scroller.getBoundingClientRect();

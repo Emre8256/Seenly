@@ -9,10 +9,10 @@ FROM eclipse-temurin:17.0.12_7-jre-jammy AS runtime
 RUN apt-get update \
     && apt-get install --no-install-recommends -y curl \
     && rm -rf /var/lib/apt/lists/* \
-    && groupadd --system --gid 10001 seenly \
-    && useradd --system --uid 10001 --gid seenly --no-create-home seenly
+    && groupadd --system --gid 10001 tensignal \
+    && useradd --system --uid 10001 --gid tensignal --no-create-home tensignal
 WORKDIR /app
-COPY --from=build --chown=seenly:seenly /workspace/target/backend-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build --chown=tensignal:tensignal /workspace/target/backend-0.0.1-SNAPSHOT.jar app.jar
 USER 10001:10001
 EXPOSE 8080 8081
 ENV JAVA_TOOL_OPTIONS="-XX:MaxRAMPercentage=75.0 -XX:+ExitOnOutOfMemoryError"
