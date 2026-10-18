@@ -131,12 +131,49 @@ public class EmailTemplateService {
         String title = replaceVariables(template.getTitle(), safeContext, true);
         String preheader = replaceVariables(template.getPreheader(), safeContext, true);
         String body = replaceVariables(template.getBody(), safeContext, true);
-        String ctaText = replaceVariables(template.getCtaText(), safeContext, true);
-        String ctaUrl = replaceVariables(template.getCtaUrl(), safeContext, false);
+
+        // Strict CTA gating per brand & security rules:
+        // CTA buttons are allowed ONLY for:
+        // FIRST_SHARE_REMINDER, NEW_EVALUATION, REPORT_UNLOCKED, INACTIVITY_REMINDER,
+        // CAPACITY_80_PERCENT, CAPACITY_FULL, SOCIAL_CARD_CHANGED.
+        // OTP and transactional information emails MUST NOT have any CTA buttons.
+        boolean isCtaAllowed = switch (type) {
+            case FIRST_SHARE_REMINDER,
+                 NEW_EVALUATION,
+                 REPORT_UNLOCKED,
+                 INACTIVITY_REMINDER,
+                 CAPACITY_80_PERCENT,
+                 CAPACITY_FULL,
+                 SOCIAL_CARD_CHANGED -> true;
+            default -> false;
+        };
+
+        String ctaText = null;
+        String ctaUrl = null;
+        if (isCtaAllowed) {
+            ctaText = replaceVariables(template.getCtaText(), safeContext, true);
+            String rawCtaUrl = replaceVariables(template.getCtaUrl(), safeContext, false);
+            ctaUrl = (rawCtaUrl != null && !rawCtaUrl.isBlank()) ? rawCtaUrl : "https://10signal.me";
+            if (ctaUrl.contains("tensignal.app")) {
+                ctaUrl = ctaUrl.replace("tensignal.app", "10signal.me");
+            }
+        }
+
         String footer = replaceVariables(template.getFooter(), safeContext, true);
+
+        // Defensively sanitize legacy tensignal.app domain references
+        if (body != null && body.contains("tensignal.app")) {
+            body = body.replace("tensignal.app", "10signal.me");
+        }
+        if (footer != null && footer.contains("tensignal.app")) {
+            footer = footer.replace("tensignal.app", "10signal.me");
+        }
 
         String htmlBody = buildHtmlLayout(safeSubject, preheader, title, body, ctaText, ctaUrl, footer, resolvedLocale);
         String textBody = replaceVariables(template.getPlainText(), safeContext, false);
+        if (textBody != null && textBody.contains("tensignal.app")) {
+            textBody = textBody.replace("tensignal.app", "10signal.me");
+        }
 
         return RenderedEmailContent.builder()
             .subject(safeSubject)
@@ -201,46 +238,54 @@ public class EmailTemplateService {
         sb.append("<head>\n");
         sb.append("<meta charset=\"UTF-8\">\n");
         sb.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n");
+        sb.append("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n");
         sb.append("<title>").append(escapeHtml(subject)).append("</title>\n");
         sb.append("<style>\n");
-        sb.append("  body { margin: 0; padding: 0; -webkit-text-size-adjust: 100%; background-color: #0b0f19; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #f3f4f6; }\n");
-        sb.append("  table { border-collapse: collapse; }\n");
-        sb.append("  .container { max-width: 580px; margin: 0 auto; width: 100%; }\n");
-        sb.append("  .card { background-color: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 36px 32px; }\n");
-        sb.append("  .logo { font-size: 20px; font-weight: 700; color: #8b5cf6; text-decoration: none; letter-spacing: -0.5px; }\n");
-        sb.append("  .title { font-size: 22px; font-weight: 600; color: #ffffff; margin-top: 24px; margin-bottom: 12px; line-height: 1.3; }\n");
-        sb.append("  .body-text { font-size: 15px; line-height: 1.6; color: #9ca3af; margin-bottom: 28px; }\n");
-        sb.append("  .cta-btn { display: inline-block; background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%); color: #ffffff !important; text-decoration: none; padding: 12px 28px; border-radius: 9999px; font-weight: 600; font-size: 14px; text-align: center; }\n");
-        sb.append("  .footer-text { font-size: 12px; color: #4b5563; text-align: center; margin-top: 24px; line-height: 1.5; }\n");
+        sb.append("  body { margin: 0; padding: 0; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; background-color: #F7EFE4; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #6E5A4A; }\n");
+        sb.append("  table { border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }\n");
+        sb.append("  img { border: 0; line-height: 100%; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; }\n");
+        sb.append("  .email-container { max-width: 580px; margin: 0 auto; width: 100%; }\n");
+        sb.append("  .email-card { background-color: #FFFDF9; border: 1px solid #E6D5C2; border-radius: 16px; padding: 36px 32px; }\n");
+        sb.append("  .brand-logo { font-size: 22px; font-weight: 700; color: #3D2C23; text-decoration: none; letter-spacing: -0.5px; }\n");
+        sb.append("  .email-title { font-size: 22px; font-weight: 700; color: #3D2C23; margin: 20px 0 12px 0; line-height: 1.35; }\n");
+        sb.append("  .body-content { font-size: 15px; line-height: 1.6; color: #6E5A4A; margin-bottom: 24px; }\n");
+        sb.append("  .cta-button { display: inline-block; background-color: #3D2C23; color: #FFFDF9 !important; text-decoration: none; padding: 13px 28px; border-radius: 8px; font-weight: 600; font-size: 14px; text-align: center; letter-spacing: 0.3px; }\n");
+        sb.append("  .footer-text { font-size: 12px; color: #8C7A6B; text-align: center; margin-top: 24px; line-height: 1.5; }\n");
         sb.append("  @media only screen and (max-width: 600px) {\n");
-        sb.append("    .card { padding: 24px 20px !important; border-radius: 12px !important; }\n");
+        sb.append("    .email-card { padding: 24px 20px !important; border-radius: 12px !important; }\n");
+        sb.append("    .email-container { width: 100% !important; }\n");
         sb.append("  }\n");
         sb.append("</style>\n");
         sb.append("</head>\n");
-        sb.append("<body>\n");
+        sb.append("<body style=\"margin: 0; padding: 0; background-color: #F7EFE4;\">\n");
         if (preheader != null && !preheader.isBlank()) {
-            sb.append("<div style=\"display:none;font-size:1px;color:#0b0f19;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;\">")
-              .append(preheader)
+            sb.append("<div style=\"display:none;font-size:1px;color:#F7EFE4;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;\">")
+              .append(escapeHtml(preheader))
               .append("</div>\n");
         }
-        sb.append("<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background-color:#0b0f19; padding: 32px 16px;\">\n");
+        sb.append("<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color: #F7EFE4; padding: 36px 16px;\">\n");
         sb.append("  <tr>\n");
         sb.append("    <td align=\"center\">\n");
-        sb.append("      <table role=\"presentation\" class=\"container\" cellpadding=\"0\" cellspacing=\"0\">\n");
+        sb.append("      <table role=\"presentation\" class=\"email-container\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"max-width: 580px; width: 100%; margin: 0 auto;\">\n");
         sb.append("        <tr>\n");
-        sb.append("          <td class=\"card\">\n");
-        sb.append("            <div style=\"text-align: left;\"><span class=\"logo\">10Signal</span></div>\n");
-        sb.append("            <h1 class=\"title\">").append(title).append("</h1>\n");
-        sb.append("            <div class=\"body-text\">").append(body).append("</div>\n");
+        sb.append("          <td class=\"email-card\" style=\"background-color: #FFFDF9; border: 1px solid #E6D5C2; border-radius: 16px; padding: 36px 32px;\">\n");
+        sb.append("            <div style=\"text-align: left;\">\n");
+        sb.append("              <a href=\"https://10signal.me\" target=\"_blank\" style=\"text-decoration: none;\">\n");
+        sb.append("                <span class=\"brand-logo\" style=\"font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 22px; font-weight: 700; color: #3D2C23; letter-spacing: -0.5px;\">10Signal</span>\n");
+        sb.append("              </a>\n");
+        sb.append("            </div>\n");
+        sb.append("            <h1 class=\"email-title\" style=\"font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 22px; font-weight: 700; color: #3D2C23; margin: 20px 0 12px 0; line-height: 1.35;\">").append(title).append("</h1>\n");
+        sb.append("            <div class=\"body-content\" style=\"font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 15px; line-height: 1.6; color: #6E5A4A;\">").append(body).append("</div>\n");
         if (hasCta) {
-            sb.append("            <div style=\"margin: 28px 0;\"><a href=\"").append(escapeHtml(ctaUrl))
-              .append("\" class=\"cta-btn\" target=\"_blank\">").append(ctaText).append("</a></div>\n");
+            sb.append("            <div style=\"margin: 28px 0 8px 0; text-align: left;\">\n");
+            sb.append("              <a href=\"").append(escapeHtml(ctaUrl)).append("\" class=\"cta-button\" target=\"_blank\" style=\"display: inline-block; background-color: #3D2C23; color: #FFFDF9 !important; text-decoration: none; padding: 13px 28px; border-radius: 8px; font-weight: 600; font-size: 14px; text-align: center; letter-spacing: 0.3px;\">").append(ctaText).append("</a>\n");
+            sb.append("            </div>\n");
         }
         sb.append("          </td>\n");
         sb.append("        </tr>\n");
         sb.append("        <tr>\n");
-        sb.append("          <td>\n");
-        sb.append("            <p class=\"footer-text\">").append(footer != null ? footer : "10Signal").append("</p>\n");
+        sb.append("          <td align=\"center\" style=\"padding-top: 16px;\">\n");
+        sb.append("            <p class=\"footer-text\" style=\"font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 12px; color: #8C7A6B; text-align: center; margin: 0; line-height: 1.5;\">").append(footer != null ? footer : "10Signal").append("</p>\n");
         sb.append("          </td>\n");
         sb.append("        </tr>\n");
         sb.append("      </table>\n");

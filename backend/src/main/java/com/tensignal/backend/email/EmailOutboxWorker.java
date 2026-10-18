@@ -146,7 +146,7 @@ public class EmailOutboxWorker {
         if (item.getExpiresAt() != null && item.getExpiresAt().isBefore(now)) {
             item.setStatus(EmailOutboxStatus.SKIPPED);
             if (NotificationType.ACCOUNT_DELETED.name().equals(item.getNotificationType())) {
-                item.setRecipient("purged@deleted.tensignal.app");
+                item.setRecipient("purged@deleted.10signal.me");
                 item.setPayloadJson("{}");
             }
             outboxRepository.save(item);
@@ -260,7 +260,7 @@ public class EmailOutboxWorker {
 
             // PII Purge for ACCOUNT_DELETED
             if (type == NotificationType.ACCOUNT_DELETED) {
-                item.setRecipient("purged@deleted.tensignal.app");
+                item.setRecipient("purged@deleted.10signal.me");
                 item.setPayloadJson("{}");
             }
 
@@ -279,7 +279,7 @@ public class EmailOutboxWorker {
             if (isTerminal) {
                 item.setStatus(EmailOutboxStatus.FAILED);
                 if (type == NotificationType.ACCOUNT_DELETED) {
-                    item.setRecipient("purged@deleted.tensignal.app");
+                    item.setRecipient("purged@deleted.10signal.me");
                     item.setPayloadJson("{}");
                 }
                 outboxRepository.save(item);

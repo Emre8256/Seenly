@@ -14,8 +14,15 @@ const IdentityDetailModal = memo(function IdentityDetailModal({
   handleStartQuiz,
   getObject,
   langCode,
-  t
+  t,
+  isLoggedIn: isLoggedInProp
 }) {
+  const isLoggedIn = isLoggedInProp ?? (
+    typeof window !== 'undefined'
+      ? Boolean(localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token'))
+      : false
+  );
+
   if (!selectedCard) return null;
 
   const signature = getObject('signatures', selectedCard.id);
@@ -109,15 +116,17 @@ const IdentityDetailModal = memo(function IdentityDetailModal({
               {generateDetailedDescription(selectedCard.signals)}
             </p>
 
-            {/* CTA Action */}
-            <button
-              type="button"
-              onClick={handleStartQuiz}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-[#16222F] hover:bg-[#0E1721] text-white py-3 sm:py-3.5 px-6 text-[13px] sm:text-[13.5px] font-bold tracking-wide shadow-[0_4px_16px_rgba(22,34,47,0.2)] hover:shadow-[0_8px_24px_rgba(22,34,47,0.3)] transition-all cursor-pointer border border-white/10 active:scale-[0.98]"
-            >
-              <span>{t('quiz.identities.ctaDiscover')}</span>
-              <span>→</span>
-            </button>
+            {/* CTA Action - Only shown if user is NOT logged in */}
+            {!isLoggedIn && (
+              <button
+                type="button"
+                onClick={handleStartQuiz}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-[#16222F] hover:bg-[#0E1721] text-white py-3 sm:py-3.5 px-6 text-[13px] sm:text-[13.5px] font-bold tracking-wide shadow-[0_4px_16px_rgba(22,34,47,0.2)] hover:shadow-[0_8px_24px_rgba(22,34,47,0.3)] transition-all cursor-pointer border border-white/10 active:scale-[0.98]"
+              >
+                <span>{t('quiz.identities.ctaDiscover')}</span>
+                <span>→</span>
+              </button>
+            )}
           </div>
         </div>
       </div>

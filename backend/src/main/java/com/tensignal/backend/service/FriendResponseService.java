@@ -149,7 +149,7 @@ public class FriendResponseService {
                     email,
                     userId,
                     recipientLocale,
-                    Map.of("dashboardUrl", "https://tensignal.app/dashboard"),
+                    Map.of("dashboardUrl", "https://10signal.me"),
                     "report-unlocked:" + tenSignal.getId(),
                     now,
                     null
@@ -167,7 +167,7 @@ public class FriendResponseService {
                 email,
                 userId,
                 recipientLocale,
-                Map.of("count", 1, "dashboardUrl", "https://tensignal.app/dashboard"),
+                Map.of("count", 1, "dashboardUrl", "https://10signal.me"),
                 debounceKey,
                 scheduledEnd,
                 null
@@ -185,7 +185,7 @@ public class FriendResponseService {
                         email,
                         userId,
                         recipientLocale,
-                        Map.of("currentResponses", nextCount, "maxCapacity", totalAllowedCapacity, "upgradeUrl", "https://tensignal.app/pricing"),
+                        Map.of("currentResponses", nextCount, "maxCapacity", totalAllowedCapacity, "upgradeUrl", "https://10signal.me"),
                         "capacity-80:" + tenSignal.getId() + ":" + capacityVersion,
                         now,
                         null
@@ -196,7 +196,7 @@ public class FriendResponseService {
                         email,
                         userId,
                         recipientLocale,
-                        Map.of("maxCapacity", totalAllowedCapacity, "upgradeUrl", "https://tensignal.app/pricing"),
+                        Map.of("maxCapacity", totalAllowedCapacity, "upgradeUrl", "https://10signal.me"),
                         "capacity-full:" + tenSignal.getId() + ":" + capacityVersion,
                         now,
                         null

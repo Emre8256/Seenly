@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.mail.javamail.JavaMailSender;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -54,7 +55,7 @@ class EmailSecurityAndMimeTest {
         MimeMessage mimeMessage = new MimeMessage(session);
         when(mailSender.createMimeMessage()).thenReturn(mimeMessage);
 
-        SmtpEmailProvider provider = new SmtpEmailProvider(mailSender, "no-reply@tensignal.app");
+        SmtpEmailProvider provider = new SmtpEmailProvider(mailSender, "no-reply@10signal.me");
         EmailMessage message = EmailMessage.builder()
             .to("recipient@example.com")
             .subject("Test Subject")
@@ -116,12 +117,13 @@ class EmailSecurityAndMimeTest {
         RenderedEmailContent content = templateService.render(
             NotificationType.REPORT_UNLOCKED,
             "tr",
-            Map.of("dashboardUrl", "https://tensignal.app/dashboard")
+            Map.of("dashboardUrl", "https://10signal.me")
         );
 
         assertThat(content.getSubject()).contains("Raporunuz Açıldı");
         assertThat(content.getHtmlBody()).contains("10Signal");
-        assertThat(content.getHtmlBody()).contains("https://tensignal.app/dashboard");
+        assertThat(content.getHtmlBody()).contains("https://10signal.me");
+        assertThat(content.getHtmlBody()).doesNotContain("tensignal.app");
         assertThat(content.getTextBody()).contains("3 değerlendirme tamamlandı");
     }
 
@@ -131,7 +133,7 @@ class EmailSecurityAndMimeTest {
         RenderedEmailContent content = templateService.render(
             NotificationType.PLUS_WELCOME,
             "en",
-            Map.of("dashboardUrl", "https://tensignal.app/dashboard")
+            Map.of("dashboardUrl", "https://10signal.me")
         );
 
         assertThat(content.getSubject()).isEqualTo("Welcome to 10Signal Plus!");
@@ -154,7 +156,7 @@ class EmailSecurityAndMimeTest {
         RenderedEmailContent content = templateService.render(
             NotificationType.REPORT_UNLOCKED,
             "de",
-            Map.of("dashboardUrl", "https://tensignal.app/dashboard")
+            Map.of("dashboardUrl", "https://10signal.me")
         );
         assertThat(content.getSubject()).contains("Outside Report is Unlocked");
     }
@@ -178,11 +180,12 @@ class EmailSecurityAndMimeTest {
         RenderedEmailContent content = templateService.render(
             NotificationType.NEW_EVALUATION,
             "en",
-            Map.of("count", 5, "dashboardUrl", "https://tensignal.app/dashboard")
+            Map.of("count", 5, "dashboardUrl", "https://10signal.me")
         );
 
         assertThat(content.getTextBody()).contains("5 new anonymous evaluations");
-        assertThat(content.getTextBody()).contains("https://tensignal.app/dashboard");
+        assertThat(content.getTextBody()).contains("https://10signal.me");
+        assertThat(content.getTextBody()).doesNotContain("tensignal.app");
     }
 
     @Test
@@ -200,6 +203,74 @@ class EmailSecurityAndMimeTest {
         assertThat(str).doesNotContain("secret_user@example.com");
         assertThat(str).contains("to=<redacted>");
         assertThat(str).doesNotContain("1234");
+    }
+
+    @Test
+    @DisplayName("Verify CTA rules: exactly 7 notification types have CTA pointing to https://10signal.me, 7 have NO CTA")
+    void testCtaRulesAndZeroTensignalApp() {
+        Map<String, Object> sampleParams = Map.ofEntries(
+            Map.entry("code", "9876"),
+            Map.entry("count", 3),
+            Map.entry("currentResponses", 8),
+            Map.entry("maxCapacity", 10),
+            Map.entry("shareUrl", "https://10signal.me/p/test"),
+            Map.entry("dashboardUrl", "https://10signal.me"),
+            Map.entry("upgradeUrl", "https://10signal.me"),
+            Map.entry("securityUrl", "https://10signal.me/settings/security"),
+            Map.entry("homeUrl", "https://10signal.me"),
+            Map.entry("loginUrl", "https://10signal.me/auth/login"),
+            Map.entry("registerUrl", "https://10signal.me/auth/register"),
+            Map.entry("product", "TenSignal Plus"),
+            Map.entry("amount", "199.00"),
+            Map.entry("currency", "TRY"),
+            Map.entry("reference", "REF-12345"),
+            Map.entry("timestamp", "2026-09-11 12:00")
+        );
+
+        NotificationType[] ctaAllowedTypes = {
+            NotificationType.FIRST_SHARE_REMINDER,
+            NotificationType.NEW_EVALUATION,
+            NotificationType.REPORT_UNLOCKED,
+            NotificationType.INACTIVITY_REMINDER,
+            NotificationType.CAPACITY_80_PERCENT,
+            NotificationType.CAPACITY_FULL,
+            NotificationType.SOCIAL_CARD_CHANGED
+        };
+
+        NotificationType[] noCtaTypes = {
+            NotificationType.LOGIN_VERIFICATION,
+            NotificationType.REGISTRATION_VERIFICATION,
+            NotificationType.EMAIL_CHANGE_VERIFICATION,
+            NotificationType.PLUS_WELCOME,
+            NotificationType.PURCHASE_RECEIPT,
+            NotificationType.EMAIL_CHANGED,
+            NotificationType.ACCOUNT_DELETED
+        };
+
+        for (String locale : List.of("tr", "en")) {
+            for (NotificationType type : ctaAllowedTypes) {
+                RenderedEmailContent rendered = templateService.render(type, locale, sampleParams);
+                assertThat(rendered.getHtmlBody())
+                    .as("CTA button present for " + type + " in " + locale)
+                    .contains("class=\"cta-button\"");
+                assertThat(rendered.getHtmlBody())
+                    .as("CTA link points to https://10signal.me for " + type)
+                    .contains("https://10signal.me");
+                assertThat(rendered.getHtmlBody())
+                    .as("No tensignal.app in " + type)
+                    .doesNotContain("tensignal.app");
+            }
+
+            for (NotificationType type : noCtaTypes) {
+                RenderedEmailContent rendered = templateService.render(type, locale, sampleParams);
+                assertThat(rendered.getHtmlBody())
+                    .as("No CTA button for " + type + " in " + locale)
+                    .doesNotContain("class=\"cta-button\"");
+                assertThat(rendered.getHtmlBody())
+                    .as("No tensignal.app in " + type)
+                    .doesNotContain("tensignal.app");
+            }
+        }
     }
 
     @Test
@@ -222,13 +293,13 @@ class EmailSecurityAndMimeTest {
             Map.entry("count", 3),
             Map.entry("currentResponses", 8),
             Map.entry("maxCapacity", 10),
-            Map.entry("shareUrl", "https://tensignal.app/p/test"),
-            Map.entry("dashboardUrl", "https://tensignal.app/dashboard"),
-            Map.entry("upgradeUrl", "https://tensignal.app/pricing"),
-            Map.entry("securityUrl", "https://tensignal.app/settings/security"),
-            Map.entry("homeUrl", "https://tensignal.app"),
-            Map.entry("loginUrl", "https://tensignal.app/auth/login"),
-            Map.entry("registerUrl", "https://tensignal.app/auth/register"),
+            Map.entry("shareUrl", "https://10signal.me/p/test"),
+            Map.entry("dashboardUrl", "https://10signal.me"),
+            Map.entry("upgradeUrl", "https://10signal.me"),
+            Map.entry("securityUrl", "https://10signal.me/settings/security"),
+            Map.entry("homeUrl", "https://10signal.me"),
+            Map.entry("loginUrl", "https://10signal.me/auth/login"),
+            Map.entry("registerUrl", "https://10signal.me/auth/register"),
             Map.entry("product", "TenSignal Plus"),
             Map.entry("amount", "199.00"),
             Map.entry("currency", "TRY"),
@@ -245,12 +316,16 @@ class EmailSecurityAndMimeTest {
             assertThat(trRender.getSubject()).as("TR subject for " + type).isNotBlank();
             assertThat(trRender.getHtmlBody()).as("TR HTML for " + type).isNotBlank();
             assertThat(trRender.getTextBody()).as("TR Text for " + type).isNotBlank();
+            assertThat(trRender.getHtmlBody()).contains("#F7EFE4"); // Warm background
+            assertThat(trRender.getHtmlBody()).contains("#FFFDF9"); // Warm card
 
             // Render EN
             RenderedEmailContent enRender = templateService.render(type, "en", sampleParams);
             assertThat(enRender.getSubject()).as("EN subject for " + type).isNotBlank();
             assertThat(enRender.getHtmlBody()).as("EN HTML for " + type).isNotBlank();
             assertThat(enRender.getTextBody()).as("EN Text for " + type).isNotBlank();
+            assertThat(enRender.getHtmlBody()).contains("#F7EFE4"); // Warm background
+            assertThat(enRender.getHtmlBody()).contains("#FFFDF9"); // Warm card
 
             // Send to FakeEmailProvider
             EmailMessage msg = EmailMessage.builder()

@@ -3,140 +3,140 @@
     "subject": "Your 10Signal profile is waiting for its first responses",
     "preheader": "Share your profile link with friends to begin your analysis.",
     "title": "Your Profile is Ready, Time to Share",
-    "body": "You created your 10Signal profile, but have not received enough evaluations yet. Share your link to discover what your friends genuinely think of you.",
+    "body": "You created your 10Signal profile, but have not received enough evaluations yet. Share your link to discover what your friends genuinely think of you and unlock your first reflection report.",
     "ctaText": "Share My Profile",
-    "ctaUrl": "{{shareUrl}}",
+    "ctaUrl": "https://10signal.me",
     "footer": "This email was sent regarding your 10Signal account.",
-    "plainText": "Hello,\n\nYour 10Signal profile is ready! Share your link to discover honest feedback from your friends:\n{{shareUrl}}\n\n10Signal Team"
+    "plainText": "Hello,\n\nYour 10Signal profile is ready! Share your link to discover honest feedback from your friends:\nhttps://10signal.me\n\n10Signal Team"
   },
   "NEW_EVALUATION": {
     "subject": "{{count}} new evaluations received on 10Signal",
     "preheader": "Your friends have answered your questions.",
     "title": "New Evaluations Recorded",
-    "body": "{{count}} new anonymous evaluations have been submitted for your 10Signal profile. Visit your dashboard to explore the updated insights.",
+    "body": "{{count}} new anonymous evaluations have been submitted for your 10Signal profile. Visit your dashboard to explore the updated insights and reflection.",
     "ctaText": "View Results",
-    "ctaUrl": "{{dashboardUrl}}",
+    "ctaUrl": "https://10signal.me",
     "footer": "You are receiving this because evaluation notifications are enabled.",
-    "plainText": "Hello,\n\n{{count}} new anonymous evaluations were received for your 10Signal profile!\nCheck your results at:\n{{dashboardUrl}}\n\n10Signal Team"
+    "plainText": "Hello,\n\n{{count}} new anonymous evaluations were received for your 10Signal profile!\nCheck your results at:\nhttps://10signal.me\n\n10Signal Team"
   },
   "REPORT_UNLOCKED": {
     "subject": "Congratulations! Your Outside Report is Unlocked",
     "preheader": "You reached 3 evaluations and your report is ready.",
     "title": "Your Report is Now Available",
-    "body": "Great news! 3 friends have evaluated your profile. Your outside perception analysis and gap pattern are now unlocked.",
+    "body": "Great news! 3 friends have evaluated your profile. Your outside perception analysis and gap pattern matrix are now unlocked and ready to explore.",
     "ctaText": "Explore Report",
-    "ctaUrl": "{{dashboardUrl}}",
+    "ctaUrl": "https://10signal.me",
     "footer": "10Signal Report Notification",
-    "plainText": "Hello,\n\nGreat news! 3 friends have evaluated your profile and your outside report is now unlocked.\nExplore your report at:\n{{dashboardUrl}}\n\n10Signal Team"
+    "plainText": "Hello,\n\nGreat news! 3 friends have evaluated your profile and your outside perception report is now unlocked.\nExplore your report at:\nhttps://10signal.me\n\n10Signal Team"
   },
   "INACTIVITY_REMINDER": {
     "subject": "Catch up on your 10Signal profile",
     "preheader": "Keep your profile active and collect fresh perspectives.",
     "title": "We Miss You",
-    "body": "It has been a while since your profile had recent activity. Share your link again to gather up-to-date perspectives from your network.",
+    "body": "It has been a while since your profile had recent activity. Visit your dashboard to collect fresh feedback and stay up to date with your impressions.",
     "ctaText": "Open Dashboard",
-    "ctaUrl": "{{dashboardUrl}}",
+    "ctaUrl": "https://10signal.me",
     "footer": "You can change your notification preferences anytime.",
-    "plainText": "Hello,\n\nIt has been a while since your profile had recent activity. Share your link again to gather up-to-date perspectives:\n{{dashboardUrl}}\n\n10Signal Team"
+    "plainText": "Hello,\n\nIt has been a while since your profile had recent activity. Visit your dashboard to track fresh perspectives:\nhttps://10signal.me\n\n10Signal Team"
   },
   "CAPACITY_80_PERCENT": {
     "subject": "You've reached 80% of your response capacity",
     "preheader": "You are approaching your response limit.",
     "title": "Capacity Notice (80%)",
-    "body": "Your 10Signal profile has reached 80% of its response capacity ({{currentResponses}}/{{maxCapacity}}). Expand your capacity to avoid missing further feedback.",
-    "ctaText": "Increase Capacity",
-    "ctaUrl": "{{upgradeUrl}}",
+    "body": "Your 10Signal profile has reached 80% of its response capacity ({{currentResponses}}/{{maxCapacity}}). Manage your capacity to avoid missing further feedback.",
+    "ctaText": "Manage Capacity",
+    "ctaUrl": "https://10signal.me",
     "footer": "10Signal Capacity Alert",
-    "plainText": "Hello,\n\nYour 10Signal profile reached 80% capacity ({{currentResponses}}/{{maxCapacity}}).\nExpand capacity at:\n{{upgradeUrl}}\n\n10Signal Team"
+    "plainText": "Hello,\n\nYour 10Signal profile reached 80% capacity ({{currentResponses}}/{{maxCapacity}}).\nManage capacity at:\nhttps://10signal.me\n\n10Signal Team"
   },
   "CAPACITY_FULL": {
     "subject": "Your response capacity is full",
     "preheader": "Your profile is no longer accepting new responses.",
     "title": "Capacity Limit Reached",
-    "body": "Your 10Signal profile has reached its maximum response capacity ({{maxCapacity}} responses). Upgrade your profile to continue receiving responses from friends.",
-    "ctaText": "Upgrade Now",
-    "ctaUrl": "{{upgradeUrl}}",
+    "body": "Your 10Signal profile has reached its maximum response capacity ({{maxCapacity}} responses). Manage your capacity to continue receiving responses from friends.",
+    "ctaText": "Manage Capacity",
+    "ctaUrl": "https://10signal.me",
     "footer": "10Signal Capacity Alert",
-    "plainText": "Hello,\n\nYour 10Signal profile reached its maximum response limit. Upgrade to continue receiving responses:\n{{upgradeUrl}}\n\n10Signal Team"
+    "plainText": "Hello,\n\nYour 10Signal profile reached its maximum response limit. Manage capacity to continue receiving responses:\nhttps://10signal.me\n\n10Signal Team"
   },
   "PLUS_WELCOME": {
     "subject": "Welcome to 10Signal Plus!",
     "preheader": "Your one-time purchase is confirmed.",
     "title": "Plus Features Activated",
-    "body": "Your 10Signal Plus one-time purchase has been completed successfully. Enjoy unlimited response capacity and comprehensive analytical dimensions.",
-    "ctaText": "Go to Dashboard",
-    "ctaUrl": "{{dashboardUrl}}",
+    "body": "<p style=\"margin: 0 0 16px 0;\">Your 10Signal Plus one-time purchase has been confirmed and permanently activated on your account.</p><div style=\"background-color: #F7EFE4; border: 1px solid #E6D5C2; border-radius: 12px; padding: 18px 20px; margin: 18px 0;\"><p style=\"margin: 0 0 8px 0; font-size: 14px; font-weight: 600; color: #3D2C23;\">Activated Benefits:</p><ul style=\"margin: 0; padding-left: 20px; font-size: 14px; color: #6E5A4A; line-height: 1.6;\"><li>Permanent, unlimited response collection capacity</li><li>Comprehensive outside perception and reflection analytics</li><li>Blind spot and perception gap matrix</li><li>Extended social identity and archetype cards</li></ul></div><p style=\"margin: 16px 0 0 0; font-size: 13px; color: #8C7A6B; line-height: 1.5;\">10Signal Plus is a single, one-time purchase; no recurring charges will ever be made.</p>",
+    "ctaText": null,
+    "ctaUrl": null,
     "footer": "10Signal Plus — One-Time Purchase",
-    "plainText": "Hello,\n\nYour 10Signal Plus one-time purchase has been confirmed and activated on your account.\nAccess your dashboard at:\n{{dashboardUrl}}\n\n10Signal Team"
+    "plainText": "Hello,\n\nYour 10Signal Plus one-time purchase has been confirmed and activated permanently on your account.\n\nActivated Benefits:\n- Permanent, unlimited response collection capacity\n- Comprehensive outside perception and reflection analytics\n- Blind spot and perception gap matrix\n- Extended social identity and archetype cards\n\n10Signal Plus is a single one-time purchase; no recurring charges.\n\n10Signal Team"
   },
   "PURCHASE_RECEIPT": {
     "subject": "10Signal Purchase Receipt (#{{reference}})",
     "preheader": "Your payment was successfully processed.",
-    "title": "Payment Confirmation",
-    "body": "Your payment was processed successfully. Product: {{product}}, Amount: {{amount}} {{currency}}, Reference: {{reference}}, Date: {{timestamp}}.",
-    "ctaText": "View Receipt",
-    "ctaUrl": "{{dashboardUrl}}",
+    "title": "Purchase Details",
+    "body": "<p style=\"margin: 0 0 16px 0;\">Your payment was processed successfully and your account has been updated. Details are below:</p><table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"margin: 18px 0; background-color: #F7EFE4; border: 1px solid #E6D5C2; border-radius: 12px; padding: 16px 20px;\"><tr><td style=\"padding: 6px 0; font-size: 14px; color: #8C7A6B;\">Product:</td><td align=\"right\" style=\"padding: 6px 0; font-size: 14px; font-weight: 600; color: #3D2C23;\">{{product}}</td></tr><tr><td style=\"padding: 6px 0; font-size: 14px; color: #8C7A6B;\">Amount:</td><td align=\"right\" style=\"padding: 6px 0; font-size: 14px; font-weight: 600; color: #3D2C23;\">{{amount}} {{currency}}</td></tr><tr><td style=\"padding: 6px 0; font-size: 14px; color: #8C7A6B;\">Reference:</td><td align=\"right\" style=\"padding: 6px 0; font-size: 14px; font-weight: 600; color: #3D2C23;\">{{reference}}</td></tr><tr><td style=\"padding: 6px 0; font-size: 14px; color: #8C7A6B;\">Date:</td><td align=\"right\" style=\"padding: 6px 0; font-size: 14px; font-weight: 600; color: #3D2C23;\">{{timestamp}}</td></tr></table><p style=\"margin: 16px 0 0 0; font-size: 13px; color: #8C7A6B; line-height: 1.5;\">Payments are processed securely via our merchant of record, Lemon Squeezy. Your official tax invoice has also been sent separately.</p>",
+    "ctaText": null,
+    "ctaUrl": null,
     "footer": "This email serves as an official transaction record.",
-    "plainText": "Hello,\n\nYour payment has been received successfully.\nProduct: {{product}}\nAmount: {{amount}} {{currency}}\nReference: {{reference}}\nDate: {{timestamp}}\n\n10Signal Team"
+    "plainText": "Hello,\n\nYour payment has been received successfully.\nProduct: {{product}}\nAmount: {{amount}} {{currency}}\nReference: {{reference}}\nDate: {{timestamp}}\n\nPayments are securely processed via our merchant of record Lemon Squeezy.\n\n10Signal Team"
   },
   "EMAIL_CHANGED": {
     "subject": "Your 10Signal account email was updated",
     "preheader": "Security notice regarding email change.",
     "title": "Email Address Changed",
-    "body": "The email address associated with your 10Signal account has been changed. If you did not authorize this change, please contact our support team immediately.",
-    "ctaText": "Security Settings",
-    "ctaUrl": "{{securityUrl}}",
+    "body": "<p style=\"margin: 0 0 16px 0;\">The email address associated with your 10Signal account has been successfully updated.</p><p style=\"margin: 0 0 16px 0;\">If you initiated and authorized this change, no further action is required.</p><div style=\"background-color: #F7EFE4; border: 1px solid #E6D5C2; border-radius: 12px; padding: 14px 18px; margin: 18px 0;\"><p style=\"margin: 0; font-size: 13px; color: #8C7A6B; line-height: 1.5;\"><strong>Security Alert:</strong> If you did not make this change, please immediately contact our support team at <strong>10signal.me@gmail.com</strong> to secure your account.</p></div>",
+    "ctaText": null,
+    "ctaUrl": null,
     "footer": "10Signal Security Notice",
-    "plainText": "Hello,\n\nThe email address associated with your 10Signal account was changed. If you did not make this change, please contact us immediately:\n{{securityUrl}}\n\n10Signal Team"
+    "plainText": "Hello,\n\nThe email address associated with your 10Signal account was updated.\nIf you did not make this change, please contact us immediately to protect your account: 10signal.me@gmail.com\n\n10Signal Team"
   },
   "ACCOUNT_DELETED": {
     "subject": "Your 10Signal account has been deleted",
     "preheader": "Account deletion finalized.",
     "title": "Account Successfully Deleted",
-    "body": "Your 10Signal account and associated profile data have been permanently deleted per your request. Thank you for using 10Signal.",
-    "ctaText": "10Signal Home",
-    "ctaUrl": "{{homeUrl}}",
+    "body": "<p style=\"margin: 0 0 16px 0;\">Your 10Signal account and associated profile data have been permanently deleted per your request.</p><p style=\"margin: 0; font-size: 14px; color: #6E5A4A; line-height: 1.6;\">Thank you for being part of 10Signal, and we wish you the best on your journey.</p>",
+    "ctaText": null,
+    "ctaUrl": null,
     "footer": "10Signal Account Notice",
-    "plainText": "Hello,\n\nYour 10Signal account and data have been permanently removed.\n\n10Signal Team"
+    "plainText": "Hello,\n\nYour 10Signal account and associated data have been permanently deleted per your request. Thank you for having been with us.\n\n10Signal Team"
   },
   "LOGIN_VERIFICATION": {
-    "subject": "Your 10Signal login verification code: {{code}}",
-    "preheader": "Your code is valid for a short time.",
+    "subject": "Your 10Signal login verification code",
+    "preheader": "Your login code is valid for 10 minutes.",
     "title": "Login Verification Code",
-    "body": "Your verification code to sign in to your 10Signal account is: <strong>{{code}}</strong>. This code is single-use and will expire shortly. Do not share it with anyone.",
-    "ctaText": "Sign In",
-    "ctaUrl": "{{loginUrl}}",
+    "body": "<p style=\"margin: 0 0 16px 0;\">Here is your verification code to sign in to your 10Signal account:</p><table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"margin: 20px 0;\"><tr><td align=\"center\" style=\"background-color: #F7EFE4; border: 1px solid #E6D5C2; border-radius: 12px; padding: 22px 16px;\"><div style=\"font-family: 'Courier New', Courier, monospace; font-size: 34px; font-weight: 700; letter-spacing: 8px; color: #3D2C23; line-height: 1.2;\">{{code}}</div><div style=\"font-size: 13px; color: #8C7A6B; margin-top: 8px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\">This code is valid for 10 minutes.</div></td></tr></table><p style=\"margin: 16px 0 0 0; font-size: 13px; color: #8C7A6B; line-height: 1.5;\">For your security, never share this code with anyone. If you did not request this code, you can safely ignore this email.</p>",
+    "ctaText": null,
+    "ctaUrl": null,
     "footer": "If you did not request this, you can safely ignore this email.",
-    "plainText": "Hello,\n\nYour 10Signal login verification code is: {{code}}\nThis code expires shortly and can only be used once. Do not share it.\n\n10Signal Team"
+    "plainText": "Hello,\n\nYour 10Signal login verification code is: {{code}}\n\nThis code is valid for 10 minutes and can only be used once.\nFor your security, never share this code with anyone.\n\nIf you did not request this, you can safely ignore this email.\n\n10Signal Team"
   },
   "REGISTRATION_VERIFICATION": {
-    "subject": "Your 10Signal registration code: {{code}}",
-    "preheader": "Complete your registration.",
+    "subject": "Your 10Signal registration code",
+    "preheader": "Your registration code is valid for 10 minutes.",
     "title": "Registration Verification Code",
-    "body": "Your verification code to register your 10Signal profile is: <strong>{{code}}</strong>. This code is single-use and will expire shortly.",
-    "ctaText": "Complete Registration",
-    "ctaUrl": "{{registerUrl}}",
+    "body": "<p style=\"margin: 0 0 16px 0;\">Here is your verification code to register your 10Signal profile:</p><table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"margin: 20px 0;\"><tr><td align=\"center\" style=\"background-color: #F7EFE4; border: 1px solid #E6D5C2; border-radius: 12px; padding: 22px 16px;\"><div style=\"font-family: 'Courier New', Courier, monospace; font-size: 34px; font-weight: 700; letter-spacing: 8px; color: #3D2C23; line-height: 1.2;\">{{code}}</div><div style=\"font-size: 13px; color: #8C7A6B; margin-top: 8px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\">This code is valid for 10 minutes.</div></td></tr></table><p style=\"margin: 16px 0 0 0; font-size: 13px; color: #8C7A6B; line-height: 1.5;\">For your security, never share this code with anyone. If you did not request this code, you can safely ignore this email.</p>",
+    "ctaText": null,
+    "ctaUrl": null,
     "footer": "If you did not request this, you can safely ignore this email.",
-    "plainText": "Hello,\n\nYour 10Signal registration code is: {{code}}\nThis code expires shortly and can only be used once.\n\n10Signal Team"
+    "plainText": "Hello,\n\nYour 10Signal registration code is: {{code}}\n\nThis code is valid for 10 minutes and can only be used once.\nFor your security, never share this code with anyone.\n\nIf you did not request this, you can safely ignore this email.\n\n10Signal Team"
   },
   "EMAIL_CHANGE_VERIFICATION": {
-    "subject": "Your 10Signal email change verification code: {{code}}",
-    "preheader": "Confirm your new email address.",
+    "subject": "Your 10Signal email change verification code",
+    "preheader": "Your verification code is valid for 10 minutes.",
     "title": "Email Change Verification",
-    "body": "Your verification code to update your 10Signal account email is: <strong>{{code}}</strong>. This code is valid for a short time.",
-    "ctaText": "Confirm Email",
-    "ctaUrl": "{{securityUrl}}",
+    "body": "<p style=\"margin: 0 0 16px 0;\">Here is your verification code to update your 10Signal account email:</p><table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"margin: 20px 0;\"><tr><td align=\"center\" style=\"background-color: #F7EFE4; border: 1px solid #E6D5C2; border-radius: 12px; padding: 22px 16px;\"><div style=\"font-family: 'Courier New', Courier, monospace; font-size: 34px; font-weight: 700; letter-spacing: 8px; color: #3D2C23; line-height: 1.2;\">{{code}}</div><div style=\"font-size: 13px; color: #8C7A6B; margin-top: 8px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\">This code is valid for 10 minutes.</div></td></tr></table><p style=\"margin: 16px 0 0 0; font-size: 13px; color: #8C7A6B; line-height: 1.5;\">For your security, never share this code with anyone. If you did not initiate this change, you can safely ignore this email.</p>",
+    "ctaText": null,
+    "ctaUrl": null,
     "footer": "If you did not initiate this change, please ignore this email.",
-    "plainText": "Hello,\n\nYour 10Signal email change verification code is: {{code}}\nThis code expires shortly.\n\n10Signal Team"
+    "plainText": "Hello,\n\nYour 10Signal email change verification code is: {{code}}\n\nThis code is valid for 10 minutes and can only be used once.\nFor your security, never share this code with anyone.\n\nIf you did not initiate this change, you can safely ignore this email.\n\n10Signal Team"
   },
   "SOCIAL_CARD_CHANGED": {
-    "subject": "Your Social Identity Card Has Evolved!",
-    "preheader": "New responses have transformed your outside persona card.",
+    "subject": "Your Social Identity Card Has Updated!",
+    "preheader": "New responses have transformed your outside archetype card.",
     "title": "Your New Social Card is Ready",
-    "body": "Following new responses from your friends, your outside archetype and social card have updated. View and share your new card!",
-    "ctaText": "View Social Card",
-    "ctaUrl": "{{dashboardUrl}}",
+    "body": "Following new evaluations from your friends, your outside perception profile and social identity card have updated. View and share your new card!",
+    "ctaText": "View Changes",
+    "ctaUrl": "https://10signal.me",
     "footer": "10Signal Social Card Alert",
-    "plainText": "Hello,\n\nYour social identity card has evolved based on new responses!\nCheck your updated card at:\n{{dashboardUrl}}\n\n10Signal Team"
+    "plainText": "Hello,\n\nYour social identity card has updated based on new responses!\nCheck your updated card at:\nhttps://10signal.me\n\n10Signal Team"
   }
 }

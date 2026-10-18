@@ -1,142 +1,142 @@
 {
   "FIRST_SHARE_REMINDER": {
     "subject": "10Signal profiliniz ilk yanıtlarını bekliyor",
-    "preheader": "Profil linkinizi arkadaşlarınızla paylaşarak analizinizi başlatın.",
+    "preheader": "Profilinizi arkadaşlarınızla paylaşarak analizinizi başlatın.",
     "title": "Profiliniz Hazır, Şimdi Paylaşma Zamanı",
-    "body": "10Signal profilinizi oluşturdunuz ancak henüz yeterli değerlendirme gelmedi. Arkadaşlarınızın hakkınızdaki samimi izlenimlerini öğrenmek için linkinizi paylaşın.",
+    "body": "10Signal profilinizi oluşturdunuz ancak henüz yeterli değerlendirme gelmedi. Arkadaşlarınızın hakkınızdaki samimi izlenimlerini öğrenmek ve ilk yansıma analizinizi açmak için profilinizi arkadaşlarınızla paylaşın.",
     "ctaText": "Profilimi Paylaş",
-    "ctaUrl": "{{shareUrl}}",
+    "ctaUrl": "https://10signal.me",
     "footer": "Bu e-posta 10Signal hesabınız için gönderilmiştir.",
-    "plainText": "Merhaba,\n\n10Signal profiliniz hazır! Arkadaşlarınızın hakkınızdaki samimi izlenimlerini öğrenmek için linkinizi paylaşın:\n{{shareUrl}}\n\n10Signal Ekibi"
+    "plainText": "Merhaba,\n\n10Signal profiliniz hazır! Arkadaşlarınızın hakkınızdaki samimi izlenimlerini öğrenmek için profilinizi ziyaret edin:\nhttps://10signal.me\n\n10Signal Ekibi"
   },
   "NEW_EVALUATION": {
     "subject": "10Signal profiliniz için {{count}} yeni değerlendirme geldi",
     "preheader": "Arkadaşlarınız soruları yanıtladı.",
     "title": "Yeni Değerlendirmeler Alındı",
-    "body": "10Signal profiliniz için {{count}} yeni anonim değerlendirme kaydedildi. Sonuçlarınızı incelemek için panelinize göz atın.",
+    "body": "10Signal profiliniz için {{count}} yeni anonim değerlendirme kaydedildi. Sonuçlarınızı ve güncellenen yansımanızı incelemek için panelinize göz atın.",
     "ctaText": "Sonuçları Gör",
-    "ctaUrl": "{{dashboardUrl}}",
+    "ctaUrl": "https://10signal.me",
     "footer": "Bu e-posta yeni değerlendirme bildirimleri açık olduğu için gönderilmiştir.",
-    "plainText": "Merhaba,\n\n10Signal profiliniz için {{count}} yeni anonim değerlendirme kaydedildi!\nSonuçları incelemek için:\n{{dashboardUrl}}\n\n10Signal Ekibi"
+    "plainText": "Merhaba,\n\n10Signal profiliniz için {{count}} yeni anonim değerlendirme kaydedildi!\nSonuçları incelemek için:\nhttps://10signal.me\n\n10Signal Ekibi"
   },
   "REPORT_UNLOCKED": {
     "subject": "Tebrikler! Dış Görünüş Raporunuz Açıldı",
     "preheader": "3 değerlendirme eşiğine ulaşıldı ve raporunuz hazır.",
     "title": "Raporunuz Artık Erişilebilir",
-    "body": "Harika haber! Profiliniz için 3 değerlendirme tamamlandı. Dışarıdan nasıl algılandığınızı gösteren ilk analiziniz hazır.",
-    "ctaText": "Raporu İncele",
-    "ctaUrl": "{{dashboardUrl}}",
+    "body": "Harika haber! Profiliniz için 3 değerlendirme tamamlandı. Dışarıdan nasıl algılandığınızı gösteren ilk analiziniz ve algı farkı raporunuz hazır.",
+    "ctaText": "Raporu Görüntüle",
+    "ctaUrl": "https://10signal.me",
     "footer": "10Signal Rapor Bildirimi",
-    "plainText": "Merhaba,\n\nHarika haber! Profiliniz için 3 değerlendirme tamamlandı ve dış görünüş raporunuz açıldı.\nİncelemek için:\n{{dashboardUrl}}\n\n10Signal Ekibi"
+    "plainText": "Merhaba,\n\nHarika haber! Profiliniz için 3 değerlendirme tamamlandı ve dış görünüş raporunuz açıldı.\nRaporu incelemek için:\nhttps://10signal.me\n\n10Signal Ekibi"
   },
   "INACTIVITY_REMINDER": {
     "subject": "10Signal profilinizde son durum",
     "preheader": "Profilinizi güncel tutarak yeni geri bildirimler toplayabilirsiniz.",
     "title": "Sizi Özledik",
-    "body": "Bir süredir profilinizde yeni bir hareketlilik olmadı. Linkinizi tekrar paylaşarak arkadaşlarınızın güncel izlenimlerini alabilirsiniz.",
+    "body": "Bir süredir profilinizde yeni bir hareketlilik olmadı. Profilinizi tekrar ziyaret ederek güncel izlenimler toplayabilir ve sonuçlarınızı takip edebilirsiniz.",
     "ctaText": "Panele Git",
-    "ctaUrl": "{{dashboardUrl}}",
-    "footer": "Bu hatırlatmayı bildirim tercihlerinizden kapatabilirsiniz.",
-    "plainText": "Merhaba,\n\nBir süredir profilinizde yeni hareketlilik olmadı. Linkinizi tekrar paylaşarak güncel izlenimler toplayabilirsiniz:\n{{dashboardUrl}}\n\n10Signal Ekibi"
+    "ctaUrl": "https://10signal.me",
+    "footer": "Bu hatırlatmayı bildirim tercihlerinizden dilediğiniz zaman kapatabilirsiniz.",
+    "plainText": "Merhaba,\n\nBir süredir profilinizde yeni hareketlilik olmadı. Profilinizi ziyaret ederek güncel izlenimleri takip edebilirsiniz:\nhttps://10signal.me\n\n10Signal Ekibi"
   },
   "CAPACITY_80_PERCENT": {
     "subject": "Kapasitenizin %80'ine ulaştınız",
     "preheader": "Yanıt sınırınıza yaklaşıyorsunuz.",
     "title": "Kapasite Uyarısı (%80)",
-    "body": "10Signal profiliniz izin verilen yanıt kapasitesinin %80'ine ulaştı ({{currentResponses}}/{{maxCapacity}}). Yeni yanıtları kaçırmamak için kapasitenizi artırabilirsiniz.",
-    "ctaText": "Kapasiteyi Artır",
-    "ctaUrl": "{{upgradeUrl}}",
+    "body": "10Signal profiliniz izin verilen yanıt kapasitesinin %80'ine ulaştı ({{currentResponses}}/{{maxCapacity}}). Yeni yanıtları kaçırmamak için yanıt kapasitenizi yönetebilirsiniz.",
+    "ctaText": "Kapasiteyi Yönet",
+    "ctaUrl": "https://10signal.me",
     "footer": "10Signal Kapasite Bildirimi",
-    "plainText": "Merhaba,\n\nProfiliniz izin verilen yanıt kapasitesinin %80'ine ulaştı ({{currentResponses}}/{{maxCapacity}}).\nKapasiteyi artırmak için:\n{{upgradeUrl}}\n\n10Signal Ekibi"
+    "plainText": "Merhaba,\n\nProfiliniz izin verilen yanıt kapasitesinin %80'ine ulaştı ({{currentResponses}}/{{maxCapacity}}).\nKapasitenizi yönetmek için:\nhttps://10signal.me\n\n10Signal Ekibi"
   },
   "CAPACITY_FULL": {
     "subject": "Yanıt kapasiteniz doldu",
     "preheader": "Profiliniz yeni yanıtlara kapandı.",
     "title": "Kapasite Tamamen Doldu",
-    "body": "10Signal profiliniz maksimum yanıt sınırına ulaştı ({{maxCapacity}} yanıt). Daha fazla arkadaşınızın yanıt verebilmesi için profilinizi yükseltebilirsiniz.",
-    "ctaText": "Kapasiteyi Yükselt",
-    "ctaUrl": "{{upgradeUrl}}",
+    "body": "10Signal profiliniz maksimum yanıt sınırına ulaştı ({{maxCapacity}} yanıt). Daha fazla arkadaşınızın yanıt verebilmesi için profilinizin yanıt kapasitesini yönetebilirsiniz.",
+    "ctaText": "Kapasiteyi Yönet",
+    "ctaUrl": "https://10signal.me",
     "footer": "10Signal Kapasite Bildirimi",
-    "plainText": "Merhaba,\n\nProfiliniz maksimum yanıt kapasitesine ulaştı. Yeni yanıtları kabul etmek için:\n{{upgradeUrl}}\n\n10Signal Ekibi"
+    "plainText": "Merhaba,\n\nProfiliniz maksimum yanıt kapasitesine ulaştı. Yeni yanıtları kabul etmek ve kapasitenizi yönetmek için:\nhttps://10signal.me\n\n10Signal Ekibi"
   },
   "PLUS_WELCOME": {
     "subject": "10Signal Plus'a Hoş Geldiniz!",
     "preheader": "Tek seferlik satın alımınız onaylandı.",
     "title": "Plus Özellikleriniz Aktif Edildi",
-    "body": "10Signal Plus tek seferlik satın alımınız başarıyla tamamlandı. Artık sınırsız yanıt kapasitesi ve derinlemesine analizlerin keyfini çıkarabilirsiniz.",
-    "ctaText": "Panelime Dön",
-    "ctaUrl": "{{dashboardUrl}}",
+    "body": "<p style=\"margin: 0 0 16px 0;\">10Signal Plus tek seferlik satın alımınız onaylandı ve profilinize süresiz olarak tanımlandı.</p><div style=\"background-color: #F7EFE4; border: 1px solid #E6D5C2; border-radius: 12px; padding: 18px 20px; margin: 18px 0;\"><p style=\"margin: 0 0 8px 0; font-size: 14px; font-weight: 600; color: #3D2C23;\">Aktif Haklarınız:</p><ul style=\"margin: 0; padding-left: 20px; font-size: 14px; color: #6E5A4A; line-height: 1.6;\"><li>Süresiz ve sınırsız değerlendirme toplama kapasitesi</li><li>Kapsamlı dış algı ve yansıma analitiği</li><li>Kör nokta ve algı farkı matrisi</li><li>Genişletilmiş sosyal kimlik ve arketip kartları</li></ul></div><p style=\"margin: 16px 0 0 0; font-size: 13px; color: #8C7A6B; line-height: 1.5;\">10Signal Plus tek seferlik bir satın alımdır; kartınızdan tekrarlayan hiçbir ücret tahsil edilmez.</p>",
+    "ctaText": null,
+    "ctaUrl": null,
     "footer": "10Signal Plus — Tek Seferlik Satın Alım",
-    "plainText": "Merhaba,\n\n10Signal Plus tek seferlik satın alımınız onaylandı ve profilinize tanımlandı.\nPanelinize erişmek için:\n{{dashboardUrl}}\n\n10Signal Ekibi"
+    "plainText": "Merhaba,\n\n10Signal Plus tek seferlik satın alımınız onaylandı ve profilinize süresiz olarak tanımlandı.\n\nAktif Haklarınız:\n- Süresiz ve sınırsız değerlendirme toplama kapasitesi\n- Kapsamlı dış algı ve yansıma analitiği\n- Kör nokta ve algı farkı matrisi\n- Genişletilmiş sosyal kimlik ve arketip kartları\n\n10Signal Plus tek seferlik bir satın alımdır; tekrarlayan hiçbir ücret tahsil edilmez.\n\n10Signal Ekibi"
   },
   "PURCHASE_RECEIPT": {
     "subject": "10Signal Satın Alım Makbuzu (#{{reference}})",
     "preheader": "Ödemeniz başarıyla alındı.",
     "title": "Satın Alım Detayları",
-    "body": "Ödemeniz başarıyla işlendi. Ürün: {{product}}, Tutar: {{amount}} {{currency}}, İşlem Referansı: {{reference}}, Tarih: {{timestamp}}.",
-    "ctaText": "Faturayı Görüntüle",
-    "ctaUrl": "{{dashboardUrl}}",
+    "body": "<p style=\"margin: 0 0 16px 0;\">Ödemeniz başarıyla alındı ve hesabınız güncellendi. Satın alım detaylarınız aşağıdadır:</p><table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"margin: 18px 0; background-color: #F7EFE4; border: 1px solid #E6D5C2; border-radius: 12px; padding: 16px 20px;\"><tr><td style=\"padding: 6px 0; font-size: 14px; color: #8C7A6B;\">Ürün:</td><td align=\"right\" style=\"padding: 6px 0; font-size: 14px; font-weight: 600; color: #3D2C23;\">{{product}}</td></tr><tr><td style=\"padding: 6px 0; font-size: 14px; color: #8C7A6B;\">Tutar:</td><td align=\"right\" style=\"padding: 6px 0; font-size: 14px; font-weight: 600; color: #3D2C23;\">{{amount}} {{currency}}</td></tr><tr><td style=\"padding: 6px 0; font-size: 14px; color: #8C7A6B;\">İşlem Referansı:</td><td align=\"right\" style=\"padding: 6px 0; font-size: 14px; font-weight: 600; color: #3D2C23;\">{{reference}}</td></tr><tr><td style=\"padding: 6px 0; font-size: 14px; color: #8C7A6B;\">Tarih:</td><td align=\"right\" style=\"padding: 6px 0; font-size: 14px; font-weight: 600; color: #3D2C23;\">{{timestamp}}</td></tr></table><p style=\"margin: 16px 0 0 0; font-size: 13px; color: #8C7A6B; line-height: 1.5;\">Ödemeler yetkili satıcımız Lemon Squeezy üzerinden güvenle işlenmiştir. Resmî vergi faturanız ayrıca iletilmektedir.</p>",
+    "ctaText": null,
+    "ctaUrl": null,
     "footer": "Bu e-posta mali işlem kaydı olarak iletilmiştir.",
-    "plainText": "Merhaba,\n\nÖdemeniz başarıyla alındı.\nÜrün: {{product}}\nTutar: {{amount}} {{currency}}\nReferans: {{reference}}\nTarih: {{timestamp}}\n\n10Signal Ekibi"
+    "plainText": "Merhaba,\n\nÖdemeniz başarıyla alındı.\nÜrün: {{product}}\nTutar: {{amount}} {{currency}}\nReferans: {{reference}}\nTarih: {{timestamp}}\n\nÖdemeler yetkili satıcımız Lemon Squeezy üzerinden güvenle işlenmiştir.\n\n10Signal Ekibi"
   },
   "EMAIL_CHANGED": {
     "subject": "10Signal hesap e-postanız güncellendi",
     "preheader": "E-posta değişikliği hakkında güvenlik bilgilendirmesi.",
     "title": "E-posta Adresiniz Değiştirildi",
-    "body": "10Signal hesabınıza bağlı e-posta adresi başarıyla güncellendi. Bu işlemi siz yapmadıysanız lütfen derhal destek ekibimizle iletişime geçin.",
-    "ctaText": "Güvenlik Ayarları",
-    "ctaUrl": "{{securityUrl}}",
+    "body": "<p style=\"margin: 0 0 16px 0;\">10Signal hesabınıza bağlı e-posta adresi başarıyla güncellendi.</p><p style=\"margin: 0 0 16px 0;\">Bu işlem sizin bilginiz ve onayınız dahilinde yapıldıysa herhangi bir ek işlem yapmanıza gerek yoktur.</p><div style=\"background-color: #F7EFE4; border: 1px solid #E6D5C2; border-radius: 12px; padding: 14px 18px; margin: 18px 0;\"><p style=\"margin: 0; font-size: 13px; color: #8C7A6B; line-height: 1.5;\"><strong>Güvenlik Uyarısı:</strong> Bu değişikliği siz gerçekleştirmediyseniz, hesabınızı koruma altına almak için derhal <strong>10signal.me@gmail.com</strong> üzerinden destek ekibimizle iletişime geçin.</p></div>",
+    "ctaText": null,
+    "ctaUrl": null,
     "footer": "10Signal Güvenlik Uyarısı",
-    "plainText": "Merhaba,\n\n10Signal hesabınıza bağlı e-posta adresi güncellendi. Bu işlemi siz yapmadıysanız lütfen acilen bizimle iletişime geçin:\n{{securityUrl}}\n\n10Signal Ekibi"
+    "plainText": "Merhaba,\n\n10Signal hesabınıza bağlı e-posta adresi başarıyla güncellendi.\nBu işlemi siz yapmadıysanız lütfen hesabınızı koruma altına almak için derhal bizimle iletişime geçin: 10signal.me@gmail.com\n\n10Signal Ekibi"
   },
   "ACCOUNT_DELETED": {
     "subject": "10Signal hesabınız silindi",
     "preheader": "Hesap silme işlemi tamamlandı.",
     "title": "Hesabınız Başarıyla Silindi",
-    "body": "10Signal hesabınız ve ilişkili tüm profil verileriniz talebiniz üzerine kalıcı olarak silinmiştir. Bizimle olduğunuz için teşekkür ederiz.",
-    "ctaText": "10Signal Ana Sayfa",
-    "ctaUrl": "{{homeUrl}}",
+    "body": "<p style=\"margin: 0 0 16px 0;\">10Signal hesabınız ve ilişkili profil verileriniz talebiniz üzerine kalıcı olarak silinmiştir.</p><p style=\"margin: 0; font-size: 14px; color: #6E5A4A; line-height: 1.6;\">10Signal topluluğunun bir parçası olduğunuz için teşekkür eder, yolculuğunuzda başarılar dileriz.</p>",
+    "ctaText": null,
+    "ctaUrl": null,
     "footer": "10Signal Hesap Bildirimi",
-    "plainText": "Merhaba,\n\n10Signal hesabınız ve verileriniz başarıyla silinmiştir.\n\n10Signal Ekibi"
+    "plainText": "Merhaba,\n\n10Signal hesabınız ve ilişkili profil verileriniz talebiniz üzerine kalıcı olarak silinmiştir. Bizimle olduğunuz için teşekkür ederiz.\n\n10Signal Ekibi"
   },
   "LOGIN_VERIFICATION": {
-    "subject": "10Signal giriş doğrulama kodunuz: {{code}}",
-    "preheader": "Giriş kodunuz kısa süre geçerlidir.",
+    "subject": "10Signal giriş doğrulama kodunuz",
+    "preheader": "Giriş kodunuz 10 dakika boyunca geçerlidir.",
     "title": "Giriş Doğrulama Kodu",
-    "body": "10Signal hesabınıza giriş yapmak için doğrulama kodunuz: <strong>{{code}}</strong>. Bu kod kısa süre için geçerlidir ve tek kullanımlıktır. Kodunuzu kimseyle paylaşmayın.",
-    "ctaText": "Girişi Tamamla",
-    "ctaUrl": "{{loginUrl}}",
+    "body": "<p style=\"margin: 0 0 16px 0;\">10Signal hesabınıza giriş yapmak için doğrulama kodunuz:</p><table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"margin: 20px 0;\"><tr><td align=\"center\" style=\"background-color: #F7EFE4; border: 1px solid #E6D5C2; border-radius: 12px; padding: 22px 16px;\"><div style=\"font-family: 'Courier New', Courier, monospace; font-size: 34px; font-weight: 700; letter-spacing: 8px; color: #3D2C23; line-height: 1.2;\">{{code}}</div><div style=\"font-size: 13px; color: #8C7A6B; margin-top: 8px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\">Bu kod 10 dakika boyunca geçerlidir.</div></td></tr></table><p style=\"margin: 16px 0 0 0; font-size: 13px; color: #8C7A6B; line-height: 1.5;\">Güvenliğiniz için bu kodu kimseyle paylaşmayın. Bu işlemi siz başlatmadıysanız bu e-postayı dikkate almayın.</p>",
+    "ctaText": null,
+    "ctaUrl": null,
     "footer": "Bu isteği siz başlatmadıysanız bu e-postayı dikkate almayın.",
-    "plainText": "Merhaba,\n\n10Signal giriş doğrulama kodunuz: {{code}}\nBu kod kısa süre için geçerlidir ve tek kullanımlıktır. Kimseyle paylaşmayın.\n\n10Signal Ekibi"
+    "plainText": "Merhaba,\n\n10Signal giriş doğrulama kodunuz: {{code}}\n\nBu kod 10 dakika boyunca geçerlidir ve tek kullanımlıktır.\nGüvenliğiniz için bu kodu kimseyle paylaşmayın.\n\nBu işlemi siz başlatmadıysanız bu e-postayı dikkate almayın.\n\n10Signal Ekibi"
   },
   "REGISTRATION_VERIFICATION": {
-    "subject": "10Signal kayıt doğrulama kodunuz: {{code}}",
-    "preheader": "Kayıt işleminizi tamamlayın.",
+    "subject": "10Signal kayıt doğrulama kodunuz",
+    "preheader": "Kayıt kodunuz 10 dakika boyunca geçerlidir.",
     "title": "Kayıt Doğrulama Kodu",
-    "body": "10Signal profilinizi kaydetmek için doğrulama kodunuz: <strong>{{code}}</strong>. Bu kod kısa süre için geçerlidir ve tek kullanımlıktır.",
-    "ctaText": "Kaydı Tamamla",
-    "ctaUrl": "{{registerUrl}}",
+    "body": "<p style=\"margin: 0 0 16px 0;\">10Signal profilinizi kaydetmek için doğrulama kodunuz:</p><table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"margin: 20px 0;\"><tr><td align=\"center\" style=\"background-color: #F7EFE4; border: 1px solid #E6D5C2; border-radius: 12px; padding: 22px 16px;\"><div style=\"font-family: 'Courier New', Courier, monospace; font-size: 34px; font-weight: 700; letter-spacing: 8px; color: #3D2C23; line-height: 1.2;\">{{code}}</div><div style=\"font-size: 13px; color: #8C7A6B; margin-top: 8px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\">Bu kod 10 dakika boyunca geçerlidir.</div></td></tr></table><p style=\"margin: 16px 0 0 0; font-size: 13px; color: #8C7A6B; line-height: 1.5;\">Güvenliğiniz için bu kodu kimseyle paylaşmayın. Bu işlemi siz başlatmadıysanız bu e-postayı dikkate almayın.</p>",
+    "ctaText": null,
+    "ctaUrl": null,
     "footer": "Bu isteği siz başlatmadıysanız bu e-postayı dikkate almayın.",
-    "plainText": "Merhaba,\n\n10Signal kayıt doğrulama kodunuz: {{code}}\nBu kod kısa süre için geçerlidir ve tek kullanımlıktır.\n\n10Signal Ekibi"
+    "plainText": "Merhaba,\n\n10Signal kayıt doğrulama kodunuz: {{code}}\n\nBu kod 10 dakika boyunca geçerlidir ve tek kullanımlıktır.\nGüvenliğiniz için bu kodu kimseyle paylaşmayın.\n\nBu işlemi siz başlatmadıysanız bu e-postayı dikkate almayın.\n\n10Signal Ekibi"
   },
   "EMAIL_CHANGE_VERIFICATION": {
-    "subject": "10Signal e-posta değişikliği doğrulama kodunuz: {{code}}",
-    "preheader": "Yeni e-posta adresinizi onaylayın.",
+    "subject": "10Signal e-posta değişikliği doğrulama kodunuz",
+    "preheader": "Doğrulama kodunuz 10 dakika boyunca geçerlidir.",
     "title": "E-posta Değişikliği Doğrulama",
-    "body": "10Signal hesabınızın e-posta adresini güncellemek için doğrulama kodunuz: <strong>{{code}}</strong>. Bu kod kısa süre için geçerlidir.",
-    "ctaText": "Onayla",
-    "ctaUrl": "{{securityUrl}}",
+    "body": "<p style=\"margin: 0 0 16px 0;\">10Signal hesabınızın e-posta adresini güncellemek için doğrulama kodunuz:</p><table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"margin: 20px 0;\"><tr><td align=\"center\" style=\"background-color: #F7EFE4; border: 1px solid #E6D5C2; border-radius: 12px; padding: 22px 16px;\"><div style=\"font-family: 'Courier New', Courier, monospace; font-size: 34px; font-weight: 700; letter-spacing: 8px; color: #3D2C23; line-height: 1.2;\">{{code}}</div><div style=\"font-size: 13px; color: #8C7A6B; margin-top: 8px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\">Bu kod 10 dakika boyunca geçerlidir.</div></td></tr></table><p style=\"margin: 16px 0 0 0; font-size: 13px; color: #8C7A6B; line-height: 1.5;\">Güvenliğiniz için bu kodu kimseyle paylaşmayın. Bu işlemi siz başlatmadıysanız bu e-postayı dikkate almayın.</p>",
+    "ctaText": null,
+    "ctaUrl": null,
     "footer": "Bu işlemi siz yapmadıysanız lütfen dikkate almayın.",
-    "plainText": "Merhaba,\n\n10Signal e-posta güncelleme doğrulama kodunuz: {{code}}\nBu kod kısa süre için geçerlidir.\n\n10Signal Ekibi"
+    "plainText": "Merhaba,\n\n10Signal e-posta güncelleme doğrulama kodunuz: {{code}}\n\nBu kod 10 dakika boyunca geçerlidir ve tek kullanımlıktır.\nGüvenliğiniz için bu kodu kimseyle paylaşmayın.\n\nBu işlemi siz başlatmadıysanız bu e-postayı dikkate almayın.\n\n10Signal Ekibi"
   },
   "SOCIAL_CARD_CHANGED": {
     "subject": "Sosyal Kimlik Kartınız Güncellendi!",
     "preheader": "Arkadaşlarınızın değerlendirmeleriyle kartınız yeni bir forma büründü.",
     "title": "Yeni Sosyal Kartınız Hazır",
     "body": "Gelen yeni değerlendirmeler sonucunda dış algı profiliniz ve sosyal kimlik kartınız güncellendi. Yeni kartınızı inceleyin ve paylaşın!",
-    "ctaText": "Yeni Kartı İncele",
-    "ctaUrl": "{{dashboardUrl}}",
+    "ctaText": "Değişiklikleri Gör",
+    "ctaUrl": "https://10signal.me",
     "footer": "10Signal Sosyal Kart Bildirimi",
-    "plainText": "Merhaba,\n\nGelen yeni değerlendirmeler sonucunda sosyal kimlik kartınız güncellendi!\nYeni kartınızı incelemek için:\n{{dashboardUrl}}\n\n10Signal Ekibi"
+    "plainText": "Merhaba,\n\nGelen yeni değerlendirmeler sonucunda sosyal kimlik kartınız güncellendi!\nYeni kartınızı incelemek için:\nhttps://10signal.me\n\n10Signal Ekibi"
   }
 }

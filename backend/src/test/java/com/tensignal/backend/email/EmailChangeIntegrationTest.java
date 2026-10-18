@@ -365,7 +365,7 @@ public class EmailChangeIntegrationTest {
             account.user.getEmail(),
             account.user.getId(),
             "tr",
-            Map.of("shareUrl", "https://tensignal.app/p/test"),
+            Map.of("shareUrl", "https://10signal.me/p/test"),
             "first-share-reminder:" + account.tenSignal.getId(),
             clock.instant().plus(Duration.ofHours(24)),
             null

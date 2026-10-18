@@ -626,7 +626,7 @@ class BrevoEmailProviderTest {
         );
 
         assertThat(rendered.getSubject()).contains("10Signal");
-        assertThat(rendered.getSubject()).contains("582914");
+        assertThat(rendered.getSubject()).contains("giriş doğrulama kodunuz");
         assertThat(rendered.getHtmlBody()).contains("Giriş Doğrulama Kodu");
         assertThat(rendered.getHtmlBody()).contains("582914");
         assertThat(rendered.getHtmlBody()).contains("10Signal");
@@ -644,7 +644,6 @@ class BrevoEmailProviderTest {
         );
 
         assertThat(rendered.getSubject()).contains("Your 10Signal login verification code");
-        assertThat(rendered.getSubject()).contains("739201");
         assertThat(rendered.getHtmlBody()).contains("Login Verification Code");
         assertThat(rendered.getHtmlBody()).contains("739201");
         assertThat(rendered.getHtmlBody()).contains("10Signal");
@@ -658,20 +657,20 @@ class BrevoEmailProviderTest {
         RenderedEmailContent renderedTr = templateService.render(
             NotificationType.NEW_EVALUATION,
             "tr",
-            Map.of("dashboardUrl", "https://10signal.me/dashboard", "count", 3)
+            Map.of("dashboardUrl", "https://10signal.me", "count", 3)
         );
 
         assertThat(renderedTr.getSubject()).isNotBlank();
-        assertThat(renderedTr.getHtmlBody()).contains("https://10signal.me/dashboard");
+        assertThat(renderedTr.getHtmlBody()).contains("https://10signal.me");
 
         RenderedEmailContent renderedEn = templateService.render(
             NotificationType.NEW_EVALUATION,
             "en",
-            Map.of("dashboardUrl", "https://10signal.me/dashboard", "count", 1)
+            Map.of("dashboardUrl", "https://10signal.me", "count", 1)
         );
 
         assertThat(renderedEn.getSubject()).isNotBlank();
-        assertThat(renderedEn.getHtmlBody()).contains("https://10signal.me/dashboard");
+        assertThat(renderedEn.getHtmlBody()).contains("https://10signal.me");
     }
 
     @Test

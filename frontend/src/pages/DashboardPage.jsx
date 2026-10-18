@@ -918,6 +918,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                 handleDashboardInstagramStory={handleDashboardInstagramStory}
                 isGenerating={isGenerating}
                 get10Signals={get10Signals}
+                publicSlug={snapshot?.publicSlug}
               />
             )}
 
@@ -936,6 +937,7 @@ export default function DashboardPage({ onNavigateToQuiz }) {
                 handleDashboardInstagramStory={handleDashboardInstagramStory}
                 isGenerating={isGenerating}
                 get10Signals={get10Signals}
+                publicSlug={snapshot?.publicSlug}
               />
             )}
 

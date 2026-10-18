@@ -90,7 +90,7 @@ public class PaymentEntitlementService {
                     user.getEmail(),
                     user.getId(),
                     paymentLocale,
-                    Map.of("dashboardUrl", "https://tensignal.app/dashboard"),
+                    Map.of("dashboardUrl", "https://10signal.me"),
                     "plus-welcome:" + transaction.getId(),
                     grantedAt,
                     null
@@ -108,7 +108,7 @@ public class PaymentEntitlementService {
                     "currency", transaction.getCurrency() != null ? transaction.getCurrency() : "TRY",
                     "reference", transaction.getId().toString().substring(0, 8),
                     "timestamp", grantedAt.toString(),
-                    "dashboardUrl", "https://tensignal.app/dashboard"
+                    "dashboardUrl", "https://10signal.me"
                 ),
                 "purchase-receipt:" + transaction.getId(),
                 grantedAt,

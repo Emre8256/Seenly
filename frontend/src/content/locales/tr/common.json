@@ -101,5 +101,31 @@
     "clearSearch": "Aramayı temizle",
     "questionsTag": "Sorular",
     "questionsHeadline": "Merak ettiklerin."
+  },
+  "socialShare": {
+    "title": "Sonucunu Paylaş",
+    "subtitle": "Sonucunu sosyal medyada paylaş veya kart görselini indir.",
+    "preview": "Paylaşım Önizlemesi (4:3)",
+    "instagramStory": "Instagram",
+    "instagramDesc": "Paylaşmak için kart görselini hazırla",
+    "whatsapp": "WhatsApp",
+    "whatsappDesc": "Mesaj ve bağlantıyla sohbetlerde paylaş",
+    "x": "X",
+    "xDesc": "Hazır mesaj ve bağlantıyla tweet at",
+    "otherApps": "Diğer Uygulamalar",
+    "otherAppsDesc": "Cihazındaki diğer uygulamalarla paylaş",
+    "downloadImage": "Görseli İndir",
+    "copyLink": "Bağlantıyı Kopyala",
+    "copiedLink": "Bağlantı kopyalandı",
+    "preparingImage": "Görsel hazırlanıyor...",
+    "imageReady": "Görsel hazırlandı",
+    "igReadyMobile": "Görsel hazır, Instagram'da paylaşabilirsin",
+    "shareCancelled": "Paylaşım iptal edildi",
+    "shareFailed": "Görsel hazırlanırken bir hata oluştu",
+    "close": "Kapat",
+    "brandName": "10SIGNAL",
+    "brandWatermark": "10signal.me",
+    "personalityMessage": "10Signal'da kişilik sonucum {archetypeName} çıktı. Seninki ne? ✨",
+    "observerMessage": "10Signal'da gözlemci karakterim {observerName} çıktı. Sen insanları nasıl değerlendiriyorsun? ✨"
   }
 }

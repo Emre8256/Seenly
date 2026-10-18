@@ -734,7 +734,7 @@ export default function SettingsPage() {
                 className={`tensignal-settings-tab-btn ${activeTab === 'plans' ? 'active' : ''}`}
               >
                 <Star size={16} strokeWidth={2} />
-                <span>10Signal Plus</span>
+                <span>Plus</span>
               </button>
 
               <button

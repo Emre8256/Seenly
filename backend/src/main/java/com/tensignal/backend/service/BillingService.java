@@ -53,7 +53,7 @@ public class BillingService {
                     email,
                     userId,
                     accountLocale,
-                    Map.of("homeUrl", "https://tensignal.app"),
+                    Map.of("homeUrl", "https://10signal.me"),
                     "account-deleted:" + (userId != null ? userId : tenSignal.getId()) + ":" + System.currentTimeMillis(),
                     Instant.now(),
                     Instant.now().plus(Duration.ofHours(24))

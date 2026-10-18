@@ -132,9 +132,9 @@ public class EmailNotificationService {
 
         Map<String, Object> context = Map.of(
             "code", code,
-            "loginUrl", "https://tensignal.app/login",
-            "registerUrl", "https://tensignal.app/register",
-            "securityUrl", "https://tensignal.app/settings/security"
+            "loginUrl", "https://10signal.me/login",
+            "registerUrl", "https://10signal.me/register",
+            "securityUrl", "https://10signal.me/settings/security"
         );
 
         String effectiveLocale = (locale != null && (locale.equalsIgnoreCase("tr") || locale.equalsIgnoreCase("en")))

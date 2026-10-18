@@ -119,7 +119,7 @@ public class ScoringEngineService {
                 tenSignal.getEmail(),
                 userId,
                 cardLocale,
-                Map.of("dashboardUrl", "https://tensignal.app/dashboard"),
+                Map.of("dashboardUrl", "https://10signal.me"),
                 "social-card-changed:" + tenSignal.getId() + ":" + outsideSignatureId,
                 clock.instant(),
                 null

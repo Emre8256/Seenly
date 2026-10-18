@@ -165,7 +165,7 @@ Templates are defined in locale-specific JSON files:
 - **No `if (locale == ...)` branching in business logic.**
 - **Hierarchical Fallback**: `requested locale -> language prefix (e.g. tr-TR -> tr) -> canonical English fallback (en)`.
 - **HTML Escaping**: Context variables are automatically HTML-escaped to prevent XSS.
-- **Responsive Layout**: Dark-themed, mobile-optimized editorial design with preheader, container card, logo, action CTA button, and footer.
+- **Responsive Layout**: Warm-toned (#F7EFE4 outer background, #FFFDF9 card), mobile-optimized editorial design with preheader, 580px max-width container card, 10Signal logo, contextual CTA button (only where allowed, routing to https://10signal.me), and footer.
 
 ---
 
@@ -212,7 +212,7 @@ When an account is deleted:
 1. An `ACCOUNT_DELETED` notification is enqueued with a short 24-hour expiration window.
 2. Email delivery failure does not roll back account deletion.
 3. Upon successful email delivery by the worker:
-   - Plaintext `recipient` is replaced with `purged@deleted.tensignal.app`.
+   - Plaintext `recipient` is replaced with `purged@deleted.10signal.me`.
    - `payload_json` is cleared to `{}`.
    - `recipient_hash` is retained for idempotency and security deduplication without PII.
 

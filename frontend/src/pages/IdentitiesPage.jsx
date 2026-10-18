@@ -16,6 +16,23 @@ export default function IdentitiesPage() {
   const [filterFamily, setFilterFamily] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [apiRarities, setApiRarities] = useState({});
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return Boolean(localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token'));
+  });
+
+  useEffect(() => {
+    const checkAuth = () => {
+      const logged = Boolean(localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token'));
+      setIsLoggedIn(logged);
+    };
+    window.addEventListener('storage', checkAuth);
+    window.addEventListener('focus', checkAuth);
+    return () => {
+      window.removeEventListener('storage', checkAuth);
+      window.removeEventListener('focus', checkAuth);
+    };
+  }, []);
 
   // Fetch live dynamic card rarities from backend
   useEffect(() => {
@@ -61,9 +78,14 @@ export default function IdentitiesPage() {
 
   const handleStartQuiz = useCallback(() => {
     sessionStorage.setItem('tensignal_currentIndex', '-2');
+    sessionStorage.setItem('seenly_currentIndex', '-2');
     sessionStorage.setItem('tensignal_isQuickLogin', 'false');
+    sessionStorage.setItem('seenly_isQuickLogin', 'false');
     window.dispatchEvent(new CustomEvent('tensignal_trigger_start_quiz'));
-    window.location.hash = '#/';
+    setSelectedCard(null);
+    if (window.location.hash !== '#/' && window.location.hash !== '') {
+      window.location.hash = '#/';
+    }
   }, []);
 
   const filteredCards = useMemo(() => {
@@ -153,6 +175,7 @@ export default function IdentitiesPage() {
         getObject={getObject}
         langCode={langCode}
         t={t}
+        isLoggedIn={isLoggedIn}
       />
     </AppShell>
   );

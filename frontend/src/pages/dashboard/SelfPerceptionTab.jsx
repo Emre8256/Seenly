@@ -1,6 +1,8 @@
-import React, { memo } from 'react';
+import React, { memo, useRef, useCallback } from 'react';
 import { useLocale } from '../../context/LocaleContext';
 import { CharacterBalanceBanner, SocialSignalsPanel } from './DashboardSharedComponents';
+import ShareModal, { SHARE_CARD_TYPES } from '../../components/ShareModal';
+import useShareModal from '../../hooks/useShareModal';
 
 const SelfPerceptionTab = memo(function SelfPerceptionTab({
   langCode,
@@ -12,10 +14,34 @@ const SelfPerceptionTab = memo(function SelfPerceptionTab({
   getDashboardWhatsAppLink,
   handleDashboardInstagramStory,
   isGenerating,
-  get10Signals
+  get10Signals,
+  publicSlug
 }) {
   const { t } = useLocale();
   const signals = get10Signals(langCode, false);
+  const { isOpen, cardData, triggerRef, openShare, closeShare } = useShareModal();
+  const shareBtnRef = useRef(null);
+
+  const handleOpenShare = useCallback(() => {
+    const slug =
+      publicSlug ||
+      (typeof window !== 'undefined'
+        ? localStorage.getItem('tensignal_owner_slug') || localStorage.getItem('seenly_owner_slug')
+        : null);
+
+    openShare(
+      {
+        type: SHARE_CARD_TYPES.PERSONALITY,
+        title: selfSignatureName,
+        description: selfSignatureCardLine,
+        imageSrc: SIGNATURE_IMAGES?.[activeSelfSignatureId],
+        rarity: selfRarity,
+        id: activeSelfSignatureId,
+        publicSlug: slug
+      },
+      shareBtnRef
+    );
+  }, [openShare, selfSignatureName, selfSignatureCardLine, SIGNATURE_IMAGES, activeSelfSignatureId, selfRarity, publicSlug]);
 
   return (
     <div className="tensignal-dashboard-tab-content full-width-layout scrollable-gap-content tensignal-gap-editorial-content" style={{ maxWidth: '980px', margin: '0 auto', width: '100%' }}>
@@ -137,10 +163,10 @@ const SelfPerceptionTab = memo(function SelfPerceptionTab({
                 </button>
 
                 {/* Share Button */}
-                <a
-                  href={getDashboardWhatsAppLink(selfSignatureName)}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  ref={shareBtnRef}
+                  type="button"
+                  onClick={handleOpenShare}
                   className="w-[42px] sm:w-[46px] h-[42px] sm:h-[46px] rounded-[14px] sm:rounded-[16px] flex items-center justify-center text-[#1A3E72] transition-all duration-200 flex-shrink-0 hover:bg-[#F4F7FC] hover:border-[rgba(26,62,114,0.35)] hover:shadow-md hover:-translate-y-0.5 cursor-pointer"
                   style={{
                     background: '#FFFFFF',
@@ -148,13 +174,14 @@ const SelfPerceptionTab = memo(function SelfPerceptionTab({
                     boxShadow: '0 4px 14px rgba(26, 62, 114, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04)'
                   }}
                   title={t('common.share')}
+                  aria-label={t('common.share')}
                 >
                   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M4 12v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6" />
                     <polyline points="16 6 12 2 8 6" />
                     <line x1="12" y1="2" x2="12" y2="15" />
                   </svg>
-                </a>
+                </button>
               </div>
             </div>
           </div>
@@ -167,6 +194,13 @@ const SelfPerceptionTab = memo(function SelfPerceptionTab({
           />
         </div>
       </div>
+
+      <ShareModal
+        isOpen={isOpen}
+        onClose={closeShare}
+        cardData={cardData}
+        triggerRef={triggerRef}
+      />
     </div>
   );
 });

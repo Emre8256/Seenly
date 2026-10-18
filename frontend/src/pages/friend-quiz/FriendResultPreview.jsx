@@ -1,4 +1,6 @@
-import React, { memo } from 'react';
+import React, { memo, useRef, useCallback } from 'react';
+import ShareModal, { SHARE_CARD_TYPES } from '../../components/ShareModal';
+import useShareModal from '../../hooks/useShareModal';
 
 const FriendResultPreview = memo(function FriendResultPreview({
   styleId,
@@ -15,6 +17,21 @@ const FriendResultPreview = memo(function FriendResultPreview({
   langCode,
   t
 }) {
+  const { isOpen, cardData, triggerRef, openShare, closeShare } = useShareModal();
+  const shareBtnRef = useRef(null);
+
+  const handleOpenShare = useCallback(() => {
+    openShare(
+      {
+        type: SHARE_CARD_TYPES.OBSERVER,
+        title: styleObj?.name,
+        description: styleObj?.oneLine,
+        imageSrc: READER_CARD_IMAGES?.[styleId] || READER_CARD_IMAGES?.clear_reader,
+        id: styleId
+      },
+      shareBtnRef
+    );
+  }, [openShare, styleObj?.name, styleObj?.oneLine, READER_CARD_IMAGES, styleId]);
   return (
     <div className="mx-auto w-full max-w-[1020px] px-4 sm:px-6 md:px-8 relative z-10 box-border">
       {/* 1. MOBILE-ONLY TOP HEADER */}
@@ -87,13 +104,13 @@ const FriendResultPreview = memo(function FriendResultPreview({
               </div>
             </div>
 
-            {/* Bottom Action Bar: Single Stylish Share Button (no navigation for now) */}
+            {/* Bottom Action Bar: Single Stylish Share Button */}
             <div className="w-full mt-auto pt-3 border-t border-[#EFE8DC] box-border flex justify-center">
               <button
+                ref={shareBtnRef}
                 type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                }}
+                onClick={handleOpenShare}
+                aria-label={t('common.share')}
                 className="w-full max-w-[250px] sm:max-w-[280px] mx-auto h-[38px] sm:h-[42px] rounded-full bg-primary text-primary-foreground flex items-center justify-center gap-2 transition-all duration-300 hover:opacity-95 hover:shadow-md active:scale-[0.98] cursor-pointer border-none select-none touch-manipulation"
                 style={{
                   boxShadow: '0 3px 12px rgba(11, 27, 44, 0.12)',
@@ -244,6 +261,13 @@ const FriendResultPreview = memo(function FriendResultPreview({
           </div>
         </div>
       </div>
+
+      <ShareModal
+        isOpen={isOpen}
+        onClose={closeShare}
+        cardData={cardData}
+        triggerRef={triggerRef}
+      />
     </div>
   );
 });

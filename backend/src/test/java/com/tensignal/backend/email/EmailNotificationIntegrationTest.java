@@ -110,7 +110,7 @@ class EmailNotificationIntegrationTest {
             testTenSignal.getEmail(),
             testUser.getId(),
             "tr",
-            Map.of("shareUrl", "https://tensignal.app/p/test-slug-123"),
+            Map.of("shareUrl", "https://10signal.me/p/test-slug-123"),
             "first-share-reminder:" + testTenSignal.getId(),
             clock.instant().plus(Duration.ofHours(24)),
             null
@@ -139,7 +139,7 @@ class EmailNotificationIntegrationTest {
             testTenSignal.getEmail(),
             testUser.getId(),
             "tr",
-            Map.of("count", 1, "dashboardUrl", "https://tensignal.app/dashboard"),
+            Map.of("count", 1, "dashboardUrl", "https://10signal.me"),
             debounceKey,
             clock.instant().plusSeconds(600),
             null
@@ -151,7 +151,7 @@ class EmailNotificationIntegrationTest {
             testTenSignal.getEmail(),
             testUser.getId(),
             "tr",
-            Map.of("count", 1, "dashboardUrl", "https://tensignal.app/dashboard"),
+            Map.of("count", 1, "dashboardUrl", "https://10signal.me"),
             debounceKey,
             clock.instant().plusSeconds(600),
             null
@@ -163,7 +163,7 @@ class EmailNotificationIntegrationTest {
             testTenSignal.getEmail(),
             testUser.getId(),
             "tr",
-            Map.of("count", 1, "dashboardUrl", "https://tensignal.app/dashboard"),
+            Map.of("count", 1, "dashboardUrl", "https://10signal.me"),
             debounceKey,
             clock.instant().plusSeconds(600),
             null
@@ -186,7 +186,7 @@ class EmailNotificationIntegrationTest {
             testTenSignal.getEmail(),
             testUser.getId(),
             "tr",
-            Map.of("dashboardUrl", "https://tensignal.app/dashboard"),
+            Map.of("dashboardUrl", "https://10signal.me"),
             "report-unlocked:" + testTenSignal.getId(),
             clock.instant(),
             null
@@ -206,7 +206,7 @@ class EmailNotificationIntegrationTest {
             testTenSignal.getEmail(),
             testUser.getId(),
             "tr",
-            Map.of("currentResponses", 8, "maxCapacity", 10, "upgradeUrl", "https://tensignal.app/pricing"),
+            Map.of("currentResponses", 8, "maxCapacity", 10, "upgradeUrl", "https://10signal.me"),
             "capacity-80:" + testTenSignal.getId() + ":" + version,
             clock.instant(),
             null
@@ -217,7 +217,7 @@ class EmailNotificationIntegrationTest {
             testTenSignal.getEmail(),
             testUser.getId(),
             "tr",
-            Map.of("maxCapacity", 10, "upgradeUrl", "https://tensignal.app/pricing"),
+            Map.of("maxCapacity", 10, "upgradeUrl", "https://10signal.me"),
             "capacity-full:" + testTenSignal.getId() + ":" + version,
             clock.instant(),
             null
@@ -273,7 +273,7 @@ class EmailNotificationIntegrationTest {
             oldEmail,
             testUser.getId(),
             "tr",
-            Map.of("securityUrl", "https://tensignal.app/settings/security"),
+            Map.of("securityUrl", "https://10signal.me/settings/security"),
             "email-changed:" + testTenSignal.getId() + ":" + EmailNotificationService.hashRecipient(oldEmail),
             clock.instant(),
             null
@@ -293,7 +293,7 @@ class EmailNotificationIntegrationTest {
             "deleteduser@example.com",
             testUser.getId(),
             "tr",
-            Map.of("homeUrl", "https://tensignal.app"),
+            Map.of("homeUrl", "https://10signal.me"),
             "account-deleted:" + testUser.getId(),
             clock.instant(),
             clock.instant().plus(Duration.ofHours(24))
@@ -312,7 +312,7 @@ class EmailNotificationIntegrationTest {
             testTenSignal.getEmail(),
             testUser.getId(),
             "tr",
-            Map.of("dashboardUrl", "https://tensignal.app/dashboard"),
+            Map.of("dashboardUrl", "https://10signal.me"),
             "social-card-changed:" + testTenSignal.getId() + ":diplomat",
             clock.instant(),
             null
@@ -388,7 +388,7 @@ class EmailNotificationIntegrationTest {
             testTenSignal.getEmail(),
             testUser.getId(),
             "tr",
-            Map.of("dashboardUrl", "https://tensignal.app"),
+            Map.of("dashboardUrl", "https://10signal.me"),
             key,
             clock.instant(),
             null
@@ -400,7 +400,7 @@ class EmailNotificationIntegrationTest {
             testTenSignal.getEmail(),
             testUser.getId(),
             "tr",
-            Map.of("dashboardUrl", "https://tensignal.app"),
+            Map.of("dashboardUrl", "https://10signal.me"),
             key,
             clock.instant(),
             null
@@ -584,7 +584,7 @@ class EmailNotificationIntegrationTest {
             testTenSignal.getEmail(),
             testUser.getId(),
             "tr",
-            Map.of("count", 1, "dashboardUrl", "https://tensignal.app/dashboard"),
+            Map.of("count", 1, "dashboardUrl", "https://10signal.me"),
             key,
             clock.instant(),
             null

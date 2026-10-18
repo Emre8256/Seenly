@@ -134,7 +134,7 @@ public class TenSignalService {
                 normalizedEmail,
                 user.getId(),
                 reminderLocale,
-                Map.of("shareUrl", "https://tensignal.app/p/" + publicSlug),
+                Map.of("shareUrl", "https://10signal.me/p/" + publicSlug),
                 "first-share-reminder:" + tenSignal.getId(),
                 clock.instant().plus(Duration.ofHours(24)),
                 null
@@ -332,7 +332,7 @@ public class TenSignalService {
                 oldEmail,
                 tenSignal.getUser() != null ? tenSignal.getUser().getId() : null,
                 alertLocale,
-                Map.of("securityUrl", "https://tensignal.app/settings/security"),
+                Map.of("securityUrl", "https://10signal.me/settings/security"),
                 "email-changed:" + tenSignal.getId() + ":" + EmailNotificationService.hashRecipient(oldEmail) + ":" + clock.instant().toEpochMilli(),
                 clock.instant(),
                 null

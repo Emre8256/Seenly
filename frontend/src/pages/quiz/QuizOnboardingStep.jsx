@@ -85,156 +85,125 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
               : tr('auth.newProfileDesc')}
           </p>
 
-          <div className="tensignal-auth-card" style={{
-            width: '100%',
-            maxWidth: '400px',
-            background: '#ffffff',
-            border: isNotFound
-              ? '1.5px solid rgba(197, 160, 89, 0.45)'
-              : isConflict
-                ? '1.5px solid rgba(217, 106, 83, 0.45)'
-                : '1px solid rgba(11, 27, 44, 0.08)',
-            borderRadius: '20px',
-            padding: '1.25rem 1.25rem',
-            boxShadow: '0 8px 24px rgba(11, 27, 44, 0.03)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.75rem',
-            boxSizing: 'border-box'
-          }}>
-            <div style={{
-              fontFamily: 'var(--font-sans)',
-              fontSize: '0.72rem',
-              fontWeight: 800,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              color: 'var(--color-deep-ink)',
-              opacity: 0.6,
-              textAlign: 'center'
-            }}>
-              {tr('auth.contactChannel')}
-            </div>
+          <div className="tensignal-wizard-input-container" style={{ width: '100%', maxWidth: '400px', margin: '0 auto 1rem auto' }}>
+            <input
+              type="email"
+              aria-label={tr('auth.emailAddressLabel')}
+              enterKeyHint="go"
+              inputMode="email"
+              autoComplete="email"
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
+              placeholder={tr('auth.emailPlaceholderExample')}
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (emailValidationError) setEmailValidationError('');
+                if (authFlowNotification?.status) setAuthFlowNotification?.({ message: '', status: '' });
+                if (setErrorMessage) setErrorMessage('');
+              }}
+              required
+              className="tensignal-wizard-input"
+              style={{
+                fontSize: '1.05rem',
+                borderColor: isNotFound
+                  ? 'rgba(197, 160, 89, 0.75)'
+                  : isConflict
+                    ? 'rgba(217, 106, 83, 0.75)'
+                    : hasError
+                      ? 'var(--color-error, #ef4444)'
+                      : undefined,
+                boxShadow: isNotFound
+                  ? '0 0 0 3px rgba(197, 160, 89, 0.12)'
+                  : isConflict
+                    ? '0 0 0 3px rgba(217, 106, 83, 0.12)'
+                    : undefined
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && isValidEmail(email) && !isEmailSending && resendTimer === 0) {
+                  e.target.blur();
+                  handleSendCode();
+                }
+              }}
+            />
 
-            <div className="tensignal-wizard-input-container" style={{ width: '100%' }}>
-              <input
-                type="email"
-                aria-label={tr('auth.emailAddressLabel')}
-                enterKeyHint="go"
-                inputMode="email"
-                autoComplete="email"
-                autoCapitalize="none"
-                autoCorrect="off"
-                spellCheck={false}
-                placeholder={tr('auth.emailPlaceholderExample')}
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  if (emailValidationError) setEmailValidationError('');
-                  if (authFlowNotification?.status) setAuthFlowNotification?.({ message: '', status: '' });
-                  if (setErrorMessage) setErrorMessage('');
-                }}
-                required
-                className="tensignal-wizard-input"
-                style={{
-                  borderColor: isNotFound
-                    ? 'rgba(197, 160, 89, 0.75)'
-                    : isConflict
-                      ? 'rgba(217, 106, 83, 0.75)'
-                      : hasError
-                        ? 'var(--color-error, #ef4444)'
-                        : undefined,
-                  fontSize: '1rem',
-                  boxShadow: isNotFound
-                    ? '0 0 0 3px rgba(197, 160, 89, 0.12)'
-                    : isConflict
-                      ? '0 0 0 3px rgba(217, 106, 83, 0.12)'
-                      : undefined
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && isValidEmail(email) && !isEmailSending && resendTimer === 0) {
-                    e.target.blur();
-                    handleSendCode();
-                  }
-                }}
-              />
-
-              {/* 404 Not Found Porcelain Card */}
-              {isNotFound && (
-                <div style={{
-                  marginTop: '0.75rem',
-                  padding: '0.85rem 1rem',
-                  borderRadius: '14px',
-                  background: 'rgba(255, 252, 245, 0.95)',
-                  border: '1px solid rgba(197, 160, 89, 0.35)',
-                  boxShadow: '0 4px 16px rgba(197, 160, 89, 0.08)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  textAlign: 'center',
-                  boxSizing: 'border-box',
-                  animation: 'fadeInUp 0.3s ease'
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#92400e' }}>
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="10" />
-                      <line x1="12" y1="8" x2="12" y2="12" />
-                      <line x1="12" y1="16" x2="12.01" y2="16" />
-                    </svg>
-                    <span style={{ fontSize: '0.82rem', fontWeight: 700 }}>
-                      {tr('auth.accountNotFound')}
-                    </span>
-                  </div>
-                  <p style={{
-                    margin: 0,
-                    fontSize: '0.8rem',
-                    lineHeight: '1.45',
-                    color: '#78350f',
-                    fontWeight: 500
-                  }}>
-                    {authFlowNotification.message}
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (onStartQuiz) {
-                        onStartQuiz();
-                      } else {
-                        setCurrentIndex(-2);
-                      }
-                    }}
-                    style={{
-                      marginTop: '0.25rem',
-                      padding: '0.45rem 1.1rem',
-                      borderRadius: '12px',
-                      border: '1px solid rgba(197, 160, 89, 0.45)',
-                      backgroundColor: '#0B1B2C',
-                      color: '#ffffff',
-                      fontSize: '0.82rem',
-                      fontWeight: 700,
-                      cursor: 'pointer',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      boxShadow: '0 4px 12px rgba(11, 27, 44, 0.12)',
-                      transition: 'all 0.2s ease'
-                    }}
-                  >
-                    <span>{tr('auth.startTest')}</span>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="9 18 15 12 9 6" />
-                    </svg>
-                  </button>
+            {/* 404 Not Found Porcelain Card */}
+            {isNotFound && (
+              <div style={{
+                marginTop: '0.75rem',
+                padding: '0.85rem 1rem',
+                borderRadius: '14px',
+                background: 'rgba(255, 252, 245, 0.95)',
+                border: '1px solid rgba(197, 160, 89, 0.35)',
+                boxShadow: '0 4px 16px rgba(197, 160, 89, 0.08)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '0.5rem',
+                textAlign: 'center',
+                boxSizing: 'border-box',
+                animation: 'fadeInUp 0.3s ease'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#92400e' }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                  </svg>
+                  <span style={{ fontSize: '0.82rem', fontWeight: 700 }}>
+                    {tr('auth.accountNotFound')}
+                  </span>
                 </div>
-              )}
-
-              {/* Standard Validation Error */}
-              {emailValidationError && !isNotFound && (
-                <p style={{ color: 'var(--color-error, #ef4444)', fontSize: '0.85rem', marginTop: '0.4rem', textAlign: 'center', fontWeight: '500' }}>
-                  {emailValidationError}
+                <p style={{
+                  margin: 0,
+                  fontSize: '0.8rem',
+                  lineHeight: '1.45',
+                  color: '#78350f',
+                  fontWeight: 500
+                }}>
+                  {authFlowNotification.message}
                 </p>
-              )}
-            </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (onStartQuiz) {
+                      onStartQuiz();
+                    } else {
+                      setCurrentIndex(-2);
+                    }
+                  }}
+                  style={{
+                    marginTop: '0.25rem',
+                    padding: '0.45rem 1.1rem',
+                    borderRadius: '12px',
+                    border: '1px solid rgba(197, 160, 89, 0.45)',
+                    backgroundColor: '#0B1B2C',
+                    color: '#ffffff',
+                    fontSize: '0.82rem',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    boxShadow: '0 4px 12px rgba(11, 27, 44, 0.12)',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  <span>{tr('auth.startTest')}</span>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </button>
+              </div>
+            )}
+
+            {/* Standard Validation Error */}
+            {emailValidationError && !isNotFound && (
+              <p style={{ color: 'var(--color-error, #ef4444)', fontSize: '0.85rem', marginTop: '0.4rem', textAlign: 'center', fontWeight: '500' }}>
+                {emailValidationError}
+              </p>
+            )}
           </div>
         </div>
         <div className="tensignal-wizard-footer-action">
@@ -307,19 +276,15 @@ const QuizOnboardingStep = memo(function QuizOnboardingStep({
             {tr('auth.otpDesc', { email })}
           </p>
 
-          <div className="tensignal-auth-card" style={{
+          <div style={{
             width: '100%',
             maxWidth: '400px',
-            background: '#ffffff',
-            border: isOtpError ? '1.5px solid rgba(239, 68, 68, 0.35)' : '1px solid rgba(11, 27, 44, 0.08)',
-            borderRadius: '20px',
-            padding: '1.25rem 1.25rem',
-            boxShadow: '0 8px 24px rgba(11, 27, 44, 0.03)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             gap: '0.75rem',
-            boxSizing: 'border-box'
+            boxSizing: 'border-box',
+            margin: '0 auto 1rem auto'
           }}>
             <div style={{
               fontFamily: 'var(--font-sans)',

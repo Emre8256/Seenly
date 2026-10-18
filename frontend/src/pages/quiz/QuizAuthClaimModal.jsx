@@ -356,19 +356,15 @@ const QuizAuthClaimModal = memo(function QuizAuthClaimModal({
                 {tr('auth.otpDesc', { email })}
               </p>
 
-              {/* Compact 4-Digit Container Card */}
+              {/* Compact 4-Digit OTP Container */}
               <div style={{
                 width: '100%',
-                background: 'rgba(255, 253, 250, 0.82)',
-                border: '1px solid rgba(197, 160, 89, 0.28)',
-                borderRadius: '18px',
-                padding: '0.85rem 0.75rem 0.65rem 0.75rem',
-                boxShadow: '0 8px 24px rgba(11, 27, 44, 0.04)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 gap: '0.5rem',
-                boxSizing: 'border-box'
+                boxSizing: 'border-box',
+                margin: '0.2rem auto 0 auto'
               }}>
                 <div style={{
                   fontFamily: 'var(--font-sans)',

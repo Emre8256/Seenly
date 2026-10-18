@@ -68,7 +68,7 @@ public class NotificationLifecycleScheduler {
                     tenSignal.getEmail(),
                     userId,
                     reminderLocale,
-                    Map.of("dashboardUrl", "https://tensignal.app/dashboard"),
+                    Map.of("dashboardUrl", "https://10signal.me"),
                     idempotencyKey,
                     now,
                     null

@@ -101,5 +101,31 @@
     "clearSearch": "Clear search",
     "questionsTag": "Questions",
     "questionsHeadline": "Things you wonder about."
+  },
+  "socialShare": {
+    "title": "Share Your Result",
+    "subtitle": "Share your result on social media or download your card image.",
+    "preview": "Share Preview (4:3)",
+    "instagramStory": "Instagram",
+    "instagramDesc": "Prepare card image to share",
+    "whatsapp": "WhatsApp",
+    "whatsappDesc": "Share via chat with message and link",
+    "x": "X",
+    "xDesc": "Post a tweet with ready message and link",
+    "otherApps": "Other Applications",
+    "otherAppsDesc": "Share using other apps on your device",
+    "downloadImage": "Download Image",
+    "copyLink": "Copy Link",
+    "copiedLink": "Link copied",
+    "preparingImage": "Preparing image...",
+    "imageReady": "Image prepared successfully",
+    "igReadyMobile": "Image is ready, you can share it on Instagram",
+    "shareCancelled": "Sharing cancelled",
+    "shareFailed": "An error occurred while preparing the image",
+    "close": "Close",
+    "brandName": "10SIGNAL",
+    "brandWatermark": "10signal.me",
+    "personalityMessage": "My personality result on 10Signal is {archetypeName}. What's yours? ✨",
+    "observerMessage": "My observer type on 10Signal is {observerName}. How do you see others? ✨"
   }
 }
