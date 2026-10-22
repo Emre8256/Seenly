@@ -62,8 +62,20 @@ app:
       sender-name: ${BREVO_SENDER_NAME:10Signal}
       reply-to: ${BREVO_REPLY_TO:10signal.me@gmail.com}
       api-url: ${BREVO_API_URL:https://api.brevo.com/v3/smtp/email}
+    outbox:
+      otp-payload-secret: ${EMAIL_OTP_PAYLOAD_SECRET}
   payment:
     provider: ${PAYMENT_PROVIDER:disabled}
+    lemonsqueezy:
+      api-key: ${LEMON_SQUEEZY_API_KEY:}
+      webhook-secret: ${LEMON_SQUEEZY_WEBHOOK_SECRET:}
+      plus-checkout-url: ${LEMON_SQUEEZY_PLUS_CHECKOUT_URL:}
+      capacity50-checkout-url: ${LEMON_SQUEEZY_CAPACITY_50_CHECKOUT_URL:}
+      capacity150-checkout-url: ${LEMON_SQUEEZY_CAPACITY_150_CHECKOUT_URL:}
+      capacity300-checkout-url: ${LEMON_SQUEEZY_CAPACITY_300_CHECKOUT_URL:}
+      capacity100-checkout-url: ${LEMON_SQUEEZY_CAPACITY_100_CHECKOUT_URL:}
+      capacity250-checkout-url: ${LEMON_SQUEEZY_CAPACITY_250_CHECKOUT_URL:}
+      capacity500-checkout-url: ${LEMON_SQUEEZY_CAPACITY_500_CHECKOUT_URL:}
   auth:
     mail-from: ${AUTH_MAIL_FROM:}
   security:

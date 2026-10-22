@@ -1,0 +1,180 @@
+# ==============================================================================
+# 10Signal Production Docker Compose Architecture
+# Services: PostgreSQL 16 (internal) -> Spring Boot 3 (internal) -> Caddy v2 (HTTPS)
+# ==============================================================================
+
+services:
+  # ----------------------------------------------------------------------------
+  # 1. PostgreSQL 16 Alpine Database
+  # Network: internal_db ONLY (No host port exposure!)
+  # ----------------------------------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: tensignal-prod-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-tensignal_prod}
+      POSTGRES_USER: ${POSTGRES_USER:-tensignal_app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Database password is required}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - internal_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-tensignal_app} -d ${POSTGRES_DB:-tensignal_prod}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1024M
+        reservations:
+          cpus: "0.5"
+          memory: 256M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+  # ----------------------------------------------------------------------------
+  # 2. Spring Boot Application (Non-Root, Hardened Runtime)
+  # Network: internal_db (talks to postgres) & public_web (talks to caddy)
+  # ----------------------------------------------------------------------------
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: tensignal-backend:production
+    container_name: tensignal-prod-backend
+    restart: always
+    stop_grace_period: 30s
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - internal_db
+      - public_web
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DEPLOYMENT_ENVIRONMENT: production
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-tensignal_prod}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-tensignal_app}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:?Database password is required}
+      DB_POOL_MAX_SIZE: ${DB_POOL_MAX_SIZE:-10}
+      DB_POOL_MIN_IDLE: ${DB_POOL_MIN_IDLE:-2}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-https://10signal.me}
+      TRUSTED_PROXY_CIDRS: ${TRUSTED_PROXY_CIDRS:-172.28.0.0/16}
+      REQUIRE_HTTPS: ${REQUIRE_HTTPS:-true}
+      MANAGEMENT_PORT: 8081
+      EMAIL_PROVIDER: ${EMAIL_PROVIDER:-brevo}
+      AUTH_MAIL_FROM: ${AUTH_MAIL_FROM:-mail@10signal.me}
+      BREVO_API_KEY: ${BREVO_API_KEY:?Brevo API key is required in production}
+      BREVO_SENDER_EMAIL: ${BREVO_SENDER_EMAIL:-mail@10signal.me}
+      BREVO_SENDER_NAME: ${BREVO_SENDER_NAME:-10Signal}
+      BREVO_REPLY_TO: ${BREVO_REPLY_TO:-10signal.me@gmail.com}
+      EMAIL_OTP_PAYLOAD_SECRET: ${EMAIL_OTP_PAYLOAD_SECRET:?32-char OTP encryption secret is required}
+      PAYMENT_PROVIDER: ${PAYMENT_PROVIDER:-lemonsqueezy}
+      LEMON_SQUEEZY_API_KEY: ${LEMON_SQUEEZY_API_KEY:?Lemon Squeezy API key is required in production}
+      LEMON_SQUEEZY_WEBHOOK_SECRET: ${LEMON_SQUEEZY_WEBHOOK_SECRET:?Lemon Squeezy webhook secret is required}
+      LEMON_SQUEEZY_PLUS_CHECKOUT_URL: ${LEMON_SQUEEZY_PLUS_CHECKOUT_URL:?Plus checkout URL is required}
+      LEMON_SQUEEZY_CAPACITY_50_CHECKOUT_URL: ${LEMON_SQUEEZY_CAPACITY_50_CHECKOUT_URL:?Capacity 50 checkout URL is required}
+      LEMON_SQUEEZY_CAPACITY_150_CHECKOUT_URL: ${LEMON_SQUEEZY_CAPACITY_150_CHECKOUT_URL:?Capacity 150 checkout URL is required}
+      LEMON_SQUEEZY_CAPACITY_300_CHECKOUT_URL: ${LEMON_SQUEEZY_CAPACITY_300_CHECKOUT_URL:?Capacity 300 checkout URL is required}
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://127.0.0.1:8081/actuator/health/readiness"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1024M
+        reservations:
+          cpus: "0.5"
+          memory: 512M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+  # ----------------------------------------------------------------------------
+  # 3. Caddy v2 TLS Reverse Proxy
+  # Network: public_web (Exposes 80, 443 to internet; terminates TLS)
+  # ----------------------------------------------------------------------------
+  caddy:
+    image: caddy:2.9-alpine
+    container_name: tensignal-prod-caddy
+    restart: always
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      public_web:
+        ipv4_address: 172.28.0.10
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    environment:
+      ACME_EMAIL: ${ACME_EMAIL:-admin@10signal.me}
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 80 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+# ------------------------------------------------------------------------------
+# Networks Definition
+# internal_db: private, cannot access or be accessed from external internet
+# public_web: bridge with fixed subnet for explicit trusted proxy CIDR match
+# ------------------------------------------------------------------------------
+networks:
+  internal_db:
+    driver: bridge
+    internal: true
+  public_web:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
+          gateway: 172.28.0.1
+
+# ------------------------------------------------------------------------------
+# Volumes Definition (Persistent state)
+# ------------------------------------------------------------------------------
+volumes:
+  postgres_data:
+  caddy_data:
+  caddy_config:

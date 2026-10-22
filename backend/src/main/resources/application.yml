@@ -19,7 +19,7 @@ server:
 
 spring:
   profiles:
-    active: dev
+    active: ${SPRING_PROFILES_ACTIVE:dev}
   application:
     name: tensignal-backend
   lifecycle:
@@ -35,6 +35,8 @@ spring:
         order_inserts: true
         order_updates: true
         format_sql: false
+        query:
+          fail_on_pagination_over_collection_fetch: true
   jackson:
     serialization:
       write-dates-as-timestamps: false

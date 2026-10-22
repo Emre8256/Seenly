@@ -49,21 +49,42 @@ To ensure high availability, zero latency penalty on HTTP request threads, and s
 
 ---
 
-## 2. Provider Switching & Zero-Credentials Boot
+## 2. Provider Switching & Configuration
 
-The application defaults to `disabled` mode:
+The application supports Brevo as the primary transactional email provider:
 ```properties
+# Production:
+EMAIL_PROVIDER=brevo
+BREVO_API_KEY=xkeysib-your_api_key_here
+BREVO_SENDER_EMAIL=mail@10signal.me
+BREVO_SENDER_NAME=10Signal
+BREVO_REPLY_TO=10signal.me@gmail.com
+
+# Development / CI default:
 EMAIL_PROVIDER=disabled
 ```
 
+### In Brevo Mode (Production Default):
+- Activated by setting `EMAIL_PROVIDER=brevo` (or leaving default).
+- Uses Brevo Transactional Email REST API (`POST https://api.brevo.com/v3/smtp/email`).
+- Requires `BREVO_API_KEY` with Transactional Email permissions.
+- Central sender: `10Signal <mail@10signal.me>`.
+- Central reply-to: `10signal.me@gmail.com`.
+- Passes email headers (`X-Entity-Ref-ID`, `X-Notification-Type`) and tags.
+- Errors are classified into:
+  - **Retryable** (transient network errors, rate limit `429`, server errors `5xx`): scheduled for retry with exponential backoff.
+  - **Permanent / Terminal** (`4xx` client errors, e.g., invalid auth, bad payload): immediately marked as `FAILED` to prevent futile retries.
+- Brevo API key, raw OTPs, and HTML bodies are strictly redacted and never logged.
+- If `EMAIL_PROVIDER=brevo` is configured in production without a valid `BREVO_API_KEY`, startup fails fast.
+
 ### In Disabled Mode:
 - Zero live network calls or socket connections are initiated.
-- No live SMTP credentials, server hostnames, or authentication keys are required.
-- The application boots cleanly in dev, CI, test, and production environments.
+- No live credentials or API keys are required.
+- The application boots cleanly in dev, CI, and test environments.
 - Outbox workers safely process items, transition records to `SENT`, and emit `email.provider.disabled` metrics and `EMAIL_PROVIDER_DISABLED` audit events without errors.
 
 ### In SMTP Mode:
-- Activated simply by setting `EMAIL_PROVIDER=smtp`.
+- Activated by setting `EMAIL_PROVIDER=smtp`.
 - Reads SMTP connection details from standard environment variables.
 - Assembles standard MIME Multipart (`text/plain` + `text/html`) messages with UTF-8 character encoding.
 - Protects against SMTP CRLF header injection on `to`, `subject`, and `replyTo`.
@@ -144,7 +165,7 @@ Templates are defined in locale-specific JSON files:
 - **No `if (locale == ...)` branching in business logic.**
 - **Hierarchical Fallback**: `requested locale -> language prefix (e.g. tr-TR -> tr) -> canonical English fallback (en)`.
 - **HTML Escaping**: Context variables are automatically HTML-escaped to prevent XSS.
-- **Responsive Layout**: Dark-themed, mobile-optimized editorial design with preheader, container card, logo, action CTA button, and footer.
+- **Responsive Layout**: Warm-toned (#F7EFE4 outer background, #FFFDF9 card), mobile-optimized editorial design with preheader, 580px max-width container card, 10Signal logo, contextual CTA button (only where allowed, routing to https://10signal.me), and footer.
 
 ---
 
@@ -191,7 +212,7 @@ When an account is deleted:
 1. An `ACCOUNT_DELETED` notification is enqueued with a short 24-hour expiration window.
 2. Email delivery failure does not roll back account deletion.
 3. Upon successful email delivery by the worker:
-   - Plaintext `recipient` is replaced with `purged@deleted.tensignal.app`.
+   - Plaintext `recipient` is replaced with `purged@deleted.10signal.me`.
    - `payload_json` is cleared to `{}`.
    - `recipient_hash` is retained for idempotency and security deduplication without PII.
 
@@ -199,25 +220,33 @@ When an account is deleted:
 
 ## 10. Production Configuration & Provider Setup
 
-When ready to switch to a live provider (e.g. Brevo REST API, SMTP), set the following environment variables. **NO CODE CHANGES ARE REQUIRED**:
+To run in production with Brevo as the official email provider:
 
 ```bash
-# 1. Enable SMTP Provider
-EMAIL_PROVIDER=smtp
+# 1. Enable Brevo Provider
+EMAIL_PROVIDER=brevo
 
-# 2. Sender Address
-AUTH_MAIL_FROM=10Signal <no-reply@tensignal.app>
+# 2. Brevo API Key
+BREVO_API_KEY=xkeysib-your_brevo_api_key
 
-# 3. SMTP Server Connection
-SMTP_HOST=smtp.mailgun.org
-SMTP_PORT=587
-SMTP_USERNAME=postmaster@tensignal.app
-SMTP_PASSWORD=your_secure_smtp_api_key_or_password
-SMTP_AUTH=true
-SMTP_STARTTLS=true
+# 3. Sender & Reply-To Addresses
+BREVO_SENDER_EMAIL=mail@10signal.me
+BREVO_SENDER_NAME=10Signal
+BREVO_REPLY_TO=10signal.me@gmail.com
 
-# 4. Outbox Worker Tuning (Optional Defaults)
+# 4. Outbox Worker Tuning
 EMAIL_OUTBOX_BATCH_SIZE=20
 EMAIL_OUTBOX_INTERVAL_MS=5000
 EMAIL_OTP_PAYLOAD_SECRET=your_256bit_production_secret_key
+```
+
+---
+
+## 11. Safe Live Smoke Testing
+
+To test real email delivery to a single designated recipient without touching the outbox database or broadcasting to real users:
+
+```powershell
+# Via Maven test runner:
+mvn test -Dtest=BrevoSmokeTestRunner -Dsmoke.recipient=your-email@example.com
 ```

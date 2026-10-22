@@ -3,6 +3,12 @@
   "plansSubtitle": "Karakterini, ilişkilerini ve sosyal auranı daha derinlemesine keşfetmek için en uygun planı seç.",
   "alreadyPlus": "Zaten 10Signal Plus planındasınız.",
   "purchaseFailed": "10Signal Plus satın alma işlemi başlatılamadı: {error}",
+  "verifyingPayment": "Ödemeniz doğrulanıyor...",
+  "paymentSuccess": "Ödemeniz başarıyla tamamlandı! Haklarınız hesabınıza tanımlandı.",
+  "paymentProcessing": "Ödemeniz işlemde. Ödeme sağlayıcısı onayladığında haklarınız otomatik olarak yansıtılacaktır.",
+  "paymentFailedOrCancelled": "Ödeme işlemi iptal edildi veya tamamlanamadı.",
+  "refreshStatus": "Durumu Yenile",
+  "dismiss": "Kapat",
   "badgePopular": "EN POPÜLER",
   "disclaimer1": "Güvenli SSL ödeme altyapısı aktiftir. Tek seferlik ödemedir, abonelik yenilenmez.",
   "disclaimer2": "Anonimlik korunur. Sahte cevaplar barındırmaz.",
@@ -30,12 +36,12 @@
     "f7": "Premium Paylaşım Paketi"
   },
   "pro": {
-    "name": "Story Rush",
-    "price": "$14.99",
-    "f1": "Full plandaki her şey",
-    "f2": "Öncelikli oda",
-    "f3": "Hızlı hikaye kartları",
-    "f4": "9 uyumlu premium kart",
-    "f5": "Stilleri dışa aktar"
+    "name": "Kapasite Paketleri",
+    "price": "$0.99'dan başlayan",
+    "f1": "+50, +150, +300 ek değerlendirme",
+    "f2": "Ücretsiz plana anında eklenir",
+    "f3": "Süresiz geçerlidir, devreder",
+    "f4": "Tek seferlik ödeme",
+    "f5": "İhtiyacına göre esnek seçim"
   }
 }

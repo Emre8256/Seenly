@@ -67,4 +67,95 @@ class PerformanceQueryIntegrationTest {
             assertThat(average).isEqualTo(3.0));
         assertThat(sessionFactory.getStatistics().getPrepareStatementCount()).isLessThanOrEqualTo(3);
     }
+
+    @Test
+    void ownerResponseHistoryPaginationExecutesBoundedQueriesWithoutCartesianProduct() {
+        User user = userRepository.save(User.builder().email("history-budget@example.com").isPremium(true).build());
+        String rawOwnerToken = "history-owner-token";
+        TenSignal draft = TenSignal.builder().user(user).email(user.getEmail()).displayName("History Budget")
+            .publicSlug(tokenHashingService.generatePublicSlug())
+            .ownerTokenHash(tokenHashingService.hashToken(rawOwnerToken))
+            .ownerTokenExpiresAt(Instant.now().plusSeconds(3600)).responseCount(15)
+            .selfAnswers(new ArrayList<>()).responseSessions(new ArrayList<>()).build();
+        draft.setSelfAnswers(new ArrayList<>(AppConstants.LENSES.stream().map(lens -> SelfAnswer.builder()
+            .seenly(draft).questionId("classic_self_" + lens + "_01").answerValue(4).build()).toList()));
+        TenSignal tenSignal = tenSignalRepository.saveAndFlush(draft);
+
+        for (int i = 0; i < 15; i++) {
+            ResponseSession session = ResponseSession.builder()
+                .seenly(tenSignal)
+                .fingerprintHash("history-device-" + i)
+                .nickname("Respondent-" + i)
+                .responses(new ArrayList<>())
+                .friendTimeAnalytics(new java.util.HashMap<>())
+                .build();
+            int answer = 1 + (i % 5);
+            session.setResponses(new ArrayList<>(AppConstants.LENSES.stream().map(lens -> FriendResponse.builder()
+                .responseSession(session).questionId("classic_friend_" + lens + "_01")
+                .answerValue(answer).build()).toList()));
+            for (String lens : AppConstants.LENSES) {
+                session.getFriendTimeAnalytics().put(lens, 1200 + i * 10);
+            }
+            entityManager.persist(session);
+        }
+        entityManager.flush();
+        entityManager.clear();
+
+        SessionFactory sessionFactory = entityManager.getEntityManagerFactory().unwrap(SessionFactory.class);
+        sessionFactory.getStatistics().clear();
+
+        // Page 1: 5 items
+        com.tensignal.backend.dto.OwnerResponseHistoryPageDto page1 =
+            tenSignalService.getOwnerResponseHistory(rawOwnerToken, null, 5);
+
+        assertThat(page1.items()).hasSize(5);
+        assertThat(page1.hasMore()).isTrue();
+        assertThat(page1.nextCursor()).isNotNull();
+        // Bounded queries: 1 for token auth, 1 for IDs, 1 for sessions+responses entity graph, 1 for batched friendTimeAnalytics
+        assertThat(sessionFactory.getStatistics().getPrepareStatementCount()).isLessThanOrEqualTo(4);
+
+        // Verify content integrity
+        page1.items().forEach(item -> {
+            assertThat(item.getSignals()).hasSize(10);
+            assertThat(item.getFriendTimeAnalytics()).hasSize(10);
+        });
+
+        // Page 2: with cursor
+        sessionFactory.getStatistics().clear();
+        com.tensignal.backend.dto.OwnerResponseHistoryPageDto page2 =
+            tenSignalService.getOwnerResponseHistory(rawOwnerToken, page1.nextCursor(), 5);
+
+        assertThat(page2.items()).hasSize(5);
+        assertThat(page2.hasMore()).isTrue();
+        assertThat(sessionFactory.getStatistics().getPrepareStatementCount()).isLessThanOrEqualTo(4);
+
+        // Ensure disjoint sets across pages
+        java.util.Set<java.util.UUID> page1Ids = page1.items().stream()
+            .map(com.tensignal.backend.dto.ResponseSessionDto::getId).collect(java.util.stream.Collectors.toSet());
+        java.util.Set<java.util.UUID> page2Ids = page2.items().stream()
+            .map(com.tensignal.backend.dto.ResponseSessionDto::getId).collect(java.util.stream.Collectors.toSet());
+
+        assertThat(page1Ids).hasSize(5);
+        assertThat(page2Ids).hasSize(5);
+        assertThat(page1Ids).doesNotContainAnyElementsOf(page2Ids);
+    }
+
+    @Test
+    void ownerResponseHistoryEmptyReturnsCleanSlice() {
+        User user = userRepository.save(User.builder().email("empty-history@example.com").isPremium(true).build());
+        String rawOwnerToken = "empty-history-token";
+        TenSignal draft = TenSignal.builder().user(user).email(user.getEmail()).displayName("Empty History")
+            .publicSlug(tokenHashingService.generatePublicSlug())
+            .ownerTokenHash(tokenHashingService.hashToken(rawOwnerToken))
+            .ownerTokenExpiresAt(Instant.now().plusSeconds(3600)).responseCount(0)
+            .selfAnswers(new ArrayList<>()).responseSessions(new ArrayList<>()).build();
+        tenSignalRepository.saveAndFlush(draft);
+
+        com.tensignal.backend.dto.OwnerResponseHistoryPageDto emptyPage =
+            tenSignalService.getOwnerResponseHistory(rawOwnerToken, null, 10);
+
+        assertThat(emptyPage.items()).isEmpty();
+        assertThat(emptyPage.hasMore()).isFalse();
+        assertThat(emptyPage.nextCursor()).isNull();
+    }
 }

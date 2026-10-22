@@ -5,9 +5,19 @@ import AppShell from '../components/AppShell';
 export default function PlansPage() {
   const { t } = useLocale();
 
-  const handleSelectPlan = () => {
-    sessionStorage.setItem('tensignal_currentIndex', '-2');
-    window.location.hash = '#/';
+  const handleSelectPlan = (target = 'free') => {
+    const token = localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token');
+    if (token) {
+      if (target === 'plus' || target === 'capacity') {
+        window.location.hash = '#/settings?tab=subscription';
+      } else {
+        window.location.hash = '#/dashboard';
+      }
+    } else {
+      sessionStorage.setItem('tensignal_currentIndex', '-2');
+      sessionStorage.setItem('seenly_currentIndex', '-2');
+      window.location.hash = '#/';
+    }
   };
 
   return (
@@ -20,7 +30,10 @@ export default function PlansPage() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        overflowX: 'hidden',
+        width: '100%',
+        maxWidth: '100vw'
       }}>
         <div style={{
           width: '100%',
@@ -52,7 +65,7 @@ export default function PlansPage() {
                       <li><span className="bullet-circle"></span>{t('billing.free.f5')}</li>
                       <li><span className="bullet-circle"></span>{t('billing.free.f6')}</li>
                     </ul>
-                    <button onClick={handleSelectPlan} className="btn-pricing btn-dark">
+                    <button onClick={() => handleSelectPlan('free')} className="btn-pricing btn-dark">
                       {t('billing.getStarted')}
                     </button>
                   </div>
@@ -73,7 +86,7 @@ export default function PlansPage() {
                       <li><span className="bullet-circle"></span>{t('billing.premium.f6')}</li>
                       <li><span className="bullet-circle"></span>{t('billing.premium.f7')}</li>
                     </ul>
-                    <button onClick={handleSelectPlan} className="btn-pricing btn-accent">
+                    <button onClick={() => handleSelectPlan('plus')} className="btn-pricing btn-accent">
                       {t('billing.choosePlan')}
                     </button>
                   </div>
@@ -91,7 +104,7 @@ export default function PlansPage() {
                       <li><span className="bullet-circle"></span>{t('billing.pro.f4')}</li>
                       <li><span className="bullet-circle"></span>{t('billing.pro.f5')}</li>
                     </ul>
-                    <button onClick={handleSelectPlan} className="btn-pricing btn-dark">
+                    <button onClick={() => handleSelectPlan('capacity')} className="btn-pricing btn-dark">
                       {t('billing.choosePlan')}
                     </button>
                   </div>

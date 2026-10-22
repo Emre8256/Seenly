@@ -264,11 +264,16 @@ public class EmailOutboxWorker {
                 item.setPayloadJson("{}");
             }
 
-            outboxRepository.save(item);
-            metrics.emailSent(type.name());
-            auditLogService.record(AuditEvent.EMAIL_SENT, "success", Map.of("type", type.name()));
-            log.info("Email sent successfully for outbox item {} (type={})", item.getId(), type.name());
-
+            try {
+                outboxRepository.save(item);
+                metrics.emailSent(type.name());
+                auditLogService.record(AuditEvent.EMAIL_SENT, "success", Map.of("type", type.name()));
+                log.info("Email sent successfully for outbox item {} (type={})", item.getId(), type.name());
+            } catch (Exception ex) {
+                log.error("CRITICAL_EMAIL_OUTBOX_DESYNC: Email outbox item {} was successfully accepted by provider (messageId={}) but database update to SENT failed: {}",
+                    item.getId(), result.getProviderMessageId(), ex.getMessage());
+                throw ex;
+            }
         } else {
             // Failure handling
             int newAttempts = item.getAttempts() + 1;

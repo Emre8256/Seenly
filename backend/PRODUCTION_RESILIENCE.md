@@ -8,11 +8,12 @@ success. The API returns a generic correlated 503 for database availability fail
 concurrency conflicts. PostgreSQL/Hikari reconnect automatically after a temporary outage; readiness includes
 `db` and therefore changes to unhealthy until a connection succeeds again.
 
-OTP challenge changes are flushed, the message is handed to SMTP, and the database transaction commits only
-after delivery was accepted. A definite SMTP exception rolls the challenge change back. This avoids advertising
-an OTP that delivery rejected. The unavoidable distributed-systems edge case remains: SMTP can accept a message
-and the subsequent DB commit can fail, producing an unusable code; the user receives failure and may request a
-new code. SMTP connect/read/write timeouts default to five seconds and there is no in-request automatic retry.
+OTP challenges and transactional email notifications are managed via the Transactional Outbox pattern.
+The OTP challenge record and its encrypted outbox entry (`email_outbox`) are persisted within the same database
+transaction. The asynchronous `EmailOutboxWorker` daemon claims pending outbox entries using `FOR UPDATE SKIP LOCKED`
+and delivers them via Brevo (or SMTP if selected) with exponential backoff and strict expiration deadlines.
+If an outbox insertion fails, the entire database transaction rolls back. Live external mail network calls never
+block the HTTP request thread, and transient delivery failures are safely retried without advertising an invalid state.
 
 Checkout preparation commits a `CREATED` ledger row before calling the provider. Provider timeout, 5xx, or a
 malformed response never grants entitlement and leaves that row available for reconciliation. Provider calls do

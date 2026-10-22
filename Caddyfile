@@ -1,0 +1,53 @@
+# ==============================================================================
+# 10Signal Production Reverse Proxy Configuration (Caddy v2)
+# Domain: api.10signal.me -> Spring Boot Backend (internal port 8080)
+# ==============================================================================
+{
+	email {$ACME_EMAIL:admin@10signal.me}
+	admin off
+	log {
+		output stdout
+		format json
+		level INFO
+	}
+}
+
+api.10signal.me {
+	# 1. Enforce strict request body size limit (128 KB for JSON requests and webhooks)
+	request_body {
+		max_size 131072
+	}
+
+	# 2. Block public internet access to Spring Boot Actuator / Management endpoints
+	# Management port 8081 is internal-only and never exposed publicly.
+	respond /actuator* "Access Denied" 403 {
+		close
+	}
+
+	# 3. Security and hardening response headers
+	header {
+		Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+
+	# 4. Reverse Proxy to Spring Boot application container
+	reverse_proxy backend:8080 {
+		# Upstream transport and timeout parameters
+		transport http {
+			dial_timeout 5s
+			response_header_timeout 30s
+			read_timeout 30s
+			write_timeout 30s
+		}
+
+		# Secure proxy headers for Spring Boot ClientIpResolver & SecurityFilter
+		header_up Host {host}
+		header_up X-Real-IP {remote_host}
+		header_up X-Forwarded-For {remote_host}
+		header_up X-Forwarded-Proto {scheme}
+		header_up X-Forwarded-Port {server_port}
+	}
+}

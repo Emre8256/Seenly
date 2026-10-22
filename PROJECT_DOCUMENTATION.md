@@ -40,7 +40,7 @@ graph TD
 - **Mimari Desen:** Controller - Service - Repository - Entity - DTO katmanlı mimarisi, Optimistic Locking (`@Version`).
 
 ### 2.2 Frontend Yığını
-- **Çalışma Zamanı & Paketleyici:** React `18.2.0`, Vite `5.4.x`
+- **Çalışma Zamanı & Paketleyici:** React `18.3.1`, Vite `7.x`
 - **Stil & Tasarım Sistemi:** Tailwind CSS v4, Porselen / Kağıt Dokusu (*Paper Wash & Paper Grain*), Fraunces (Serif/Heading), Geist Sans & Mono.
 - **Yönlendirme (Routing):** Native Hash-Based Routing (`#/`, `#/dashboard`, `#/settings`, `#/identities`, `#/faq`, `#/plans`, `#/terms`, `#/privacy`, `#/friend/...`).
 - **Paylaşım & Grafik:** `html2canvas` dinamik import (1080x1920 Instagram Story & WhatsApp kart render altyapısı).
@@ -51,69 +51,48 @@ graph TD
 ## 3. Dizin ve Dosya Haritası
 
 ```text
-Seenly/
+10Signal/
 ├── README.md
 ├── PROJECT_DOCUMENTATION.md
 ├── .gitignore
+├── docker-compose.dev.yml
+├── docs/
+│   └── email-notifications.md                         # Brevo & Outbox mimari kılavuzu
+├── performance/
+│   ├── k6-tensignal.js
+│   └── node-load.mjs
 │
 ├── backend/
 │   ├── pom.xml
+│   ├── Dockerfile
+│   ├── PRODUCTION_MIGRATION.md
+│   ├── PRODUCTION_OBSERVABILITY.md
+│   ├── PRODUCTION_PERFORMANCE.md
+│   ├── PRODUCTION_RESILIENCE.md
 │   └── src/
 │       └── main/
 │           ├── java/com/tensignal/backend/
-│           │   ├── BackendApplication.java
+│           │   ├── TenSignalApplication.java
+│           │   ├── config/                            # Güvenlik, profil, CORS ve ödeme kuralları
+│           │   ├── constant/                          # Sabitler, enum'lar (OtpPurpose, vb.)
 │           │   ├── controller/
-│           │   │   ├── TenSignalController.java          # Ana 10Signal API & Profil & Friend akışları
+│           │   │   ├── TenSignalController.java       # Ana 10Signal API & Profil & Friend akışları
 │           │   │   ├── BillingController.java         # Plus abonelik, kapasite paketi, hesap silme
 │           │   │   └── CardRarityController.java      # Dinamik kart nadirlik motoru API'si
-│           │   ├── dto/
-│           │   │   ├── CreateTenSignalRequest.java
-│           │   │   ├── CreateTenSignalResponse.java
-│           │   │   ├── EmailAuthRequest.java
-│           │   │   ├── FriendResponseInput.java
-│           │   │   ├── ResponseSessionDto.java
-│           │   │   ├── ResultSnapshotDto.java
-│           │   │   ├── SubmitResponseResult.java
-│           │   │   ├── CardRarityDto.java
-│           │   │   ├── UpdateDisplayNameRequest.java
-│           │   │   ├── UpdateEmailRequest.java
-│           │   │   ├── UpdateAvatarRequest.java
-│           │   │   └── EligibilityCheckRequest.java
-│           │   ├── entity/
-│           │   │   ├── User.java                      # Kullanıcı hesabı, kota ve Plus durumu
-│           │   │   ├── TenSignal.java                    # Ana 10Signal profili, token hash, slug, sayaçlar
-│           │   │   ├── SelfAnswer.java                # Kullanıcının 10 adet öz değerlendirme yanıtı
-│           │   │   ├── ResponseSession.java           # Arkadaş değerlendirme oturumu, IP, fingerprint
-│           │   │   ├── FriendResponse.java            # Arkadaşın 10 soruya verdiği yanıtlar
-│           │   │   ├── ResultSnapshot.java            # Hesaplanmış kimlik, aile, gap ve güven bandı
-│           │   │   ├── ReaderProfile.java             # Okuyucu oyun profili, XP, seviye, tercihler
-│           │   │   └── ReaderXpTransaction.java       # XP işlem kayıtları
-│           │   ├── exception/
-│           │   │   ├── ErrorResponse.java
-│           │   │   ├── GlobalExceptionHandler.java    # Merkezi HTTP hata yakalayıcı (400, 403, 404, 409, 500)
-│           │   │   ├── QuotaExceededException.java
-│           │   │   ├── ResourceNotFoundException.java
-│           │   │   └── FreeCapReachedException.java
-│           │   ├── repository/
-│           │   │   ├── TenSignalRepository.java
-│           │   │   ├── UserRepository.java
-│           │   │   ├── SelfAnswerRepository.java
-│           │   │   ├── FriendResponseRepository.java
-│           │   │   ├── ResponseSessionRepository.java
-│           │   │   ├── ResultSnapshotRepository.java
-│           │   │   ├── ReaderProfileRepository.java
-│           │   │   └── ReaderXpTransactionRepository.java
-│           │   └── service/
-│           │       ├── TenSignalService.java             # Profil CRUD, dashboard veri üretimi
-│           │       ├── ScoringEngineService.java      # 10 Sinyal, 45 Kimlik, 4 Aile, 8 Gap hesabı
-│           │       ├── FriendResponseService.java     # Arkadaş yanıtı işleme, kota & lock yönetimi
-│           │       ├── AuthService.java               # OTP oluşturma, doğrulama, e-posta girişi
-│           │       ├── BillingService.java            # Plus ve Ek Kapasite yönetimi, hesap silme
-│           │       ├── CardRarityService.java         # Veritabanı tabanlı dinamik nadirlik motoru
-│           │       ├── ReaderGameService.java         # Okuyucu doğruluk %, Reader Style, XP
-│           │       └── TokenHashingService.java       # SHA-256 Token hash ve Public Slug üretici
+│           │   ├── dto/                               # Request ve Response DTO modelleri
+│           │   ├── email/                             # Brevo, SMTP, Outbox Worker & Template Engine
+│           │   ├── entity/                            # JPA Entity modelleri
+│           │   ├── exception/                         # Global Exception Handler ve hata tipleri
+│           │   ├── observability/                     # Prometheus metrikleri ve Audit logging
+│           │   ├── payment/                           # Lemon Squeezy sağlayıcı ve Webhook doğrulama
+│           │   ├── repository/                        # Spring Data JPA Repository arayüzleri
+│           │   └── service/                           # İş mantığı servisleri
 │           └── resources/
-│               └── application.properties             # Port, Veritabanı ve JPA konfigürasyonu
+│               ├── application.yml                    # Temel uygulama yapılandırması
+│               ├── application-dev.yml                # Geliştirici profili (localhost)
+│               ├── application-prod.yml               # Production profili (Docker/güvenli)
+│               ├── db/migration/                      # Flyway SQL migration zinciri (V1 - V8)
+│               └── i18n/email/                        # Çok dilli e-posta şablonları (TR / EN)
 │
 └── frontend/
     ├── package.json
@@ -177,8 +156,7 @@ Seenly/
         │   ├── AppShell.jsx                           # Tüm sayfalar için birleşik Layout Shell
         │   ├── LandingPage.jsx                        # Ana Karşılama Sayfası
         │   ├── LocaleSwitch.jsx                       # Dil Seçici (TR / EN)
-        │   ├── marks.jsx                              # Porselen suluboya efektleri & dekoratif elemanlar
-        │   └── reveal.jsx                             # Görsel animasyon bileşeni
+        │   └── marks.jsx                              # Porselen suluboya efektleri & dekoratif elemanlar
         └── content/locales/
             ├── tr/                                    # Türkçe JSON içerik katalogları
             └── en/                                    # İngilizce JSON içerik katalogları

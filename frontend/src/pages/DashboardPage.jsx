@@ -6,6 +6,8 @@ import AppShell from '../components/AppShell';
 import { getOwnerDashboard, getOwnerResponseHistory, createPaymentCheckout, PAYMENT_PRODUCT_CODES } from '../services/api';
 import { getCardRarityData } from '../utils/rarityEngine';
 import { calibrateTraitScore, calculateCalibratedAlignment, calibrateAccuracyScore } from '../utils/psychometrics';
+import { usePaymentVerification } from '../hooks/usePaymentVerification';
+import PaymentStatusBanner from '../components/PaymentStatusBanner';
 import { CARD_IMAGES } from '../images/cardImages';
 import { getAvatarSrc } from '../images/avatars';
 
@@ -224,6 +226,35 @@ export default function DashboardPage({ onNavigateToQuiz }) {
     };
   }, []);
 
+  const fetchDashboardSnapshot = useCallback(async () => {
+    const token = (localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token'));
+    if (!token) return;
+    try {
+      const data = await getOwnerDashboard(token);
+      if (data) {
+        setSnapshot(data);
+      }
+    } catch {
+      // Background snapshot refresh error ignored
+    }
+  }, []);
+
+  const ownerToken = useMemo(() => {
+    return (localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token'));
+  }, []);
+
+  const {
+    status: paymentVerificationStatus,
+    message: paymentVerificationMessage,
+    recordPendingCheckout,
+    retryCheck: retryPaymentCheck,
+    dismiss: dismissPaymentVerification
+  } = usePaymentVerification({
+    ownerToken,
+    onPaymentVerified: fetchDashboardSnapshot,
+    t
+  });
+
   const handleUpgradeToPlus = useCallback(async () => {
     if (isCheckoutLoading) return;
     if (snapshot?.isPremium || snapshot?.premium) {
@@ -238,12 +269,15 @@ export default function DashboardPage({ onNavigateToQuiz }) {
     try {
       const checkout = await createPaymentCheckout(token, PAYMENT_PRODUCT_CODES.TEN_SIGNAL_PLUS);
       if (!checkout?.checkoutUrl) throw new Error(t('settings.modal.paymentUnavailable'));
+      if (checkout.transactionId) {
+        recordPendingCheckout(checkout.transactionId, PAYMENT_PRODUCT_CODES.TEN_SIGNAL_PLUS);
+      }
       window.location.assign(checkout.checkoutUrl);
     } catch (err) {
       setIsCheckoutLoading(false);
       alert(t('billing.purchaseFailed', { error: err.message }));
     }
-  }, [isCheckoutLoading, snapshot?.isPremium, snapshot?.premium, t]);
+  }, [isCheckoutLoading, snapshot?.isPremium, snapshot?.premium, t, recordPendingCheckout]);
 
   const getSelfAnswers = useCallback(() => {
     try {
@@ -771,6 +805,13 @@ export default function DashboardPage({ onNavigateToQuiz }) {
     <AppShell isDashboard={true} userName={displayName} watercolorBackground>
       <div className="tensignal-dashboard-page-wrapper">
         <div className="tensignal-dashboard-container">
+          <PaymentStatusBanner
+            status={paymentVerificationStatus}
+            message={paymentVerificationMessage}
+            onRetry={retryPaymentCheck}
+            onDismiss={dismissPaymentVerification}
+            t={t}
+          />
 
           {/* Dashboard Header: Seamless Profile Hero */}
           <header className="tensignal-dashboard-header w-full flex justify-center items-center py-5 sm:py-6 px-3 sm:px-4 bg-transparent border-b-0">

@@ -129,17 +129,11 @@ export default function App() {
       setShowLandingHeader(true);
     };
     window.addEventListener('tensignal_trigger_start_quiz', handleTriggerStart);
-    window.addEventListener('tensignal_trigger_start_quiz', handleTriggerStart);
     window.addEventListener('tensignal_trigger_login', handleTriggerLogin);
-    window.addEventListener('tensignal_trigger_login', handleTriggerLogin);
-    window.addEventListener('tensignal_trigger_landing', handleTriggerLanding);
     window.addEventListener('tensignal_trigger_landing', handleTriggerLanding);
     return () => {
       window.removeEventListener('tensignal_trigger_start_quiz', handleTriggerStart);
-      window.removeEventListener('tensignal_trigger_start_quiz', handleTriggerStart);
       window.removeEventListener('tensignal_trigger_login', handleTriggerLogin);
-      window.removeEventListener('tensignal_trigger_login', handleTriggerLogin);
-      window.removeEventListener('tensignal_trigger_landing', handleTriggerLanding);
       window.removeEventListener('tensignal_trigger_landing', handleTriggerLanding);
     };
   }, []);

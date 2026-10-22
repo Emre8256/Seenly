@@ -323,4 +323,32 @@ class EmailOutboxWorkerTest {
         assertThat(entity.getStatus()).isEqualTo(EmailOutboxStatus.SENT);
         assertThat(emailSender.getSentMessages()).hasSize(1);
     }
+
+    @Test
+    @DisplayName("DB failure during SENT status update throws DataAccessException so transaction rolls back")
+    void testDatabaseFailureDuringSentUpdate() {
+        UUID itemId = UUID.randomUUID();
+        EmailOutboxEntity entity = EmailOutboxEntity.builder()
+            .id(itemId)
+            .notificationType("NEW_EVALUATION")
+            .recipient("user@example.com")
+            .recipientHash("hash")
+            .locale("tr")
+            .payloadJson("{\"count\":1,\"dashboardUrl\":\"https://10signal.me\"}")
+            .status(EmailOutboxStatus.PENDING)
+            .scheduledAt(clock.instant())
+            .nextAttemptAt(clock.instant())
+            .idempotencyKey("new-eval-db-fail:" + UUID.randomUUID())
+            .build();
+
+        when(outboxRepository.findById(itemId)).thenReturn(Optional.of(entity));
+        doThrow(new org.springframework.dao.TransientDataAccessResourceException("Simulated DB connection failure"))
+            .when(outboxRepository).save(any(EmailOutboxEntity.class));
+
+        org.assertj.core.api.Assertions.assertThatThrownBy(() -> worker.processItemInternal(entity))
+            .isInstanceOf(org.springframework.dao.DataAccessException.class);
+
+        assertThat(emailSender.getSentMessages()).hasSize(1);
+        assertThat(emailSender.getSentMessages().get(0).getIdempotencyKey()).startsWith("new-eval-db-fail:");
+    }
 }

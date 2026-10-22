@@ -178,11 +178,13 @@ public class LemonSqueezyPaymentProvider implements PaymentProvider {
                     yield PaymentEventType.PAYMENT_CANCELLED;
                 } else if ("expired".equals(normalizedStatus)) {
                     yield PaymentEventType.CHECKOUT_EXPIRED;
+                } else if ("chargeback".equals(normalizedStatus) || "disputed".equals(normalizedStatus)) {
+                    yield PaymentEventType.PAYMENT_CHARGEBACK;
                 }
                 yield null;
             }
             case "order_refunded" -> PaymentEventType.PAYMENT_REFUNDED;
-            case "order_chargeback", "chargeback" -> PaymentEventType.PAYMENT_CHARGEBACK;
+            case "order_chargeback", "chargeback", "dispute_created", "order_dispute" -> PaymentEventType.PAYMENT_CHARGEBACK;
             default -> null;
         };
     }

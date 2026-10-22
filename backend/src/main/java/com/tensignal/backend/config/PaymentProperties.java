@@ -35,9 +35,9 @@ public class PaymentProperties {
             }
             return switch (productCode) {
                 case PaymentProductCatalog.SEENLY_PLUS, PaymentProductCatalog.TEN_SIGNAL_PLUS_V2 -> plusCheckoutUrl;
-                case PaymentProductCatalog.CAPACITY_50 -> !capacity50CheckoutUrl.isBlank() ? capacity50CheckoutUrl : capacity100CheckoutUrl;
-                case PaymentProductCatalog.CAPACITY_150 -> !capacity150CheckoutUrl.isBlank() ? capacity150CheckoutUrl : capacity250CheckoutUrl;
-                case PaymentProductCatalog.CAPACITY_300 -> !capacity300CheckoutUrl.isBlank() ? capacity300CheckoutUrl : capacity500CheckoutUrl;
+                case PaymentProductCatalog.CAPACITY_50 -> capacity50CheckoutUrl;
+                case PaymentProductCatalog.CAPACITY_150 -> capacity150CheckoutUrl;
+                case PaymentProductCatalog.CAPACITY_300 -> capacity300CheckoutUrl;
                 case PaymentProductCatalog.CAPACITY_100 -> capacity100CheckoutUrl;
                 case PaymentProductCatalog.CAPACITY_250 -> capacity250CheckoutUrl;
                 case PaymentProductCatalog.CAPACITY_500 -> capacity500CheckoutUrl;

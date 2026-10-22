@@ -40,6 +40,8 @@ class PostgreSqlMigrationIntegrationTest {
         registry.add("spring.mail.password", () -> "test-only-password");
         registry.add("app.auth.mail-from", () -> "no-reply@tensignal.test");
         registry.add("app.security.allowed-origins", () -> "https://tensignal.test");
+        registry.add("app.payment.provider", () -> "disabled");
+        registry.add("app.email.outbox.otp-payload-secret", () -> "prod-test-secret-with-high-entropy-32-chars!!");
     }
 
     @Autowired Flyway flyway;
@@ -49,9 +51,9 @@ class PostgreSqlMigrationIntegrationTest {
     void emptyPostgresMigratesInOrderAndHibernateValidatesTheResult() {
         MigrationInfo[] applied = flyway.info().applied();
         assertThat(Arrays.stream(applied).map(info -> info.getVersion().toString()).toList())
-            .containsExactly("1", "2", "3", "4");
+            .containsExactly("1", "2", "3", "4", "5", "6", "7", "8");
         assertThat(flyway.validateWithResult().validationSuccessful).isTrue();
-        assertThat(jdbc.queryForObject("select count(*) from flyway_schema_history", Integer.class)).isEqualTo(4);
+        assertThat(jdbc.queryForObject("select count(*) from flyway_schema_history", Integer.class)).isEqualTo(8);
         assertThat(jdbc.queryForObject("select count(*) from rate_limit_buckets", Integer.class)).isZero();
     }
 

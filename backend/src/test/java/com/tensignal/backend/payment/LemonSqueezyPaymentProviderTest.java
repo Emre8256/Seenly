@@ -284,6 +284,80 @@ class LemonSqueezyPaymentProviderTest {
     }
 
     @Test
+    void testVerifyAndParseWebhookDisputeCreated() throws Exception {
+        UUID transactionId = UUID.randomUUID();
+        UUID ownerAccountId = UUID.randomUUID();
+
+        String payload = """
+            {
+              "meta": {
+                "event_name": "dispute_created",
+                "custom_data": {
+                  "transaction_id": "%s",
+                  "owner_account_id": "%s",
+                  "product_code": "seenly_plus_v1",
+                  "checkout_id": "ls_chk_%s"
+                }
+              },
+              "data": {
+                "id": "1004",
+                "type": "orders",
+                "attributes": {
+                  "identifier": "ord_1004",
+                  "status": "chargeback",
+                  "total": 399,
+                  "currency": "USD",
+                  "created_at": "2026-09-15T12:12:00Z"
+                }
+              }
+            }
+            """.formatted(transactionId, ownerAccountId, transactionId);
+
+        byte[] payloadBytes = payload.getBytes(StandardCharsets.UTF_8);
+        String signature = computeHmacHex(TEST_SECRET, payloadBytes);
+
+        VerifiedPaymentEvent event = provider.verifyAndParseWebhook(signature, payloadBytes);
+        assertThat(event.type()).isEqualTo(PaymentEventType.PAYMENT_CHARGEBACK);
+    }
+
+    @Test
+    void testVerifyAndParseWebhookOrderCreatedWithDisputedStatus() throws Exception {
+        UUID transactionId = UUID.randomUUID();
+        UUID ownerAccountId = UUID.randomUUID();
+
+        String payload = """
+            {
+              "meta": {
+                "event_name": "order_created",
+                "custom_data": {
+                  "transaction_id": "%s",
+                  "owner_account_id": "%s",
+                  "product_code": "seenly_plus_v1",
+                  "checkout_id": "ls_chk_%s"
+                }
+              },
+              "data": {
+                "id": "1005",
+                "type": "orders",
+                "attributes": {
+                  "identifier": "ord_1005",
+                  "status": "disputed",
+                  "total": 399,
+                  "currency": "USD",
+                  "created_at": "2026-09-15T12:15:00Z"
+                }
+              }
+            }
+            """.formatted(transactionId, ownerAccountId, transactionId);
+
+        byte[] payloadBytes = payload.getBytes(StandardCharsets.UTF_8);
+        String signature = computeHmacHex(TEST_SECRET, payloadBytes);
+
+        VerifiedPaymentEvent event = provider.verifyAndParseWebhook(signature, payloadBytes);
+        assertThat(event.type()).isEqualTo(PaymentEventType.PAYMENT_CHARGEBACK);
+    }
+
+    @Test
     void testVerifyAndParseWebhookInvalidSignatureThrowsException() {
         byte[] payloadBytes = "{}".getBytes(StandardCharsets.UTF_8);
         String invalidSignature = "deadbeef12345678";

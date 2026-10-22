@@ -10,7 +10,13 @@
 **/test-results/
 **/coverage/
 **/lighthouse-*.log
+**/lighthouse-*.json
+**/lighthouse-report*.json
 **/.lighthouseci/
+
+# Logs
+*.log
+**/logs/
 
 # IDE and operating-system metadata
 .idea/
@@ -18,8 +24,10 @@
 *.iml
 .DS_Store
 Thumbs.db
+scratch/
 
 # Local environment files (templates remain trackable)
 .env
 .env.local
 .env.*.local
+

@@ -3,6 +3,12 @@
   "plansSubtitle": "Choose the best plan to explore your character, relationships, and social aura in greater depth.",
   "alreadyPlus": "You are already on the 10Signal Plus plan.",
   "purchaseFailed": "10Signal Plus purchase could not be started: {error}",
+  "verifyingPayment": "Verifying your payment...",
+  "paymentSuccess": "Payment successful! Your entitlements are now active.",
+  "paymentProcessing": "Your payment is processing. Your entitlements will activate automatically once confirmed.",
+  "paymentFailedOrCancelled": "Payment was cancelled or could not be completed.",
+  "refreshStatus": "Refresh Status",
+  "dismiss": "Dismiss",
   "badgePopular": "MOST POPULAR",
   "disclaimer1": "Secure 256-Bit SSL payment. One-time purchase, no recurring fees.",
   "disclaimer2": "Anonymous stays protected. No fake answers.",
@@ -30,12 +36,12 @@
     "f7": "Premium Share Pack"
   },
   "pro": {
-    "name": "Story Rush",
-    "price": "$14.99",
-    "f1": "Everything in Full",
-    "f2": "Priority in room",
-    "f3": "Fast story drops",
-    "f4": "9 fit premium cards",
-    "f5": "Export styles"
+    "name": "Capacity Packs",
+    "price": "From $0.99",
+    "f1": "+50, +150, +300 evaluations",
+    "f2": "Instantly added to Free plan",
+    "f3": "Never expires, rolls over",
+    "f4": "One-time payment",
+    "f5": "Flexible choice for your needs"
   }
 }

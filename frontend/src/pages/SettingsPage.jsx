@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { useLocale } from '../context/LocaleContext';
 import AppShell from '../components/AppShell';
 import { getOwnerDashboard, updateDisplayName, updateEmail, updateAvatar, createPaymentCheckout, getPaymentProducts, PAYMENT_PRODUCT_CODES, sendVerificationCode, verifyCode, getOtpDeliveryStatus, getNotificationPreferences, updateNotificationPreferences } from '../services/api';
+import { usePaymentVerification } from '../hooks/usePaymentVerification';
+import PaymentStatusBanner from '../components/PaymentStatusBanner';
 import { AVATARS, getAvatarSrc } from '../images/avatars';
 import {
   User,
@@ -170,10 +172,26 @@ export default function SettingsPage() {
   // Tab state: 'profile' | 'plans' | 'notifications'
   const [activeTab, setActiveTab] = useState(() => {
     const hash = window.location.hash || '';
-    if (hash.includes('tab=plans') || hash.includes('tab=membership')) return 'plans';
+    if (hash.includes('tab=plans') || hash.includes('tab=membership') || hash.includes('tab=subscription')) return 'plans';
     if (hash.includes('tab=notifications') || hash.includes('tab=notif')) return 'notifications';
     return 'profile';
   });
+
+  // Sync activeTab with URL hash changes
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash || '';
+      if (hash.includes('tab=plans') || hash.includes('tab=membership') || hash.includes('tab=subscription')) {
+        setActiveTab('plans');
+      } else if (hash.includes('tab=notifications') || hash.includes('tab=notif')) {
+        setActiveTab('notifications');
+      } else if (hash.includes('tab=profile')) {
+        setActiveTab('profile');
+      }
+    };
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
 
   // Avatar states
   const [selectedAvatar, setSelectedAvatar] = useState(() => (localStorage.getItem('tensignal_avatar') || localStorage.getItem('seenly_avatar')) || '');
@@ -585,6 +603,35 @@ export default function SettingsPage() {
     }
   }, [settingsAction, commitDisplayName, pendingEmail, commitEmail, t]);
 
+  const refreshSettingsSnapshot = useCallback(async () => {
+    const token = (localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token'));
+    if (!token) return;
+    try {
+      const data = await getOwnerDashboard(token);
+      if (data) {
+        setSnapshot(data);
+      }
+    } catch {
+      // Background snapshot refresh error ignored
+    }
+  }, []);
+
+  const ownerToken = useMemo(() => {
+    return (localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token'));
+  }, []);
+
+  const {
+    status: paymentVerificationStatus,
+    message: paymentVerificationMessage,
+    recordPendingCheckout,
+    retryCheck: retryPaymentCheck,
+    dismiss: dismissPaymentVerification
+  } = usePaymentVerification({
+    ownerToken,
+    onPaymentVerified: refreshSettingsSnapshot,
+    t
+  });
+
   const handleUpgradeToPlus = useCallback(async () => {
     if (checkoutLoadingCode) return;
     const token = (localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token'));
@@ -593,12 +640,15 @@ export default function SettingsPage() {
       if (!token) throw new Error(t('errors.status_401'));
       const checkout = await createPaymentCheckout(token, PAYMENT_PRODUCT_CODES.TEN_SIGNAL_PLUS);
       if (!checkout?.checkoutUrl) throw new Error(t('settings.modal.paymentUnavailable'));
+      if (checkout.transactionId) {
+        recordPendingCheckout(checkout.transactionId, PAYMENT_PRODUCT_CODES.TEN_SIGNAL_PLUS);
+      }
       window.location.assign(checkout.checkoutUrl);
     } catch (err) {
       setCheckoutLoadingCode(null);
       alert(err.message || t('settings.modal.paymentUnavailable'));
     }
-  }, [checkoutLoadingCode, t]);
+  }, [checkoutLoadingCode, t, recordPendingCheckout]);
 
   const handleBuyPack = useCallback(async (productCode) => {
     if (checkoutLoadingCode) return;
@@ -608,12 +658,15 @@ export default function SettingsPage() {
       if (!token) throw new Error(t('errors.status_401'));
       const checkout = await createPaymentCheckout(token, productCode);
       if (!checkout?.checkoutUrl) throw new Error(t('settings.modal.paymentUnavailable'));
+      if (checkout.transactionId) {
+        recordPendingCheckout(checkout.transactionId, productCode);
+      }
       window.location.assign(checkout.checkoutUrl);
     } catch (err) {
       setCheckoutLoadingCode(null);
       alert(err.message || t('settings.modal.paymentUnavailable'));
     }
-  }, [checkoutLoadingCode, t]);
+  }, [checkoutLoadingCode, t, recordPendingCheckout]);
 
   const handleDeleteAccount = useCallback(async () => {
     const confirmDelete = window.confirm(t('settings.deleteAccount.confirmDialog'));
@@ -715,6 +768,14 @@ export default function SettingsPage() {
               {t('settings.profile.pageSubtitle')}
             </p>
           </div>
+
+          <PaymentStatusBanner
+            status={paymentVerificationStatus}
+            message={paymentVerificationMessage}
+            onRetry={retryPaymentCheck}
+            onDismiss={dismissPaymentVerification}
+            t={t}
+          />
 
           {/* Segmented Tab Switcher */}
           <div className="tensignal-settings-tabs-wrapper">

@@ -62,9 +62,53 @@ public class ProductionSafetyConfiguration {
             if (!"validate".equalsIgnoreCase(environment.getProperty("spring.jpa.hibernate.ddl-auto"))) {
                 throw new IllegalStateException("Production Hibernate ddl-auto must be validate.");
             }
+
+            // OTP Payload Secret hardening
+            String otpSecret = environment.getProperty("app.email.outbox.otp-payload-secret");
+            if (otpSecret == null || otpSecret.isBlank()) {
+                otpSecret = environment.getProperty("EMAIL_OTP_PAYLOAD_SECRET");
+            }
+            if (otpSecret == null || otpSecret.isBlank()) {
+                throw new IllegalStateException("Required production property is missing: app.email.outbox.otp-payload-secret (EMAIL_OTP_PAYLOAD_SECRET)");
+            }
+            String trimmedOtpSecret = otpSecret.trim();
+            if ("seenly-default-secure-otp-payload-key-256bit".equalsIgnoreCase(trimmedOtpSecret)
+                || "change-this-to-a-secure-256bit-secret-in-production".equalsIgnoreCase(trimmedOtpSecret)) {
+                throw new IllegalStateException("Production OTP payload secret cannot use the insecure default/placeholder secret.");
+            }
+            if (trimmedOtpSecret.length() < 32) {
+                throw new IllegalStateException("Production OTP payload secret must be at least 32 characters (256 bits).");
+            }
+            long distinctChars = trimmedOtpSecret.chars().distinct().count();
+            if (distinctChars < 10) {
+                throw new IllegalStateException("Production OTP payload secret must have sufficient character diversity.");
+            }
+
+            // CORS origins validation
             if (security.getAllowedOrigins().isEmpty()
-                    || security.getAllowedOrigins().stream().anyMatch(origin -> origin.contains("*"))) {
+                    || security.getAllowedOrigins().stream().anyMatch(origin -> origin == null || origin.contains("*"))) {
                 throw new IllegalStateException("Production CORS origins must be an explicit non-wildcard allowlist.");
+            }
+            for (String origin : security.getAllowedOrigins()) {
+                if (origin == null || origin.isBlank()) continue;
+                String trimmedOrigin = origin.trim();
+                if (security.isRequireHttps() && !trimmedOrigin.startsWith("https://")) {
+                    throw new IllegalStateException("Production CORS origin must use HTTPS: " + trimmedOrigin);
+                }
+                if (trimmedOrigin.contains("localhost") || trimmedOrigin.contains("127.0.0.1")) {
+                    throw new IllegalStateException("Development localhost origins are forbidden in production CORS configuration: " + trimmedOrigin);
+                }
+            }
+
+            // Trusted proxy CIDR safety validation
+            if (security.getTrustedProxyCidrs() != null) {
+                for (String cidr : security.getTrustedProxyCidrs()) {
+                    if (cidr == null || cidr.isBlank()) continue;
+                    String trimmedCidr = cidr.trim();
+                    if ("0.0.0.0/0".equals(trimmedCidr) || "::/0".equals(trimmedCidr) || trimmedCidr.contains("*")) {
+                        throw new IllegalStateException("Overly permissive or wildcard trusted proxy CIDR is strictly forbidden: " + trimmedCidr);
+                    }
+                }
             }
         };
     }

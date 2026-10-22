@@ -1,0 +1,51 @@
+# ==============================================================================
+# 10Signal Netlify Configuration (Repository Root: netlify.toml)
+# Target Domain: https://10signal.me
+# API Target: https://api.10signal.me
+# ==============================================================================
+
+[build]
+  base = "frontend"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+  VITE_API_URL = "https://api.10signal.me"
+
+# ------------------------------------------------------------------------------
+# SPA Routing & Fallback
+# 10Signal uses hash-based client routing (#/quiz, #/dashboard, #/settings, etc.).
+# Direct browser requests or refreshes must always resolve to index.html with 200 OK.
+# ------------------------------------------------------------------------------
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# ------------------------------------------------------------------------------
+# Cache Policy
+# index.html: Must revalidate immediately so deployments reflect instantly.
+# assets/*: Hashed files (Vite bundle output) cached immutably for 1 year.
+# ------------------------------------------------------------------------------
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# ------------------------------------------------------------------------------
+# Security Headers & Content Security Policy (CSP)
+# ------------------------------------------------------------------------------
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://api.10signal.me; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"

@@ -54,7 +54,9 @@ the application port directly around the trusted proxy.
 
 ## Payment provider activation
 
-Payment processing defaults to `PAYMENT_PROVIDER=disabled`. Checkout and
-webhook processing therefore cannot grant an entitlement until a real, signed
-provider adapter is implemented and selected. The `test-hmac` adapter is
-test-profile-only and is explicitly forbidden by production startup checks.
+Payment processing defaults to `PAYMENT_PROVIDER=disabled`. For live payment processing,
+the production adapter is Lemon Squeezy (`PAYMENT_PROVIDER=lemonsqueezy`), which requires
+`LEMON_SQUEEZY_WEBHOOK_SECRET` and product checkout URLs. The `test-hmac` adapter is
+test-profile-only and is explicitly rejected by `ProductionPaymentSafetyConfiguration`
+on production startup. Webhook signatures are verified with HMAC-SHA256, and idempotency
+is enforced via the `payment_provider_events` table before entitlements are granted.

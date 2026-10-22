@@ -9,6 +9,7 @@ import com.tensignal.backend.entity.PaymentProviderEvent;
 import com.tensignal.backend.entity.PaymentTransaction;
 import com.tensignal.backend.entity.TenSignal;
 import com.tensignal.backend.entity.User;
+import com.tensignal.backend.payment.EntitlementReversalStatus;
 import com.tensignal.backend.payment.PaymentEventType;
 import com.tensignal.backend.payment.PaymentProductCatalog;
 import com.tensignal.backend.payment.PaymentStatus;
@@ -427,6 +428,72 @@ class PaymentSecurityIntegrationTest {
         }
     }
 
+    @Test
+    void partialRefundUpdatesLedgerToPartiallyRefundedAndManualReview() throws Exception {
+        Profile profile = profile("partial-refund@example.com");
+        Checkout checkout = createCheckout(profile, PaymentProductCatalog.TEN_SIGNAL_PLUS);
+        Instant paidAt = Instant.parse("2026-09-06T10:00:00Z");
+        byte[] paid = payload(checkout, profile.userId(), "evt-part-paid", "provider-tx-partial",
+            PaymentEventType.PAYMENT_PAID, paidAt);
+        webhook(paid, sign(paid)).andExpect(status().isOk());
+        assertThat(userRepository.findById(profile.userId()).orElseThrow().getIsPremium()).isTrue();
+
+        // Partial refund of 100 cents out of 399
+        byte[] partialRefund = payload(checkout, profile.userId(), "evt-part-refund", "provider-tx-partial",
+            PaymentEventType.PAYMENT_PARTIALLY_REFUNDED, paidAt.plusSeconds(60), 100L);
+        webhook(partialRefund, sign(partialRefund)).andExpect(status().isOk());
+
+        PaymentTransaction transaction = transactionRepository.findById(checkout.transactionId()).orElseThrow();
+        assertThat(transaction.getStatus()).isEqualTo(PaymentStatus.PARTIALLY_REFUNDED);
+        assertThat(transaction.getReversalStatus()).isEqualTo(EntitlementReversalStatus.MANUAL_REVIEW_REQUIRED);
+        assertThat(transaction.getRefundedAt()).isNotNull();
+        // Fail-closed: user entitlement remains protected until operator manual review
+        assertThat(userRepository.findById(profile.userId()).orElseThrow().getIsPremium()).isTrue();
+    }
+
+    @Test
+    void paidWebhookForDeletedUserAccountFailsGracefullyWithBadRequest() throws Exception {
+        Profile profile = profile("deleted-user-paid@example.com");
+        Checkout checkout = createCheckout(profile, PaymentProductCatalog.TEN_SIGNAL_PLUS);
+        Instant paidAt = Instant.parse("2026-09-06T10:00:00Z");
+
+        // Delete user account before webhook arrives
+        tenSignalRepository.deleteById(profile.seenlyId());
+        userRepository.deleteById(profile.userId());
+
+        byte[] paid = payload(checkout, profile.userId(), "evt-del-paid", "provider-tx-del-user",
+            PaymentEventType.PAYMENT_PAID, paidAt);
+        webhook(paid, sign(paid)).andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.message").value("Payment owner account no longer exists."));
+
+        PaymentTransaction transaction = transactionRepository.findById(checkout.transactionId()).orElseThrow();
+        assertThat(transaction.getStatus()).isEqualTo(PaymentStatus.PENDING);
+        assertThat(transaction.getEntitlementGrantedAt()).isNull();
+    }
+
+    @Test
+    void refundWebhookForDeletedUserAccountSetsManualReviewRequired() throws Exception {
+        Profile profile = profile("deleted-user-ref@example.com");
+        Checkout checkout = createCheckout(profile, PaymentProductCatalog.TEN_SIGNAL_PLUS);
+        Instant paidAt = Instant.parse("2026-09-06T10:00:00Z");
+
+        byte[] paid = payload(checkout, profile.userId(), "evt-del-ref-paid", "provider-tx-del-ref",
+            PaymentEventType.PAYMENT_PAID, paidAt);
+        webhook(paid, sign(paid)).andExpect(status().isOk());
+
+        // Now user account is deleted
+        tenSignalRepository.deleteById(profile.seenlyId());
+        userRepository.deleteById(profile.userId());
+
+        byte[] refund = payload(checkout, profile.userId(), "evt-del-ref-refund", "provider-tx-del-ref",
+            PaymentEventType.PAYMENT_REFUNDED, paidAt.plusSeconds(60));
+        webhook(refund, sign(refund)).andExpect(status().isOk());
+
+        PaymentTransaction transaction = transactionRepository.findById(checkout.transactionId()).orElseThrow();
+        assertThat(transaction.getStatus()).isEqualTo(PaymentStatus.REFUNDED);
+        assertThat(transaction.getReversalStatus()).isEqualTo(EntitlementReversalStatus.MANUAL_REVIEW_REQUIRED);
+    }
+
     private double metric(String name, String... tags) {
         var counter = meterRegistry.find(name).tags(tags).counter();
         return counter == null ? 0 : counter.count();
@@ -463,6 +530,12 @@ class PaymentSecurityIntegrationTest {
     private byte[] payload(Checkout checkout, UUID ownerId, String eventId, String providerTransactionId,
                            PaymentEventType type, Instant occurredAt) throws Exception {
         PaymentTransaction transaction = transactionRepository.findById(checkout.transactionId()).orElseThrow();
+        return payload(checkout, ownerId, eventId, providerTransactionId, type, occurredAt, transaction.getAmountMinor());
+    }
+
+    private byte[] payload(Checkout checkout, UUID ownerId, String eventId, String providerTransactionId,
+                           PaymentEventType type, Instant occurredAt, long amountMinor) throws Exception {
+        PaymentTransaction transaction = transactionRepository.findById(checkout.transactionId()).orElseThrow();
         Map<String, Object> event = new LinkedHashMap<>();
         event.put("eventId", eventId);
         event.put("type", type);
@@ -471,7 +544,7 @@ class PaymentSecurityIntegrationTest {
         event.put("internalTransactionId", checkout.transactionId());
         event.put("ownerAccountId", ownerId);
         event.put("productCode", transaction.getProductCode());
-        event.put("amountMinor", transaction.getAmountMinor());
+        event.put("amountMinor", amountMinor);
         event.put("currency", transaction.getCurrency());
         event.put("occurredAt", occurredAt);
         return objectMapper.writeValueAsBytes(event);
