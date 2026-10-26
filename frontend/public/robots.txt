@@ -1,0 +1,13 @@
+# ==============================================================================
+# 10Signal Robots Configuration (https://10signal.me/robots.txt)
+# ==============================================================================
+
+User-agent: *
+Allow: /
+
+# Disallow private API endpoints and individual friend test invitation slugs
+Disallow: /api/
+Disallow: /friend/
+
+# Sitemaps
+Sitemap: https://10signal.me/sitemap.xml
