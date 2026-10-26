@@ -18,6 +18,13 @@ Bu doküman, **10Signal** uygulamasının production ortamına güvenli, tekrarl
 
 > [!IMPORTANT]
 > **Güvenlik Sınırı:** Sunucu güvenlik duvarında (UFW / Cloud Security Group) **PostgreSQL portu 5432** ve **Spring Boot Actuator portu 8081** dış dünyaya **kesinlikle kapatılmalıdır**. Sadece Port 80 ve 443 (Caddy Reverse Proxy) internete açık olmalıdır.
+>
+> **Swap Bellek Kuralı (4 GB VPS için Zorunlu):** 4 GB RAM'li sunucularda Linux OOM Killer'ın Spring Boot konteynerini beklenmedik anda kapatmasını önlemek için 4 GB swap alanı açılmalıdır:
+> ```bash
+> sudo fallocate -l 4G /swapfile && sudo chmod 600 /swapfile && sudo mkswap /swapfile && sudo swapon /swapfile
+> echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+> ```
+> *(Not: Swap fiziksel RAM yerine geçmez; ancak ani bellek tepe noktalarında konteyner çökmesini engeller).*
 
 ---
 
@@ -131,10 +138,13 @@ Sunucuda proje dizinine gidin (`/opt/tensignal`):
 # 1. Konfigürasyonu doğrula (syntax ve env kontrolü)
 docker compose -f docker-compose.prod.yml --env-file .env.production config
 
-# 2. Servisleri build et ve arka planda başlat
+# 2. Backend JAR paketini derleyin (Host üzerinde Java 17 & Maven ile)
+cd /opt/tensignal/backend && mvn clean package -DskipTests && cd /opt/tensignal
+
+# 3. Servisleri build et ve arka planda başlat
 docker compose -f docker-compose.prod.yml --env-file .env.production up -d --build
 
-# 3. Servis durumlarını izle
+# 4. Servis durumlarını izle
 docker compose -f docker-compose.prod.yml ps
 ```
 
@@ -185,7 +195,7 @@ o.f.core.internal.command.DbMigrate  : Schema "public" is up to date. No migrati
 
 Veritabanında kontrol:
 ```bash
-docker compose -f docker-compose.prod.yml exec postgres psql -U tensignal_app_user -d tensignal_prod -c "SELECT version, description, success FROM flyway_schema_history ORDER BY installed_rank;"
+docker compose -f docker-compose.prod.yml exec postgres psql -U tensignal_app -d tensignal_prod -c "SELECT version, description, success FROM flyway_schema_history ORDER BY installed_rank;"
 ```
 
 ---
@@ -199,7 +209,7 @@ Backend sağlık durumu yalnızca yerel veya private Docker ağı üzerinden sor
 docker compose -f docker-compose.prod.yml exec backend curl -s http://localhost:8081/actuator/health | jq .
 
 # PostgreSQL bağlantı kontrolü
-docker compose -f docker-compose.prod.yml exec postgres pg_isready -U tensignal_app_user -d tensignal_prod
+docker compose -f docker-compose.prod.yml exec postgres pg_isready -U tensignal_app -d tensignal_prod
 ```
 
 ### Kritik Log Alarmları:
@@ -245,15 +255,24 @@ docker compose -f docker-compose.prod.yml exec postgres pg_isready -U tensignal_
 
 ### 11.1. Manuel Yedek Alma (pg_dump)
 ```bash
+set -euo pipefail
 BACKUP_DIR="/var/backups/tensignal"
 mkdir -p "$BACKUP_DIR" && chmod 700 "$BACKUP_DIR"
 BACKUP_FILE="$BACKUP_DIR/tensignal_prod_$(date +%Y%m%d_%H%M%S).dump"
 
+# PostgreSQL mantıksal yedeği (Custom format)
 docker compose -f /opt/tensignal/docker-compose.prod.yml exec -T postgres \
-  pg_dump -U tensignal_app_user -d tensignal_prod -Fc > "$BACKUP_FILE"
+  pg_dump -U tensignal_app -d tensignal_prod -Fc > "$BACKUP_FILE"
+
+# Dosya boyut kontrolü (Başarısız / 0-byte dosyaların kontrolü)
+if [ ! -s "$BACKUP_FILE" ]; then
+  echo "HATA: Yedek dosyası oluşturulamadı veya 0 bayt! Kontrol edin." >&2
+  rm -f "$BACKUP_FILE"
+  exit 1
+fi
 
 chmod 600 "$BACKUP_FILE"
-echo "Yedek başarıyla alındı: $BACKUP_FILE"
+echo "Yedek başarıyla alındı: $BACKUP_FILE ($(du -h "$BACKUP_FILE" | cut -f1))"
 ```
 
 ### 11.2. Otomatik Günlük Cron Yedekleme
@@ -266,11 +285,24 @@ DATE=$(date +%Y%m%d_%H%M%S)
 BACKUP_FILE="$BACKUP_DIR/db_$DATE.dump"
 
 mkdir -p "$BACKUP_DIR"
-docker compose -f /opt/tensignal/docker-compose.prod.yml exec -T postgres \
-  pg_dump -U tensignal_app_user -d tensignal_prod -Fc > "$BACKUP_FILE"
+chmod 700 "$BACKUP_DIR"
 
-# 30 günden eski yedekleri sil
+docker compose -f /opt/tensignal/docker-compose.prod.yml exec -T postgres \
+  pg_dump -U tensignal_app -d tensignal_prod -Fc > "$BACKUP_FILE"
+
+if [ ! -s "$BACKUP_FILE" ]; then
+  echo "CRITICAL: Backup file is empty!" >&2
+  rm -f "$BACKUP_FILE"
+  exit 1
+fi
+chmod 600 "$BACKUP_FILE"
+
+# 30 günden eski yerel yedekleri sil
 find "$BACKUP_DIR" -type f -name "db_*.dump" -mtime +30 -delete
+
+# NOT: Felaket kurtarma (Disaster Recovery) için yedeklerin sunucu dışında
+# güvenli bir bulut nesne deposuna (AWS S3, Cloudflare R2, Hetzner StorageBox vb.)
+# rclone veya AWS CLI ile otomatik şifreli kopyalanması zorunludur.
 ```
 `chmod +x /etc/cron.daily/tensignal-backup` çalıştırın.
 
@@ -278,15 +310,15 @@ find "$BACKUP_DIR" -type f -name "db_*.dump" -mtime +30 -delete
 ```bash
 # 1. İzole doğrulama veritabanı oluştur
 docker compose -f /opt/tensignal/docker-compose.prod.yml exec postgres \
-  psql -U tensignal_app_user -d postgres -c "DROP DATABASE IF EXISTS tensignal_restore_test; CREATE DATABASE tensignal_restore_test OWNER tensignal_app_user;"
+  psql -U tensignal_app -d postgres -c "DROP DATABASE IF EXISTS tensignal_restore_test; CREATE DATABASE tensignal_restore_test OWNER tensignal_app;"
 
 # 2. Yedeği test veritabanına restore et
 cat /var/backups/tensignal/db_YYYYMMDD_HHMMSS.dump | docker compose -f /opt/tensignal/docker-compose.prod.yml exec -T postgres \
-  pg_restore -U tensignal_app_user -d tensignal_restore_test --no-owner --clean --if-exists
+  pg_restore -U tensignal_app -d tensignal_restore_test --no-owner --clean --if-exists
 
 # 3. Tablo ve kayıt sayılarını doğrula
 docker compose -f /opt/tensignal/docker-compose.prod.yml exec postgres \
-  psql -U tensignal_app_user -d tensignal_restore_test -c "SELECT COUNT(*) FROM owners; SELECT COUNT(*) FROM response_sessions;"
+  psql -U tensignal_app -d tensignal_restore_test -c "SELECT COUNT(*) FROM owners; SELECT COUNT(*) FROM response_sessions;"
 ```
 
 ---

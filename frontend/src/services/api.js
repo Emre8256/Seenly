@@ -1,9 +1,22 @@
 import { migrateStorage } from '../utils/storageMigration';
 
-// BASE_URL matches the backend Spring Boot REST context.
-// Fallback allows customization via environment variables (e.g. for production or staging build)
-const API_PREFIX = (import.meta.env && import.meta.env.VITE_API_URL) || '';
-const BASE_URL = `${API_PREFIX}/api/v1/tensignal`;
+/**
+ * Resolves the API base URL prefix.
+ * In development and test environments, an empty prefix is expected to leverage Vite's dev proxy.
+ * In production builds, warns clearly if VITE_API_URL is missing to avoid silent routing to Netlify SPA fallback.
+ */
+export function getApiBaseUrl() {
+  const envUrl = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_URL) || '';
+  if (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.PROD && !envUrl) {
+    console.error(
+      '[10Signal Configuration Warning] VITE_API_URL is not set in production build. ' +
+      'Requests may resolve to local SPA HTML fallback instead of the backend API (https://api.10signal.me).'
+    );
+  }
+  return envUrl;
+}
+
+const BASE_URL = `${getApiBaseUrl()}/api/v1/tensignal`;
 
 /**
  * Submits the owner's name, email and answers to create a 10Signal profile.
@@ -492,7 +505,7 @@ export const PAYMENT_PRODUCT_CODES = Object.freeze({
 
 /** Fetches available payment products with regionally resolved currency & formatted prices */
 export async function getPaymentProducts(currency) {
-  const apiPrefix = (import.meta.env && import.meta.env.VITE_API_URL) || '';
+  const apiPrefix = getApiBaseUrl();
   const headers = {};
   if (currency) {
     headers['X-Currency'] = currency;
@@ -507,7 +520,7 @@ export async function getPaymentProducts(currency) {
 /** Creates checkout for a server-owned product. Entitlement is granted only
  * after a verified provider webhook. */
 export async function createPaymentCheckout(ownerToken, productCode) {
-  const apiPrefix = (import.meta.env && import.meta.env.VITE_API_URL) || '';
+  const apiPrefix = getApiBaseUrl();
   const response = await fetch(`${apiPrefix}/api/billing/checkouts`, {
     method: 'POST',
     headers: {
@@ -532,7 +545,7 @@ export async function createPaymentCheckout(ownerToken, productCode) {
 }
 
 export async function getPaymentTransaction(ownerToken, transactionId) {
-  const apiPrefix = (import.meta.env && import.meta.env.VITE_API_URL) || '';
+  const apiPrefix = getApiBaseUrl();
   const response = await fetch(`${apiPrefix}/api/billing/transactions/${encodeURIComponent(transactionId)}`, {
     headers: {
       'X-Owner-Token': ownerToken
@@ -558,7 +571,7 @@ export async function getPaymentTransaction(ownerToken, transactionId) {
  * GET /api/v1/rarity/card/{cardId}
  */
 export async function fetchCardRarity(cardId, lang = 'tr') {
-  const apiPrefix = (import.meta.env && import.meta.env.VITE_API_URL) || '';
+  const apiPrefix = getApiBaseUrl();
   try {
     const response = await fetch(`${apiPrefix}/api/v1/rarity/card/${cardId}?lang=${lang}`);
     if (!response.ok) return null;
@@ -573,7 +586,7 @@ export async function fetchCardRarity(cardId, lang = 'tr') {
  * GET /api/v1/rarity/all
  */
 export async function fetchAllCardRarities(lang = 'tr') {
-  const apiPrefix = (import.meta.env && import.meta.env.VITE_API_URL) || '';
+  const apiPrefix = getApiBaseUrl();
   try {
     const response = await fetch(`${apiPrefix}/api/v1/rarity/all?lang=${lang}`);
     if (!response.ok) return null;
@@ -638,4 +651,33 @@ export async function updateNotificationPreferences(ownerToken, preferences) {
   }
 
   return response.json();
+}
+
+/**
+ * Permanently deletes the owner account and all associated signals.
+ * DELETE /api/billing/delete-account
+ */
+export async function deleteAccount(ownerToken) {
+  const apiPrefix = getApiBaseUrl();
+  const response = await fetch(`${apiPrefix}/api/billing/delete-account`, {
+    method: 'DELETE',
+    headers: {
+      'X-Owner-Token': ownerToken
+    }
+  });
+
+  if (!response.ok) {
+    let errorMsg = 'Error deleting account';
+    try {
+      const err = await response.json();
+      errorMsg = err.message || errorMsg;
+    } catch {
+      // JSON parsing failed
+    }
+    const error = new Error(errorMsg);
+    error.status = response.status;
+    throw error;
+  }
+
+  return true;
 }

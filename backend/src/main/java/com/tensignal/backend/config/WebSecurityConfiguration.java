@@ -16,7 +16,7 @@ public class WebSecurityConfiguration implements WebMvcConfigurer {
         registry.addMapping("/api/**")
             .allowedOrigins(properties.getAllowedOrigins().toArray(String[]::new))
             .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-            .allowedHeaders("Content-Type", "X-Owner-Token", "X-Payment-Signature", "X-Request-ID")
+            .allowedHeaders("Content-Type", "X-Owner-Token", "X-Participant-Signal", "X-Currency", "X-Payment-Signature", "X-Request-ID")
             .exposedHeaders("X-Request-ID")
             .allowCredentials(true)
             .maxAge(3600);

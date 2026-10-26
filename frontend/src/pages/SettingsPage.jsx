@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useLocale } from '../context/LocaleContext';
 import AppShell from '../components/AppShell';
-import { getOwnerDashboard, updateDisplayName, updateEmail, updateAvatar, createPaymentCheckout, getPaymentProducts, PAYMENT_PRODUCT_CODES, sendVerificationCode, verifyCode, getOtpDeliveryStatus, getNotificationPreferences, updateNotificationPreferences } from '../services/api';
+import { getOwnerDashboard, updateDisplayName, updateEmail, updateAvatar, createPaymentCheckout, getPaymentProducts, PAYMENT_PRODUCT_CODES, sendVerificationCode, verifyCode, getOtpDeliveryStatus, getNotificationPreferences, updateNotificationPreferences, deleteAccount } from '../services/api';
 import { usePaymentVerification } from '../hooks/usePaymentVerification';
 import PaymentStatusBanner from '../components/PaymentStatusBanner';
 import { AVATARS, getAvatarSrc } from '../images/avatars';
@@ -676,13 +676,7 @@ export default function SettingsPage() {
     if (!token) return;
 
     try {
-      const apiPrefix = (import.meta.env && import.meta.env.VITE_API_URL) || '';
-      const response = await fetch(`${apiPrefix}/api/billing/delete-account`, {
-        method: 'DELETE',
-        headers: { 'X-Owner-Token': token }
-      });
-
-      if (!response.ok) throw new Error(t('settings.deleteAccount.errorDeleting'));
+      await deleteAccount(token);
 
       alert(t('settings.deleteAccount.successAlert'));
       localStorage.removeItem('tensignal_owner_token'); localStorage.removeItem('seenly_owner_token');

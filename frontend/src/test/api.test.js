@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { createTenSignal, getOwnerDashboard, getOwnerResponseHistory, sendVerificationCode } from '../services/api';
+import { createTenSignal, getOwnerDashboard, getOwnerResponseHistory, sendVerificationCode, deleteAccount, getApiBaseUrl } from '../services/api';
 
 describe('API contract errors', () => {
   beforeEach(() => { global.fetch = vi.fn(); });
@@ -33,5 +33,27 @@ describe('API contract errors', () => {
 
     await expect(sendVerificationCode('ada@example.test', 'REGISTER'))
       .resolves.toEqual({ status: 'success' });
+  });
+
+  it('deleteAccount sends DELETE request with X-Owner-Token header', async () => {
+    fetch.mockResolvedValue(new Response(null, { status: 200 }));
+    const result = await deleteAccount('test-owner-token');
+    expect(result).toBe(true);
+    expect(fetch.mock.calls[0][0]).toContain('/api/billing/delete-account');
+    expect(fetch.mock.calls[0][1].method).toBe('DELETE');
+    expect(fetch.mock.calls[0][1].headers['X-Owner-Token']).toBe('test-owner-token');
+  });
+
+  it('deleteAccount throws with status code when request fails', async () => {
+    fetch.mockResolvedValue(new Response(JSON.stringify({ message: 'Unauthorized' }), { status: 401 }));
+    await expect(deleteAccount('invalid-token')).rejects.toMatchObject({
+      status: 401,
+      message: 'Unauthorized'
+    });
+  });
+
+  it('getApiBaseUrl returns configured prefix or empty string in test environment', () => {
+    const url = getApiBaseUrl();
+    expect(typeof url).toBe('string');
   });
 });
