@@ -1,6 +1,4 @@
-import React, { memo, useState } from 'react';
-import { createPortal } from 'react-dom';
-import { useTenSignalShare, buildWhatsAppLink } from '../../hooks/useTenSignalShare';
+import React, { memo } from 'react';
 import { useLocale } from '../../context/LocaleContext';
 
 const QuizSelfResultCard = memo(function QuizSelfResultCard({
@@ -16,9 +14,6 @@ const QuizSelfResultCard = memo(function QuizSelfResultCard({
 }) {
   const { t: contextT } = useLocale();
   const tr = propT || contextT;
-  const [showShareModal, setShowShareModal] = useState(false);
-  const [copiedLink, setCopiedLink] = useState(false);
-  const { handleInstagramStory, isGenerating: isStoryGenerating } = useTenSignalShare();
 
   return (
     <div className="tensignal-wizard-body tensignal-wizard-result-body" style={{
@@ -155,12 +150,11 @@ const QuizSelfResultCard = memo(function QuizSelfResultCard({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: 'clamp(0.2rem, 0.5vh, 0.35rem)',
         width: '100%',
         maxWidth: 'clamp(220px, min(72vw, 36vh), 275px)',
         marginTop: 'auto',
-        paddingTop: 'clamp(6px, 1vh, 12px)',
-        paddingBottom: '0.1rem',
+        paddingTop: 'clamp(10px, 1.8vh, 18px)',
+        paddingBottom: 'clamp(6px, 1.2vh, 12px)',
         flexShrink: 0,
         boxSizing: 'border-box'
       }}>
@@ -184,7 +178,8 @@ const QuizSelfResultCard = memo(function QuizSelfResultCard({
             margin: 0,
             boxShadow: '0 8px 24px rgba(11, 27, 44, 0.16)',
             cursor: 'pointer',
-            boxSizing: 'border-box'
+            boxSizing: 'border-box',
+            transition: 'transform 0.15s ease, box-shadow 0.15s ease'
           }}
           onClick={() => {
             const token = quizResult?.ownerToken || localStorage.getItem('tensignal_owner_token') || localStorage.getItem('seenly_owner_token');
@@ -194,300 +189,7 @@ const QuizSelfResultCard = memo(function QuizSelfResultCard({
           <span>{tr('quiz.results.viewProfileBtn')}</span>
           <span style={{ fontSize: '0.94rem' }}>➔</span>
         </button>
-
-        {/* Secondary Button / Link: Sonucumu Paylaş */}
-        <button
-          type="button"
-          onClick={() => setShowShareModal(true)}
-          style={{
-            background: 'none',
-            border: 'none',
-            color: '#64748B',
-            fontSize: '0.84rem',
-            fontWeight: '600',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '6px',
-            cursor: 'pointer',
-            padding: '4px 8px',
-            minHeight: '30px',
-            transition: 'all 0.2s ease'
-          }}
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="18" cy="5" r="3" />
-            <circle cx="6" cy="12" r="3" />
-            <circle cx="18" cy="19" r="3" />
-            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
-            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-          </svg>
-          <span>{tr('quiz.results.shareYourResult')}</span>
-        </button>
       </div>
-
-      {/* Share Suite Modal Portal */}
-      {showShareModal && createPortal(
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            background: 'rgba(11, 27, 44, 0.72)',
-            backdropFilter: 'blur(8px)',
-            WebkitBackdropFilter: 'blur(8px)',
-            zIndex: 99999,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '1.2rem',
-            boxSizing: 'border-box',
-            animation: 'fadeInUp 0.3s ease'
-          }}
-          onClick={() => setShowShareModal(false)}
-        >
-          <div
-            style={{
-              background: '#FDFBF7',
-              borderRadius: '26px',
-              border: '1px solid rgba(197, 160, 89, 0.35)',
-              boxShadow: '0 24px 64px rgba(11, 27, 44, 0.35)',
-              maxWidth: '420px',
-              width: '100%',
-              padding: '1.8rem 1.6rem 1.5rem 1.6rem',
-              boxSizing: 'border-box',
-              position: 'relative',
-              textAlign: 'center'
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Close button */}
-            <button
-              type="button"
-              onClick={() => setShowShareModal(false)}
-              style={{
-                position: 'absolute',
-                top: '16px',
-                right: '16px',
-                background: 'rgba(11, 27, 44, 0.06)',
-                border: 'none',
-                borderRadius: '50%',
-                width: '32px',
-                height: '32px',
-                fontSize: '18px',
-                fontWeight: 700,
-                color: '#0b1b2c',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'all 0.2s ease'
-              }}
-            >
-              ×
-            </button>
-
-            {/* Header */}
-            <span style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '0.72rem',
-              fontWeight: 800,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              color: '#c5a059',
-              display: 'block',
-              marginBottom: '4px'
-            }}>
-              {tr('quiz.results.shareSuite')}
-            </span>
-
-            <h3 style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: '1.45rem',
-              fontWeight: 800,
-              color: '#0b1b2c',
-              margin: '0 0 6px 0'
-            }}>
-              {tr('quiz.results.shareYourResult')}
-            </h3>
-
-            <p style={{
-              fontSize: '0.86rem',
-              color: 'rgba(11, 27, 44, 0.68)',
-              lineHeight: 1.45,
-              margin: '0 0 1.3rem 0',
-              fontFamily: 'var(--font-serif)'
-            }}>
-              {tr('quiz.results.shareModalSubtitle')}
-            </p>
-
-            {/* Share Options List */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-              {/* 1. Instagram Story */}
-              <button
-                type="button"
-                disabled={isStoryGenerating}
-                onClick={() => {
-                  handleInstagramStory(signatureName, signatureImage, publicSlug, locale);
-                }}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '0.85rem 1rem',
-                  borderRadius: '16px',
-                  background: 'linear-gradient(135deg, rgba(240, 148, 51, 0.08) 0%, rgba(220, 39, 67, 0.08) 50%, rgba(188, 24, 136, 0.08) 100%)',
-                  border: '1px solid rgba(220, 39, 67, 0.25)',
-                  color: '#0b1b2c',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  boxSizing: 'border-box'
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <div style={{
-                    width: '36px',
-                    height: '36px',
-                    borderRadius: '10px',
-                    background: 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#fff',
-                    flexShrink: 0
-                  }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-                    </svg>
-                  </div>
-                  <div style={{ textAlign: 'left' }}>
-                    <strong style={{ display: 'block', fontSize: '0.92rem', color: '#0b1b2c' }}>{tr('quiz.results.instagramStory')}</strong>
-                    <small style={{ fontSize: '0.74rem', color: 'rgba(11, 27, 44, 0.6)' }}>
-                      {tr('quiz.results.downloadStory')}
-                    </small>
-                  </div>
-                </div>
-                {isStoryGenerating ? (
-                  <span className="spinner-mini" style={{ width: '16px', height: '16px', borderTopColor: '#dc2743' }} />
-                ) : (
-                  <span style={{ fontSize: '1.1rem', color: 'rgba(11, 27, 44, 0.4)' }}>➔</span>
-                )}
-              </button>
-
-              {/* 2. WhatsApp */}
-              <button
-                type="button"
-                onClick={() => {
-                  const waUrl = buildWhatsAppLink(signatureName, publicSlug, tr);
-                  window.open(waUrl, '_blank');
-                }}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '0.85rem 1rem',
-                  borderRadius: '16px',
-                  background: 'rgba(37, 211, 102, 0.08)',
-                  border: '1px solid rgba(37, 211, 102, 0.28)',
-                  color: '#0b1b2c',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  boxSizing: 'border-box'
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <div style={{
-                    width: '36px',
-                    height: '36px',
-                    borderRadius: '10px',
-                    background: '#25D366',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#fff',
-                    flexShrink: 0
-                  }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-                    </svg>
-                  </div>
-                  <div style={{ textAlign: 'left' }}>
-                    <strong style={{ display: 'block', fontSize: '0.92rem', color: '#0b1b2c' }}>WhatsApp</strong>
-                    <small style={{ fontSize: '0.74rem', color: 'rgba(11, 27, 44, 0.6)' }}>
-                      {tr('quiz.results.sendDirect')}
-                    </small>
-                  </div>
-                </div>
-                <span style={{ fontSize: '1.1rem', color: 'rgba(11, 27, 44, 0.4)' }}>➔</span>
-              </button>
-
-              {/* 3. Copy Link */}
-              <button
-                type="button"
-                onClick={() => {
-                  const origin = window.location.origin.startsWith('http') ? window.location.origin : `https://${window.location.host}`;
-                  const link = `${origin}/#/friend/${publicSlug}`;
-                  navigator.clipboard.writeText(link).then(() => {
-                    setCopiedLink(true);
-                    setTimeout(() => setCopiedLink(false), 2400);
-                  });
-                }}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '0.85rem 1rem',
-                  borderRadius: '16px',
-                  background: copiedLink ? 'rgba(42, 90, 58, 0.1)' : 'rgba(11, 27, 44, 0.04)',
-                  border: copiedLink ? '1px solid rgba(42, 90, 58, 0.4)' : '1px solid rgba(11, 27, 44, 0.12)',
-                  color: '#0b1b2c',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  boxSizing: 'border-box'
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <div style={{
-                    width: '36px',
-                    height: '36px',
-                    borderRadius: '10px',
-                    background: copiedLink ? '#2a5a3a' : '#0b1b2c',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#fff',
-                    flexShrink: 0
-                  }}>
-                    {copiedLink ? (
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                    ) : (
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-                      </svg>
-                    )}
-                  </div>
-                  <div style={{ textAlign: 'left' }}>
-                    <strong style={{ display: 'block', fontSize: '0.92rem', color: copiedLink ? '#2a5a3a' : '#0b1b2c' }}>
-                      {copiedLink ? tr('quiz.results.copiedLink') : tr('quiz.results.copyLink')}
-                    </strong>
-                    <small style={{ fontSize: '0.74rem', color: 'rgba(11, 27, 44, 0.6)' }}>
-                      {tr('quiz.results.copyProfileLink')}
-                    </small>
-                  </div>
-                </div>
-                <span style={{ fontSize: '0.82rem', fontWeight: 700, color: copiedLink ? '#2a5a3a' : '#c5a059' }}>
-                  {copiedLink ? '✓' : tr('common.copy')}
-                </span>
-              </button>
-            </div>
-          </div>
-        </div>,
-        document.body
-      )}
     </div>
   );
 });
