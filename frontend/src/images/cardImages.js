@@ -27,7 +27,7 @@ import the_consultant from './archetypes/Sır Küpü Zeka.avif';
 import the_know_it_all from './archetypes/Ukala Deha.avif';
 import the_strategist from './archetypes/Usta Stratejist.avif';
 import the_intellectual_giver from './archetypes/Fikir Babası.avif';
-import the_innovator from './archetypes/İnovatif Enerji.avif';
+import the_innovator from './archetypes/İnovatif enerji.avif';
 import the_idealist from './archetypes/Dürüst İdealist.avif';
 import the_philanthropist from './archetypes/Toplum Mimarı.avif';
 import the_philosopher from './archetypes/Düşünür.avif';
