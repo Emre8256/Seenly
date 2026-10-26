@@ -27,8 +27,8 @@ import the_consultant from './archetypes/Sır Küpü Zeka.avif';
 import the_know_it_all from './archetypes/Ukala Deha.avif';
 import the_strategist from './archetypes/Usta Stratejist.avif';
 import the_intellectual_giver from './archetypes/Fikir Babası.avif';
-import the_innovator from './archetypes/İnovatif enerji.avif';
-import the_idealist from './archetypes/Dürüst İdealist.avif';
+import the_innovator from './archetypes/Inovatif Enerji.avif';
+import the_idealist from './archetypes/Dürüst Idealist.avif';
 import the_philanthropist from './archetypes/Toplum Mimarı.avif';
 import the_philosopher from './archetypes/Düşünür.avif';
 import the_golden_retriever from './archetypes/Neşeli Çıpa.avif';
@@ -38,7 +38,7 @@ import the_life_giver from './archetypes/Grup Sponsoru.avif';
 import the_steady_vibe from './archetypes/Dengeli Canlılık.avif';
 import the_gatekeeper from './archetypes/Sınır Çarı.avif';
 import the_pillar from './archetypes/Sarsılmaz Direk.avif';
-import the_helper from './archetypes/İyilik Meleği.avif';
+import the_helper from './archetypes/Iyilik Meleği.avif';
 import the_protector from './archetypes/Koruyucu Kalkan.avif';
 import the_proud_patron from './archetypes/Cömert Mağrur.avif';
 import the_stoic_king from './archetypes/Soğuk Otorite.avif';
@@ -76,6 +76,7 @@ export const CARD_IMAGES = {
   the_intellectual_giver,
   the_innovator,
   the_idealist,
+  durust_idealist: the_idealist,
   the_philanthropist,
   the_philosopher,
   the_golden_retriever,
@@ -91,3 +92,8 @@ export const CARD_IMAGES = {
   the_stoic_king,
   the_patron
 };
+
+export function getCardImage(cardId) {
+  return CARD_IMAGES[cardId] || CARD_IMAGES.the_safe_haven;
+}
+
